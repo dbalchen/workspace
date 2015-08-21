@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<form-validation>
+
+    <formset>
+
+        <form name="addRequestForm">
+            <field property="request" depends="required">
+                    <arg0 key="request" resource="false"/>
+             </field>
+            <field property="requestor" depends="required">
+                    <arg0 key="requestor" resource="false"/>
+             </field>
+                                      
+        </form>
+
+    </formset>
+
+
+</form-validation>

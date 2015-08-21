@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/classes12.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/common.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/commons-digester.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/commons-fileupload-1.0.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/commons-modeler.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/commons-validator.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/ftp.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/jstl.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/jstl-standard.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/junit.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/mail.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/ojdbc5.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/pcm.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/pcmext.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/servlets-common.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/struts.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump/jars/xerces.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/CallDump.temp/jars/standard.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

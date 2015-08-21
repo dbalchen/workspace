@@ -1,0 +1,260 @@
+
+
+# mps_utils_pl
+#------------------------------------------------------------------------
+#   Sub: GetDBPort()
+#   
+#   Desc: Retrieves database port from the tnsnames.ora system file.
+#
+#   Author: Craig Stalsberg
+#
+#   Params: Database SID.
+#   Returns: database port number.
+# Retrieves the database port from the tnsnames.ora system file.
+#------------------------------------------------------------------------
+# Revisions:
+############################## V26_0 ####################################
+# 1) Added the RestoreFileFromBackup subroutine.
+#    Pete Chudykowski - Mon Apr 21 11:46:02 CDT 2003
+#
+#------------------------------------------------------------------------
+
+sub GetDBPort()
+   {
+      my $sid = shift;
+      local $found=0;
+      local $host=`uname -n`;
+      local $port;
+      chomp($host);
+
+      open(FILE, "$ENV{ORACLE_HOME}/network/admin/tnsnames.ora") || die "Cannot Open tnsnames.ora file\n";
+
+      while (<FILE>) 
+      {
+         if ($found == 0) { $_=~s/=//g;}
+
+         if (/$sid/i) 
+         {
+            $temp = $_;
+            $temp =~s/ //g;
+            $temp =~s/\=//g;
+            chomp($temp);
+            if (length($temp) == length($sid)) 
+            {
+               $found=1;
+            }
+         }
+         if ($found > 0) 
+         {
+            if (/host/i) 
+            {
+               local @tokens;
+               local $filehost = $_; 
+               $filehost=~s/\(//g;
+               $filehost=~s/\)//g;
+               $filehost=~s/ //g;
+               chomp($filehost);
+               $host=~s/ //g;
+               @tokens=split(/=/,$filehost);
+               $filehost=$tokens[1];
+               #print STDOUT "Host: $tokens[1]\n";
+            }
+            if (/port/i) 
+            {
+               local @tokens;
+               local $fileport = $_; 
+               $fileport=~s/\(//g;
+               $fileport=~s/\)//g;
+               $fileport=~s/ //g;
+               chomp($filehost);
+               @tokens=split(/=/,$fileport);
+               $fileport=$tokens[1];
+               #print STDOUT "PORT: $fileport\n";
+               $port=$fileport;
+               last;
+            }
+         }
+      }
+      close(FILE);
+      chomp($sid);
+      chomp($port);
+      return ($sid, $port);
+   }
+
+
+#------------------------------------------------------------------------
+#   Sub: GetServicesPort()
+#   
+#   Desc:  Retrieves service port(s) from the NIS yellow pages system.
+#          Uses pattern matching to get all services matching the first
+#          parameter with anything else wildcarded, and an exact match 
+#          of the protocol. e.g. passing  "Maf" returns Maf-01 33507,
+#          Maf-16 33516, etc.
+#
+#   Author: Bill Biedermann
+#
+#   Params:  Application ID & type (i.e. tcp, udp).
+#   Returns: Hash containing application ID(index) / port(value) pairs.
+#------------------------------------------------------------------------
+#   Revisions:
+#   10/5/04 Glenn Lockwood change ypcat in pipe to getservent()
+#------------------------------------------------------------------------
+#
+sub GetServicesPort()
+  {
+      my $appl = shift;
+      my $type = shift;
+      my %portHash = ();
+      my $svcname;
+      my $alias;
+      my $port;
+      my $proto;
+
+      while( ($svcname, $alias, $port, $proto ) = getservent())
+	{
+	  if ( ( $svcname =~ /$appl.*/ )  && ( $proto =~ /$type/) )
+	    {
+	      $portHash{"$svcname"} = $port;
+	    }
+	}
+      return %portHash;
+    }
+#------------------------------------------------------------------------
+#   Sub: createPortFile()
+#
+#  Desc: Defines and returns the MafMonitor port file name.
+#
+#   Author: Bill Biedermann
+#
+#   Params: None
+#   Returns: FilePath and FileName of MafPort.txt file.
+#------------------------------------------------------------------------
+#  Revision(s):
+#------------------------------------------------------------------------
+# 1) Changed path from $TLG_UP_ROOT to $TLG_UP_ROOT/physical/switch.
+#    - Craig J. Stalsberg -  Wed Nov  6 10:50:45 CST 2002
+#------------------------------------------------------------------------
+sub GetPortFileName()
+   {
+       my $file_path = $ENV{'TLG_UP_ROOT'} . "/physical/switch";
+       $file_path =~ s/ //g;
+       my $file_name = "$file_path/MafPort.txt";
+       $file_name =~ s/ //g;
+       return $file_name;
+   }
+
+
+#------------------------------------------------------------------------
+#   Sub: createPortFile()
+#   
+#   Desc: Creates the MafMonitor port file containing the communication 
+#         port number of the Maf process currently running. 
+#
+#   Author: Bill Biedermann
+#   
+#   Params: MafMonitor communication port.  
+#   Returns: number > 0(true) if successful, or 0(false) if unsuccessful.
+#------------------------------------------------------------------------
+#   Revisions:
+#------------------------------------------------------------------------
+# 
+sub createPortFile()
+   {
+       my $port_number = shift;
+       my $file_name   = GetPortFileName();
+       if (open(OUT,">$file_name"))
+       {
+           print OUT "PORT=$port_number\n";
+           unless (close(OUT)) 
+           { 
+             print "\nmps_utils_pl->createPortFile() ERROR: Could not close port file $file_name\n\n"; 
+             return 0;
+           }
+       }
+       else 
+          { 
+             print "\nmps_utils_pl->createPortFile() ERROR: Could not open port file $file_name\n\n"; 
+             return 0;
+          }
+       return chmod 0666, $file_name;      # 0=false, 1=true.
+   }
+
+
+#--------------------------------------------------------------------------
+#   Sub: GetPortFromFile()
+#   
+#   Desc: Retrieves communication port number from the MafMonitor port file 
+#
+#   Author: Bill Biedermann
+#
+#   Params:  None
+#   Returns: Port number of Maf Process currently running, or 0 if not able
+#            to retrieve the port number.
+#--------------------------------------------------------------------------
+#   Revisions:
+#--------------------------------------------------------------------------
+#
+sub GetPortFromFile()
+   {
+       my $port_number = 0;
+       my $file_name = GetPortFileName(); 
+
+       unless (-r $file_name) 
+       { 
+           print "\nmps_utils_pl->GetPortFromFile() ERROR:  Port file $file_name does not exist, or is not readable\n\n"; 
+           return(0);
+       }
+       if (open(IN,"$file_name")) 
+       {
+           while (<IN>) { if ( /PORT=(\d+)/ ) { $port_number = $1; } }
+           unless (close(IN)) { print "\nmps_utils_pl->GetPortFromFile() ERROR: Could not close port file: $file_name\n\n"; }
+       }
+       else { print "\nmps_utils_pl->GetPortFromFile() ERROR: Could not open port file: $file_name\n\n"; }
+       return $port_number;
+   }
+
+#--------------------------------------------------------------------------
+#   Sub: RestoreFileFromBackup($fname,$toDir)
+#   
+#   Desc: Retrieves file $fname from archives.  Writes the file to $toDir. 
+#
+#   Author: Pete Chudykowski
+#
+#   Params:  $fname - Name of the file to restore from backup.
+#            $toDir - Path to the destination directory.
+#
+#   Returns: 0 if success, -1 if failure.
+#--------------------------------------------------------------------------
+#   Revisions:
+#--------------------------------------------------------------------------
+#
+sub RestoreFileFromBackup {
+  my ($fname,$toDir) = @_;
+
+  my $host = $ENV{HOST};
+  chomp $host;
+
+  my $market = $ENV{TLG_MARKET};
+  chomp $market;
+  $market =~ tr/A-Z/a-z/;  #to lower.
+  
+  # Construct the restore command.
+  $cmd = "/usr/openv/netbackup/bin/bprestore -A -w -C $host $fname";
+  system($cmd);
+  
+  # the files are restored to /cares/mpsm0X/arvhive
+  $fname = "/cares/mps$market/archive/$fname";
+  
+  # if restored, move the restored file to the work directory.
+  if(-e $fname){
+    $cmd = "mv $fname $toDir";
+    system($cmd);
+  }
+  else {
+    print STDOUT "Could not restore $fname from archives.\n";
+    return -1;
+  }
+  
+  return 0;
+}
+1;
