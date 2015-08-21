@@ -2997,7 +2997,7 @@ AND expiration\_date IS NULL
 * Accounts Receivable
   Handles Finance, Payments and credits as well Collections. 
 ** AR Basics
-   - *Root Directory* - \$ABP\_AR\_ROOT
+   - *Root Directory* - \$ABP\_AR\_ROOT on kpr01batch
 ** AR Reports
    - *Autopay\_PostPaid*
      - Run both the expected and actual *SQL*
