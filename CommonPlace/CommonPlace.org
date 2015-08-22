@@ -3720,6 +3720,7 @@ AND expiration\_date IS NULL
 #+END_LaTeX  
 * Footnotes
 [fn:1] Switch Identifiers
+forgot about this:
 
 TC File by counts --- SQL Statement which produced this data:
   select b.rowid, b.phy_file_ident, b.file_name, b.nxt_pgm_name, nxt_file_alias, sum(b.in_rec_quantity) as INPUTFILE, sum(b.wr_rec_quantity) as PROCESSED, sum(b.dr_rec_quantity) as DROPPED, sum(b.gn_rec_quantity) as GENERATED from ac1_control_hist b
