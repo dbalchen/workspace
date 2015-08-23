@@ -1,0 +1,137 @@
+#RoboComp -*- mode: org; -*-
+#+STARTUP: overview
+#+TAGS: WORK(w) HOME(h)
+#+STARTUP: hidestarst
+
+* RoboComp Directory Structure
+
+  : .
+  : ├── BBugs.mid
+  : ├── bin
+  : │   └── RoboComp
+  : ├── BirdsAndBugsChordOnly.mid
+  : ├── BirdsAndBugs.mid
+  : ├── doc
+  : │   ├── RoboComp.org
+  : │   └── RoboComp.org_archive
+  : ├── extras
+  : │   ├── blankClassic.ps
+  : │   ├── blank.ly
+  : │   ├── blank.ps
+  : │   └── irbrc
+  : ├── lib
+  : │   ├── Composition.rb
+  : │   ├── MarcoPolo.rb
+  : │   ├── Melody.rb
+  : │   ├── midi.rb
+  : │   ├── Motif.rb
+  : │   ├── Notes.rb
+  : │   ├── Pitch.rb
+  : │   ├── Rhythm.rb
+  : │   ├── robo_comp.rb
+  : │   └── Tools.rb
+  : ├── mariba+Test3.mid
+  : ├── mariba+Test3.rg
+  : ├── motiftest.mid
+  : └── test
+  :     ├── test_Beats.rb
+  :     ├── test_Melody.rb
+  :     ├── test_midi.rb
+  :     ├── test_Motif.rb
+  :     ├── test_Rhythm.rb
+  :     └── test_robo_comp.rb
+
+* Algorhythms
+** Probability from a point.
+  - a(i) = (n - i)/n**2 where 0 <= i < n and n >= 0
+** Numbers base 2 iterations needed to triple the number N
+  - i = 2**(log(3*n)/log(2))
+* Composing with Pitch Classes
+  1. Choose one or, at the most, two trichord or tetrachord set
+     classes, based on any quality you may find appealing or
+     interesting about it. Don't use (037), (036), (0258), (0358),
+     (0369), or (0158).
+
+  2. There are essentially three ways to change a set class:
+
+     1. Transposition
+     2. Inversion
+     3. Rotation (i.e. which octave each pitch class is in) This
+        should yield a nearly infinite supply of chords and melodic
+        patterns. You should especially try to use different
+        transpositions. A set class is not a scale. Avoid getting
+        bogged down with one transposition of the set class.
+
+  3. For melody, I would tend to stick to close spacing versions of
+     the chord(s). There will be a total of six closely spaced
+     versions of any transposition of a trichord, unless it is
+     inversionally symmetrical, in which case it will only have
+     three. Likewise there will be eight close spaced versions of any
+     tetrachord, unless it is inversionally symmetrical. Write down
+     all the close spacing versions of the chord in one transposition,
+     or work them out at a keyboard instrument.
+
+  4. For harmony, I would tend to use more open spaced versions of the
+     set class and there will be many voicings possible for a given
+     transposition of a trichord or tetrachord. Write down, or work
+     out at an instrument, several voicings of the chord that are
+     interesting or appealing. Avoid octaves.
+
+  5. You can then use these chords to form melodies or harmonies or a
+     combination, depending on the texture of the piece. You could,
+     for example, write a melody first wherein each group of three
+     notes forms a version of the set class, or you could dovetail
+     these set classes so that the last note of each set class is the
+     first note of the next one, etc. You could also create a chord
+     progression using different transpositions and voicings of the
+     set class and then add a melody above it. You could also write
+     two contrapuntal lines that either independently form the set
+     class or that together form it. You could also create a new scale
+     out of a set class. There are infinite possibilities limited only
+     by your imagination. Which set class is used and how is less
+     important than the innate musical qualities and originality of
+     the piece. The idea is that every note should be part of one or
+     more transpositions of the set class when combined with adjacent
+     or simultaneous notes.
+
+  6. If you use two set classes, you may wish to choose two that have
+     one or more of the relationships discussed in the Hicks
+     article. You may also want to have one of the chords have the
+     role of being the more consonant, or restful chord.
+
+  7. Avoid octaves, either melodically or harmonically. This means you
+     should avoid doublings in chords.
+
+* TODO [#A] RoboComp Update Tasks
+  :PROPERTIES:
+  :LAST_REPEAT: [2011-07-21 Thu 16:52]
+  :END:
+** Rhythm Refactor
+   - [ ] Have rrm remove random events by note density first.
+   - [ ] Work on triplet and 3/4 in addBeats.
+   - [ ] Default Behavior for addBeats would be to double the amount
+     of Notes
+   - [X] Add Euclidian Rhythms
+   - [ ] Reverse Euclidian rhythms
+   - [ ] Basic Probablities Vector
+	 - Multi-Probablity Vector
+** Melody Refactor
+  - [ ] Create an outline mode in Motif/Rhythm
+  - [ ] Make Markov processesing more robust.
+  - [ ] Add 12 tone pitch class processing
+  - [ ] Build Test Cases for each and every class.
+  - [ ] Add a truly random note generator to Melody.
+** Track
+  - [ ] In Motif add an expand and contract method.
+** Pitch
+  - [X] Add Pitch class logic to melody and/or Pitch
+** ConvertSC
+   - [ ] Add pipline mode 
+	 - Name:Channel:Waits:freq:probs:durs
+   - [ ] Test output in SuperCollider
+
+** Create Jammin Class
+   - [ ] Modify MyLive 
+   - [ ] AddGui
+	 - 2 Probabilty selectors
+	 - On/Off

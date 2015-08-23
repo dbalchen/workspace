@@ -1,0 +1,60 @@
+#! /usr/bin/ruby
+#1.9.1
+
+require 'Root.rb'
+require 'Notes.rb'
+require 'Composition.rb'
+require 'Track.rb'
+require 'yaml'
+
+#input = `cat /home/dbalchen/workspace/RoboComp/lib_0.1/test.yaml`;
+
+
+#until ARGV.empty? d
+#  puts "From arguments: #{ARGV.shift}"
+#end
+input = ""
+while buff = gets
+  input = input + buff
+end
+
+song = YAML::load(input)
+input = ""
+
+print "0, 0, Header, 1, " + (song.tracks.size + 1).to_s + ", " + song.clockPulsesPerQ.to_s + "\n"
+print "1, 0, Start_track\n"
+print "1, 0, Tempo, " + (60000000/song.bpm.to_i).to_s + "\n"
+
+top = ((song.time_signiture.to_s).split("/"))[0]
+bott = (((((song.time_signiture.to_s).split("/"))[0]).to_i**0.5).to_i).to_s
+print "1, 0, Time_signature, " + top + ", " + bott + ", " + song.click.to_s + ", " + song.notesQ.to_s  + "\n"
+print "1, 0, End_track\n"
+
+trkn = 2
+
+song.tracks.each { |x|
+  print trkn.to_s + ", 0, Start_track\n"
+  print trkn.to_s + ", 0, Title_t, " + '"' + x.title + '"' + "\n"
+  noteA = []
+  x.notes.each {|y|
+
+    strT = (y.start_time*song.clockPulsesPerQ.to_f).to_i
+    endT =  (y.duration*song.clockPulsesPerQ.to_f).to_i + strT
+
+    noteA.push(trkn.to_s + "," + strT.to_s + ", Note_on_c, " + x.channel.to_s + ", " + y.note.to_s + "," + y.start_velocity.to_s)
+    noteA.push(trkn.to_s + "," + endT.to_s + ", Note_off_c, " + x.channel.to_s + ", " + y.note.to_s + "," + y.end_velocity.to_s)
+
+  }
+  
+#  noteA.push(x.control).flatten!
+  
+  noteA.sort! do |a,b|
+    ((a.split(","))[1]).to_i <=> ((b.split(","))[1]).to_i
+  end
+  noteA.each{|c| print c + "\n"}
+
+  print trkn.to_s + "," + (((x.notes.last.start_time + x.notes.last.duration)*song.clockPulsesPerQ.to_f).to_i).to_s + ", end_track\n"
+  trkn = trkn + 1
+}
+
+print "0, 0, End_of_file\n"
