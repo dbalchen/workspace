@@ -1,0 +1,112 @@
+#! /usr/bin/ruby
+#1.9.1
+
+require 'Root.rb'
+require 'Notes.rb'
+require 'Composition.rb'
+require 'Track.rb'
+require 'yaml'
+
+def getTimes(mytimes,theTitle)
+  ti = []
+  ti.push(mytimes)
+  ti.push(0.0)
+  ti.flatten!
+  ti.sort! {|a,b| a <=> b }
+  ti.uniq!
+
+  tii = (((ti.last / @tnum).to_i) + 1).to_f * @tnum
+  
+  ti.push(tii)
+  
+  print "~" + theTitle + ".waits = [" + ((ti[1] - ti[0])).to_s
+
+  for i in 1...(ti.size-1)
+    print "," + ((ti[i+1] - ti[i])).to_s
+  end
+
+    print "]; \n"
+
+  return ti
+
+end
+
+#input = `cat /home/dbalchen/workspace/RoboComp/lib_0.1/test.yaml`;
+
+input = ""
+
+until ARGV.empty? do
+  @myarg = "#{ARGV.shift}"
+end
+
+while buff = gets
+  input = input + buff
+end
+
+song = YAML::load(input)
+input = ""
+
+  
+if @myarg == "-m"
+allTimes = [];
+
+@tnum = ((song.time_signiture.split("/"))[0]).to_i
+
+song.tracks.each { |x|
+allTimes.push(x.notes.collect{|y| y.start_time})
+}
+allTimes.flatten!
+times = getTimes(allTimes,"allTimes" )
+
+end
+
+song.tracks.each { |x|
+
+  x.title =  x.title.downcase;
+  x.title = x.title.gsub(" ", "_")
+
+ if @myarg != "-m"
+  @tnum = ((x.time_signiture.split("/"))[0]).to_i
+  times = getTimes(x.notes.collect{|y| y.start_time}, x.title)
+ end
+ 
+  print "~" + x.title + ".channel = " +  x.channel.to_s + ";\n";
+  freqs = "~" + x.title + ".freqs = ["
+  probs = "~" + x.title + ".probs = ["
+  durs =  "~" + x.title + ".durations = ["
+
+  times.each_with_index { |y,yy|
+    next if yy == (times.size-1)
+    theNotes = x.notes.select{ |z| z.start_time == y}
+
+    if theNotes.size > 1
+      probs = probs + "1,"
+      freqs = freqs + "[" + theNotes[0].note.to_s
+      durs = durs + (theNotes[0].duration).to_s + ","
+
+      for i in 1..(theNotes.size-1)
+        freqs = freqs + "," + theNotes[i].note.to_s
+      end
+      freqs = freqs + "],"
+
+    elsif theNotes.size == 1
+      probs = probs + "1,"
+      freqs = freqs + theNotes[0].note.to_s + ","
+      durs = durs + (theNotes[0].duration).to_s + ","
+
+    else
+      probs = probs + "0,"
+      freqs = freqs + "0,"
+      durs = durs + "0,"
+    end
+  }
+
+  freqs = freqs.chop if (freqs.split('')[-1]) == ","
+  probs = probs.chop if (probs.split('')[-1]) == ","
+  durs = durs.chop if (durs.split('')[-1]) == ","
+
+  print freqs + "];\n"
+  print probs + "];\n"
+  print durs + "];\n"
+
+}
