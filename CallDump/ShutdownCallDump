@@ -1,0 +1,23 @@
+#! /bin/bash
+
+export JAVA_HOME=/apps/java1.6/
+
+rm -fr /home/calldmp/CallDump2.0/run/*pid
+
+sleep 10
+
+telnet localhost 8899 << EOF
+stop
+EOF
+
+sleep 10
+
+rm -fr /home/calldmp/CallDump2.0/work/*
+rm -fr /home/calldmp/CallDump2.0/log/*
+
+/home/calldmp/tomcat_prod/bin/shutdown.sh
+
+sleep 10
+
+rm -fr /home/calldmp/tomcat_prod/logs
+
