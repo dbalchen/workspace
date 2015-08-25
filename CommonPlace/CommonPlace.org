@@ -345,7 +345,7 @@ subgraph cluster_3 {
    - *aprout (OutCollect Directory)* \\
    *\//pkgbl02\//inf\//aimsys\//prdwrk2\//var\//usc\//projs\//apr\//interfaces\//output*
 *** Operational Tables
-**** AC1\_CONTROL 
+**** *AC1\_CONTROL* 
       The Outbound Syniverse files
       : select * from ac1_control
       : where nxt_pgm_name = 'CBRRPT'
@@ -358,10 +358,11 @@ subgraph cluster_3 {
       : CIBER_CIBER_20130927090046_1027159_0012.dat
       : ...
       : CIBER_CIBER_20131011211952_1237215_0012.dat
-**** MF1\_CIBER\_BATCH\_SEQ 
+**** *MF1\_CIBER\_BATCH\_SEQ* 
     Contain the CIBER batch sequence numbers /(See Database Section)/.
 ** Overage Protection
-   Overage notifications are detected on an event by event basis. As events are processed by TC and added to the APE1\_ACCUMULATORS table a check is made against the L9\_FIRST\_THRESHOLD/L9\_SECOND\_THRESHOLD fields. If an overage is detected the ***FIELD*** CTN is added to file (segregated by unique TC file?) in the NTF directory. MFT then pulls these files and delivers to DMI for distribution. A note is added to the NOTIFICATION\_HUB.SMS\_NOTIFICATION table (ODS) indicating the message was sent by DMI.
+   Overage notifications are detected on an event by event basis. As events are processed by TC and added to 
+   the APE1\_ACCUMULATORS table a check is made against the L9\_FIRST\_THRESHOLD/L9\_SECOND\_THRESHOLD fields. If an overage is detected the ***FIELD*** CTN is added to file (segregated by unique TC file?) in the NTF directory. MFT then pulls these files and delivers to DMI for distribution. A note is added to the NOTIFICATION\_HUB.SMS\_NOTIFICATION table (ODS) indicating the message was sent by DMI.
 *** Overage process flow
 #+ATTR_LaTeX: width=15cm
    [[file:Pictures/overage.png]]
@@ -370,8 +371,11 @@ subgraph cluster_3 {
   : select notif_desc, file_path from CM9_NOTIFICATION_DEF
   : where  FILE_PATH = '$ABP_APR_ROOT/interfaces/output/NTF'
   : and FILE_ALIAS = 'SMSNTF'
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
 |-----------------------------------------+---------------------------------------|
-| NOTIF\_DESC                             | FILE\_PATH                            |
+| *NOTIF\_DESC*                           | *FILE\_PATH*                          |
 |-----------------------------------------+---------------------------------------|
 | Overage cap notification on group level | $ABP\_APR\_ROOT/interfaces/output/NTF |
 | Disclaimer notification on group level  | $ABP\_APR\_ROOT/interfaces/output/NTF |
@@ -379,9 +383,11 @@ subgraph cluster_3 {
 |-----------------------------------------+---------------------------------------|
 
 | *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF* |
-
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
 *** Fields of Interest
-    S - SMS, M - MMS, V - Voice, D - Data, L - LTE => L3\_CALL_SOURCE
+    S - SMS, M - MMS, V - Voice, D - Data, L - LTE => L3\_CALL\_SOURCE
 ** Billing Process
   The billing process follows a map which is created by the job *ADJ3\_APR\_CycleBillRun\_Sh*. If it completes successfully it will create a billing map that will look something like the following:
 
@@ -588,11 +594,11 @@ subgraph cluster_3 {
    : md1dsmi1 2345055       1  0 Jul28 ?        00:00:02 perl ./tc_kpi_datain_auto.pl 2 2 1 1
    - Check if Business Report scripts are running.
    : [md1dsmi1@kpr01ebiap eps]$ ps -ef | grep MainLoop | grep -v grep
-   : md1dsmi1 2188567       1  0 Jul28 ?        00:00:00 HS1H MainLoop - next: Wed Aug  5 08:00:00 2015
-   : md1dsmi1 2188568       1  0 Jul28 ?        00:00:00 CancelLineIL MainLoop - next: Mon Aug  3 08:10:00 2015
-   : md1dsmi1 2188569       1  0 Jul28 ?        00:00:00 MADISON MainLoop - next: Sat Aug 15 10:00:00 2015
-   : md1dsmi1 2188570       1  0 Jul28 ?        00:00:00 CancelLineWI MainLoop - next: Mon Aug  3 08:00:00 2015
-   : md1dsmi1 2188571       1  0 Jul28 ?        00:00:00 daily_counts MainLoop - next: Sat Aug  1 06:00:00 2015
+   : md1dsmi1 2188567       1  0 Jul28 ?        00:00:00 HS1H MainLoop - next: 
+   : md1dsmi1 2188568       1  0 Jul28 ?        00:00:00 CancelLineIL MainLoop - next:
+   : md1dsmi1 2188569       1  0 Jul28 ?        00:00:00 MADISON MainLoop - next: 
+   : md1dsmi1 2188570       1  0 Jul28 ?        00:00:00 CancelLineWI MainLoop - next:
+   : md1dsmi1 2188571       1  0 Jul28 ?        00:00:00 daily_counts MainLoop - next:
 
 ** Restart AEM and KPI scripts.
    - Login to the EBI server with your LAN ID and password.
@@ -604,7 +610,7 @@ subgraph cluster_3 {
    - cd to /home/common/eps/reports
    - Run from the command line nohup ./StartAllReportCron.sh &
  
-** Note all scripts use Dave Smith's LAN ID password and when the failure is due to the password being expired please notify him immediately and if he is out of the office wait until he returns to the office to reset his password and update the scripts.
+   Note all scripts use Dave Smith's LAN ID password and when the failure is due to the password being expired please notify him immediately and if he is out of the office wait until he returns to the office to reset his password and update the scripts.
 
 * Voice Overview
 #+BEGIN_LaTeX
@@ -2999,10 +3005,6 @@ AND expiration\_date IS NULL
 ** AR Basics
    - *Root Directory* - \$ABP\_AR\_ROOT on kpr01batch
 ** AR Reports
-   - *Autopay\_PostPaid*
-     - Run both the expected and actual *SQL*
-   - *Autopay\_PrePaid*
-     - Run prepaid expected *SQL*
    - *LockBox*
      - /File Location/ : $ABP\_AR\_ROOT/interfaces/input/lockbox/MELL\_PYM.*.csv
    - *AGTCASH*
@@ -3122,6 +3124,7 @@ AND expiration\_date IS NULL
 \normalsize
 #+END_LaTeX
 *** AR1\_CHARGE\_CODE
+:CLOSET:
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
@@ -3147,8 +3150,9 @@ AND expiration\_date IS NULL
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1\_CHARGE\_GROUP
+:CLOSET:
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
@@ -3199,7 +3203,7 @@ AND expiration\_date IS NULL
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1\_CUSTOMER\_CREDIT
 #+BEGIN_LaTeX
 \scriptsize
@@ -3266,6 +3270,7 @@ AND expiration\_date IS NULL
 #+END_LaTeX
 
 *** AR1\_TAX\_ITEM
+:CLOSET:
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
@@ -3310,7 +3315,7 @@ AND expiration\_date IS NULL
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1\_REFUND\_REQUEST
 #+BEGIN_LaTeX
 \scriptsize
@@ -3697,7 +3702,7 @@ AND expiration\_date IS NULL
 #+BEGIN_LaTeX
 \huge
 #+END_LaTeX
-#+ATTR_LaTeX: longtable align=cc
+#+ATTR_LaTeX: longtable align=ll
 |-----------------+--------------|
 | *Name*          |       *Cell* |
 |-----------------+--------------|
@@ -3714,6 +3719,9 @@ AND expiration\_date IS NULL
 | Ron W           | 651-734-8230 |
 | Paul Volpe      | 773-216-5606 |
 | Aunt Patty      | 256-772-7512 |
+| Help Desk:      | 608-828-5889 |
+| Soly            | 630-285-8386 |
+| Traci           | 630-285-8447 |
 |-----------------+--------------|
 #+BEGIN_LaTeX
 \normalsize
