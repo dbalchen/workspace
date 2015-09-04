@@ -242,6 +242,14 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
        $dialed_tn = $tmp;
      }
 
+    
+    if ((index($srvFeat,"VMD") >= 0) && (index($ct,"L-L") >= 0))
+    {
+       my $tmp = $calling_tn;
+       $calling_tn = $dialed_tn;
+       $dialed_tn = $tmp;
+    }
+       
      $dialed_tn = $prefix.$dialed_tn;
 
   }
