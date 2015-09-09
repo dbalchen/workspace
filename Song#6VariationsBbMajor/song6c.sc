@@ -11,7 +11,7 @@ GUI.qt
 "/home/dbalchen/Music/setup.sc".loadPath;
 
 (
-"/home/dbalchen/Music/Song#6VariationsBbMajor/include/drumTool/eStrings.sc".loadPath;
+"/home/dbalchen/workspace/SuperCollider/eStrings.sc".loadPath;
 "/home/dbalchen/workspace/SuperCollider/FMpad.sc".loadPath;
 "/home/dbalchen/workspace/SuperCollider/pulseLead.sc".loadPath;
 //"/home/dbalchen/workspace/SuperCollider/FMlead.sc".loadPath;
@@ -51,7 +51,7 @@ GUI.qt
      num.postln;
 
 	// ret = ~midiFMlead.value(~oboe,num);
-	ret = ~midiPulseLead.value(~oboe,num);
+	ret = ~midiPulseLead.value(~oboe,num,0);
 	//ret = ~midiPulseLeadMono.value(~oboe,num,~pulse);
 	     ret;
 };
@@ -96,7 +96,7 @@ GUI.qt
 ~channel2 = {arg num;
 	     var ret;
      num.postln;
-	     ret = ~midiStrings.value(~strings1,num);
+	     ret = ~midiStrings.value(~strings1,num,2);
 	     ret;
 };
 
@@ -117,7 +117,7 @@ GUI.qt
 ~channel3 = {arg num;
 	     var ret;
      num.postln;
-	     ret = ~midiStrings.value(~strings2,num);
+	     ret = ~midiStrings.value(~strings2,num,3);
 	     ret;
 };
 
@@ -126,12 +126,7 @@ GUI.qt
 
 
 ~strings2.envelope.attack = 1.0;~strings1.envelope.attack = 1.00;
-//~strings2.filter.attack = 0.10;~strings1.filter.attack = 0.10;
-//~strings2.filter.aoc = 0.2;~strings1.filter.aoc = 0.2;
 
-
-//~strings1.filter.attack = 0.0;~strings2.filter.attack = 0.0;
-//~strings1.filter.aoc = 1;~strings2.filter.aoc = 1;
 ~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;
 
 

@@ -1,6 +1,6 @@
 
 ~midiSetup = {
-  var inPorts = 2;
+  var inPorts = 1;
   var outPorts = 4;
 
   MIDIClient.disposeClient;
@@ -65,6 +65,10 @@
  ~channel12 = {arg num;^nil;};
  ~channel13 = {arg num;^nil;};
  ~channel14 = {arg num;^nil;};
+
+
+
+ ~bend = Array.newClear(16);
  ~start = {^nil;};
 
  ~zz=Array.newClear(128);
@@ -170,7 +174,14 @@
 
 
  MIDIIn.bend = { arg src,chan,val;
+  var x;
 
+  ~bend[chan] = val.linlin(0,16383,-5,5);
+  ~zz.do{arg note;
+   x = note[chan];
+   x.set(\bend,~bend[chan]);
+   note[chan] = x;
+  }
 
  };
 
@@ -179,12 +190,7 @@
    var a,b;
    a = ~zz.at(num);
    b = a.at(chan);
-	 /*
-   if((chan == 0), {
-       ~pulseLeadMono.set(\gate,0);
 
-		 });*/
-   
    if(b != nil,{ b.set(\gate, 0);});
 
  };
