@@ -64,16 +64,16 @@
        - *ECS* - ECS *3G and lower* data usage.
        - *AAA* - Raw AAA usage found on the CallDump only.
     3. *VALI* - /Premium SMS (Valista)/ pre-rated records one record per event. 
-    4. *MMSC* - Used for both pictures and picture messaging text only (treated as an *SMS* message in the system). Produces both /Mobile Originating and Terminating/ records with a possible one to many relationships (multiple recipients). *Voice*
+    4. *MMSC* - Used for both pictures and picture messaging text only (treated as an *SMS* message in the system). Produces both /Mobile Originating and Terminating/ records with a possible one to many relationships (multiple recipients). \\
+    *Voice*
     5. *Alcatel Lucent (APLX)* - The *Alcatel Lucent APLX* switch record are found mostly in the Chicago market. This switch produces both /Mobile Originating and Mobile Terminated/ records. 
     6. *Nortel (NTI)* - The *NORTEL NTI* switch record is the most common voice record format and since an NTI record contains both the /originating and terminating features/ certain call types may result in a record being generated.
     7. *GSM Roaming* - Roaming data from our customers who are roaming in Europe and other *GSM* countries. This includes both voice and data.
-
-    For /Incollect and Outcollect/ processing we use the *CIBER* record format. 
+    8. *CIBER* - For /InCollect and OutCollect/ processing we do not convert to *UFF*, instead the *CIBER* record format is used.
 
 ** Pre-Pay and Data Roaming
-   In addition to post-pay we also handle prepay which follows a different flow using the diameter interface. The diameter interface is described as follows:
-  - The *Diameter* is a *AAA* protocol, a type of computer networking
+   In addition to *Post-Pay* we also handle *Pre-Pay* which follows a different flow using the diameter interface. The *Diameter interface* is described as follows:
+  - *Diameter* is a *AAA* protocol, a type of computer networking
      protocol for authentication, authorization and accounting, and is
      a successor to *RADIUS*. *Diameter* controls communication
      between the authenticator (Secure Ticket Authority, STA) and any
@@ -188,7 +188,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \begin{landscape}  
 #+END_LaTeX
-** Prepay and Data Roaming
+** Pre-Pay and Data Roaming
 #+ATTR_LaTeX: width=23cm
     [[file:Pictures/roamingPrePay.png]]
 #+BEGIN_LaTeX
@@ -197,28 +197,17 @@ subgraph cluster_3 {
 #+END_LaTeX
 * TOPS Usage Processing Operations
 ** Acquisition and Formating (A&F)
-  A&F is to the new system what *MAF and RBMS* was to the old. Since
+  *A&F* is to the new system what *MAF and RBMS* was to the old. Since
   the majority of rules will be moved to *INTEC, A&F's* primary
   function in the *post-TOPS* world will be to move the data from the
-  *UFF* to the usage record. For any remaining rules that where not
-  implemented in *INTEC*, such as special numbers, they will be moved
-  either here or to the new *Turbo-Charging* rater. If an *A&F* error does
+  *UFF* to the usage record[fn:2].  If an *A&F* error does
   occur the record will be dumped into a file to be later processed by
   the *AEM* /(Amdocs Error Manager)/.
   
-  The overall architecture is the same, with certain sub-systems been
-  renamed for example *MAF* is now *A&F*, and *rating* is now called *Turbo Charging* which is a
-  /real-time/ rater that can handle both *Pre and Post pay*
-  customers. Here are some of things that did *not* changed.
-   - The underlying table structure
-     - *RBMS*
-     - *Usage and Accumulated usage.*
-     - *Operational tables*
-
 ** TurboCharging
 #+ATTR_LaTeX: width=17.5cm
   [[file:Pictures/TC.png]]
-  Though the overall architecture seems to be the same, with some name changes like *MAF* is now A&F[fn:AaF: Acquisitions and Formatting], as *CARES* the major change has been the addition of the new real-time rater which *Amdocs* calls *Turbo Charging* that can handle both pre and post pay customers.\\
+  Though the overall architecture seems to be the same, with some name changes like *MAF* is now A&F[fn:AaF: Acquisitions and Formatting], as *CARES* the major change has been the addition of the new real-time rater which *Amdocs* calls *Turbo Charging* that can handle both PRE and POST pay customers.\\
     - All interaction is done through the network interface.
     - All tables are now in memory to improve performance.
     - We can re-rate continuously by running re-rating in daemon mode.
@@ -228,17 +217,15 @@ subgraph cluster_3 {
       1. An event comes in to via a network element
       2. Transforms data into a conical form which also includes the network element.
       3. Gets Rated
-       -  For pre-pay the HLR[fn:HLR: Home Location Register]. is handled by the *SCP*
+       -  For *Pre-Pay* the HLR[fn:HLR: Home Location Register]. is handled by the *SCP*
       4. The response is sent back to the calling network element.
-    - International Calls are rated to the country not the individual city/town. Can be added later but will cost.
+    - *International Calls* are rated to the country not the individual city/town. 
     - Find that in *LD\_COUNTRY\_RATES* table.
-    - For Pre-pay roaming customers still get a record which needs to go through *CIBER* process.
+    - For *Pre-Pay* roaming customers still get a record which needs to go through *CIBER* process.
     - Major problem for *CCMI*. It was decided to remove it but the *LERG* does not give us the granularity that we might need.
-    - For pre-pay *MMS* we will not charge each recipient only the sender.
-    - We convert everything to the Market time for bill presentment. 
-    - How will late arriving usage be dealt with?
-    - In pooling and sharing scenarios how will pro-rating be handled.
-    - Limiting or /choking/ usage can be handled by *Diameter* for real-time and *Turbo-Charging* for post-pay     
+    - For *Pre-Pay* *MMS* we will not charge each recipient only the sender.
+    - We convert everything to the *Home SID time* for bill presentment. 
+    - Limiting or /choking/ usage can be handled by *Diameter* for real-time and *Turbo-Charging* for *Post-Pay*     
 *** RLC (Rating Logic configurator)
    - The *RLC* has a repository that keeps it rules as an *XML* string
      in a /database column/.
@@ -251,7 +238,7 @@ subgraph cluster_3 {
    - *PIT* /Pricing Item Type/
    - We can define a number of different *Rating roles* and rating events.
    - Incoming calls are not dropped but instead are zero rated.
-**** RLC Demo
+**** Configuration Tools
     The tool is a split screen application. On the left side contains
     all the rating schemes which are then dragged and dropped to
     create a tree structure on the right side.
@@ -265,7 +252,7 @@ subgraph cluster_3 {
      - *TCC (Turbo-Charging configurator)* - Used to configure the
        Turbo-Charging rater.
 
-     - *Replenishment Manager* - Used for Prepay.   
+     - *Replenishment Manager* - Used for *Pre-Pay*.   
 ** Production Machines
 #+BEGIN_LaTeX
 \footnotesize
@@ -321,18 +308,18 @@ subgraph cluster_3 {
    2. *RRP\_EOC1068*
    3. *RRP\_EOC1192*
 
-** Outcollect Operational Jobs (CIBER Processing)
+** OutCollect Operational Jobs (CIBER Processing)
   *CIBER* files are a collection of roaming records, these can be
   either a foreign carrier on our network or one of our customers
   on another network. More succinctly there are two
   types of roaming scenarios.
     1. *OutCollects*\\ Non-USCC customers using our network, eventually
-       the records created become part of the *Out-Collect* process.
+       the records created become part of the *OutCollect* process.
     2. *InCollects*\\ USCC customers roaming on another carriers
        network. These records are sent to Syniverse which in turn
-       sends them to us and become part of our *In-Collect* process. All though Incollects come pre-rated they are still re-rated according to their plan.
+       sends them to us and become part of our *InCollect* process. All though InCollects come pre-rated they are still re-rated according to their plan.
 
-   The outcollect process runs twice a day *1:00 a.m/p.m.*
+   The OutCollect process runs twice a day *1:00 a.m/p.m.*
    - *OUTCOL* \\ Extracts from the *APE1\_RATED\_EVENT* table and creates files for *MAS*.
    - *ADJ9MAS OUTCOL*\\ Creates files for *SPL1*.
    - *SPL1* - /Daemon/\\ Processes files as it sees them and creates files for *RGD*.
@@ -340,8 +327,8 @@ subgraph cluster_3 {
    - *APP* - /Daemon/\\ Processes files in RD after 12 hours of the last files processed. Output files for *Syniverse*.
    - *MF9FTDTAX*\\ Loads data into *MF9\_OUTCOL\_TAXES* table
    - *AR9OUTCLTAX*\\ End-day after *MF9FTDTAX*.
-*** Outcollect Files
-   These are the file that are created by TOPS that will be sent to *Syniverse*.
+*** OutCollect Files
+   These are the file that are created by *TOPS* that will be sent to *Syniverse*.
    - *aprout (OutCollect Directory)* \\
    *\//pkgbl02\//inf\//aimsys\//prdwrk2\//var\//usc\//projs\//apr\//interfaces\//output*
 *** Operational Tables
@@ -361,8 +348,8 @@ subgraph cluster_3 {
 **** *MF1\_CIBER\_BATCH\_SEQ* 
     Contain the CIBER batch sequence numbers /(See Database Section)/.
 ** Overage Protection
-   Overage notifications are detected on an event by event basis. As events are processed by TC and added to 
-   the APE1\_ACCUMULATORS table a check is made against the L9\_FIRST\_THRESHOLD/L9\_SECOND\_THRESHOLD fields. If an overage is detected the ***FIELD*** CTN is added to file (segregated by unique TC file?) in the NTF directory. MFT then pulls these files and delivers to DMI for distribution. A note is added to the NOTIFICATION\_HUB.SMS\_NOTIFICATION table (ODS) indicating the message was sent by DMI.
+   Overage notifications are detected on an event by event basis. As events are processed by *TC* and added to 
+   the *APE1\_ACCUMULATORS* table a check is made against the *L9\_FIRST\_THRESHOLD/L9\_SECOND\_THRESHOLD* fields. If an overage is detected the ***FIELD*** CTN is added to file (segregated by unique *TC* file?) in the NTF directory. MFT then pulls these files and delivers to DMI for distribution. A note is added to the NOTIFICATION\_HUB.SMS\_NOTIFICATION table (ODS) indicating the message was sent by DMI.
 *** Overage process flow
 #+ATTR_LaTeX: width=15cm
    [[file:Pictures/overage.png]]
@@ -489,7 +476,7 @@ subgraph cluster_3 {
 
 *** Event Tab
     - Open Remedy against Amdocs - Tier 2 Billing to restart the scripts when any of the Event1 through Event6 columns are missing indicating they are down.
-    - Open Remedy against Amdocs - Infra Environments to investigate available space when any if the Filesystem % Used sections are red.
+    - Open Remedy against Amdocs - Infra Environments to investigate available space when any of the File system % Used sections are red.
 *** AC1 Control Tab
     - Open Remedy against Amdocs  for AF and stuck in IU or RD files when creation date and is less than current date.
     - Use the A&F monitor report for <MM/DD/YYYY> and APRM monitor report for <MM/DD/YYYY> emails as supporting evidence, which run every hour.
@@ -506,15 +493,15 @@ subgraph cluster_3 {
    : 100%: 69830
    : Disclaimer: 60
    : Balance: 15
-     - When count are significantly low open a sev 3 ticket against Amdocs.
+     - When count are significantly low open a Sev 3 ticket against Amdocs.
    : Total Files: 2607
    : Total Records: 9458
    : 75%: 5365
    : 100%: 4092
    : Disclaimer: 0
    : Balance: 1
-     - Open a sev 2 ticket against Amdocs when Overage Notification Count FAILED for <MM-DD-YYYY>! is received.
-       - Call IS Support at 608-828-5812 to inform them of a sev 2 or above ticket.
+     - Open a Sev 2 ticket against Amdocs when Overage Notification Count FAILED for <MM-DD-YYYY>! is received.
+       - Call IS Support at 608-828-5812 to inform them of a Sev 2 or above ticket.
        - Escalate ticket in Remedy, call Amdocs T2.5 on call at 217-766-1979.
        - Email applicable teams the ticket number and description.
    : To:  GSSUSCCTier25RA@amdocs.com
@@ -531,7 +518,7 @@ subgraph cluster_3 {
 
 ** Check AC1\_CONTROL Fixer Status.
    - Go to the MPS mailbox and look for the AC1\_CONTROL Fixer Status emails.  There are two.  One at ~12:04AM and on at ~4:03AM.
-   - The output is similar to what is shown below.  The only action needed is when a sid is removed other than sids 45696, 49697, and 49698.  When a sid other than the aformetioned sids is removed open a sev 4 Remedy against Intercarrier Services, email the ticket number, description, and details to Zachary.Gutter@uscellular.com asking him to validate the sid.
+   - The output is similar to what is shown below.  The only action needed is when a Sid is removed other than *SIDS* 45696, 49697, and 49698.  When a Sid other than the aforementioned *SIDS* is removed open a Sev 4 Remedy against Inter-carrier Services, email the ticket number, description, and details to Zachary.Gutter@uscellular.com asking him to validate the Sid.
  
     : Results for the AC1_CONTROL Fixer:
  
@@ -1033,21 +1020,21 @@ subgraph cluster_3 {
 	   - Kyle Matte
 	   - Roberto Amezcua
 
-*** Outcollects
+*** OutCollects
     #+ATTR_LaTeX: width=13cm
     [[file:Pictures/outcoll.png]]
    :PICTURE:
 digraph BI {
 	rankdir=LR;
 	"Switch" -> "TOPS \n System"  [label = "CDR's"];
-	"TOPS \n System" -> "Outcollect \n file" [label = "Convert \n Ciber \n Records"];
-	"Outcollect \n file" -> "Syniverse" [label = "Sent by NDC \n via SFTP"];
+	"TOPS \n System" -> "OutCollect \n file" [label = "Convert \n Ciber \n Records"];
+	"OutCollect \n file" -> "Syniverse" [label = "Sent by NDC \n via SFTP"];
 }
    :END: 
    - *Business Process -* Mediation
    - *Type -* Batch
    - *Category -* Batch Redesign
-   - *Service -*  Send outcollect data to *Syniverse*.
+   - *Service -*  Send OutCollect data to *Syniverse*.
    - *Process Flow* 
      1. Switch records are passed through the billing system and any
         record that does not belong to a customer gets placed into a file. 
@@ -1069,7 +1056,7 @@ digraph BI {
    - Login: Skeup/SyFAGh
    :  <\\chil-data1\Share\Common\TOPS\outcollects>
 * Unified File Format (UFF)
-  In *TOPs* system all *CDRs*, excluding *Incollect/Outcollect CIBER*,
+  In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
   will be reformatted into a /Unified File Format/ (*UFF*). This
   format will be a standard *Unix/ASCII* formatted *CSV* file using
   '|' *(pipe)* as the delimiter. 
@@ -1124,7 +1111,7 @@ digraph BI {
 |      23 | Originating Address     | IP or Email                                                       |
 |      24 | Terminating MSID        | Called MSID this is on Mobile to Mobile records only.             |
 |      25 | Terminating Number      | Normalized number /(example 6085551212 instead of 411/            |
-|      26 | Dialed Digits           | The un-translated dialed number /(e.g. 441 instead of 555-1212)/  |
+|      26 | Dialed Digits           | The untranslated dialed number /(e.g. 441 instead of 555-1212)/  |
 |      27 | Terminating Address     | IP Address/Email Name Client IP for *PMG*                         |
 |      28 | Termination Code        | *SMS.CALL\_TERMINATION\_CODE*                                     |
 |      29 | Service Feature         | MPS Service feature codes                                         |
@@ -1181,8 +1168,8 @@ digraph BI {
 |      49 | Network Flag            | Used by QIS to calculate the charge code.                         |
 |         |                         | 0 = not a 1 = is a network application..                          |
 |         |                         | Default is 0                                                      |
-|      50 | Femto-cell-ringtime     | Will not be needed until after TOPS implementation                |
-|      51 | Femto-cell-ringpluse    | Will not be needed until after TOPS implementation                |
+|      50 | Femto-cell-ringtime     | Will not be needed until after *TOPS* implementation                |
+|      51 | Femto-cell-ringpluse    | Will not be needed until after *TOPS* implementation                |
 |      52 | LTE Handoff             | This maybe needed after the move to LTE,                          |
 |         |                         | so is just used as a placeholder                                  |
 |      53 | Market/Sub-market       | The Market and Sub-market for a customer this can also be blank.  |
@@ -1340,7 +1327,7 @@ digraph BI {
 |          28 | PRDUSG3    | General Cycle close on the 27th                 |
 |          77 | PRDUSG1    | Dropped events cycle                            |
 |          80 | PRDUSG3    | Rejected events cycle                           |
-|          99 | PRDUSG2    | Reserved for Outcollect Cycle close on the 31th |
+|          99 | PRDUSG2    | Reserved for OutCollect Cycle close on the 31th |
 |        1002 | PRDUSG2    | Reseller Cycle close on the 1st                 |
 |        1004 | PRDUSG1    | Reseller Cycle close on the 3rd                 |
 |        1006 | PRDUSG1    | Reseller Cycle close on the 5th                 |
@@ -1361,10 +1348,10 @@ digraph BI {
 \normalsize
 #+END_LaTeX
 
-** DB Preperation
+** DB Preparation
    For each DB instance, except ODS and SIT, You need to alter the session before you can use it.\\ For example  for usage 1 type
  : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
-** Production DataBase Tables
+** Production Database Tables
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
@@ -1560,7 +1547,7 @@ digraph BI {
 | RESOURCE\_VALUE                   | VARCHAR2 (63 Byte)  |                       |
 | *RESOURCE\_TYPE*                  | VARCHAR2 (16 Byte)  | 0  - MDN              |
 |                                   |                     | 19 - MIN              |
-|                                   |                     | 21 - Outcollects      |
+|                                   |                     | 21 - OutCollects      |
 |                                   |                     | 23 - imsi             |
 | SYS\_CREATION\_DATE               | DATE                |                       |
 | SYS\_UPDATE\_DATE                 | DATE                |                       |
@@ -1689,7 +1676,7 @@ digraph BI {
 | L9\_OFFER\_INSTANCE               | NUMBER              |                       |
 | L9\_DAILY\_SURCHARGE\_IND         | VARCHAR2 (1 Byte)   |                       |
 | *L9\_INCOLLECT\_INDICATOR*        | VARCHAR2 (1 Byte)   | If true then its      |
-|                                   |                     | an incollect.         |
+|                                   |                     | an InCollect.         |
 | L9\_SESSION\_IDENTIFIER           | VARCHAR2 (128 Byte) |                       |
 | L9\_FREE\_UNIT                    | NUMBER              |                       |
 | L9\_EXT\_TRX\_ID                  | VARCHAR2 (18 Byte)  |                       |
@@ -1712,7 +1699,7 @@ digraph BI {
 | L9\_ORIGINAL\_AIR\_TIME\_CHG\_AMT | NUMBER              |                       |
 | L9\_BE                            | NUMBER              |                       |
 | L9\_CHARG\_BEYOND\_CAP            | NUMBER              |                       |
-| *L9\_IS\_ONLINE*                  | VARCHAR2 (1 Byte)   | Y = Prepay            |
+| *L9\_IS\_ONLINE*                  | VARCHAR2 (1 Byte)   | Y = *Pre-Pay*         |
 | L9\_VOLUME\_PER\_TYPE             | VARCHAR2 (512 Byte) |                       |
 | L9\_UNITS\_BEYOND\_CAP            | NUMBER              |                       |
 | L9\_VOLUME\_COMPLEX               | VARCHAR2 (512 Byte) |                       |
@@ -1907,7 +1894,7 @@ digraph BI {
 | RESOURCE\_VALUE         | VARCHAR2(63 BYTE) |                  |
 | *RESOURCE\_TYPE*        | NUMBER(4,0)       | 0 - MDN          |
 |                         |                   | 19 - MIN         |
-|                         |                   | 21 - Outcollects |
+|                         |                   | 21 - OutCollects |
 |                         |                   | 23 - TIMSI       |
 | EFFECTIVE\_DATE         | DATE              |                  |
 | SYS\_CREATION\_DATE     | DATE              |                  |
@@ -2249,12 +2236,12 @@ digraph BI {
 \normalsize
 #+END_LaTeX
 ** VISITOR\_MIN\_LR
-   This table is created programmtically and contains all of our roaming partners MIN/SID block ranges. It is located on the *BRMPRD* database.
+   This table is created via  a program and contains all of our roaming partners MIN/SID block ranges. It is located on the *BRMPRD* database.
 ** MI1\_STLMNT\_CONTRACT
    The Settlement Contracts table contains one record for each
    contract. A contract is defined as the entity to which a group of
-   SIDs belongs, whose common attribute is the clearinghouse-related
-   Net Settlement bank account. This usually means that all the SIDs
+   *SIDS* belongs, whose common attribute is the clearinghouse-related
+   Net Settlement bank account. This usually means that all the *SIDS*
    that belong to a settlement contract are part of one operating
    company.
 :CLOSET:
@@ -2285,7 +2272,7 @@ digraph BI {
   This table includes detailed information on every destination. A
   destination represents a target of Out-collect calls (such as a
   clearinghouse). The destination of every roamer call is determined
-  according to the Home SID value of that call.
+  according to the Home *SID* value of that call.
 :CLOSET:
 #+BEGIN_LaTeX
 \scriptsize
@@ -2320,7 +2307,7 @@ digraph BI {
 #+END_LaTeX  
 :END:
 ** MF1\_OUTCOL\_SID\_PAIR
-   Defines out-collect roaming agreement between SID pair. Originating
+   Defines out-collect roaming agreement between *SID* pair. Originating
    category is retrieve from the table that is used later on for
    service filter determination. *INCOL\_SID\_PAIR* and *SID* tables are also
    used by Acquisition & Formatting.
@@ -2359,8 +2346,8 @@ digraph BI {
 \normalsize
 #+END_LaTeX  
 ** MI1\_RETURN\_RRC
-   Used for in-collect *CIBER* processing. Contains the various
-   reasons why an in-collect file can be returned.
+   Used for *InCollect* *CIBER* processing. Contains the various
+   reasons why an *InCollect* file can be returned.
 :CLOSET:
 #+BEGIN_LaTeX
 \scriptsize
@@ -2397,8 +2384,8 @@ digraph BI {
 #+END_LaTeX  
 :END:
 ** MI1\_REJECT\_RRC
-   Used for in-collect *CIBER* processing. Contains the various
-   reasons why an in-collect file can be rejected.
+   Used for *InCollect* *CIBER* processing. Contains the various
+   reasons why an *InCollect* file can be rejected.
 :CLOSET:
 #+BEGIN_LaTeX
 \scriptsize
@@ -2466,7 +2453,7 @@ digraph BI {
    | *Column Name*         | *Data Type*       | *ID* | *Description* |
    |-----------------------+-------------------+------+---------------|
    | CINDEX                | NUMBER(9,0)       |    1 |               |
-   | SIDS                  | VARCHAR2(5 BYTE)  |    2 |               |
+   | *SIDS*                  | VARCHAR2(5 BYTE)  |    2 |               |
    | EFFECTIVE\_DATE       | DATE              |    3 |               |
    | SID\_DESC             | VARCHAR2(50 BYTE) |    4 |               |
    | SID\_COMMERCIAL\_NAME | VARCHAR2(50 BYTE) |    5 |               |
@@ -2489,8 +2476,8 @@ digraph BI {
 \normalsize
 #+END_LaTeX
 *** PC9\_SID\_LIST
-   A description of each SID found in the *PC9\_SID* table. When the
-   SID table is updated this table needs to be updated as well. 
+   A description of each *SID* found in the *PC9\_SID* table. When the
+   *SID* table is updated this table needs to be updated as well. 
 :CLOSET:
 #+BEGIN_LaTeX
 \scriptsize
@@ -2499,7 +2486,7 @@ digraph BI {
    | *Column Name* | *Data Type*       | *Nullable* | *ID* |
    |---------------+-------------------+------------+------|
    | CINDEX        | NUMBER(9,0)       | No         |    1 |
-   | SIDS          | VARCHAR2(5 BYTE)  | No         |    2 |
+   | *SIDS*          | VARCHAR2(5 BYTE)  | No         |    2 |
    | DESCRIPTION   | VARCHAR2(50 BYTE) | Yes        |    3 |
    |---------------+-------------------+------------+------|
 #+BEGIN_LaTeX
@@ -2551,7 +2538,7 @@ AND expiration\_date IS NULL
 \normalsize
 #+END_LaTeX
 *** PC9\_SERVE\_AREA\_TO\_SID
-   Maps the service area to (/all maybe to strong a term/)  supported SIDS.
+   Maps the service area to (/all maybe to strong a term/)  supported *SIDS*.
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
@@ -2559,7 +2546,7 @@ AND expiration\_date IS NULL
    | *Column Name*    | *Data Type*       | *Description* |
    |------------------+-------------------+---------------|
    | SERVE\_AREA      | VARCHAR2(50 BYTE) |               |
-   | SIDS             | VARCHAR2(5 BYTE)  |               |
+   | *SIDS*             | VARCHAR2(5 BYTE)  |               |
    | EFFECTIVE\_DATE  | DATE              |               |
    | EXPIRATION\_DATE | DATE              |               |
    |------------------+-------------------+---------------|
@@ -2585,9 +2572,9 @@ AND expiration\_date IS NULL
 #+END_LaTeX  
 
 *** PC9\_INCOL\_SID\_PAIR
-   Defines in-collect roaming agreement between SID pair. Originating
+   Defines *InCollect* roaming agreement between *SID* pair. Originating
    category is retrieve from the table that is used later on for
-   service filter determination. INCOL\_SID\_PAIR and SID tables are also
+   service filter determination. INCOL\_SID\_PAIR and *SID* tables are also
    used by Acquisition & Formatting.
 #+BEGIN_LaTeX
 \scriptsize
@@ -2781,7 +2768,7 @@ AND expiration\_date IS NULL
 #+END_LaTeX  
 :END:
 *** PC9\_LOCAL\_TOLL\_FREE\_AREA
-   Lists the relationship between SIDS and NPA ranges where the toll
+   Lists the relationship between *SIDS* and NPA ranges where the toll
    is free.
 :CLOSET:
 #+BEGIN_LaTeX
@@ -2790,7 +2777,7 @@ AND expiration\_date IS NULL
   |-----------------+-------------------+------------+------|
   | *Column Name*   | *Data Type*       | *Nullable* | *ID* |
   |-----------------+-------------------+------------+------|
-  | SIDS            | VARCHAR2(5 BYTE)  | No         |    1 |
+  | *SIDS*            | VARCHAR2(5 BYTE)  | No         |    1 |
   | FROM_NPANXX     | VARCHAR2(6 BYTE)  | No         |    2 |
   | TO_NPANXX       | VARCHAR2(6 BYTE)  | No         |    3 |
   | EFFECTIVE_DATE  | DATE              | No         |    4 |
@@ -2803,7 +2790,7 @@ AND expiration\_date IS NULL
 #+END_LaTeX  
 :END:
 *** PC9\_IP\_ADDR\_LIST
-    This needs to updated periodicly.
+    This needs to updated periodically.
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
@@ -2836,7 +2823,7 @@ AND expiration\_date IS NULL
       4. Just add the following sections.
 	 - Risk
 	 - Business reason
-	 - Impact assesment
+	 - Impact assessment
    5. If not part of an *EPC Dump* Email John Kelly with the Install plan and all SQL.
    6. If part of an EPC dump. Notify the EPC team so they can include your *Smart Ticket* with their hot fix.
    7. Represent the change in the *Change Control Meeting*
@@ -2865,9 +2852,9 @@ AND expiration\_date IS NULL
 :END:
 
 ** SID Updates
-   SID'S or Switch IDentifiers is a unique 5 digit number that corealates to switch. It is with the SID that TOPS defines the all mediation and rating logic and is the first enrichment step on a call record.
+   SID'S or Switch IDentifiers is a unique 5 digit number that correlates to switch. It is with the *SID* that *TOPS* defines the all mediation and rating logic and is the first enrichment step on a call record.
 *** BPT Tables and Process
-   When a SID is added or changes there is a possibility that the following tables need to be changed:
+   When a *SID* is added or changes there is a possibility that the following tables need to be changed:
    1. PC9\_SID
    2. PC9\_SID\_LIST
    3. PC9\_SERVE\_AREA\_TO\_SID
@@ -2879,19 +2866,19 @@ AND expiration\_date IS NULL
    9. APE1\_SUBSCR\_OFFERS\_REF
 
 *** New SID Contract Rates
-   All SIDS changes start with the SID table and depending on what needs to be done there determines what needs to be done to the other 7 tables.
-   For example if it is a brand new SID all 8 tables need to be updated with the most complicated part setting up Incollect and outcollect processing for a SIDS contract. The following explains in details on what needs to be done:
+   All *SIDS* changes start with the *SID* table and depending on what needs to be done there determines what needs to be done to the other 7 tables.
+   For example if it is a brand new *SID* all 8 tables need to be updated with the most complicated part setting up InCollect and OutCollect processing for a *SIDS* contract. The following explains in details on what needs to be done:
 
     1. Find the entry in the *PC9\_INCOL\_SID\_PAIR* where the *SERVE SID* is the contract number and the *HOME SID* = '175' /(USCC contract number)/.
        1. Expire the date for when you want the new rate to take affect.
        2. Use the above row as a template for an insert statement.
-       3. *For Outcollects do the same as above except use SERVE SID = '175'*
+       3. *For outcollecs do the same as above except use SERVE SID = '175'*
 
     2. Create an Insert statement for the  *PC9\_INCOL\_SID\_PAIR* with the new rates.
 
-    3. For the Outcollect side find all *SIDS* that that have the *Settlement Contract Code*, /(In this example we trying to find all SIDS with settlement contract code = 287)/
+    3. For the OutCollect side find all *SIDS* that that have the *Settlement Contract Code*, /(In this example we trying to find all *SIDS* with settlement contract code = 287)/
        : SELECT SIDS FROM PC9_SID WHERE SETLMNT_CONTRACT_CD = 287;
-    4. For each SID found add '175' to the end and use that as the resource value for the table *AGD1\_RESOURCES\_REF* then create an insert if it don't exists.
+    4. For each *SID* found add '175' to the end and use that as the resource value for the table *AGD1\_RESOURCES\_REF* then create an insert if it don't exists.
    #+BEGIN_LaTeX
    \footnotesize
    #+END_LaTeX
@@ -2900,7 +2887,7 @@ AND expiration\_date IS NULL
    |---------------------------+---------------------------------|
    | *RESOURCE\_SEGMENT*       | *ResourceSegmentCalc\_Sh*       |
    | *RESOURCE\_VALUE*         | SID + '175'                     |
-   | *RESOURCE\_TYPE*          | 21 (for Outcollect)             |
+   | *RESOURCE\_TYPE*          | 21 (for OutCollect)             |
    | *SUBSCRIBER\_ID*          | sequential number /(1, 2, 3,…)/ |
    | *SUB\_STATUS*             | A (default)                     |
    | *ROUTING\_POLICY\_ID*     | 0 (for Postpaid)                |
@@ -2914,7 +2901,7 @@ AND expiration\_date IS NULL
    #+BEGIN_LaTeX
    \normalsize
    #+END_LaTeX
-    5. For each SID found add a '1' in front which will get you the *customer\_id* then do a query against the *APE1\_SUBSCR\_DATA\_REF* to get the subscriber\_id /(Using the above as an example)/
+    5. For each *SID* found add a '1' in front which will get you the *customer\_id* then do a query against the *APE1\_SUBSCR\_DATA\_REF* to get the subscriber\_id /(Using the above as an example)/
    #+BEGIN_LaTeX
    \footnotesize
    #+END_LaTeX
@@ -2955,7 +2942,7 @@ AND expiration\_date IS NULL
    Some tables require that a unique hash value be created to create those values use these programs:
    : ~/abp_home/core/bin/SubsriberHashValueCalc_Sh  <SUBSCRIBER_ID>
    :
-   : ~/abp_home/core/bin/ResourceSegmentCalc_Sh     <Resource Type> 21 = (Outcollects)
+   : ~/abp_home/core/bin/ResourceSegmentCalc_Sh     <Resource Type> 21 = (OutCollects)
    :                                                <Resource Value> 
    :                                                <Resource value length>
    :
@@ -2977,7 +2964,7 @@ AND expiration\_date IS NULL
 |------------+------------+----------------+-----------------------|
 
 ** Support Server 
-   Accessed from Putty in TOPS Production Support Applications.
+   Accessed from Putty in *TOPS* Production Support Applications.
    Should be able to login on with LAN ID and password (which is same as your LAN ID).
 |---------------------|
 | *SERVER NAME*       |
@@ -3609,7 +3596,7 @@ AND expiration\_date IS NULL
 
 ** Credit Cards
 *** AR9\_CC\_AUTH\_LOG
-    Credit card transactions from the TOPS side.
+    Credit card transactions from the *TOPS* side.
 :CLOSET:
 #+BEGIN_LaTeX
 \scriptsize
@@ -3809,15 +3796,5 @@ AND expiration\_date IS NULL
 * Footnotes
 [fn:1] Switch Identifiers
 forgot about this:
-
-TC File by counts --- SQL Statement which produced this data:
-  select b.rowid, b.phy_file_ident, b.file_name, b.nxt_pgm_name, nxt_file_alias, sum(b.in_rec_quantity) as INPUTFILE, sum(b.wr_rec_quantity) as PROCESSED, sum(b.dr_rec_quantity) as DROPPED, sum(b.gn_rec_quantity) as GENERATED from ac1_control_hist b
-  where nxt_pgm_name in ('NONE','MD','REPORT','File2E','AEM')
-  and nxt_file_alias in ('REJECT','UFF','DUPLICATE','GENERATE','UFF_RDRP','NONE','Diameter','SUCCESS','CIBER_DUP','DATAIN' ,'DATACBR','DATA_DRP')
-  and b.cur_file_alias not in ('ROAM','SMSNTF')
-  and file_format not in ('RERUN','CBRTBL','CIBER') 
-  and file_status = 'CO'
-  --and trunc(sys_creation_date) <= trunc(sysdate-1)
-  and b.phy_file_ident = 481507452557200
-  group by b.rowid, b.phy_file_ident, b.file_name, b.nxt_pgm_name, nxt_file_alias, b.in_rec_quantity, b.wr_rec_quantity, b.dr_rec_quantity, b.gn_rec_quantity
-  order by b.phy_file_ident desc, b.rowid
+[fn:2] *CIBER* - InCollect processing is still handled by *A&F* and *RBMS*
+ 
