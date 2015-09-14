@@ -86,6 +86,7 @@
 	 var x,a;
 
    src.postln;
+   vel = vel.linlin(0,127,0.01,1);
 
    if((chan == 0), {
        x = ~channel0.value(num);

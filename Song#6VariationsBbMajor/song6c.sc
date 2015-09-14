@@ -14,7 +14,7 @@ GUI.qt
 "/home/dbalchen/workspace/SuperCollider/eStrings.sc".loadPath;
 "/home/dbalchen/workspace/SuperCollider/FMpad.sc".loadPath;
 "/home/dbalchen/workspace/SuperCollider/pulseLead.sc".loadPath;
-//"/home/dbalchen/workspace/SuperCollider/FMlead.sc".loadPath;
+"/home/dbalchen/workspace/SuperCollider/drumSampler.sc".loadPath;
 
 
 ~myT1 = {Pbind(\type, \midi,
@@ -30,7 +30,7 @@ GUI.qt
 
 
 ~oboe = MyEvents.new;
-~oboe.amp = 1.0;
+~oboe.amp = 0.650;
 ~oboe.init;
 ~oboe.filter.attack = 1.0;
 ~oboe.filter.release = 0.50;
@@ -40,7 +40,7 @@ GUI.qt
 ~oboe.filter.aoc = 0.25;
 ~oboe.envelope.attack = 0.75;//1.0;
 ~oboe.envelope.release = 0.5;
-~oboe.envelope.decay = 4.0;
+~oboe.envelope.decay = 3.0;
 ~oboe.envelope.sustain = 0.1;//0.10;
 
 
@@ -61,8 +61,7 @@ GUI.qt
 ~fm_darkpad.amp = 0.30;
 ~channel1 = {arg num;
 	     var ret;
-     num.postln;
-
+         num.postln;
 	     ret = ~midiFMdarkpad1.value(~fm_darkpad,num);
 	     ret;
 };
@@ -71,8 +70,7 @@ GUI.qt
 ~fm_darkpad2.amp = 0.10;
 ~channel11 = {arg num;
 	     var ret;
-     num.postln;
-
+    num.postln;
 	     ret = ~midiFMdarkpad1.value(~fm_darkpad2,num);
 	     ret;
 };
@@ -122,13 +120,32 @@ GUI.qt
 };
 
 
+~drum = MyEvents.new;
+~drum.amp = 2.0;
+~drum.init;
+~drum.filter.attack = 0.0;
+~drum.filter.release = 4.0;
+~drum.filter.cutoff = 8000;
+~drum.filter.gain = 2.0;
+~drum.filter.sustain = 1.0;
+~drum.filter.aoc = 1;
+~drum.envelope.attack = 0.0;
+~drum.envelope.release = 8.0;
+~drum.envelope.decay = 0.0;
+~drum.envelope.sustain = 1.0;
+~channel9 = {arg num;
+	     var ret;
+     num.postln;
+	     ret = ~midiDrum.value(~drum,~drumSound,num);
+	     ret;
+};
+
 )
 
 
 ~strings2.envelope.attack = 1.0;~strings1.envelope.attack = 1.00;
 
 ~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;
-
 
 
 ~oboe.filter.makeGui;
