@@ -5,7 +5,7 @@
 SynthDef("PulseLead", {
     arg freq = 110, out = 0, amp = 0.5, lagt = 0, da = 0, gate = 0,pw = 0.97,
       attack = 0, decay = 0, sustain = 1, release = 0.5,
-      fattack = 1.5, fsustain = 1, frelease = 0.5, aoc = 1, gain = 2, cutoff = 5000.00;
+      fattack = 1.5, fsustain = 1, frelease = 0.5, aoc = 1, gain = 2, cutoff = 5000.00, bend = 0;
 
     var sig, env, fenv;
 
@@ -16,7 +16,7 @@ SynthDef("PulseLead", {
     fenv = aoc*(fenv - 1) + 1;
 
     freq = Lag.kr(freq,lagt);
-    freq = { freq * LFNoise2.kr(1,0.002,1) }!3; 
+    freq = { freq * bend.midiratio * LFNoise2.kr(1,0.002,1) }!3; 
 
        sig  = Pulse.ar(freq, pw, mul: EnvGen.kr(env,gate: gate, doneAction:da))  * amp;
      
@@ -33,7 +33,7 @@ SynthDef("PulseLead", {
 	 
   }).store;
 
-~midiPulseLead= {arg myevents,num;
+~midiPulseLead= {arg myevents,num,chan;
 	     var flt, env,amp,tt;
 	     amp = myevents.amp;
 	     flt = myevents.filter;
@@ -51,6 +51,7 @@ SynthDef("PulseLead", {
 		 tt.set(\amp,amp);
 		 tt.set(\gate,1);
 		 tt.set(\out,myevents.out);
+         tt.set(\bend, ~bend[chan]);
 
 	       }, {["rest"].post}); // false action
 

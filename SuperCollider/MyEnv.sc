@@ -3,7 +3,7 @@ MyEnv {
     <>attacks = nil,   <>attack = 0.5,
     <>releases = nil,  <>release = 0.5,
     <>att = 1.0, <>rel = 1.0, 
-    <>decay = 0.1, <>sustain = 1.0,
+    <>decay = 0.0, <>sustain = 1.0,
     <>env = nil,  <>doneAction = 2;
 
   setEnvelope

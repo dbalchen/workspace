@@ -6,14 +6,14 @@ SynthDef("eStrings",
 	 {
 	   arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,
 	     attack = 4, decay = 4, sustain = 0, release = 1, fattack = 0.0, fsustain = 1, 
-	     frelease = 0.05, aoc = 0, gain = 1, cutoff = 10000.00;
+	     frelease = 0.05, aoc = 0, gain = 1, cutoff = 10000.00, bend = 0;
 
 	   var sig, env, fenv, freq2;
 
 	   env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
 
-       freq2 = freq;
-	   freq = {freq * LFNoise2.kr(2.5,0.01,1)}!16;
+       freq2 = freq * bend.midiratio;
+	   freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
 
 	   fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
 	   fenv = EnvGen.kr(fenv, gate,doneAction:da);
@@ -33,7 +33,7 @@ SynthDef("eStrings",
 	 }).send(s);
 
 
-~midiStrings = {arg myevents,num;
+~midiStrings = {arg myevents,num,chan;
 	     var flt, env,amp,tt;
 	     amp = myevents.amp;
 	     flt = myevents.filter;
@@ -50,7 +50,7 @@ SynthDef("eStrings",
 		 tt.set(\amp,amp);
 		 tt.set(\gate,1);
 		 tt.set(\out,myevents.out);
-
+         tt.set(\bend, ~bend[chan]);
 	       }, {["rest"].post}); // false action
 
              tt;
