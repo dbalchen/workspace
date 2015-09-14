@@ -34,7 +34,7 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
   $switch       = "";
   $exact = 0;
 
-  @backdoor = `cat /home/calldmp/CallDumpTest/bin/backdoor.db`;
+  @backdoor = `cat /home/calldmp/CallDumpTest/config/backdoor.db`;
 
   #---INPUTS-------------------------------------------
   #$inputfile = $ARGV[0];
@@ -242,6 +242,14 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
        $dialed_tn = $tmp;
      }
 
+    
+    if ((index($srvFeat,"VMD") >= 0) && (index($ct,"L-L") >= 0))
+    {
+       my $tmp = $calling_tn;
+       $calling_tn = $dialed_tn;
+       $dialed_tn = $tmp;
+    }
+       
      $dialed_tn = $prefix.$dialed_tn;
 
   }
@@ -285,34 +293,15 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
    sub find_tldn
      {
        my $fmsid = shift;
+       my $found_tldn = "NULL";
 
-        my $byhalf = int(@backdoor / 2);
-        my $end = @backdoor;
-        my $start = 0;
-        my $found_tldn = "NULL";
-
-        while (!($fmsid >= (split(",",$backdoor[$byhalf]))[0] && $fmsid <= (split(",",$backdoor[$byhalf + 1]))[0]) && !(($end - $start) == 2)) {
-  	if ($fmsid > (split(",",$backdoor[$byhalf]))[0]) {
-  	  $start =  $byhalf;
-  	} else {
-  	  $end = $byhalf;
-  	}
-  	$byhalf = int(($end - $start) / 2) + $start;
-        }
-
-        my $st = (split(",",$backdoor[$byhalf]))[0];
-        my $ed = (split(",",$backdoor[$byhalf]))[1];
-
-        my $st2 = (split(",",$backdoor[$byhalf+1]))[0];
-        my $ed2 = (split(",",$backdoor[$byhalf + 1]))[1];
-
-        if ($fmsid >= $st && $fmsid <= $ed) {
-  	$found_tldn = "TLDN";
-        } elsif ($fmsid >= $st2 && $fmsid <= $ed2) {
-  	$found_tldn = "TLDN";
-        } else {
-  	$found_tldn = "NULL";
-        }
+	 for (my $a = 0;$a < @backdoor;$a = $a + 1) {
+	   my($st,$ed) = split(/,/,$backdoor[$a]);
+	   if ($fmsid >= $st && $fmsid <= $ed) {
+	       $found_tldn = "TLDN";
+	   last;
+	   } 
+	 }
 
         chomp($found_tldn);
        return $found_tldn;
