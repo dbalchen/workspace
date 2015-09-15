@@ -44,33 +44,32 @@ GUI.qt
 ~oboe.envelope.sustain = 0.1;//0.10;
 
 
-//~pulse = Synth("PulseLead");
-
-~channel0 = {arg num;
+~channel0 = {arg num, vel = 1;
 	     var ret;
      num.postln;
-
-	// ret = ~midiFMlead.value(~oboe,num);
+	~oboe.amp = ~oboe.amp * vel;
 	ret = ~midiPulseLead.value(~oboe,num,0);
-	//ret = ~midiPulseLeadMono.value(~oboe,num,~pulse);
 	     ret;
 };
 
 
 ~fm_darkpad = MyEvents.new;
 ~fm_darkpad.amp = 0.30;
-~channel1 = {arg num;
+~channel1 = {arg num, vel =1;
 	     var ret;
          num.postln;
+             ~fm_darkpad.amp = ~fm_darkpad.amp * vel;
 	     ret = ~midiFMdarkpad1.value(~fm_darkpad,num);
 	     ret;
 };
 
+
 ~fm_darkpad2 = MyEvents.new;
 ~fm_darkpad2.amp = 0.10;
-~channel11 = {arg num;
+~channel11 = {arg num, vel = 1;
 	     var ret;
     num.postln;
+             ~fm_darkpad2.amp = ~fm_darkpad2.amp * vel;
 	     ret = ~midiFMdarkpad1.value(~fm_darkpad2,num);
 	     ret;
 };
@@ -91,9 +90,10 @@ GUI.qt
 ~strings1.envelope.release = 0.50;
 ~strings1.envelope.decay = 4.0;
 ~strings1.envelope.sustain = 0.3;
-~channel2 = {arg num;
+~channel2 = {arg num, vel = 1;
 	     var ret;
      num.postln;
+             ~strings1.amp = ~strings1.amp * vel;
 	     ret = ~midiStrings.value(~strings1,num,2);
 	     ret;
 };
@@ -112,9 +112,10 @@ GUI.qt
 ~strings2.envelope.release = 0.50;
 ~strings2.envelope.decay = 4.0;
 ~strings2.envelope.sustain = 0.3;
-~channel3 = {arg num;
+~channel3 = {arg num, vel = 1;
 	     var ret;
      num.postln;
+             ~strings2.amp = ~strings2.amp * vel;
 	     ret = ~midiStrings.value(~strings2,num,3);
 	     ret;
 };
@@ -133,9 +134,10 @@ GUI.qt
 ~drum.envelope.release = 8.0;
 ~drum.envelope.decay = 0.0;
 ~drum.envelope.sustain = 1.0;
-~channel9 = {arg num;
+~channel9 = {arg num, vel = 1;
 	     var ret;
      num.postln;
+             ~drum.amp = ~drum.amp * vel;
 	     ret = ~midiDrum.value(~drum,~drumSound,num);
 	     ret;
 };
