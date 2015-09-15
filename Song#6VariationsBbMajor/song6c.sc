@@ -4,145 +4,145 @@ GUI.qt
 
 (
  o = Server.local.options;
-//o.numOutputBusChannels = 24; // The next time it boots, this will take effect
+ //o.numOutputBusChannels = 24; // The next time it boots, this will take effect
  o.memSize = 2097152;
  )
 
 "/home/dbalchen/Music/setup.sc".loadPath;
 
 (
-"/home/dbalchen/workspace/SuperCollider/eStrings.sc".loadPath;
-"/home/dbalchen/workspace/SuperCollider/FMpad.sc".loadPath;
-"/home/dbalchen/workspace/SuperCollider/pulseLead.sc".loadPath;
-"/home/dbalchen/workspace/SuperCollider/drumSampler.sc".loadPath;
+ "/home/dbalchen/workspace/SuperCollider/eStrings.sc".loadPath;
+ "/home/dbalchen/workspace/SuperCollider/FMpad.sc".loadPath;
+ "/home/dbalchen/workspace/SuperCollider/pulseLead.sc".loadPath;
+ "/home/dbalchen/workspace/SuperCollider/drumSampler.sc".loadPath;
 
 
-~myT1 = {Pbind(\type, \midi,
-	       \midiout, ~synth1,
-	       \midicmd, \noteOn,
-	       \note,  Pfunc.new({~t1.freq.next}- 60),
-	       \amp, 1,
-           \chan, 1,
-           \sustain, Pfunc.new({~t1.duration.next}),
-	       \dur, Pfunc.new({~t1.wait.next})
-	       ).play};
+ ~myT1 = {Pbind(\type, \midi,
+		\midiout, ~synth1,
+		\midicmd, \noteOn,
+		\note,  Pfunc.new({~t1.freq.next}- 60),
+		\amp, 1,
+		\chan, 1,
+		\sustain, Pfunc.new({~t1.duration.next}),
+		\dur, Pfunc.new({~t1.wait.next})
+		).play};
 	
 
 
-~oboe = MyEvents.new;
-~oboe.amp = 0.650;
-~oboe.init;
-~oboe.filter.attack = 1.0;
-~oboe.filter.release = 0.50;
-~oboe.filter.cutoff = 1500;//14000;
-~oboe.filter.gain = 0.5;
-~oboe.filter.sustain = 1.0;
-~oboe.filter.aoc = 0.25;
-~oboe.envelope.attack = 0.75;//1.0;
-~oboe.envelope.release = 0.5;
-~oboe.envelope.decay = 3.0;
-~oboe.envelope.sustain = 0.1;//0.10;
+ ~oboe = MyEvents.new;
+ ~oboe.amp = 0.650;
+ ~oboe.init;
+ ~oboe.filter.attack = 1.0;
+ ~oboe.filter.release = 0.50;
+ ~oboe.filter.cutoff = 1500;//14000;
+ ~oboe.filter.gain = 0.5;
+ ~oboe.filter.sustain = 1.0;
+ ~oboe.filter.aoc = 0.25;
+ ~oboe.envelope.attack = 0.75;//1.0;
+ ~oboe.envelope.release = 0.5;
+ ~oboe.envelope.decay = 3.0;
+ ~oboe.envelope.sustain = 0.1;//0.10;
 
 
-~channel0 = {arg num, vel = 1;
-	     var ret;
-     num.postln;
-	~oboe.amp = ~oboe.amp * vel;
-	ret = ~midiPulseLead.value(~oboe,num,0);
-	     ret;
-};
+ ~channel0 = {arg num, vel = 1;
+   var ret;
+   num.postln;
+   ~oboe.amp = ~oboe.amp * vel;
+   ret = ~midiPulseLead.value(~oboe,num,0);
+   ret;
+ };
 
 
-~fm_darkpad = MyEvents.new;
-~fm_darkpad.amp = 0.30;
-~channel1 = {arg num, vel =1;
-	     var ret;
-         num.postln;
-             ~fm_darkpad.amp = ~fm_darkpad.amp * vel;
-	     ret = ~midiFMdarkpad1.value(~fm_darkpad,num);
-	     ret;
-};
+ ~fm_darkpad = MyEvents.new;
+ ~fm_darkpad.amp = 0.30;
+ ~channel1 = {arg num, vel =1;
+   var ret;
+   num.postln;
+   ~fm_darkpad.amp = ~fm_darkpad.amp * vel;
+   ret = ~midiFMdarkpad1.value(~fm_darkpad,num);
+   ret;
+ };
 
 
-~fm_darkpad2 = MyEvents.new;
-~fm_darkpad2.amp = 0.10;
-~channel11 = {arg num, vel = 1;
-	     var ret;
-    num.postln;
-             ~fm_darkpad2.amp = ~fm_darkpad2.amp * vel;
-	     ret = ~midiFMdarkpad1.value(~fm_darkpad2,num);
-	     ret;
-};
+ ~fm_darkpad2 = MyEvents.new;
+ ~fm_darkpad2.amp = 0.10;
+ ~channel11 = {arg num, vel = 1;
+   var ret;
+   num.postln;
+   ~fm_darkpad2.amp = ~fm_darkpad2.amp * vel;
+   ret = ~midiFMdarkpad1.value(~fm_darkpad2,num);
+   ret;
+ };
 
 
 
 
-~strings1 = MyEvents.new;
-~strings1.amp = 1.0;
-~strings1.init;
-~strings1.filter.attack = 0.0;
-~strings1.filter.release = 1.5;
-~strings1.filter.cutoff = 8000;
-~strings1.filter.gain = 1.0;
-~strings1.filter.sustain = 1.0;
-~strings1.filter.aoc = 1;
-~strings1.envelope.attack = 4.0;
-~strings1.envelope.release = 0.50;
-~strings1.envelope.decay = 4.0;
-~strings1.envelope.sustain = 0.3;
-~channel2 = {arg num, vel = 1;
-	     var ret;
-     num.postln;
-             ~strings1.amp = ~strings1.amp * vel;
-	     ret = ~midiStrings.value(~strings1,num,2);
-	     ret;
-};
+ ~strings1 = MyEvents.new;
+ ~strings1.amp = 1.0;
+ ~strings1.init;
+ ~strings1.filter.attack = 0.0;
+ ~strings1.filter.release = 1.5;
+ ~strings1.filter.cutoff = 8000;
+ ~strings1.filter.gain = 1.0;
+ ~strings1.filter.sustain = 1.0;
+ ~strings1.filter.aoc = 1;
+ ~strings1.envelope.attack = 4.0;
+ ~strings1.envelope.release = 0.50;
+ ~strings1.envelope.decay = 4.0;
+ ~strings1.envelope.sustain = 0.3;
+ ~channel2 = {arg num, vel = 1;
+   var ret;
+   num.postln;
+   ~strings1.amp = ~strings1.amp * vel;
+   ret = ~midiStrings.value(~strings1,num,2);
+   ret;
+ };
 
 
-~strings2 = MyEvents.new;
-~strings2.amp = 1.0;
-~strings2.init;
-~strings2.filter.attack = 0.0;
-~strings2.filter.release = 1.5;
-~strings2.filter.cutoff = 8000;
-~strings2.filter.gain = 1.0;
-~strings2.filter.sustain = 1.0;
-~strings2.filter.aoc = 1;
-~strings2.envelope.attack = 4.0;
-~strings2.envelope.release = 0.50;
-~strings2.envelope.decay = 4.0;
-~strings2.envelope.sustain = 0.3;
-~channel3 = {arg num, vel = 1;
-	     var ret;
-     num.postln;
-             ~strings2.amp = ~strings2.amp * vel;
-	     ret = ~midiStrings.value(~strings2,num,3);
-	     ret;
-};
+ ~strings2 = MyEvents.new;
+ ~strings2.amp = 1.0;
+ ~strings2.init;
+ ~strings2.filter.attack = 0.0;
+ ~strings2.filter.release = 1.5;
+ ~strings2.filter.cutoff = 8000;
+ ~strings2.filter.gain = 1.0;
+ ~strings2.filter.sustain = 1.0;
+ ~strings2.filter.aoc = 1;
+ ~strings2.envelope.attack = 4.0;
+ ~strings2.envelope.release = 0.50;
+ ~strings2.envelope.decay = 4.0;
+ ~strings2.envelope.sustain = 0.3;
+ ~channel3 = {arg num, vel = 1;
+   var ret;
+   num.postln;
+   ~strings2.amp = ~strings2.amp * vel;
+   ret = ~midiStrings.value(~strings2,num,3);
+   ret;
+ };
 
 
-~drum = MyEvents.new;
-~drum.amp = 2.0;
-~drum.init;
-~drum.filter.attack = 0.0;
-~drum.filter.release = 4.0;
-~drum.filter.cutoff = 8000;
-~drum.filter.gain = 2.0;
-~drum.filter.sustain = 1.0;
-~drum.filter.aoc = 1;
-~drum.envelope.attack = 0.0;
-~drum.envelope.release = 8.0;
-~drum.envelope.decay = 0.0;
-~drum.envelope.sustain = 1.0;
-~channel9 = {arg num, vel = 1;
-	     var ret;
-     num.postln;
-             ~drum.amp = ~drum.amp * vel;
-	     ret = ~midiDrum.value(~drum,~drumSound,num);
-	     ret;
-};
+ ~drum = MyEvents.new;
+ ~drum.amp = 2.0;
+ ~drum.init;
+ ~drum.filter.attack = 0.0;
+ ~drum.filter.release = 4.0;
+ ~drum.filter.cutoff = 8000;
+ ~drum.filter.gain = 2.0;
+ ~drum.filter.sustain = 1.0;
+ ~drum.filter.aoc = 1;
+ ~drum.envelope.attack = 0.0;
+ ~drum.envelope.release = 8.0;
+ ~drum.envelope.decay = 0.0;
+ ~drum.envelope.sustain = 1.0;
+ ~channel9 = {arg num, vel = 1;
+   var ret;
+   num.postln;
+   ~drum.amp = ~drum.amp * vel;
+   ret = ~midiDrum.value(~drum,~drumSound,num);
+   ret;
+ };
 
-)
+ )
 
 
 ~strings2.envelope.attack = 1.0;~strings1.envelope.attack = 1.00;
@@ -170,9 +170,9 @@ GUI.qt
 
        t.schedAbs(timeNow + 00,{ // 00 = Time in beats 
 	   (
-		   fork{loop{h=[65,63,60,58].choose.midicps*(2..3).choose;x = Synth("eStrings");x.set(\freq,h);x.set(\gate,1);16.wait;x.set(\gate,0);}};
-		   //~myT1.value;~myT2.value;~myT3.value;~myT4.value;
-		   ~myT1.value;~myT2.value;
+	    fork{loop{h=[65,63,60,58].choose.midicps*(2..3).choose;x = Synth("eStrings");x.set(\freq,h);x.set(\gate,1);16.wait;x.set(\gate,0);}};
+	    //~myT1.value;~myT2.value;~myT3.value;~myT4.value;
+	    ~myT1.value;~myT2.value;
 	    );
  
 	   (
