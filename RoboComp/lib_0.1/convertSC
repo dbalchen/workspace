@@ -74,7 +74,7 @@ song.tracks.each { |x|
   freqs = "~" + x.title + ".freqs = ["
   probs = "~" + x.title + ".probs = ["
   durs =  "~" + x.title + ".durations = ["
-
+  vels =  "~" + x.title + ".vels = ["
   times.each_with_index { |y,yy|
     next if yy == (times.size-1)
     theNotes = x.notes.select{ |z| z.start_time == y}
@@ -83,7 +83,7 @@ song.tracks.each { |x|
       probs = probs + "1,"
       freqs = freqs + "[" + theNotes[0].note.to_s
       durs = durs + (theNotes[0].duration).to_s + ","
-
+      vels = vels + (theNotes[0].start_velocity).to_s + ","
       for i in 1..(theNotes.size-1)
         freqs = freqs + "," + theNotes[i].note.to_s
       end
