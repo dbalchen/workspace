@@ -46,8 +46,8 @@ GUI.qt
 
  ~channel0 = {arg num, vel = 1;
    var ret;
-   num.postln;
-   ~oboe.amp = ~oboe.amp * vel;
+	 //num.postln;
+	 //~oboe.amp = ~oboe.amp * vel;
    ret = ~midiPulseLead.value(~oboe,num,0);
    ret;
  };
@@ -57,8 +57,8 @@ GUI.qt
  ~fm_darkpad.amp = 0.30;
  ~channel1 = {arg num, vel =1;
    var ret;
-   num.postln;
-   ~fm_darkpad.amp = ~fm_darkpad.amp * vel;
+	 //num.postln;
+	 //~fm_darkpad.amp = ~fm_darkpad.amp * vel;
    ret = ~midiFMdarkpad1.value(~fm_darkpad,num);
    ret;
  };
@@ -68,8 +68,8 @@ GUI.qt
  ~fm_darkpad2.amp = 0.10;
  ~channel11 = {arg num, vel = 1;
    var ret;
-   num.postln;
-   ~fm_darkpad2.amp = ~fm_darkpad2.amp * vel;
+	 //num.postln;
+	 //~fm_darkpad2.amp = ~fm_darkpad2.amp * vel;
    ret = ~midiFMdarkpad1.value(~fm_darkpad2,num);
    ret;
  };
@@ -92,8 +92,8 @@ GUI.qt
  ~strings1.envelope.sustain = 0.3;
  ~channel2 = {arg num, vel = 1;
    var ret;
-   num.postln;
-   ~strings1.amp = ~strings1.amp * vel;
+   vel.postln;
+	 //   ~strings1.amp = ~strings1.amp * vel;
    ret = ~midiStrings.value(~strings1,num,2);
    ret;
  };
@@ -114,8 +114,8 @@ GUI.qt
  ~strings2.envelope.sustain = 0.3;
  ~channel3 = {arg num, vel = 1;
    var ret;
-   num.postln;
-   ~strings2.amp = ~strings2.amp * vel;
+	 //num.postln;
+	 //~strings2.amp = ~strings2.amp * vel;
    ret = ~midiStrings.value(~strings2,num,3);
    ret;
  };
@@ -135,15 +135,17 @@ GUI.qt
  ~drum.envelope.decay = 0.0;
  ~drum.envelope.sustain = 1.0;
  ~channel9 = {arg num, vel = 1;
-   var ret;
-   num.postln;
-   ~drum.amp = ~drum.amp * vel;
+   var ret, amp = 2;
+	
+   ~drum.amp = amp * vel;
    ret = ~midiDrum.value(~drum,~drumSound,num);
    ret;
  };
 
  )
 
+
+ ~drum.unmute;
 
 ~strings2.envelope.attack = 1.0;~strings1.envelope.attack = 1.00;
 

@@ -85,7 +85,7 @@ for(0,~zz.size - 1,
 MIDIIn.noteOn = {arg src, chan, num, vel;
 		 var x,a;
 
-		 src.postln;
+	//src.postln;
 		 vel = vel.linlin(0,127,0.01,1);
 
 		 if((chan == 0), {
