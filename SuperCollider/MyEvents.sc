@@ -13,7 +13,7 @@ MyEvents {
     <>lag = 0.0,       <>lags = nil,
     <>vel = 1,         <>vels = nil,
 
-    tfreqs, tprobs, twaits, tlags, tvel, tdurations;
+    tfreqs, tprobs, twaits, tlags, tvels, tdurations;
 
   init {
 
@@ -115,7 +115,7 @@ MyEvents {
     
   }
 
-  mute = {
+  mute {
     twaits = waits;
     tfreqs = freqs;
     tprobs = probs;
@@ -132,7 +132,7 @@ MyEvents {
     filter.mute;
   }
 
-  unmute = {
+  unmute {
     waits = twaits;
     freqs = tfreqs;
     probs = tprobs;
