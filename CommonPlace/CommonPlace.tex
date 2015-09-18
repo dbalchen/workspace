@@ -1,4 +1,4 @@
-% Created 2015-09-11 Fri 16:44
+% Created 2015-09-18 Fri 14:56
 \documentclass[12pt,twoside]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -88,9 +88,9 @@
 \end{enumerate}
     \textbf{Voice}
 \begin{enumerate}
-\item \textbf{Alcatel Lucent (APLX)} - The \textbf{Alcatel Lucent APLX} switch record are found mostly in the Chicago market. This switch produces both \emph{Mobile Originating and Mobile Terminated} records.
+\item \textbf{Alcatel Lucent (APLX)} - The \textbf{Alcatel Lucent APLX} switch record are found mostly in the Maine market. This switch produces both \emph{Mobile Originating and Mobile Terminated} records.
 \item \textbf{Nortel (NTI)} - The \textbf{NORTEL NTI} switch record is the most common voice record format and since an NTI record contains both the \emph{originating and terminating features} certain call types may result in a record being generated.
-\item \textbf{GSM Roaming} - Roaming data from our customers who are roaming in Europe and other \textbf{GSM} countries. This includes both voice and data.
+\item \textbf{GSM Roaming} - Voice and data recotrds from our customers who are roaming in Europe and other \textbf{GSM} countries.
 \item \textbf{CIBER} - For \emph{InCollect and OutCollect} processing we do not convert to \textbf{UFF}, instead the \textbf{CIBER} record format is used.
 \end{enumerate}
 \subsection{Pre-Pay and Data Roaming}
@@ -266,36 +266,10 @@ The tool is a split screen application. On the left side contains
 
 
 \normalsize
-\subsection{Development Servers}
+\subsection{Event Servers}
 \label{sec-3-4}
 
-\footnotesize
-
-\begin{center}
-\begin{tabular}{lrlll}
-\hline
- \textbf{Environment}  &   \textbf{IP}  &  \textbf{Hostname}  &  \textbf{UserID}  &  \textbf{Password}  \\
-\hline
- Development           &   10.106.10.9  &  mdr01bld01         &  md1dbal1         &  \emph{password}    \\
- Testing               &   10.106.10.9  &  mdr01bld01         &  d_medap          &  Henry*123          \\
- CallDump              &  10.176.179.3  &  kpr01scdap         &  calldmp          &  Henry*128          \\
-\hline
-\end{tabular}
-\end{center}
-
-
-
-\normalsize
-\subsection{Event Servers}
-\label{sec-3-5}
-
-   There are three Event Servers: 
-\begin{enumerate}
-\item \textbf{ES\_EOC1045}
-\item \textbf{ES\_EOC1062}
-\item \textbf{ES\_EOC1191}
-\end{enumerate}
-
+   There are multiple Event Servers which coresspond to bill cycle and run on the event servers.   
    Their status can be viewed using the following query on the \textbf{PRDAF} database. 
 \begin{verbatim}
     SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
@@ -311,7 +285,7 @@ The tool is a split screen application. On the left side contains
            and table_NAME IN ('ADJ1EVENTSRV');
 \end{verbatim}
 \subsection{Rerate Servers}
-\label{sec-3-6}
+\label{sec-3-5}
 
    There are three \textbf{Rerate Servers} they are:
 \begin{enumerate}
@@ -320,7 +294,7 @@ The tool is a split screen application. On the left side contains
 \item \textbf{RRP\_EOC1192}
 \end{enumerate}
 \subsection{OutCollect Operational Jobs (CIBER Processing)}
-\label{sec-3-7}
+\label{sec-3-6}
 
   \textbf{CIBER} files are a collection of roaming records, these can be
   either a foreign carrier on our network or one of our customers
@@ -345,7 +319,7 @@ The tool is a split screen application. On the left side contains
 \item \textbf{AR9OUTCLTAX}\\ End-day after \textbf{MF9FTDTAX}.
 \end{itemize}
 \subsubsection{OutCollect Files}
-\label{sec-3-7-1}
+\label{sec-3-6-1}
 
    These are the file that are created by \textbf{TOPS} that will be sent to \textbf{Syniverse}.
 \begin{itemize}
@@ -353,11 +327,11 @@ The tool is a split screen application. On the left side contains
 \end{itemize}
    \textbf{\//pkgbl02\//inf\//aimsys\//prdwrk2\//var\//usc\//projs\//apr\//interfaces\//output}
 \subsubsection{Operational Tables}
-\label{sec-3-7-2}
+\label{sec-3-6-2}
 \begin{itemize}
 
 \item \textbf{AC1\_CONTROL}\\
-\label{sec-3-7-2-1}%
+\label{sec-3-6-2-1}%
 The Outbound Syniverse files
 \begin{verbatim}
        select * from ac1_control
@@ -374,20 +348,20 @@ The Outbound Syniverse files
 \end{verbatim}
 
 \item \textbf{MF1\_CIBER\_BATCH\_SEQ}\\
-\label{sec-3-7-2-2}%
+\label{sec-3-6-2-2}%
 Contain the CIBER batch sequence numbers \emph{(See Database Section)}.
 \end{itemize} % ends low level
 \subsection{Overage Protection}
-\label{sec-3-8}
+\label{sec-3-7}
 
    Overage notifications are detected on an event by event basis. As events are processed by \textbf{TC} and added to 
    the \textbf{APE1\_ACCUMULATORS} table a check is made against the \textbf{L9\_FIRST\_THRESHOLD/L9\_SECOND\_THRESHOLD} fields. If an overage is detected the ***FIELD*** CTN is added to file (segregated by unique \textbf{TC} file?) in the NTF directory. MFT then pulls these files and delivers to DMI for distribution. A note is added to the NOTIFICATION\_HUB.SMS\_NOTIFICATION table (ODS) indicating the message was sent by DMI.
 \subsubsection{Overage process flow}
-\label{sec-3-8-1}
+\label{sec-3-7-1}
 
    \includegraphics[width=15cm]{Pictures/overage.png}
 \subsubsection{Output Location}
-\label{sec-3-8-2}
+\label{sec-3-7-2}
 
 \begin{verbatim}
    select notif_desc, file_path from CM9_NOTIFICATION_DEF
@@ -420,18 +394,18 @@ Contain the CIBER batch sequence numbers \emph{(See Database Section)}.
 
 \footnotesize
 \subsubsection{Fields of Interest}
-\label{sec-3-8-3}
+\label{sec-3-7-3}
 
     S - SMS, M - MMS, V - Voice, D - Data, L - LTE => L3\_CALL\_SOURCE
 \subsection{Billing Process}
-\label{sec-3-9}
+\label{sec-3-8}
 
   The billing process follows a map which is created by the job \textbf{ADJ3\_APR\_CycleBillRun\_Sh}. If it completes successfully it will create a billing map that will look something like the following:
 
 
   \includegraphics[width=15.5cm]{Pictures/billing_tc_map-27124108.png}
 \subsection{EpsMonitors}
-\label{sec-3-10}
+\label{sec-3-9}
 
 \begin{itemize}
 \item \textbf{Batch1} - \textbf{kprl1batch.uscc.com (10.176.177.177)}
@@ -446,16 +420,22 @@ Contain the CIBER batch sequence numbers \emph{(See Database Section)}.
 \begin{itemize}
 \item \//pkgbl03\//inf\//aimsys\//prdwrk3\//eps\//monitors
 \end{itemize}
+\item \textbf{Batch4} – \textbf{kprl6batch.uscc.com (10.176.181.123)}
+\item \textbf{Event1} – \textbf{kprl1event.uscc.com (10.176.181.116)}
+\item \textbf{Event2} – \textbf{kprl2event.uscc.com (10.176.181.117)}
+\item \textbf{Event3} – \textbf{kprl3event.uscc.com (10.176.181.118)}
+\item \textbf{Event4} – \textbf{kprl4event.uscc.com (10.176.181.119)}
+\item \textbf{Event5} – \textbf{kprl5event.uscc.com (10.176.181.120)}
+\item \textbf{Event6} – \textbf{kprl6event.uscc.com (10.176.181.121)}
 \item \textbf{APRM} - \textbf{kprl1batch.uscc.com (10.176.177.179)}
 \begin{itemize}
 \item \//inf\_nas\//apm1\//prod\//aprmoper\//eps\//monitors\textbackslash{}
 \end{itemize}
-\item 
 \end{itemize}
 \subsection{Log File Location}
-\label{sec-3-11}
+\label{sec-3-10}
 \subsubsection{Batch 1}
-\label{sec-3-11-1}
+\label{sec-3-10-1}
 
 \begin{itemize}
 \item cdlog - \//pkgbl01\//inf\//aimsys\//prdwrk1\//var\//usc\//log
@@ -463,7 +443,7 @@ Contain the CIBER batch sequence numbers \emph{(See Database Section)}.
 \item F2E | ssh prdwrk4@kpr02batch | ADJ1\_File2E\_Daemon\_Shell\_Sh\_F2E
 \end{itemize}
 \subsection{Alias}
-\label{sec-3-12}
+\label{sec-3-11}
 
 \begin{itemize}
 \item \textbf{cdlog} - cd to the logfile directory.
@@ -471,7 +451,7 @@ Contain the CIBER batch sequence numbers \emph{(See Database Section)}.
 \item \textbf{aprout} - cd to the \textbf{CIBER} out directories.
 \end{itemize}
 \subsection{Operational Terms and Definitions}
-\label{sec-3-13}
+\label{sec-3-12}
 
 \begin{itemize}
 \item \textbf{Front-end Processes}
@@ -1671,34 +1651,36 @@ When received with counts similar to these there are no issues.
 \subsubsection{CM1\_AGREEMENT\_PARAM}
 \label{sec-8-3-1}
 
+    In the PRDCUST database used for data cap and overage protection investigations.
 \scriptsize
 
 \begin{center}
 \begin{tabular}{lll}
 \hline
- Name                 &  Data Type             &  Description  \\
+ Name                 &  Data Type             &  Description        \\
 \hline
- AGREEMENT\_KEY       &  NUMBER (9)            &               \\
- AGREEMENT\_NO        &  NUMBER (10)           &               \\
- PARAM\_SEQ\_NO       &  NUMBER (10)           &               \\
- SYS\_CREATION\_DATE  &  DATE                  &               \\
- SYS\_UPDATE\_DATE    &  DATE                  &               \\
- OPERATOR\_ID         &  NUMBER (9)            &               \\
- APPLICATION\_ID      &  CHAR (6 Byte)         &               \\
- DL\_SERVICE\_CODE    &  CHAR (5 Byte)         &               \\
- DL\_UPDATE\_STAMP    &  NUMBER (4)            &               \\
- PARAM\_NAME          &  VARCHAR2 (255 Byte)   &               \\
- PARAM\_VALUES        &  VARCHAR2 (4000 Byte)  &               \\
- EFFECTIVE\_DATE      &  DATE                  &               \\
- EXPIRATION\_DATE     &  DATE                  &               \\
- AGR\_LEVEL           &  CHAR (1 Byte)         &               \\
- SOURCE\_AGR\_NO      &  NUMBER (10)           &               \\
- TRX\_ID              &  NUMBER (10)           &               \\
- INS\_TRX\_ID         &  NUMBER (10)           &               \\
- EFF\_ISSUE\_DATE     &  DATE                  &               \\
- EXP\_ISSUE\_DATE     &  DATE                  &               \\
- CONV\_RUN\_NO        &  NUMBER (10)           &               \\
- OFFER\_INSTANCE\_ID  &  NUMBER (10)           &               \\
+ AGREEMENT\_KEY       &  NUMBER (9)            &                     \\
+ AGREEMENT\_NO        &  NUMBER (10)           &  Is equal to the    \\
+                      &                        &  subscriber number  \\
+ PARAM\_SEQ\_NO       &  NUMBER (10)           &                     \\
+ SYS\_CREATION\_DATE  &  DATE                  &                     \\
+ SYS\_UPDATE\_DATE    &  DATE                  &                     \\
+ OPERATOR\_ID         &  NUMBER (9)            &                     \\
+ APPLICATION\_ID      &  CHAR (6 Byte)         &                     \\
+ DL\_SERVICE\_CODE    &  CHAR (5 Byte)         &                     \\
+ DL\_UPDATE\_STAMP    &  NUMBER (4)            &                     \\
+ PARAM\_NAME          &  VARCHAR2 (255 Byte)   &                     \\
+ PARAM\_VALUES        &  VARCHAR2 (4000 Byte)  &                     \\
+ EFFECTIVE\_DATE      &  DATE                  &                     \\
+ EXPIRATION\_DATE     &  DATE                  &                     \\
+ AGR\_LEVEL           &  CHAR (1 Byte)         &                     \\
+ SOURCE\_AGR\_NO      &  NUMBER (10)           &                     \\
+ TRX\_ID              &  NUMBER (10)           &                     \\
+ INS\_TRX\_ID         &  NUMBER (10)           &                     \\
+ EFF\_ISSUE\_DATE     &  DATE                  &                     \\
+ EXP\_ISSUE\_DATE     &  DATE                  &                     \\
+ CONV\_RUN\_NO        &  NUMBER (10)           &                     \\
+ OFFER\_INSTANCE\_ID  &  NUMBER (10)           &                     \\
 \hline
 \end{tabular}
 \end{center}
@@ -1867,7 +1849,7 @@ When received with counts similar to these there are no issues.
  L3\_AIRTIME\_CHG\_AMT                   &  NUMBER               &                            \\
  L3\_BASIC\_SERVICE\_CODE                &  VARCHAR2 (2 Byte)    &                            \\
  \textbf{L3\_CALLING\_COUNTRY\_CODE}     &  VARCHAR2 (3 Byte)    &                            \\
- L3\_CALL\_CATEGORY                      &  VARCHAR2 (1 Byte)    &                            \\
+ \textbf{L3\_CALL\_CATEGORY}             &  VARCHAR2 (1 Byte)    &  Volte = `V'               \\
  \textbf{L3\_CALL\_DIRECTION}            &  VARCHAR2 (1 Byte)    &  1 = incoming              \\
                                          &                       &  2 = outgoing              \\
  L3\_CALL\_SOURCE                        &  VARCHAR2 (4 Byte)    &                            \\
@@ -3236,6 +3218,26 @@ forgot about this:
 \hline
 \end{tabular}
 \end{center}
+\subsection{Development Servers}
+\label{sec-10-3}
+
+\footnotesize
+
+\begin{center}
+\begin{tabular}{lrlll}
+\hline
+ \textbf{Environment}  &   \textbf{IP}  &  \textbf{Hostname}  &  \textbf{UserID}  &  \textbf{Password}  \\
+\hline
+ Development           &   10.106.10.9  &  mdr01bld01         &  md1dbal1         &  \emph{password}    \\
+ Testing               &   10.106.10.9  &  mdr01bld01         &  d_medap          &  Henry*123          \\
+ CallDump              &  10.176.179.3  &  kpr01scdap         &  calldmp          &  Henry*128          \\
+\hline
+\end{tabular}
+\end{center}
+
+
+
+\normalsize
 \section{Accounts Receivable}
 \label{sec-11}
 
