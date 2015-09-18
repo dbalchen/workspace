@@ -66,9 +66,9 @@
     3. *VALI* - /Premium SMS (Valista)/ pre-rated records one record per event. 
     4. *MMSC* - Used for both pictures and picture messaging text only (treated as an *SMS* message in the system). Produces both /Mobile Originating and Terminating/ records with a possible one to many relationships (multiple recipients). \\
     *Voice*
-    5. *Alcatel Lucent (APLX)* - The *Alcatel Lucent APLX* switch record are found mostly in the Chicago market. This switch produces both /Mobile Originating and Mobile Terminated/ records. 
+    5. *Alcatel Lucent (APLX)* - The *Alcatel Lucent APLX* switch record are found mostly in the Maine market. This switch produces both /Mobile Originating and Mobile Terminated/ records. 
     6. *Nortel (NTI)* - The *NORTEL NTI* switch record is the most common voice record format and since an NTI record contains both the /originating and terminating features/ certain call types may result in a record being generated.
-    7. *GSM Roaming* - Roaming data from our customers who are roaming in Europe and other *GSM* countries. This includes both voice and data.
+    7. *GSM Roaming* - Voice and data recotrds from our customers who are roaming in Europe and other *GSM* countries.
     8. *CIBER* - For /InCollect and OutCollect/ processing we do not convert to *UFF*, instead the *CIBER* record format is used.
 
 ** Pre-Pay and Data Roaming
@@ -270,27 +270,8 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-** Development Servers
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-   |---------------+--------------+------------+----------+------------|
-   | *Environment* |         *IP* | *Hostname* | *UserID* | *Password* |
-   |---------------+--------------+------------+----------+------------|
-   | Development   |  10.106.10.9 | mdr01bld01 | md1dbal1 | /password/ |
-   | Testing       |  10.106.10.9 | mdr01bld01 | d_medap  | Henry*123  |
-   | CallDump      | 10.176.179.3 | kpr01scdap | calldmp  | Henry*128  |
-   |---------------+--------------+------------+----------+------------|
-
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
 ** Event Servers
-   There are three Event Servers: 
-   1.	*ES\_EOC1045*
-   2.	*ES\_EOC1062*
-   3.	*ES\_EOC1191*
-
+   There are multiple Event Servers which coresspond to bill cycle and run on the event servers.   
    Their status can be viewed using the following query on the *PRDAF* database. 
    : SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
    From the output if the column *event status = Y* then that particular server is in use. 
@@ -382,15 +363,22 @@ subgraph cluster_3 {
 #+ATTR_LaTeX: width=15.5cm
   [[file:Pictures/billing_tc_map-27124108.png]]
 ** EpsMonitors
-  - *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
+   - *Batch1* - *kprl1batch.uscc.com (10.176.177.177)* 
     - \//pkgbl01\//inf\//aimsys\//prdwrk1\//eps\//monitors
-  - *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
+   - *Batch2* - *kprl2batch.uscc.com (10.176.177.178)* 
     - \//pkgbl02\///inf\//aimsys\//prdwrk2\//eps\//monitors
-  - *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
+   - *Batch3* - *kprl3batch.uscc.com (10.176.177.179)* 
     - \//pkgbl03\//inf\//aimsys\//prdwrk3\//eps\//monitors
+   - *Batch4* – *kprl6batch.uscc.com (10.176.181.123)*
+   - *Event1* – *kprl1event.uscc.com (10.176.181.116)*
+   - *Event2* – *kprl2event.uscc.com (10.176.181.117)*
+   - *Event3* – *kprl3event.uscc.com (10.176.181.118)*
+   - *Event4* – *kprl4event.uscc.com (10.176.181.119)*
+   - *Event5* – *kprl5event.uscc.com (10.176.181.120)*
+   - *Event6* – *kprl6event.uscc.com (10.176.181.121)*
   - *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
     - \//inf\_nas\//apm1\//prod\//aprmoper\//eps\//monitors\
-  - 
+
 ** Log File Location
 *** Batch 1
     - cdlog - \//pkgbl01\//inf\//aimsys\//prdwrk1\//var\//usc\//log
@@ -1382,34 +1370,36 @@ digraph BI {
 | APE3\_EPCEXT\_OFFER\_DETAILS | PRDCUST     |                      |
 |------------------------------+-------------+----------------------|
 *** CM1\_AGREEMENT\_PARAM
+    In the PRDCUST database used for data cap and overage protection investigations.
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
-|---------------------+----------------------+-------------|
-| Name                | Data Type            | Description |
-|---------------------+----------------------+-------------|
-| AGREEMENT\_KEY      | NUMBER (9)           |             |
-| AGREEMENT\_NO       | NUMBER (10)          |             |
-| PARAM\_SEQ\_NO      | NUMBER (10)          |             |
-| SYS\_CREATION\_DATE | DATE                 |             |
-| SYS\_UPDATE\_DATE   | DATE                 |             |
-| OPERATOR\_ID        | NUMBER (9)           |             |
-| APPLICATION\_ID     | CHAR (6 Byte)        |             |
-| DL\_SERVICE\_CODE   | CHAR (5 Byte)        |             |
-| DL\_UPDATE\_STAMP   | NUMBER (4)           |             |
-| PARAM\_NAME         | VARCHAR2 (255 Byte)  |             |
-| PARAM\_VALUES       | VARCHAR2 (4000 Byte) |             |
-| EFFECTIVE\_DATE     | DATE                 |             |
-| EXPIRATION\_DATE    | DATE                 |             |
-| AGR\_LEVEL          | CHAR (1 Byte)        |             |
-| SOURCE\_AGR\_NO     | NUMBER (10)          |             |
-| TRX\_ID             | NUMBER (10)          |             |
-| INS\_TRX\_ID        | NUMBER (10)          |             |
-| EFF\_ISSUE\_DATE    | DATE                 |             |
-| EXP\_ISSUE\_DATE    | DATE                 |             |
-| CONV\_RUN\_NO       | NUMBER (10)          |             |
-| OFFER\_INSTANCE\_ID | NUMBER (10)          |             |
-|---------------------+----------------------+-------------|
+|---------------------+----------------------+-------------------|
+| Name                | Data Type            | Description       |
+|---------------------+----------------------+-------------------|
+| AGREEMENT\_KEY      | NUMBER (9)           |                   |
+| AGREEMENT\_NO       | NUMBER (10)          | Is equal to the   |
+|                     |                      | subscriber number |
+| PARAM\_SEQ\_NO      | NUMBER (10)          |                   |
+| SYS\_CREATION\_DATE | DATE                 |                   |
+| SYS\_UPDATE\_DATE   | DATE                 |                   |
+| OPERATOR\_ID        | NUMBER (9)           |                   |
+| APPLICATION\_ID     | CHAR (6 Byte)        |                   |
+| DL\_SERVICE\_CODE   | CHAR (5 Byte)        |                   |
+| DL\_UPDATE\_STAMP   | NUMBER (4)           |                   |
+| PARAM\_NAME         | VARCHAR2 (255 Byte)  |                   |
+| PARAM\_VALUES       | VARCHAR2 (4000 Byte) |                   |
+| EFFECTIVE\_DATE     | DATE                 |                   |
+| EXPIRATION\_DATE    | DATE                 |                   |
+| AGR\_LEVEL          | CHAR (1 Byte)        |                   |
+| SOURCE\_AGR\_NO     | NUMBER (10)          |                   |
+| TRX\_ID             | NUMBER (10)          |                   |
+| INS\_TRX\_ID        | NUMBER (10)          |                   |
+| EFF\_ISSUE\_DATE    | DATE                 |                   |
+| EXP\_ISSUE\_DATE    | DATE                 |                   |
+| CONV\_RUN\_NO       | NUMBER (10)          |                   |
+| OFFER\_INSTANCE\_ID | NUMBER (10)          |                   |
+|---------------------+----------------------+-------------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -1566,7 +1556,7 @@ digraph BI {
 | L3\_AIRTIME\_CHG\_AMT             | NUMBER              |                       |
 | L3\_BASIC\_SERVICE\_CODE          | VARCHAR2 (2 Byte)   |                       |
 | *L3\_CALLING\_COUNTRY\_CODE*      | VARCHAR2 (3 Byte)   |                       |
-| L3\_CALL\_CATEGORY                | VARCHAR2 (1 Byte)   |                       |
+| *L3\_CALL\_CATEGORY*              | VARCHAR2 (1 Byte)   | Volte = 'V'           |
 | *L3\_CALL\_DIRECTION*             | VARCHAR2 (1 Byte)   | 1 = incoming          |
 |                                   |                     | 2 = outgoing          |
 | L3\_CALL\_SOURCE                  | VARCHAR2 (4 Byte)   |                       |
@@ -2986,7 +2976,21 @@ AND expiration\_date IS NULL
 | msr01web01.uscc.com |
 | msr01web02.uscc.com |
 |---------------------|
+** Development Servers
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+   |---------------+--------------+------------+----------+------------|
+   | *Environment* |         *IP* | *Hostname* | *UserID* | *Password* |
+   |---------------+--------------+------------+----------+------------|
+   | Development   |  10.106.10.9 | mdr01bld01 | md1dbal1 | /password/ |
+   | Testing       |  10.106.10.9 | mdr01bld01 | d_medap  | Henry*123  |
+   | CallDump      | 10.176.179.3 | kpr01scdap | calldmp  | Henry*128  |
+   |---------------+--------------+------------+----------+------------|
 
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 * Accounts Receivable
   Handles Finance, Payments and credits as well Collections. 
 ** AR Basics
