@@ -30,7 +30,7 @@ GUI.qt
 
 
  ~oboe = MyEvents.new;
- ~oboe.amp = 0.650;
+ ~oboe.amp = 1;
  ~oboe.init;
  ~oboe.filter.attack = 1.0;
  ~oboe.filter.release = 0.50;
@@ -54,7 +54,7 @@ GUI.qt
 
 
  ~fm_darkpad = MyEvents.new;
- ~fm_darkpad.amp = 0.30;
+ ~fm_darkpad.amp = 0.40;
  ~channel1 = {arg num, vel =1;
    var ret;
 	 //num.postln;
@@ -65,7 +65,7 @@ GUI.qt
 
 
  ~fm_darkpad2 = MyEvents.new;
- ~fm_darkpad2.amp = 0.10;
+ ~fm_darkpad2.amp = 0.20;
  ~channel11 = {arg num, vel = 1;
    var ret;
 	 //num.postln;
@@ -78,7 +78,7 @@ GUI.qt
 
 
  ~strings1 = MyEvents.new;
- ~strings1.amp = 1.0;
+ ~strings1.amp = 1.3;
  ~strings1.init;
  ~strings1.filter.attack = 0.0;
  ~strings1.filter.release = 1.5;
@@ -89,7 +89,7 @@ GUI.qt
  ~strings1.envelope.attack = 4.0;
  ~strings1.envelope.release = 0.50;
  ~strings1.envelope.decay = 4.0;
- ~strings1.envelope.sustain = 0.3;
+ ~strings1.envelope.sustain = 0.2;
  ~channel2 = {arg num, vel = 1;
    var ret;
    vel.postln;
@@ -111,7 +111,7 @@ GUI.qt
  ~strings2.envelope.attack = 4.0;
  ~strings2.envelope.release = 0.50;
  ~strings2.envelope.decay = 4.0;
- ~strings2.envelope.sustain = 0.3;
+ ~strings2.envelope.sustain = 0.2;
  ~channel3 = {arg num, vel = 1;
    var ret;
 	 //num.postln;
@@ -147,15 +147,16 @@ GUI.qt
 
  ~drum.unmute;
 
-~strings2.envelope.attack = 1.0;~strings1.envelope.attack = 1.00;
+~strings2.envelope.attack = 0.95;~strings1.envelope.attack = 0.950; ~strings1.envelope.decay = 3.05; ~strings2.envelope.decay = 3.05;
 
-~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;
+~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;~strings1.envelope.decay = 4.0; ~strings2.envelope.decay = 4.0;
 
+~strings1.envelope.attack = 0.40;~strings2.envelope.attack = 4.00;~strings1.envelope.decay = 3.60; ~strings2.envelope.decay = 8;
 
 ~oboe.filter.makeGui;
 ~oboe.envelope.envGui;
 
-~startTimer.value(120);
+~startTimer.value(106);
 ~rp = {}; // Example
 
 ~rp = {~myT1.value;};
@@ -163,31 +164,42 @@ GUI.qt
 (
  ~start = {
 
-   var bpm = 120,timeNow;
+   var bpm = 106,timeNow;
    t = TempoClock.default.tempo = bpm / 60;
 
    Routine.run({
        s.sync;
        timeNow = TempoClock.default.beats;
 
-       t.schedAbs(timeNow + 00,{ // 00 = Time in beats 
+       ~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;~strings1.envelope.decay = 4.0; ~strings2.envelope.decay = 4.0;
+
+       t.schedAbs(timeNow + ((4*27)-2),{ // 00 = Time in beats 
 	   (
-	    fork{loop{h=[65,63,60,58].choose.midicps*(2..3).choose;x = Synth("eStrings");x.set(\freq,h);x.set(\gate,1);16.wait;x.set(\gate,0);}};
-	    //~myT1.value;~myT2.value;~myT3.value;~myT4.value;
-	    ~myT1.value;~myT2.value;
-	    );
- 
+         ~strings1.envelope.attack = 2; ~strings1.envelope.decay = 3;
+	    );(nil);};); // End of t.schedAbs
+
+       t.schedAbs(timeNow + ((4*33)-2),{ // 00 = Time in beats 
 	   (
-	    // If No put stuff here otherwise nil
-	    nil
-	    );
-	 };	 // End of if statement
+         ~strings1.envelope.attack = 1; ~strings1.envelope.decay = 2;
+	    );(nil);};); // End of t.schedAbs
 
-	 ); // End of t.schedAbs
+       t.schedAbs(timeNow + ((4*35)-2),{ // 00 = Time in beats 
+	   (
+         ~strings1.envelope.attack = 2; ~strings1.envelope.decay = 3;
+	    );(nil);};); // End of t.schedAbs
 
-
+       t.schedAbs(timeNow + ((4*37)-2),{ // 00 = Time in beats 
+	   (
+         ~strings1.envelope.attack = 1; ~strings1.envelope.decay = 2;
+	    );(nil);};); // End of t.schedAbs
        //Add more 
 
+       t.schedAbs(timeNow + ((4*67)-2),{ // 00 = Time in beats 
+	   (
+         ~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;~strings1.envelope.decay = 4.0; ~strings2.envelope.decay = 4.0;
+         
+	    );(nil);};); // End of t.schedAbs
+       //Add more 
      }); // End of Routine
 
  }; //End of Start
