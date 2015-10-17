@@ -1,0 +1,10 @@
+#! /bin/ksh
+
+SERVER=`hostname`
+
+S1=knx1scd1
+S2=mad1scd1
+
+/apps/java1.6/bin/java -classpath /home/calldmp/CallDumpTest/jars/common.jar:/home/calldmp/CallDumpTest/jars/UsccFlds.jar:/home/calldmp/CallDumpTest/jars/ojdbc5.jar:/home/calldmp/CallDumpTest/jars/xerces.jar:/home/calldmp/CallDumpTest/jars/CallDump.jar  com.uscc.CallDump.CallDumpServer  config/calldump.xml &
+
+exit

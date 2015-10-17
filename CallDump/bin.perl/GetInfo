@@ -1,0 +1,231 @@
+#! /usr/bin/perl
+#
+# Author : David Balchen
+# Date Written: September 26 2000.
+#
+# Purpose : This program will run either mtx10 or mtx1N,
+# depending upon what type of record, then 
+# through DumpRpt10.pl or DumpRpt1N.pl
+# to produce the report.
+#
+#
+#Name 
+# GetInfo Get Call information. 
+#
+#Synopsis 
+# GetInfo [-w WORKDIR] [-s search string] [-f FILE] [-t timestamp] 
+#
+#Description
+# 
+# Called by RunGetInfo this is a wrapper program which sets up environmental
+# variables used by the cobol program, depending upon which Type 
+# of call record used. Then pipes the output through a grep which searches for 
+# the search string, then pipes it through DumpRpt programs for 
+# the final report. 
+#
+#Options
+#
+# -w WORKDIR 
+# The directory which contains the switch files. 
+# -s [search string]
+# The string to search for. 
+# -f  [file name]
+# The switch file. 
+# -t [timestamp]
+# A timestamp used for the web program for concurrency
+#------------------------------------------------------------------------------------
+# Revisions:
+#------------------------------------------------------------------------------------
+# Bill Biedermann - Mon Nov 18 13:34:21 CST 2002 :
+#    (cmp99d 101 44) Added Lucent Autoplex $ SMS file types.  
+#----------------------------------------------------------------------
+#   1) Check into RCS  
+#       - Molly Peterson - Mon Aug 18 15:35:06 CDT 2003
+#----------------------------------------------------------------------
+#   2) Add error handling.
+#       - Molly Peterson - Wed Sep 17 10:59:24 CDT 2003
+#----------------------------------------------------------------------
+#   3) Added QIS and AAA processing.
+#       - David Balchen - Thursday October 30 16:00 CST 2003
+#----------------------------------------------------------------------
+#   4) Added PTX and PMG processing
+#       - Charlie Jamieson Tuesady October 12 2004
+#----------------------------------------------------------------------
+#   5) Add code to handle push to talk (ptt) call dump requests.
+#      - Jacob Ray - Mon Oct 25 15:46:57 CDT 2004
+#----------------------------------------------------------------------
+#   6) Added new SMS formats for the SMSC upgrade
+#      - David G. Balchen May,23 2005
+#----------------------------------------------------------------------
+#   7) Added switch variable for EVDO processing.
+#      - David Balchen April, 28 2006.
+#----------------------------------------------------------------------
+#----------------------------------------------------------------------
+#   8) Added processing to handle gziped files .gz
+#      - Dan Koch Feb, 16 2009.
+#----------------------------------------------------------------------
+#----------------------------------------------------------------------
+#   9) Added processing to handle GSM files (GNTI,GAAA,GSMS) files.
+#      - David Balchen - 07/16/2010
+#----------------------------------------------------------------------
+#----------------------------------------------------------------------
+#  10) Added UFF functionality
+#      - David Balchen - 03/29/2012
+#----------------------------------------------------------------------
+#/**
+# 1. Set default variables. 
+#**/
+
+$PWD = `pwd`; chomp($PWD);
+$del = 0;
+$cellsite = "";
+
+# Read Workdir from environment variables.
+$WorkDir = $ENV{"WORKDIR"};
+
+# Read search string from environment variables.
+$searchstring = $ENV{"SEARCH"};
+
+# 2. Read Command line variables. 
+for ($a = 0;$a < @ARGV;$a++) {
+
+
+  if ($ARGV[$a] eq "-w") {
+    $WorkDir = $ARGV[$a+1];
+    chdir("$WorkDir");
+  }
+
+  if ($ARGV[$a] eq "-s") {
+    $searchstring = $ARGV[$a+1];  
+  }
+
+  if ($ARGV[$a] eq "-dd") {
+    $del = 1;
+  }
+
+  if ($ARGV[$a] eq "-sw") {
+    while (($ARGV[$a+1] !~ /^-/) && ($a < $#ARGV)) {
+      $switch .= $ARGV[$a+1] . " ";
+      $a++;
+    }
+  }
+  if ($ARGV[$a] eq "-f") {
+    $infile = $WorkDir. "/" . $ARGV[$a+1]; 
+  }  
+
+  if ($ARGV[$a] eq "-st") {
+    $switchtype =  $ARGV[$a+1];
+  }
+  if ($ARGV[$a] eq "-ft") {
+    $filetype =  $ARGV[$a+1];
+  }
+  if ($ARGV[$a] eq "-c") {
+    $cellsite = "-c";
+  }
+
+}
+
+#print "SwitchType = $switchtype\n";
+$filter = "";
+if (index($switchtype,",ALL") == -1) {
+  if (index($switchtype,"DIALEDDIGITS") >= 0) {
+    $filter = "-d ".$filter;
+
+  }
+  if (index($switchtype,"TERMCLII") >= 0) {
+    $filter = "-tc ".$filter;
+    $cellsite = "-c";
+  }
+  if (index($switchtype,"ORIGCLLI") >= 0) {
+    $filter = "-oc ".$filter;
+    $cellsite = "-c";
+  }
+
+  if (index($switchtype,"CALLEDNUM") >= 0) {
+    $filter = "-i ".$filter;
+
+  }
+
+  if (index($switchtype,"CALLINGNUM") >= 0) {
+    $filter = "-g ".$filter;
+
+  }
+}
+# Check to see if INFL has been defined.
+# If not exit with error.
+
+if ($infile eq "") {
+  print STDERR "INFL has not been defined.\n";
+  exit(16);
+}
+
+unless(-e $infile || -e readlink($infile)){
+  print STDERR "Fail in GetInfo - input file $infile does not exist.\n";
+  exit(16);
+}
+
+$searchstring =~ s/ //g;
+$searchstring =~ s/\*//g;
+if ($searchstring eq '') {
+  `$PWD/ErrHandler.pl 0 'Search String has not been set for GetInfo'`;
+  exit 1;
+}
+
+$sstr = $searchstring;
+if (index($searchstring,"=") >= 0) {
+  $searchstring =~ s/=//g;
+}
+
+
+if (index($infile,".gz")>0) {
+  $cat="gunzip -c";
+} else {
+  $cat="cat";
+}
+
+$timestamp = "";
+
+'print $infile';
+if ((index($infile,"FUFF") > -1) || ($filetype eq "UFF")) {
+  `print "in progress" >  $OutFl`;
+
+  if (index($infile,"AAA") > -1) {
+    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_aaa.pl -fn $infile -s $searchstring -g  >$infile$timestamp.TMP  2>/dev/null  ";
+  } elsif (index($infile,"MOT") > -1) {
+    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_mot.pl  -fn $infile -s $searchstring $filter > $infile$timestamp.TMP   2>/dev/null "
+  } elsif (index($infile,"ALU") > -1) {
+    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_alu.pl  -fn $infile -s $searchstring $filter > $infile$timestamp.TMP   2>/dev/null ";
+  } elsif (index($infile,"TAS") > -1) {
+    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_volte.pl  -fn $infile -s $searchstring $filter > $infile$timestamp.TMP   2>/dev/null ";
+  } elsif (index($infile,"PGW") > -1) {
+    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_lte.pl  -fn $infile -s $searchstring $filter > $infile$timestamp.TMP   2>/dev/null ";
+  } elsif (index($infile,"QIS") > -1) {
+    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_qis.pl  -fn $infile -m -s $searchstring > $infile$timestamp.TMP   2>/dev/null  ";
+  } elsif ((index($infile,"PMS") > -1) ||(index($infile,"PMG") > -1) || (index($infile,"PTX") > -1)) {
+    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_pmg.pl  -fn $infile -s $searchstring -g > $infile$timestamp.TMP   2>/dev/null  ";
+  } else {
+    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_voice.pl -s $searchstring -sw $switch $filter > $infile$timestamp.TMP   2>/dev/null ";
+  }
+} else {
+  `$PWD/ErrHandler.pl $infile 'File Type not defined for GetInfo.'`;
+  exit 1;
+}
+
+#print "The GetInfo Command : $hh\n";
+system("$hh");
+
+#/**
+# 5. Clean Up then exit. 
+#**/
+
+rename("$infile$timestamp.TMP", "$infile$timestamp.Out");
+unlink ("$OutFl");
+system "rm $infile$timestamp.decrypt";
+
+
+if ($del) {
+  unlink ("$infile");
+}
+
+exit(0);
+

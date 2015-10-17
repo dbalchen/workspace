@@ -1,0 +1,342 @@
+
+<!-- *************************************************************************** -->
+<!-- Last Modified: $Author:   pvcs  $                                           -->
+<!-- Last Modified: $Date:   25 May 2004 14:50:14  $                             -->
+<!-- Last Modified: $Revision:   1.0.2.3  $                                      -->
+<!-- *************************************************************************** -->
+
+<project name="CallDump" default="dist" basedir=".">
+	<description>
+      Build File for Build Management Systems
+   </description>
+	<!-- set global properties for this build -->
+	<property environment="env" />
+	<property name="src" location="src" />
+	<property name="src_test" location="test" />
+	<property name="lib" location="classes" />
+	<property name="jars" location="jars" />
+	<property name="unit" location="unit" />
+	<property name="doc" location="doc" />
+	<property name="dist" location="bin" />
+	<property name="reports" location="reports" />
+	<property name="stage" location="stage" />
+	<property name="style.config.dir" location="etc" />
+	<property name="style.output.dir" location="checkstyle" />
+	<property name="java.home" location="/opt/java1.5" />
+
+	<!-- Environment Setup -->
+	<target name="init">
+		<tstamp />
+
+		<!-- Create the directory structure used by compile -->
+		<mkdir dir="${lib}" />
+		<mkdir dir="${reports}" />
+		<mkdir dir="${doc}" />
+		<mkdir dir="${dist}" />
+		<mkdir dir="output" />
+		<mkdir dir="${stage}" />
+		<mkdir dir="${style.output.dir}" />
+	</target>
+
+	<!-- Check style of coding -->
+	<path id="checkstyle.classpath">
+		<pathelement location="${checkstyle.jar}" />
+	</path>
+
+	<taskdef resource="checkstyletask.properties" classpathref="checkstyle.classpath" />
+
+	<!-- Start OF QA, this can probably be moved to a common .xml that can be included -->
+	<target name="qaprep" depends="qaprephpux,qaprepwinnt,qaprepwinxp">
+	</target>
+
+	<target name="qaprephpux">
+		<apply executable="etc/qaprep.pl" os="HP-UX">
+			<srcfile />
+			<fileset dir=".">
+				<patternset>
+					<include name="**/*.java" />
+				</patternset>
+			</fileset>
+		</apply>
+	</target>
+
+	<target name="qaprepwinxp">
+		<apply executable="perl.exe" os="Windows XP">
+			<arg line="etc/qaprep.pl" />
+			<srcfile />
+			<fileset dir=".">
+				<patternset>
+					<include name="**/*.java" />
+				</patternset>
+			</fileset>
+		</apply>
+	</target>
+	<target name="qaprepwinnt">
+		<apply executable="perl.exe" os="Windows NT">
+			<arg line="etc/qaprep.pl" />
+			<srcfile />
+			<fileset dir=".">
+				<patternset>
+					<include name="**/*.java" />
+				</patternset>
+			</fileset>
+		</apply>
+	</target>
+	<!-- END OF QA -->
+
+	<target name="unittest_setup" depends="unittest_cleanup">
+		<sql driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@${HOST}:${PORT}:${SID}" print="false" userid="${DBUSER}" password="${DBPASS}">
+			<fileset dir=".">
+				<include name="test/sql/unittest_setup.sql" />
+			</fileset>
+			<classpath>
+			<fileset dir="${jars}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</sql>
+	</target>
+	<target name="unittest_cleanup">
+		<sql driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@${HOST}:${PORT}:${SID}" print="true" userid="${DBUSER}" onerror="continue" password="${DBPASS}">
+			<fileset dir="test/sql">
+				<include name="unittest_cleanup.sql" />
+			</fileset>
+			<classpath>
+				<fileset dir="${jars}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</sql>
+	</target>
+
+	<!-- Update the home page indicating if this is production or test -->
+	<target name="replace">
+		<replace file="src/html/WEB-INF/web.xml" token="(DISPLAY)" value="${DISPLAY}" />
+		<replace file="src/html/WEB-INF/web.xml" token="(DESCRIPTION)" value="${DESCRIPTION}" />
+	</target>
+
+
+
+	<!-- Build Checkstyle report -->
+	<target name="checkstyle" depends="init">
+		<checkstyle config="${style.config.dir}/sun_checks.xml" failOnViolation="false">
+			<fileset dir="." includes="**/*.java" />
+			<formatter type="plain" toFile="${style.output.dir}/styleresults.log" />
+		</checkstyle>
+	</target>
+
+	<!-- Build Unit Test Code -->
+	<target name="test_compile" depends="dist" description="compile the test source ">
+		<javac srcdir="${src_test}" destdir="${lib}" debug="true">
+			<classpath>
+				<fileset dir="${jars}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+
+	</target>
+
+	<target name="prepare" depends="dist">
+
+		<!--Populate the STAGE directory for creation of the WAR file-->
+		<copy todir="${stage}/images">
+			<fileset dir="src/images" />
+		</copy>
+		<copy todir="${stage}/login">
+			<fileset dir="src/login" />
+		</copy>
+		<copy todir="${stage}/help">
+			<fileset dir="help" />
+		</copy>
+		<!-- Copy the splash pages into place, depending on configuration being build -->
+		<copy file="src/html/META-INF/${CONTEXT}.xml" tofile="${stage}/src/html/META-INF/context.xml" overwrite="true" />
+		<copy file="src/login/${SITEHEADER}" tofile="${stage}/login/header.html" overwrite="true" />
+		<copy file="src/login/${SITESRC}" tofile="${stage}/login/${SITEDEST}" overwrite="true" />
+		<copy file="src/login/${HOMEPAGE}" tofile="${stage}/login/blank.html" overwrite="true" />
+
+		<!-- Replace with appropriate label for the title bar -->
+		<delete file="${stage}/login/dsbms.html" />
+		<delete file="${stage}/login/dsbms_header.html" />
+
+		<!-- Prepare JSP files -->
+		<copy todir="${stage}/jsp">
+			<fileset dir="jsp" />
+		</copy>
+		<replace file="${stage}/jsp/show_build_details.jsp" token="PROJECT" value="${SYSTEM}" />
+		<replace file="${stage}/jsp/show_build_details.jsp" token="Infranet" value="${SYSTEM}" />
+		<replace file="${stage}/jsp/show_releases.jsp" token="PROJECT" value="${SYSTEM}" />
+		<replace file="${stage}/jsp/show_releases.jsp" token="Infranet" value="${SYSTEM}" />
+		<replace file="${stage}/jsp/show_builds.jsp" token="PROJECT" value="${SYSTEM}" />
+		<replace file="${stage}/jsp/show_builds.jsp" token="Infranet" value="${SYSTEM}" />
+		<replace file="${stage}/jsp/show_builds2.jsp" token="PROJECT" value="${SYSTEM}" />
+		<replace file="${stage}/jsp/show_builds2.jsp" token="Infranet" value="${SYSTEM}" />
+
+		<copy todir="${stage}/docs">
+			<fileset dir="docs" />
+		</copy>
+
+		<copy todir="${stage}/WEB-INF">
+			<fileset dir="src/html/WEB-INF" />
+		</copy>
+		<copy file="src/html/META-INF/${CONTEXT}.xml" tofile="${stage}/META-INF/context.xml" overwrite="true" />
+		<copy todir="${stage}/WEB-INF/lib">
+			<fileset dir="jars" />
+		</copy>
+		<copy todir="${stage}/WEB-INF/lib">
+			<fileset dir="bin" />
+		</copy>
+		<replace file="${stage}/WEB-INF/web.xml" token="(DISPLAY)" value="${DISPLAY}" />
+		<replace file="${stage}/WEB-INF/web.xml" token="(DESCRIPTION)" value="${DESCRIPTION}" />
+
+	</target>
+
+	<!-- we are providing blank header and menu.jsp files to the DSBMS site because -->
+	<!-- there is a shared paged for displaying users which has header and menus.  This should be -->
+	<!-- refactored in the future.  See Craig for details -->
+	<target name="updatestage" depends="prepare" if="EMPTY">
+		<copy file="jsp/empty.jsp" tofile="${stage}/jsp/header.jsp" overwrite="true"/>
+		<copy file="jsp/empty.jsp" tofile="${stage}/jsp/menu.jsp" overwrite="true"/>
+	</target>
+	
+	<!-- Create WAR file for deployment -->
+	<target name="war" depends="clean,updatestage" description="creates the war file">
+		<mkdir dir="deploy" />
+		<delete file="./deploy/${PROJ}.war" />
+		<jar jarfile="./deploy/${PROJ}.war" basedir="${stage}" />
+	</target>
+
+        <!-- Compile code -->
+        <target name="warning_compile" depends="init" description="compile the source ">
+
+                <javac srcdir="${src}" destdir="${lib}" debug="true">
+                        <compilerarg value="-Xlint"/>
+                        <classpath>
+                                <fileset dir="${jars}">
+                                        <include name="*.jar" />
+                                        <exclude name ="standard.jar"/>
+                                </fileset>
+                                <fileset dir="jars">
+                                        <include name="*.jar" />
+                                        <exclude name ="standard.jar"/>
+                                </fileset>
+                        </classpath>
+                </javac>
+
+        </target>
+
+	<!-- Compile code -->
+	<target name="compile" depends="init" description="compile the source ">
+
+		<javac srcdir="${src}" destdir="${lib}" debug="true">
+			<classpath>
+				<fileset dir="${jars}">
+					<include name="*.jar" />
+					<exclude name ="standard.jar"/>
+				</fileset>
+				<fileset dir="jars">
+					<include name="*.jar" />
+					<exclude name ="standard.jar"/>
+				</fileset>
+			</classpath>
+		</javac>
+
+	</target>
+
+	<!-- Build Code -->
+	<target name="dist" depends="compile" description="generate the distribution">
+		<jar jarfile="${dist}/CallDump.jar" basedir="${lib}">
+			<include name="**/*.class" />
+                        <exclude name="**/test*.class" />
+		</jar>
+
+	</target>
+
+	<target name="rununittest" depends="test_compile,unittest_setup" description="run unit tests">
+
+		<junit printsummary="true" haltonfailure="true">
+			<jvmarg value="-DHOST=${HOST}" />
+			<jvmarg value="-DUNIT=TRUE" />
+			<jvmarg value="-DPORT=${PORT}" />
+			<jvmarg value="-DSID=${SID}" />
+			<jvmarg value="-DDBDRIVER=${DBDRIVER}" />
+			<jvmarg value="-DDBUSER=${DBUSER}" />
+			<jvmarg value="-DDBPASS=${DBPASS}" />
+			<formatter type="brief" usefile="false" />
+			<formatter type="xml" />
+			<classpath>
+                           <pathelement path="${lib}"/>
+			</classpath>
+			<classpath>
+				<fileset dir="${lib}">
+					<include name="*.class" />
+				</fileset>
+			</classpath>
+			<classpath>
+				<fileset dir="${dist}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+			<classpath>
+				<fileset dir="${jars}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+
+			<batchtest fork="yes" todir="${reports}">
+				<fileset dir="${src_test}">
+					<include name="**/test*.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+    <target name="unittest" depends="rununittest">
+            <junitreport todir="${reports}">
+                    <fileset dir="${reports}">
+                            <include name="TEST-*.xml" />
+                    </fileset>
+                    <report format="frames" todir="${reports}/html" />
+            </junitreport>
+    </target>
+
+	<!-- Generate JavaDoc -->
+	<target name="docs" depends="qaprep">
+		<javadoc destdir="${doc}">
+			<fileset dir="." includes="**/*.java" />
+		</javadoc>
+	</target>
+
+	<!-- Do all development tasks -->
+	<target name="all" depends="docs,checkstyle">
+	</target>
+
+	<!-- Clean out development evnironment -->
+	<target name="clean" description="clean up">
+
+		<!-- Delete the ${build} and ${dist} directory trees -->
+		<delete dir="${lib}" />
+		<delete dir="${dist}" />
+		<delete dir="${doc}" />
+		<delete dir="output" />
+		<delete dir="stage" />
+	</target>
+
+	<target name="deploytotest" depends="war" description="deploy war">
+           <ftp action="put"
+               verbose="yes"
+               depends="no"
+                server="${TESTSERVER}"
+                chmod="755"
+           	   binary="yes"
+             remotedir="/users/md1csta1/tomcat/jakarta-tomcat-5.0.28/webapps"
+                userid="md1csta1"
+              password="thanks!g">
+               <fileset dir="deploy">
+                   <include name="${PROJ}.war"/>
+               </fileset>
+           </ftp>
+	</target>
+	<target name="deploytodev" depends="war" description="deploy war">
+	    <copy file="deploy/${PROJ}.war" tofile="${env.TOMCAT_HOME}/webapps/${PROJ}.war" overwrite="true" />
+	</target>
+</project>
