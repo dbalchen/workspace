@@ -36,7 +36,7 @@ loop {
 				],
 				//Impulse.ar(TExpRand.kr(0.1, 10, Dust.kr((2,4..16).choose/len)))
 				//Dust.ar((2,4..16).choose/len)
-                Dust.ar(0.66);
+                Dust.ar(0.33);
 				//				,
 				//			0.5.coin.if({1},{Line.kr(1, 0.5.rrand(3), 0.5.rrand(len))})
 			) } ! 10), //1.exprand(max_spawn)),

@@ -176,21 +176,25 @@ GUI.qt
        t.schedAbs(timeNow + ((4*27)-2),{ // 00 = Time in beats 
 	   (
          ~strings1.envelope.attack = 2; ~strings1.envelope.decay = 3;
+         ~strings2.envelope.attack = 2; ~strings2.envelope.decay = 3;
 	    );(nil);};); // End of t.schedAbs
 
        t.schedAbs(timeNow + ((4*33)-2),{ // 00 = Time in beats 
 	   (
          ~strings1.envelope.attack = 1; ~strings1.envelope.decay = 2;
+         ~strings2.envelope.attack = 1; ~strings2.envelope.decay = 2;
 	    );(nil);};); // End of t.schedAbs
 
        t.schedAbs(timeNow + ((4*35)-2),{ // 00 = Time in beats 
 	   (
          ~strings1.envelope.attack = 2; ~strings1.envelope.decay = 3;
+         ~strings2.envelope.attack = 2; ~strings2.envelope.decay = 3;
 	    );(nil);};); // End of t.schedAbs
 
        t.schedAbs(timeNow + ((4*37)-2),{ // 00 = Time in beats 
 	   (
          ~strings1.envelope.attack = 1; ~strings1.envelope.decay = 2;
+         ~strings2.envelope.attack = 1; ~strings2.envelope.decay = 2;
 	    );(nil);};); // End of t.schedAbs
        //Add more 
 
