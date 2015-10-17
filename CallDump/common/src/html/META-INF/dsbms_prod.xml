@@ -1,0 +1,72 @@
+
+	<Context path="/dataservices"  reloadable="false">
+
+		<Resource name="jdbc/BuildSystem"
+				   auth="Container"
+				   type="javax.sql.DataSource"/>
+
+		<ResourceParams name="jdbc/BuildSystem">
+
+			<!-- Name of factory that creates data sources -->
+			<parameter>
+				<name>factory</name>
+				<value>org.apache.commons.dbcp.BasicDataSourceFactory</value>
+			</parameter>
+
+			<!-- Class name for JDBC driver -->
+			<parameter>
+			   <name>driverClassName</name>
+			   <value>oracle.jdbc.driver.OracleDriver</value>
+			</parameter>
+
+			<parameter>
+				<name>url</name>
+				<value>jdbc:oracle:thin:@chi1bld3:1522:uscc</value>
+			</parameter>
+
+			<!-- DB username and password for connections  -->
+			<parameter>
+				<name>username</name>
+				<value>dsbms</value>
+			</parameter>
+			<parameter>
+				<name>password</name>
+				<value>red4netprod</value>
+			</parameter>
+
+			<!-- Maximum connections in pool. Set to 0 for no limit. -->
+			<parameter>
+				<name>maxActive</name>
+				<value>5</value>
+			</parameter>
+
+			<!-- Maximum idle dB connections to retain in pool. Set to 0 for no limit. -->
+			<parameter>
+				<name>maxIdle</name>
+				<value>10</value>
+			</parameter>
+
+			<!-- 
+				Maximum time to wait for a dB connection to become available
+				in milliseconds, in this example 10 seconds. 
+				An Exception is thrown if this timeout is exceeded.  
+				Set to -1 to wait indefinitely.
+			-->
+			<parameter>
+			  <name>maxWait</name>
+			  <value>20000</value>
+			</parameter>
+
+			<!--
+				Configure the DataSource so that abandoned database connections are 
+				removed and recycled.
+                         -->
+			<parameter>
+              <name>removeAbandoned</name>
+              <value>true</value>
+            </parameter>
+
+		</ResourceParams>
+
+
+	</Context>

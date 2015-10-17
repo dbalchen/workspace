@@ -1,0 +1,21 @@
+<project name="shared" default="dist" basedir=".">
+
+   <taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask" />
+   <taskdef name="list" classname="org.apache.catalina.ant.ListTask" />
+   <taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask" />
+   <taskdef name="resources" classname="org.apache.catalina.ant.ResourcesTask" />
+   <taskdef name="roles" classname="org.apache.catalina.ant.RolesTask" />
+   <taskdef name="start" classname="org.apache.catalina.ant.StartTask" />
+   <taskdef name="stop" classname="org.apache.catalina.ant.StopTask" />
+   <taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask" />
+
+   <target name="undeploy" description="Remove web application">
+      <undeploy url="${SERVERURL}" username="${MGRUSER}" password="${MGRPASS}" path="/${APPNAME}" />
+   </target>
+
+   <target name="deploy" description="Install web application">
+      <deploy url="${SERVERURL}" username="${MGRUSER}" password="${MGRPASS}" path="/${APPNAME}" war="file:${dist}/${PROJ}.war" />
+   </target>
+
+</project>
+

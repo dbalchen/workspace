@@ -1,0 +1,1 @@
+find /m0* -name "*UFF*DAT" -print | egrep -v 'MMS|sms|brew' | xargs -i gzip {}

@@ -1,0 +1,2 @@
+nice -n 19 /home/calldmp/CallDumpTest/bin/dataSplitter.pl /m06/switchb/sms_alu switch/alu ALU
+mv /m06/switchb/sms_alu/*etc /m06/switch/alu.etc

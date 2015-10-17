@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<calldump>
+	<server>
+	    <machine>knx1scd1</machine>
+		<serverport>8877</serverport>
+		<path>/users/calldmp5/CallDump2.0/</path>
+	</server>
+
+	<database>
+		<dbdriver>oracle.jdbc.driver.OracleDriver</dbdriver>
+		<dburl>jdbc:oracle:thin:@mad1dsdb:1522:SHAREDEV</dburl>
+		<dbuser>calldumptest</dbuser>
+		<dbpass>calldumptest</dbpass>
+	</database>
+	<manager>
+		<threads>8</threads>
+		<wait>30</wait>
+		<markets>m01,m04,m05</markets>
+	</manager>
+	<timedprocess>
+		<minutes>0</minutes>
+		<hours>0</hours>
+		<purgedir>
+			<switch>/m01/switch/</switch>
+			<switch>/m04/switch/</switch>
+			<switch>/m05/switch/</switch>
+		</purgedir>
+		<copydir>
+			<switch>
+				<from>
+					/cares/mpsm01b/m01/projs/up/physical/switch/
+				</from>
+				<to>/m01/switch/</to>
+			</switch>
+			<switch>
+				<from>
+					/cares/mpsm04b/m04/projs/up/physical/switch/
+				</from>
+				<to>/m04/switch/</to>
+			</switch>
+			<switch>
+				<from>
+					/cares/mpsm05b/m05/projs/up/physical/switch/
+				</from>
+				<to>/m05/switch/</to>
+			</switch>
+		</copydir>
+	</timedprocess>
+</calldump>

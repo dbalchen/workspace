@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    version="2.4">
+
+       <display-name>calldump</display-name>
+       <description>CallDump (Prod)</description>
+
+	
+	<!-- ============================ -->
+ 	<!-- LISTENERS    				  -->
+	<!-- ============================ -->
+
+	<listener>
+		<listener-class>com.uscc.listener.CallDumpAppListener</listener-class>
+	</listener>
+
+	<!-- ==================== -->
+ 	<!-- SERVLET DECLARATIONS -->
+	<!-- ==================== -->
+
+	<!-- STRUTS SUPPORT -->
+	<!-- Struts: Standard Action Servlet Configuration -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>/WEB-INF/struts-config.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+
+	<!-- ================ -->
+ 	<!-- SERVLET MAPPINGS -->
+	<!-- ================ -->
+
+	<!-- STRUTS SUPPORT -->
+	<!-- Struts: Standard Action Servlet Mapping -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<!-- ===================== -->
+ 	<!-- SESSION CONFIGURATION -->
+	<!-- ===================== -->
+	
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+
+	<mime-mapping>
+		<extension>xml</extension>
+		<mime-type>text/xml</mime-type>
+	</mime-mapping>
+ 
+	<!-- ============= -->
+ 	<!-- WELCOME FILES -->
+	<!-- ============= -->
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+
+	<!-- =========================== -->
+	<!--  SECURITY CONSTRAINTS 	 -->
+	<!-- =========================== -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>CallDump Admin</web-resource-name>
+			<url-pattern>/calldumpadmin/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Members of SCM Team</description>
+			<role-name>calldumpadmin</role-name>
+		</auth-constraint>
+	</security-constraint>
+		
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>SCM</web-resource-name>
+			<url-pattern>/admin/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Members of SCM Team</description>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Security</web-resource-name>
+			<url-pattern>/security/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Members of Admin Team</description>
+			<role-name>security</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>Admins</description>
+			<role-name>admin</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>CallDumpAdmins</description>
+			<role-name>calldumpadmin</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>DSBMSAdmins</description>
+			<role-name>dsbmsadmin</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Submitter</web-resource-name>
+			<url-pattern>/submitter/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>CallDumpAdmins</description>
+			<role-name>calldumpadmin</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>Members of Developers</description>
+			<role-name>submitter</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>Members of Admin</description>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>View</web-resource-name>
+			<url-pattern>/view/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<description>Guests</description>
+			<role-name>view</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>Admins</description>
+			<role-name>admin</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>CallDumpAdmins</description>
+			<role-name>calldumpadmin</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>Managers</description>
+			<role-name>managers</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>Submitters</description>
+			<role-name>submitter</role-name>
+		</auth-constraint>
+		<auth-constraint>
+			<description>Developers</description>
+			<role-name>developers</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<!-- =========================== -->
+	<!--  LOGIN CONFIGS 			 -->
+	<!-- =========================== -->
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+				<form-login-page>/login/login.jsp</form-login-page>
+				<form-error-page>/login/bad_login.jsp</form-error-page>
+		</form-login-config>
+
+	</login-config>
+
+
+	<!-- =========================== -->
+	<!--  SECURITY ROLES             -->
+	<!-- =========================== -->
+	<security-role>
+		<role-name>admin</role-name>
+	</security-role>
+        <security-role>
+		<role-name>calldumpadmin</role-name>
+	</security-role>
+	<security-role>
+		<role-name>dsbmsadmin</role-name>
+	</security-role>
+	<security-role>
+		<role-name>managers</role-name>
+	</security-role>
+	<security-role>
+		<role-name>submitter</role-name>
+	</security-role>
+	<security-role>
+		<role-name>developers</role-name>
+	</security-role>
+	<security-role>
+		<role-name>view</role-name>
+	</security-role>
+	<security-role>
+		<role-name>security</role-name>
+	</security-role>
+	
+	<!-- =========================== -->
+	<!--  Error Codes                -->
+	<!-- =========================== -->
+	<error-page>
+		<error-code>403</error-code>
+		<location>/login/noaccess.html</location>
+	</error-page>
+
+</web-app>

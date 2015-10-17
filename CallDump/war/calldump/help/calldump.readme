@@ -1,0 +1,113 @@
+
+---------------------------------------
+URL:
+---------------------------------------
+prod: http://chi1pas1.uscc.com:8082/calldump/login
+test: http://chi1pbs1.uscc.com:8084/calldump_test/login
+
+---------------------------------------
+DataBase:
+---------------------------------------
+prod: calldump/calldump@uscc
+test: calldumptest/calldumptest@uscc
+
+---------------------------------------
+Code:
+---------------------------------------
+All source code is stored in ClearCase in the WEB_TOOLS vobs. 
+	---------------------------------------
+	Environment Setup:
+	---------------------------------------
+	Development will all be done on chi1pbs1 using your personal login (md1....).  A one-time enviornment setup is needed.
+	1) login to chi1bldX (1,2,3) as md1xxxx1
+        2) Add the following lines to bottom of .cshrc file
+		if ( "$HOST" == "chi1pbs1" ) then
+		    setenv ENV '.kshrc'
+		    ksh
+		endif
+	3) cp ~md1csta1/.kshrc $HOME
+	4) cp ~md1csta1/.infranet_profile .
+	5) cp ~md1csta1/.infranet_aliases .
+
+	---------------------------------------
+	DEVELOPMENT:
+	---------------------------------------
+
+	---------------------------------------
+	UNIX 
+	---------------------------------------
+	1) login to chi1pbs1 with personal login (md1xxxx1 or chi1xxxx1)
+	2) Create a clearcase view (cleartool mkview -tag <view-tag> -stgloc usc_viewstg where <view-tag> is the name of the view.)
+	3) ct setview view-tag (created in previous step)       
+	3) cd /vobs/web_tools/web
+
+	---------------------------------------
+	Eclipse 
+	---------------------------------------
+        1) Install Eclipse and ClearCase Plugin (if not already done)
+	2) Mount the VOB:
+		Click ClearCase - Mount VOB
+		Choose web_tools (Reconnect at Logon should be checked)
+	3) Create Java Project
+		File - New - Project - Java Project 
+		Choose name and location (ie: calldump and location ie: c:\workspace) 
+	4) Create View
+		ClearCase - Create New View
+		Next - Snapshot - Location (ie: c:\workspace\LOCATION in previous step)
+
+
+---------------------------------------
+Build:
+---------------------------------------
+prod: ant -propertyfile conf/calldump.properties war		(produces calldump.war)
+test: ant -propertyfile conf/calldump_test.properties war	(produces calldump_test.war)
+
+---------------------------------------
+Unit Testing:
+---------------------------------------
+
+	---------------------------------------
+	UNIX 
+	---------------------------------------
+	ant -propertyfile test/env/unittest.properties rununittest <enter> 
+
+	---------------------------------------
+	Eclipse 
+	---------------------------------------
+        1) Window - Show View - Ant
+	2) Configure Runtime 
+		Run - External Tools - External Tools
+		Find build.xml for project 
+		in "Arguments" specify: -propertyfile test/env/unittest.properties rununittest
+	3) Close out
+	4) In Ant View - Click "rununittest" and hit RUN button
+		
+
+---------------------------------------
+Deployment:
+---------------------------------------
+
+----------------------------------------------------------------------------
+The steps to deploy the war file are as follows:
+----------------------------------------------------------------------------
+
+-----
+prod
+-----
+1) ftp the proper war file to your desktop in binary mode
+2) prod: http://chi1pas1.uscc.com:8082 (using IE) 
+3) click on "Tomcat Manager", login as sysmgr with password cares123
+4) Find the /calldump or /calldump_test Application and hit "Undeploy"
+5) Go to "WAR file to deploy" section, hit BROWSE button and locate WAR file
+6) hit "Deploy" button
+
+
+-----
+test
+-----
+ant -propertyfile conf/calldump_test.properties deploytotest
+
+---------------------------------------
+Notes:
+---------------------------------------
+Code is written for java 1.4.2 an earlier.  Upgrading to Java 1.5 will involve addressing typecasting warning received from java compiler
