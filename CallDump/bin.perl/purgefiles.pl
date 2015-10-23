@@ -8,7 +8,7 @@ my ($p,$p,$p,$day,$month,$year,$p,$p,$p) = localtime(time - 31881600);
 my $purgeDate = ($year+1900).padZero($month + 1).padZero($day + 1);
 my $fileDir   = $ARGV[0];
 my $dateStamp = strftime( "%m%d%Y%H%M%S", localtime );
-my $wtxtdate  = strftime( "%Y%m%d", localtime( time() - 86400 * 30 ) );
+my $wtxtdate  = strftime( "%Y%m%d", localtime( time() - 86400 * 40 ) );
 
 chdir("../log");
 $LOGPWD = `pwd`;
@@ -27,7 +27,7 @@ $zipPat =~ s/  *//g;
 
 chdir($fileDir);
 
-$hh = "find . -name " . '"*DAT*"' . " -follow -print 2>> $logfile | grep -v old |";
+$hh = "find . -name " . '"*"' . " -follow -print 2>> $logfile | egrep 'DAT|DROP|BILLEABLE' | grep -v old |";
 
 if ( !open( RMLIST, "$hh" ) ) {
 	print LOG "Cannot create RMLIST: \n";
@@ -49,28 +49,34 @@ while ( $rmfile = <RMLIST> ) {
 
 	my $date = ( split( /_/, $file ) )[-1];
 
-	$date = substr( $date, 1, 8 );
+	if(index( $rmfile, "mft_to_stage" ) >= 0 )
+        {
+	 $date = substr( $date, 0, 8 );
+        }
+        else {
+         $date = substr( $date, 1, 8 );
+        }
 
 	my $delfile = "$fileDir/" . $rmfile;
 
-	print "Infile = $file\n";
+#	print "Infile = $file\n";
 
 	# Remove the file.....
 	if (   ( $date < $purgeDate )
-		|| ( ( index( $file, "WTXT" ) > 0 ) && ( $date < $wtxtdate ) ) )
+		|| ( ( index( $rmfile, "mft_to_stage" ) >= 0 ) && ( $date < $wtxtdate ) ) )
 	{
 		print LOG "Removing the following file: $delfile" . "\n";
 		$FilesRemoved++;
 		$rh = "rm $delfile";
 		print "Command = $rh\n";
-		system($rh);
+#		system($rh);
 	}
 	elsif ( index( $zipPat, $type ) >= 0 && index( $file, "gz" ) == -1 ) {
 		print LOG "Zipped the following file: $delfile" . "\n";
 		$FilesZipped++;
 		$rh = "gzip  $delfile";
 		print "Command = $rh\n";
-		system($rh);
+#		system($rh);
 	}
 }
 close(RMLIST);

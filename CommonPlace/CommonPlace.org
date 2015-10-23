@@ -16,7 +16,7 @@
 #+BEGIN_LaTeX
 \newpage
 \clearpage
-%\addtolength{\oddsidemargin}{-.25in}
+% \addtolength{\oddsidemargin}{-.25in}
 \addtolength{\oddsidemargin}{-.5in}
 \addtolength{\evensidemargin}{-01.25in}
 \addtolength{\textwidth}{1.4in}
@@ -24,7 +24,7 @@
 \addtolength{\textheight}{2.45in}
 \setcounter{tocdepth}{3}
 \vspace*{1cm} 
-% \newpage
+\newpage
 \pagenumbering{roman}
 \setcounter{tocdepth}{2}
 \pagestyle{fancy}
@@ -41,15 +41,26 @@
 : Days  #+PROPERTY: Effort_ALL 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00
 : weeks #+PROPERTY: Effort_ALL 5.00 10.00 15.00 20.00 25.00 30.00 35.00 40.00 45.00
  : Add a Picture
- :   #+ATTR_LaTeX: width=13cm
- :   [[file:example_picture.png]]
+ :   #+ATTR_LaTeX: width=13cm [[file:example_picture.png]]
 
  : New Page
  : \newpage
 :END:
+* TODO List						       :noexport:
+** TODO Check in CallDump Code
+   SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
+** TODO Get the WebMonitor code and figure out how to recompile then check back in.
+** TODO Add new monitors
+   - [ ] Add AR monitors
+   - [ ] Add Dave's KPI monitors.
+   - [ ] Number of records processed per day.
+** TODO Fix the error monitors.
+   - [ ] Find out what is causing the remaining errors.
+** TODO Fix the CIBER return issue...
+   SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
 * Statement of Principals 
    - /Mathematics is a language with no ambiguity./
-   - /A successful man made system closely resembles some natural system./
+   - /A successful man made system will closely resembles some natural system./
    - /A Powerpoint presentation is like smoking a cigar, only the
      person doing it likes it./
    - /Probability from a point./
@@ -253,20 +264,25 @@ subgraph cluster_3 {
        Turbo-Charging rater.
 
      - *Replenishment Manager* - Used for *Pre-Pay*.   
-** Production Machines
+** Production Servers/EpsMonitors
 #+BEGIN_LaTeX
-\footnotesize
+\small
 #+END_LaTeX
-   |------------------------+------------------+--------------+-----------+------------|
-   | *Environment*          | *IP*             | *Hostname*   | *UserID*  | *Password* |
-   |------------------------+------------------+--------------+-----------+------------|
-   | PRD batch 1 - R/CL,TRB | 10.176.177.177   | kpr01batch   | prdwrk1   | newP@s5!   |
-   | *PRD batch 2 - A&F*    | *10.176.177.178* | *kpr02batch* | *prdwrk2* | *newP@s5!* |
-   | PRD batch 3            | 10.176.177.179   | kpr03batch   | prdwrk3   | newP@s5!   |
-   | APRM                   | 10.176.177.178   | kpr03batch   | aprmoper  | newP@s5!   |
-   | *PRD batch 4 for F2E*  | *10.176.177.112* | *kpr02batch* | *prdwrk4* | *newP@s5!* |
-   | *PRD batch 5 for F2E*  | *10.176.177.113* | *kpr03batch* | *prdwrk5* | *newP@s5!* |
-   |------------------------+------------------+--------------+-----------+------------|
+   - *Batch1* - *kprl1batch.uscc.com (10.176.177.177)* 
+    - \//pkgbl01\//inf\//aimsys\//prdwrk1\//eps\//monitors
+   - *Batch2* - *kprl2batch.uscc.com (10.176.177.178)* 
+    - \//pkgbl02\///inf\//aimsys\//prdwrk2\//eps\//monitors
+   - *Batch3* - *kprl3batch.uscc.com (10.176.177.179)* 
+    - \//pkgbl03\//inf\//aimsys\//prdwrk3\//eps\//monitors
+   - *Batch4* – *kprl6batch.uscc.com (10.176.181.123)*
+   - *Event1* – *kprl1event.uscc.com (10.176.181.116)*
+   - *Event2* – *kprl2event.uscc.com (10.176.181.117)*
+   - *Event3* – *kprl3event.uscc.com (10.176.181.118)*
+   - *Event4* – *kprl4event.uscc.com (10.176.181.119)*
+   - *Event5* – *kprl5event.uscc.com (10.176.181.120)*
+   - *Event6* – *kprl6event.uscc.com (10.176.181.121)*
+  - *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
+    - \//inf\_nas\//apm1\//prod\//aprmoper\//eps\//monitors\
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -285,10 +301,15 @@ subgraph cluster_3 {
 
 ** Rerate Servers
    There are three *Rerate Servers* they are:
+#+BEGIN_LaTeX
+\small
+#+END_LaTeX
    1. *RRP\_EOC1056*
    2. *RRP\_EOC1068*
    3. *RRP\_EOC1192*
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** OutCollect Operational Jobs (CIBER Processing)
   *CIBER* files are a collection of roaming records, these can be
   either a foreign carrier on our network or one of our customers
@@ -301,6 +322,9 @@ subgraph cluster_3 {
        sends them to us and become part of our *InCollect* process. All though InCollects come pre-rated they are still re-rated according to their plan.
 
    The OutCollect process runs twice a day *1:00 a.m/p.m.*
+#+BEGIN_LaTeX
+\small
+#+END_LaTeX
    - *OUTCOL* \\ Extracts from the *APE1\_RATED\_EVENT* table and creates files for *MAS*.
    - *ADJ9MAS OUTCOL*\\ Creates files for *SPL1*.
    - *SPL1* - /Daemon/\\ Processes files as it sees them and creates files for *RGD*.
@@ -308,6 +332,9 @@ subgraph cluster_3 {
    - *APP* - /Daemon/\\ Processes files in RD after 12 hours of the last files processed. Output files for *Syniverse*.
    - *MF9FTDTAX*\\ Loads data into *MF9\_OUTCOL\_TAXES* table
    - *AR9OUTCLTAX*\\ End-day after *MF9FTDTAX*.
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 *** OutCollect Files
    These are the file that are created by *TOPS* that will be sent to *Syniverse*.
    - *aprout (OutCollect Directory)* \\
@@ -362,23 +389,6 @@ subgraph cluster_3 {
 
 #+ATTR_LaTeX: width=15.5cm
   [[file:Pictures/billing_tc_map-27124108.png]]
-** EpsMonitors
-   - *Batch1* - *kprl1batch.uscc.com (10.176.177.177)* 
-    - \//pkgbl01\//inf\//aimsys\//prdwrk1\//eps\//monitors
-   - *Batch2* - *kprl2batch.uscc.com (10.176.177.178)* 
-    - \//pkgbl02\///inf\//aimsys\//prdwrk2\//eps\//monitors
-   - *Batch3* - *kprl3batch.uscc.com (10.176.177.179)* 
-    - \//pkgbl03\//inf\//aimsys\//prdwrk3\//eps\//monitors
-   - *Batch4* – *kprl6batch.uscc.com (10.176.181.123)*
-   - *Event1* – *kprl1event.uscc.com (10.176.181.116)*
-   - *Event2* – *kprl2event.uscc.com (10.176.181.117)*
-   - *Event3* – *kprl3event.uscc.com (10.176.181.118)*
-   - *Event4* – *kprl4event.uscc.com (10.176.181.119)*
-   - *Event5* – *kprl5event.uscc.com (10.176.181.120)*
-   - *Event6* – *kprl6event.uscc.com (10.176.181.121)*
-  - *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
-    - \//inf\_nas\//apm1\//prod\//aprmoper\//eps\//monitors\
-
 ** Log File Location
 *** Batch 1
     - cdlog - \//pkgbl01\//inf\//aimsys\//prdwrk1\//var\//usc\//log
@@ -426,6 +436,7 @@ subgraph cluster_3 {
    - *MMI - Multimedia Integrator*
    - *OM - Order Manager*
    - *OMS - Order Management System*
+\newpage
 * TC Oncall Daily Duties:
 ** Check the Monitors
 *** Batch Tab
@@ -587,6 +598,7 @@ subgraph cluster_3 {
  
    Note all scripts use Dave Smith's LAN ID password and when the failure is due to the password being expired please notify him immediately and if he is out of the office wait until he returns to the office to reset his password and update the scripts.
 
+\newpage
 * Voice Overview
 #+BEGIN_LaTeX
 \normalsize
@@ -1043,6 +1055,7 @@ digraph BI {
    - Mobile-X Code: USA-MPS-0001
    - Login: Skeup/SyFAGh
    :  <\\chil-data1\Share\Common\TOPS\outcollects>
+\newpage
 * Unified File Format (UFF)
   In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
   will be reformatted into a /Unified File Format/ (*UFF*). This
@@ -1271,6 +1284,7 @@ digraph BI {
 ** Drop Reason Codes
    /See the Drop Reasons Code spreadsheet/
 
+\newpage
 * Databases
 
 #+BEGIN_LaTeX
@@ -1294,7 +1308,7 @@ digraph BI {
 #+END_LaTeX
 ** Usage DB by cycle
 #+BEGIN_LaTeX
-\scriptsize
+\footnotesize
 #+END_LaTeX
 |-------------+------------+-------------------------------------------------|
 | *CycleCode* | *Database* | *Description*                                   |
@@ -1338,7 +1352,7 @@ digraph BI {
 
 ** DB Preparation
    For each DB instance, except ODS and SIT, You need to alter the session before you can use it.\\ For example  for usage 1 type
- : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
+: ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
 ** Production Database Tables
 #+BEGIN_LaTeX
 \scriptsize
@@ -1346,8 +1360,8 @@ digraph BI {
 |------------------------------+-------------+----------------------|
 | *Table Name*                 | Database*   | Description          |
 |------------------------------+-------------+----------------------|
-| *AC1\_CONTROL*               | PRDCUST     |                      |
-| AC1\_CONTROL\_HIST           | PRDAF       |                      |
+| *AC1\_CONTROL*               | PRDCUST     | Check both PRDCUST   |
+| *AC1\_CONTROL\_HIST*         | PRDAF       | and PRDAF            |
 | SERVICE\_AGREEMENT           | PRDCUST     |                      |
 | CSM\_OFFER                   | PRDCUST     |                      |
 | SUBSCRIBER                   | PRDCUST     |                      |
@@ -1404,7 +1418,7 @@ digraph BI {
 \normalsize
 #+END_LaTeX
 *** AC1\_CONTROL (-HIST)
-    Similar to *ac\_processing\_accounting*
+    Similar to *ac\_processing\_accounting* there are two tables with the same name but in different databases, *PRDAF* (Usage) and *PRDCUST* (AR). 
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
@@ -1499,6 +1513,7 @@ digraph BI {
 \normalsize
 #+END_LaTeX
 
+\newpage
 *** APE1\_RATED\_EVENT
     Where all the rateable events are contained. Most data inquires
     usually wind up here.
@@ -1683,7 +1698,8 @@ digraph BI {
 | L9\_BLOCKED\_NUMBER\_IND          | VARCHAR2 (1 Byte)   |                       |
 | L9\_REMAINING\_BALANCE\_AMT       | NUMBER              |                       |
 | *L9\_MIN*                         | VARCHAR2 (10 Byte)  | MSID                  |
-| *L9\_EQUIPMENT\_ID*               | VARCHAR2 (32 Byte)  | ESN                   |
+| *L9\_EQUIPMENT\_ID*               | VARCHAR2 (32 Byte)  | PostPaid = ESN        |
+|                                   |                     | PrePaid = 0           |
 | L9\_THRESHOLD\_AMOUNT             | NUMBER              |                       |
 | *L9\_SERVICE\_FEATURE*            | VARCHAR2 (128 Byte) |                       |
 | L9\_ORIGINAL\_AIR\_TIME\_CHG\_AMT | NUMBER              |                       |
@@ -2048,6 +2064,7 @@ digraph BI {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+\newpage
 * BPT Tables
   The *Business Process Tables* are the Tops equivalent to the
   reference tables in *CARES*. The following is the list of all *BPT*
@@ -2142,6 +2159,7 @@ digraph BI {
 \normalsize
 #+END_LaTeX   
  
+\newpage
 ** APE1\_SUBSCR\_DATA\_REF
    List subscriber reference data. (Customer data)
 #+BEGIN_LaTeX
@@ -2867,7 +2885,7 @@ AND expiration\_date IS NULL
     2. Create an Insert statement for the  *PC9\_INCOL\_SID\_PAIR* with the new rates.
 
     3. For the OutCollect side find all *SIDS* that that have the *Settlement Contract Code*, /(In this example we trying to find all *SIDS* with settlement contract code = 287)/
-       : SELECT SIDS FROM PC9_SID WHERE SETLMNT_CONTRACT_CD = 287;
+    : SELECT SIDS FROM PC9_SID WHERE SETLMNT_CONTRACT_CD = '287';
     4. For each *SID* found add '175' to the end and use that as the resource value for the table *AGD1\_RESOURCES\_REF* then create an insert if it don't exists.
    #+BEGIN_LaTeX
    \footnotesize
@@ -2910,7 +2928,7 @@ AND expiration\_date IS NULL
     6. Once you have the subscriber you need to point each entries offer ID's from 
        the *APE1\_SUBSCR\_OFFERS\_REF* table to the correct air and toll charge. /(Again using the above example)/
        To find a suitable offer ID search the *CSM\_OFFER* table, if you cannot find one have the *EPC* group create one. (/In this example we are looking for a offer ID with the Air and Toll charge of 0.3/)
-       : SELECT * FROM CSM_OFFER WHERE SOC_NAME LIKE '%_0.03_Air_0.03_Toll_PP%';
+    : SELECT * FROM CSM_OFFER WHERE SOC_NAME LIKE '%_0.03_Air_0.03_Toll_PP%';
    #+BEGIN_LaTeX
    \footnotesize
    #+END_LaTeX
@@ -2922,7 +2940,6 @@ AND expiration\_date IS NULL
    | *SUBSCRIBER\_ID*        | sequential number /(1, 2, 3,…)/ |
    | *OFFER\_ID*             | SOC\_ID                         |
    | *OFFER\_INSTANCE*       | Subscriber ID                   |
-   | CUSTOMER\_ID            | 1 + SID                         |
    | SUBSCRIBER\_HASH\_VALUE | *SubsriberHashValueCalc\_Sh*    |
    |-------------------------+---------------------------------|
    #+BEGIN_LaTeX
@@ -2930,16 +2947,29 @@ AND expiration\_date IS NULL
    #+END_LaTeX
 *** Hash Creation Programs
    Some tables require that a unique hash value be created to create those values use these programs:
-   : ~/abp_home/core/bin/SubsriberHashValueCalc_Sh  <SUBSCRIBER_ID>
-   :
-   : ~/abp_home/core/bin/ResourceSegmentCalc_Sh     <Resource Type> 21 = (OutCollects)
-   :                                                <Resource Value> 
-   :                                                <Resource value length>
-   :
-   : ~/abp_home/core/bin/CustomerSegmentCalc_Sh     <CUSTOMER_ID>
+: ~/abp_home/core/bin/SubsriberHashValueCalc_Sh  <SUBSCRIBER_ID>
+:
+: ~/abp_home/core/bin/ResourceSegmentCalc_Sh     <Resource Type> 21 = (OutCollects)
+:                                                <Resource Value> 
+:                                                <Resource value length>
+:
+: ~/abp_home/core/bin/CustomerSegmentCalc_Sh     <CUSTOMER_ID>
 
+
+#+BEGIN_LaTeX
+\normalsize
+\vspace{45mm}
+#+END_LaTeX
+#+ATTR_LaTeX: width=17cm
+    [[file:Pictures/Meissner_War_Bulletins.jpg]]
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX
 * Production Support - SUP1
 ** Support Databases
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
 |------------+------------+----------------+-----------------------|
 | *USERNAME* | *PASSWORD* | *DB\_INSTANCE* | *Description*         |
 |------------+------------+----------------+-----------------------|
@@ -2952,7 +2982,9 @@ AND expiration\_date IS NULL
 | PRDUSG4C   | PRDUSG4C   | SUPUSG4        | Usage                 |
 | PRDSELC    | PRDSELC    | SUPAPRM        | APRM                  |
 |------------+------------+----------------+-----------------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Support Server 
    Accessed from Putty in *TOPS* Production Support Applications.
    Should be able to login on with LAN ID and password (which is same as your LAN ID).
@@ -2984,12 +3016,12 @@ AND expiration\_date IS NULL
    | *Environment* |         *IP* | *Hostname* | *UserID* | *Password* |
    |---------------+--------------+------------+----------+------------|
    | Development   |  10.106.10.9 | mdr01bld01 | md1dbal1 | /password/ |
-   | Testing       |  10.106.10.9 | mdr01bld01 | d_medap  | Henry*123  |
+   | Testing       |  10.106.10.9 | mdr01bld01 | d\_medap | Henry*123  |
    | CallDump      | 10.176.179.3 | kpr01scdap | calldmp  | Henry*128  |
    |---------------+--------------+------------+----------+------------|
 
 #+BEGIN_LaTeX
-\normalsize
+\newpage
 #+END_LaTeX
 * Accounts Receivable
   Handles Finance, Payments and credits as well Collections. 
@@ -3032,7 +3064,7 @@ AND expiration\_date IS NULL
 ** Payment File
    Once in a while payment files break due to either bad sequence numbers or format issues. For the most part you should tell Amdocs to put the file in CN status and have *Payment Control* to resend.
    If the file is also out of sequence have payment control send it with a new sequence number. If the whole file fails, not just records, then have Payment Control send a new file with a new sequence number.
-:  PaymentControl-ImportPaymentFiles@uscellular.com>
+: PaymentControl-ImportPaymentFiles@uscellular.com>
 ** AR Reports
    - *LockBox*
      - /File Location/ : $ABP\_AR\_ROOT/interfaces/input/lockbox/MELL\_PYM.*.csv
@@ -3057,7 +3089,6 @@ AND expiration\_date IS NULL
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
-#+ATTR_LaTeX: longtable align=lll
 |--------------------------------+--------------------+------------------|
 | *Column Name*                  | *Data Type*        | *Description*    |
 |--------------------------------+--------------------+------------------|
@@ -3727,33 +3758,33 @@ AND expiration\_date IS NULL
 ** Operational SQL
    All of these scripts would be good monitor scripts.
    - Checks to see if all payment files have been processed.(*PRDAF*)
-:  select  identifier, nxt_pgm_name, file_status, file_format, file_name, file_path,  a.* 
-:   from ac1_control a
-:   where nxt_pgm_name like 'AR1PYM%'
-:    --and file_name like '%_181_%'
-:    and file_status <> 'CO'
-:   order by sys_creation_date desc 
+: select  identifier, nxt_pgm_name, file_status, file_format, file_name, file_path,  a.* 
+:  from ac1_control a
+:  where nxt_pgm_name like 'AR1PYM%'
+:  --and file_name like '%_181_%'
+:  and file_status <> 'CO'
+:  order by sys_creation_date desc 
    - Gateway Listener (*PRDCUST*)
-:    select * from ar3_gwls_file_status 
-:    where sys_creation_date > (sysdate -6)
-:    and file_process_state <> 'CO' 
-:    order by sys_creation_date desc
+: select * from ar3_gwls_file_status 
+:  where sys_creation_date > (sysdate -6)
+:  and file_process_state <> 'CO' 
+:  order by sys_creation_date desc
    - More General stuff (*PRDCUST*)
-:    select  trunc(sys_creation_date), period_key, record_type , 
-:     decode(record_type, 'PNR' , 'DONE' , 'LNR' , 'IN PROGRESS', 'NNR', 'PENDING') status  ,count(*) 
-:    from ar1_jgl_control 
-:    where financial_activity_type is null  
-:     and sys_creation_date > to_date('20150826','yyyymmdd')
-:    group by  trunc(sys_creation_date), period_key , record_type
-:    order by 1, 2, 3  
+: select  trunc(sys_creation_date), period_key, record_type , 
+:  decode(record_type, 'PNR' , 'DONE' , 'LNR' , 'IN PROGRESS', 'NNR', 'PENDING') status  
+:  ,count(*) from ar1_jgl_control 
+: where financial_activity_type is null  
+:  and sys_creation_date > to_date('20150826','yyyymmdd')
+:  group by  trunc(sys_creation_date), period_key , record_type
+:  order by 1, 2, 3  
    - Query for Batch Payments
-:    select count(1),sum(amount),trunc(sys_creation_date),deposit_date,payment_source_id,file_seq_no  
-:    from ar1_payment_details
-:    where payment_source_id in ( 'LOCKBOX', 'AGTCASH', 'IMPCOL', 'IMPEFT', 'IMPPAY','CERLBX')
-:     and sys_creation_date like '05-AUG-15%'
-:     and payment_type='P'
-:    group by  trunc(sys_creation_date), deposit_date, payment_source_id, file_seq_no
-:    order by  trunc(sys_creation_date), deposit_date, payment_source_id, file_seq_no
+: select count(1),sum(amount),trunc(sys_creation_date),deposit_date,payment_source_id,
+:  file_seq_no from ar1_payment_details
+: where payment_source_id in ( 'LOCKBOX', 'AGTCASH', 'IMPCOL', 'IMPEFT', 'IMPPAY'
+:  ,'CERLBX') and sys_creation_date like '05-AUG-15%'
+:  and payment_type='P'
+: group by  trunc(sys_creation_date), deposit_date, payment_source_id, file_seq_no
+: order by  trunc(sys_creation_date), deposit_date, payment_source_id, file_seq_no
 
 * CallDump
 ** Data Directories

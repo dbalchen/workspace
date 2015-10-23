@@ -2016,3 +2016,51 @@ cat badCIBER | sed 's/^22410211/22485007/g' | sed 's/4447102201150.../4447102401
         - The first is a Real-Time Interface that would talk to a 3rd party, it will be called /Collection Augmentation/.
         - Payment arrangements via the IVR in Real-Time.
         - A widget on the screen that indicates an at risk customer. 
+
+* Production Machines
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-10-20 Tue 14:17
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Usage Processing Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+   |------------------------+------------------+--------------+-----------+------------|
+   | *Environment*          | *IP*             | *Hostname*   | *UserID*  | *Password* |
+   |------------------------+------------------+--------------+-----------+------------|
+   | PRD batch 1 - R/CL,TRB | 10.176.177.177   | kpr01batch   | prdwrk1   | newP@s5!   |
+   | *PRD batch 2 - A&F*    | *10.176.177.178* | *kpr02batch* | *prdwrk2* | *newP@s5!* |
+   | PRD batch 3            | 10.176.177.179   | kpr03batch   | prdwrk3   | newP@s5!   |
+   | APRM                   | 10.176.177.178   | kpr03batch   | aprmoper  | newP@s5!   |
+   | *PRD batch 4 for F2E*  | *10.176.177.112* | *kpr02batch* | *prdwrk4* | *newP@s5!* |
+   | *PRD batch 5 for F2E*  | *10.176.177.113* | *kpr03batch* | *prdwrk5* | *newP@s5!* |
+   |------------------------+------------------+--------------+-----------+------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+* EpsMonitors
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-10-20 Tue 14:18
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Usage Processing Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+  - *Batch1* - *kprl1batch.uscc.com (10.176.177.177)* 
+   - \//pkgbl01\//inf\//aimsys\//prdwrk1\//eps\//monitors
+  - *Batch2* - *kprl2batch.uscc.com (10.176.177.178)* 
+   - \//pkgbl02\///inf\//aimsys\//prdwrk2\//eps\//monitors
+  - *Batch3* - *kprl3batch.uscc.com (10.176.177.179)* 
+   - \//pkgbl03\//inf\//aimsys\//prdwrk3\//eps\//monitors
+  - *Batch4* – *kprl6batch.uscc.com (10.176.181.123)*
+  - *Event1* – *kprl1event.uscc.com (10.176.181.116)*
+  - *Event2* – *kprl2event.uscc.com (10.176.181.117)*
+  - *Event3* – *kprl3event.uscc.com (10.176.181.118)*
+  - *Event4* – *kprl4event.uscc.com (10.176.181.119)*
+  - *Event5* – *kprl5event.uscc.com (10.176.181.120)*
+  - *Event6* – *kprl6event.uscc.com (10.176.181.121)*
+ - *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
+   - \//inf\_nas\//apm1\//prod\//aprmoper\//eps\//monitors\
+
