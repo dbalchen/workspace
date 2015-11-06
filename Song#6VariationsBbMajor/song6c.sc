@@ -15,7 +15,7 @@ GUI.qt
  "/home/dbalchen/workspace/SuperCollider/FMpad.sc".loadPath;
  "/home/dbalchen/workspace/SuperCollider/pulseLead.sc".loadPath;
  "/home/dbalchen/workspace/SuperCollider/drumSampler.sc".loadPath;
-
+ "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/melody.sc".loadPath;
 
  ~myT1 = {Pbind(\type, \midi,
 		\midiout, ~synth1,
@@ -29,28 +29,7 @@ GUI.qt
 	
 
 
- ~oboe = MyEvents.new;
- ~oboe.amp = 1;
- ~oboe.init;
- ~oboe.filter.attack = 1.0;
- ~oboe.filter.release = 0.50;
- ~oboe.filter.cutoff = 1500;//14000;
- ~oboe.filter.gain = 0.5;
- ~oboe.filter.sustain = 1.0;
- ~oboe.filter.aoc = 0.25;
- ~oboe.envelope.attack = 0.75;//1.0;
- ~oboe.envelope.release = 0.5;
- ~oboe.envelope.decay = 3.0;
- ~oboe.envelope.sustain = 0.1;//0.10;
-
-
- ~channel0 = {arg num, vel = 1;
-   var ret;
-	 //num.postln;
-	 //~oboe.amp = ~oboe.amp * vel;
-   ret = ~midiPulseLead.value(~oboe,num,0);
-   ret;
- };
+ 
 
 
  ~fm_darkpad = MyEvents.new;
@@ -145,21 +124,14 @@ GUI.qt
  )
 
 
- ~drum.unmute;
-
-~strings2.envelope.attack = 0.95;~strings1.envelope.attack = 0.950; ~strings1.envelope.decay = 3.05; ~strings2.envelope.decay = 3.05;
-
-~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;~strings1.envelope.decay = 4.0; ~strings2.envelope.decay = 4.0;
-
-~strings1.envelope.attack = 0.40;~strings2.envelope.attack = 4.00;~strings1.envelope.decay = 3.60; ~strings2.envelope.decay = 8;
-
-~oboe.filter.makeGui;
-~oboe.envelope.envGui;
-
 ~startTimer.value(106);
-~rp = {}; // Example
 
-~rp = {~myT1.value;};
+~rp = {~midiMelody.value;};
+~rp = {~monoPulseLead.value(~melody);};
+
+
+~melody.envelope.envGui;
+~melody.filter.makeGui;
 
 (
  ~start = {
