@@ -1,0 +1,9 @@
+pdf2ps CommonPlace.pdf  boss.ps
+#psbook boss.ps boss.signiture.ps
+#psnup -pletter -2 boss.signiture.ps > boss2.ps
+psnup -pletter -2 boss.ps > boss2.ps
+#pstops "2:0(0in,0in)" boss2.ps > odd.ps
+#pstops "2:-1(0in,0in)" boss2.ps > even.ps
+#ps2pdf odd.ps
+#ps2pdf even.ps
+ps2pdf boss2.ps

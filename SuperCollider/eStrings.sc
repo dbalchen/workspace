@@ -4,7 +4,7 @@
 
 SynthDef("eStrings",
 	 {
-	   arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,
+	   arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,bassamt = 0.09,
 	     attack = 4, decay = 4, sustain = 0, release = 1, fattack = 0.0, fsustain = 1, 
 	     frelease = 0.05, aoc = 0, gain = 1, cutoff = 10000.00, bend = 0;
 
@@ -18,8 +18,10 @@ SynthDef("eStrings",
 	   fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
 	   fenv = EnvGen.kr(fenv, gate,doneAction:da);
 
-	   sig = (LFSaw.ar(freq,0,0.1) + (0.025*LFSaw.ar(freq2/2,0,0.1)))*EnvGen.kr(env, gate: gate,doneAction:da);
+	   sig = (LFSaw.ar(freq,0,0.1));
 
+	   sig = Splay.ar(sig);
+	   sig = (sig + (bassamt*LFSaw.ar(freq2/2,0,0.1)))*EnvGen.kr(env, gate: gate,doneAction:da);
 	   sig = MoogFF.ar
 	     (
 	      sig,
@@ -27,7 +29,7 @@ SynthDef("eStrings",
 	      gain
 	      );
 
-	   sig = Splay.ar(sig);
+
 	   Out.ar(out,amp*sig);
 
 	 }).send(s);

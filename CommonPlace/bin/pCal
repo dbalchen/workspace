@@ -1,0 +1,17 @@
+#!/usr/bin/perl
+
+$hh = "../lib/Month.pl";
+system($hh);
+
+$hh = "../lib/Year.pl";
+system($hh);
+
+$hh = "psmerge Month.ps Year.ps > my.ps";
+system($hh);
+
+$hh = "psnup -2 my.ps > MonthYear.ps";
+system($hh);
+
+$hh = "rm -fr Month.ps Year.ps my.ps";
+system($hh);
+

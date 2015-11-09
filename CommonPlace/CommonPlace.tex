@@ -21,7 +21,9 @@
 \usepackage{multicol}
 \providecommand{\alert}[1]{\textbf{#1}}
 
-\title{Notes}
+\font\myfont=cmr12 at 56pt
+\title{\myfont Notes}
+\normalsize
 \author{David Balchen}
 \date{\today}
 \hypersetup{
@@ -32,20 +34,28 @@
 \begin{document}
 
 \maketitle
-
+\vspace*{1cm}
+%\noindent\makebox[\textwidth]{%
+\includegraphics[width=15.0cm]{Pictures/Andrejevi1.jpg}
+%}
 \setcounter{tocdepth}{3}
 \vspace*{1cm}
 \pagenumbering{}
 \newpage
-\clearpage
+%\clearpage
 % \addtolength{\oddsidemargin}{-.25in}
+
 \addtolength{\oddsidemargin}{-.5in}
 \addtolength{\evensidemargin}{-01.25in}
 \addtolength{\textwidth}{1.4in}
 \addtolength{\topmargin}{-1.25in}
 \addtolength{\textheight}{2.45in}
 \setcounter{tocdepth}{3}
-\vspace*{1cm} 
+\vspace*{2.5cm} 
+\noindent\makebox[\textwidth]{%
+\includegraphics[width=13.0cm]{Pictures/postal5.png}
+}
+
 \newpage
 \pagenumbering{roman}
 \setcounter{tocdepth}{2}
@@ -494,6 +504,10 @@ Contain the CIBER batch sequence numbers \emph{(See Database Section)}.
 \item \textbf{OMS - Order Management System}
 \end{itemize}
 \end{itemize}
+\vspace*{2.5cm} 
+\noindent\makebox[\textwidth]{%
+\includegraphics[width=13.0cm]{Pictures/socialist-realism1.jpg}
+}
 \newpage
 \section{TC Oncall Daily Duties:}
 \label{sec-4}
@@ -1520,6 +1534,11 @@ When received with counts similar to these there are no issues.
 \label{sec-7-5}
 
    \emph{See the Drop Reasons Code spreadsheet}
+
+\vspace*{2.5cm} 
+\noindent\makebox[\textwidth]{%
+\includegraphics[width=15.0cm]{Pictures/coalminer.jpg}
+}
 
 \newpage
 \section{Databases}
@@ -3069,13 +3088,10 @@ forgot about this:
 \end{enumerate}
 \item Create an Insert statement for the  \textbf{PC9\_INCOL\_SID\_PAIR} with the new rates.
 \item For the OutCollect side find all \textbf{SIDS} that that have the \textbf{Settlement Contract Code}, \emph{(In this example we trying to find all *SIDS* with settlement contract code = 287)}
-\end{enumerate}
 \begin{verbatim}
      SELECT SIDS FROM PC9_SID WHERE SETLMNT_CONTRACT_CD = '287';
 \end{verbatim}
-\begin{enumerate}
 \item For each \textbf{SID} found add `175' to the end and use that as the resource value for the table \textbf{AGD1\_RESOURCES\_REF} then create an insert if it don't exists.
-\end{enumerate}
    \footnotesize
 
 \begin{center}
@@ -3101,9 +3117,7 @@ forgot about this:
 
 
    \normalsize
-\begin{enumerate}
 \item For each \textbf{SID} found add a `1' in front which will get you the \textbf{customer\_id} then do a query against the \textbf{APE1\_SUBSCR\_DATA\_REF} to get the subscriber\_id \emph{(Using the above as an example)}
-\end{enumerate}
    \footnotesize
 
 \begin{center}
@@ -3122,7 +3136,6 @@ forgot about this:
 
 
    \normalsize
-\begin{enumerate}
 \item Once you have the subscriber you need to point each entries offer ID's from 
        the \textbf{APE1\_SUBSCR\_OFFERS\_REF} table to the correct air and toll charge. \emph{(Again using the above example)}
        To find a suitable offer ID search the \textbf{CSM\_OFFER} table, if you cannot find one have the \textbf{EPC} group create one. (\emph{In this example we are looking for a offer ID with the Air and Toll charge of 0.3})
@@ -3902,6 +3915,10 @@ forgot about this:
 \item \textbf{/m05/switch/brew} - Brew and Brew data \textbf{(aaa2)}
 \item \textbf{/m01/switchb/tas} - Volte
 \end{itemize}
+\vspace*{2.5cm} 
+\noindent\makebox[\textwidth]{%
+\includegraphics[width=11.0cm]{Pictures/cubeism.jpg}
+}
 \newpage
 \section{Telephone Numbers}
 \label{sec-13}

@@ -2,7 +2,7 @@ MyFilter {
 
   var <>in, <>out,<>name = "filter",
     <>attacks = nil,   <>attack = 0.5,
-    <>releases = nil,  <>release = 0.5,
+    <>releases = nil,  <>release = 0.5, <>lrelease = 0.5,
     <>att = 1.0, <>rel = 1.0, 
     <>cutoff = 5000.00, <>gain = 2.0,
     <>sustain = 1.0, <>aoc = 1.0, 
@@ -16,7 +16,8 @@ MyFilter {
       filt.set(\aoc,aoc);
       filt.set(\fattack,att.next * attack);
       filt.set(\fsustain,sustain);
-      filt.set(\frelease,rel.next * release);
+	  lrelease = rel.next * release;
+      filt.set(\frelease,lrelease);
     }
   init {
 
@@ -50,8 +51,7 @@ MyFilter {
     rel = Pn(lazy,inf).asStream;
   }
 
-  makeGui
-    {
+  gui {
       var fltWin, nb1, sl1, nb2, sl2, nb3, sl3, nb4, sl4, nb5, sl5, nb6, sl6;
 
       fltWin = Window.new(name,Rect(200,200,372,295)).front;

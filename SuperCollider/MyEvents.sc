@@ -10,7 +10,7 @@ MyEvents {
     <>durations = nil, <>duration = nil,
     <>out = 0,         <>amp = 0.2,  
     <>filter = nil,    <>envelope = nil,
-    <>lag = 0.0,       <>lags = nil,
+    <>lag = 0.0,       <>lags = nil, <>lagt = 0.0,
     <>vel = 1,         <>vels = nil,
 
     tfreqs, tprobs, twaits, tlags, tvels, tdurations;
@@ -111,7 +111,7 @@ MyEvents {
 	Pseq(vels,1);
       }); 
 
-    wait =Pn(lazy,inf).asStream;
+    vel =Pn(lazy,inf).asStream;
     
   }
 
@@ -128,8 +128,8 @@ MyEvents {
     durations = [4.0];
     vels = [1];
 
-    envelope.mute;
-    filter.mute;
+	  //   envelope.mute;
+	  // filter.mute;
   }
 
   unmute {
@@ -139,8 +139,8 @@ MyEvents {
     durations = tdurations;
     vels = tvels;
 
-    envelope.unmute;
-    filter.unmute;
+	  //    envelope.unmute;
+	  //filter.unmute;
   }
 
 
