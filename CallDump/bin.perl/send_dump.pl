@@ -446,7 +446,7 @@ sub processLinePMG {
 #
 ###############################################################################
 sub processTAS{
-  setCellWidth(11,10,9,11,13,13,3,3,4,3,3,5,7,32);
+  setCellWidth(11,10,8,11,13,13,3,3,4,3,3,3,7,7,32);
   # Loop through the input file records:
   #   Detect if record is a title or a a data line.
   #   Print the record to the excel worksheet.
@@ -458,7 +458,8 @@ sub processTAS{
      # Records beginning with any of the following strings are considered a title.
      if($rec[0] eq "Switch" || $rec[0] eq "Time" ||
          $rec[0] eq "     " ||  
-         $rec[0] eq "3W:"    || $rec[0] eq "CW:" ||
+         $rec[0] eq "3W:"    || $rec[0] eq "CW:" || $rec[0] eq "Service" || $rec[0] eq "ARM:" ||
+         $rec[0] eq "CFB:" || $rec[0] eq "ISH:" || $rec[0] eq "VMD:" ||
          index($rec[0],"AN:") eq 0 || $rec[0] eq "\n") { 
             $worksheet->write($row,$col,$line,$formatTitle);
      }else{
@@ -477,7 +478,7 @@ sub processTAS{
           emailSpreadsheet($excelFile,$email);
           unlink("$excelFile");
           getNewWB();
-          setCellWidth(11,10,9,11,13,13,3,3,4,3,3,5,7,32);
+          setCellWidth(11,10,8,11,13,13,3,3,4,3,3,3,7,7,32);
           $row = 0;
      }
   }#end for
@@ -498,7 +499,7 @@ sub processTAS{
 sub processLineTAS {
   my $line = shift;
   # Define length of each consecutive field in a data record.
-  my @idx = (0,11,10,9,11,13,13,3,3,4,3,3,5,7,32);
+  my @idx = (0,11,10,8,11,13,13,3,3,4,3,3,3,7,7,32);
   my @rec = ();
   my $strt_pos = 0;
   for(my $i=0; $i<$#idx; $i++){

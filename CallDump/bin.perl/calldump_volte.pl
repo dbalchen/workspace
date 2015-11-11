@@ -19,8 +19,8 @@ use warnings;
 
 #---REPORT FORMAT------------------------------------
 format REPORT12 =
-@<<<<<<<<<<@<<<<<<<<<@<<<<<  @<<<<<<<<< @<<<<<<<<<<<< @<<<<<<<<<<<< @  @  @  @  @  @    @<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-$date,$ctime,$duration,$calling_tn,$dialed_tn,$called_tn,$cd,$ans,$o3w,$tc,$tcf,$oss,$switch,$srvFeat
+@<<<<<<<<<<@<<<<<<<<<@<<<<<  @<<<<<<<<< @<<<<<<<<<<<< @<<<<<<<<<<<< @  @  @  @  @  @  @<<<<  @<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+$date,$ctime,$duration,$calling_tn,$dialed_tn,$called_tn,$cd,$ans,$o3w,$tc,$tcf,$oss,$enodeb,$switch,$srvFeat
 .
 
 #---INITIALIZE VARIBLES------------------------------
@@ -63,7 +63,7 @@ for ( $a = 0 ; $a < @ARGV ; $a++ ) {
 #print STDOUT "\n\n$inputfile, $searchstring, $cellsite, $callgnbr, $calldnbr, $dialdnbr\n\n";
 
 #---OPEN FILE----------------------------------------
-# open( STDIN, $ARGV[0] ) || die "cannot open $ARGV[0]\n\n";
+#open( STDIN, $ARGV[0] ) || die "cannot open $ARGV[0]\n\n";
 
 #---LOOP THROUGH INPUT FILE AND WRITE DATA RECORDS---
 
@@ -155,7 +155,9 @@ sub report12 {
   $oss        = "";
   $srvFeat    = "";
   $cd         = "";
-
+  $enodeb     = "";
+  $ocli       = "";
+  $tcli       = "";
 
   @Stuff = split( /\|/, $buff );
   my $start_date            = $Stuff[7];
@@ -179,12 +181,17 @@ sub report12 {
   $oss        = "N";
 
   $cd = $Stuff[18];
+  $ocli       = uc($Stuff[12]);
+  $tcli       = uc($Stuff[13]);
 
   if ($cd eq "MO") {
     $cd = "O";
+    $enodeb     = $ocli;
   } elsif ($cd eq "MT") {
     $cd = "I";
+    $enodeb     = $tcli;
   }
+
   $srvFeat = $Stuff[28];
 
   my $prefix = "";

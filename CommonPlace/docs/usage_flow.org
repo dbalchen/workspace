@@ -1,0 +1,79 @@
+
+
+digraph BI {
+
+graph [splines=true nodesep=0.8 size=8.5,11 compress=true overlap=false style=bold];
+
+node [shape=folder];"Database";"CallDump""APRM";
+node [shape=house];"Syniverse";"Business";"EPC";"MFT";
+
+node [shape=triangle];"Switch";
+node [shape=circle];"A&F";
+
+"Switch" -> "Intec" [label = "(a)"];
+"Switch" -> "SCP" [label = "(i)"];
+"Syniverse" -> "Intec" [label = "(b)"];
+"Syniverse" -> "Intec" [label = "(j)"];
+"Intec" -> "CallDump" [label = "(n)"];
+"Intec" -> "A&F" [label = "(d)"];	     
+"Intec" -> "Syniverse" [label = "(c)"];
+"Database" -> "Intec" [label = "(f)"];	
+"A&F" -> "F2E" [label = "(e)"];
+"F2E" -> "Turbo Charging" [label = "(e)"];
+"Turbo Charging" -> "Database" [label = "(d)"];
+"Turbo Charging" -> "Intec" [label = "(c)"];
+"Turbo Charging" -> "MFT" [label = "(j)"];
+"Turbo Charging" -> "APRM" [label = "(+)"];
+"Database" -> "Turbo Charging" [label = "(e)"];
+"MFT" -> "Turbo Charging" [label = "(o)"];
+"SCP" -> "Turbo Charging" [label = "(i)"];
+"EPC" -> "Database" [label = "(e)"];
+"Business" -> "Database" [label = "(i)"];
+
+subgraph cluster_2 {
+	
+"Switch";
+"MFT";
+"SCP";
+color="#FFFFFF";
+label = " ";
+
+}
+
+
+subgraph cluster_3 {
+	"F2E";
+	"Turbo Charging";
+	"A&F";
+	"APRM";
+	label = "TOPS";
+	
+	subgraph cluster_1 {
+		"Database";
+		"EPC";
+		color="#FFFFFF";
+		label = " ";		
+	}
+	
+}
+
+
+
+}
+/*
+* Data 
+  - *(a)* :: Raw Switch Records
+  - *(b)* :: Incollect CIBER Files
+  - *(c)* :: Outcollect CIBER Files
+  - *(d)* :: Billable UFF and CIBER Records
+  - *(e)* :: Usage Records
+  - *(f)* :: Rated Usage and Operational Data
+  - *(g)* :: Rating Configuration Data
+  - *(h)* :: Diameter
+  - *(i)* :: Outcollect Reject Records
+  - *(j)* :: Reference Data
+  - *(k)* :: Overage Notifications
+  - *(l)* :: Billable and Non-Billable UFF Records
+  - *(m)* :: Notification Rejects
+  - *(n)* :: Roaming Records
+*/

@@ -8,7 +8,7 @@ my ($p,$p,$p,$day,$month,$year,$p,$p,$p) = localtime(time - 31881600);
 my $purgeDate = ($year+1900).padZero($month + 1).padZero($day + 1);
 my $fileDir   = $ARGV[0];
 my $dateStamp = strftime( "%m%d%Y%H%M%S", localtime );
-my $wtxtdate  = strftime( "%Y%m%d", localtime( time() - 86400 * 40 ) );
+my $wtxtdate  = strftime( "%Y%m%d", localtime( time() - (86400 * 40) ) );
 
 chdir("../log");
 $LOGPWD = `pwd`;
@@ -69,14 +69,14 @@ while ( $rmfile = <RMLIST> ) {
 		$FilesRemoved++;
 		$rh = "rm $delfile";
 		print "Command = $rh\n";
-#		system($rh);
+		system($rh);
 	}
 	elsif ( index( $zipPat, $type ) >= 0 && index( $file, "gz" ) == -1 ) {
 		print LOG "Zipped the following file: $delfile" . "\n";
 		$FilesZipped++;
 		$rh = "gzip  $delfile";
 		print "Command = $rh\n";
-#		system($rh);
+		system($rh);
 	}
 }
 close(RMLIST);

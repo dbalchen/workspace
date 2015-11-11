@@ -1,5 +1,5 @@
 #+STARTUP: overview
-#+TAGS: Presentation(p) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+TAGS: Presentation(p) noexport(n) taskjuggler_project(t) taskjuggler_resource(r) 
 #+DRAWERS: PICTURE CLOSET 
 #+PROPERTY: allocate_ALL dev doc test
 #+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
@@ -50,8 +50,10 @@
 ** TODO Check in CallDump Code
    SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
 ** TODO Get the WebMonitor code and figure out how to recompile then check back in.
-** TODO Add new monitors
-   - [ ] Add AR monitors
+** TODO Update the PC9_INCOL_SID_PAIR table
+    SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
+** TODO Add new monitors [33%]
+   - [X] Add AR monitors
    - [ ] Add Dave's KPI monitors.
    - [ ] Number of records processed per day.
 ** TODO Fix the error monitors.
@@ -264,6 +266,22 @@ subgraph cluster_3 {
        Turbo-Charging rater.
 
      - *Replenishment Manager* - Used for *Pre-Pay*.   
+** AEM
+   AEM gets the Turbo-Charging errors from the *APE1\_REJECTED\_EVENTS* table. For *A&F* they are in the *EM1\_RECORD* table. Since there are so many coulmns in the EM1_RECORD table we must limit are query's to the following columns.
+:  select 
+:  RECORD_ID,ORIGINATING_SYSTEM ,DESTINATION_SYSTEM,STREAM_NAME,LAYOUT_NAME,ERROR_CODE,      
+:  ERROR_DESC,ERROR_TIMESTAMP,EVENT_TIMESTAMP,LAST_UPD_TIMESTAMP,RESOLUTION_STATUS,RESOLUTION_REASON
+:  ,RECORD_STATUS,TEAM_ID,CORRECTION_RULE_ID,ASSIGNMENT_RULE_ID,LOCK_STATUS       
+:  REJECTION_REMARK,GROUP_ID,USER_ID,RECORD_TYPE,V_LIST, s_218
+:  from EM1_RECORD
+
+   Here are some useful *decode statments*
+: decode(resolution_status,1,'WRITE-OFF',2,'RECYCLE',3,'PENDING',4,'REJECTED',5,'NONE') as resolution_status,
+: decode(resolution_reason,1001,'RECYCLE',1002,'WRITEOFF',1003,'CIBER Writeoff',1004,'UFF Default') as resolution_reason,
+: decode(record_status,51,'NEW',52,'TEAM_ASSIGNED_GROUPED',53,'USER_ASSIGNED_GROUPED',54,'RESOLVED_WAITING_FOR_APPROVAL',55,'RESOLVED_APPROVED') as record_status,
+: decode(team_id,0,'DEFAULT_TEAM',1,'AEM Team',6,'IS Event Processing Team',8,'Revenue Assurance',9,'Inter Carrier Services') as team_id,
+: decode(user_id,0,'DEFAULT_USER',5,'85292',43,'RA MANAGER',44,'IS MANAGER',45,'ICS MANAGER',46,'Default Manager',49,'51399',50,'23049',51,'46360',52,'58887',74,'5563',98,'aemAdmin',149,'12720',156,'50466') as user_id, 
+
 ** Production Servers/EpsMonitors
 #+BEGIN_LaTeX
 \small
@@ -437,6 +455,27 @@ subgraph cluster_3 {
    - *OM - Order Manager*
    - *OMS - Order Management System*
 \newpage
+** Operational SQL
+*** TC Files by Physical File
+    - phy\_file\_ident = {some identifier}
+
+: select b.rowid, b.phy_file_ident, b.file_name, b.nxt_pgm_name, nxt_file_alias, 
+:        sum(b.in_rec_quantity) as INPUTFILE, 
+:        sum(b.wr_rec_quantity) as PROCESSED, sum(b.dr_rec_quantity) as DROPPED, 
+:        sum(b.gn_rec_quantity) as GENERATED from ac1_control_hist b
+:  where nxt_pgm_name in ('NONE','MD','REPORT','File2E','AEM')
+:  and nxt_file_alias in ('REJECT','UFF','DUPLICATE','GENERATE','UFF_RDRP','NONE',
+:                         'Diameter','SUCCESS','CIBER_DUP','DATAIN' ,'DATACBR','DATA_DRP')
+:  and b.cur_file_alias not in ('ROAM','SMSNTF')
+:  and file_format not in ('RERUN','CBRTBL','CIBER') 
+:  and file_status = 'CO'
+:  --and trunc(sys_creation_date) <= trunc(sysdate-1)
+:  and b.phy_file_ident = 481507452557200
+:  group by b.rowid, b.phy_file_ident, b.file_name, b.nxt_pgm_name, 
+:           nxt_file_alias, b.in_rec_quantity, b.wr_rec_quantity, 
+:           b.dr_rec_quantity, b.gn_rec_quantity
+:  order by b.phy_file_ident desc, b.rowid
+
 * TC Oncall Daily Duties:
 ** Check the Monitors
 *** Batch Tab
@@ -557,6 +596,28 @@ subgraph cluster_3 {
      - Email applicable teams the ticket number and description.
      : To:  GSSUSCCTier25RA@amdocs.com
      : Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+*** High Dollar Amount Recovery Procedure
+    *IMPORTANT :  High Dollar amounts must be reversed on the same day they are created.*
+    1. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com receives an internal alert indicating there is a high dollar amount issue.
+    2. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com calls the USC Billing On-Call Person from the daily Billing Priorities Email as soon as the alert is received.
+    3. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com sends an email to the USCDLISOps-BillingandAROperations@uscellular.com email distribution list within 1 hour of the initial internal alert.  This email contains:
+       - FA/BAR
+       - transaction\_id
+       - amount (e.g. charges\_amount)
+       - tax\_amount
+       - debit\_id
+       - l9\_geo\_cod
+       - operator\_id (associate id)
+       - first\_name
+       - last\_name
+       - e\_mail
+       - employee\_no
+       - work\_group
+    4. USC forwards the Amdocs communication email to the following Financial Services email addresses within 1 hour of receiving the email communication from Amdocs: 
+       - NFSC-TulsaResolutions@uscellular.com  
+       - NFSCMADFSHelpDesk@uscellular.com
+       - Lane.Dohl@uscellular.com
+    5. Financial Services reverses any incorrect transactions and replies to the email distribution list for USC and Amdocs.  If the process is successful, no further action is required.  If there are any other issues, further escalation is needed using our standard processes.  This escalation requires a Sev-3 ticket created and routed to the Amdocs Tier 2 Billing queue.
 
 ** Check out of sequence CIBER records monitor.
    - Go to the MPS mailbox and look for the out of sequence CIBER records email.
@@ -565,6 +626,9 @@ subgraph cluster_3 {
    : To:  GSSUSCCTier25RA@amdocs.com
    : Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
 
+** Check Late Usage Processing
+   Follow the link below to see a query to find late usage for a given cycle.
+   [[/home/dbalchen/workspace/CommonPlace/docs/LateUsage.sql][Late Usage SQL]]
 ** When Notified Nonfictions.
    - kpr01ebiap maintenance. 
      - Login to the EBI server with your LAN ID and password.
@@ -1539,6 +1603,7 @@ digraph BI {
 |                                   |                     | LTE - 69              |
 |                                   |                     | SMS - 54              |
 |                                   |                     | MMS - 60              |
+|                                   |                     | Volte - 69            |
 |                                   |                     | /See wiki table/      |
 |                                   |                     | /for complete list/   |
 | TARGET\_CYCLE\_CODE               | NUMBER (4)          |                       |
@@ -2064,6 +2129,9 @@ digraph BI {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+*** EM1_RECORD
+    The EM1 record database is the database used by *AEM* and it has so many columns that you cannot use a /select */ to query. Instead click on the link provided below and use that as a template.
+    [[/home/dbalchen/workspace/CommonPlace/docs/em1_example.sql][EM1_RECORD Example]]
 \newpage
 * BPT Tables
   The *Business Process Tables* are the Tops equivalent to the
@@ -3028,12 +3096,18 @@ AND expiration\_date IS NULL
 ** AR Basics
    - *Root Directory* - \$ABP\_AR\_ROOT on kpr01batch
    - *Collection Interface* - /pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/cl/interfaces 
-** AR Jobs
+** AR Jobs and Deamons
 *** AR1JRNLEXT
     The Journal Extract process extracts to an output file all financial activities that occurred since the last run of this process.
     - *LOG FILE* - AR1JRNLEXT.<SYS\_DATE>.log
     - *Output File* -
     - *Script Name* - ar1\_JrnlExtract\_Sh
+*** AR1PYMRCT
+*** AR1DDREQCRE
+*** AR3GWLSTR
+*** AR1PYMPOST
+*** AR1DDFEDBCK
+*** AR1INVRCT
 ** End of Month
 *** Email List for Revenue Accounting
 :        Tabano-lucero Glayn <Glayn.Tabano-lucero@uscellular.com>; 
@@ -3755,6 +3829,56 @@ AND expiration\_date IS NULL
 *** ar1\_gl\_data\_info\_v
 *** ar1\_transaction\_log
 *** ar1-JGL-control
+** GL Extracts
+   These are created via *APRM*.
+*** SAP Extracts
+  - Business owner (3/15/2013): Diane Matulis 
+  - Transfer target: svc_mft_ops@babble.tds.local:~bosstven/glinty3t 
+*** General Ledger - Incollect - USCSAPEXTRGL SAPIN
+    - Job name: USCSAPEXTRGL SAPIN 
+    - Schedule: EOD 
+    - TWS Job name: PR-FINFN17-APRM_RMG\_SAP\_INCOLGENLEDGER 
+    - Transfer Date: 22nd of each month @ 12:00 am 
+    - SLA: 2 days 
+    - File name convention: GLINCY3YYYYMMDDHHMMSS 
+    - File location: ~aprmoper/var/usc/SAPGLEXTR/IN/ 
+
+*** General Ledger - Outcollect - USCSAPEXTRGL SAPOUT
+    - Job name: USCSAPEXTRGL SAPOUT 
+    - Schedule: EOD 
+    - TWS Job name: PR-FINFN17-APRM_RMG\_SAP\_OUTCOLGENLEDGER 
+    - Transfer Date: 22nd of each month @ 12:00 am 
+    - SLA: 2 days 
+    - File name convention: GLOUTY3YYYYMMDDHHMMSS 
+    - File location: ~aprmoper/var/usc/SAPGLEXTR/RO/ 
+*** Accrual EOM - Incollect - USCSAPEXTRGL ACCIN
+    - Job name: USCSAPEXTRGL ACCIN 
+    - Schedule: EOD 
+    - TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER 
+    - Transfer Date: 1st of each month @ 12:00 am 
+    - SLA: End of day 
+    - File name convention: GLINCY4YYYYMMDDHHMMSS 
+    - File location: ~aprmoper/var/usc/SAPGLEXTR/IN/ 
+      - Ex: /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IN/GLINCY420130401005834 
+*** Accrual EOM - Outcollect - USCSAPEXTRGL ACCOUT
+    - Job name: USCSAPEXTRGL ACCOUT 
+    - Schedule: EOD 
+    - TWS Job name: PR-FINFN17-APRM_RMG_SAP_INCOLGENLEDGER 
+    - Transfer Date: 1st of each month @ 12:00 am 
+    - SLA: End of day 
+    - File name convention: GLOUTY4YYYYMMDDHHMMSS 
+    - File location: ~aprmoper/var/usc/SAPGLEXTR/RO/ 
+      - Ex: /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/RO/GLOUTY420130401005834 
+*** Intra-Company Roaming - USCSAPEXTRGL SAPIR
+    - Job name: USCSAPEXTRGL SAPIR 
+    - Schedule: EOD 
+    - TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER 
+    - Transfer Date: 1st of each month @ 12:00 am 
+    - SLA: End of day 
+    - File name convention: GLINTY3YYYYMMDDHHMMSS 
+    - File location: ~aprmoper/var/usc/SAPGLEXTR/IR/ 
+      - Ex: /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IR/GLINTY320130401005834  
+
 ** Operational SQL
    All of these scripts would be good monitor scripts.
    - Checks to see if all payment files have been processed.(*PRDAF*)
@@ -3797,6 +3921,11 @@ AND expiration\_date IS NULL
    - */m04/switchb/valista* - Premium SMS
    - */m05/switch/brew* - Brew and Brew data *(aaa2)*
    - */m01/switchb/tas* - Volte 
+** WEDO (Switch to bill)
+   The *WEDO* process pulls usage files tar's them up and places them into a directory so that *MFT* can pick them up. The operational jobs are as follows:
+   1. Job PR-BOD-S2B\_TO\_WEDO is running this script: /m01/switch/to\_wedo.sh
+   2. Job PR-BOD-S2B\_CREATE\_WEDO\_ARCH is running this script: /m01/switch/wedo/create\_wedo\_archive.sh
+
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX

@@ -226,7 +226,7 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
     $srvFeat = $Stuff[28];
 
      my $prefix = "";
-
+# Things can change here...
      if (length($dialed_tn) > 10) {
        $prefix = substr($dialed_tn,0,-10);
        $dialed_tn = substr($dialed_tn,-10);

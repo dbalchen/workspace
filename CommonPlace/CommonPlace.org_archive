@@ -2064,3 +2064,16 @@ cat badCIBER | sed 's/^22410211/22485007/g' | sed 's/4447102201150.../4447102401
  - *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
    - \//inf\_nas\//apm1\//prod\//aprmoper\//eps\//monitors\
 
+
+* MpsMonitors							   :noexport:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-10-29 Thu 16:06
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+ps -ef | grep '$user' | grep AR1PYMRCT | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server'|cut -d ' ' -f5,9
+ps -ef | grep '$user' | grep AR1DDREQCRE  | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server'| cut -d ' ' -f5,9
+ps -ef | grep '$user' | grep AR3GWLSTR  | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server' |cut -d ' ' -f5,9
+ps -ef | grep '$user' | grep AR1PYMPOST  | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server' | cut -d ' ' -f5,9
+ps -ef | grep '$user' | grep AR1DDFEDBCK  | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server' |cut -d ' ' -f5,9
+ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server'| cut -d ' ' -f5,9
