@@ -1,0 +1,193 @@
+
+#----------------------------------------------------------------------------------
+#      File: db_utils_pl.pl
+#
+#      Desc: Utility functions for database interaction.
+#
+# Functions: getDBParmsfromOper()
+#            connectToOracle()
+#
+#    Author: Craig J. Stalsberg - 12/03/2001
+#
+# User Info: Add the following lines to the top of your program:
+#
+#            require "db_utils_pl";
+#            use USCDB;
+#
+#----------------------------------------------------------------------------------
+# Revision(s):
+#----------------------------------------------------------------------------------
+# $Log: db_utils_pl.pl,v $
+# Revision 10.1.1.1  2002/01/25  02:47:55  ccus
+# created by vercopy from revision 9.1.1.2
+#
+# Revision 10.1  2002/01/25  02:47:55  ccus
+# Initial revision
+#
+# Revision 9.1.1.2  2001/12/13  20:51:42  ccus
+# AUTO INSERT, user: Craig Stalsberg message: Fixed RCS Comments.
+#
+# Revision 9.1.1.1  2001/12/06  21:16:24  ccus
+# AUTO INSERT, user: Craig Stalsberg message: Mps Oncall Paging Monitor that 
+# was written to page the MpsOn-call person when certain conditions arise. 
+# MPSBOOT is being modified to start this script and MPSSHUTDOWN is being 
+# modified to kill this script.
+#
+# Revision 9.1  2001/12/06  21:16:24  ccus
+# Initial revision
+#
+# Revision 8.1.1.1  2001/12/06  21:16:24  ccus
+#  Initial CC revision
+#
+# Revision 8.1  2001/12/06  21:16:23  ccus
+# Initial revision
+#
+# Revision 7.1.1.1  2001/12/06  21:16:23  ccus
+#  Initial CC revision
+#
+# Revision 7.1  2001/12/06  21:16:23  ccus
+# Initial revision
+#
+# Revision 6.1.1.1  2001/12/06  21:16:23  ccus
+#  Initial CC revision
+#
+# Revision 6.1  2001/12/06  21:16:23  ccus
+# Initial revision
+#
+# Revision 5.1.1.1  2001/12/06  21:16:23  ccus
+#  Initial CC revision
+#
+# Revision 5.1  2001/12/06  21:16:23  ccus
+# Initial revision
+#
+# Revision 4.1.1.1  2001/12/06  21:16:23  ccus
+#  Initial CC revision
+#
+# Revision 4.1  2001/12/06  21:16:23  ccus
+# Initial revision
+#
+# Revision 3.1.1.1  2001/12/06  21:16:22  ccus
+#  Initial CC revision
+#
+# Revision 3.1  2001/12/06  21:16:22  ccus
+# Initial revision
+#
+# Revision 2.1.1.1  2001/12/06  21:16:22  ccus
+#  Initial CC revision
+#
+# Revision 2.1  2001/12/06  21:16:22  ccus
+# Initial revision
+#
+# Revision 1.1.1.1  2001/12/06  21:16:22  ccus
+#  Initial CC revision
+#
+# Revision 1.1  2001/12/06  21:16:22  ccus
+# Initial revision
+#
+#----------------------------------------------------------------------------------
+
+#----------------------------------------------------------------------------------
+#     Sub: getDBParmsfromOper()
+#
+#    Desc: Get the Oracle Instance, Oracle User and Oracle Password from the 
+#          operational DB.  Use the JOB, Sid, User and Password that are passed
+#          as parameters to this function.  If they are not passed, then we use
+#          the environment variables setup containing these parameters.
+#
+#  Author: Craig J. Stalsberg - 10/23/2001
+#
+# Returns: $sid, $user, $pass for connecting to oracle for this job if successful
+#          otherwise, undef
+# 
+# Environ: $OP_JOB_NAME, $OP_ORA_INST, $OP_ORA_USER, $OP_ORA_PASS which are usually
+#          set via the on-lines when a job is run.
+#
+#----------------------------------------------------------------------------------
+# Revision(s):
+#----------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------
+sub getDBParmsfromOper()
+   {
+
+      my $job = shift;
+      my $opSid = shift;
+      my $opUser = shift;
+      my $opPass = shift;
+      my $dbh;
+      my $sql;
+      my $rc;
+
+      unless (defined $job) {$job = $ENV{OP_JOB_NAME}};
+      unless (defined $opSid) {$opSid = $ENV{OP_ORA_INST}};
+      unless (defined $opUser) {$opUser = $ENV{OP_ORA_USER}};
+      unless (defined $opPass) {$opPass = $ENV{OP_ORA_PASS}};
+
+      $dbh = new USCDB();
+
+      $rc = $dbh->openConnection($opSid, $opUser, $opPass);
+      if (!defined $rc) {
+         $dbh->displayError();
+         return undef;
+      }
+
+      $sql =        "select dbc.db_instance, dbc.username, dbc.password ";
+      $sql = $sql . "  from jobdbconnect jdbc, dbconfig dbc ";
+      $sql = $sql . " where dbc.db_connect_code = jdbc.db_connect_code ";
+      $sql = $sql . "   and jdbc.run_mode = 'F' ";
+      $sql = $sql . "   and jdbc.job_name = '$job'";
+
+      ($sid, $user, $pass) = $dbh->selectFetchRow($sql);
+      if (!defined $sid) {
+         $dbh->displayError();
+      }
+      $dbh->closeConnection();
+      return ($sid, $user, $pass);
+   }
+
+#----------------------------------------------------------------------------------
+#     Sub: connectToOracle()
+#
+#    Desc: Create a new Database Handle and connect it to the Oracle instance
+#          using the sid, user and pass supplied as arguements to this script.          
+#
+#  Author: Craig J. Stalsberg - 10/23/2001
+#
+# Returns: Database Handle connected to the appropriate Oracle Instance.
+#          otherwise, undef
+# 
+# Environ: None
+#----------------------------------------------------------------------------------
+# Revision(s):
+#----------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------
+sub connectToOracle()
+   {
+      my $sid = shift;
+      my $user = shift;
+      my $pass = shift;
+      my $dbh;
+      my $rc;
+
+      if (!defined $sid || !defined $user || !defined $pass) {
+         return undef;
+      }
+
+      # Create database object
+      $dbh = new USCDB();
+
+      if (!defined $dbh) {
+         return undef;
+      }
+
+      # Open the connection
+      $rc = $dbh->openConnection($sid,$user,$pass);
+
+      # Check for failure to connect to database
+      if (!defined $rc)  {
+         $dbh->displayError();
+         return undef;
+      }
+      return $dbh
+   }
+
+1;

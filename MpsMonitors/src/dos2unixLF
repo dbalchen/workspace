@@ -1,0 +1,39 @@
+#!/opt/perl5/bin/perl
+
+#---------------------------------------------------------------
+# Script: dos2unix
+#
+# Desc: Data files coming from windows often have the CR
+#       character as a record separator.  This script replaces
+#       these caracters with an end-of-line character, which is
+#       a more common record-delimiting character in UNIX.
+#
+# Parameters: $fname - string scalar containing the name of 
+#                      the data file to convert.
+#
+# Returns: (none).
+#---------------------------------------------------------------
+# Author: Pete Chudykowski
+#---------------------------------------------------------------
+# Revisions:
+# 1). Initial Revision
+#     - Pete Chudykowski - Tue Jul 15 15:16:38 CDT 2003
+#---------------------------------------------------------------
+use strict;
+my $fname = $ARGV[0];
+open(INFILE,$fname) || die "Cannot open $fname for reading.\n";
+open(OUTFILE,">$fname.out") || die "Cannot open $fname.out for writing.\n";
+while(my $record = <INFILE>) {
+  chomp $record;
+  $record =~ s/\r/\n/g;
+  print OUTFILE $record;
+}
+close(INFILE);
+close(OUTFILE);
+
+unlink $fname;
+`mv $fname.out $fname`;
+
+exit 0;
+
+1;

@@ -1,0 +1,26 @@
+#! /usr/contrib/bin/perl
+
+$Market = uc($ENV{'TLG_MARKET'});
+$market = lc($Market);
+$Host = uc($ARGV[0]);
+
+if(index($Host,"I0") >= 0)
+{
+  $Market = $Host;
+}
+
+$ENV{'OP_JOB_NAME'} = 'MPSBOOT';
+$ENV{'OP_ORA_INST'} = 'pc1'.$market;
+$ENV{'OP_ORA_USER'} = $market.'operconn';
+$ENV{'OP_ORA_PASS'} = $market.'operconn';
+
+$mainPgm = "com.uscc.monitor.MpsMonitor";
+$java = "/opt/java/jre/bin/java ";
+$classpath = "./xmlParserAPIs.jar:./MpsMonitors.jar:./xercesImpl.jar:/opt/java/jre/lib/xerces.jar:$PIN_HOME/jars/xerces.jar";
+
+$hh = "$java -classpath $classpath $mainPgm $Market ./monitor.xml &";
+
+print "$hh \n";
+
+system($hh);
+

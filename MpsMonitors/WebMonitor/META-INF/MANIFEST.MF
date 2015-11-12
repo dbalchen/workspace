@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.5.3 
+Created-By: 1.5.0.08 jinteg:05.04.07-05:41 PA2.0 (aCC_AP) (Hewlett-Pac
+ kard Company)
+

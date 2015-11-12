@@ -1,0 +1,168 @@
+<!-- Created with Bluefish http://bluefish.openoffice.nl/ -->
+<HTML>
+<HEAD>
+<TITLE>MPS System Monitor Documentation</TITLE>
+<BODY bgcolor="#e6e6e6">
+  <table width="100%">
+    <tr>
+    <td align="left"><img src="../img/uscc_logo.gif"></td>
+    <td>
+      <center>
+        <h2>
+        <font color="#8080ff">MPS System Monitor Documentation</font>
+        </h2>
+        <h3>Developer's Guide</h3>
+      </center>
+    </td>
+    <td align="right"><img src="../img/uscc_logo.gif"></td>
+    </tr>
+  </table>
+  <hr align="center">
+  <table width="100%" border="0" bgcolor="#ffffc0">
+    <tr>
+      <td align="left"><a href="../user/index.html"><< prev</a></td>
+      <td align="center"><a href="../">[ Home ]</a></td>
+      <td align="right"><font color="lightgrey">next >></font></td>
+    </tr>
+  </table>
+  <hr align="center">
+  <p>
+  <ul>
+    <li><b><a href="#intro">Introduction</a></b></li>
+    <li><b><a href="#arch">Architecture</a></b></li>
+    <ul>
+      <li><a href="#tier1.interface">User Interface Tier</a></li>
+      <li><a href="#tier2.collector">Collector Tier</a></li>
+      <li><a href="#tier3.audit">Audit Tier</a></li>
+    </ul>
+    <li><b><a href="#code">Code Documentation</a></b></li>
+    <li><b><a href="#update">Source Update Guide</a></b></li>
+  </ul>
+   
+  <p> &nbsp; 
+  <hr align="center">
+  <a name="intro"></a><h3>Introduction</h3>
+  The Monitor is a system monitoring utility, which performs periodic 
+  audits and reports on the status of the MPS system activity.<br>
+  The Monitor was written to enhance the ability of the MPS personnel
+  to identify and respond to real and potential issues in a prompt 
+  manner thus minimizing customer impact. 
+
+  <p><a href="#top"><font size="-1">Top</font></a></p>
+  
+  <a name="arch"></a><h3>Architecture</h3>
+  The Monitor system composes of three tiers:
+  <br>
+  <ul>
+    <li><a href="#tier1.interface">User Interface Tier</a></li>
+    <li><a href="#tier2.collector">Collector Tier</a></li>
+    <li><a href="#tier3.audit">Audit Tier</a></li>
+  </ul>
+  <br>
+  View the high level <a href="img/WebMonitorDiagram.jpg" target="blank">
+  Monitor System Diagram</a>.
+  
+  <p><a href="#top"><font size="-1">Top</font></a></p>
+  
+  <a name="tier1.interface"></a><h3>User Interface Tier</h3>
+  The <i>User Interface Tier</i> retireves information gathered in the 
+  Collector Tier and formats it appropriately for output. 
+  <br>
+  Currently two interfaces exist.
+  <p></p>
+  <b>The Web Monitor</b> is a Java Servlet, which formats the plain text 
+  system status information received from the <i>Collector Tier</i> into HTML 
+  and allows access via a web browser.
+  <p></p>
+  <b>The Dialer</b> is a CRON-like Java application which sends a text page
+  to an oncall associate if the collected output indicates a potentially
+  threatening system condition.<br>
+  The behavior of the Dialer is controlled through the <font color="#20b020">
+  <b>monitor.xml</b></font> configuration file.  Please see the  
+  <a href="http://petra/~xsx/monitor_doc/user/index.html#config.market.audit">
+  Audit Configuration Section</a> of the User Manual for details on 
+  manipulating the Dialer behavior. 
+  <p></p>
+  Additional interfaces may be added at any time following appropriate 
+  Change Management procedures.    
+  
+  <p><a href="#top"><font size="-1">Top</font></a></p>
+  
+  <a name="tier2.collector"></a><h3>Collector Tier</h3>
+  The <i>Collector Tier</i> requests and gathers information from the 
+  <i>Audit Tier</i> at specified time intervals.  
+  Once the data is collected, the Audit Tier makes it available to the 
+  <i>User Interface Tier</i> servlet via a socket.
+  <p></p>
+  The collection is performed by daemon modules, which reside on each
+  production machine.  There is one Collector Daemon on for each market.
+  <p></p>
+  The 
+  <a href="http://petra/~xsx/monitor_doc/user/index.html#config.market.audit">
+  Audit Section</a> of the <font color="#20b020"><b>monitor.xml</b></font> 
+  configuration file tells the Daemons how often to run a particular audit, 
+  the name of the executable to run, and the parameters to pass at the command 
+  line.  The Collector executes the audit program, captures its STDOUT output, 
+  and stores it as the most up to date information regarding the particular
+  Audit.
+    
+  <p><a href="#top"><font size="-1">Top</font></a></p>
+  
+  <a name="tier3.audit"></a><h3>Audit Tier</h3>
+  The <i>Audit Tier</i> is a collections of stand-alone programs which perfom 
+  individual system checks.  As a rule, the programs are executed by the 
+  <i>Collector Tier</i> and report their findings to STDOUT, which is promptly
+  collected by the Collector.=  
+  
+  <p><a href="#top"><font size="-1">Top</font></a></p>
+  
+  <a name="code"></a><h3>Code Documentation</h3>
+  View the <a href="../audits/index.html" target="blank">Code Documents</a> 
+  for the individual audits.
+  
+  <p><a href="#top"><font size="-1">Top</font></a></p>
+  
+  <a name="update"></a><h3>Source Update Guide</h3>
+  To ensure proper update and propagation of the source code updates, 
+  please follow the following steps.
+  <ol>
+    <li>Check Out the source code files you wish to modify from the MPS project
+        in <a href="http://chi1pbs1.uscc.com/vminet.html">PVCS</a>.</li>
+    <li>Modify source.</li>
+    <li>Test and QA the code.</li>
+    <li>Log in to CHI1PAS1 as <b>mps</b></li>
+    <li>Update the master copy of the source in the appropriate subdirectory
+        under /users/mps/MpsMonitors/monitors/</li>
+    <li>Distribute the changes to production.</li>
+    <ol>
+      <li type='a'>If <font color="#20b020"><b>monitor.xml</b></font> was modified,
+          run <a href="../utils/mdistrib.pl.html" target="blank">
+                mdistrib.pl -all -b
+              </a> 
+          under /users/mps/MpsMonitors to propagate the changes to 
+          production and bounce the monitors.</li>
+      <li type='a'>If <font color="#20b020"><b>monitor.xml</b></font> was <b>not</b> 
+          modified, run <a href="../utils/mdistrib.pl.html" target="blank">
+                           mdistrib.pl -all
+                        </a>
+          to propagate the changes to production without bouncing the monitor.
+      </li>
+    </ol>
+    <li>Check-in the modified source files into PVCS.</li>
+  </ol>
+  
+  <p><a href="#top"><font size="-1">Top</font></a></p>
+  
+  <p>&nbsp;</p>
+  <hr align="center">
+  <table width="100%" border="0" bgcolor="#ffffc0">
+    <tr>
+      <td align="left"><a href="../user/index.html"><< prev</a></td>
+      <td align="center"><a href="../">[ Home ]</a></td>
+      <td align="right"><font color="lightgrey">next >></font></td>
+    </tr>
+  </table>
+  <hr align="center">
+</BODY>
+</HEAD>
+</HTML>

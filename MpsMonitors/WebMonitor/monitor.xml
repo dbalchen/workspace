@@ -1,0 +1,2142 @@
+<?xml version="1.0"?>
+
+<!-- The MONITOR configuration file. -->
+<monitor>
+	<!-- 
+	    GENERAL SETTINGS 
+	        Settings applicable to the overall environment of this Monitor instance.
+	-->
+	<general>
+	    <!--
+	        ASSOCIATE ONCALL SCHEDULE
+	            Value contains oncall start date and end date in format YYYMMDD.
+	    -->
+	    <schedule>
+	        <period>
+	            <start_oncall>20050307</start_oncall>
+	            <end_oncall>20050313</end_oncall>
+	            <victim>Tim</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050314</start_oncall>
+	            <end_oncall>20050320</end_oncall>
+	            <victim>Pete</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050321</start_oncall>
+	            <end_oncall>20050328</end_oncall>
+	            <victim>Jacob</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050329</start_oncall>
+	            <end_oncall>20050403</end_oncall>
+	            <victim>Scott</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050404</start_oncall>
+	            <end_oncall>20050410</end_oncall>
+	            <victim>Charlie</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050411</start_oncall>
+	            <end_oncall>20050417</end_oncall>
+	            <victim>Dan</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050418</start_oncall>
+	            <end_oncall>20050424</end_oncall>
+	            <victim>Dave</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050425</start_oncall>
+	            <end_oncall>20050501</end_oncall>
+	            <victim>Bill</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050502</start_oncall>
+	            <end_oncall>20050508</end_oncall>
+	            <victim>Tim</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050509</start_oncall>
+	            <end_oncall>20050515</end_oncall>
+	            <victim>Peg</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050516</start_oncall>
+	            <end_oncall>20050522</end_oncall>
+	            <victim>Craig</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050523</start_oncall>
+	            <end_oncall>20050529</end_oncall>
+	            <victim>John</victim>
+	        </period>
+	        <period>
+	            <start_oncall>20050530</start_oncall>
+	            <end_oncall>20050605</end_oncall>
+	            <victim>Tom</victim>
+	        </period>
+	    </schedule>
+	    
+	
+	    <!--
+	        ASSOCIATE INFORMATION
+	            SMTP pager and email addresses.
+	    -->
+	    <associate>
+	        <name>Bill</name>
+	        <pager>pete.chudykowski@uscellular.com</pager>
+	        <email>david.balchen@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Charlie</name>
+	        <pager>6086575705@archwireless.net</pager>
+	        <email>charles.jamieson@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Craig</name>
+	        <pager>6086575694@archwireless.net</pager>
+	        <email>craig.stalsberg@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Dan</name>
+	        <pager>6086575673@archwireless.net</pager>
+	        <email>dan.koch@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Dave</name>
+	        <pager>6086576372@archwireless.net</pager>
+	        <email>david.balchen@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Glenn</name>
+	        <pager>6086575662@archwireless.net</pager>
+	        <email>glenn.lockwood@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Jacob</name>
+	        <pager>6085160332@email.uscc.net</pager>
+	        <email>jacob.ray@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>John</name>
+	        <pager>6086575700@archwireless.net</pager>
+	        <email>johnathon.schultz@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Marsue</name>
+	        <pager>6086575695@archwireless.net</pager>
+	        <email>marsue.obremski@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Mary</name>
+	        <pager>6086575893@archwireless.net</pager>
+	        <email>mary.jensen@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>MikeO</name>
+	        <pager>6086575683@archwireless.net</pager>
+	        <email>mike.obremski@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Pat</name>
+	        <pager>8777979427@skytel.com</pager>
+	        <email>patrick.mcnamara@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Peg</name>
+	        <pager>6086571401@archwireless.net</pager>
+	        <email>pauline.hrobsky@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Pete</name>
+	        <pager>6086570233@archwireless.net</pager>
+	        <email>pete.chudykowski@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Scott</name>
+	        <pager>6086575665@archwireless.net</pager>
+	        <email>scott.robinson@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Tim</name>
+	        <pager>6086575673@archwireless.net</pager>
+	        <email>tim.amundsen@uscellular.com</email>
+	    </associate>
+	    <associate>
+	        <name>Tom</name>
+	        <pager>6086575663@archwireless.net</pager>
+	        <email>thomas.sarazin@uscellular.com</email>
+	    </associate>
+	    
+	    <!--
+	        ROOT PATH
+	            Physical address of the root project directory.
+	            This is where all the check executables are located.
+	    -->
+           <SERVLET>
+                <TEMPLATE file="ini/Mps_Monitor.html" key="default"/>
+                <TEMPLATE file="ini/ACPA2.html" key="ACPA2"/>
+                <TEMPLATE file="ini/ACPA3.html" key="ACPA3"/>
+                <TEMPLATE file="ini/OncallM01.html" key="ONCALLM01"/>
+                <TEMPLATE file="ini/OncallM02.html" key="ONCALLM02"/>
+                <TEMPLATE file="ini/OncallM03.html" key="ONCALLM03"/>
+                <TEMPLATE file="ini/OncallM04.html" key="ONCALLM04"/>
+                <TEMPLATE file="ini/OncallM05.html" key="ONCALLM05"/>
+                <TEMPLATE file="ini/OncallM06.html" key="ONCALLM06"/>
+                <TEMPLATE file="ini/Oncall3M01.html" key="ONCALL3M01"/>
+                <TEMPLATE file="ini/Oncall3M02.html" key="ONCALL3M02"/>
+                <TEMPLATE file="ini/Oncall3M03.html" key="ONCALL3M03"/>
+                <TEMPLATE file="ini/Oncall3M04.html" key="ONCALL3M04"/>
+                <TEMPLATE file="ini/Oncall3M05.html" key="ONCALL3M05"/>
+                <TEMPLATE file="ini/Oncall3M06.html" key="ONCALL3M06"/>
+           </SERVLET>
+	</general>
+
+	<!--
+	    MARKET
+	        Settings specific to each market.	        
+	-->
+	<MARKET>
+	    <!--
+	        These sections contain input parameters for each individual
+	        monitor check.
+	        To turn off any of the checks, set its 'disable' flag to 'Yes', 'y', 
+	        or any other case variation thereof.
+	    -->
+	    <M01 hostname="m01usg1.uscc.com" port="8999" StartHour="7">
+	        <!--
+	            SwitchBehind
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <SwitchBehind>
+	            <disable>No</disable>
+	            <!--
+	                The following 5 tags tell the monitor when it should run the
+	                check.  The method is similar to the Unix CRON.  
+	                Thus, for instance the setting:
+	                "   <minutes>5,23</minutes>
+	                    <hours>3,5,19</hours> 
+	                    <days>1-25</days>
+	                    <dayofweek>*</dayofweek>
+	                    <month>*</month>           "
+	                results in the check being performed every day of the month,
+	                on any day of the week, but only on days of month 1st through
+	                the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+	                7:23 PM.
+	            -->
+	            <minutes>0</minutes>
+			    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/SwitchBehind.pl</executable>
+	            <!-- 
+	               The ignore_list parameter contains a comma-delimited list of 
+	               switches that are to be ignored by the paging mechanism. 
+	               If a switch is followed by a colon and a string of digits, 
+	               the switch will be ignored only on the days specified by the digits.  
+	               The integer digits signify days of week starting with 0=Sunday.  
+	               So, for instance, if you want switch SWITCH to be ignored on Sunday 
+	               and Wednesday, but page on the rest of the days of the week, 
+	               the entry would be: 
+	                    ignore_list="SWITCH:03"
+	            -->
+                <params market="M01" 
+	                    sql_query="switch_behind.sql"
+	                    ignore_list="MORG,CLAR,ROEN,CHIL,LMOR,SMIT,WILM,LYNC,MABS,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3"
+	                    threshold="8" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:SwitchBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </SwitchBehind>
+
+	        <!--
+	            ProgremBehind
+	            This check is responsible for paging the oncall person when 
+	            a program is behind in processing by a threshold number of records.
+	        -->
+	        <ProgramBehind>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/ProgramBehind.pl</executable>
+	            <params market="M01" 
+	                    sql_query="program_behind.sql"
+	                    threshold="2000000"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:ProgramBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </ProgramBehind>
+	        <!--
+	            MissingBlock
+	            This check is responsible for paging the oncall person when 
+	            missing blocks of data are detected.
+	        -->
+	        <MissingBlock>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingBlock.pl </executable>
+	            <params market="M01" 
+	                    sql_query="missing_block.sql"
+	                    switch_query="voice_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    threshold="100"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:MissingBlock"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>0</repage>
+	        </MissingBlock>
+
+	       <!--
+	            StuckFile
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <StuckFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/StuckFile.pl </executable>
+	            <params market="M01" 
+	                    sql_query="stuck_file.sql"
+	                    threshold="4"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:StuckFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </StuckFile>	        
+	        <!--
+	            MafMonitor
+	            This check is responsible for paging the oncall person when 
+	            the Maf Monitor ceases processing.
+	        -->
+	        <MafMonitor>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M01"
+                            host="localhost"
+	                    maf_port="/cares/mpsm01b/m01/projs/up/physical/switch/MafPort.txt"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:MafMonitor"/>
+	            <executable>Monitor/MafMonitor.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>        
+	        </MafMonitor>
+	  	        <!--
+	            RaterStatus
+	            This check is responsible for paging the oncall person when 
+	            any raters go down.
+	        -->
+	        <RaterStatus>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/RaterStatus.pl</executable>
+	            <params market="M01" 
+	                    night_start="4" 
+	                    night_end="13"  
+	                    sql_day="raters_day.sql" 
+	                    sql_night="raters_night.sql" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:RaterStatus"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </RaterStatus>      
+	        <!--
+	            InfranetTransfer
+	            This check is responsible for paging the oncall person when 
+	            a data file transfer from CARES to Infranet fails.
+	        -->
+	        <InfraTransfer>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M01"
+	                    from_hrs_ago="48"
+	                    to_hrs_ago="2"
+	                    cares_query="cares.sql"
+	                    infra_query="infra.sql"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:Infranet_Transfer"/>
+	            <executable>Monitor/InfraTransfer.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </InfraTransfer>
+
+	        <OutcollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M01"
+	                    threshold="24"
+	                    alt_thresh="36"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:Outcollect_Ciber"
+	                    phys_dir="/cares/mpsm01b/m01/projs/up/physical/switch/gteout/"/>
+	            <executable>Monitor/OutcollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </OutcollectCiber>
+	        <MissingDataFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingDataFile.pl </executable>
+	            <params market="M01" 
+	                    sql_query="missing_file.sql"
+	                    switch_query="data_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    max_blocks="10000"
+	                    ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M01:MissingDataFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </MissingDataFile>
+	        <WebAcpa2>
+	            <disable>yes</disable>
+                   <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa2.pl </executable>
+                    <params title="ACPA2:M01" />
+	            <repage>1</repage>
+	        </WebAcpa2>
+	        <WebAcpa3>
+	            <disable>yes</disable>
+	            <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa3.pl </executable>
+                   <params title="ACPA3:M01" />
+	            <repage>1</repage>
+	        </WebAcpa3>
+	        <WebListenGuideRate>
+	            <disable>yes</disable>
+	            <minutes>0,5,10,15,20,25,30,35,40,45,50,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebListenerGuidersRaters.pl </executable>
+                   <params title="WebListenGuideRate:M01" />
+	            <repage>1</repage>
+	        </WebListenGuideRate>
+	        <WebFreeMinUsgErrs>
+	            <disable>yes</disable>
+	            <minutes>0,30</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebRollFreeMinutesUsageErrors.pl </executable>
+                   <params title="WebFreeMinUsgErrs:M01" />
+	            <repage>1</repage>
+	        </WebFreeMinUsgErrs>
+	        <WebSpaceMb>
+	            <disable>yes</disable>
+	            <minutes>0</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebSpaceMb.pl </executable>
+                   <params title="WebSpaceMb:M01" />
+	            <repage>1</repage>
+	        </WebSpaceMb>
+	        <WebStuckFileProc>
+	            <disable>yes</disable>
+	            <minutes>0,15,30,45,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebStuckFileProc.pl </executable>
+	            <params  ignore_list="SMIT,WILM,LYNC,MABS,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3" title="M01:WebStuckFileProc" />
+	            <repage>1</repage>
+	        </WebStuckFileProc>
+	    </M01>
+
+
+	    <M02 hostname="m02usg1.uscc.com" port="8999" StartHour="6">
+	        <!--
+	            SwitchBehind
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <SwitchBehind>
+	            <disable>No</disable>
+	            <!--
+	                The following 5 tags tell the monitor when it should run the
+	                check.  The method is similar to the Unix CRON.  
+	                Thus, for instance the setting:
+	                "   <minutes>5,23</minutes>
+	                    <hours>3,5,19</hours> 
+	                    <days>1-25</days>
+	                    <dayofweek>*</dayofweek>
+	                    <month>*</month>           "
+	                results in the check being performed every day of the month,
+	                on any day of the week, but only on days of month 1st through
+	                the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+	                7:23 PM.
+	            -->
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/SwitchBehind.pl</executable>
+	            <!-- 
+	               The ignore_list parameter contains a comma-delimited list of 
+	               switches that are to be ignored by the paging mechanism. 
+	               If a switch is followed by a colon and a string of digits, 
+	               the switch will be ignored only on the days specified by the digits.  
+	               The integer digits signify days of week starting with 0=Sunday.  
+	               So, for instance, if you want switch SWITCH to be ignored on Sunday 
+	               and Wednesday, but page on the rest of the days of the week, 
+	               the entry would be: 
+	                    ignore_list="SWITCH:03"
+	            -->
+                <params market="M02" 
+	                    sql_query="switch_behind.sql"
+	                    ignore_list="ROCK,ROC2,LACR,STEV,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3"
+	                    threshold="8" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:SwitchBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </SwitchBehind>
+
+	        <!--
+	            ProgremBehind
+	            This check is responsible for paging the oncall person when 
+	            a program is behind in processing by a threshold number of records.
+	        -->
+	        <ProgramBehind>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/ProgramBehind.pl</executable>
+	            <params market="M02" 
+	                    sql_query="program_behind.sql"
+	                    threshold="2000000"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:ProgramBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </ProgramBehind>
+	        <!--
+	            MissingBlock
+	            This check is responsible for paging the oncall person when 
+	            missing blocks of data are detected.
+	        -->
+	        <MissingBlock>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingBlock.pl </executable>
+	            <params market="M02" 
+	                    sql_query="missing_block.sql"
+	                    switch_query="voice_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    threshold="100"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:MissingBlock"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>0</repage>
+	        </MissingBlock>
+
+	       <!--
+	            StuckFile
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <StuckFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/StuckFile.pl </executable>
+	            <params market="M02" 
+	                    sql_query="stuck_file.sql"
+	                    threshold="4"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:StuckFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </StuckFile>	        
+	        <!--
+	            MafMonitor
+	            This check is responsible for paging the oncall person when 
+	            the Maf Monitor ceases processing.
+	        -->
+	        <MafMonitor>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M02"
+                            host="localhost"
+	                    maf_port="/cares/mpsm02b/m02/projs/up/physical/switch/MafPort.txt"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:MafMonitor"/>
+	            <executable>Monitor/MafMonitor.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>        
+	        </MafMonitor>
+	  	        <!--
+	            RaterStatus
+	            This check is responsible for paging the oncall person when 
+	            any raters go down.
+	        -->
+	        <RaterStatus>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/RaterStatus.pl</executable>
+	            <params market="M02" 
+	                    night_start="4" 
+	                    night_end="13"  
+	                    sql_day="raters_day.sql" 
+	                    sql_night="raters_night.sql" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:RaterStatus"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </RaterStatus>      
+	        <!--
+	            InfranetTransfer
+	            This check is responsible for paging the oncall person when 
+	            a data file transfer from CARES to Infranet fails.
+	        -->
+	        <InfraTransfer>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M02"
+	                    from_hrs_ago="48"
+	                    to_hrs_ago="2"
+	                    cares_query="cares.sql"
+	                    infra_query="infra.sql"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:Infranet_Transfer"/>
+	            <executable>Monitor/InfraTransfer.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </InfraTransfer>
+
+	        <IncollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M02"
+	                    threshold="30"
+                            Log="log/" 
+	                    title="M02:Incollect_Ciber"
+	                    phys_dir="/cares/mpsm02b/m02/projs/up/physical/switch/gte/"/>
+	            <executable>Monitor/IncollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </IncollectCiber>
+
+	        <OutcollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M02"
+	                    threshold="24"
+	                    alt_thresh="36"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:Outcollect_Ciber"
+	                    phys_dir="/cares/mpsm02b/m02/projs/up/physical/switch/gteout/"/>
+	            <executable>Monitor/OutcollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </OutcollectCiber>
+	        <MissingDataFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingDataFile.pl </executable>
+	            <params market="M02" 
+	                    sql_query="missing_file.sql"
+	                    switch_query="data_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    max_blocks="10000"
+	                    ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M02:MissingDataFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </MissingDataFile>
+	        <WebAcpa2>
+	            <disable>yes</disable>
+                   <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa2.pl </executable>
+                    <params title="ACPA2:M02" />
+	            <repage>1</repage>
+	        </WebAcpa2>
+	        <WebAcpa3>
+	            <disable>yes</disable>
+	            <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa3.pl </executable>
+                   <params title="ACPA3:M02" />
+	            <repage>1</repage>
+	        </WebAcpa3>
+	        <WebListenGuideRate>
+	            <disable>yes</disable>
+	            <minutes>0,5,10,15,20,25,30,35,40,45,50,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebListenerGuidersRaters.pl </executable>
+                   <params title="WebListenGuideRate:M02" />
+	            <repage>1</repage>
+	        </WebListenGuideRate>
+	        <WebFreeMinUsgErrs>
+	            <disable>yes</disable>
+	            <minutes>0</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebRollFreeMinutesUsageErrors.pl </executable>
+                   <params title="WebFreeMinUsgErrs:M02" />
+	            <repage>1</repage>
+	        </WebFreeMinUsgErrs>
+	        <WebSpaceMb>
+	            <disable>yes</disable>
+	            <minutes>0,30</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebSpaceMb.pl </executable>
+                   <params title="WebSpaceMb:M02" />
+	            <repage>1</repage>
+	        </WebSpaceMb>
+	        <WebStuckFileProc>
+	            <disable>yes</disable>
+	            <minutes>0,15,30,45,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebStuckFileProc.pl </executable>
+	            <params  ignore_list="ROCK,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3" title="WebStuckFileProc" />
+	            <repage>1</repage>
+	        </WebStuckFileProc>
+	    </M02>
+
+
+	    <M03 hostname="m03usg1.uscc.com" port="8999" StartHour="6" >
+	        <!--
+	            SwitchBehind
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <SwitchBehind>
+	            <disable>No</disable>
+	            <!--
+	                The following 5 tags tell the monitor when it should run the
+	                check.  The method is similar to the Unix CRON.  
+	                Thus, for instance the setting:
+	                "   <minutes>5,23</minutes>
+	                    <hours>3,5,19</hours> 
+	                    <days>1-25</days>
+	                    <dayofweek>*</dayofweek>
+	                    <month>*</month>           "
+	                results in the check being performed every day of the month,
+	                on any day of the week, but only on days of month 1st through
+	                the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+	                7:23 PM.
+	            -->
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/SwitchBehind.pl</executable>
+	            <!-- 
+	               The ignore_list parameter contains a comma-delimited list of 
+	               switches that are to be ignored by the paging mechanism. 
+	               If a switch is followed by a colon and a string of digits, 
+	               the switch will be ignored only on the days specified by the digits.  
+	               The integer digits signify days of week starting with 0=Sunday.  
+	               So, for instance, if you want switch SWITCH to be ignored on Sunday 
+	               and Wednesday, but page on the rest of the days of the week, 
+	               the entry would be: 
+	                    ignore_list="SWITCH:03"
+	            -->
+                <params market="M03" 
+	                    sql_query="switch_behind.sql"
+	                    ignore_list="LOGN,AUGS,MANC,DESM,PEOR,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3,SMSC"
+	                    threshold="8" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:SwitchBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </SwitchBehind>
+
+	        <!--
+	            ProgremBehind
+	            This check is responsible for paging the oncall person when 
+	            a program is behind in processing by a threshold number of records.
+	        -->
+	        <ProgramBehind>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/ProgramBehind.pl</executable>
+	            <params market="M03" 
+	                    sql_query="program_behind.sql"
+	                    threshold="2000000"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:ProgramBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </ProgramBehind>
+	        <!--
+	            MissingBlock
+	            This check is responsible for paging the oncall person when 
+	            missing blocks of data are detected.
+	        -->
+	        <MissingBlock>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingBlock.pl </executable>
+	            <params market="M03" 
+	                    sql_query="missing_block.sql"
+	                    switch_query="voice_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    threshold="100"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:MissingBlock"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>0</repage>
+	        </MissingBlock>
+
+	       <!--
+	            StuckFile
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <StuckFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/StuckFile.pl </executable>
+	            <params market="M03" 
+	                    sql_query="stuck_file.sql"
+	                    threshold="4"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:StuckFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </StuckFile>	        
+	        <!--
+	            MafMonitor
+	            This check is responsible for paging the oncall person when 
+	            the Maf Monitor ceases processing.
+	        -->
+	        <MafMonitor>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M03"
+                            host="localhost"
+	                    maf_port="/cares/mpsm03b/m03/projs/up/physical/switch/MafPort.txt"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:MafMonitor"/>
+	            <executable>Monitor/MafMonitor.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>        
+	        </MafMonitor>
+	  	        <!--
+	            RaterStatus
+	            This check is responsible for paging the oncall person when 
+	            any raters go down.
+	        -->
+	        <RaterStatus>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/RaterStatus.pl</executable>
+	            <params market="M03" 
+	                    night_start="4" 
+	                    night_end="13"  
+	                    sql_day="raters_day.sql" 
+	                    sql_night="raters_night.sql" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:RaterStatus"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </RaterStatus>      
+	        <!--
+	            InfranetTransfer
+	            This check is responsible for paging the oncall person when 
+	            a data file transfer from CARES to Infranet fails.
+	        -->
+	        <InfraTransfer>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M03"
+	                    from_hrs_ago="48"
+	                    to_hrs_ago="2"
+	                    cares_query="cares.sql"
+	                    infra_query="infra.sql"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:Infranet_Transfer"/>
+	            <executable>Monitor/InfraTransfer.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </InfraTransfer>
+
+	        <IncollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M03"
+	                    threshold="30"
+                            Log="log/"
+	                    title="M03:IncollectCiber"
+	                    phys_dir="/cares/mpsm03b/m03/projs/up/physical/switch/gte/"/>
+	            <executable>Monitor/IncollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </IncollectCiber>
+
+	        <OutcollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M03"
+	                    threshold="24"
+	                    alt_thresh="36"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:Outcollect_Ciber"
+	                    phys_dir="/cares/mpsm03b/m03/projs/up/physical/switch/gteout/"/>
+	            <executable>Monitor/OutcollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </OutcollectCiber>
+	        <MissingDataFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingDataFile.pl </executable>
+	            <params market="M03" 
+	                    sql_query="missing_file.sql"
+	                    switch_query="data_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    max_blocks="10000"
+	                    ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3,SMSC"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M03:MissingDataFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </MissingDataFile>
+	        <WebAcpa2>
+	            <disable>yes</disable>
+                   <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa2.pl </executable>
+                    <params title="ACPA2:M03" />
+	            <repage>1</repage>
+	        </WebAcpa2>
+	        <WebAcpa3>
+	            <disable>yes</disable>
+	            <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa3.pl </executable>
+                   <params title="ACPA3:M03" />
+	            <repage>1</repage>
+	        </WebAcpa3>
+	        <WebListenGuideRate>
+	            <disable>yes</disable>
+	            <minutes>0,5,10,15,20,25,30,35,40,45,50,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebListenerGuidersRaters.pl </executable>
+                   <params title="WebListenGuideRate:M03" />
+	            <repage>1</repage>
+	        </WebListenGuideRate>
+	        <WebFreeMinUsgErrs>
+	            <disable>yes</disable>
+	            <minutes>0,30</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebRollFreeMinutesUsageErrors.pl </executable>
+                   <params title="WebFreeMinUsgErrs:M03" />
+	            <repage>1</repage>
+	        </WebFreeMinUsgErrs>
+	        <WebSpaceMb>
+	            <disable>yes</disable>
+	            <minutes>0,15,30,45</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebSpaceMb.pl </executable>
+                   <params title="WebSpaceMb:M03" />
+	            <repage>1</repage>
+	        </WebSpaceMb>
+	        <WebStuckFileProc>
+	            <disable>yes</disable>
+	            <minutes>0,15,30,45,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebStuckFileProc.pl </executable>
+	            <params  ignore_list="LOGN,AUGS,MANC,DESM,PEOR,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3,SMSC" title="M03:WebStuckFileProc" />
+	            <repage>1</repage>
+	        </WebStuckFileProc>
+	    </M03>
+
+
+
+	    <M04 hostname="m04usg1.uscc.com" port="8999" StartHour="7" >
+	        <!--
+	            SwitchBehind
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <SwitchBehind>
+	            <disable>No</disable>
+	            <!--
+	                The following 5 tags tell the monitor when it should run the
+	                check.  The method is similar to the Unix CRON.  
+	                Thus, for instance the setting:
+	                "   <minutes>5,23</minutes>
+	                    <hours>3,5,19</hours> 
+	                    <days>1-25</days>
+	                    <dayofweek>*</dayofweek>
+	                    <month>*</month>           "
+	                results in the check being performed every day of the month,
+	                on any day of the week, but only on days of month 1st through
+	                the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+	                7:23 PM.
+	            -->
+	            <minutes>0</minutes>
+			    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/SwitchBehind.pl</executable>
+	            <!-- 
+	               The ignore_list parameter contains a comma-delimited list of 
+	               switches that are to be ignored by the paging mechanism. 
+	               If a switch is followed by a colon and a string of digits, 
+	               the switch will be ignored only on the days specified by the digits.  
+	               The integer digits signify days of week starting with 0=Sunday.  
+	               So, for instance, if you want switch SWITCH to be ignored on Sunday 
+	               and Wednesday, but page on the rest of the days of the week, 
+	               the entry would be: 
+	                    ignore_list="SWITCH:03"
+	            -->
+                <params market="M04" 
+	                    sql_query="switch_behind.sql"
+	                    ignore_list="STLO,COLK,VALD,TALH,GAIN,LARE,BEEV,ATOK,HENR,WICH,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3"
+	                    threshold="8" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:SwitchBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </SwitchBehind>
+
+	        <!--
+	            ProgremBehind
+	            This check is responsible for paging the oncall person when 
+	            a program is behind in processing by a threshold number of records.
+	        -->
+	        <ProgramBehind>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/ProgramBehind.pl</executable>
+	            <params market="M04" 
+	                    sql_query="program_behind.sql"
+	                    threshold="2000000"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:ProgramBehind"/>
+                     <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </ProgramBehind>
+	        <!--
+	            MissingBlock
+	            This check is responsible for paging the oncall person when 
+	            missing blocks of data are detected.
+	        -->
+	        <MissingBlock>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingBlock.pl </executable>
+	            <params market="M04" 
+	                    sql_query="missing_block.sql"
+	                    switch_query="voice_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    threshold="100"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:MissingBlock"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>0</repage>
+	        </MissingBlock>
+
+	       <!--
+	            StuckFile
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <StuckFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/StuckFile.pl </executable>
+	            <params market="M04" 
+	                    sql_query="stuck_file.sql"
+	                    threshold="4"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:StuckFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </StuckFile>	        
+	        <!--
+	            MafMonitor
+	            This check is responsible for paging the oncall person when 
+	            the Maf Monitor ceases processing.
+	        -->
+	        <MafMonitor>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M04"
+                            host="localhost"
+	                    maf_port="/cares/mpsm04b/m04/projs/up/physical/switch/MafPort.txt"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:MafMonitor"/>
+	            <executable>Monitor/MafMonitor.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>        
+	        </MafMonitor>
+	  	        <!--
+	            RaterStatus
+	            This check is responsible for paging the oncall person when 
+	            any raters go down.
+	        -->
+	        <RaterStatus>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/RaterStatus.pl</executable>
+	            <params market="M04" 
+	                    night_start="4" 
+	                    night_end="13"  
+	                    sql_day="raters_day.sql" 
+	                    sql_night="raters_night.sql" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:RaterStatus"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </RaterStatus>      
+	        <!--
+	            InfranetTransfer
+	            This check is responsible for paging the oncall person when 
+	            a data file transfer from CARES to Infranet fails.
+	        -->
+	        <InfraTransfer>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M04"
+	                    from_hrs_ago="48"
+	                    to_hrs_ago="2"
+	                    cares_query="cares.sql"
+	                    infra_query="infra.sql"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:Infranet_Transfer"/>
+	            <executable>Monitor/InfraTransfer.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </InfraTransfer>
+
+	        <IncollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M04"
+	                    threshold="30"
+                            Log="log/"
+	                    title="M04:IncollectCiber"
+	                    phys_dir="/cares/mpsm04b/m04/projs/up/physical/switch/gte/"/>
+	            <executable>Monitor/IncollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </IncollectCiber>
+
+	        <OutcollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M04"
+	                    threshold="24"
+	                    alt_thresh="36"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:Outcollect_Ciber"
+	                    phys_dir="/cares/mpsm04b/m04/projs/up/physical/switch/gteout/"/>
+	            <executable>Monitor/OutcollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </OutcollectCiber>
+	        <MissingDataFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>8-23</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingDataFile.pl </executable>
+	            <params market="M04" 
+	                    sql_query="missing_file.sql"
+	                    switch_query="data_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    max_blocks="10000"
+	                    ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M04:MissingDataFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </MissingDataFile>
+	        <WebAcpa2>
+	            <disable>yes</disable>
+                   <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa2.pl </executable>
+                    <params title="ACPA2:M04" />
+	            <repage>1</repage>
+	        </WebAcpa2>
+	        <WebAcpa3>
+	            <disable>yes</disable>
+	            <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa3.pl </executable>
+                   <params title="ACPA3:M04" />
+	            <repage>1</repage>
+	        </WebAcpa3>
+	        <WebListenGuideRate>
+	            <disable>yes</disable>
+	            <minutes>0,10,20,30,40,50</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebListenerGuidersRaters.pl </executable>
+                   <params title="WebListenGuideRate:M04" />
+	            <repage>1</repage>
+	        </WebListenGuideRate>
+	        <WebFreeMinUsgErrs>
+	            <disable>yes</disable>
+	            <minutes>0,30</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebRollFreeMinutesUsageErrors.pl </executable>
+                   <params title="WebFreeMinUsgErrs:M04" />
+	            <repage>1</repage>
+	        </WebFreeMinUsgErrs>
+	        <WebSpaceMb>
+	            <disable>yes</disable>
+	            <minutes>0,15,30,45</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebSpaceMb.pl </executable>
+                   <params title="WebSpaceMb:M04" />
+	            <repage>1</repage>
+	        </WebSpaceMb>
+	        <WebStuckFileProc>
+	            <disable>yes</disable>
+	            <minutes>0,15,30,45,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebStuckFileProc.pl </executable>
+	            <params  ignore_list="STLO,COLK,VALD,TALH,GAIN,LARE,BEEV,ATOK,HENR,WICH,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3" title="M04:WebStuckFileProc" />
+	            <repage>1</repage>
+	        </WebStuckFileProc>
+	    </M04>
+
+	    <M05 hostname="m05usg1.uscc.com" port="8999" StartHour="4"  >
+	        <!--
+	            SwitchBehind
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <SwitchBehind>
+	            <disable>No</disable>
+	            <!--
+	                The following 5 tags tell the monitor when it should run the
+	                check.  The method is similar to the Unix CRON.  
+	                Thus, for instance the setting:
+	                "   <minutes>5,23</minutes>
+	                    <hours>3,5,19</hours> 
+	                    <days>1-25</days>
+	                    <dayofweek>*</dayofweek>
+	                    <month>*</month>           "
+	                results in the check being performed every day of the month,
+	                on any day of the week, but only on days of month 1st through
+	                the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+	                7:23 PM.
+	            -->
+	            <minutes>0</minutes>
+			    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/SwitchBehind.pl</executable>
+	            <!-- 
+	               The ignore_list parameter contains a comma-delimited list of 
+	               switches that are to be ignored by the paging mechanism. 
+	               If a switch is followed by a colon and a string of digits, 
+	               the switch will be ignored only on the days specified by the digits.  
+	               The integer digits signify days of week starting with 0=Sunday.  
+	               So, for instance, if you want switch SWITCH to be ignored on Sunday 
+	               and Wednesday, but page on the rest of the days of the week, 
+	               the entry would be: 
+	                    ignore_list="SWITCH:03"
+	            -->
+                <params market="M05" 
+	                    sql_query="switch_behind.sql"
+	                    ignore_list="TWIN:0,POCA:0,AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3,SMSC"
+	                    threshold="8" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:SwitchBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </SwitchBehind>
+
+	        <!--
+	            ProgremBehind
+	            This check is responsible for paging the oncall person when 
+	            a program is behind in processing by a threshold number of records.
+	        -->
+	        <ProgramBehind>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/ProgramBehind.pl</executable>
+	            <params market="M05" 
+	                    sql_query="program_behind.sql"
+	                    threshold="2000000"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:ProgramBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </ProgramBehind>
+	        <!--
+	            MissingBlock
+	            This check is responsible for paging the oncall person when 
+	            missing blocks of data are detected.
+	        -->
+	        <MissingBlock>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingBlock.pl </executable>
+	            <params market="M05" 
+	                    sql_query="missing_block.sql"
+	                    switch_query="voice_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    threshold="100"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:MissingBlock"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>0</repage>
+	        </MissingBlock>
+
+	       <!--
+	            StuckFile
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <StuckFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/StuckFile.pl </executable>
+	            <params market="M05" 
+	                    sql_query="stuck_file.sql"
+	                    threshold="4"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:StuckFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </StuckFile>	        
+	        <!--
+	            MafMonitor
+	            This check is responsible for paging the oncall person when 
+	            the Maf Monitor ceases processing.
+	        -->
+	        <MafMonitor>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M05"
+                            host="localhost"
+	                    maf_port="/cares/mpsm05b/m05/projs/up/physical/switch/MafPort.txt"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:MafMonitor"/>
+	            <executable>Monitor/MafMonitor.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>        
+	        </MafMonitor>
+	  	        <!--
+	            RaterStatus
+	            This check is responsible for paging the oncall person when 
+	            any raters go down.
+	        -->
+	        <RaterStatus>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/RaterStatus.pl</executable>
+	            <params market="M05" 
+	                    night_start="4" 
+	                    night_end="13"  
+	                    sql_day="raters_day.sql" 
+	                    sql_night="raters_night.sql" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:RaterStatus"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </RaterStatus>      
+	        <!--
+	            InfranetTransfer
+	            This check is responsible for paging the oncall person when 
+	            a data file transfer from CARES to Infranet fails.
+	        -->
+	        <InfraTransfer>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M05"
+	                    from_hrs_ago="48"
+	                    to_hrs_ago="2"
+	                    cares_query="cares.sql"
+	                    infra_query="infra.sql"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:Infranet_Transfer"/>
+	            <executable>Monitor/InfraTransfer.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </InfraTransfer>
+
+	        <IncollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M05"
+	                    threshold="30"
+                            Log="log/"
+	                    title="M05:IncollectCiber"
+	                    phys_dir="/cares/mpsm05b/m05/projs/up/physical/switch/gte/"/>
+	            <executable>Monitor/IncollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </IncollectCiber>
+
+	        <OutcollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M05"
+	                    threshold="24"
+	                    alt_thresh="36"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:Outcollect_Ciber"
+	                    phys_dir="/cares/mpsm05b/m05/projs/up/physical/switch/gteout/"/>
+	            <executable>Monitor/OutcollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </OutcollectCiber>
+	        <MissingDataFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>5-20</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingDataFile.pl </executable>
+	            <params market="M05" 
+	                    sql_query="missing_file.sql"
+	                    switch_query="data_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    max_blocks="10000"
+	                    ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3,SMSC"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M05:MissingDataFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </MissingDataFile>
+	        <WebAcpa2>
+	            <disable>yes</disable>
+                   <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa2.pl </executable>
+                    <params title="ACPA2:M05" />
+	            <repage>1</repage>
+	        </WebAcpa2>
+	        <WebAcpa3>
+	            <disable>yes</disable>
+	            <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa3.pl </executable>
+                   <params title="ACPA3:M05" />
+	            <repage>1</repage>
+	        </WebAcpa3>
+	        <WebListenGuideRate>
+	            <disable>yes</disable>
+	            <minutes>0,5,10,15,20,25,30,35,40,45,50,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebListenerGuidersRaters.pl </executable>
+                   <params title="WebListenGuideRate:M05" />
+	            <repage>1</repage>
+	        </WebListenGuideRate>
+	        <WebFreeMinUsgErrs>
+	            <disable>yes</disable>
+	            <minutes>0</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebRollFreeMinutesUsageErrors.pl </executable>
+                   <params title="WebFreeMinUsgErrs:M05" />
+	            <repage>1</repage>
+	        </WebFreeMinUsgErrs>
+	        <WebSpaceMb>
+	            <disable>yes</disable>
+	            <minutes>0,30</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebSpaceMb.pl </executable>
+                   <params title="WebSpaceMb:M05" />
+	            <repage>1</repage>
+	        </WebSpaceMb>
+	        <WebStuckFileProc>
+	            <disable>yes</disable>
+	            <minutes>0,10,20,30,40,50,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebStuckFileProc.pl </executable>
+	            <params  ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3,SMSC" title="M05:WebStuckFileProc" />
+	            <repage>1</repage>
+	        </WebStuckFileProc>
+	    </M05>
+
+
+	    <M06 hostname="m06usg1.uscc.com" port="8999" StartHour="6">
+	        <!--
+	            SwitchBehind
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <SwitchBehind>
+	            <disable>No</disable>
+	            <!--
+	                The following 5 tags tell the monitor when it should run the
+	                check.  The method is similar to the Unix CRON.  
+	                Thus, for instance the setting:
+	                "   <minutes>5,23</minutes>
+	                    <hours>3,5,19</hours> 
+	                    <days>1-25</days>
+	                    <dayofweek>*</dayofweek>
+	                    <month>*</month>           "
+	                results in the check being performed every day of the month,
+	                on any day of the week, but only on days of month 1st through
+	                the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+	                7:23 PM.
+	            -->
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/SwitchBehind.pl</executable>
+	            <!-- 
+	               The ignore_list parameter contains a comma-delimited list of 
+	               switches that are to be ignored by the paging mechanism. 
+	               If a switch is followed by a colon and a string of digits, 
+	               the switch will be ignored only on the days specified by the digits.  
+	               The integer digits signify days of week starting with 0=Sunday.  
+	               So, for instance, if you want switch SWITCH to be ignored on Sunday 
+	               and Wednesday, but page on the rest of the days of the week, 
+	               the entry would be: 
+	                    ignore_list="SWITCH:03"
+	            -->
+                <params market="M06" 
+	                    sql_query="switch_behind.sql"
+	                    ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3,SMSC"
+	                    threshold="8" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:SwitchBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </SwitchBehind>
+
+	        <!--
+	            ProgremBehind
+	            This check is responsible for paging the oncall person when 
+	            a program is behind in processing by a threshold number of records.
+	        -->
+	        <ProgramBehind>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/ProgramBehind.pl</executable>
+	            <params market="M06" 
+	                    sql_query="program_behind.sql"
+	                    threshold="2000000"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:ProgramBehind"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </ProgramBehind>
+	        <!--
+	            MissingBlock
+	            This check is responsible for paging the oncall person when 
+	            missing blocks of data are detected.
+	        -->
+	        <MissingBlock>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingBlock.pl </executable>
+	            <params market="M06" 
+	                    sql_query="missing_block.sql"
+	                    switch_query="voice_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    threshold="100"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:MissingBlock"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>0</repage>
+	        </MissingBlock>
+
+	       <!--
+	            StuckFile
+	            This check is responsible for paging the oncall person when 
+	            files stuck in usage are detected.
+	        -->
+	        <StuckFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/StuckFile.pl </executable>
+	            <params market="M06" 
+	                    sql_query="stuck_file.sql"
+	                    threshold="4"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:StuckFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </StuckFile>	        
+	        <!--
+	            MafMonitor
+	            This check is responsible for paging the oncall person when 
+	            the Maf Monitor ceases processing.
+	        -->
+	        <MafMonitor>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M06"
+                            host="localhost"
+	                    maf_port="/cares/mpsm06b/m06/projs/up/physical/switch/MafPort.txt"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:MafMonitor"/>
+	            <executable>Monitor/MafMonitor.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>        
+	        </MafMonitor>
+	  	        <!--
+	            RaterStatus
+	            This check is responsible for paging the oncall person when 
+	            any raters go down.
+	        -->
+	        <RaterStatus>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+			    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/RaterStatus.pl</executable>
+	            <params market="M06" 
+	                    night_start="4" 
+	                    night_end="13"  
+	                    sql_day="raters_day.sql" 
+	                    sql_night="raters_night.sql" 
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:RaterStatus"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </RaterStatus>      
+	        <!--
+	            InfranetTransfer
+	            This check is responsible for paging the oncall person when 
+	            a data file transfer from CARES to Infranet fails.
+	        -->
+	        <InfraTransfer>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <params market="M06"
+	                    from_hrs_ago="48"
+	                    to_hrs_ago="2"
+	                    cares_query="cares.sql"
+	                    infra_query="infra.sql"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:Infranet_Transfer"/>
+	            <executable>Monitor/InfraTransfer.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </InfraTransfer>
+
+	        <IncollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M06"
+	                    threshold="30"
+                            Log="log/"
+	                    title="M06:IncollectCiber"
+	                    phys_dir="/cares/mpsm06b/m06/projs/up/physical/switch/gte/"/>
+	            <executable>Monitor/IncollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </IncollectCiber>
+
+	        <OutcollectCiber>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>0,2,3,4,5,6</dayofweek>
+			    <month>*</month>
+	            <params market="M06"
+	                    threshold="24"
+	                    alt_thresh="36"
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:Outcollect_Ciber"
+	                    phys_dir="/cares/mpsm06b/m06/projs/up/physical/switch/gteout/"/>
+	            <executable>Monitor/OutcollectCiber.pl</executable>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </OutcollectCiber>
+	        <MissingDataFile>
+	            <disable>No</disable>
+	            <minutes>0</minutes>
+		  	    <hours>7-22</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/MissingDataFile.pl </executable>
+	            <params market="M06" 
+	                    sql_query="missing_file.sql"
+	                    switch_query="data_switches.sql"
+	                    from_hrs_ago="72"
+	                    to_hrs_ago="1"
+	                    max_blocks="10000"
+	                    ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3,SMSC"  
+                            MpsLib=""
+                            SqlLib="sql/"
+                            Log="log/"
+	                    title="M06:MissingDataFile"/>
+                    <collector_interval>0,15,30,45</collector_interval>
+	            <repage>1</repage>
+	        </MissingDataFile>
+	        <WebAcpa2>
+	            <disable>yes</disable>
+                   <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa2.pl </executable>
+                    <params title="ACPA2:M06" />
+	            <repage>1</repage>
+	        </WebAcpa2>
+	        <WebAcpa3>
+	            <disable>yes</disable>
+	            <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/acpa3.pl </executable>
+                   <params title="ACPA3:M06" />
+	            <repage>1</repage>
+	        </WebAcpa3>
+	        <WebListenGuideRate>
+	            <disable>yes</disable>
+	            <minutes>0,10,20,30,40,50</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebListenerGuidersRaters.pl </executable>
+                   <params title="WebListenGuideRate:M06" />
+	            <repage>1</repage>
+	        </WebListenGuideRate>
+	        <WebFreeMinUsgErrs>
+	            <disable>yes</disable>
+	            <minutes>0,30</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebRollFreeMinutesUsageErrors.pl </executable>
+                   <params title="WebFreeMinUsgErrs:M06" />
+	            <repage>1</repage>
+	        </WebFreeMinUsgErrs>
+	        <WebSpaceMb>
+	            <disable>yes</disable>
+	            <minutes>0,30</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebSpaceMb.pl </executable>
+                   <params title="WebSpaceMb:M06" />
+	            <repage>1</repage>
+	        </WebSpaceMb>
+	        <WebStuckFileProc>
+	            <disable>yes</disable>
+	            <minutes>0,15,30,45,55</minutes>
+		  	    <hours>*</hours>
+		        <days>*</days>
+			    <dayofweek>*</dayofweek>
+			    <month>*</month>
+	            <executable>Monitor/WebStuckFileProc.pl </executable>
+	            <params  ignore_list="AAA,AAA1,AAA2,AAA3,PMSG1,PMSG2,PMSG3,PTX1,PTX2,PTX3" title="M06:WebStuckFileProc" />
+	            <repage>1</repage>
+	        </WebStuckFileProc>
+	    </M06>
+
+
+	</MARKET>
+</monitor>

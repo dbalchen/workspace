@@ -1,0 +1,48 @@
+#!/opt/perl5/bin/perl
+
+use strict;
+use warnings;
+
+=head1 callVictim
+
+Sends a plain text email.
+The destination address and email subject come from the command line.
+The text of the message body is piped via STDIN.
+
+Used by the MpsMonitor to send text pages to the oncall associates.
+
+=head1 USAGE
+
+  cat "some message" | callVictim name@domain.top "Subject"
+
+=cut
+
+use MIME::Lite; # the low-calorie MIME generator
+
+chomp(@ARGV);
+my ($subject,$email) = @ARGV;
+
+my $message = "";
+while(<STDIN>)
+{
+  $message .= $_;
+}
+
+my $from_address = "MpsMonitor<\@>";
+my $mime_type = 'multipart/mixed';
+
+#Create the initial text of the message.
+my $mime_msg = MIME::Lite->new(From=>$from_address,
+                               To=>$email,
+                               Subject=>$subject,
+                               Type=>$mime_type) or die "Error creating MIME body: $!\n";
+
+$mime_msg->attach(Type=>'TEXT',
+                  Data=>$message) or die "Error adding the text message: $!\n";
+
+$mime_msg->send();
+
+print " An email has been sent to $email for $subject\n";
+
+exit(0);
+
