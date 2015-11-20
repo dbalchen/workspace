@@ -1,12 +1,31 @@
 ~snare = MyEvents.new;
+~snare.amp = 1.0;
+~snare.init;
+
 ~bassd =  MyEvents.new;
+~bassd.amp = 1.0;
+~bassd.probs = [1,0,0.25,0,0,1,0,0.75,0,0,0,0.5,0,0,0];
+~bassd.freqs = [36.00,0.00,36.00,0.00,0.00,36.00,0.00,36.00,0.00,0.00,0.00,36.00,0.00,0.00,0.00];
+~bassd.waits = [1.00,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50];
+~bassd.durations = [1.00,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50,0.50];
+~bassd.init;
 
 ~tom1 = MyEvents.new;
+~tom1.amp = 1.0;
+~tom1.init;
+
 ~tom2 = MyEvents.new;
+~tom2.amp = 1.0;
+~tom2.init;
+
 ~tom3 = MyEvents.new;
+~tom3.amp = 1.0;
+~tom3.init;
 
 ~ride = MyEvents.new;
- 
+~tom3.amp = 1.0;
+~tom3.init;
+
 ~midiBassDrum = {Pbind(\type, \midi,
 		\midiout, ~synth1,
 		\midicmd, \noteOn,
