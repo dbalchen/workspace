@@ -107,7 +107,7 @@ GUI.qt
 ~snare.amp = 1;
 ~ride.amp = 4;
 ~melody.amp = 0;
-~rp = {~midiBassDrum.value;~midiSnare.value; ~midiToms.value;~midiCyms.value;};
+~rp = {~midiBassDrum.value;~midiSnare.value; ~midiToms.value;~midiCyms.value;~ride.amp=4};
 
 ~rp = {~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0;0.2.wait;~monoPulseLead.value(~melody);};
 
@@ -117,13 +117,27 @@ GUI.qt
 
 ~tom1.filter.gui;~tom1.envelope.gui;
 ~melody.envelope.gui;~melody.filter.gui;
-~bassd.probs = [1.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] * 1.0;
 
-~tom1.probs = ([0.00,0.80,0.00,1.00,0.40,0.00,0.60,0.00,1.00,0.60,1.00,0.00,0.80,0.80,0.40]  * (Array.fill(15, { arg i; i/15;}))) + ( [0.00,0.00, 0.00,1.00, 0.00, 0.00,0.00, 0.00,1.00, 0.00, 1.00, 0.00,0.00, 1.00,0.00] * 1.0);
+~tomBegin = {~bassd.probs = [1.00,0.00,0.00,0.00,0.00,1.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] ;~tom1.probs = (~tom1probs * 1.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;~snare.amp = 0;};
 
-~bassd.probs = [1.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] * 1.0;~snare.amp = 0;~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+~tomMid = {~bassd.probs = [1.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] ;~tom1.probs = (~tom1probs * 2.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;~snare.amp = 0;};
 
-~bassd.probs = [1.00,0.00,0.0,0.00,0.00,1.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] * 1.0;~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0;~ride.amp = 3;~snare.amp = 1;
+~tomend1 = {~bassd.probs = ~bassdmain;~tom1.probs = (~tom1probs) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;~snare.amp = 0;};
+
+~tomend2 ={~tom1.probs = ~tom1end;~bassd.probs = ~bassdmain;~snare.probs =~snareend;~snare.amp = 1;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;~ride.amp = 0};
+
+~tomBegin.value;
+~tomMid.value;
+~tomend1.value;
+~tomend2.value;
+~bassd.probs = [1.00,0.00,0.0,0.00,0.00,1.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] * 1.0;~snare.probs = ~snaremain;~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0;~ride.amp = 4;~snare.amp = 1;~tom1.probs = ~tom1probs
+
+~roleOn  = {~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1};
+~roleOff = {~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0};
+
+~roleOn.value;
+~roleOff.value;
+
 
 (
  ~start = {
