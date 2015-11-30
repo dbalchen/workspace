@@ -16,17 +16,8 @@ GUI.qt
  "/home/dbalchen/workspace/SuperCollider/FMpad.sc".loadPath;
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/melody.sc".loadPath;
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/drums.sc".loadPath;
+ "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/stringbass.sc".loadPath;
 
-
- ~myT1 = {Pbind(\type, \midi,
-		\midiout, ~synth1,
-		\midicmd, \noteOn,
-		\note,  Pfunc.new({~t1.freq.next}- 60),
-		\amp, 1,
-		\chan, 1,
-		\sustain, Pfunc.new({~t1.duration.next}),
-		\dur, Pfunc.new({~t1.wait.next})
-		).play};
 	
  ~fm_darkpad = MyEvents.new;
  ~fm_darkpad.amp = 0.40;
@@ -100,6 +91,11 @@ GUI.qt
 
 ~rp = {~midiMelody.value;};
 
+
+~rp = {~playStringbass.value};
+
+~playStringbass.value;
+
 ~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
 ~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0;
 ~snare.amp = 0;
@@ -107,7 +103,10 @@ GUI.qt
 ~snare.amp = 1;
 ~ride.amp = 4;
 ~melody.amp = 0;
-~rp = {~midiBassDrum.value;~midiSnare.value; ~midiToms.value;~midiCyms.value;~ride.amp=4};
+~bassd.amp =1;
+~bassd.amp =0;
+
+~rp = {~midiBassDrum.value;~midiSnare.value; ~midiToms.value;~midiCyms.value;1.wait;~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0;~snare.amp = 0;~ride.amp = 0;~bassd.amp =0;};
 
 ~rp = {~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0;0.2.wait;~monoPulseLead.value(~melody);};
 
@@ -118,19 +117,14 @@ GUI.qt
 ~tom1.filter.gui;~tom1.envelope.gui;
 ~melody.envelope.gui;~melody.filter.gui;
 
-~tomBegin = {~bassd.probs = [1.00,0.00,0.00,0.00,0.00,1.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] ;~tom1.probs = (~tom1probs * 1.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;~snare.amp = 0;};
 
-~tomMid = {~bassd.probs = [1.00,0.00,0.00,0.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] ;~tom1.probs = (~tom1probs * 2.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;~snare.amp = 0;};
+~rp = {~tomBegin.value;};
 
-~tomend1 = {~bassd.probs = ~bassdmain;~tom1.probs = (~tom1probs) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;~snare.amp = 0;};
-
-~tomend2 ={~tom1.probs = ~tom1end;~bassd.probs = ~bassdmain;~snare.probs =~snareend;~snare.amp = 1;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;~ride.amp = 0};
-
-~tomBegin.value;
 ~tomMid.value;
 ~tomend1.value;
 ~tomend2.value;
-~bassd.probs = [1.00,0.00,0.0,0.00,0.00,1.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] * 1.0;~snare.probs = ~snaremain;~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0;~ride.amp = 4;~snare.amp = 1;~tom1.probs = ~tom1probs
+~mainDrum = {~bassd.probs = [1.00,0.00,0.0,0.00,0.00,1.00,0.00,1.00,0.00,0.00,0.00,0.00,0.00,0.00,0.00] * 1.0;~snare.probs = ~snaremain;~tom1.amp = 0
+~mainDume.value;
 
 ~roleOn  = {~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1};
 ~roleOff = {~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0};
@@ -142,53 +136,144 @@ GUI.qt
 (
  ~start = {
 
-   var bpm = 106,timeNow;
+   var bpm = 106,timeNow,bass;
    t = TempoClock.default.tempo = bpm / 60;
 
    Routine.run({
        s.sync;
        timeNow = TempoClock.default.beats;
 
-       //       ~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;~strings1.envelope.decay = 4.0; ~strings2.envelope.decay = 4.0;
 
-       ~midiBassDrum.value;~midiSnare.value;
-       ~midiToms.value;
-       ~midiCyms.value;//~midiMelody.value;
-
-       0.2.wait;
-       ~monoPulseLead.value(~melody);
-
-       t.schedAbs(timeNow + ((4*27)-2),{ // 00 = Time in beats 
+       t.schedAbs(timeNow + (0.0198),{ // 00 = Time in beats 
 	   (
-	    //         ~strings1.envelope.attack = 2; ~strings1.envelope.decay = 3;
-	    // ~strings2.envelope.attack = 2; ~strings2.envelope.decay = 3;
+	    ~playStringbass.play;
+	    );(nil);};); // End of t.schedAbs
+    
+       t.schedAbs(timeNow + ((4*1)-0.5),{ // 00 = Time in beats 
+	   (
+		   /*
+		   ~tom1.probs = (~tom1probs * 1.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+           ~midiToms.value;
+           //1.wait;
+		   ~tom1.amp = 0;~tom2.amp = 0;
+		   ~tom3.amp = 0;
+		   */
+		   //~midiCyms.value;
+           ~ride.amp =0;
 	    );(nil);};); // End of t.schedAbs
 
-       t.schedAbs(timeNow + ((4*33)-2),{ // 00 = Time in beats 
+
+       t.schedAbs(timeNow + ((4*3)),{ // 00 = Time in beats 
 	   (
-	    //~strings1.envelope.attack = 1; ~strings1.envelope.decay = 2;
-	    //~strings2.envelope.attack = 1; ~strings2.envelope.decay = 2;
+		  ~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+		   // ~bassd.amp =1;
 	    );(nil);};); // End of t.schedAbs
 
-       t.schedAbs(timeNow + ((4*35)-2),{ // 00 = Time in beats 
+       t.schedAbs(timeNow + ((4*5)-2),{ // 00 = Time in beats 
 	   (
-	    //~strings1.envelope.attack = 2; ~strings1.envelope.decay = 3;
-	    ///~strings2.envelope.attack = 2; ~strings2.envelope.decay = 3;
+		   // ~bassdrummiddle.value;
+		   //~tomMid.value;
+		 ~tom1.probs = (~tom1probs * 3.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+
+
 	    );(nil);};); // End of t.schedAbs
 
-       t.schedAbs(timeNow + ((4*37)-2),{ // 00 = Time in beats 
+	   
+       t.schedAbs(timeNow + ((4*9)-2),{ // 00 = Time in beats 
 	   (
-	    //~strings1.envelope.attack = 1; ~strings1.envelope.decay = 2;
-	    //~strings2.envelope.attack = 1; ~strings2.envelope.decay = 2;
+		   // ~mainDrum.value;
+		   ~tom1.probs = (~tom1probs * 1.5) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
 	    );(nil);};); // End of t.schedAbs
-       //Add more 
 
-       t.schedAbs(timeNow + ((4*67)-2),{ // 00 = Time in beats 
+
+
+
+       t.schedAbs(timeNow + ((4*11)-2),{ // 00 = Time in beats 
 	   (
-	    //~strings1.envelope.attack = 4.0;~strings2.envelope.attack = 4.0;~strings1.envelope.decay = 4.0; ~strings2.envelope.decay = 4.0;
-         
+		 ~tom1.probs = (~tom1probs * 1.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+
+		   // ~bassd.amp =1;
 	    );(nil);};); // End of t.schedAbs
-       //Add more 
+
+       t.schedAbs(timeNow + ((4*13)-2),{ // 00 = Time in beats 
+	   (
+		   // ~bassdrummiddle.value;
+		   //~tomMid.value;
+		 ~tom1.probs = (~tom1probs * 3.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+
+	    );(nil);};); // End of t.schedAbs
+
+	   
+       t.schedAbs(timeNow + ((4*17)-2),{ // 00 = Time in beats 
+	   (
+		   // ~mainDrum.value;
+		   //~tomend2.value
+		   ~tom1.probs = ~tom1end;
+	    );(nil);};); // End of t.schedAbs
+
+
+       t.schedAbs(timeNow + ((4*19)),{ // 00 = Time in beats 
+	   (
+		   // ~mainDrum.value;
+		   //~tomend2.value
+		   ~tom1.probs = ~tom1roll;
+		   ~tom1.amp = 0;~tom2.amp = 0;~tom3.amp = 0;~ride.amp = 7.0;
+	    );(nil);};); // End of t.schedAbs
+
+	   ////////////////////////////////////////////////////////////////////////////////
+
+
+       t.schedAbs(timeNow + ((4*67)-1),{ // 00 = Time in beats 
+	   (
+		   ~tom1.probs = (~tom1probs * 1.4 * ~fadein) + (~tom1probsPrime);
+		  ~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+		   // ~bassd.amp =1;
+	    );(nil);};); // End of t.schedAbs
+
+       t.schedAbs(timeNow + ((4*69)-2),{ // 00 = Time in beats 
+	   (
+		   ~ride.amp = 0.0;
+		   // ~bassdrummiddle.value;
+		   //~tomMid.value;
+		 ~tom1.probs = (~tom1probs * 2.0 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+
+
+	    );(nil);};); // End of t.schedAbs
+
+	   
+       t.schedAbs(timeNow + ((4*73)-2),{ // 00 = Time in beats 
+	   (
+		   // ~mainDrum.value;
+		   ~tom1.probs = (~tom1probs * 1.5) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+	    );(nil);};); // End of t.schedAbs
+
+
+
+
+       t.schedAbs(timeNow + ((4*75)-2),{ // 00 = Time in beats 
+	   (
+		 ~tom1.probs = (~tom1probs * 1.4 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+
+		   // ~bassd.amp =1;
+	    );(nil);};); // End of t.schedAbs
+
+       t.schedAbs(timeNow + ((4*77)-2),{ // 00 = Time in beats 
+	   (
+		   // ~bassdrummiddle.value;
+		   //~tomMid.value;
+		 ~tom1.probs = (~tom1probs * 2 * ~fadein) + (~tom1probsPrime);~ride.amp = 0;~tom1.amp = 1;~tom2.amp = 1;~tom3.amp = 1;
+
+	    );(nil);};); // End of t.schedAbs
+
+	   
+       t.schedAbs(timeNow + ((4*81)-2),{ // 00 = Time in beats 
+	   (
+		   // ~mainDrum.value;
+		   //~tomend2.value
+ ~tom1.probs = (~tom1probs * 10.5) + (~tom1probsPrime);		  
+	    );(nil);};); // End of t.schedAbs
+
+
      }); // End of Routine
 
  }; //End of Start
@@ -197,3 +282,4 @@ GUI.qt
 
 
 ~rp = {~start.value;};
+~startTimer.value(106);
