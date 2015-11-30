@@ -50,8 +50,6 @@
 ** TODO Check in CallDump Code
    SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
 ** TODO Get the WebMonitor code and figure out how to recompile then check back in.
-** TODO Update the PC9_INCOL_SID_PAIR table
-    SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
 ** TODO Add new monitors [33%]
    - [X] Add AR monitors
    - [ ] Add Dave's KPI monitors.
@@ -59,7 +57,7 @@
 ** TODO Fix the error monitors.
    - [ ] Find out what is causing the remaining errors.
 ** TODO Fix the CIBER return issue...
-   SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
+   SCHEDULED: 
 * Statement of Principals 
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./

@@ -2077,3 +2077,14 @@ ps -ef | grep '$user' | grep AR3GWLSTR  | sed 's/^  *//g' | sed 's/  */ /g' | eg
 ps -ef | grep '$user' | grep AR1PYMPOST  | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server' | cut -d ' ' -f5,9
 ps -ef | grep '$user' | grep AR1DDFEDBCK  | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server' |cut -d ' ' -f5,9
 ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | egrep -v '_0|server'| cut -d ' ' -f5,9
+
+* TODO Update the PC9_INCOL_SID_PAIR table
+   SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2015-11-13 Fri 09:38
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
