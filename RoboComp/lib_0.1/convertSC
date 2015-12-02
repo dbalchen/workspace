@@ -19,10 +19,10 @@ def getTimes(mytimes,theTitle)
   
   ti.push(tii)
   
-  print "~" + theTitle + ".waits = [" + ((ti[1] - ti[0])).to_s
+  print "~" + theTitle + ".waits = [" + ((ti[1] - ti[0])).round_to(2).to_s
 
   for i in 1...(ti.size-1)
-    print "," + ((ti[i+1] - ti[i])).to_s
+    print "," + ((ti[i+1] - ti[i])).round_to(2).to_s
   end
 
     print "]; \n"
@@ -82,11 +82,11 @@ song.tracks.each { |x|
     if theNotes.size > 1
       probs = probs + "1,"
       freqs = freqs + "[" + theNotes[0].note.to_s
-      durs = durs + "[" + (theNotes[0].duration).to_s
+      durs = durs + "[" + (theNotes[0].duration).round_to(2).to_s
       vels = vels + "[" + (theNotes[0].start_velocity).to_s
       for i in 1..(theNotes.size-1)
         freqs = freqs + "," + theNotes[i].note.to_s
-        durs = durs   + "," + (theNotes[0].duration).to_s
+        durs = durs   + "," + (theNotes[0].duration).round_to(2).to_s
         vels = vels   + "," + (theNotes[0].start_velocity).to_s
       end
       freqs = freqs + "],"
@@ -95,7 +95,7 @@ song.tracks.each { |x|
     elsif theNotes.size == 1
       probs = probs + "1,"
       freqs = freqs + theNotes[0].note.to_s + ","
-      durs = durs + (theNotes[0].duration).to_s + ","
+      durs = durs + (theNotes[0].duration).round_to(2).to_s + ","
       vels = vels + (theNotes[0].start_velocity).to_s + ","
     else
       probs = probs + "0,"
@@ -112,5 +112,5 @@ song.tracks.each { |x|
   print freqs + "];\n"
   print probs + "];\n"
   print durs + "];\n"
-
+  print vels + "];\n"
 }
