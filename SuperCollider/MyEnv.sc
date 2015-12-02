@@ -1,16 +1,18 @@
 MyEnv {
   var <>in, <>out,<>name = "Envelope",
     <>attacks = nil,   <>attack = 0.5,
-    <>releases = nil,  <>release = 0.5, <>lrelease = 0.5,
+    <>releases = nil,  <>release = 0.5, <>lrelease = 0.5,<>ldec = 1.0,<>latt = 1.0,
     <>att = 1.0, <>rel = 1.0, 
     <>decays = nil, <>decay = 0.0, <>dec = 1.0, <>sustain = 1.0,
     <>env = nil,  <>doneAction = 2;
 
   setEnvelope
     {arg env;
-
-      env.set(\attack,att.next * attack;);
-      env.set(\decay,dec * decay);
+      latt = att.next * attack;
+      latt.postln;
+      env.set(\attack,latt);
+      ldec = dec.next * decay;
+      env.set(\decay, ldec);
       env.set(\sustain,sustain);
       lrelease = rel.next * release;
       env.set(\release,lrelease);
@@ -27,7 +29,7 @@ MyEnv {
 
     this.calcAttack.value;
     this.calcRelease.value;
-    this.calcRelease.value;
+    this.calcDecay.value;
   }
 
 
