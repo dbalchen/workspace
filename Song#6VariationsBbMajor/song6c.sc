@@ -9,47 +9,31 @@ GUI.qt
  )
 
 "/home/dbalchen/Music/setup.sc".loadPath;
+(
+~startup = {
 
 (
 
-
- "/home/dbalchen/workspace/SuperCollider/FMpad.sc".loadPath;
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/melody.sc".loadPath;
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/drums.sc".loadPath;
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/stringbass.sc".loadPath;
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/strings.sc".loadPath;
-	
- ~fm_darkpad = MyEvents.new;
- ~fm_darkpad.amp = 0.40;
-
- ~channel1 = {arg num, vel =1;
-   var ret;
-   //num.postln;
-   //~fm_darkpad.amp = ~fm_darkpad.amp * vel;
-   ret = ~midiFMdarkpad1.value(~fm_darkpad,num);
-   ret;
- };
-
-
- ~fm_darkpad2 = MyEvents.new;
- ~fm_darkpad2.amp = 0.20;
- ~channel11 = {arg num, vel = 1;
-   var ret;
-   //num.postln;
-   //~fm_darkpad2.amp = ~fm_darkpad2.amp * vel;
-   ret = ~midiFMdarkpad1.value(~fm_darkpad2,num);
-   ret;
- };
-
+ "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/pads.sc".loadPath;
 
  )
 
+};
+)
 
 ~startTimer.value(106);
 
 ~rp = {~midiString2.value;~midiString1.value;}
 
-~rp = {~playStringbass.value};
+~rp = {~mididark_pad.value;}
+~rp = {~midichord.value;}
+
+
+~rp = {~monoPulseLead.value(~melody);};
 
 ~playStringbass.value;
 
@@ -87,6 +71,8 @@ GUI.qt
    var bpm = 106,timeNow,bass;
    t = TempoClock.default.tempo = bpm / 60;
 
+
+   ~startup.value;
    Routine.run({
        s.sync;
        timeNow = TempoClock.default.beats;
@@ -95,12 +81,30 @@ GUI.qt
     
        t.schedAbs(timeNow + ((4*3)-0.2),{ // 00 = Time in beats 
 	   (
-		   ~midiBassDrum.value;~midiSnare.value; ~midiToms.value;~midiCyms.value;~midiString2.value;~midiString1.value;
+           ~strings1.envelope.attack = 0.55;~strings1.envelope.release = 0.9;~strings1.envelope.decay = 0.750;~strings1.amp = 1.50;
+           ~strings2.envelope.attack = 0.55;~strings2.envelope.release = 0.9;~strings2.envelope.decay = 0.750;~strings2.amp = 1.50;
+	 	   ~midiBassDrum.value;~midiSnare.value; ~midiToms.value;~midiCyms.value;~midiString2.value;~midiString1.value;~mididark_pad.value;~midichord.value;
 	    );(nil);};); // End of t.schedAbs
 
-       t.schedAbs(timeNow + ((19*4)),{ // 00 = Time in beats 
+       t.schedAbs(timeNow + ((19*4)-0.2),{ // 00 = Time in beats 
 	   (
-		 ~monoPulseLead.value(~melody);
+		 ~strings1.envelope.attack = 0.850;~strings1.envelope.release = 0.9;~strings1.envelope.decay = 0.50;
+		   ~midiMelody.value;//~monoPulseLead.value(~melody);
+         ~strings2.envelope.attack = 0.8500;~strings2.envelope.release = 0.9;~strings2.envelope.decay = 0.50;
+
+	    );(nil);};); // End of t.schedAbs
+
+       t.schedAbs(timeNow + ((28*4)),{ // 00 = Time in beats 
+	   (
+		 ~strings1.envelope.attack = 0.75;~strings1.envelope.release = 0.9;~strings1.envelope.decay = 0.650;
+         ~strings2.envelope.attack = 0.75;~strings2.envelope.release = 0.9;~strings2.envelope.decay = 0.650;
+
+	    );(nil);};); // End of t.schedAbs
+
+       t.schedAbs(timeNow + ((67*4) -1),{ // 00 = Time in beats 
+	   (
+           ~strings1.envelope.attack = 0.55;~strings1.envelope.release = 0.9;~strings1.envelope.decay = 0.750;~strings1.amp = 1.50;
+           ~strings2.envelope.attack = 0.55;~strings2.envelope.release = 0.9;~strings2.envelope.decay = 0.750;~strings2.amp = 1.50;
 	    );(nil);};); // End of t.schedAbs
 
      }); // End of Routine
@@ -108,13 +112,7 @@ GUI.qt
  }; //End of Start
 
  )
-
+~startup.value;
 ~startTimer.value(106);
 ~rp = {~start.value;};
 
-
-~strings1.envelope.attack = 0.15;~strings1.envelope.release = 0.57;~strings1.envelope.decay = 4.750;
-~strings2.envelope.attack = 0.15;~strings2.envelope.release = 0.57;~strings2.envelope.decay = 4.750;
-
-~strings1.envelope.attack = 0.85;~strings1.envelope.release = 0.37;~strings1.envelope.decay = 0.750;
-~strings2.envelope.attack = 0.850;~strings2.envelope.release = 0.35;~strings2.envelope.decay = 0.750;
