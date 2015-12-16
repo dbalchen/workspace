@@ -9,10 +9,14 @@ GUI.qt
  )
 
 "/home/dbalchen/Music/setup.sc".loadPath;
-
 (
+ ~startup = {
 
+   (
+    // Put stuff here...........
+   )
 
+     };
 )
 
 ~startTimer.value(60);
