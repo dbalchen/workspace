@@ -1,7 +1,7 @@
 "/home/dbalchen/workspace/SuperCollider/pulseLead.sc".loadPath;
 
 ~melody = MyEvents.new;
-~melody.amp = 1.65;
+~melody.amp = 2.0;
 ~melody.lagt = 0.007;
 ~melody.init;
 ~melody.envelope.init;
@@ -374,9 +374,9 @@
 ~melody.filter.sustain = 0.55;
 ~melody.filter.aoc = 0.55;
 ~melody.envelope.attack = 0.5;//1.0;
-~melody.envelope.release = 0.17;
+~melody.envelope.release = 0.3;
 ~melody.envelope.decay = 4.0;
-~melody.envelope.sustain = 0.3;//0.10;
+~melody.envelope.sustain = 0.1;//0.10;
 
 ~midiMelody = {Pbind(\type, \midi,
 		     \midiout, ~synth1,
