@@ -90,7 +90,7 @@ public class MpsMonitor {
 
         new MonitorConnect(socket, mi);
       }
-
+      s.close();
     }
     catch (Exception e) {
       e.printStackTrace();

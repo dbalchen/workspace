@@ -50,11 +50,11 @@ private Vector<Hashtable<String, String>> WebTemplates = null;
     super.init(config);
 
     ServletContext context = getServletContext();
-    xml = new XMLReader(context.getRealPath("/monitor.xml"));
-        //xml = new XMLReader("unit/monitor.xml");
+   xml = new XMLReader(context.getRealPath("/monitor.xml"));
+   //xml = new XMLReader("unit/monitor.xml");
     try {
       log = new LogWriter(context.getRealPath("/"), "WebMonitor.log");
-           //log = new LogWriter("/", "WebMonitor.log");
+      //  log = new LogWriter("unit/", "WebMonitor.log");
 
       reports = new GetReports(xml, log);
       reports.start();
@@ -65,10 +65,11 @@ private Vector<Hashtable<String, String>> WebTemplates = null;
             .trim().equalsIgnoreCase("TEMPLATE")) {
 
           String file = ( ( (Hashtable<String, String>) WebTemplates.get(a))
-                         .get("file")).trim();
+                        .get("file")).trim();
 
-          file = LoadTemplate(context.getRealPath("/" + file));
-                   //file = LoadTemplate(file);
+            file = LoadTemplate(context.getRealPath("/" + file));
+          
+            // file = LoadTemplate(file);
           ( (Hashtable<String, String>) WebTemplates.get(a)).put("template", file);
         }
       }

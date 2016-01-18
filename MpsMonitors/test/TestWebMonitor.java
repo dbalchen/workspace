@@ -34,7 +34,7 @@ public class TestWebMonitor extends TestCase {
     webMonitor.init(config);
     webMonitor.CallMpsMonitor("m01usg1.uscc.com",8999,"WebAcpa2");
   }
-
+*/
   public void testInit() throws ServletException, InterruptedException {
     ServletConfig config = null;
     webMonitor.init(config);
@@ -43,5 +43,4 @@ public class TestWebMonitor extends TestCase {
     	Thread.sleep(30000);
     }    
   }
-*/
 }

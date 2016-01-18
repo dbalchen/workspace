@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>EPS Monitors</title>
+        
+        <link href="/WebMonitor/ini/include/dash.css" rel="stylesheet" type="text/css" />
+		<link href="/WebMonitor/ini/include/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<link href="/WebMonitor/ini/include/demo_table.css"rel="stylesheet" type="text/css" >
+		<!--<script type="text/javascript" src="/WebMonitor/ini/include/jquery-2.0.3.js"></script>-->
+		<script type="text/javascript" src="/WebMonitor/ini/include/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="/WebMonitor/ini/include/jquery-ui.js"></script>
+        <script type="text/javascript" src="/WebMonitor/ini/include/jquery.dataTables.js"></script>	
+		<script type="text/javascript" src="/WebMonitor/ini/include/datatables_func.js"></script>
+		<script type="text/javascript" src="/WebMonitor/ini/include/dash_func.js"></script>
+</head>
+<body>
+	<div id="head">
+		<h1 id="headtext">EPS Monitors - Batch</h1>
+	</div>             
+	<div id="tabs">
+		 <ul>
+			<li id="batch-tab"><a href="#tabs-batch" style="color:white">Batch</a></li> 
+			<li id="event-tab"><a href="#tabs-event" style="color:white">Event</a></li>
+			<li id="ac1-tab"><a href="#tabs-ac1" style="color:white">AC1 Control</a></li>
+			<li id="aem-tab"><a href="#tabs-aem" style="color:white">AEM</a></li>
+			<li id="other-tab"><a href="#tabs-other" style="color:white">Other</a></li>
+		</ul>
+		<div id="tabs-batch">                                                                                                                                                   
+			<div id="columns-batch">
+				<ul id="column1-batch" class="column-batch">
+				</ul>
+				<ul id="column2-batch" class="column-batch">
+				</ul>
+				<ul id="column3-batch" class="column-batch">
+				</ul>
+				<ul id="column4-batch" class="column-batch">
+				</ul>
+			</div>
+		</div>
+		<div id="tabs-event">
+			<div id="columns-event">
+				<ul id="column1-event" class="column-event">
+				</ul>
+				<ul id="column2-event" class="column-event">
+				</ul>
+				<ul id="column3-event" class="column-event">
+				</ul>
+				<ul id="column4-event" class="column-event">
+				</ul>
+			</div>
+		</div>
+		<div id="tabs-ac1">
+			<div id="columns-ac1">
+				<ul id="column1-ac1" class="column-ac1">
+				</ul>
+			</div>
+		</div>
+		<div id="tabs-aem">
+			<div id="columns-aem">
+				<ul id="column1-aem" class="column-aem">
+				<li class="widget color-green"><div class="widget-head"><h3>AEM Error Count</h3></div><div class="widget-content"><center>
+					<table id="aemTable" class="display">
+						<thead><tr>
+							<th>Error<div class="filter"></div></th>
+							<th>Date<div class="filter" id="dateSel"></div></th>
+							<th>Count</th>
+						</tr> </thead>
+						<tbody>
+						</tbody>
+						<tfoot><tr><th></th><th></th><th class="total"></th></tr></tfoot>
+					</table>
+					</center></div></li>
+				</ul>
+			</div>
+		</div>
+		<div id="tabs-other">
+			<div id="columns-other">
+				<ul id="column1-other" class="column-other">
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+    
+</body>
+</html>

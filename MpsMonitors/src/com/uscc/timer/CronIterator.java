@@ -19,7 +19,10 @@ public class CronIterator
   public CronIterator(String mins, String hrs, String dys, String dow,
                       String mth) {
 
-    minutes = fillTimeArray(60, mins, 0);
+//	  System.err.println("System Timer variables mins = "+mins+ "hours = " + hrs + "days = "+dys+" Dow = " + dow + "Month" + mth);
+//	  System.out.println("System Timer variables mins = "+mins+ "hours = " + hrs + "days = "+dys+" Dow = " + dow + "Month" + mth);
+    
+	minutes = fillTimeArray(60, mins, 0);
 
     hours = fillTimeArray(24, hrs, 0);
 

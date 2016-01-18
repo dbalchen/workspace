@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>EPS Monitors</title>
+        
+        <link href="/WebMonitor/ini/include/dash.css" rel="stylesheet" type="text/css" />
+		<link href="/WebMonitor/ini/include/jquery-ui.css" rel="stylesheet" type="text/css" />
+		<link href="/WebMonitor/ini/include/demo_table.css"rel="stylesheet" type="text/css" >
+		<!--<script type="text/javascript" src="/WebMonitor/ini/include/jquery-2.0.3.js"></script>-->
+		<script type="text/javascript" src="/WebMonitor/ini/include/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="/WebMonitor/ini/include/jquery-ui.js"></script>
+        <script type="text/javascript" src="/WebMonitor/ini/include/jquery.dataTables.js"></script>	
+		<script type="text/javascript" src="/WebMonitor/ini/include/datatables_func.js"></script>
+</head>
+<body>
+	<div id="head">
+		<h1 id="headtext">EPS Monitors - Batch</h1>
+	</div>             
+	<div id="tabs">
+		 <ul>
+			<li id="batch-tab"><a href="#tabs-batch" style="color:white">Batch</a></li> 
+			<li id="event-tab"><a href="#tabs-event" style="color:white">Event</a></li>
+			<li id="ac1-tab"><a href="#tabs-ac1" style="color:white">AC1 Control</a></li>
+			<li id="aem-tab"><a href="#tabs-aem" style="color:white">AEM</a></li>
+		</ul>
+		<div id="tabs-batch">                                                                                                                                                   
+			<div id="columns-batch">
+				<ul id="column1-batch" class="column-batch">
+				</ul>
+				<ul id="column2-batch" class="column-batch">
+				</ul>
+				<ul id="column3-batch" class="column-batch">
+				</ul>
+				<ul id="column4-batch" class="column-batch">
+				</ul>
+			</div>
+		</div>
+		<div id="tabs-event">
+			<div id="columns-event">
+				<ul id="column1-event" class="column-event">
+				</ul>
+				<ul id="column2-event" class="column-event">
+				</ul>
+				<ul id="column3-event" class="column-event">
+				</ul>
+				<ul id="column4-event" class="column-event">
+				</ul>
+			</div>
+		</div>
+		<div id="tabs-ac1">
+			<div id="columns-ac1">
+				<ul id="column1-ac1" class="column-ac1">
+				</ul>
+			</div>
+		</div>
+		<div id="tabs-aem">
+			<div id="columns-aem">
+				<ul id="column1-aem" class="column-aem">
+				<li class="widget color-green"><div class="widget-head"><h3>AEM Error Count</h3></div><div class="widget-content"><center>
+					<table id="aemTable" class="display">
+						<thead><tr>
+							<th>Error<div class="filter"></div></th>
+							<th>Date<div class="filter" id="dateSel"></div></th>
+							<th>Count</th>
+						</tr> </thead>
+						<tbody>
+						</tbody>
+						<tfoot><tr><th></th><th></th><th class="total"></th></tr></tfoot>
+					</table>
+					</center></div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+    <script type="text/javascript">
+	function addWidget($title,$tab,$url,$col){
+		return $.ajax({
+				 url: $url,
+				type: 'GET',
+				async: false,
+				success: function(data) {
+					$("#column" + $col + "-" + $tab).append('<li class="widget color-grey"><div class="widget-head"><h3>' + $title + '</h3></div><div class="widget-content"><p>' + data + '</p></div></li>');
+				}
+		});
+	}
+	function makeAppTable($data){
+		var tbl='<table border=1><tr><th>App</th><th>Status</th><th>Started</th></tr>';
+		for (var i=0;i<$data.apps.length;i++){
+			var app = $data.apps[i];
+			if(app.status == 'Up'){
+				tbl += '<tr style="color:green;"><td>' + app.name + '</td><td>' + app.status + '</td><td>' + app.start + '</td></tr>';
+			}else if (app.required == 'N'){
+				tbl += '<tr style="color:orange;"><td>' + app.name + '</td><td>' + app.status + '</td><td></td></tr>';
+			}else{
+				tbl += '<tr style="color:red;"><td>' + app.name + '</td><td>' + app.status + '</td><td></td></tr>';
+			}
+		}
+		tbl += "</table>";
+		
+		return tbl;
+	}
+	
+	function makeFsTable($data){
+		var tbl='<table border=1><tr><th>Folder</th><th>Size</th><th>Used</th><th>Available</th><th>% Used</th></tr>';
+		for (var i=0;i<$data.dirs.length;i++){
+			var dir = $data.dirs[i];
+			if(dir.peruse.substr(0,dir.peruse.indexOf("%")) <90){
+				tbl += '<tr style="color:green;"><td>' + dir.map + '</td><td>' + dir.size + '</td><td>' + dir.used + '</td><td>' + dir.avail + '</td><td>' + dir.peruse + '</td></tr>';
+			}else{
+				tbl += '<tr style="color:red;"><td>' + dir.map + '</td><td>' + dir.size + '</td><td>' + dir.used + '</td><td>' + dir.avail + '</td><td>' + dir.peruse + '</td></tr>';
+			}
+		}
+		tbl += "</table>";	
+		return tbl;
+	}
+	
+	function addWidgetFs($title,$tab,$url,$col){
+		return $.ajax({
+				 url: $url,
+				type: 'GET',
+				async: false,
+				success: function(data) {
+				if(data.length<3){return;}
+				var jsonData = jQuery.parseJSON(data);
+				var tbl = makeFsTable(jsonData);
+				var headerColor='green';
+				if(tbl.indexOf("red")>0){
+				  headerColor='red';
+				  $("#" + $tab + "-tab").css("background","red");
+				}
+				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '</h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tbl + '</p></center></div></li>');
+				}
+		});
+	}
+	
+	function addWidgetApp($title,$tab,$url,$col){
+		return $.ajax({
+				 url: $url,
+				type: 'GET',
+				async: false,
+				success: function(data) {
+				if(data.length<3){return;}
+				var jsonData = jQuery.parseJSON(data);
+				var tbl = makeAppTable(jsonData);
+				var headerColor='green';
+				if(tbl.indexOf("red")>0){
+				  headerColor='red';
+				  $("#" + $tab + "-tab").css("background","red");
+				}
+				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '</h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tbl + '</p></center></div></li>');
+				}
+		});
+	}
+	
+	function makeAC1TableFiles($data){
+		var tbl='<table border=1><tr><th>Format</th><th>Status</th><th>Current Program</th><th>Next Program</th><th>Creation Date</th><th>Update Date</th><th>Count</th></tr>';
+		for (var i=0;i<$data.length;i++){
+			var row = $data[i];
+			if(row.file_status != 'AF'){
+				tbl += '<tr style="color:green;"><td>' + row.file_format + '</td><td>' + row.file_status + '</td><td>' + row.curpgm + '</td><td>' + row.nxtpgm + '</td><td>' + row.create_date + '</td><td>' + row.update_date + '</td><td>' + row.count + '</td></tr>';
+			}else{
+				tbl += '<tr style="color:red;"><td>' + row.file_format + '</td><td>' + row.file_status + '</td><td>' + row.curpgm + '</td><td>' + row.nxtpgm + '</td><td>' + row.create_date + '</td><td>' + row.update_date + '</td><td>' + row.count + '</td></tr>';
+			}
+		}
+		tbl += "</table>";	
+		return tbl;
+	}
+		
+	function makeAC1TableData($data){
+		var tbl='<table border=1><tr><th>Count</th><th>Date</th><th>Status</th></tr>';
+		for (var i=0;i<$data.length;i++){
+			var row = $data[i];
+			if(1){
+				tbl += '<tr style="color:green;"><td>' + row.count + '</td><td>' + row.date+ '</td><td>' + row.file_status + '</td></tr>';
+			}else{
+				tbl += '<tr style="color:red;"><td>' + row.count + '</td><td>' + row.date+ '</td><td>' + row.file_status + '</td></tr>';
+			}
+		}
+		tbl += "</table>";	
+		return tbl;
+	}
+	
+	function addWidgetAC1($title,$tab,$url,$col){
+		return $.ajax({
+				 url: $url,
+				type: 'GET',
+				async: false,
+				success: function(data) {
+				if(data.length<3){return;}
+				var jsonData = jQuery.parseJSON(data);
+				var tblFile = makeAC1TableFiles(jsonData.file_status);
+				var tblData = makeAC1TableData(jsonData.data_status);
+				var headerColor='green';
+				if(tblFile.indexOf("red")>0 || tblData.indexOf("red")>0){
+				  headerColor='red';
+				  $("#ac1-tab").css("background","red");
+				}
+				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '</h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tblFile + '</p><br><h3>UFF File Status</h3><p>' + tblData + '</p></center></div></li>');
+				}
+		});
+	}
+	
+	function addWidgetAEM($title,$tab,$url,$col){
+		oTable=$("#example").dataTable( {
+                "fnInitComplete": function () {
+             /* Add a select menu for each TH element in the table footer */
+            $(".filter").each( function ( i ) {
+                this.innerHTML = fnCreateSelect( oTable.fnGetColumnData(i) );
+                $('select', this).change( function () {
+                    oTable.fnFilter( $(this).val(), i );
+                    $(".total").html(getTotalCount(oTable.fnGetColumnData(2)));
+                } );
+            $('#dateSel').val=('1');
+            } );
+            $(".total").html(getTotalCount(oTable.fnGetColumnData(2)));
+        },
+                "bProcessing": true,
+                "sDom": 'rt<"clear">',
+                "iDisplayLength": 500,
+                "aaSorting": [[ 1, "desc" ],[0,"asc"]],	
+		"aoColumns": [ null,{"sType":"date-dd-mmm-yy"},null],
+                "sAjaxSource": 'http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=AEMErrorCount&MARKET=KPRL3BATCH'
+            } );
+	}
+	
+		function makeAPRMACTableRater($data){
+		var tbl='<table border=1><tr><th>Count</th><th>Date</th><th>Status</th><th>Date</th></tr>';
+		for (var i=0;i<$data.length;i++){
+			var row = $data[i];
+			if(1){
+				tbl += '<tr style="color:green;"><td>' + row.curpgm + '</td><td>' + row.nxtpgm + '</td><td>' + row.file_status + '</td><td>' + row.count + '</td><td>' + row.quantity + '</td><td>' + row.date + '</td></tr>';
+			}else{
+				tbl += '<tr style="color:red;"><td>' + row.curpgm + '</td><td>' + row.nxtpgm + '</td><td>' + row.file_status + '</td><td>' + row.count + '</td><td>' + row.quantity + '</td><td>' + row.date + '</td></tr>';
+			}
+		}
+		tbl += "</table>";	
+		return tbl;
+	}
+	
+	
+	
+	function makeAPRMTableFiles($data){
+		var tbl='<table border=1><tr><th>Current Program</th><th>Next Program</th><th>File Status</th><th>Count</th><th>Quantity</th></tr>';
+		for (var i=0;i<$data.length;i++){
+			var row = $data[i];
+			if(1){
+				tbl += '<tr style="color:green;"><td>' + row.curpgm + '</td><td>' + row.nxtpgm + '</td><td>' + row.file_status + '</td><td>' + row.count + '</td><td>' + row.quantity + '</td></tr>';
+			}else{
+				tbl += '<tr style="color:red;"><td>' + row.curpgm + '</td><td>' + row.nxtpgm + '</td><td>' + row.file_status + '</td><td>' + row.count + '</td><td>' + row.quantity + '</td></tr>';
+			}
+		}
+		tbl += "</table>";	
+		return tbl;
+	}
+	
+	function makeAPRMTableErrors($data){
+		var tbl='<table border=1><tr><th>Errors</th><th>Count</th></tr>';
+		for (var i=0;i<$data.length;i++){
+			var row = $data[i];
+			if(1){
+				tbl += '<tr style="color:green;"><td>' + row.name + '</td><td>' + row.count + '</td></tr>';
+			}else{
+				tbl += '<tr style="color:red;"><td>' + row.name + '</td><td>' + row.count + '</td></tr>';
+			}
+		}
+		tbl += "</table>";	
+		return tbl;
+	}
+	function addWidgetAPRMAC($title,$tab,$url,$col){
+		return $.ajax({
+				 url: $url,
+				type: 'GET',
+				async: false,
+				success: function(data) {
+				var jsonData = jQuery.parseJSON(data);
+				var tblFile = makeAPRMTableFiles(jsonData.file_status);
+				var tblRaters= makeAPRMACTableRater(jsonData.rater_status);
+				var tblErrors = makeAPRMTableErrors(jsonData.errors);
+				var headerColor='green';
+				if(tblFile.indexOf("red")>0 || tblRaters.indexOf("red")>0 || tblErrors.indexOf("red")>0){
+				  headerColor='red';
+				  $("#ac1-tab").css("background","red");
+				}
+				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '</h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tblFile + '</p><br><h3>Rater Status</h3><p>' + tblRaters + '</p><br><h3>APRM Errors</h3><p>' + tblErrors+ '</p></center></div></li>');
+				}
+		});
+	}
+	
+	function addWidgetAEM($title,$tab,$url,$col){
+			oTable=$("#aemTable").dataTable( {
+					"fnInitComplete": function () {
+				 /* Add a select menu for each TH element in the table footer */
+				$(".filter").each( function ( i ) {
+					this.innerHTML = fnCreateSelect( oTable.fnGetColumnData(i) );
+					$('select', this).change( function () {
+						oTable.fnFilter( $(this).val(), i );
+						$(".total").html(getTotalCount(oTable.fnGetColumnData(2)));
+					} );
+				$('#dateSel').val=('1');
+				} );
+				$(".total").html(getTotalCount(oTable.fnGetColumnData(2)));
+			},
+					"bProcessing": true,
+					"sDom": 'rt<"clear">',
+					"iDisplayLength": 500,
+					"aaSorting": [[ 1, "desc" ],[0,"asc"]],	
+			"aoColumns": [ null,{"sType":"date-dd-mmm-yy"},null],
+					"sAjaxSource": $url
+				} );
+	}
+		
+	function clearColumns(){
+		$("#batch-tab").css("background","green");
+		$("#event-tab").css("background","green");
+		$("#ac1-tab").css("background","green");
+		$("#aem-tab").css("background","green");
+		$("#column1-batch").empty();
+		$("#column2-batch").empty();
+		$("#column3-batch").empty();
+		$("#column4-batch").empty();
+		$("#column1-event").empty();
+		$("#column2-event").empty();
+		$("#column3-event").empty();
+		$("#column4-event").empty();
+		$("#column1-ac1").empty();
+	}
+	
+	function loadWidgets(){
+		clearColumns();
+
+		addWidgetApp("Batch 1 Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL1BATCH","1");
+		addWidgetFs("Batch 1 Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL1BATCH","1");
+		addWidget("Batch 1 Stuck Files","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=WebStuckFileProc&MARKET=KPRL1BATCH","1");
+		addWidgetApp("Batch 2 Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL2BATCH","2");
+		addWidgetFs("Batch 2 Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL2BATCH","2");
+		addWidgetApp("Batch 3 Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL3BATCH","3");
+		addWidgetFs("Batch 3 Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL3BATCH","3");
+		addWidgetApp("APRM Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=AppsA&MARKET=KPRL3BATCH","4");
+		addWidgetFs("APRM Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=FilesystemA&MARKET=KPRL3BATCH","4");
+		addWidget("APRM Stuck Files","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=WebStuckFileProcA&MARKET=KPRL3BATCH","4");
+		
+		
+		addWidgetFs("ES1 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL1EVENT","1");
+		addWidgetFs("ES2 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL2EVENT","1");
+		addWidgetFs("ES3 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL3EVENT","1");
+		addWidgetFs("ES4 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL4EVENT","1");
+		addWidgetFs("ES5 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL5EVENT","1");
+		addWidgetApp("ES1 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL1EVENT","2");
+		addWidgetApp("ES2 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL2EVENT","2");
+		addWidgetApp("ES3 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL3EVENT","2");
+		addWidgetApp("ES4 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL4EVENT","2");
+		addWidgetApp("ES5 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL5EVENT","2");
+		
+		addWidgetAC1("AC1 Control Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Ac1control&MARKET=KPRL1BATCH","1");
+		addWidgetAPRMAC("APRM AC Control Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=APRM_AC&MARKET=KPRL3BATCH","1");
+		
+	}
+		
+	
+	$(function() {	 
+		$( "#tabs" ).tabs({ collapsible: true});
+		$( "#tabs" ).bind('tabsactivate',function(event, ui){
+			switch(ui.newTab.index()){
+				case 0:
+					$("#headtext").html('EPS Monitors - Batch');
+					break;
+				case 1:
+					$("#headtext").html('EPS Monitors - Event Servers');
+					break;
+				case 2:
+					$("#headtext").html('EPS Monitors - AC1 Control');
+					break;
+				case 3:
+					$("#headtext").html('EPS Monitors - AEM');
+					break;
+			}
+		});
+		
+		addWidgetAEM("AEM Error Counts","aem","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=AEMErrorCount&MARKET=KPRL3BATCH","1");
+		loadWidgets();
+		setInterval(function(){loadWidgets();},180000);
+	});
+	</script>
+    
+</body>
+</html>
