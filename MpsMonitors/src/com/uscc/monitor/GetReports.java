@@ -88,8 +88,8 @@ public class GetReports {
           flag = true;
         }
       }
-      loadReport( (List<Hashtable<String, String>>) config.subList(start, a), market, hostname,
-                 port);
+     loadReport( (List<Hashtable<String, String>>) config.subList(start, a), market, hostname,
+               port);
     }
   }
 
@@ -104,8 +104,7 @@ public class GetReports {
       }
     }
 
-    , new CronIterator("0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,57"
-                       , "*", "*", "*", "*"));
+    , new CronIterator("0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,57", "*", "*", "*", "*"));
   }
 
   private void loadReport(List<Hashtable<String, String>> conf, String market, String hostname,
@@ -114,6 +113,9 @@ public class GetReports {
         (Hashtable<String, String>) conf.get(0)).get("TAG_NAME")).trim();
 
     WebReports.put(monitor + market, CallMpsMonitor(hostname, port, monitor));
+    
+    //WebReports.put(monitor + market, "CallMpsMonitor("+ hostname+"," + port+"," + monitor+")");
+    
     WebReports.put("port" + market, Integer.toString(port));
     WebReports.put("hostname" + market, hostname);
 
@@ -129,13 +131,18 @@ public class GetReports {
       String key = keys.nextElement();
 
       if (key.indexOf("port") < 0 && key.indexOf("hostname") < 0) {
-        String market = key.substring(key.indexOf("M0"));
+        String market = key.substring(key.indexOf("KPR"));
+        
+        
+//        log.println("Get Reports Market = " + market);
+//        log.println("Get reports KEY = " + (String) key);
+       
         WebReports.put( (String) key,
                        CallMpsMonitor( (String) WebReports.get("hostname" +
             market),
                                       Integer.parseInt(
             (String) WebReports.get("port" + market)),
-                                      key.substring(0, key.indexOf("M0"))));
+                                      key.substring(0, key.indexOf("KPR"))));
 
       }
     }

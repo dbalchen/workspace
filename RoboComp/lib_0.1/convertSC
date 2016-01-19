@@ -86,8 +86,8 @@ song.tracks.each { |x|
       vels = vels + "[" + (theNotes[0].start_velocity).to_s
       for i in 1..(theNotes.size-1)
         freqs = freqs + "," + theNotes[i].note.to_s
-        durs = durs   + "," + (theNotes[0].duration).round_to(2).to_s
-        vels = vels   + "," + (theNotes[0].start_velocity).to_s
+        durs = durs   + "," + (theNotes[i].duration).round_to(2).to_s
+        vels = vels   + "," + (theNotes[i].start_velocity).to_s
       end
       freqs = freqs + "],"
       durs =  durs  + "],"

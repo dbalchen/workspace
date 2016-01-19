@@ -47,11 +47,10 @@
  : \newpage
 :END:
 * TODO List						       :noexport:
-** TODO Check in CallDump Code
-   SCHEDULED: <2015-10-26 Mon>--<2015-10-30 Fri>
 ** TODO Get the WebMonitor code and figure out how to recompile then check back in.
 ** TODO Add new monitors [33%]
    - [X] Add AR monitors
+   - [ ] Open ports to the EBI server
    - [ ] Add Dave's KPI monitors.
    - [ ] Number of records processed per day.
 ** TODO Fix the error monitors.
@@ -1414,7 +1413,7 @@ digraph BI {
 
 ** DB Preparation
    For each DB instance, except ODS and SIT, You need to alter the session before you can use it.\\ For example  for usage 1 type
-: ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
+   : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
 ** Production Database Tables
 #+BEGIN_LaTeX
 \scriptsize
@@ -1796,156 +1795,157 @@ digraph BI {
 \scriptsize
 #+END_LaTeX
 #+ATTR_LaTeX: longtable align=lll
-|------------------------------------+---------------------+-------------|
-| *Column Name*                      | *Data Type*         | Description |
-|------------------------------------+---------------------+-------------|
-| *CYCLE\_CODE*                      | NUMBER(4,0)         |             |
-| *CYCLE\_INSTANCE*                  | NUMBER(2,0)         |             |
-| CUSTOMER\_SEGMENT                  | NUMBER(4,0)         |             |
-| *CUSTOMER\_ID*                     | NUMBER(10,0)        |             |
-| ACCUM\_TYPE\_ID                    | NUMBER(9,0)         |             |
-| OWNER\_ID                          | NUMBER(10,0)        |             |
-| OWNER\_TYPE                        | CHAR(1 BYTE)        |             |
-| ITEM\_ID                           | NUMBER(9,0)         |             |
-| OFFER\_INSTANCE                    | NUMBER(10,0)        |             |
-| DIMENSION\_ID                      | NUMBER(5,0)         |             |
-| *CYCLE\_YEAR*                      | NUMBER(4,0)         |             |
-| SYS\_CREATION\_DATE                | DATE                |             |
-| SYS\_UPDATE\_DATE                  | DATE                |             |
-| OPERATOR\_ID                       | NUMBER(9,0)         |             |
-| APPLICATION\_ID                    | CHAR(6 BYTE)        |             |
-| DL\_SERVICE\_CODE                  | CHAR(5 BYTE)        |             |
-| DL\_UPDATE\_STAMP                  | NUMBER(4,0)         |             |
-| UPDATE\_ID                         | NUMBER(9,0)         |             |
-| VERSION\_ID                        | NUMBER(9,0)         |             |
-| GLOBAL\_ACCUM\_IND                 | CHAR(1 BYTE)        |             |
-| CROSS\_CYCLE\_IND                  | CHAR(1 BYTE)        |             |
-| ACCUM\_ID                          | NUMBER(9,0)         |             |
-| RERATE\_TYPE                       | CHAR(1 BYTE)        |             |
-| ACCOUNT                            | NUMBER              |             |
-| /ACCUM\_CHARGE/                    | NUMBER              |             |
-| /ACCUM\_CHG\_INCL\_FREE\_ALLW/     | NUMBER              |             |
-| /ACCUM\_FREE\_UNIT/                | NUMBER              |             |
-| ACCUM\_UNIT                        | NUMBER              |             |
-| BILLING\_ARRANGEMENT               | NUMBER              |             |
-| *CURRENCY\_CODE*                   | VARCHAR2(3 BYTE)    |             |
-| FIRST\_EVENT\_DATE                 | DATE                |             |
-| L3\_BALANCE\_AMOUNT                | NUMBER              |             |
-| L3\_BALANCE\_STATUS                | VARCHAR2(1 BYTE)    |             |
-| LAST\_EVENT\_DATE                  | DATE                |             |
-| *NUMBER\_OF\_EVENTS*               | NUMBER              |             |
-| *NUMBER\_OF\_FREE\_EVENTS*         | NUMBER              |             |
-| *NUMBER\_OF\_ROLLED\_CYCLES*       | NUMBER              |             |
-| OFFER\_ID                          | NUMBER              |             |
-| PI\_ROLE                           | NUMBER              |             |
-| PI\_STATUS                         | NUMBER              |             |
-| QUOTA                              | NUMBER              |             |
-| QUOTA\_PER\_PERIOD                 | VARCHAR2(512 BYTE)  |             |
-| REMAINING\_QUOTA\_PER\_PERIOD      | VARCHAR2(512 BYTE)  |             |
-| REMAIN\_QUOTA\_PER\_MONTH\_PERIOD  | VARCHAR2(512 BYTE)  |             |
-| ROLLED\_PREVIOUS\_CYC\_PER\_PERIOD | VARCHAR2(512 BYTE)  |             |
-| ROLLED\_QUOTA\_FROM\_PREVIOUS\_CYC | NUMBER              |             |
-| UOM                                | VARCHAR2(1 BYTE)    |             |
-| UTILIZED\_QUOTA\_PER\_PERIOD       | VARCHAR2(512 BYTE)  |             |
-| UTILIZE\_QUOTA\_PER\_MONTH\_PERIOD | VARCHAR2(512 BYTE)  |             |
-| BILLING\_RESOURCE\_TYPE            | VARCHAR2(16 BYTE)   |             |
-| BILLING\_RESOURCE\_ID              | VARCHAR2(63 BYTE)   |             |
-| TOLL\_TAX                          | NUMBER              |             |
-| L9\_ACCUM\_CHG\_INCL\_ALLW\_CMPLX  | VARCHAR2(512 BYTE)  |             |
-| L9\_ACCUM\_CREDIT                  | NUMBER              |             |
-| L9\_ACCUMULATED\_CHG\_CMPLX        | VARCHAR2(512 BYTE)  |             |
-| L9\_OVERAGE\_CAP                   | NUMBER              |             |
-| L9\_ACCUM\_FREE\_UNIT\_CMPLX       | VARCHAR2(512 BYTE)  |             |
-| L9\_NUMBER\_OF\_EVENTS\_CMPLX      | VARCHAR2(512 BYTE)  |             |
-| L9\_NUMBER\_FREE\_EVENTS\_CMPLX    | VARCHAR2(512 BYTE)  |             |
-| L9\_ACCUM\_UNIT\_CMPLX             | VARCHAR2(512 BYTE)  |             |
-| L9\_CAP\_EXCEED                    | VARCHAR2(1 BYTE)    |             |
-| L9\_NUMBER\_OF\_CREDIT\_EVENTS     | NUMBER              |             |
-| AIR\_TAX                           | NUMBER              |             |
-| L9\_TOT\_UNITS\_ABOVE\_CAP         | VARCHAR2(512 BYTE)  |             |
-| ACCUM\_DURATION                    | NUMBER              |             |
-| L9\_CALL\_DIRECTION                | VARCHAR2(1 BYTE)    |             |
-| L9\_ROAMING\_IND                   | VARCHAR2(1 BYTE)    |             |
-| L9\_TAX\_CHANGE\_DATE              | VARCHAR2(25 BYTE)   |             |
-| L9\_SERVE\_SID                     | VARCHAR2(5 BYTE)    |             |
-| L9\_EHA\_INDICATOR                 | VARCHAR2(1 BYTE)    |             |
-| L9\_PAY\_CHANNEL                   | NUMBER              |             |
-| L9\_CUSTOMER\_SUB\_TYPE            | VARCHAR2(15 BYTE)   |             |
-| L9\_BE                             | NUMBER              |             |
-| L9\_CUSTOMER\_TYPE                 | VARCHAR2(1 BYTE)    |             |
-| L9\_CALLED\_COUNTRY                | VARCHAR2(3 BYTE)    |             |
-| L9\_PAYMENT\_CATEGORY              | VARCHAR2(4 BYTE)    |             |
-| L9\_BILLING\_ARRANGEMENT           | NUMBER              |             |
-| L9\_VOLUME\_ACCUMULATION           | NUMBER              |             |
-| L9\_OFFER\_LEVEL                   | VARCHAR2(1 BYTE)    |             |
-| L9\_FULL\_CAP                      | NUMBER              |             |
-| L9\_CHARGE\_TYPE                   | VARCHAR2(3 BYTE)    |             |
-| L9\_PREV\_ADD\_CHG\_CMPLX2         | VARCHAR2(512 BYTE)  |             |
-| L9\_PREV\_ADD\_CHG\_CMPLX1         | VARCHAR2(512 BYTE)  |             |
-| L9\_PREV\_ADD\_CHG\_CMPLX3         | VARCHAR2(512 BYTE)  |             |
-| L9\_PREV\_ADD\_CHG\_CMPLX          | VARCHAR2(4000 BYTE) |             |
-| L9\_ACC\_USAGE\_BEFORE\_EOM        | NUMBER              |             |
-| L9\_ACC\_USAGE\_AFTER\_EOM         | NUMBER              |             |
-| L9\_MSISDN                         | VARCHAR2(256 BYTE)  |             |
-| L9\_CAP\_TO\_BE\_USED              | NUMBER              |             |
-| L9\_CHARGE\_CODE                   | VARCHAR2(15 BYTE)   |             |
-| L9\_OFFER\_TYPE                    | VARCHAR2(255 BYTE)  |             |
-| L9\_ACCUM\_CHG\_BEYO\_CAP\_CMPLX   | VARCHAR2(512 BYTE)  |             |
-| L9\_CTN                            | VARCHAR2(10 BYTE)   |             |
-| L9\_MEDIA\_TYPE                    | VARCHAR2(1 BYTE)    |             |
-| L9\_UTILIZED\_QUOTA\_CMPLX         | VARCHAR2(512 BYTE)  |             |
-| L9\_FIRST\_THRESHOLD\_SENT\_IND    | VARCHAR2(1 BYTE)    |             |
-| L9\_REMAIN\_QUOTA\_CMPLX           | VARCHAR2(512 BYTE)  |             |
-| L9\_USED\_QUOTA                    | NUMBER              |             |
-| L9\_LAST\_THRESHOLD\_SENT          | NUMBER              |             |
-| L9\_CHARGE\_REV\_CODE              | VARCHAR2(2 BYTE)    |             |
-| L9\_IS\_NEW\_SCALE                 | VARCHAR2(1 BYTE)    |             |
-| L9\_IS\_FIRST\_NOTIF               | VARCHAR2(1 BYTE)    |             |
-| L9\_NOTIFIED\_CTN                  | VARCHAR2(32 BYTE)   |             |
-| L9\_UNLIMITED\_IND                 | VARCHAR2(1 BYTE)    |             |
-| PRORATION\_FACTOR                  | NUMBER              |             |
-| L9\_CURR\_LEG                      | NUMBER              |             |
-| L9\_NUM\_OF\_PERIOD                | NUMBER              |             |
-| L9\_IS\_NOTIF\_SENT                | VARCHAR2(1 BYTE)    |             |
-| L9\_PERIOD\_NAME                   | VARCHAR2(255 BYTE)  |             |
-| L9\_VOLUME\_PER\_LEG               | VARCHAR2(4000 BYTE) |             |
-| L9\_CYCLE\_START\_DATE\_CMPLX      | VARCHAR2(512 BYTE)  |             |
-| DISABLE\_NOTIF\_IND                | VARCHAR2(1 BYTE)    |             |
-| L9\_NOTIF\_ELIG                    | VARCHAR2(1 BYTE)    |             |
-| L9\_IS\_SECOND\_NOTIF              | VARCHAR2(1 BYTE)    |             |
-| L9\_LIMIT\_QUOTA\_CHANGE\_CMPLX    | VARCHAR2(512 BYTE)  |             |
-| AGR\_LEVEL\_OFFER\_INST            | VARCHAR2(512 BYTE)  |             |
-| L9\_LAST\_NOTIF\_INDEX             | NUMBER              |             |
-| L9\_SECOND\_NOTIF\_THRESH          | NUMBER              |             |
-| OFFER\_EXP\_DATE                   | DATE                |             |
-| L9\_SECOND\_THRESHOLD              | NUMBER              |             |
-| L9\_ACCUM\_FREE\_UNTS\_BEYO\_CAP   | NUMBER              |             |
-| OFFER\_EFF\_DATE                   | DATE                |             |
-| L9\_FIRST\_THRESHOLD               | NUMBER              |             |
-| L9\_SECOND\_THRESHOLD\_SENT\_IND   | VARCHAR2(1 BYTE)    |             |
-| L9\_LIMIT\_QUOTA\_CMPLX            | VARCHAR2(512 BYTE)  |             |
-| L9\_FIRST\_NOTIF\_THRESH           | NUMBER              |             |
-| L9\_REMAINING\_BUCKET              | NUMBER              |             |
-| L9\_CLASS\_CODE                    | VARCHAR2(12 BYTE)   |             |
-| L9\_IVR\_ANN\_CODE                 | VARCHAR2(50 BYTE)   |             |
-| L9\_ACCUM\_ADD\_TAX\_AMT           | NUMBER              |             |
-| L9\_ACCUM\_TAX\_AMT                | NUMBER              |             |
-| L9\_DAYS\_OF\_DAILY\_DATA          | NUMBER              |             |
-| L9\_CALLING\_AREA\_NAME            | VARCHAR2(50 BYTE)   |             |
-| EXPIRATION\_DATE                   | DATE                |             |
-| L9\_DISCLAIMER\_SENT               | VARCHAR2(1 BYTE)    |             |
-| L9\_IS\_ROAM\_DATA\_SPEED\_NOTIF   | VARCHAR2(1 BYTE)    |             |
-| L9\_GEOCODE                        | VARCHAR2(10 BYTE)   |             |
-| L9\_IS\_TOTAL\_DATA\_SPEED\_NOTIF  | VARCHAR2(1 BYTE)    |             |
-| L9\_ROAM\_VOLUME\_ACCUMULATION     | NUMBER              |             |
-| L9\_ROAM\_SPEED\_LIMIT             | NUMBER              |             |
-| L9\_INDICATOR                      | VARCHAR2(1 BYTE)    |             |
-| L9\_CHARGE\_ACCUMULATION           | NUMBER              |             |
-| L9\_PP\_CHANGED\_IND               | VARCHAR2(1 BYTE)    |             |
-| L9\_FIRST\_LEVEL                   | VARCHAR2(512 BYTE)  |             |
-| L9\_GRP\_LEVEL\_OFFER\_INST        | NUMBER              |             |
-| L9\_GROUP\_OFFER\_ID               | NUMBER              |             |
-|------------------------------------+---------------------+-------------|
+|------------------------------------+---------------------+---------------------|
+| *Column Name*                      | *Data Type*         | Description         |
+|------------------------------------+---------------------+---------------------|
+| *CYCLE\_CODE*                      | NUMBER(4,0)         |                     |
+| *CYCLE\_INSTANCE*                  | NUMBER(2,0)         | Cycle Instance = 0  |
+|                                    |                     | Pre-Paid Subscriber |
+| CUSTOMER\_SEGMENT                  | NUMBER(4,0)         |                     |
+| *CUSTOMER\_ID*                     | NUMBER(10,0)        |                     |
+| *ACCUM\_TYPE\_ID*                  | NUMBER(9,0)         |                     |
+| OWNER\_ID                          | NUMBER(10,0)        |                     |
+| OWNER\_TYPE                        | CHAR(1 BYTE)        |                     |
+| ITEM\_ID                           | NUMBER(9,0)         |                     |
+| OFFER\_INSTANCE                    | NUMBER(10,0)        |                     |
+| DIMENSION\_ID                      | NUMBER(5,0)         |                     |
+| *CYCLE\_YEAR*                      | NUMBER(4,0)         |                     |
+| SYS\_CREATION\_DATE                | DATE                |                     |
+| SYS\_UPDATE\_DATE                  | DATE                |                     |
+| OPERATOR\_ID                       | NUMBER(9,0)         |                     |
+| APPLICATION\_ID                    | CHAR(6 BYTE)        |                     |
+| DL\_SERVICE\_CODE                  | CHAR(5 BYTE)        |                     |
+| DL\_UPDATE\_STAMP                  | NUMBER(4,0)         |                     |
+| UPDATE\_ID                         | NUMBER(9,0)         |                     |
+| VERSION\_ID                        | NUMBER(9,0)         |                     |
+| GLOBAL\_ACCUM\_IND                 | CHAR(1 BYTE)        |                     |
+| CROSS\_CYCLE\_IND                  | CHAR(1 BYTE)        |                     |
+| ACCUM\_ID                          | NUMBER(9,0)         |                     |
+| RERATE\_TYPE                       | CHAR(1 BYTE)        |                     |
+| ACCOUNT                            | NUMBER              |                     |
+| *ACCUM\_CHARGE*                    | NUMBER              |                     |
+| *ACCUM\_CHG\_INCL\_FREE\_ALLW*     | NUMBER              |                     |
+| *ACCUM\_FREE\_UNIT*                | NUMBER              |                     |
+| ACCUM\_UNIT                        | NUMBER              |                     |
+| BILLING\_ARRANGEMENT               | NUMBER              |                     |
+| *CURRENCY\_CODE*                   | VARCHAR2(3 BYTE)    |                     |
+| FIRST\_EVENT\_DATE                 | DATE                |                     |
+| L3\_BALANCE\_AMOUNT                | NUMBER              |                     |
+| L3\_BALANCE\_STATUS                | VARCHAR2(1 BYTE)    |                     |
+| LAST\_EVENT\_DATE                  | DATE                |                     |
+| *NUMBER\_OF\_EVENTS*               | NUMBER              |                     |
+| *NUMBER\_OF\_FREE\_EVENTS*         | NUMBER              |                     |
+| *NUMBER\_OF\_ROLLED\_CYCLES*       | NUMBER              |                     |
+| OFFER\_ID                          | NUMBER              |                     |
+| PI\_ROLE                           | NUMBER              |                     |
+| PI\_STATUS                         | NUMBER              |                     |
+| QUOTA                              | NUMBER              |                     |
+| QUOTA\_PER\_PERIOD                 | VARCHAR2(512 BYTE)  |                     |
+| REMAINING\_QUOTA\_PER\_PERIOD      | VARCHAR2(512 BYTE)  |                     |
+| REMAIN\_QUOTA\_PER\_MONTH\_PERIOD  | VARCHAR2(512 BYTE)  |                     |
+| ROLLED\_PREVIOUS\_CYC\_PER\_PERIOD | VARCHAR2(512 BYTE)  |                     |
+| ROLLED\_QUOTA\_FROM\_PREVIOUS\_CYC | NUMBER              |                     |
+| UOM                                | VARCHAR2(1 BYTE)    |                     |
+| UTILIZED\_QUOTA\_PER\_PERIOD       | VARCHAR2(512 BYTE)  |                     |
+| UTILIZE\_QUOTA\_PER\_MONTH\_PERIOD | VARCHAR2(512 BYTE)  |                     |
+| BILLING\_RESOURCE\_TYPE            | VARCHAR2(16 BYTE)   |                     |
+| BILLING\_RESOURCE\_ID              | VARCHAR2(63 BYTE)   |                     |
+| TOLL\_TAX                          | NUMBER              |                     |
+| L9\_ACCUM\_CHG\_INCL\_ALLW\_CMPLX  | VARCHAR2(512 BYTE)  |                     |
+| L9\_ACCUM\_CREDIT                  | NUMBER              |                     |
+| L9\_ACCUMULATED\_CHG\_CMPLX        | VARCHAR2(512 BYTE)  |                     |
+| L9\_OVERAGE\_CAP                   | NUMBER              |                     |
+| L9\_ACCUM\_FREE\_UNIT\_CMPLX       | VARCHAR2(512 BYTE)  |                     |
+| L9\_NUMBER\_OF\_EVENTS\_CMPLX      | VARCHAR2(512 BYTE)  |                     |
+| L9\_NUMBER\_FREE\_EVENTS\_CMPLX    | VARCHAR2(512 BYTE)  |                     |
+| L9\_ACCUM\_UNIT\_CMPLX             | VARCHAR2(512 BYTE)  |                     |
+| L9\_CAP\_EXCEED                    | VARCHAR2(1 BYTE)    |                     |
+| L9\_NUMBER\_OF\_CREDIT\_EVENTS     | NUMBER              |                     |
+| AIR\_TAX                           | NUMBER              |                     |
+| L9\_TOT\_UNITS\_ABOVE\_CAP         | VARCHAR2(512 BYTE)  |                     |
+| ACCUM\_DURATION                    | NUMBER              |                     |
+| L9\_CALL\_DIRECTION                | VARCHAR2(1 BYTE)    |                     |
+| L9\_ROAMING\_IND                   | VARCHAR2(1 BYTE)    |                     |
+| L9\_TAX\_CHANGE\_DATE              | VARCHAR2(25 BYTE)   |                     |
+| L9\_SERVE\_SID                     | VARCHAR2(5 BYTE)    |                     |
+| L9\_EHA\_INDICATOR                 | VARCHAR2(1 BYTE)    |                     |
+| L9\_PAY\_CHANNEL                   | NUMBER              |                     |
+| L9\_CUSTOMER\_SUB\_TYPE            | VARCHAR2(15 BYTE)   |                     |
+| L9\_BE                             | NUMBER              |                     |
+| L9\_CUSTOMER\_TYPE                 | VARCHAR2(1 BYTE)    |                     |
+| L9\_CALLED\_COUNTRY                | VARCHAR2(3 BYTE)    |                     |
+| *L9\_PAYMENT\_CATEGORY*            | VARCHAR2(4 BYTE)    | POST or PRE         |
+| L9\_BILLING\_ARRANGEMENT           | NUMBER              |                     |
+| L9\_VOLUME\_ACCUMULATION           | NUMBER              |                     |
+| L9\_OFFER\_LEVEL                   | VARCHAR2(1 BYTE)    |                     |
+| L9\_FULL\_CAP                      | NUMBER              |                     |
+| L9\_CHARGE\_TYPE                   | VARCHAR2(3 BYTE)    |                     |
+| L9\_PREV\_ADD\_CHG\_CMPLX2         | VARCHAR2(512 BYTE)  |                     |
+| L9\_PREV\_ADD\_CHG\_CMPLX1         | VARCHAR2(512 BYTE)  |                     |
+| L9\_PREV\_ADD\_CHG\_CMPLX3         | VARCHAR2(512 BYTE)  |                     |
+| L9\_PREV\_ADD\_CHG\_CMPLX          | VARCHAR2(4000 BYTE) |                     |
+| L9\_ACC\_USAGE\_BEFORE\_EOM        | NUMBER              |                     |
+| L9\_ACC\_USAGE\_AFTER\_EOM         | NUMBER              |                     |
+| L9\_MSISDN                         | VARCHAR2(256 BYTE)  |                     |
+| L9\_CAP\_TO\_BE\_USED              | NUMBER              |                     |
+| L9\_CHARGE\_CODE                   | VARCHAR2(15 BYTE)   |                     |
+| L9\_OFFER\_TYPE                    | VARCHAR2(255 BYTE)  |                     |
+| L9\_ACCUM\_CHG\_BEYO\_CAP\_CMPLX   | VARCHAR2(512 BYTE)  |                     |
+| L9\_CTN                            | VARCHAR2(10 BYTE)   |                     |
+| L9\_MEDIA\_TYPE                    | VARCHAR2(1 BYTE)    |                     |
+| L9\_UTILIZED\_QUOTA\_CMPLX         | VARCHAR2(512 BYTE)  |                     |
+| L9\_FIRST\_THRESHOLD\_SENT\_IND    | VARCHAR2(1 BYTE)    |                     |
+| L9\_REMAIN\_QUOTA\_CMPLX           | VARCHAR2(512 BYTE)  |                     |
+| L9\_USED\_QUOTA                    | NUMBER              |                     |
+| L9\_LAST\_THRESHOLD\_SENT          | NUMBER              |                     |
+| L9\_CHARGE\_REV\_CODE              | VARCHAR2(2 BYTE)    |                     |
+| L9\_IS\_NEW\_SCALE                 | VARCHAR2(1 BYTE)    |                     |
+| L9\_IS\_FIRST\_NOTIF               | VARCHAR2(1 BYTE)    |                     |
+| L9\_NOTIFIED\_CTN                  | VARCHAR2(32 BYTE)   |                     |
+| L9\_UNLIMITED\_IND                 | VARCHAR2(1 BYTE)    |                     |
+| PRORATION\_FACTOR                  | NUMBER              |                     |
+| L9\_CURR\_LEG                      | NUMBER              |                     |
+| L9\_NUM\_OF\_PERIOD                | NUMBER              |                     |
+| L9\_IS\_NOTIF\_SENT                | VARCHAR2(1 BYTE)    |                     |
+| L9\_PERIOD\_NAME                   | VARCHAR2(255 BYTE)  |                     |
+| L9\_VOLUME\_PER\_LEG               | VARCHAR2(4000 BYTE) |                     |
+| L9\_CYCLE\_START\_DATE\_CMPLX      | VARCHAR2(512 BYTE)  |                     |
+| DISABLE\_NOTIF\_IND                | VARCHAR2(1 BYTE)    |                     |
+| L9\_NOTIF\_ELIG                    | VARCHAR2(1 BYTE)    |                     |
+| L9\_IS\_SECOND\_NOTIF              | VARCHAR2(1 BYTE)    |                     |
+| L9\_LIMIT\_QUOTA\_CHANGE\_CMPLX    | VARCHAR2(512 BYTE)  |                     |
+| AGR\_LEVEL\_OFFER\_INST            | VARCHAR2(512 BYTE)  |                     |
+| L9\_LAST\_NOTIF\_INDEX             | NUMBER              |                     |
+| L9\_SECOND\_NOTIF\_THRESH          | NUMBER              |                     |
+| OFFER\_EXP\_DATE                   | DATE                |                     |
+| L9\_SECOND\_THRESHOLD              | NUMBER              |                     |
+| L9\_ACCUM\_FREE\_UNTS\_BEYO\_CAP   | NUMBER              |                     |
+| OFFER\_EFF\_DATE                   | DATE                |                     |
+| L9\_FIRST\_THRESHOLD               | NUMBER              |                     |
+| L9\_SECOND\_THRESHOLD\_SENT\_IND   | VARCHAR2(1 BYTE)    |                     |
+| L9\_LIMIT\_QUOTA\_CMPLX            | VARCHAR2(512 BYTE)  |                     |
+| L9\_FIRST\_NOTIF\_THRESH           | NUMBER              |                     |
+| L9\_REMAINING\_BUCKET              | NUMBER              |                     |
+| L9\_CLASS\_CODE                    | VARCHAR2(12 BYTE)   |                     |
+| L9\_IVR\_ANN\_CODE                 | VARCHAR2(50 BYTE)   |                     |
+| L9\_ACCUM\_ADD\_TAX\_AMT           | NUMBER              |                     |
+| L9\_ACCUM\_TAX\_AMT                | NUMBER              |                     |
+| L9\_DAYS\_OF\_DAILY\_DATA          | NUMBER              |                     |
+| L9\_CALLING\_AREA\_NAME            | VARCHAR2(50 BYTE)   |                     |
+| EXPIRATION\_DATE                   | DATE                |                     |
+| L9\_DISCLAIMER\_SENT               | VARCHAR2(1 BYTE)    |                     |
+| L9\_IS\_ROAM\_DATA\_SPEED\_NOTIF   | VARCHAR2(1 BYTE)    |                     |
+| L9\_GEOCODE                        | VARCHAR2(10 BYTE)   |                     |
+| L9\_IS\_TOTAL\_DATA\_SPEED\_NOTIF  | VARCHAR2(1 BYTE)    |                     |
+| L9\_ROAM\_VOLUME\_ACCUMULATION     | NUMBER              |                     |
+| L9\_ROAM\_SPEED\_LIMIT             | NUMBER              |                     |
+| L9\_INDICATOR                      | VARCHAR2(1 BYTE)    |                     |
+| L9\_CHARGE\_ACCUMULATION           | NUMBER              |                     |
+| L9\_PP\_CHANGED\_IND               | VARCHAR2(1 BYTE)    |                     |
+| L9\_FIRST\_LEVEL                   | VARCHAR2(512 BYTE)  |                     |
+| L9\_GRP\_LEVEL\_OFFER\_INST        | NUMBER              |                     |
+| L9\_GROUP\_OFFER\_ID               | NUMBER              |                     |
+|------------------------------------+---------------------+---------------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -3879,7 +3879,7 @@ AND expiration\_date IS NULL
 
 ** Operational SQL
    All of these scripts would be good monitor scripts.
-   - Checks to see if all payment files have been processed.(*PRDAF*)
+   - Checks to see if all payment files have been processed.(*PRDCUST*)
 : select  identifier, nxt_pgm_name, file_status, file_format, file_name, file_path,  a.* 
 :  from ac1_control a
 :  where nxt_pgm_name like 'AR1PYM%'
@@ -3960,3 +3960,8 @@ AND expiration\_date IS NULL
 forgot about this:
 [fn:2] *CIBER* - InCollect processing is still handled by *A&F* and *RBMS*
  
+\\WIMIDFILE06\Share\Share\IS Billing Systems Department\TC_KPI
+[‎12/‎11/‎2015 2:14 PM] Smith, David: 
+<\\WIMIDFILE06\Share\Share\IS Billing Systems Department\TC_KPI> 
+<\\WIMIDFILE06\Share\Share\IS Billing Systems Department\AEM> 
+<\\WIMIDFILE06\Share\Share\IS Billing Systems Department\EM1> 

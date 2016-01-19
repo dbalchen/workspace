@@ -29,7 +29,6 @@
    <property name="reports"  location="reports"/>
    <property name="style.config.dir" location="etc"/>
    <property name="style.output.dir" location="checkstyle"/>
-   <import file="../common/common.xml"/>
 
    <!-- Environment Setup -->
    <target name="init">
@@ -78,8 +77,8 @@
          description="compile the source " >
       <record name="log/${DSTAMP}_${TSTAMP}.log" action="start"/>
 
-      <javac srcdir="${src}" destdir="${lib}" debug="false">
-         <classpath>
+      <javac includeJavaRuntime="false" includeAntRuntime="false" target="1.6" source="1.6" srcdir="${src}" destdir="${lib}" debug="false">
+         <classpath >
             <fileset dir="${jars}">
                <include name="*.jar"/>
             </fileset>
