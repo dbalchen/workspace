@@ -17,8 +17,11 @@ MyEvents {
 
   init {
 
-    filter = MyFilter.new;
-    envelope = MyEnv.new;
+    if(filter != nil,
+     {filter = MyFilter.new;});
+
+    if(envelope != nil,
+     {envelope = MyEnv.new;});
 
     if(freqs == nil,
       {freqs = [60,60,60,60]; });

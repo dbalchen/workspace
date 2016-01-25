@@ -11,6 +11,8 @@ var allWidgets=[
                 ["Batch 4 Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL6BATCH","3","FS"],
 		["APRM Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=AppsA&MARKET=KPRL3BATCH","4","App"],
 		["APRM Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=FilesystemA&MARKET=KPRL3BATCH","4","FS"],
+                ["EBI Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EBIAP","4","App"],
+                ["EBI Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EBIAP","4","FS"],
 		["ES1 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL1EVENT","1","FS"],
 		["ES2 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL2EVENT","1","FS"],
 		["ES3 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL3EVENT","1","FS"],
@@ -23,10 +25,11 @@ var allWidgets=[
 		["ES4 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL4EVENT","2","App"],
 		["ES5 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL5EVENT","2","App"],
 		["ES6 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL6EVENT","2","App"],
-		["AC1 Control Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Ac1control&MARKET=KPRL1BATCH","1","addWidgetAC1"],
+		//["AC1 Control Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Ac1control&MARKET=KPRL1BATCH","1","addWidgetAC1"],
 		["APRM AC Control Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=APRM_AC&MARKET=KPRL3BATCH","1","addWidgetAPRMAC"],
 		["Ongoing Rerate Backlog","other","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Rerate_backlog&MARKET=KPRL2BATCH","1","addWidgetRaterBacklog"],
-		["Overage Notification Count (Yeseterday)","other","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=OVP&MARKET=KPRL1BATCH","1","addWidgetOVP"]
+		["Overage Notification Count (Yeseterday)","other","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=OVP&MARKET=KPRL1BATCH","1","addWidgetOVP"],
+	        ["AC1 Control Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Ac1control&MARKET=KPRL1BATCH","1","addWidgetAC1"]
 	];
 	
 	
