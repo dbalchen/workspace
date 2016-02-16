@@ -1,6 +1,9 @@
 Help.gui
 Quarks.gui
-GUI.qt
+GUI.java
+
+s = JStethoscope.defaultServer.boot;
+
 
 (
  o = Server.local.options;
@@ -20,7 +23,7 @@ GUI.qt
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/stringbass.sc".loadPath;
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/strings.sc".loadPath;
  "/home/dbalchen/Music/Song#6VariationsBbMajor/include/Song6C/pads.sc".loadPath;
-
+/*
  ~bassd.out = 2;
  ~tom1.out = 4;
  ~tom2.out = 6;
@@ -33,7 +36,7 @@ GUI.qt
  ~strings2.out = 20;
  ~dark_pad.out = 22;
  ~chord.out = 24;
-
+	*/
  )
 
 };
