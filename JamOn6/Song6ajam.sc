@@ -54,7 +54,12 @@ s.meter;
 	OffsetOut.ar(out, Pan2.ar(son * amp));
       }).add;
 
-	   
+	SynthDef(\zeroRate,{arg out = 0;
+		Out.ar(out, 0);}).add;
+
+	SynthDef(\identRate,{arg out = 0;
+		Out.ar(out, 1);}).add;
+		
     SynthDef(\env0, {arg out=0,r1 = 0.5,r2 = 1, r3 = 0.5, r4 = 0, r5 = 0,gate = 0; 
     var sig;
     sig = EnvGen.ar(
@@ -123,15 +128,16 @@ s.meter;
 
     SynthDef(\vca, {arg out=0, in = 0, ink = 0,amp = 1.5, spread = 0, center = 0; 
 	var sig, aoc = 1, env1;
-		aoc = MouseX.kr(0,1);
+		aoc = MouseX.kr(27.5,1000);
 		env1 = In.ar(ink);
-		env1 = aoc*(env1-1) + 1;
+		//env1 = aoc*(env1-1) + 1;
 
 	sig = In.ar(in,1);
-	sig =  sig * env1;
+		sig =  sig ;//* env1;
 	sig = sig*1.2;
 	sig = sig.clip2(1);
 		//sig = GVerb.ar(sig,200, 3, 0.5, 0.2, 15, 1, 0.2, 0.2, 201);
+    sig = BPF.ar(sig,aoc,0.1);
 	sig = Splay.ar(sig,spread,center:center);
 	OffsetOut.ar(out, (sig * amp));
       }).add;
@@ -235,8 +241,8 @@ env;
 ~nGroup.free;
 ~env0.set(\aoc,0.5);
 ~rp = {~midiBassDrum.value;}; // Example
-~mixer1.set(\bal,0.5);
-~mixer2.set(\bal,-0.25);
+~mixer1.set(\bal,1);
+~mixer2.set(\bal,1);
  
 (
  ~start = {
