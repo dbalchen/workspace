@@ -22,7 +22,7 @@ s.meter;
     ~bassdrum.waits = [1.0,1.0,1.0,1.0]; 
     ~bassdrum.freqs = [35,35,35,35];
     ~bassdrum.probs = [1,1,1,1];
-    ~bassdrum.durations = [1.0,1.0,1.0,1.0] * 0.5;
+    ~bassdrum.durations = [1.0,1.0,1.0,1.0] * 1;
     ~bassdrum.amp = 2;
     ~bassdrum.init;
 
@@ -36,6 +36,22 @@ s.meter;
 			   \dur, Pfunc.new({~bassdrum.wait.next})
 			   ).play};
 
+    ~cantus_firmus = MyEvents.new;
+~cantus_firmus.waits = [8.0,4.0,4.0,8.0,4.0,4.0]; 
+~cantus_firmus.freqs = [65,63,67,65,63,60] + 12;
+~cantus_firmus.probs = [1,1,1,1,1,1];
+~cantus_firmus.durations = [8.0,4.0,4.0,8.0,4.0,4.0];
+~cantus_firmus.amp =1;
+~cantus_firmus.init;
+    ~midiCantus_firmus = {Pbind(\type, \midi,
+			   \midiout, ~synth2,
+			   \midicmd, \noteOn,
+			   \note,  Pfunc.new({~cantus_firmus.freq.next}- 60),
+			   \amp, ~cantus_firmus.amp,
+			   \chan, 8,
+			   \sustain, Pfunc.new({~cantus_firmus.duration.next}),
+			   \dur, Pfunc.new({~cantus_firmus.wait.next})
+			   ).play};
 
     SynthDef(\kick, { |out=0, amp=0.1, pan=0|
 	  var env0, env1, env1m, son;
@@ -58,7 +74,7 @@ s.meter;
 		Out.ar(out, 0);}).add;
 
 	SynthDef(\identRate,{arg out = 0;
-		Out.ar(out, 1);}).add;
+	   		Out.kr(out, 1);}).add;
 		
     SynthDef(\env0, {arg out=0,r1 = 0.5,r2 = 1, r3 = 0.5, r4 = 0, r5 = 0,gate = 0; 
     var sig;
@@ -76,7 +92,7 @@ s.meter;
 
 	sig = sig.midicps;
 	Out.ar(out,sig*1.5);}).add;
-	  
+
     SynthDef(\windspeed, {arg out = 0,out2 = 0, out3 = 0;
 	Out.ar(out,
 	       ((LFDNoise3.ar(LFNoise1.ar(1, 0.5, 0.5), 0.5, 0.5))*500) + 350;
@@ -122,22 +138,31 @@ s.meter;
 	gain = In.ar(gain);
 	mul = In.ar(mul);
 	sig = MoogFF.ar(in, freq:cutoff, gain: gain,mul:mul);
-		//sig = MoogFF.ar(in, freq:cutoff, gain: 0,mul:mul);
 	OffsetOut.ar(out, sig);
       }).add;
 
+    SynthDef(\bpf0, {arg out=0, freq = 550, in = 0, cutoff = 0, gain = 0, mul = 1, rq = 0.15, lagLev = 4.0; 
+	var sig,mod;
+	sig = In.ar(in);
+	freq = Lag.kr(freq, lagLev);
+	sig = BPF.ar(sig,freq,rq);
+	OffsetOut.ar(out, sig);
+      }).add;
+
+
     SynthDef(\vca, {arg out=0, in = 0, ink = 0,amp = 1.5, spread = 0, center = 0; 
 	var sig, aoc = 1, env1;
-		aoc = MouseX.kr(27.5,1000);
+		aoc = MouseX.kr(0,1);
 		env1 = In.ar(ink);
-		//env1 = aoc*(env1-1) + 1;
+		env1 = aoc*(env1-1) + 1;
 
 	sig = In.ar(in,1);
-		sig =  sig ;//* env1;
-	sig = sig*1.2;
+	sig =  sig * env1;
+		//    sig = Normalizer.ar(sig,1, 0.01);
+		//sig = sig*1.2;
 	sig = sig.clip2(1);
-		//sig = GVerb.ar(sig,200, 3, 0.5, 0.2, 15, 1, 0.2, 0.2, 201);
-    sig = BPF.ar(sig,aoc,0.1);
+		//	sig = GVerb.ar(sig,200, 3, 0.5, 0.2, 15, 1, 0.2, 0.2, 201);
+		//sig = BPF.ar(sig,aoc,0.1);
 	sig = Splay.ar(sig,spread,center:center);
 	OffsetOut.ar(out, (sig * amp));
       }).add;
@@ -163,11 +188,14 @@ env;
     ~noiseOut = Bus.audio(s,1);
     ~noiseflt = Bus.audio(s,1);
 
+   ~bpfOut = Bus.audio(s,1);
+
+
+
     ~wind = Synth("windspeed",target: ~nGroup,addAction: \addToHead);
     ~wind.set(\out,~wcut);
     ~wind.set(\out2,~wmul);
     ~wind.set(\out3,~wgain);
-
 
 	~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
     ~mixer1.set(\in0,~wcut);
@@ -184,18 +212,30 @@ env;
     ~noise = Synth("white",target: ~nGroup,addAction: \addToTail);
     ~noise.set(\out,~noiseflt);
 
+    ~bpf = Synth("bpf0",target: ~nGroup,addAction: \addToTail);
+    ~bpf.set(\in, ~noiseflt);
+    ~bpf.set(\out, ~bpfOut);
+    ~bpf.set(\freq, 77.midicps);
+
     ~flt = Synth("filter0",target: ~nGroup,addAction: \addToTail);
-    ~flt.set(\in,~noiseflt);
+    ~flt.set(\in,~bpfOut);
     ~flt.set(\cutoff,~mix1out);
     ~flt.set(\gain,~wgain);
     ~flt.set(\mul, ~mix2out);
     ~flt.set(\out,~noiseOut);
-	  	   
+
     ~vca = Synth("vca",target: ~nGroup,addAction: \addToTail);
-    ~vca.set(\in,~noiseOut);
+	   //~vca.set(\in,~bpfOut);
+	~vca.set(\in,~noiseOut);
     ~vca.set(\ink,~envout);
 	  
 
+    ~channel8 = {arg num, vel = 1;
+      var ret;
+
+		~bpf.set(\freq,num.midicps);
+
+	};
 
     ~channel9 = {arg num, vel = 1;
       var ret;
@@ -240,10 +280,23 @@ env;
 
 ~nGroup.free;
 ~env0.set(\aoc,0.5);
-~rp = {~midiBassDrum.value;}; // Example
-~mixer1.set(\bal,1);
-~mixer2.set(\bal,1);
- 
+
+~bpf.set(\rq,0.2);
+
+
+
+~rp = {~midiBassDrum.value;~midiCantus_firmus.value;}; // Example
+
+~mixer1.set(\bal,1);~mixer2.set(\bal,1);
+
+~mixer1.set(\bal,-1);~mixer2.set(\bal,-1);
+~mixer1.set(\bal,0);~mixer2.set(\bal,0); 
+~mixer1.set(\bal,0.5);~mixer2.set(\bal,0.5);
+
+
+
+
+
 (
  ~start = {
 
