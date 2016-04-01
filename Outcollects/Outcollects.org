@@ -1,0 +1,1037 @@
+#+STARTUP: overview
+#+TAGS: taskjuggler_project(p) taskjuggler_resource(r) noexport(n)
+#+DRAWERS: PICTURE CLOSET 
+#+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %53ITEM(Task) %6Effort %allocate %22BLOCKER %ORDERED
+:CLOSET:
+: Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+: Days  #+PROPERTY: Effort_ALL 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00
+: weeks #+PROPERTY: Effort_ALL 5.00 10.00 15.00 20.00 25.00 30.00 35.00 40.00 45.00
+: #+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+
+ : New Page
+ : \newpage
+: Table align
+: align=clr
+:END:
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+
+#+TITLE: Outcollects
+
+#+BEGIN_LaTeX
+\newpage
+%\clearpage
+%\addtolength{\oddsidemargin}{-.25in}
+\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+% \newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{3}
+% \pagestyle{fancy}
+% \fancyhf[ROF,LEF]{\bf\thepage}
+% \fancyhf[C]{}
+#+END_LaTeX
+[TABLE-OF-CONTENTS] 
+#+BEGIN_LaTeX
+\newpage
+\pagenumbering{arabic}
+#+END_LaTeX
+:CLOSET:
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+
+ : New Page
+ : \newpage
+:END:
+* /Outcollects Analysis/
+** Introduction
+   The purpose of this document is to provide a strategy to move all
+   *outcollect* processing from *CARES* to TOPS.
+*** Purpose of Project Management Plan
+    /Provide the purpose of the project charter. The intended audience of the <Project Name> PMP is all project stakeholders including the project sponsor, senior leadership and the project team./
+** Executive Summary of Project Charter
+   The Outcollect process testing has been in progress for about a
+   year and we've so far have come up with the following issues:
+
+   #+ATTR_LaTeX: width=14cm
+   [[file:Pictures/Errors.png]]
+
+   The ones in red are to be corrected by *USCC*. 
+*** Assumptions/Constraints
+    We assume that we should be able to move outcollects from *CARES*
+    to TOPS around September 2014 at the latest unless situations
+    arise such as:
+    - Difficulty in discovering and diagnosing defects.
+    - Vendor responsiveness when defects are found.
+
+    In addition we will testing in production since a suitable test
+    environment does not currently exist.
+  
+    /[Insert summary of any changes from the project assumptions and/or constraints that were originally outlined in the project charter.]/
+** Scope Management
+   The basic plan of action consists of comparing outcollect files,
+   one from TOPS and the other from CARES made with the same
+   data. When comparing we need to document fix or explain all
+   differences.
+
+   /[Insert the project's scope management plan or provide a reference to where it is stored.]/
+*** Work Breakdown Structure
+**** Process
+     1.	Choose date for comparison (ie: 131225 for Dec 25, 2013)
+     2. Get CARES CIBER records
+     3. Get TOPS CIBER records
+     4. Gather MISC Data
+     5. Data Load (Pass 1)
+     6. Data Load (Pass 2)
+     7. Results
+
+    /[Insert the project's work breakdown structure or provide a reference to where it is stored.]/
+*** Deployment Plan
+    /[Example: The project involves deploying an application to state health partners. This section would discuss the approach for rolling out the application to the end users, including conducting environment assessments, developing memorandums of understandings, hardware/software installation, data conversion.]/
+*** Change Control Management
+    -  System: EPS\_TOOLS, Subsystem: EPS
+    -  The project directory:\\
+       - *Data Outcollects Project Folder*
+    : \\chil-data1\share\common\TOPS\outcollects\
+    : \\chil-data1\share\Common\TOPS\Visitor_min_lr
+    : \\chil-data1\share\Common\TOPS\data_outcollects
+    - *Smart Ticket #* CRQ000000038185
+    /[Example of Change Control: If a development server for your project is administered by another organization that is responsible for installing machine upgrades and there are scheduled outages that will impact your project schedule. Changes to the project will need to be made to deal with the potential impact of the scheduled outage.]/
+
+** Human Resource Management
+   /[Insert the project's human resource management plan or provide a reference to where it is stored.]/
+** Cost/Budget Management
+   /[Insert the project's cost management plan or provide a reference to where it is stored.]/
+** Quality Management
+   /[Example: For an information system, controlling the consistency of screen layouts would include reviewing all screens to make sure they match the standards. Quality measures may be no bugs or defects for certain critical requirements, consistent screen layouts, or correctly calculating variables. Quality may be ensured through inspections, audits, formal testing and documentation of defects in a defect tracking system to ensure defects are fixed, retested and closed. Some projects may choose to use a traceability matrix to determine if critical requirements have been met.]/
+** Communications Management
+   /[Insert the project's communication management plan or provide a reference to where it is stored.]/
+*** Communication Matrix
+|-----------------+----------+----------+-----------+---------------+---------------------|
+| Stakeholder     | Messages | Vehicles | Frequency | Communicators | Feedback Mechanisms |
+|-----------------+----------+----------+-----------+---------------+---------------------|
+| Craig Stalsberg |          |          | Daily     |               |                     |
+|-----------------+----------+----------+-----------+---------------+---------------------|
+| Amit Gupta      |          |          | As needed |               |                     |
+|-----------------+----------+----------+-----------+---------------+---------------------|
+** Risk Management
+   /[Insert the project's risk management plan or provide a reference to where it is stored.]/
+*** Risk Log
+    /[The Risk Log is normally maintained as a separate document. Provide a reference to where it is stored.]/
+** Issue Management
+   /[Insert the project's issue management plan or provide a reference to where it is stored.]/
+*** Issue Log
+    /[The Issue Log is normally maintained as a separate document. Provide a reference to where it is stored.]/
+** Procurement Management
+   /[Example: This can include information such as ensuring project team members are assigned computers, how development and test servers are procured or can go into more detail and include an acquisition strategy that details how the project will be staffed (e.g., performance based fixed price contract, CITS contractors).]/
+** Compliance Related Planning
+   /[Insert a list of compliance related processes the project must
+   adhere to]
+* Outcollect Gant Chart			       :taskjuggler_project:noexport:
+** Outcollects [%]
+   :PROPERTIES:
+   :BLOCKER:  start
+   :END:
+*** DONE Fix Issue Special number differences
+    :PROPERTIES:
+    :BLOCKER:  start
+    :END:
+**** Analyze Special number
+     :PROPERTIES:
+     :Effort:   2d
+     :BLOCKER:  start
+     :END:
+     TOPS will rate air time for any special number where the roam indicator on the UFF is equal to 1.
+**** Difference Resolution
+     :PROPERTIES:
+     :Effort:   3d
+     :BLOCKER:  previous-sibling
+     :END:
+     Need to talk to the business about the discrepancies between the two systems.
+*** DONE Fix Issue CR Fix issue with Wrong Offer
+    :PROPERTIES:
+    :BLOCKER:  previous-sibling
+    :END:
+**** Table and Offer Analysis
+     :PROPERTIES:
+     :Effort:   3d
+     :BLOCKER:  start
+     :END:
+     - Analyse and compare AGD1\_RESOURCES
+     - Analyse and compare APE1\_SUBSCR\_DATA
+     - Analyse and compare APE1\_SUBSCR\_OFFERS
+     - Analyse and compare ADJ1\_OUTCOL\_PROVIDER
+**** Make Corrections update tables
+     :PROPERTIES:
+     :Effort:   3d
+     :BLOCKER:  previous-sibling
+     :END:
+*** DONE Fix Issue Outcol\_sid pair
+    :PROPERTIES:
+    :BLOCKER:  previous-sibling
+    :END:
+**** Run Query then send results to Ellen/Liz RA
+     :PROPERTIES:
+     :Effort:   2d
+     :BLOCKER:  start
+     :END:
+**** Verify that the entries have been removed.
+     :PROPERTIES:
+     :Effort:   2d
+     :BLOCKER:  previous-sibling
+     :END:
+* /Outcollects Documentation/ [%]
+** Process Decomposition
+*** CIBER Overview
+    #+ATTR_LaTeX: width=13cm
+    [[file:Pictures/outcollect.png]]
+   :PICTURE:
+   digraph BI {
+	rankdir=LR;
+	"Switch" -> "TOPS \n System"  [label = "CDR's"];
+	"TOPS \n System" -> "Outcollect \n file" [label = "Convert \n Ciber \n Records"];
+	"Outcollect \n file" -> "Syniverse" [label = "Sent by NDC \n via SFTP"];
+}
+   :END: 
+   - *Business Process -* Mediation
+   - *Type -* Batch
+   - *Category -* Batch Redesign
+   - *Service -*  Send outcollect data to *Syniverse*.
+   - *Process Flow* 
+     1. Switch records are passed through the billing system and any
+        record that does not belong to a customer gets placed into a file. 
+     2. Twice a day the /Ciber\_Create/ job is run which takes these
+        files and converts them to CIBER records.
+     3. Five times a day *NDC* starts a job which sends these files to
+        *Syniverse*.
+
+** Executable
+*** /load\_data\_outcollect.ctl/
+    - *Language:* control file
+    - *Source Code Location:* \//vobs\//eps\_tools\//eps
+    - *Run Time Location:* \//apps\//ebi\//usacq1\//bin
+    - *Description:*
+*** /load\_data\_outcollect.sh/
+    - *Language:* Shell
+    - *Source Code Location:* \//vobs\//eps\_tools\//eps
+    - *Run Time Location:* \//apps\//ebi\//usacq1\//bin
+    - *Parameters:* 
+      - *Input* \//apps\//ebi\//medap1\//var\//interfaces\//ndc\//in\//SYYYYMMDD\_USC\_DAILY\_BSID\_RPT\_new.dat
+    - *Description:*
+*** /load\_mbi\_load.ctl/
+    - *Language:* control
+    - *Source Code Location:* \//vobs\//eps\_tools\//eps
+    - *Run Time Location:* \//apps\//ebi\//usacq1\//bin
+    - *Description:*
+*** /load\_mbi\_load.sh/ /Missing/
+    - *Language:* Shell
+    - *Source Code Location:* \//vobs\//eps\_tools\//eps
+    - *Run Time Location:* \//apps\//ebi\//usacq1\//bin
+    - *Parameters:* /input and output/
+    - *Description:*
+*** /run\_accrual\_report.sh/
+    - *Language:* Shell
+    - *Source Code Location:* \//vobs\//eps\_tools\//eps
+    - *Run Time Location:* \//apps\//ebi\//usacq1\//bin
+    - *Parameters:*
+      - *Output:* \//apps\//ebi\//medap1\//var\//interfaces\//ndc\//out\//data\_roaming\_accrual\_YYYYMMDD.csv
+    - *Description:*
+*** /run\_gl\_report.sh/
+    - *Language:* Shell
+    - *Source Code Location:* \//vobs\//ps\_tools\//eps
+    - *Parameters:*
+      - *Output:* \//apps\//ebi\//medap1\//var\//interfaces\//ndc\//out\//data\_roaming\_gl\_YYYYMMDD.csv
+    - *Description:*
+*** /run\_unguided\_report.sh/
+    - *Language:* Shell
+    - *Source Code Location:* \//vobs\//eps\_tools\//eps
+    - *Run Time Location:* \//apps\//ebi\//usacq1\//bin
+    - *Parameters:*
+      - *Output* \//apps\//ebi\//medap1\//var\//interfaces\//ndc\//out\//data\_roaming\_unguided\_YYYYMMDD.csv
+    - *Description:*
+** Data Decomposition
+*** ADJ1\_OUTCOL\_PROVIDER
+   A list of all vendors we have an agreement with for out-collects.
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: longtable align=llrl
+   |---------------------+--------------------+------+-------------|
+   | *Column Name*       | *Data Type*        | *ID* | Description |
+   |---------------------+--------------------+------+-------------|
+   | PROVIDER\_ID        | NUMBER(18,0)       |    1 |             |
+   | CUSTOMER\_ID        | NUMBER(10,0)       |    2 |             |
+   | SYS\_CREATION\_DATE | DATE               |    3 |             |
+   | SYS\_UPDATE\_DATE   | DATE               |    4 |             |
+   | OPERATOR\_ID        | NUMBER(9,0)        |    5 |             |
+   | APPLICATION\_ID     | CHAR(6 BYTE)       |    6 |             |
+   | DL\_SERVICE\_CODE   | CHAR(5 BYTE)       |    7 |             |
+   | DL\_UPDATE\_STAMP   | NUMBER(4,0)        |    8 |             |
+   | CYCLE\_CODE         | NUMBER(4,0)        |    9 |             |
+   | GROUP\_ID           | NUMBER(9,0)        |   10 |             |
+   | MIN\_TIME\_TO\_SEND | NUMBER(4,0)        |   11 |             |
+   | MAX\_RECS\_IN\_FILE | NUMBER(9,0)        |   12 |             |
+   | SEND\_EMPTY\_NOTIF  | CHAR(1 BYTE)       |   13 |             |
+   | EXPIRATION\_DATE    | DATE               |   14 |             |
+   | EFFECTIVE\_DATE     | DATE               |   15 |             |
+   | PROVIDER\_DESC      | VARCHAR2(256 BYTE) |   16 |             |
+   | RESOURCE\_TYPE      | NUMBER(4,0)        |   17 |             |
+   |---------------------+--------------------+------+-------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX  
+*** MI1\_STLMNT\_CONTRACT
+   The Settlement Contracts table contains one record for each
+   contract. A contract is defined as the entity to which a group of
+   SIDs belongs, whose common attribute is the clearinghouse-related
+   Net Settlement bank account. This usually means that all the SIDs
+   that belong to a settlement contract are part of one operating
+   company.
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: longtable align=llrl
+   |----------------------+-------------------+------+-------------|
+   | *Column Name*        | *Data Type*       | *ID* | Description |
+   |----------------------+-------------------+------+-------------|
+   | STLMNT\_CONTRACT\_CD | CHAR(3 BYTE)      |    1 |             |
+   | EFFECTIVE\_DATE      | DATE              |    2 |             |
+   | SYS\_CREATION\_DATE  | DATE              |    3 |             |
+   | SYS\_UPDATE\_DATE    | DATE              |    4 |             |
+   | OPERATOR\_ID         | NUMBER(9,0)       |    5 |             |
+   | APPLICATION\_ID      | CHAR(6 BYTE)      |    6 |             |
+   | DL\_SERVICE\_CODE    | CHAR(5 BYTE)      |    7 |             |
+   | DL\_UPDATE\_STAMP    | NUMBER(4,0)       |    8 |             |
+   | EXPIRATION\_DATE     | DATE              |    9 |             |
+   | NET\_STLMNT\_IND     | CHAR(1 BYTE)      |   10 |             |
+   | COMPANY\_NAME        | VARCHAR2(50 BYTE) |   11 |             |
+   |----------------------+-------------------+------+-------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX  
+
+*** MF1\_OUTCOL\_DESTINATION
+  This table includes detailed information on every destination. A
+  destination represents a target of Out-collect calls (such as a
+  clearinghouse). The destination of every roamer call is determined
+  according to the Home SID value of that call.
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: longtable align=llrl
+   |------------------------+--------------------+------+-------------|
+   | *Column Name*          | *Data Type*        | *ID* | Description |
+   |------------------------+--------------------+------+-------------|
+   | OUTCOL\_DEST\_CD       | CHAR(6 BYTE)       |    1 |             |
+   | EFFECTIVE\_DATE        | DATE               |    2 |             |
+   | SYS\_CREATION\_DATE    | DATE               |    3 |             |
+   | SYS\_UPDATE\_DATE      | DATE               |    4 |             |
+   | OPERATOR\_ID           | NUMBER(9,0)        |    5 |             |
+   | APPLICATION\_ID        | CHAR(6 BYTE)       |    6 |             |
+   | DL\_SERVICE\_CODE      | CHAR(5 BYTE)       |    7 |             |
+   | DL\_UPDATE\_STAMP      | NUMBER(4,0)        |    8 |             |
+   | EXPIRATION\_DATE       | DATE               |    9 |             |
+   | CLEARING\_TYPE         | CHAR(1 BYTE)       |   10 |             |
+   | FREQ\_RUN              | NUMBER(9,0)        |   11 |             |
+   | FREQ\_TL\_RUN          | NUMBER(9,0)        |   12 |             |
+   | DESTINATION\_TYPE      | CHAR(1 BYTE)       |   13 |             |
+   | END\_SETLMNT\_DAY      | NUMBER(2,0)        |   14 |             |
+   | END\_SETLMNT\_HOUR     | CHAR(2 BYTE)       |   15 |             |
+   | END\_SETLMNT\_ADV\_MIN | CHAR(3 BYTE)       |   16 |             |
+   | CONTACT\_NPA           | CHAR(3 BYTE)       |   17 |             |
+   | CONTACT\_NXX           | CHAR(3 BYTE)       |   18 |             |
+   | CONTACT\_LINENO        | CHAR(4 BYTE)       |   19 |             |
+   | CONTACT\_PERSON\_NM    | VARCHAR2(50 BYTE)  |   20 |             |
+   | OUTCOL\_DEST\_DESC     | VARCHAR2(200 BYTE) |   21 |             |
+   |------------------------+--------------------+------+-------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX  
+*** MF1\_OUTCOL\_SID\_PAIR
+   Defines out-collect roaming agreement between SID pair. Originating
+   category is retrieve from the table that is used later on for
+   service filter determination. *INCOL\_SID\_PAIR* and *SID* tables are also
+   used by Acquisition & Formatting.
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: longtable align=llrl
+   |--------------------------+-------------------+------+---------------|
+   | *Column Name*            | *Data Type*       | *ID* | *Description* |
+   |--------------------------+-------------------+------+---------------|
+   | SERVE\_SID               | CHAR(5 BYTE)      |    1 |               |
+   | HOME\_SID                | CHAR(5 BYTE)      |    2 |               |
+   | EFFECTIVE\_DATE          | DATE              |    3 |               |
+   | SYS\_CREATION\_DATE      | DATE              |    4 |               |
+   | SYS\_UPDATE\_DATE        | DATE              |    5 |               |
+   | OPERATOR\_ID             | NUMBER(9,0)       |    6 |               |
+   | APPLICATION\_ID          | CHAR(6 BYTE)      |    7 |               |
+   | DL\_SERVICE\_CODE        | CHAR(5 BYTE)      |    8 |               |
+   | DL\_UPDATE\_STAMP        | NUMBER(4,0)       |    9 |               |
+   | EXPIRATION\_DATE         | DATE              |   10 |               |
+   | OUTCOL\_DEST\_CD         | CHAR(6 BYTE)      |   11 |               |
+   | CRE\_DAILY\_SURCG\_IND   | CHAR(1 BYTE)      |   12 |               |
+   | DAILY\_SURCHARGE\_AMT    | NUMBER(18,3)      |   13 |               |
+   | MISC\_SCHG\_IND          | CHAR(1 BYTE)      |   14 |               |
+   | MISC\_SCHG\_RATE         | NUMBER(18,3)      |   15 |               |
+   | MISC\_SCHG\_MEASURE\_IND | CHAR(1 BYTE)      |   16 |               |
+   | MISC\_DESCRIPTOR         | CHAR(2 BYTE)      |   17 |               |
+   | MISC\_SCHG\_DESC         | VARCHAR2(50 BYTE) |   18 |               |
+   | CYCLE\_CODE              | NUMBER(4,0)       |   19 |               |
+   | PRIORITY                 | NUMBER(5,0)       |   20 |               |
+   | NUM\_OF\_REC\_TO\_COMMIT | NUMBER(9,0)       |   21 |               |
+   | PARTITION\_ID            | NUMBER(4,0)       |   22 |               |
+   | GROUP\_ID                | NUMBER(4,0)       |   23 |               |
+   | AGREEMENT\_ID            | NUMBER(9,0)       |   24 |               |
+   |--------------------------+-------------------+------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX  
+
+*** APE1\_SUBSCR\_DATA\_REF
+   List subscriber reference data. (Customer data)
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+ |-------------------------+--------------+------+---------------|
+ | *Column Name*           | *Data Type*  | *ID* | *Description* |
+ |-------------------------+--------------+------+---------------|
+ | CYCLE\_CODE             | NUMBER(4,0)  |    1 |               |
+ | CUSTOMER\_SEGMENT       | NUMBER(4,0)  |    2 |               |
+ | SUBSCRIBER\_ID          | NUMBER(10,0) |    3 |               |
+ | SYS\_CREATION\_DATE     | DATE         |    4 |               |
+ | SYS\_UPDATE\_DATE       | DATE         |    5 |               |
+ | OPERATOR\_ID            | NUMBER(9,0)  |    6 |               |
+ | APPLICATION\_ID         | CHAR(6 BYTE) |    7 |               |
+ | DL\_SERVICE\_CODE       | CHAR(5 BYTE) |    8 |               |
+ | DL\_UPDATE\_STAMP       | NUMBER(4,0)  |    9 |               |
+ | UPDATE\_ID              | NUMBER(18,0) |   10 |               |
+ | CUSTOMER\_ID            | NUMBER(10,0) |   11 |               |
+ | BE                      | NUMBER(9,0)  |   12 |               |
+ | CURRENCY\_ID            | CHAR(3 BYTE) |   13 |               |
+ | SUBSCRIBER\_HASH\_VALUE | NUMBER(10,0) |   14 |               |
+ |-------------------------+--------------+------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX   
+
+*** AGD1\_RESOURCES\_REF
+   Lists *TOPS* resources used by Turbo charging.
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+ |-------------------------+-------------------+------+---------------|
+ | *Column Name*           | *Data Type*       | *ID* | *Description* |
+ |-------------------------+-------------------+------+---------------|
+ | RESOURCE\_SEGMENT       | NUMBER(4,0)       |    1 |               |
+ | RESOURCE\_VALUE         | VARCHAR2(63 BYTE) |    2 |               |
+ | RESOURCE\_TYPE          | NUMBER(4,0)       |    3 |               |
+ | EFFECTIVE\_DATE         | DATE              |    4 |               |
+ | SYS\_CREATION\_DATE     | DATE              |    5 |               |
+ | SYS\_UPDATE\_DATE       | DATE              |    6 |               |
+ | OPERATOR\_ID            | NUMBER(9,0)       |    7 |               |
+ | APPLICATION\_ID         | CHAR(6 BYTE)      |    8 |               |
+ | DL\_SERVICE\_CODE       | CHAR(5 BYTE)      |    9 |               |
+ | DL\_UPDATE\_STAMP       | NUMBER(4,0)       |   10 |               |
+ | UPDATE\_ID              | NUMBER(18,0)      |   11 |               |
+ | EXPIRATION\_DATE        | DATE              |   12 |               |
+ | SUBSCRIBER\_ID          | NUMBER(10,0)      |   13 |               |
+ | SUB\_STATUS             | CHAR(1 BYTE)      |   14 |               |
+ | ROUTING\_POLICY\_ID     | NUMBER(9,0)       |   15 |               |
+ | PAYMENT\_CATEGORY       | CHAR(4 BYTE)      |   16 |               |
+ | CUSTOMER\_ID            | NUMBER(10,0)      |   17 |               |
+ | BILL\_CYCLE             | NUMBER(4,0)       |   18 |               |
+ | NEW\_BILL\_CYCLE        | NUMBER(4,0)       |   19 |               |
+ | CHG\_CYC\_REQ\_DATE     | DATE              |   20 |               |
+ | LARGE\_CUST\_IND        | CHAR(1 BYTE)      |   21 |               |
+ | RESOURCE\_HASH\_VALUE   | NUMBER(10,0)      |   22 |               |
+ | SUBSCRIBER\_HASH\_VALUE | NUMBER(10,0)      |   23 |               |
+ |-------------------------+-------------------+------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX   
+*** APE1\_SUBSCR\_OFFERS\_REF
+   List subscriber offers. (Customer data)
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+ |-------------------------+-------------------+------+---------------|
+ | *Column Name*           | *Data Type*       | *ID* | *Description* |
+ |-------------------------+-------------------+------+---------------|
+ | CYCLE\_CODE             | NUMBER(4,0)       |    1 |               |
+ | CUSTOMER\_SEGMENT       | NUMBER(4,0)       |    2 |               |
+ | SUBSCRIBER\_ID          | NUMBER(10,0)      |    3 |               |
+ | OFFER\_ID               | NUMBER(9,0)       |    4 |               |
+ | OFFER\_INSTANCE         | NUMBER(10,0)      |    5 |               |
+ | OFFER\_EFF\_DATE        | DATE              |    6 |               |
+ | SYS\_CREATION\_DATE     | DATE              |    7 |               |
+ | SYS\_UPDATE\_DATE       | DATE              |    8 |               |
+ | OPERATOR\_ID            | NUMBER(9,0)       |    9 |               |
+ | APPLICATION\_ID         | CHAR(6 BYTE)      |   10 |               |
+ | DL\_SERVICE\_CODE       | CHAR(5 BYTE)      |   11 |               |
+ | DL\_UPDATE\_STAMP       | NUMBER(4,0)       |   12 |               |
+ | UPDATE\_ID              | NUMBER(18,0)      |   13 |               |
+ | OFFER\_EXP\_DATE        | DATE              |   14 |               |
+ | SOURCE\_OFFER\_AGR\_ID  | NUMBER(10,0)      |   15 |               |
+ | SOURCE\_OFFER\_INSTANCE | NUMBER(10,0)      |   16 |               |
+ | EFF\_ACT\_CODE\_PROR    | VARCHAR2(25 BYTE) |   17 |               |
+ | EXP\_ACT\_CODE\_PROR    | VARCHAR2(25 BYTE) |   18 |               |
+ |-------------------------+-------------------+------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX 
+*** ADJ1\_OUTCOL\_PROVIDER
+   A list of all vendors we have an agreement with for out-collects.
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+   |---------------------+--------------------+------+---------------|
+   | *Column Name*       | *Data Type*        | *ID* | *Description* |
+   |---------------------+--------------------+------+---------------|
+   | PROVIDER\_ID        | NUMBER(18,0)       |    1 |               |
+   | CUSTOMER\_ID        | NUMBER(10,0)       |    2 |               |
+   | SYS\_CREATION\_DATE | DATE               |    3 |               |
+   | SYS\_UPDATE\_DATE   | DATE               |    4 |               |
+   | OPERATOR\_ID        | NUMBER(9,0)        |    5 |               |
+   | APPLICATION\_ID     | CHAR(6 BYTE)       |    6 |               |
+   | DL\_SERVICE\_CODE   | CHAR(5 BYTE)       |    7 |               |
+   | DL\_UPDATE\_STAMP   | NUMBER(4,0)        |    8 |               |
+   | CYCLE\_CODE         | NUMBER(4,0)        |    9 |               |
+   | GROUP\_ID           | NUMBER(9,0)        |   10 |               |
+   | MIN\_TIME\_TO\_SEND | NUMBER(4,0)        |   11 |               |
+   | MAX\_RECS\_IN\_FILE | NUMBER(9,0)        |   12 |               |
+   | SEND\_EMPTY\_NOTIF  | CHAR(1 BYTE)       |   13 |               |
+   | EXPIRATION\_DATE    | DATE               |   14 |               |
+   | EFFECTIVE\_DATE     | DATE               |   15 |               |
+   | PROVIDER\_DESC      | VARCHAR2(256 BYTE) |   16 |               |
+   | RESOURCE\_TYPE      | NUMBER(4,0)        |   17 |               |
+   |---------------------+--------------------+------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX  
+*** Ciber 22 Record
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: longtable align=lrr
+|------------------------------------------+------------+----------|
+| *FIELD NAME*                             | *POSITION* | *FORMAT* |
+|------------------------------------------+------------+----------|
+| Record Type                              |        1-2 | 2N       |
+| Return Code                              |        3-3 | 1N       |
+| CIBER Record Return Reason Code          |        4-5 | 2N       |
+| Invalid Field Identifier                 |        6-8 | 3N       |
+| Home Carrier SID/BID                     |       9-13 | 5N       |
+| Table 12-4A - 12-4E                      |            |          |
+| MSID Indicator                           |      14-14 | 1N       |
+| *MSID*                                   |      15-29 | 15N      |
+| MSISDN/MDN Length                        |      30-31 | 2N       |
+| MSISDN/MDN                               |      32-46 | 15N      |
+| ESN/UIMID/IMEI/MEID Indicator            |      47-47 | 1N       |
+| ESN/UIMID/IMEI/MEID                      |      48-66 | 19N      |
+| Serving Carrier SID/BID                  |      67-71 | 5N       |
+| Table 12-4A - 12-4E                      |            |          |
+| *Total Charges and Taxes*                |      72-81 | 10N      |
+| System Reserved Filler                   |      82-82 | 1AN      |
+| *Total State/Province Taxes*             |      83-92 | 10N      |
+| System Reserved Filler                   |      93-93 | 1AN      |
+| *Total Local/Other Taxes*                |     94-103 | 10N      |
+| System Reserved Filler                   |    104-104 | 1AN      |
+| *Call Date*                              |    105-110 | 6N       |
+| *Call Direction*                         |    111-111 | 1N       |
+| Call Completion Indicator                |    112-112 | 1N       |
+| Call Termination Indicator               |    113-113 | 1N       |
+| Caller ID Length                         |    114-115 | 2N       |
+| Caller ID                                |    116-130 | 15N      |
+| Called Number Length                     |    131-132 | 2N       |
+| Called Number Digits                     |    133-147 | 15N      |
+| Location Routing Number Length Indicator |    148-149 | 2N       |
+| Location Routing Number                  |    150-164 | 15N      |
+| TLDN Length                              |    165-166 | 2N       |
+| TLDN                                     |    167-181 | 15N      |
+| *Currency Type*                          |    182-183 | 2N       |
+| System Reserved Filler                   |    184-185 | 2AN      |
+| Original Batch Sequence Number           |    186-188 | 3N       |
+| Initial Cell Site                        |    189-199 | 11AN     |
+| Time Zone Indicator                      |    200-201 | 2N       |
+| Daylight Savings Indicator               |    202-202 | 1N       |
+| Message Accounting Digits                |    203-212 | 10N      |
+| Air Connect Time                         |    213-218 | 6N       |
+| Air Chargeable Time                      |    219-224 | 6N       |
+| Air Elapsed Time                         |    225-230 | 6N       |
+| Air Rate Period                          |    231-232 | 2N       |
+| Air Multi-Rate Period                    |    233-233 | 1N       |
+| *Air Charge*                             |    234-243 | 10N      |
+| System Reserved Filler                   |    244-244 | 1AN      |
+| Other Charge No. 1 Indicator             |    245-246 | 2AN      |
+| *Other Charge No. 1*                     |    247-256 | 10N      |
+| System Reserved Filler                   |    257-257 | 1AN      |
+| System Reserved Filler                   |    258-270 | 13AN     |
+| Printed Call                             |    271-285 | 15AN     |
+| Fraud Indicator                          |    286-287 | 2AN      |
+| Fraud Sub-Indicator                      |    288-288 | 1AN      |
+| *Special Features Used*                  |    289-293 | 5AN      |
+| Called Place                             |    294-303 | 10AN     |
+| Called State/Province                    |    304-305 | 2AN      |
+| Called Country                           |    306-308 | 3AN      |
+| Serving Place                            |    309-318 | 10AN     |
+| Serving State/Province                   |    319-320 | 2AN      |
+| Serving Country                          |    321-323 | 3AN      |
+| Toll Connect Time                        |    324-329 | 6N       |
+| Toll Chargeable Time                     |    330-335 | 6        |
+| Toll Elapsed Time                        |    336-341 | 6N       |
+| Toll Tariff Descriptor                   |    342-343 | 2N       |
+| Toll Rate Period                         |    344-345 | 2N       |
+| Toll Multi-Rate Period                   |    346-346 | 1N       |
+| Toll Rate Class                          |    347-347 | 1N       |
+| Toll Rating Point Length Indicator       |    348-349 | 2N       |
+| Toll Rating Point                        |    350-359 | 10N      |
+| *Toll Charge*                            |    360-369 | 10N      |
+| System Reserved Filler                   |    370-370 | 1AN      |
+| *Toll State/Province Taxes*              |    371-380 | 10N      |
+| System Reserved Filler                   |    381-381 | 1AN      |
+| *Toll Local Taxes*                       |    382-391 | 10N      |
+| System Reserved Filler                   |    392-392 | 1AN      |
+| Toll Network Carrier ID                  |    393-397 | 5N       |
+| Local Carrier Reserved                   |    398-472 | 75AN     |
+| System Reserved Filler                   |    473-547 | 75AN     |
+|------------------------------------------+------------+----------|
+
+
+   - *Table/Field Name:*
+   - *Purpose of File/Table:*
+   - *Type of Change:* /create new or modify existing/
+   - *Description of Change:* /or reason for adding/
+   - *Primary Keys and Indices's:*
+   - *Estimated Rows and Growth Rate:*
+|-------------------+------+--------+-------------|
+| Column/Field Name | Type | Values | Description |
+|-------------------+------+--------+-------------|
+|                   |      |        |             |
+|-------------------+------+--------+-------------|
+
+** Infrastructure Considerations
+*** Development Machine
+   - *Development Server* mdr01bld01
+   - *Username/Password* d\_usacq1/today1
+*** Test Database login
+    - *NDC\//NDC#123@brmdev*
+*** Windows Shared Drives/Directory
+    - *//TNKNXSFILE01/MFT\_Root/Data\_Outcollect*
+    - *//WIMIDSFILE01/MFT\_Root/Data\_Outcollect*
+
+** Testing Approach
+** Implementation Considerations
+* SOFTWARE CHANGES
+
+#+BEGIN_LaTeX
+\newpage
+\begin{landscape} 
+#+END_LaTeX
+* TEST CONDITIONS
+
+|--------------+---------------------------+-----------------------------+-----------------------------------+-----------------------------+----------------+-----------|
+| Test Cond Id | Module Tested             | Condition Tested            | Test Data - Specify Modifications | Expected Results            | Actual Results | Revw'd By |
+|--------------+---------------------------+-----------------------------+-----------------------------------+-----------------------------+----------------+-----------|
+|            1 | load\_data\_outcollect.sh | Load data into the database | Use file from test environment    | Should load sucessfully     | As expected    | DGB       |
+|            2 |                           |                             |                                   |                             |                |           |
+|            3 | run\_gl\_report.sh        | Run Report Job              | Make sure data is in the database | A report should be produced | As expected    | DGB       |
+|              |                           |                             | set settlement date to the 15 of  |                             |                |           |
+|              |                           |                             | the present month.                |                             |                |           |
+|            4 | run\_accrual\_report.sh   | Run Report Job              | Make sure data is in the database | A report should be produced | As expected    | DGB       |
+|            4 | run\_unguided\_report.sh  |                             |                                   |                             |                |           |
+|--------------+---------------------------+-----------------------------+-----------------------------------+-----------------------------+----------------+-----------|
+
+|--------------+------------------------+---------------------------+------------------------------------+-----------------------------------+----------------+-----------|
+| Test Cond Id | Module Tested          | Condition Tested          | Test Data - Specify Modifications  | Expected Results                  | Actual Results | Revw'd By |
+|--------------+------------------------+---------------------------+------------------------------------+-----------------------------------+----------------+-----------|
+|            1 | File Delivery?         | Is file delivered?        | None                               | File should be delivered          | As expected    | DGB       |
+|            2 | Create MBI Table       | Table created             | run create\_table\_mbi\_load.sql   | Table MBI\_LOAD should be created | As expected    | DGB       |
+|            3 | load\_mbi\_load.sh     | Load data into table      | load data into table.              | Should load into the database     | As expected    | DGB       |
+|            4 | Run merge\_records.sql | Merge data from MBI\_LOAD | Load test data into the database   | Should load the table             | As Expected    | DGB       |
+|              |                        | table to the              | then run merge\_records to move to |                                   |                |           |
+|              |                        | VISITOR\_MIN\_LR table    | the VISITOR\_MIN\_LR table         |                                   |                |           |
+|--------------+------------------------+---------------------------+------------------------------------+-----------------------------------+----------------+-----------|
+
+
+#+BEGIN_LaTeX
+\end{landscape} 
+\newpage
+#+END_LaTeX
+* TEST EXECUTION RESULTS
+** load\_data\_outcollect.sh
+   The primary purpose of this program is to load the *Data Out-Collect* files into the database.
+*** Data Out-Collect File Information
+    - *Input Directory Location* - /\//app\//ebi\//medap1\//var\//interfaces\//ndc\//in/
+    - *Data Column and Description*
+|---------------------------+---------------|
+| *Column Name*             | *Description* |
+|---------------------------+---------------|
+| SETTLEMENT DATE           |               |
+| PROCESS DATE              |               |
+| MY COMPANY                |               |
+| BSID                      |               |
+| HOME COMPANY              |               |
+| HOME SID                  |               |
+| MESSAGE ACCOUNTING DIGITS |               |
+| ACTUAL USAGE VOLUME       |               |
+| ACTUAL DATA VOLUME        |               |
+| TOTAL CHARGES             |               |
+|---------------------------+---------------|
+
+    - *Example Data*
+ : "03/15/2014","03/10/2014","UNITED STATES CELLULAR","000500150181","CELLCOM","30914","2327552","2327006","2327552","1.11"
+
+*** Execution Before
+    - *Database Before*
+  : SQL> select count(*) from data_outcollect;
+  :      COUNT(*)
+  :      ----------
+  : 	 0
+    - *File Before*
+  : S20140310_USC_DAILY_BSID_RPT_new.dat
+  : S20140310_USC_DAILY_BSID_RPT_new.FIN
+      - *Record Count plus Header*
+      : wc -l S20140310_USC_DAILY_BSID_RPT_new.dat
+      : 44596
+*** Execution After
+    - *Program Output*
+  : .
+  : .
+  : .
+  : Commit point reached - logical record count 43982
+  : Commit point reached - logical record count 44046
+  : Commit point reached - logical record count 44110
+  : Commit point reached - logical record count 44174
+  : Commit point reached - logical record count 44238
+  : Commit point reached - logical record count 44302
+  : Commit point reached - logical record count 44366
+  : Commit point reached - logical record count 44430
+  : Commit point reached - logical record count 44494
+  : Commit point reached - logical record count 44558
+  : Commit point reached - logical record count 44595
+  : + rc=0
+  : + '[' -f /apps/ebi/usacq1/var/log/S20140310_USC_DAILY_BSID_RPT_new.bad ']'
+  : + mv /apps/ebi/usacq1/var/interfaces/ndc/in/S20140310_USC_DAILY_BSID_RPT_new.dat 
+  :           /apps/ebi/usacq1/var/interfaces/ndc/in/S20140310_USC_DAILY_BSID_RPT_new.dat.done
+  : + gzip -v /apps/ebi/usacq1/var/interfaces/ndc/in/S20140310_USC_DAILY_BSID_RPT_new.dat.done
+  : /apps/ebi/usacq1/var/interfaces/ndc/in/S20140310_USC_DAILY_BSID_RPT_new.dat.done:	 
+  :  84.5% -- replaced with /apps/ebi/usacq1/var/interfaces/ndc/in/S20140310_USC_DAILY_BSID_RPT_new.dat.done.gz
+  : + rm -f /apps/ebi/usacq1/var/interfaces/ndc/in/S20140310_USC_DAILY_BSID_RPT_new.FIN
+  : + '[' 0 -ne 0 ']'
+  : + rm -f /apps/ebi/usacq1/var/work/indicator.file
+    - *File After*
+  :  S20140310_USC_DAILY_BSID_RPT_new.dat.done.gz
+    - *Database After*
+  :  select count(*) from data_outcollect;
+  :  COUNT(*)
+  :  ----------
+  :  44595
+
+** run\_gl\_report.sh
+*** Report (Excerpt)
+  :  COMPANY,PARTNER,RECORDS,CHARGES,MESSAGE ACCOUNTING DIGITS,ACTUAL USAGE VOLUME,ACTUAL DATA VOLUME
+  :  222,ALLIED WIRELESS COMMUN. CORP.,29,9.24,95517696,91851905,91898880
+  :  222,BELL MOBILITY CELLULAR INC,1,.01,20480,12641,13312
+  :  222,BLUEGRASS CELLULAR INC.,3,.05,230400,147601,148480
+  :  222,CELLCOM,37,17.07,35702784,34336696,34412544
+  :  222,ELEMENT MOBILE - WISCONSIN RSA#7,2,.2,417792,212517,216064
+  :  222,NEX-TECH WIRELESS LLC - DATA,33,3.54,69086208,51773981,51841024
+  :  222,PIONEER CELLULAR,158,48.8,1018079232,735910925,736681984
+  :  222,SPRINT PCS,736,10301.45,21516116992,20654930528,20684487680
+  :  222,VZW - VERIZON WIRELESS,746,19987.37,244241522688,228912489064,229024378880
+  :  223,ALLIED WIRELESS COMMUN. CORP.,39,3.27,32194560,26651312,26703872
+  :  223,BLUEGRASS CELLULAR INC.,17,2.03,8404992,4480212,4509696
+  :  223,CAROLINA WEST WIRELESS,5,.13,566272,428272,433152
+  :  223,CELLCOM,23,9.52,19909632,19787331,19804160
+  :  223,ELEMENT MOBILE - WISCONSIN RSA#7,1,.01,20480,1716,2048
+  :  223,ILLINOIS VALLEY CELLULAR,1,.02,81920,17973,18432
+  :  223,PIONEER CELLULAR,1,.01,204800,13224,13312
+  :  223,SPRINT PCS,486,4090.37,8540949504,7945379127,7963123712
+  :  223,VZW - VERIZON WIRELESS,324,145.67,1661793280,1319582880,1322517504
+  :  276,ALLIED WIRELESS COMMUN. CORP.,1,.01,81920,520,1024
+  :  276,BELL MOBILITY CELLULAR INC,1,.01,20480,1258,2048
+  :  276,CELLCOM,7,2.85,5962752,5947714,5953536
+  :  276,ILLINOIS VALLEY CELLULAR,15,1.95,11030528,8159806,8197120
+  :  276,SPRINT PCS,181,572.89,1195608064,1039501571,1043867648
+  :  276,VZW - VERIZON WIRELESS,61,11.04,125574144,98162393,98380800
+  :  293,ALLIED WIRELESS COMMUN. CORP.,5,.08,705536,199997,203776
+  :  293,CELLCOM,3,1.42,2955264,2923940,2926592
+  :  293,SPRINT PCS,124,566.35,1182358528,1075641209,1078678528
+  :  293,VZW - VERIZON WIRELESS,42,13.55,160719872,134269259,134388736
+  :  .
+  :  .
+  :  .
+  :  .
+*** Email
+    The following email was produced after running this program.\\
+
+   #+ATTR_LaTeX: width=14cm
+   [[file:Pictures/EmailGL.png]]
+** run\_accrual\_report.sh
+*** Report (Excerpt)
+  : COMPANY,PARTNER,RECORDS,CHARGES,MESSAGE ACCOUNTING DIGITS,ACTUAL USAGE VOLUME,ACTUAL DATA VOLUME
+  : 222,ALLIED WIRELESS COMMUN. CORP.,29,9.24,95517696,91851905,91898880
+  : 222,BELL MOBILITY CELLULAR INC,1,.01,20480,12641,13312
+  : 222,BLUEGRASS CELLULAR INC.,3,.05,230400,147601,148480
+  : 222,CELLCOM,37,17.07,35702784,34336696,34412544
+  : 222,ELEMENT MOBILE - WISCONSIN RSA#7,2,.2,417792,212517,216064
+  : 222,NEX-TECH WIRELESS LLC - DATA,33,3.54,69086208,51773981,51841024
+  : 222,PIONEER CELLULAR,158,48.8,1018079232,735910925,736681984
+  : 222,SPRINT PCS,736,10301.45,21516116992,20654930528,20684487680
+  : 222,VZW - VERIZON WIRELESS,746,19987.37,244241522688,228912489064,229024378880
+  : 223,ALLIED WIRELESS COMMUN. CORP.,39,3.27,32194560,26651312,26703872
+  : 223,BLUEGRASS CELLULAR INC.,17,2.03,8404992,4480212,4509696
+  : 223,CAROLINA WEST WIRELESS,5,.13,566272,428272,433152
+  : 223,CELLCOM,23,9.52,19909632,19787331,19804160
+  : 223,ELEMENT MOBILE - WISCONSIN RSA#7,1,.01,20480,1716,2048
+  : 223,ILLINOIS VALLEY CELLULAR,1,.02,81920,17973,18432
+  : 223,PIONEER CELLULAR,1,.01,204800,13224,13312
+  : 223,SPRINT PCS,486,4090.37,8540949504,7945379127,7963123712
+  : 223,VZW - VERIZON WIRELESS,324,145.67,1661793280,1319582880,1322517504
+  : 276,ALLIED WIRELESS COMMUN. CORP.,1,.01,81920,520,1024
+  : 276,BELL MOBILITY CELLULAR INC,1,.01,20480,1258,2048
+  : 276,CELLCOM,7,2.85,5962752,5947714,5953536
+  : 276,ILLINOIS VALLEY CELLULAR,15,1.95,11030528,8159806,8197120
+  : 276,SPRINT PCS,181,572.89,1195608064,1039501571,1043867648
+  : 276,VZW - VERIZON WIRELESS,61,11.04,125574144,98162393,98380800
+  : 293,ALLIED WIRELESS COMMUN. CORP.,5,.08,705536,199997,203776
+  : 293,CELLCOM,3,1.42,2955264,2923940,2926592
+  :  .
+  :  .
+  :  .
+  :  .
+*** Email
+    The following email was produced after running this program.\\
+
+   #+ATTR_LaTeX: width=14cm
+   [[file:Pictures/EmailAC.png]]
+
+** run\_unguided\_report.sh
+*** Report (Excerpt)
+    There was no output from this running of the report if there was output it would closely resemble the output from the previous jobs.
+*** Email
+    No data no email but when there is one it follows the pattern of the previous examples.
+** File Delivery
+*** Example File Contents
+  : " ","00002","08","LOS ANGELES, CA","207-236","0000-9999","20110215","21000101","0005","        ","VZW - VERIZON WIRELESS             "
+  : " ","00002","08","LOS ANGELES, CA","208-354","0000-9999","20110801","21000101","0005","        ","VZW - VERIZON WIRELESS             "
+  : " ","00002","08","LOS ANGELES, CA","208-415","0000-9999","20110801","21000101","0005","        ","VZW - VERIZON WIRELESS             "
+  : " ","00002","08","LOS ANGELES, CA","208-908","0000-9999","20101215","21000101","0005","        ","VZW - VERIZON WIRELESS             "
+  : " ","00002","08","LOS ANGELES, CA","213-200","0000-9999","19960601","21000101","0005","        ","VZW - VERIZON WIRELESS             "
+  : " ","00002","08","LOS ANGELES, CA","213-201","0000-9999","20031024","21000101","0005","        ","VZW - VERIZON WIRELESS             "
+** Run create\_table\_mbi\_load.sql
+   : SQL> @create_table_mbi_load.sql
+   : 
+   : Table dropped.
+   : Table created.
+   : Comment created.
+   : .
+   : .
+   : .
+   : Comment created.
+** Run load\_mbi\_load.sh
+*** Files Before (Example)
+    : -rw-rw-r-- 1 d_usacq1 usacq        0 Apr 30 12:58 MBI_LIST_FILE2_FULL_02362014.FIN
+    : -rw-r--r-- 1 d_usacq1 usacq 24948736 Apr 29 16:09 MBI_LIST_FILE2_FULL_02362014.txt
+*** Files After (Example)
+    : -rw-r--r-- 1 d_usacq1 usacq  848459 Apr 29 16:09 MBI_LIST_FILE2_FULL_02362014.txt.done.gz
+*** Log File
+    : MBI_LIST_FILE2_FULL_02362014.log
+    : 
+    : SQL*Loader: Release 11.2.0.1.0 - Production on Wed Apr 30 12:31:18 2014
+    : 
+    : Copyright (c) 1982, 2009, Oracle and/or its affiliates.  All rights reserved.
+    : 
+    : Control File:   /apps/ebi/usacq1/bin/load_mbi_load.ctl
+    : Data File:      /apps/ebi/usacq1/var/interfaces/ndc/in/MBI_LIST_FILE2_FULL_02362014.txt
+    :   Bad File:     /apps/ebi/usacq1/var/log/MBI_LIST_FILE2_FULL_02362014.bad
+    :   Discard File:  none specified
+    :  
+    :  (Allow all discards)
+    : 
+    : Number to load: ALL
+    : Number to skip: 0
+    : Errors allowed: 50
+    : Bind array:     64 rows, maximum of 256000 bytes
+    : Continuation:    none specified
+    : Path used:      Conventional
+    : 
+    : Table NDC.MBI_LOAD, loaded from every logical record.
+    : Insert option in effect for this table: INSERT
+    : 
+    :    Column Name                  Position   Len  Term Encl Datatype
+    : ------------------------------ ---------- ----- ---- ---- ---------------------
+    : FIELD1                              FIRST     *   ,  O(") CHARACTER            
+    :   (FILLER FIELD)
+    : BID                                  NEXT     *   ,  O(") CHARACTER            
+    : FIELD2                               NEXT     *   ,  O(") CHARACTER            
+    :   (FILLER FIELD)
+    : FIELD3                               NEXT     *   ,  O(") CHARACTER            
+    :   (FILLER FIELD)
+    : MIN_BLK                              NEXT     *   ,  O(") CHARACTER            
+    :     SQL string for column : "replace (:min_blk,'-','')"
+    : LINE_RANGE                           NEXT     *   ,  O(") CHARACTER            
+    : EFFECTIVE_DATE                       NEXT     *   ,  O(") DATE YYYYMMDD        
+    : EXPIRATION_DATE                      NEXT     *   ,  O(") DATE YYYYMMDD        
+    : FIELD4                               NEXT     *   ,  O(") CHARACTER            
+    :   (FILLER FIELD)
+    : FIELD5                               NEXT     *   ,  O(") CHARACTER            
+    :   (FILLER FIELD)
+    : CARRIER                              NEXT     *   ,  O(") CHARACTER            
+    : 
+    : Record 99161: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156671: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156672: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156673: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156674: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156675: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156676: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156677: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156678: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156679: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 156680: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157916: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157917: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157918: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157919: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157920: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157921: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157922: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157923: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157924: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 157925: Rejected - Error on table NDC.MBI_LOAD, column EFFECTIVE_DATE.
+    : ORA-01843: not a valid month
+    : 
+    : Record 183447: Rejected - Error on table NDC.MBI_LOAD, column FIELD4.
+    : second enclosure string not present
+    : 
+    : Table NDC.MBI_LOAD:
+    :   183425 Rows successfully loaded.
+    :   22 Rows not loaded due to data errors.
+    :   0 Rows not loaded because all WHEN clauses were failed.
+    :   0 Rows not loaded because all fields were null.
+    : 
+    : 
+    : Space allocated for bind array:                  99072 bytes(64 rows)
+    : Read   buffer bytes: 1048576
+    : 
+    : Total logical records skipped:          0
+    : Total logical records read:        183447
+    : Total logical records rejected:        22
+    : Total logical records discarded:        0
+    : 
+    : Run began on Wed Apr 30 12:31:18 2014
+    : Run ended on Wed Apr 30 12:31:27 2014
+    : 
+    : Elapsed time was:     00:00:08.74
+    : CPU time was:         00:00:01.34
+*** Bad File Log
+    : MBI_LIST_FILE2_FULL_02362014.bad
+    : " ","14335","20","CHINA, ZZ      ","091-716","0000-9999","20000000","21000101","5005","        ","CHINA TELECOM                      "
+    : " ","26474","08","SAN JOSE, CA   ","176-660","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-661","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-662","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-663","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-664","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-665","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-666","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-667","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-668","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","176-669","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-907","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-908","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-909","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-910","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-911","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-912","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-913","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-914","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-915","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","26474","08","SAN JOSE, CA   ","177-916","0000-9999","20000000","21000101","0819","        ","AERIS COMMUNICATIONS, INC.         "
+    : " ","60891","30","INDIA, ZZ      ","106-310","0000-9999","20040830","21000101","
+*** Loading to empty database table (Sub Sample)
+    |-------+----------+-------------+-----------------+------------------+------------------------|
+    |   BID | MIN\_BLK | LINE\_RANGE | EFFECTIVE\_DATE | EXPIRATION\_DATE | CARRIER                |
+    |-------+----------+-------------+-----------------+------------------+------------------------|
+    | 00002 |   503219 |   0000-9999 | 11/1/2009       | 1/1/2100         | VZW - VERIZON WIRELESS |
+    | 00002 |   504678 |   0000-9999 | 1/22/2013       | 1/1/2100         | VZW - VERIZON WIRELESS |
+    | 00002 |   505326 |   0000-9999 | 4/1/2010        | 1/1/2100         | VZW - VERIZON WIRELESS |
+    | 00002 |   505390 |   0000-9999 | 11/30/2012      | 1/1/2100         | VZW - VERIZON WIRELESS |
+    | 00002 |   505420 |   0000-9999 | 11/30/2012      | 1/1/2100         | VZW - VERIZON WIRELESS |
+    | 00002 |   505421 |   0000-9999 | 11/30/2012      | 1/1/2100         | VZW - VERIZON WIRELESS |
+    | 00002 |   505424 |   0000-9999 | 4/15/2010       | 1/1/2100         | VZW - VERIZON WIRELESS |
+    | 00002 |   505549 |   0000-9999 | 7/2/2010        | 1/1/2100         | VZW - VERIZON WIRELESS |
+    | 00002 |   505639 |   0000-9999 | 11/30/2012      | 1/1/2100         | VZW - VERIZON WIRELESS |
+    |-------+----------+-------------+-----------------+------------------+------------------------|
+
+** Run merge\_records.sql
+*** Sub Sample of the VISITOR\_MIN\_LR Table
+|----------+--------------------+------------------+-----------------+---------------------+-----------------+-------+------------------|
+| MIN\_BLK | BEGIN\_LINE\_RANGE | END\_LINE\_RANGE | EFFECTIVE\_DATE | SYS\_CREATION\_DATE | APPLICATION\_ID |   SID | EXPIRATION\_DATE |
+|----------+--------------------+------------------+-----------------+---------------------+-----------------+-------+------------------|
+|   501818 |               0000 |             9999 | 6/15/2001       | 5/1/2014 1:52:24 PM | NDCREF          | 40690 | 1/1/2100         |
+|   501655 |               0000 |             9999 | 8/12/2001       | 5/1/2014 1:52:24 PM | NDCREF          | 40690 | 1/1/2100         |
+|   501421 |               0000 |             9999 | 10/24/2011      | 5/1/2014 1:52:24 PM | NDCREF          | 40690 | 1/1/2100         |
+|   501420 |               0000 |             9999 | 10/24/2011      | 5/1/2014 1:52:24 PM | NDCREF          | 40690 | 1/1/2100         |
+|   804287 |               0000 |             9999 | 12/13/2010      | 5/1/2014 1:52:24 PM | NDCREF          | 40631 | 1/1/2100         |
+|   540915 |               0000 |             9999 | 10/2/2001       | 5/1/2014 1:52:24 PM | NDCREF          | 40631 | 1/1/2100         |
+|   540819 |               0000 |             9999 | 4/6/2001        | 5/1/2014 1:52:24 PM | NDCREF          | 40631 | 1/1/2100         |
+|   540818 |               0000 |             9999 | 4/6/2001        | 5/1/2014 1:52:24 PM | NDCREF          | 40631 | 1/1/2100         |
+|   540817 |               0000 |             9999 | 4/6/2001        | 5/1/2014 1:52:24 PM | NDCREF          | 40631 | 1/1/2100         |
+|----------+--------------------+------------------+-----------------+---------------------+-----------------+-------+------------------|
