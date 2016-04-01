@@ -1,5 +1,5 @@
 SimpleMix {
-  var <>balance=0, <>mixer = nil, name = "mixer"
+  var <>balance=0, <>mixer = nil, name = "mixer";
 
     gui {
     var envWin, nb1, sl1;
@@ -7,7 +7,8 @@ SimpleMix {
     envWin = Window.new(name,Rect(200,200,305,155)).front;
     StaticText( envWin, Rect(4, 4, 50, 25 )).align_( \left ).string_( "Bal:" );
 
-    nb1 = NumberBox(envWin, Rect(240, 4, 53, 25)).value_(balance);
+    balance = 1;
+    nb1 = NumberBox(envWin, Rect(240, 4, 53, 25)).value_((balance*2) - 1);
     sl1 = Slider(envWin, Rect(35, 9, 200, 15))
     .value_((nb1.value*2) - 1)
     .action_({
