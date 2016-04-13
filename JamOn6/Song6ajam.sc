@@ -177,6 +177,37 @@ s.meter;
       }).add;
 
 
+    SynthDef(\bdNoise, {arg out = 0, amp = 1, aoc = 1, aocIn = 0, spread = 0, center = 0, // VCA Controls
+	  freq = 550, rq = 0.15, lagLev = 4.0, // Band Pass Filter
+	  cutoff = 0, gain = 0, mul = 1, // Low Pass Filter
+	  gate = 0; // Switch
+
+	var sig;
+
+	sig = WhiteNoise.ar(1) * gate;
+	
+	freq = Lag.kr(freq, lagLev);
+
+	sig = BPF.ar(sig,freq,rq);	
+
+	cutoff = In.ar(cutoff);
+	gain = In.ar(gain);
+	mul = In.ar(mul);
+
+	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
+
+        aoc = aoc * (In.kr(aocIn) - 1) + 1;
+        sig = sig * aoc;
+
+	sig = sig*1.2;
+	sig = sig.clip2(1);
+	sig = Splay.ar(sig,spread,center:center);
+
+	OffsetOut.ar(out, (sig * amp));
+      }).add;	
+     
+
+    
     ~nGroup = Group.new;
     ~envout = Bus.audio(s,1);
     ~envout1 = Bus.audio(s,1);
