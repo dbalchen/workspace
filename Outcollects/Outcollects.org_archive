@@ -1,0 +1,86 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/dbalchen/workspace/Outcollects/Outcollects.org
+
+
+* TODO Data Outcollects [%]
+  DEADLINE: <2014-05-02 Fri>
+  
+  Finish documentation by creating and running tests for each of the programs listed below.
+
+  :PROPERTIES:
+  :BLOCKER:  previous-sibling
+  :ARCHIVE_TIME: 2014-06-25 Wed 10:52
+  :ARCHIVE_FILE: ~/workspace/Outcollects/Outcollects.org
+  :ARCHIVE_OLPATH: Outcollect Gant Chart
+  :ARCHIVE_CATEGORY: Outcollects
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: taskjuggler_project noexport
+  :END: 
+*** Finish Documentation
+    :PROPERTIES:
+    :BLOCKER:  start
+    :END:
+**** Document and run test conditions [100%]
+***** load\_data\_outcollect.sh
+***** run\_gl\_report.sh
+***** load\_data\_outcollect.ctl
+***** run\_accrual\_report.sh
+** TODO Move data-outcollects to Production [ ] 
+   DEADLINE: <2014-05-02 Fri>
+   - [ ] Finish RMI Document
+     
+
+* TODO Test - BRM
+  I have four CR's for *BRM* testing 
+  - [ ] CR1354
+  - [ ] CR1355
+  - [ ] CR1356
+  - [ ] TBD
+   <2014-04-15 Tue>--<2014-06-06 Fri>
+
+   :PROPERTIES:
+   :Effort:   26d
+   :BLOCKER:  previous-sibling
+   :ARCHIVE_TIME: 2014-06-25 Wed 14:33
+   :ARCHIVE_FILE: ~/workspace/Outcollects/Outcollects.org
+   :ARCHIVE_OLPATH: Outcollect Gant Chart
+   :ARCHIVE_CATEGORY: Outcollects
+   :ARCHIVE_TODO: TODO
+   :ARCHIVE_ITAGS: taskjuggler_project noexport
+   :END:
+
+* TODO Visitor\_min\_lr
+  DEADLINE: <2014-05-02 Fri>
+  :PROPERTIES:
+  :BLOCKER:  previous-sibling
+  :ARCHIVE_TIME: 2014-07-15 Tue 14:38
+  :ARCHIVE_FILE: ~/workspace/Outcollects/Outcollects.org
+  :ARCHIVE_OLPATH: Outcollect Gant Chart
+  :ARCHIVE_CATEGORY: Outcollects
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: taskjuggler_project noexport
+  :END:
+*** Finish Documentation
+    :PROPERTIES:
+    :BLOCKER:  start
+    :END:
+**** Run and document test conditions
+     :PROPERTIES:
+     :Effort:   2d
+     :BLOCKER:  start
+     :END:
+**** Add Missing FastPath Information [%]
+     :PROPERTIES:
+     :Effort:   3d
+     :BLOCKER:  previous-sibling
+     :END:
+*** Check-IN Code
+    :PROPERTIES:
+    :BLOCKER:  previous-sibling
+    :END:
+    - [ ] merge_records.sql
+    - [ ] create_table_mbi_load.sql
+    - [ ] load_mbi_load.sh
+    - [ ] minLrUpd.pl /Where is it???/
