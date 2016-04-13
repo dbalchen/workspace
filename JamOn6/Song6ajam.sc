@@ -109,6 +109,14 @@ s.meter;
 
       }).add;
 
+	   /*
+    SynthDef(\myCircle,{arg out = 0, zgate = 0;
+
+    sig = EnvGen.ar(
+			Env.new([110, 59, 29], [0.005, 0.1], [-4, -5])
+			,zgate);
+	Out.kr(out,sig);}).add;
+	   */
 
     SynthDef(\two2one, {arg out=0,in0 = 0, in1 = 0, bal = 0;
 	var amp1 = 1, amp2 = 1, sig;
@@ -151,9 +159,9 @@ s.meter;
       }).add;
 
 
-    SynthDef(\vca, {arg out=0, in = 0, ink = 0,amp = 1.5, spread = 0, center = 0; 
+    SynthDef(\vca, {arg out=0, in = 0, ink = 0,ink2 = 0, amp = 1.5, spread = 0, center = 0; 
 	var sig, aoc = 1, env1;
-	aoc = MouseX.kr(0,1);
+	aoc = (SinOsc.ar(1/32));//In.kr(ink2);
 	env1 = In.ar(ink);
 	env1 = aoc*(env1-1) + 1;
 
@@ -241,7 +249,7 @@ s.meter;
       ret = ~setenv.value(ret);
 	
       ret  = Synth("env1",target: ~nGroup,addAction: \addToHead);
-      ret.set(\out,~envout1)
+      ret.set(\out,~envout1);
 	
       ~nGroup.set(\gate,1);
       ~nGroup;
@@ -274,7 +282,13 @@ s.meter;
 ~mixer1.set(\bal,0);~mixer2.set(\bal,0); 
 ~mixer1.set(\bal,0.5);~mixer2.set(\bal,0.5);
 
+~mixergui1 = SimpleMix.new;
+~mixergui1.mixer = ~mixer1;
+~mixergui1.gui;
 
+~mixergui2 = SimpleMix.new;
+~mixergui2.mixer = ~mixer2;
+~mixergui2.gui;
 
 (
  ~start = {
