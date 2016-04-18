@@ -71,6 +71,8 @@ s.meter;
 	OffsetOut.ar(out, Pan2.ar(son * amp));
       }).add;
 
+
+
     SynthDef(\zeroRate,{arg out = 0;
 	Out.ar(out, 0);}).add;
 
@@ -109,14 +111,13 @@ s.meter;
 
       }).add;
 
-	   /*
-    SynthDef(\myCircle,{arg out = 0, zgate = 0;
 
-    sig = EnvGen.ar(
-			Env.new([110, 59, 29], [0.005, 0.1], [-4, -5])
-			,zgate);
-	Out.kr(out,sig);}).add;
-	   */
+    SynthDef(\myCircle,{arg out = 0, zgate = 0;
+	var sig;
+	sig = (SinOsc.ar(1/32)) * zgate;
+
+	Out.ar(out,sig);}).add;
+	
 
     SynthDef(\two2one, {arg out=0,in0 = 0, in1 = 0, bal = 0;
 	var amp1 = 1, amp2 = 1, sig;
@@ -133,71 +134,24 @@ s.meter;
 
 
 
-
-    SynthDef(\white, {arg out=0; OffsetOut.ar(out,
-					      WhiteNoise.ar(1)
-					      //		WhiteNoise.ar(0.08+LFNoise1.kr(0.9,0.02))
-					      );}).add;
-
-    SynthDef(\filter0, {arg out=0, in = 0, cutoff = 0, gain = 0, mul = 1, aoc = 0; 
-	var sig;
-
-	in = In.ar(in);
-	cutoff = In.ar(cutoff);
-	gain = In.ar(gain);
-	mul = In.ar(mul);
-	sig = MoogFF.ar(in, freq:cutoff, gain: gain,mul:mul);
-	OffsetOut.ar(out, sig);
-      }).add;
-
-    SynthDef(\bpf0, {arg out=0, freq = 550, in = 0, cutoff = 0, gain = 0, mul = 1, rq = 0.15, lagLev = 4.0; 
-	var sig,mod;
-	sig = In.ar(in);
-	freq = Lag.kr(freq, lagLev);
-	sig = BPF.ar(sig,freq,rq);
-	OffsetOut.ar(out, sig);
-      }).add;
-
-
-    SynthDef(\vca, {arg out=0, in = 0, ink = 0,ink2 = 0, amp = 1.5, spread = 0, center = 0; 
-	var sig, aoc = 1, env1;
-	aoc = (SinOsc.ar(1/32));//In.kr(ink2);
-	env1 = In.ar(ink);
-	env1 = aoc*(env1-1) + 1;
-
-	sig = In.ar(in,1);
-	sig =  sig * env1;
-
-	//    sig = Normalizer.ar(sig,1, 0.01);
-
-	sig = sig*1.2;
-	sig = sig.clip2(1);
-	sig = Splay.ar(sig,spread,center:center);
-	OffsetOut.ar(out, (sig * amp));
-      }).add;
-
-
-    SynthDef(\bdNoise, {arg out = 0, amp = 1, aoc = 1, aocIn = 0, spread = 0, center = 0, // VCA Controls
+    SynthDef(\bdNoise, {arg out = 0, amp = 1, aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
 	  freq = 550, rq = 0.15, lagLev = 4.0, // Band Pass Filter
-	  cutoff = 0, gain = 0, mul = 1, // Low Pass Filter
-	  gate = 0; // Switch
+	  cutoff = 0, gain = 0, mul = 1; // Low Pass Filter
 
-	var sig;
+	var sig, aoc;
 
-	sig = WhiteNoise.ar(1) * gate;
+	sig = WhiteNoise.ar(1);
 	
 	freq = Lag.kr(freq, lagLev);
-
-	sig = BPF.ar(sig,freq,rq);	
+	sig = BPF.ar(sig,freq,rq,mul:1/rq);	
 
 	cutoff = In.ar(cutoff);
 	gain = In.ar(gain);
 	mul = In.ar(mul);
-
 	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
 
-        aoc = aoc * (In.kr(aocIn) - 1) + 1;
-        sig = sig * aoc;
+	aoc =  In.ar(aocIn) * (In.ar(aenv) - 1) + 1;
+	sig = sig * aoc;
 
 	sig = sig*1.2;
 	sig = sig.clip2(1);
@@ -215,14 +169,11 @@ s.meter;
     ~wcut = Bus.audio(s,1);
     ~wmul = Bus.audio(s,1);
     ~wgain = Bus.audio(s,1);
+
     ~mix1out = Bus.audio(s,1);
     ~mix2out = Bus.audio(s,1);
 
-    ~noiseOut = Bus.audio(s,1);
-    ~noiseflt = Bus.audio(s,1);
-
-    ~bpfOut = Bus.audio(s,1);
-
+    ~circleOut = Bus.audio(s,1);
 
 
     ~wind = Synth("windspeed",target: ~nGroup,addAction: \addToHead);
@@ -230,11 +181,14 @@ s.meter;
     ~wind.set(\out2,~wmul);
     ~wind.set(\out3,~wgain);
 
+
+    ~circle = Synth("myCircle",target: ~nGroup,addAction: \addToHead);
+    ~circle.set(\out,~circleOut);
+
     ~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
     ~mixer1.set(\in0,~wcut);
     ~mixer1.set(\in1,~envout1);
     ~mixer1.set(\out,~mix1out);
-
 
     ~mixer2 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
     ~mixer2.set(\in0,~wmul);
@@ -242,31 +196,19 @@ s.meter;
     ~mixer2.set(\out,~mix2out);
 
 
-    ~noise = Synth("white",target: ~nGroup,addAction: \addToTail);
-    ~noise.set(\out,~noiseflt);
 
-    ~bpf = Synth("bpf0",target: ~nGroup,addAction: \addToTail);
-    ~bpf.set(\in, ~noiseflt);
-    ~bpf.set(\out, ~bpfOut);
-    ~bpf.set(\freq, 77.midicps);
-
-    ~flt = Synth("filter0",target: ~nGroup,addAction: \addToTail);
-    ~flt.set(\in,~bpfOut);
-    ~flt.set(\cutoff,~mix1out);
-    ~flt.set(\gain,~wgain);
-    ~flt.set(\mul, ~mix2out);
-    ~flt.set(\out,~noiseOut);
-
-    ~vca = Synth("vca",target: ~nGroup,addAction: \addToTail);
-    //~vca.set(\in,~bpfOut);
-    ~vca.set(\in,~noiseOut);
-    ~vca.set(\ink,~envout);
-	  
+    ~noise =  Synth("bdNoise",target: ~nGroup,addAction: \addToTail);
+    ~noise.set(\cutoff,~mix1out);
+    ~noise.set(\gain,~wgain);
+    ~noise.set(\mul, ~mix2out);
+    ~noise.set(\freq, 77.midicps);
+    ~noise.set(\aenv, ~envout);
+    ~noise.set(\aocIn, ~circleOut);
 
     ~channel8 = {arg num, vel = 1;
       var ret;
 
-      ~bpf.set(\freq,num.midicps);
+      ~noise.set(\freq,num.midicps);
 
     };
 
@@ -305,13 +247,15 @@ s.meter;
 
 ~nGroup.free;
 
-~rp = {~midiBassDrum.value;~midiCantus_firmus.value;}; // Example
+~rp = {~midiBassDrum.value;~midiCantus_firmus.value;~circle.set(\zgate,1);}; // Example
+
+      ~noise.set(\rq,0.1);
 
 ~mixer1.set(\bal,1);~mixer2.set(\bal,1);
 
 ~mixer1.set(\bal,-1);~mixer2.set(\bal,-1);
 ~mixer1.set(\bal,0);~mixer2.set(\bal,0); 
-~mixer1.set(\bal,0.5);~mixer2.set(\bal,0.5);
+~mixer1.set(\bal,0.5);~mixer2.set(\bal,0.15);
 
 ~mixergui1 = SimpleMix.new;
 ~mixergui1.mixer = ~mixer1;
