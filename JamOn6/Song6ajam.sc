@@ -159,7 +159,33 @@ s.meter;
 
 	OffsetOut.ar(out, (sig * amp));
       }).add;	
+
+
      
+    SynthDef(\bdSaw, {arg out = 0, amp = 1, aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
+	  freq = 0, lagLev = 0, clip = 1,// clip and lag
+	  cutoff = 0, gain = 0, mul = 1; // Low Pass Filter
+
+	var sig, aoc;
+
+	freq = Lag.kr(freq, lagLev);
+	sig = LFSaw.ar(freq, 0);
+
+	cutoff = In.ar(cutoff);
+	gain = In.ar(gain);
+	mul = In.ar(mul);
+	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
+
+	aoc =  In.ar(aocIn) * (In.ar(aenv) - 1) + 1;
+	sig = sig * aoc;
+
+	sig = sig*1.2;
+	sig = sig.clip2(clip);
+	sig = Splay.ar(sig,spread,center:center);
+
+	OffsetOut.ar(out, (sig * amp));
+      }).add;	
+
 
     
     ~nGroup = Group.new;
@@ -204,6 +230,16 @@ s.meter;
     ~noise.set(\freq, 77.midicps);
     ~noise.set(\aenv, ~envout);
     ~noise.set(\aocIn, ~circleOut);
+
+
+    ~saw =  Synth("bdSaw",target: ~nGroup,addAction: \addToTail);
+    ~saw.set(\cutoff,~mix1out);
+    ~saw.set(\gain,~wgain);
+    ~saw.set(\mul, ~mix2out);
+    ~saw.set(\freq, ~env1);
+    ~saw.set(\aenv, ~envout);
+    ~saw.set(\aocIn, ~circleOut);
+
 
     ~channel8 = {arg num, vel = 1;
       var ret;
