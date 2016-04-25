@@ -134,6 +134,22 @@ s.meter;
       }).add;
 
 
+    SynthDef(\Saw1, {arg out = 0, freq = 550, lagLev = 0.0;
+	freq = Lag.kr(freq, lagLev);
+	sig = LFSaw.ar(freq,0.5);
+	OffsetOut.ar(out, sig);
+      }).add;	
+
+    SynthDef(\Saw2, {arg out = 0, infreq = 0;
+	sig = LFSaw.ar(In.ar(infreq),0.5);
+	OffsetOut.ar(out, sig);
+      }).add;	
+
+    SynthDef(\Sine1, {arg out = 0, infreq = 0;
+	sig = SinOsc.ar(In.ar(infreq),0.5);
+	OffsetOut.ar(out, sig);
+      }).add;	
+
 
     SynthDef(\bdNoise, {arg out = 0, amp = 1, aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
 	  freq = 550, rq = 0.15, lagLev = 4.0, // Band Pass Filter
@@ -163,16 +179,12 @@ s.meter;
 
 
      
-    SynthDef(\bdSaw, {arg out = 0, amp = 1, aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
-	  freq = 0, lagLev = 0.0, clip = 1,// clip and lag
-	  cutoff = 0, gain = 0, mul = 1; // Low Pass Filter
+    SynthDef(\bdSound, {arg out = 0, amp = 1, oscIn = 0; aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
+	  clip = 1, cutoff = 0, gain = 0, mul = 1; // Clip and Low Pass Filter
 
 	var sig, aoc;
 
-	freq = Lag.kr(freq, lagLev);
-	sig = LFSaw.ar(freq, 0);
-		
-		//	sig = LFSaw.ar(55, 0);
+	sig = In.ar(oscIn);
 
 	cutoff = In.ar(cutoff) * 1.5;
 	gain = In.ar(gain);
@@ -201,9 +213,13 @@ s.meter;
 
     ~mix1out = Bus.audio(s,1);
     ~mix2out = Bus.audio(s,1);
+    ~mix3out = Bus.audio(s,1);
 
     ~circleOut = Bus.audio(s,1);
 
+    ~saw1Out = Bus.audio(s,1);
+    ~saw2Out = Bus.audio(s,1);
+    ~sine1Out = Bus.audio(s,1);
 
     ~wind = Synth("windspeed",target: ~nGroup,addAction: \addToHead);
     ~wind.set(\out,~wcut);
@@ -235,11 +251,24 @@ s.meter;
     ~noise.set(\aocIn, ~circleOut);
 	   */	  
 
-    ~saw =  Synth("bdSaw",target: ~nGroup,addAction: \addToTail);
+    ~saw1 =  Synth("Saw1",target: ~nGroup,addAction: \addToTail);
+    ~saw1.set(\out,~saw1Out);
+
+    ~saw2 =  Synth("Saw2",target: ~nGroup,addAction: \addToTail);
+    ~saw2.set(\infreq,~env1out1);
+    ~saw2.set(\out,~saw2Out);
+
+    ~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
+    ~mixer3.set(\in0,~saw1Out);
+    ~mixer3.set(\in1,~saw2Out);
+    ~mixer3.set(\out,~mix3out);
+
+
+    ~saw =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
     ~saw.set(\cutoff,~mix1out);
     ~saw.set(\gain,~wgain);
     ~saw.set(\mul, ~mix2out);
-    ~saw.set(\freq, 41.midicps);
+    ~saw.set(\ocsIn, ~mix3out);
     ~saw.set(\aenv, ~envout);
     ~saw.set(\aocIn, ~circleOut);
 	  
@@ -248,7 +277,7 @@ s.meter;
       var ret;
 
 		//~noise.set(\freq,num.midicps);
-		~saw.set(\freq,(num-36).midicps);
+		~saw1.set(\freq,(num-36).midicps);
 
     };
 
