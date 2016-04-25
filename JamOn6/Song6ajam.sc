@@ -61,8 +61,9 @@ s.meter;
 	env1 = EnvGen.kr(Env.new([110, 59, 29], [0.005, 0.29], [-4, -5]));
 	env1m = env1.midicps;
 	
-	//	son = LFPulse.ar(env1m, 0, 0.5, 1, -0.5);
-	son = WhiteNoise.ar(1);
+		//son = LFPulse.ar(env1m, 0, 0.5, 1, -0.5);
+	son = LFSaw.ar(env1m, 0);
+		//son = WhiteNoise.ar(1);
 	son = LPF.ar(son, env1m*1.5, env0);
 	//son = son + SinOsc.ar(env1m, 0.5, env0);
 	son = son * 1.2;
@@ -94,7 +95,7 @@ s.meter;
 			,gate,doneAction:2);
 
 	sig = sig.midicps;
-	Out.ar(out,sig*1.5);}).add;
+	Out.ar(out,sig);}).add;
 
     SynthDef(\windspeed, {arg out = 0,out2 = 0, out3 = 0;
 	Out.ar(out,
@@ -145,7 +146,7 @@ s.meter;
 	freq = Lag.kr(freq, lagLev);
 	sig = BPF.ar(sig,freq,rq,mul:1/rq);	
 
-	cutoff = In.ar(cutoff);
+	cutoff = In.ar(cutoff)*1.5;
 	gain = In.ar(gain);
 	mul = In.ar(mul);
 	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
@@ -163,15 +164,17 @@ s.meter;
 
      
     SynthDef(\bdSaw, {arg out = 0, amp = 1, aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
-	  freq = 0, lagLev = 0, clip = 1,// clip and lag
+	  freq = 0, lagLev = 0.0, clip = 1,// clip and lag
 	  cutoff = 0, gain = 0, mul = 1; // Low Pass Filter
 
 	var sig, aoc;
 
 	freq = Lag.kr(freq, lagLev);
 	sig = LFSaw.ar(freq, 0);
+		
+		//	sig = LFSaw.ar(55, 0);
 
-	cutoff = In.ar(cutoff);
+	cutoff = In.ar(cutoff) * 1.5;
 	gain = In.ar(gain);
 	mul = In.ar(mul);
 	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
@@ -222,7 +225,7 @@ s.meter;
     ~mixer2.set(\out,~mix2out);
 
 
-
+	   /*
     ~noise =  Synth("bdNoise",target: ~nGroup,addAction: \addToTail);
     ~noise.set(\cutoff,~mix1out);
     ~noise.set(\gain,~wgain);
@@ -230,28 +233,29 @@ s.meter;
     ~noise.set(\freq, 77.midicps);
     ~noise.set(\aenv, ~envout);
     ~noise.set(\aocIn, ~circleOut);
-
+	   */	  
 
     ~saw =  Synth("bdSaw",target: ~nGroup,addAction: \addToTail);
     ~saw.set(\cutoff,~mix1out);
     ~saw.set(\gain,~wgain);
     ~saw.set(\mul, ~mix2out);
-    ~saw.set(\freq, ~env1);
+    ~saw.set(\freq, 41.midicps);
     ~saw.set(\aenv, ~envout);
     ~saw.set(\aocIn, ~circleOut);
-
+	  
 
     ~channel8 = {arg num, vel = 1;
       var ret;
 
-      ~noise.set(\freq,num.midicps);
+		//~noise.set(\freq,num.midicps);
+		~saw.set(\freq,(num-36).midicps);
 
     };
 
     ~channel9 = {arg num, vel = 1;
       var ret;
 		
-		
+			
       ret  = Synth("env0",target: ~nGroup,addAction: \addToHead);
       ret.set(\out,~envout);
 
@@ -263,14 +267,13 @@ s.meter;
       ~nGroup.set(\gate,1);
       ~nGroup;
 
-      /*
-	`
+		
+	
+		/*
 	ret  = Synth("kick");
 	ret.set(\gate,1);
-		
-	ret; 
-      */
-		
+	ret;
+		*/ 		
     };
     )
 
@@ -285,7 +288,12 @@ s.meter;
 
 ~rp = {~midiBassDrum.value;~midiCantus_firmus.value;~circle.set(\zgate,1);}; // Example
 
+~rp = {~midiBassDrum.value;};
+
       ~noise.set(\rq,0.1);
+
+~saw.set(\lagLev,1.0);
+~saw.set(\clip,0.75);
 
 ~mixer1.set(\bal,1);~mixer2.set(\bal,1);
 
