@@ -135,17 +135,20 @@ s.meter;
 
 
     SynthDef(\Saw1, {arg out = 0, freq = 550, lagLev = 0.0;
+		var sig;
 	freq = Lag.kr(freq, lagLev);
 	sig = LFSaw.ar(freq,0.5);
 	OffsetOut.ar(out, sig);
       }).add;	
 
     SynthDef(\Saw2, {arg out = 0, infreq = 0;
+		var sig;
 	sig = LFSaw.ar(In.ar(infreq),0.5);
 	OffsetOut.ar(out, sig);
       }).add;	
 
     SynthDef(\Sine1, {arg out = 0, infreq = 0;
+		var sig;
 	sig = SinOsc.ar(In.ar(infreq),0.5);
 	OffsetOut.ar(out, sig);
       }).add;	
@@ -179,7 +182,7 @@ s.meter;
 
 
      
-    SynthDef(\bdSound, {arg out = 0, amp = 1, oscIn = 0; aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
+    SynthDef(\bdSound, {arg out = 0, amp = 1, oscIn = 0, aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
 	  clip = 1, cutoff = 0, gain = 0, mul = 1; // Clip and Low Pass Filter
 
 	var sig, aoc;
@@ -324,7 +327,7 @@ s.meter;
 ~saw.set(\lagLev,1.0);
 ~saw.set(\clip,0.75);
 
-~mixer1.set(\bal,1);~mixer2.set(\bal,1);
+~mixer1.set(\bal,1);~mixer2.set(\bal,1);~mixer3.set(\bal,1);
 
 ~mixer1.set(\bal,-1);~mixer2.set(\bal,-1);
 ~mixer1.set(\bal,0);~mixer2.set(\bal,0); 
