@@ -266,12 +266,11 @@ s.meter;
     ~mixer3.set(\in1,~saw2Out);
     ~mixer3.set(\out,~mix3out);
 
-
     ~saw =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
     ~saw.set(\cutoff,~mix1out);
     ~saw.set(\gain,~wgain);
     ~saw.set(\mul, ~mix2out);
-    ~saw.set(\ocsIn, ~mix3out);
+    ~saw.set(\oscIn, ~mix3out);
     ~saw.set(\aenv, ~envout);
     ~saw.set(\aocIn, ~circleOut);
 	  
