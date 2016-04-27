@@ -256,10 +256,10 @@ s.meter;
 	   */	  
 
     ~saw1 =  Synth("Saw1",target: ~nGroup,addAction: \addToTail);
-    ~saw1.set(\infreq,~envout1);
     ~saw1.set(\out,~saw1Out);
 
     ~saw2 =  Synth("Saw2",target: ~nGroup,addAction: \addToTail);
+    ~saw2.set(\infreq,~envout1);
     ~saw2.set(\out,~saw2Out);
 
     ~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
