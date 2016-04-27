@@ -137,14 +137,14 @@ s.meter;
     SynthDef(\Saw1, {arg out = 0, freq = 550, lagLev = 0.0;
 		var sig;
 	freq = Lag.kr(freq, lagLev);
-	sig = LFSaw.ar(freq,0.5);
-	OffsetOut.ar(out, sig);
+	sig = LFSaw.ar(freq,0.0);
+	Out.ar(out, sig);
       }).add;	
 
     SynthDef(\Saw2, {arg out = 0, infreq = 0;
 		var sig;
-	sig = LFSaw.ar(In.ar(infreq),0.5);
-	OffsetOut.ar(out, sig);
+	sig = LFSaw.ar(In.ar(infreq),0.0);
+	Out.ar(out, sig);
       }).add;	
 
     SynthDef(\Sine1, {arg out = 0, infreq = 0;
@@ -195,7 +195,7 @@ s.meter;
 	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
 
 	aoc =  In.ar(aocIn) * (In.ar(aenv) - 1) + 1;
-	sig = sig * aoc;
+		sig = sig * 1;//aoc;
 
 	sig = sig*1.2;
 	sig = sig.clip2(clip);
@@ -207,6 +207,7 @@ s.meter;
 
     
     ~nGroup = Group.new;
+
     ~envout = Bus.audio(s,1);
     ~envout1 = Bus.audio(s,1);
 
@@ -255,10 +256,10 @@ s.meter;
 	   */	  
 
     ~saw1 =  Synth("Saw1",target: ~nGroup,addAction: \addToTail);
+    ~saw1.set(\infreq,~envout1);
     ~saw1.set(\out,~saw1Out);
 
     ~saw2 =  Synth("Saw2",target: ~nGroup,addAction: \addToTail);
-    ~saw2.set(\infreq,~env1out1);
     ~saw2.set(\out,~saw2Out);
 
     ~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
@@ -339,6 +340,10 @@ s.meter;
 ~mixergui2 = SimpleMix.new;
 ~mixergui2.mixer = ~mixer2;
 ~mixergui2.gui;
+
+~mixergui3 = SimpleMix.new;
+~mixergui3.mixer = ~mixer3;
+~mixergui3.gui;
 
 (
  ~start = {
