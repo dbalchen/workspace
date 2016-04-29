@@ -46,17 +46,15 @@
  : New Page
  : \newpage
 :END:
-* TODO List						       :noexport:
-** TODO Get the WebMonitor code and figure out how to recompile then check back in.
-** TODO Add new monitors [33%]
+* TODO Goals 							   :noexport:
+** TODO Add new monitors [50%]
    - [X] Add AR monitors
-   - [ ] Open ports to the EBI server
+   - [X] Open ports to the EBI server
    - [ ] Add Dave's KPI monitors.
    - [ ] Number of records processed per day.
 ** TODO Fix the error monitors.
    - [ ] Find out what is causing the remaining errors.
-** TODO Fix the CIBER return issue...
-   SCHEDULED: 
+** TODO Fix the CIBER return issue... 
 * Statement of Principals 
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
@@ -473,6 +471,8 @@ subgraph cluster_3 {
 :           b.dr_rec_quantity, b.gn_rec_quantity
 :  order by b.phy_file_ident desc, b.rowid
 
+** TC Runbook
+   [[file:docs/AB%208%201%20-%20TC%208%201%20SP2%20-%20Run%20Book%20Core.pdf][TC Runbook Version 8.1]]
 * TC Oncall Daily Duties:
 ** Check the Monitors
 *** Batch Tab
@@ -952,7 +952,7 @@ subgraph cluster_3 {
    |------------------------------------------+------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
-#+END_LaTeX
+#+END_LaTeX 
 ** CIBER 52 Record
 #+BEGIN_LaTeX
 \footnotesize
@@ -1347,7 +1347,6 @@ digraph BI {
 
 \newpage
 * Databases
-
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -1363,6 +1362,7 @@ digraph BI {
    | PRDUSG2C   | con8usg28  | PRDUSG2        | Usage                 |
    | PRDUSG3C   | con8usg38  | PRDUSG3        | Usage                 |
    | PRDUSG4C   | con8usg48  | PRDUSG4        | Usage                 |
+   | prdappc    | Con5app5   | PRDAPRM        | Aprm                  |
    |------------+------------+----------------+-----------------------|
 #+BEGIN_LaTeX
 \normalsize
@@ -1414,6 +1414,17 @@ digraph BI {
 ** DB Preparation
    For each DB instance, except ODS and SIT, You need to alter the session before you can use it.\\ For example  for usage 1 type
    : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
+\newpage
+#+BEGIN_LaTeX
+\begin{landscape}  
+#+END_LaTeX
+** SQL Join Reference
+#+ATTR_LaTeX: width=20cm
+   [[file:Pictures/Sql_Joins.png]]
+#+BEGIN_LaTeX
+\end{landscape} 
+\newpage
+#+END_LaTeX
 ** Production Database Tables
 #+BEGIN_LaTeX
 \scriptsize
@@ -2127,10 +2138,10 @@ digraph BI {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** EM1_RECORD
+*** EM1\_RECORD
     The EM1 record database is the database used by *AEM* and it has so many columns that you cannot use a /select */ to query. Instead click on the link provided below and use that as a template.
     [[/home/dbalchen/workspace/CommonPlace/docs/em1_example.sql][EM1_RECORD Example]]
-\newpage
+    \newpage
 * BPT Tables
   The *Business Process Tables* are the Tops equivalent to the
   reference tables in *CARES*. The following is the list of all *BPT*
@@ -3089,6 +3100,147 @@ AND expiration\_date IS NULL
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
+* APRM/GL
+** Interesting queries
+** APRM Tables
+*** PRDAPPC.USC\_ROAM\_EVNTS
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: longtable align=lll
+|--------------------+--------------------+----------------|
+| *Name*             | *Data Type*        | *Descritption* |
+|--------------------+--------------------+----------------|
+| AIR_CHRG_AMT       | NUMBER (18,5)      |                |
+| APPLICATION_ID     | CHAR (6 Byte)      |                |
+| AU_ID              | NUMBER (9)         |                |
+| BP_START_DATE      | DATE               |                |
+| CARRIER_CD         | VARCHAR2 (20 Byte) |                |
+| CIBER_FILE_NAME_1  | VARCHAR2 (50 Byte) |                |
+| CIBER_FILE_NAME_2  | VARCHAR2 (50 Byte) |                |
+| DL_SERVICE_CODE    | CHAR (5 Byte)      |                |
+| DL_UPDATE_STAMP    | NUMBER (4)         |                |
+| EDR_ID             | NUMBER (11)        |                |
+| EVENT_DATE         | DATE               |                |
+| EVENT_ID           | NUMBER (4)         |                |
+| EVENT_TYPE         | VARCHAR2 (20 Byte) |                |
+| FILE_REPORT_PERIOD | DATE               |                |
+| GENERATED_REC      | NUMBER (4)         |                |
+| GEO_CODE           | VARCHAR2 (10 Byte) |                |
+| HOME_COMPANY       | VARCHAR2 (20 Byte) |                |
+| HOME_SID           | CHAR (5 Byte)      |                |
+| NTWRK_ROAM_IND     | CHAR (1 Byte)      |                |
+| OPERATOR_ID        | NUMBER (9)         |                |
+| ORIG_BP            | DATE               |                |
+| ORIGINATING_ID     | CHAR (20 Byte)     |                |
+| OTHER_COMPANY      | VARCHAR2 (20 Byte) |                |
+| PROD_ID            | NUMBER (4)         |                |
+| SERVE_COMPANY      | VARCHAR2 (20 Byte) |                |
+| SERVE_SID          | CHAR (5 Byte)      |                |
+| SUBSCRIBER_ID      | CHAR (10 Byte)     |                |
+| SURCHARGE_AMOUNT   | NUMBER (18,5)      |                |
+| SURCHARGE_IND      | CHAR (1 Byte)      |                |
+| SYS_CREATION_DATE  | DATE               |                |
+| SYS_UPDATE_DATE    | DATE               |                |
+| TERMINATING_ID     | CHAR (20 Byte)     |                |
+| TOLL_CHRG          | NUMBER (18,5)      |                |
+| TOLL_DURATION      | NUMBER (11)        |                |
+| TOLL_TP_IND        | VARCHAR2 (20 Byte) |                |
+| TOTAL_CHRG_AMOUNT  | NUMBER (18,5)      |                |
+| TOTAL_TAX          | NUMBER (18,5)      |                |
+| USAGE              | NUMBER (18,5)      |                |
+| USC_UOM            | CHAR (1 Byte)      |                |
+| VISIT_IND          | CHAR (1 Byte)      |                |
+| VOLUME_TYPE        | CHAR (2 Byte)      |                |
+|--------------------+--------------------+----------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** usc\_sap\_extract\_v
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: longtable align=lll
+|------------------+--------------------+----------------|
+| *Name*           | *Data Type*        | *Descritption* |
+|------------------+--------------------+----------------|
+| AU_ID            | NUMBER (9)         |                |
+| CARRIER_CD       | VARCHAR2 (20 Byte) |                |
+| OTHER_PARTNER    | VARCHAR2 (20 Byte) |                |
+| AU_PROD_ID       | NUMBER (4)         |                |
+| AU_EVT_ID        | NUMBER (4)         |                |
+| AU_PROD_CAT_ID   | CHAR (2 Byte)      |                |
+| AU_BP_START_DATE | DATE               |                |
+| AU_CHARGE        | NUMBER             |                |
+| GL_ACCOUNT       | VARCHAR2 (17 Byte) |                |
+| CRDR_IND         | CHAR (2 Byte)      |                |
+| COST_CENTER      | CHAR (10 Byte)     |                |
+| PRODUCT          | CHAR (18 Byte)     |                |
+| TAX_CODE         | CHAR (2 Byte)      |                |
+| TAX_JUR_CD       | CHAR (15 Byte)     |                |
+| LINE_ORDER       | NUMBER             |                |
+|------------------+--------------------+----------------|
+
+** APRM Accrual Query
+   :  SELECT /*+ parallel(a,24)  parallel(p,24)  parallel(s,24) */a.bp_start_date,a.orig_bp,a.event_date,
+   :  TO_DATE(TO_CHAR(a.sys_creation_date,'MM/DD/YYYY'),'MM/DD/YYYY') AS sys_creation_date,	
+   :  SUM(NVL(a.tot_org_chrg_prm_v,0)) AS tot_org_chrg_prm_v,	
+   :  SUM(NVL(a.tot_chrg_param_val,0)) AS tot_chrg_param_val,	
+   :  SUM(NVL(a.tot_net_usage_chrg,0)) AS tot_net_usage_chrg,	
+   :  p.carrier_cd,p.prod_cat_id,p.rate_plan_cd,p.nr_param_2_val,	
+   :  p.future_3,p.future_6, s.sid_commercial_name	
+   :  FROM prm_app.ic_accumulated_chrg a	
+   :  INNER JOIN	
+   :  prm_app.prm_event_dtl_param p	
+   :  ON a.au_id=p.au_id	
+   :  LEFT OUTER JOIN	
+   :  (SELECT a.*, sid_commercial_name FROM (SELECT /*+ parallel(a,24) full(a)*/MIN(cindex) 
+   :  AS cindex, setlmnt_contract_cd FROM pc9_sid a GROUP BY setlmnt_contract_cd) a, pc9_sid b WHERE a.cindex=b.cindex) s	
+   :  ON SUBSTR(p.nr_param_2_val,1,3)=SUBSTR(s.setlmnt_contract_cd,1,3)	
+   :  WHERE prod_cat_id='IN'	
+   :  AND bp_start_date='16-JAN-2016' and event_date < '01-FEB-2016' 	
+   :  GROUP BY (a.bp_start_date, a.orig_bp, a.event_date, a.sys_creation_date, p.carrier_cd, 
+   :            p.prod_cat_id, p.rate_plan_cd, p.nr_param_2_val, p.future_3, p.future_6, s.sid_commercial_name);	
+
+** APRM Settlement Query
+   : SELECT /*+ parallel(a,24)  parallel(p,24)  parallel(s,24) */  a.bp_start_date,a.orig_bp,
+   :  a.event_date,TO_DATE(TO_CHAR(a.sys_creation_date,'MM/DD/YYYY'),'MM/DD/YYYY') AS sys_creation_date,	
+   :  SUM(NVL(a.tot_org_chrg_prm_v,0)) AS tot_org_chrg_prm_v,	
+   :  SUM(NVL(a.tot_chrg_param_val,0)) AS tot_chrg_param_val,	
+   :  SUM(NVL(a.tot_net_usage_chrg,0)) AS tot_net_usage_chrg,	
+   :  p.carrier_cd,p.prod_cat_id,p.rate_plan_cd,p.nr_param_2_val,	
+   :  p.future_3,p.future_6, s.sid_commercial_name	
+   : FROM prm_app.ic_accumulated_chrg a	
+   :  INNER JOIN	
+   :  prm_app.prm_event_dtl_param p	
+   :  ON a.au_id=p.au_id	
+   :  LEFT OUTER JOIN	
+   :  (SELECT a.*, sid_commercial_name FROM (SELECT /*+ parallel(a,24) full(a)*/  MIN(cindex) AS cindex, 
+   :  setlmnt_contract_cd FROM pc9_sid a GROUP BY setlmnt_contract_cd) a, pc9_sid b WHERE a.cindex=b.cindex) s	
+   :  ON SUBSTR(p.nr_param_2_val,1,3)=SUBSTR(s.setlmnt_contract_cd,1,3)	
+   : WHERE prod_cat_id='IN'	
+   :  AND bp_start_date='16-JAN-2016'	
+   : GROUP BY (a.bp_start_date, a.orig_bp, a.event_date, a.sys_creation_date, p.carrier_cd, p.prod_cat_id, 
+   :  p.rate_plan_cd, p.nr_param_2_val, p.future_3, p.future_6, s.sid_commercial_name);	
+** Intra Roaming Query
+   : SELECT prm_app.ic_accumulated_chrg.BP_START_DATE,prm_app.ic_accumulated_chrg.ORIG_BP,
+   :  prm_app.ic_accumulated_chrg.event_date,	
+   :  SUM(NVL(prm_app.ic_accumulated_chrg.TOT_ORG_CHRG_PRM_V,0)) AS TOT_ORG_CHRG_PRM_V,	
+   :  SUM(NVL(prm_app.ic_accumulated_chrg.TOT_CHRG_PARAM_VAL,0)) AS TOT_CHRG_PARAM_VAL,	
+   :  SUM(NVL(prm_app.ic_accumulated_chrg.TOT_NET_USAGE_CHRG,0)) AS TOT_NET_USAGE_CHRG,	
+   :  SUM(NVL(prm_app.ic_accumulated_chrg.CP_USAGE_CHRG,0)) AS CP_USAGE_CHRG,	
+   :  prm_app.PRM_EVENT_DTL_PARAM.CARRIER_CD,prm_app.PRM_EVENT_DTL_PARAM.PROD_CAT_ID,
+   :  prm_app.prm_event_dtl_param.qual_param_1_val,prm_app.PRM_EVENT_DTL_PARAM.RATE_PLAN_CD,
+   :  prm_app.PRM_EVENT_DTL_PARAM.NR_PARAM_2_VAL,prm_app.PRM_EVENT_DTL_PARAM.FUTURE_3,prm_app.PRM_EVENT_DTL_PARAM.FUTURE_6	
+   : FROM prm_app.ic_accumulated_chrg	
+   :  INNER JOIN prm_app.PRM_EVENT_DTL_PARAM	
+   :  ON prm_app.ic_accumulated_chrg.AU_ID=prm_app.PRM_EVENT_DTL_PARAM.AU_ID	
+   : WHERE prod_cat_id='IR'	
+   :  AND bp_start_date='01-JAN-2016'	
+   : GROUP BY (prm_app.ic_accumulated_chrg.BP_START_DATE,prm_app.ic_accumulated_chrg.ORIG_BP,prm_app.ic_accumulated_chrg.event_date,
+   :   prm_app.PRM_EVENT_DTL_PARAM.CARRIER_CD,prm_app.PRM_EVENT_DTL_PARAM.PROD_CAT_ID,prm_app.prm_event_dtl_param.qual_param_1_val,
+   :   prm_app.PRM_EVENT_DTL_PARAM.RATE_PLAN_CD,prm_app.PRM_EVENT_DTL_PARAM.NR_PARAM_2_VAL,
+   :   prm_app.PRM_EVENT_DTL_PARAM.FUTURE_3,prm_app.PRM_EVENT_DTL_PARAM.FUTURE_6);	
 * Accounts Receivable
   Handles Finance, Payments and credits as well Collections. 
 ** AR Basics
@@ -3959,9 +4111,122 @@ AND expiration\_date IS NULL
 [fn:1] Switch Identifiers
 forgot about this:
 [fn:2] *CIBER* - InCollect processing is still handled by *A&F* and *RBMS*
- 
+
+* Unformatted 
+select event_type, 
+total_chrg_amount,
+surcharge_amount,
+home_sid, serve_sid,
+ciber_file_name_1||ciber_file_name_2,
+file_report_period,
+bp_start_date settlement_period
+from PRDAPPC.USC_ROAM_EVNTS
+where prod_id = 2 and bp_start_date = '16-FEB-2016' and 
+
+rownum < 1000
+
 \\WIMIDFILE06\Share\Share\IS Billing Systems Department\TC_KPI
 [‎12/‎11/‎2015 2:14 PM] Smith, David: 
 <\\WIMIDFILE06\Share\Share\IS Billing Systems Department\TC_KPI> 
 <\\WIMIDFILE06\Share\Share\IS Billing Systems Department\AEM> 
 <\\WIMIDFILE06\Share\Share\IS Billing Systems Department\EM1> 
+
+
+
+This where we are at....
+
+select * from PRDAPPC.USC_ROAM_EVNTS where prod_id = 2 and bp_start_date = '16-FEB-2016' and home_sid = '30985' and serve_sid = '01522' and total_chrg_amount > 0 and event_date >= '24-FEB-2016' and event_date < '26-FEB-2016' 
+ and ciber_file_name_1||ciber_file_name_2 = 'SDIRI_FCIBER_ID000472_T20160226172115.DAT' and event_type = 'Voice'
+
+select * from prm_app.prm_event_dtl_param where nr_param_2_val = '436' 
+
+select * from prm_app.ic_accumulated_chrg where rownum < 100;
+
+
+select /*+ parrallel (a,4)*/ au_id, home_sid,serve_sid,count(*),sum(TOTAL_CHRG_AMOUNT) from PRDAPPC.USC_ROAM_EVNTS where prod_id = 2 
+and home_sid in ('00166','26309','31042') and event_date < '01-APR-2016' and bp_start_date = '16-MAR-2016'  and event_type = 'Voice' group by au_id, home_sid,serve_sid;
+
+
+
+-- and event_date >= '16-MAR-2016' and event_date < '19-MAR-2016' 
+and ciber_file_name_1||ciber_file_name_2 in (
+'SDIRI_FCIBER_ID000008_T20160318162957.DAT',
+'SDIRI_FCIBER_ID000009_T20160318164358.DAT',
+'SDIRI_FCIBER_ID000010_T20160318164753.DAT',
+'SDIRI_FCIBER_ID000011_T20160318164904.DAT',
+'SDIRI_FCIBER_ID000533_T20160318165116.DAT',
+'SDIRI_FCIBER_ID000534_T20160318172115.DAT',
+'SDIRI_FCIBER_ID000535_T20160318175115.DAT',
+'SDIRI_FCIBER_ID000535_T20160318175199.DAT',
+'SDIRI_FCIBER_ID000536_T20160318182115.DAT',
+'SDIRI_FCIBER_ID000536_T20160318182199.DAT')
+and event_type = 'Voice' group by home_sid,serve_sid
+
+select * from PRDAPPC.USC_ROAM_EVNTS where prod_id = 2 and bp_start_date = '16-MAR-2016'  
+and home_sid = '01239'  and serve_sid = '00017'
+and ciber_file_name_1||ciber_file_name_2 in (
+'SDIRI_FCIBER_ID000008_T20160318162957.DAT',
+'SDIRI_FCIBER_ID000009_T20160318164358.DAT',
+'SDIRI_FCIBER_ID000010_T20160318164753.DAT',
+'SDIRI_FCIBER_ID000011_T20160318164904.DAT',
+'SDIRI_FCIBER_ID000533_T20160318165116.DAT',
+'SDIRI_FCIBER_ID000534_T20160318172115.DAT',
+'SDIRI_FCIBER_ID000535_T20160318175115.DAT',
+'SDIRI_FCIBER_ID000535_T20160318175199.DAT',
+'SDIRI_FCIBER_ID000536_T20160318182115.DAT',
+'SDIRI_FCIBER_ID000536_T20160318182199.DAT')
+and event_type = 'Voice' 
+
+select unique(ciber_file_name_1||ciber_file_name_2) from PRDAPPC.USC_ROAM_EVNTS where prod_id = 2 and bp_start_date = '16-MAR-2016'  
+and event_date >= '18-MAR-2016' and event_date < '19-MAR-2016' 
+-- and ciber_file_name_1||ciber_file_name_2 = 'SDIRI_FCIBER_ID000472_T20160226172115.DAT' 
+and event_type = 'Voice'
+
+select carrier_cd company_code, au_prod_id, au_evt_id, crdr_ind, gl_account, round(sum(au_charge),2)
+from usc_sap_extract_v where au_prod_cat_id = 'IN' and au_bp_start_date = '16-Feb-2016'
+group by carrier_cd, au_prod_id, au_evt_id, crdr_ind, gl_account order by 1, 2, 3, 4, 6, 5;
+
+
+
+
+select * from ac1_control_hist where  file_name = 'SDIRI_FCIBER_ID000073_T20160409164014.DAT'
+
+
+select * from ape1_rated_event where 
+physical_source =  513475389989200 
+and
+ rownum < 100
+
+select * from ape1_rated_event where rownum < 100
+
+select * from ac_physical_files where file_name = 'SDIRI_FCIBER_ID000595_T20160408175199.DAT'
+
+select * from ac1_control_hist where identifier = 513475389989200
+
+
+
+gunzip -c *201603[1,2,3]*gz | grep '^98' | grep 160415 | sort -u| perl -ne '$buff = $_; if((substr($buff,37,6) == 160415)) { print $buff;}' | more
+
+
+JL?Iv&4M0&Tg
+
+
+
+
+ Settlement Date is equal to / is in  04/15/2016	
+AND	
+Filter on Column "My SID/BID"."My SID Code" in ( '43899','43976','43985', '45705')
+AND	 Record Type is equal to / is in  32	
+AND	 Process Date  is between  03/16/2016 and 03/31/2016	
+AND	
+Filter on Column "My Legacy SID/BID"."My Legacy SID Code" in ('00166','26309','31042')
+
+
+egrep '00166|26309|31042'
+
+2016-04-15	2016-03-16	43899	00005	61403	04170	1373.33	2869656576	1373.33
+
+grep 00005 | grep 04170 | grep 1373
+
+
+perl -ne '@buff = split(/\t/,$_); if ($buff[3] eq '00166' || $buff[3] eq '26309' || $buff[3] eq '31042') {print $_;}'
