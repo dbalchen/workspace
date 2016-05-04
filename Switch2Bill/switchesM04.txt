@@ -1,0 +1,2 @@
+switches="jopl okla owas sali"
+
