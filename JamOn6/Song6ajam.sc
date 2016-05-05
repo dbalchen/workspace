@@ -1,4 +1,4 @@
-xHelp.gui
+Help.gui
 Quarks.gui
 GUI.qt
 s.plotTree;
@@ -18,6 +18,8 @@ s.meter;
 
    (
     
+    "/home/dbalchen/Music/JamOn6/include/Synths/bdSynth.sc".loadPath;
+
     ~bassdrum = MyEvents.new;
     ~bassdrum.waits = [1.0,1.0,1.0,1.0]; 
     ~bassdrum.freqs = [35,35,35,35];
@@ -53,26 +55,6 @@ s.meter;
 				\sustain, Pfunc.new({~cantus_firmus.duration.next}),
 				\dur, Pfunc.new({~cantus_firmus.wait.next})
 				).play};
-
-    SynthDef(\kick, { |out=0, amp=0.1, pan=0|
-	  var env0, env1, env1m, son;
-	
-	env0 =  EnvGen.kr(Env.new([0.5, 1, 0.5, 0], [0.005, 0.06, 0.26], [-4, -2, -4]), doneAction:2);
-	env1 = EnvGen.kr(Env.new([110, 59, 29], [0.005, 0.29], [-4, -5]));
-	env1m = env1.midicps;
-	
-		//son = LFPulse.ar(env1m, 0, 0.5, 1, -0.5);
-	son = LFSaw.ar(env1m, 0);
-		//son = WhiteNoise.ar(1);
-	son = LPF.ar(son, env1m*1.5, env0);
-	//son = son + SinOsc.ar(env1m, 0.5, env0);
-	son = son * 1.2;
-	son = son.clip2(1);
-	
-	OffsetOut.ar(out, Pan2.ar(son * amp));
-      }).add;
-
-
 
     SynthDef(\zeroRate,{arg out = 0;
 	Out.ar(out, 0);}).add;
@@ -112,104 +94,71 @@ s.meter;
 
       }).add;
 
+    SynthDef(\myASR,{arg out = 0, attack = 3, sustain = 1, release = 1, gate = 0;
+	var sig;
+
+	sig = Env.asr(attack,sustain,release);
+	sig = EnvGen.ar(sig,gate,doneAction:2);
+
+	Out.ar(out,sig)}).add;
+
+
 
     SynthDef(\myCircle,{arg out = 0, zgate = 0;
 	var sig;
 	sig = (SinOsc.ar(1/32)) * zgate;
-
 	Out.ar(out,sig);}).add;
-	
 
+
+	
     SynthDef(\two2one, {arg out=0,in0 = 0, in1 = 0, bal = 0;
 	var amp1 = 1, amp2 = 1, sig;
 
 	bal = bal +1;
-
 	amp1 = bal*0.5;
 	amp2 = 1 - amp1;
-
 	sig = (In.ar(in0)*amp1) + (In.ar(in1)*amp2);
-
-	OffsetOut.ar(out,sig);  
+	Out.ar(out,sig);  
       }).add;
 
 
+    SynthDef(\Noise1, {arg out = 0, freq = 550, rq = 0.5, lagLev = 0.0;
+	var sig;
+	sig = WhiteNoise.ar(1);
+	freq = Lag.kr(freq, lagLev);
+	sig = BPF.ar(sig,freq,rq,mul:1/rq);	
+	Out.ar(out, sig);
+      }).add;	
+
+
     SynthDef(\Saw1, {arg out = 0, freq = 550, lagLev = 0.0;
-		var sig;
+	var sig;
 	freq = Lag.kr(freq, lagLev);
 	sig = LFSaw.ar(freq,0.0);
 	Out.ar(out, sig);
       }).add;	
 
+
     SynthDef(\Saw2, {arg out = 0, infreq = 0;
-		var sig;
+	var sig;
 	sig = LFSaw.ar(In.ar(infreq),0.0);
 	Out.ar(out, sig);
       }).add;	
 
+
     SynthDef(\Sine1, {arg out = 0, infreq = 0;
-		var sig;
+	var sig;
 	sig = SinOsc.ar(In.ar(infreq),0.5);
-	OffsetOut.ar(out, sig);
+	Out.ar(out, sig);
       }).add;	
-
-
-    SynthDef(\bdNoise, {arg out = 0, amp = 1, aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
-	  freq = 550, rq = 0.15, lagLev = 4.0, // Band Pass Filter
-	  cutoff = 0, gain = 0, mul = 1; // Low Pass Filter
-
-	var sig, aoc;
-
-	sig = WhiteNoise.ar(1);
-	
-	freq = Lag.kr(freq, lagLev);
-	sig = BPF.ar(sig,freq,rq,mul:1/rq);	
-
-	cutoff = In.ar(cutoff)*1.5;
-	gain = In.ar(gain);
-	mul = In.ar(mul);
-	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
-
-	aoc =  In.ar(aocIn) * (In.ar(aenv) - 1) + 1;
-	sig = sig * aoc;
-
-	sig = sig*1.2;
-	sig = sig.clip2(1);
-	sig = Splay.ar(sig,spread,center:center);
-
-	OffsetOut.ar(out, (sig * amp));
-      }).add;	
-
-
-     
-    SynthDef(\bdSound, {arg out = 0, amp = 1, oscIn = 0, aocIn = 0, aenv = 0, spread = 0, center = 0, // VCA Controls
-	  clip = 1, cutoff = 0, gain = 0, mul = 1; // Clip and Low Pass Filter
-
-	var sig, aoc;
-
-	sig = In.ar(oscIn);
-
-	cutoff = In.ar(cutoff) * 1.5;
-	gain = In.ar(gain);
-	mul = In.ar(mul);
-	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
-
-	aoc =  In.ar(aocIn) * (In.ar(aenv) - 1) + 1;
-		sig = sig * 1;//aoc;
-
-	sig = sig*1.2;
-	sig = sig.clip2(clip);
-	sig = Splay.ar(sig,spread,center:center);
-
-	OffsetOut.ar(out, (sig * amp));
-      }).add;	
-
-
     
+
     ~nGroup = Group.new;
+    ~nGroup2 = Group.new;
 
     ~envout = Bus.audio(s,1);
     ~envout1 = Bus.audio(s,1);
+    ~asrOut = Bus.audio(s,1);
 
     ~wcut = Bus.audio(s,1);
     ~wmul = Bus.audio(s,1);
@@ -224,12 +173,12 @@ s.meter;
     ~saw1Out = Bus.audio(s,1);
     ~saw2Out = Bus.audio(s,1);
     ~sine1Out = Bus.audio(s,1);
+    ~noise1Out = Bus.audio(s,1);
 
     ~wind = Synth("windspeed",target: ~nGroup,addAction: \addToHead);
     ~wind.set(\out,~wcut);
     ~wind.set(\out2,~wmul);
     ~wind.set(\out3,~wgain);
-
 
     ~circle = Synth("myCircle",target: ~nGroup,addAction: \addToHead);
     ~circle.set(\out,~circleOut);
@@ -244,16 +193,9 @@ s.meter;
     ~mixer2.set(\in1,~envout);
     ~mixer2.set(\out,~mix2out);
 
-
-	   /*
-    ~noise =  Synth("bdNoise",target: ~nGroup,addAction: \addToTail);
-    ~noise.set(\cutoff,~mix1out);
-    ~noise.set(\gain,~wgain);
-    ~noise.set(\mul, ~mix2out);
-    ~noise.set(\freq, 77.midicps);
-    ~noise.set(\aenv, ~envout);
-    ~noise.set(\aocIn, ~circleOut);
-	   */	  
+    ~noise1 =  Synth("Noise1",target: ~nGroup,addAction: \addToTail);
+    ~noise1.set(\freq, 77.midicps);
+    ~noise1.set(\out,~noise1Out);
 
     ~saw1 =  Synth("Saw1",target: ~nGroup,addAction: \addToTail);
     ~saw1.set(\out,~saw1Out);
@@ -262,26 +204,53 @@ s.meter;
     ~saw2.set(\infreq,~envout1);
     ~saw2.set(\out,~saw2Out);
 
+    ~sine1 =  Synth("Saw2",target: ~nGroup,addAction: \addToTail);
+    ~sine1.set(\infreq,~envout1);
+    ~sine1.set(\out,~sine1Out);
+
     ~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
     ~mixer3.set(\in0,~saw1Out);
     ~mixer3.set(\in1,~saw2Out);
     ~mixer3.set(\out,~mix3out);
-
+	
     ~saw =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
-    ~saw.set(\cutoff,~mix1out);
+    //    ~saw.set(\cutoff,~envout1);
+    ~saw.set(\cutoff,~asrOut);
     ~saw.set(\gain,~wgain);
     ~saw.set(\mul, ~mix2out);
     ~saw.set(\oscIn, ~mix3out);
     ~saw.set(\aenv, ~envout);
     ~saw.set(\aocIn, ~circleOut);
-	  
+ 
+    ~sine =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
+    ~sine.set(\cutoff,~envout1);
+    ~sine.set(\gain,~wgain);
+    ~sine.set(\mul, ~mix2out);
+    ~sine.set(\oscIn, ~sine1Out);
+    ~sine.set(\aenv, ~envout);
+    ~sine.set(\aocIn, ~circleOut);
+
+    ~noise =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
+    ~noise.set(\cutoff,~mix1out);
+    ~noise.set(\gain,~wgain);
+    ~noise.set(\mul, ~mix2out);
+    ~noise.set(\oscIn, ~noise1Out);
+    ~noise.set(\aenv, ~envout);
+    ~noise.set(\aocIn, ~circleOut);
+
 
     ~channel8 = {arg num, vel = 1;
       var ret;
 
-		//~noise.set(\freq,num.midicps);
-		~saw1.set(\freq,(num-36).midicps);
+      ~noise1.set(\freq,num.midicps);
+      ~saw1.set(\freq,(num-36).midicps);
+      ~sine1.set(\freq,(num-36).midicps);
 
+      ret  = Synth("myASR",addAction: \addToHead);
+      ret.set(\out,~asrOut);
+	  ret.set(\gate,1);
+
+      ret;
     };
 
     ~channel9 = {arg num, vel = 1;
@@ -299,16 +268,8 @@ s.meter;
       ~nGroup.set(\gate,1);
       ~nGroup;
 
-		
-	
-		/*
-	ret  = Synth("kick");
-	ret.set(\gate,1);
-	ret;
-		*/ 		
     };
     )
-
 
      };
  )
@@ -322,11 +283,11 @@ s.meter;
 
 ~rp = {~midiBassDrum.value;};
 
-      ~noise.set(\rq,0.1);
+~noise1.set(\rq,0.15);
 
 ~saw.set(\lagLev,1.0);
 ~saw.set(\clip,0.75);
-
+~noise.set(\spread,1);
 ~mixer1.set(\bal,1);~mixer2.set(\bal,1);~mixer3.set(\bal,1);
 
 ~mixer1.set(\bal,-1);~mixer2.set(\bal,-1);
