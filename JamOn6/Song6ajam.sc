@@ -94,13 +94,12 @@ s.meter;
 
       }).add;
 
-    SynthDef(\myASR,{arg out = 0, attack = 3, sustain = 1, release = 1, gate = 0;
+    SynthDef(\myASR,{arg out = 0, attack = 8, sustain = 1, release = 0, gate = 0, fcutoff = 10000;
 	var sig;
 
 	sig = Env.asr(attack,sustain,release);
 	sig = EnvGen.ar(sig,gate,doneAction:2);
-
-	Out.ar(out,sig)}).add;
+	Out.ar(out,sig*fcutoff)}).add;
 
 
 
@@ -167,7 +166,7 @@ s.meter;
     ~mix1out = Bus.audio(s,1);
     ~mix2out = Bus.audio(s,1);
     ~mix3out = Bus.audio(s,1);
-
+    ~mix4out = Bus.audio(s,1);
     ~circleOut = Bus.audio(s,1);
 
     ~saw1Out = Bus.audio(s,1);
@@ -213,15 +212,22 @@ s.meter;
     ~mixer3.set(\in1,~saw2Out);
     ~mixer3.set(\out,~mix3out);
 	
+    ~mixer4 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
+    ~mixer4.set(\in0,~envout);
+    ~mixer4.set(\in1,~asrOut);
+    ~mixer4.set(\out,~mix4Out);
+
+
+
     ~saw =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
     //    ~saw.set(\cutoff,~envout1);
     ~saw.set(\cutoff,~asrOut);
     ~saw.set(\gain,~wgain);
-    ~saw.set(\mul, ~mix2out);
-    ~saw.set(\oscIn, ~mix3out);
-    ~saw.set(\aenv, ~envout);
+    ~saw.set(\mul, ~envout1);
+    ~saw.set(\oscIn, ~saw1Out);
+    ~saw.set(\aenv, ~envout1);
     ~saw.set(\aocIn, ~circleOut);
- 
+	   /*
     ~sine =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
     ~sine.set(\cutoff,~envout1);
     ~sine.set(\gain,~wgain);
@@ -237,14 +243,14 @@ s.meter;
     ~noise.set(\oscIn, ~noise1Out);
     ~noise.set(\aenv, ~envout);
     ~noise.set(\aocIn, ~circleOut);
-
+	   */
 
     ~channel8 = {arg num, vel = 1;
       var ret;
 
-      ~noise1.set(\freq,num.midicps);
+		//      ~noise1.set(\freq,num.midicps);
       ~saw1.set(\freq,(num-36).midicps);
-      ~sine1.set(\freq,(num-36).midicps);
+		//      ~sine1.set(\freq,(num-36).midicps);
 
       ret  = Synth("myASR",addAction: \addToHead);
       ret.set(\out,~asrOut);
@@ -285,8 +291,8 @@ s.meter;
 
 ~noise1.set(\rq,0.15);
 
-~saw.set(\lagLev,1.0);
-~saw.set(\clip,0.75);
+~saw1.set(\lagLev,2.0);
+~saw.set(\clip,2);
 ~noise.set(\spread,1);
 ~mixer1.set(\bal,1);~mixer2.set(\bal,1);~mixer3.set(\bal,1);
 
@@ -305,6 +311,10 @@ s.meter;
 ~mixergui3 = SimpleMix.new;
 ~mixergui3.mixer = ~mixer3;
 ~mixergui3.gui;
+
+~mixergui4 = SimpleMix.new;
+~mixergui4.mixer = ~mixer4;
+~mixergui4.gui;
 
 (
  ~start = {
