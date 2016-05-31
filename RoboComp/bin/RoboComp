@@ -1,1 +1,0 @@
-irb -I /home/dbalchen/workspace/RoboComp/lib --prompt robo_prompt -r /home/dbalchen/workspace/RoboComp/lib/robo_comp.rb
