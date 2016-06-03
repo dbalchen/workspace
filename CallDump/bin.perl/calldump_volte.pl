@@ -19,8 +19,8 @@ use warnings;
 
 #---REPORT FORMAT------------------------------------
 format REPORT12 =
-@<<<<<<<<<<@<<<<<<<<<@<<<<<  @<<<<<<<<< @<<<<<<<<<<<< @<<<<<<<<<<<< @  @  @  @  @  @  @<<<<  @<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-$date,$ctime,$duration,$calling_tn,$dialed_tn,$called_tn,$cd,$ans,$o3w,$tc,$tcf,$oss,$enodeb,$switch,$srvFeat
+@<<<<<<<<<<@<<<<<<<<<@<<<<<  @<<<<<<<<< @<<<<<<<<<<<< @<<<<<<<<<<<< @  @  @  @  @  @  @<<<<<<<<<<<<<<<<<< @<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+$date,$ctime,$duration,$calling_tn,$dialed_tn,$called_tn,$cd,$ans,$o3w,$tc,$tcf,$oss,$enodeb,$srvFeat
 .
 
 #---INITIALIZE VARIBLES------------------------------
@@ -29,7 +29,7 @@ $searchstring = "";
 $callgnbr     = "";
 $calldnbr     = "";
 $dialdnbr     = "";
-$switch       = "Volte";
+#$switch       = "Volte";
 $exact = 0;
 
 #---INPUTS-------------------------------------------
@@ -192,6 +192,8 @@ sub report12 {
     $enodeb     = $tcli;
   }
 
+  $enodeb = $Stuff[15]."-".hex(substr($enodeb,0,6))."-".hex(substr($enodeb,-2,2));
+  
   $srvFeat = $Stuff[28];
 
   my $prefix = "";
