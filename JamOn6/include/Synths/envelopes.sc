@@ -41,24 +41,20 @@ SynthDef(\windspeed, {arg out = 0,out2 = 0, out3 = 0;
 }).add;
 
 
-SynthDef(\myASR,{arg out = 0, attack = 8, sustain = 1, release = 0.2, gate = 0,aoc = 0.70, cutoff = 1, da = 2;
+SynthDef(\myASR,{arg out = 0, attack = 8, sustain = 1, release = 0.2, gate = 0,cutoff = 1, da = 2;
 	var sig;
 
 	sig = Env.asr(attack,sustain,release);
-	sig = EnvGen.ar(sig,gate,doneAction:2);
-	sig = aoc*(sig - 1) + 1;
+	sig = EnvGen.ar(sig,gate,doneAction:da);
 	Out.ar(out,sig*cutoff)}).add;
 
 
-SynthDef(\myADSR,{arg out = 0, attack = 0, decay = 0.0, sustain = 0, release = 0.0, gate = 0,aoc = 1.0, cutoff = 1, da = 2;
+SynthDef(\myADSR,{arg out = 0, attack = 0, decay = 0.0, sustain = 0, release = 0.0, gate = 0,cutoff = 1, da = 2;
 	var sig;
 
 	sig = Env.adsr(attack,decay,sustain,release);
-	sig = EnvGen.ar(sig,gate,doneAction:2);
-	sig = aoc*(sig - 1) + 1;
+	sig = EnvGen.ar(sig,gate,doneAction:da);
 	Out.ar(out,sig*cutoff)}).add;
-
-
 
 
 SynthDef(\myCircle,{arg out = 0, zgate = 0;

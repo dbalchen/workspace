@@ -14,7 +14,6 @@ o.numOutputBusChannels = 24; // The next time it boots, this will take effect
 o.memSize = 2097152;
 )
 
-
 "/home/dbalchen/Music/setup.sc".load;
 
 (
@@ -44,10 +43,9 @@ o.memSize = 2097152;
 		~mix4out = Bus.audio(s,1);
 		~circleOut = Bus.audio(s,1);
 
-		~saw1Out = Bus.audio(s,1);
-		~saw2Out = Bus.audio(s,1);
-		~sine1Out = Bus.audio(s,1);
+		~pulse1Out = Bus.audio(s,1);
 		~noise1Out = Bus.audio(s,1);
+		~sine1Out = Bus.audio(s,1);
 
 		~myadsr = MyADSR.new;
 		~myadsr.init;
@@ -64,81 +62,59 @@ o.memSize = 2097152;
 		~circle = Synth("myCircle",target: ~nGroup,addAction: \addToHead);
 		~circle.set(\out,~circleOut);
 
-		~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-		~mixer1.set(\in0,~wcut);
-		~mixer1.set(\in1,~envout1);
-		~mixer1.set(\out,~mix1out);
+		~pulse1 =  Synth("Pulse",target: ~nGroup,addAction: \addToTail);
+		~pulse1.set(\out,~pulse1Out);
 
-		~mixer2 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-		~mixer2.set(\in0,~wmul);
-		~mixer2.set(\in1,~envout);
-		~mixer2.set(\out,~mix2out);
+		~pulse =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
+		~pulse.set(\cutoff,~asrOut);
+		~pulse.set(\mul, ~envout);
+		~pulse.set(\oscIn, ~pulse1Out);
+		~pulse.set(\aocIn, ~mix3out);
+
+
+		~sine1 =  Synth("Sine",target: ~nGroup,addAction: \addToTail);
+		~sine1.set(\out,~sine1Out);
+
+		~sine =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
+		~sine.set(\cutoff,~asrOut);
+		~sine.set(\mul, ~envout);
+		~sine.set(\oscIn, ~sine1Out);
+		~sine.set(\aocIn, ~mix3out);
 
 		~noise1 =  Synth("Noise1",target: ~nGroup,addAction: \addToTail);
 		~noise1.set(\freq, 77.midicps);
 		~noise1.set(\out,~noise1Out);
 
-
-		~saw1 =  Synth("Pulse",target: ~nGroup,addAction: \addToTail);
-		~saw1.set(\out,~saw1Out);
-		/*
-		~saw2 =  Synth("Saw2",target: ~nGroup,addAction: \addToTail);
-		~saw2.set(\infreq,~envout1);
-		~saw2.set(\out,~saw2Out);
-
-		~sine1 =  Synth("Saw2",target: ~nGroup,addAction: \addToTail);
-		~sine1.set(\infreq,~envout1);
-		~sine1.set(\out,~sine1Out);
-		*/
-		~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-		~mixer3.set(\in0,~envout1);
-		~mixer3.set(\in1,~asrOut);
-		~mixer3.set(\out,~mix3out);
-
-		/*
-		~mixer4 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-		~mixer4.set(\in0,~envout);
-		~mixer4.set(\in1,~asrOut);
-		~mixer4.set(\out,~mix4Out);
-
-		*/
-
-		~saw =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
-		~saw.set(\cutoff,~envout1);
-		~saw.set(\cutoff,~asrOut);
-		~saw.set(\mul, ~envout1);
-		~saw.set(\mul, ~envout);
-		~saw.set(\oscIn, ~saw1Out);
-		//~saw.set(\aocIn, ~envout);
-		//~saw.set(\aocIn, ~mix3out);
-		~saw.set(\aocIn, ~adsrOut);
-
-		/*
-		~sine =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
-		~sine.set(\cutoff,~envout1);
-		~sine.set(\gain,~wgain);
-		~sine.set(\mul, ~mix2out);
-		~sine.set(\oscIn, ~sine1Out);
-		~sine.set(\aenv, ~envout);
-		~sine.set(\aocIn, ~circleOut);
-		*/
 		~noise =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
 		~noise.set(\cutoff,~mix1out);
 		~noise.set(\gain,~wgain);
 		~noise.set(\mul, ~mix2out);
 		~noise.set(\oscIn, ~noise1Out);
-		//	~noise.set(\aocIn, ~envout);
 		~noise.set(\aocIn, ~circleOut);
+
+                ~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
+                ~mixer1.set(\in0,~wcut);
+                ~mixer1.set(\in1,~envout1);
+                ~mixer1.set(\out,~mix1out);
+
+                ~mixer2 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
+                ~mixer2.set(\in0,~wmul);
+                ~mixer2.set(\in1,~envout);
+                ~mixer2.set(\out,~mix2out);
+
+                ~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
+                ~mixer3.set(\in0,~envout1);
+                ~mixer3.set(\in1,~asrOut);
+                ~mixer3.set(\out,~mix3out);
 
 
 		~channel8 = {arg num, vel = 1;
 			var ret;
 
 			~noise1.set(\freq,num.midicps);
-			~saw1.set(\freq,(num-36).midicps);
-			//      ~sine1.set(\freq,(num-36).midicps);
-
-
+			~pulse1.set(\freq,(num-36).midicps);
+			~sine1.set(\freq,(num-36).midicps);
+			
 			ret  = Synth("myASR",addAction: \addToHead);
 			ret.set(\out,~asrOut);
 			ret.set(\release,0.00);
@@ -155,9 +131,6 @@ o.memSize = 2097152;
 
 			ret  = Synth("env0",target: ~nGroup,addAction: \addToHead);
 			ret.set(\out,~envout);
-			/*
-			ret = ~setenv.value(ret);
-			*/
 			ret  = Synth("env1",target: ~nGroup,addAction: \addToHead);
 			ret.set(\out,~envout1);
 
@@ -179,31 +152,24 @@ o.memSize = 2097152;
 ~startTimer.value(120);
 
 ~nGroup.free;
-~myadsr.gui;
+
 ~rp = {~midiBassDrum.value;~midiCantus_firmus.value;~circle.set(\zgate,1);}; // Example
 
-~rp = {~midiBassDrum.value;};
 
 ~noise1.set(\rq,0.15);
 ~noise1.set(\lagLev,4.00);
 ~noise.set(\aoc,1.0);
-
-
-
-~saw1.set(\lagLev,0.0250);
-~saw1.set(\width,0.75);
-~saw.set(\clip,1);
-~saw.set(\aoc,1.0);
-~saw.set(\cutoff,~mix3out);
-~saw.set(\mgain,2.0);
-~saw.set(\amp,0.25);
-
 ~noise.set(\spread,1);
-~mixer1.set(\bal,1);~mixer2.set(\bal,1);~mixer3.set(\bal,1);
 
-~mixer1.set(\bal,-1);~mixer2.set(\bal,-1);
-~mixer1.set(\bal,0);~mixer2.set(\bal,0);
-~mixer1.set(\bal,0.5);~mixer2.set(\bal,0.15);
+~pulse1.set(\lagLev,0.0250);
+~pulse1.set(\width,0.75);
+~pulse.set(\clip,1);
+~pulse.set(\aoc,1.0);
+~pulse.set(\cutoff,~mix3out);
+~pulse.set(\mgain,2.0);
+~pulse.set(\amp,0.25);
+
+~myadsr.gui;
 
 ~mixergui1 = SimpleMix.new;
 ~mixergui1.mixer = ~mixer1;
@@ -217,14 +183,11 @@ o.memSize = 2097152;
 ~mixergui3.mixer = ~mixer3;
 ~mixergui3.gui;
 
-~mixergui4 = SimpleMix.new;
-~mixergui4.mixer = ~mixer4;
-~mixergui4.gui;
 
 (
 ~start = {
 
-	var num = 60,timeNow;
+	var num = 120,timeNow;
 	t = TempoClock.default.tempo = num / 60;
 
 	Routine.run({

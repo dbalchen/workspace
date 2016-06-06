@@ -1,4 +1,4 @@
-SynthDef(\Noise1, {arg out = 0, freq = 550, rq = 0.5, lagLev = 0.0;
+SynthDef(\Noise, {arg out = 0, freq = 550, rq = 0.5, lagLev = 0.0;
 	var sig;
 	sig = WhiteNoise.ar(1);
 	freq = Lag.kr(freq, lagLev);
@@ -15,15 +15,11 @@ SynthDef(\Pulse, {arg out = 0, freq = 55, width = 0.5, lagLev = 0.0;
 }).add;
 
 
-SynthDef(\Saw2, {arg out = 0, infreq = 0;
+SynthDef(\Sine, {arg out = 0, lagLev = 0.0, freq = 55;
 	var sig;
-	sig = LFSaw.ar(In.ar(infreq),0.0);
+        freq = Lag.kr(freq, lagLev);
+	sig = SinOsc.ar(freq,0.5);
 	Out.ar(out, sig);
 }).add;
 
 
-SynthDef(\Sine1, {arg out = 0, infreq = 0;
-	var sig;
-	sig = SinOsc.ar(In.ar(infreq),0.5);
-	Out.ar(out, sig);
-}).add;
