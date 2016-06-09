@@ -54,6 +54,7 @@ o.memSize = 2097152;
 		~myadsr.sustain = 0.0;
 		~myadsr.release = 0.0;
 
+
 		~wind = Synth("windspeed",target: ~nGroup,addAction: \addToHead);
 		~wind.set(\out,~wcut);
 		~wind.set(\out2,~wmul);
@@ -62,26 +63,43 @@ o.memSize = 2097152;
 		~circle = Synth("myCircle",target: ~nGroup,addAction: \addToHead);
 		~circle.set(\out,~circleOut);
 
+
+
+		 ~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
+         ~mixer1.set(\in0,~wcut);
+         ~mixer1.set(\in1,~envout1);
+         ~mixer1.set(\out,~mix1out);
+
+         ~mixer2 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
+         ~mixer2.set(\in0,~wmul);
+         ~mixer2.set(\in1,~envout);
+         ~mixer2.set(\out,~mix2out);
+
+         ~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
+         ~mixer3.set(\in0,~envout1);
+         ~mixer3.set(\in1,~asrOut);
+         ~mixer3.set(\out,~mix3out);
+
 		~pulse1 =  Synth("Pulse",target: ~nGroup,addAction: \addToTail);
 		~pulse1.set(\out,~pulse1Out);
 
 		~pulse =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
-		~pulse.set(\cutoff,~asrOut);
+		~pulse.set(\cutoff,~mix3out);
 		~pulse.set(\mul, ~envout);
 		~pulse.set(\oscIn, ~pulse1Out);
-		~pulse.set(\aocIn, ~mix3out);
+		~pulse.set(\aocIn, ~adsrOut);
 
 
 		~sine1 =  Synth("Sine",target: ~nGroup,addAction: \addToTail);
 		~sine1.set(\out,~sine1Out);
 
 		~sine =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
-		~sine.set(\cutoff,~asrOut);
+		~sine.set(\cutoff,~mix3out);
 		~sine.set(\mul, ~envout);
 		~sine.set(\oscIn, ~sine1Out);
-		~sine.set(\aocIn, ~mix3out);
+		~sine.set(\aocIn, ~adsrOut);
 
-		~noise1 =  Synth("Noise1",target: ~nGroup,addAction: \addToTail);
+		~noise1 =  Synth("Noise",target: ~nGroup,addAction: \addToTail);
 		~noise1.set(\freq, 77.midicps);
 		~noise1.set(\out,~noise1Out);
 
@@ -92,20 +110,7 @@ o.memSize = 2097152;
 		~noise.set(\oscIn, ~noise1Out);
 		~noise.set(\aocIn, ~circleOut);
 
-                ~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-                ~mixer1.set(\in0,~wcut);
-                ~mixer1.set(\in1,~envout1);
-                ~mixer1.set(\out,~mix1out);
 
-                ~mixer2 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-                ~mixer2.set(\in0,~wmul);
-                ~mixer2.set(\in1,~envout);
-                ~mixer2.set(\out,~mix2out);
-
-                ~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-                ~mixer3.set(\in0,~envout1);
-                ~mixer3.set(\in1,~asrOut);
-                ~mixer3.set(\out,~mix3out);
 
 
 		~channel8 = {arg num, vel = 1;
@@ -114,12 +119,13 @@ o.memSize = 2097152;
 			~noise1.set(\freq,num.midicps);
 			~pulse1.set(\freq,(num-36).midicps);
 			~sine1.set(\freq,(num-36).midicps);
-			
+
 			ret  = Synth("myASR",addAction: \addToHead);
 			ret.set(\out,~asrOut);
 			ret.set(\release,0.00);
 			ret.set(\attack,16);
 			ret.set(\cutoff,15000);
+			ret.set(\aoc,0.7);
 			ret.set(\gate,1);
 
 			ret;
@@ -158,16 +164,22 @@ o.memSize = 2097152;
 
 ~noise1.set(\rq,0.15);
 ~noise1.set(\lagLev,4.00);
-~noise.set(\aoc,1.0);
+~noise.set(\aoc,0.50);
 ~noise.set(\spread,1);
 
 ~pulse1.set(\lagLev,0.0250);
-~pulse1.set(\width,0.75);
+~pulse1.set(\width,0.95);
 ~pulse.set(\clip,1);
 ~pulse.set(\aoc,1.0);
 ~pulse.set(\cutoff,~mix3out);
 ~pulse.set(\mgain,2.0);
+~pulse.set(\maoc,1.00);
 ~pulse.set(\amp,0.25);
+~pulse.set(\overd,1.0);
+
+
+
+~sine.set(\amp,0.15);
 
 ~myadsr.gui;
 
