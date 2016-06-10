@@ -446,7 +446,7 @@ sub processLinePMG {
 #
 ###############################################################################
 sub processTAS{
-  setCellWidth(11,10,8,11,14,14,3,3,3,3,3,3,20,7,32);
+  setCellWidth(11,10,8,11,15,14,3,3,3,3,3,3,20,7,32);
   # Loop through the input file records:
   #   Detect if record is a title or a a data line.
   #   Print the record to the excel worksheet.

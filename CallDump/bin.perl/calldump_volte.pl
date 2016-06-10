@@ -20,7 +20,7 @@ use warnings;
 #---REPORT FORMAT------------------------------------
 format REPORT12 =
 @<<<<<<<<<<@<<<<<<<<<@<<<<<  @<<<<<<<<< @<<<<<<<<<<<< @<<<<<<<<<<<< @  @  @  @  @  @  @<<<<<<<<<<<<<<<<<< @<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-$date,$ctime,$duration,$calling_tn,$dialed_tn,$called_tn,$cd,$ans,$o3w,$tc,$tcf,$oss,$enodeb,$srvFeat
+$date,$ctime,$duration,$calling_tn,$dialed_tn,$called_tn,$cd,$ans,$o3w,$tc,$tcf,$oss,$enodeb,$switch,$srvFeat
 .
 
 #---INITIALIZE VARIBLES------------------------------
@@ -29,7 +29,7 @@ $searchstring = "";
 $callgnbr     = "";
 $calldnbr     = "";
 $dialdnbr     = "";
-#$switch       = "Volte";
+$switch       = "Volte";
 $exact = 0;
 
 #---INPUTS-------------------------------------------
