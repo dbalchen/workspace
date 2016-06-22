@@ -10,7 +10,7 @@ SynthDef(\Noise, {arg out = 0, freq = 550, rq = 0.5, lagLev = 0.0;
 SynthDef(\Pulse, {arg out = 0, freq = 55, width = 0.5, lagLev = 0.0;
 	var sig;
 	freq = Lag.kr(freq, lagLev);
-	sig = LFPulse.ar(freq, 0, 0.5, 1, -0.5);
+	sig = LFPulse.ar(freq, 0, width, 1, -0.5);
 	Out.ar(out, sig);
 }).add;
 
@@ -26,3 +26,12 @@ SynthDef(\Sine, {arg out = 0, amp = 1;;
 }).add;
 
 
+SynthDef(\PulseStrings, {arg out = 0, freq = 55, width = 0.5, lagLev = 0.0;
+	var sig;
+	freq = Lag.kr(freq, lagLev);
+
+	freq = {freq * LFNoise2.kr(2.5,0.01,1)}!16;
+	
+	sig = LFPulse.ar(freq, 0, width, 1, -0.5);
+	Out.ar(out, sig);
+}).add;
