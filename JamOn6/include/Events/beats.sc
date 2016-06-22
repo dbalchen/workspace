@@ -33,3 +33,22 @@
 	\sustain, Pfunc.new({~cantus_firmus.duration.next}),
 	\dur, Pfunc.new({~cantus_firmus.wait.next})
 ).play};
+
+
+~sinedrum = MyEvents.new;
+~sinedrum.waits = [1.0,1.0,1.0,1.0];
+~sinedrum.freqs = [35,35,35,35];
+~sinedrum.probs = [1,1,1,1];
+~sinedrum.durations = [1.0,1.0,1.0,1.0] * 1;
+~sinedrum.amp = 2;
+~sinedrum.init;
+
+~midiSineDrum = {Pbind(\type, \midi,
+	\midiout, ~synth2,
+	\midicmd, \noteOn,
+	\note,  Pfunc.new({~sinedrum.freq.next}- 60),
+	\amp, ~sinedrum.amp,
+	\chan, 7,
+	\sustain, Pfunc.new({~sinedrum.duration.next}),
+	\dur, Pfunc.new({~sinedrum.wait.next})
+).play};
