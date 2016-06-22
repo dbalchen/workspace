@@ -27,30 +27,23 @@ s.quit;
     "/home/dbalchen/Music/JamOn6/include/Synths/oscillator.sc".load;
     "/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
 
-    SynthDef(\bellTrig, {arg out=0,gate = 0;
-	var sig;
-	sig = Trig.ar(gate, SampleDur.ir)!2;
-	Out.ar(out,sig);}).add;
 
-    
-    SynthDef(\tbell, { |outbus, gate = 0, freq = 2434, attack = 0, release = 0.1, fscale = 1, amp = 0.5, decayscale = 0.5, lag = 0, trigIn = 0|
+
+    SynthDef(\tbell, { |outbus, gate = 0, freq = 2434, attack = 0, release = 0.1, fscale = 1, amp = 0.5, decayscale = 0.5, lag = 10, trigIn = 0|
 
 	  var sig, input, first, freqscale, env;
 
 
-	//env = EnvGen.kr(Env.linen(attack,decayscale,release),gate,doneAction:2);
+	env = EnvGen.kr(Env.linen(attack,decayscale,release),gate,doneAction:2);
 
 	freqscale = freq / (2434/fscale);
+  freqscale = Lag3.kr(freqscale, lag);
 
-	freqscale = Lag3.kr(freqscale, lag);
+  decayscale = Lag3.kr(decayscale, lag);
 
-	decayscale = Lag3.kr(decayscale, lag);
+	input = LPF.ar(Trig.ar(gate, SampleDur.ir)!2, 10000 * freqscale);
+	//input = LPF.ar(In.ar(trigIn)!2, 10000 * freqscale);
 
-
-
-	//	input = LPF.ar(Trig.ar(gate, SampleDur.ir)!2, 10000 * freqscale);
-	input = LPF.ar(In.ar(trigIn), 10000 * freqscale);
-	
 	sig = DynKlank.ar(`[
 
 			    [
@@ -140,9 +133,8 @@ s.quit;
 			    ], input,freqscale, 0, decayscale);
 
 
-	sig = sig;//*env;
+	sig = sig*env;
 
-	DetectSilence.ar(sig, doneAction: 2);
 
 	Out.ar(outbus, sig*amp);
 
@@ -170,9 +162,7 @@ s.quit;
     ~noise1Out = Bus.audio(s,1);
     ~sine1Out = Bus.audio(s,1);
     ~bellOut = Bus.audio(s,1);
-    ~trigOut = Bus.audio(s,1);
 
-    
     ~myadsr = MyADSR.new;
     ~myadsr.init;
     ~myadsr.attack = 0.2;
@@ -189,10 +179,9 @@ s.quit;
     ~circle = Synth("myCircle",target: ~nGroup,addAction: \addToHead);
     ~circle.set(\out,~circleOut);
 
-    ~belltrig = Synth("bellTrig",target: ~nGroup,addAction: \addToHead);
-    ~belltrig.set(\out,~trigOut);
+//    ~belltrig = Synth("bellTrig",target: ~nGroup,addAction: \addToHead);
+ //   ~belltrig.set(\out,~trigOut);
 
-    
     ~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
     ~mixer1.set(\in0,~wcut);
     ~mixer1.set(\in1,~envout1);
@@ -216,6 +205,7 @@ s.quit;
     ~pulse.set(\mul, ~envout);
     ~pulse.set(\oscIn, ~pulse1Out);
     ~pulse.set(\aocIn, ~adsrOut);
+/*
 
     ~bell = Synth("tbell",target: ~nGroup,addAction: \addToTail);
     ~bell.set(\trigIn,~trigOut);
@@ -223,8 +213,8 @@ s.quit;
     ~bell.set(\fscale,1);
     ~bell.set(\release,0.1);
     ~bell.set(\attack,0.0);
-    ~bell.set(\amp,~amp); 
-
+    ~bell.set(\amp,0.5);
+*/
     /*
       ~sine1 =  Synth("Sine",target: ~nGroup,addAction: \addToTail);
       ~sine1.set(\out,~sine1Out);
@@ -250,17 +240,25 @@ s.quit;
     ~noise.set(\aocIn, ~circleOut);
 
 
+
+~dcs = 1.0;
+~fscale = 2;
+~release = 0.1;
+~attack = 0.0;
+~amp = 0.5;
+~pitch = 55.00;
+
     ~channel8 = {arg num, vel = 1;
       var ret;
 
-      ~noise1.set(\freq,num.midicps);
-      ~pulse1.set(\freq,(num-36).midicps);
-      ~bell.set(\freq,(num + 12).midicps);
+     ~noise1.set(\freq,num.midicps);
+     ~pulse1.set(\freq,(num-36).midicps);
+     ~pitch = (num - 36).midicps;
       //			~sine1.set(\freq,(num-36).midicps);
       ret  = Synth("myASR",addAction: \addToHead);
       ret.set(\out,~asrOut);
-      ret.set(\release,0.00);
-      ret.set(\attack,16);
+      ret.set(\release,0.02);
+      ret.set(\attack,8);
       ret.set(\cutoff,15000);
       ret.set(\aoc,0.7);
       ret.set(\gate,1);
@@ -271,7 +269,6 @@ s.quit;
     ~channel9 = {arg num, vel = 1;
       var ret;
 
-      //~bell.set(\gate,0);
       ret  = Synth("env0",target: ~nGroup,addAction: \addToHead);
       ret.set(\out,~envout);
       ret  = Synth("env1",target: ~nGroup,addAction: \addToHead);
@@ -281,16 +278,15 @@ s.quit;
       ret.set(\out,~adsrOut);
       ~myadsr.setADSR(ret);
 
-      /*
+
 	~bell = Synth("tbell");
-	~bell.set(\freq,(num + 12).midicps);
+			~bell.set(\freq,~pitch);//(65-36).midicps);
 	~bell.set(\decayscale,~dcs);
 	~bell.set(\fscale,~fscale);
 	~bell.set(\release,~release);
 	~bell.set(\attack,~attack);
 	~bell.set(\gate,1);
 	~bell.set(\amp,~amp);
-      */
       ~nGroup.set(\gate,1);
       ~nGroup;
 
@@ -304,11 +300,11 @@ s.quit;
 ~startup.value;
 ~startTimer.value(120);
 
-~dcs = 0.3;
-~fscale = 2;
+~dcs = 0.04;
+~fscale = 1.00;
 ~release = 0.1;
 ~attack = 0.0;
-~amp = 0.5;
+~amp = 0.1;
 
 ~nGroup.free;
 
@@ -317,7 +313,7 @@ s.quit;
 
 ~noise1.set(\rq,0.15);
 ~noise1.set(\lagLev,4.00);
-~noise.set(\aoc,1.0);
+~noise.set(\aoc,0.0);
 ~noise.set(\spread,1);
 
 ~pulse1.set(\lagLev,0.0250);
@@ -325,9 +321,9 @@ s.quit;
 ~pulse.set(\clip,1);
 ~pulse.set(\aoc,1.0);
 ~pulse.set(\cutoff,~mix3out);
-~pulse.set(\mgain,1.0);
-~pulse.set(\maoc,1.00);
-~pulse.set(\amp,0.5);
+~pulse.set(\mgain,01.0);
+~pulse.set(\maoc,1.0);
+~pulse.set(\amp,0.10);
 ~pulse.set(\overd,1.2);
 
 
