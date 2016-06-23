@@ -25,11 +25,20 @@ s.quit;
     "/home/dbalchen/Music/JamOn6/include/Synths/bdSynth.sc".load;
     "/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
     "/home/dbalchen/Music/JamOn6/include/Synths/oscillator.sc".load;
-    "/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
+	"/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
 
+SynthDef(\vca, {arg out = 0, in = 0, amp = 1, spread = 0, center = 0,
+	clip = 1, overd = 1; 
+	var sig;
+	sig = In.ar(in,1);
+	sig = sig*overd;
+	sig = sig.clip2(clip);
+	sig = Splay.ar(sig,spread,center:center);
 
+	OffsetOut.ar(out, sig*amp);
+}).add;
 
-    SynthDef(\tbell, { |outbus, gate = 0, freq = 2434, attack = 0, release = 0.1, fscale = 1, amp = 0.5, decayscale = 0.5, lag = 10, trigIn = 0|
+    SynthDef(\tbell, { |out, gate = 0, freq = 2434, attack = 0, release = 0.1, fscale = 1, amp = 0.5, decayscale = 0.5, lag = 10, trigIn = 0|
 
 	  var sig, input, first, freqscale, env;
 
@@ -53,8 +62,8 @@ s.quit;
 
 			     LFNoise1.kr(1.5).range(5435, 5440) - Line.kr(35, 0, 1),
 
-			     LFNoise1.kr(1.5).range(5480, 5485) - Line.kr(10, 0, 0.5),
-
+					LFNoise1.kr(1.5).range(5480, 5485) - Line.kr(10, 0, 0.5)//,
+					/*
 			     LFNoise1.kr(2).range(8435, 8445) + Line.kr(15, 0, 0.05),
 
 			     LFNoise1.kr(2).range(8665, 8670),
@@ -70,6 +79,7 @@ s.quit;
 			     LFNoise1.kr(2).range(10627, 10636) + Line.kr(35, 0, 0.05),
 
 			     LFNoise1.kr(2).range(14689, 14697) - Line.kr(10, 0, 0.05)
+					*/
 
 			     ],
 
@@ -81,8 +91,8 @@ s.quit;
 
 			     LFNoise1.kr(1).range(-12, -6).dbamp,
 
-			     LFNoise1.kr(1).range(-12, -6).dbamp,
-
+					LFNoise1.kr(1).range(-12, -6).dbamp//,
+					/*
 			     -20.dbamp,
 
 			     -20.dbamp,
@@ -97,7 +107,7 @@ s.quit;
 
 			     -20.dbamp,
 
-			     -25.dbamp
+						-25.dbamp  */
 
 			     ],
 
@@ -109,8 +119,8 @@ s.quit;
 
 			     5,
 
-			     5,
-
+					5//,
+					/*
 			     0.6,
 
 			     0.5,
@@ -125,16 +135,18 @@ s.quit;
 
 			     0.4,
 
-			     0.6
+						0.6 */
 
 			     ] * freqscale.reciprocal.pow(0.5)
 
 			    ], input,freqscale, 0, decayscale);
 
 
-	sig = sig*env;
+		sig = sig*env;
 
-	Out.ar(outbus, sig*amp);
+		sig = Mix.new(sig);
+
+	Out.ar(out, sig*amp);
 
       }).add;
 
@@ -159,7 +171,8 @@ s.quit;
     ~pulse1Out = Bus.audio(s,1);
     ~noise1Out = Bus.audio(s,1);
     ~sine1Out = Bus.audio(s,1);
-    ~bellOut = Bus.audio(s,1);
+	~bellOut = Bus.audio(s,1);
+	~vcaOut = Bus.audio(s,1);
 
     ~myadsr = MyADSR.new;
     ~myadsr.init;
@@ -195,7 +208,11 @@ s.quit;
 
     ~mixer4 = Synth("two2one",addAction: \addToTail);
     ~mixer4.set(\in0,~bellOut);
-    ~mixer4.set(\in1,~sine1Out);
+	~mixer4.set(\in1,~sine1Out);
+	~mixer4.set(\out,~vcaOut);
+
+	~vca1 =  Synth("vca",addAction: \addToTail);
+	~vca1.set(\in,~vcaOut);
 
     ~pulse1 =  Synth("Pulse",target: ~nGroup,addAction: \addToTail);
     ~pulse1.set(\out,~pulse1Out);
@@ -205,19 +222,6 @@ s.quit;
     ~pulse.set(\mul, ~envout);
     ~pulse.set(\oscIn, ~pulse1Out);
     ~pulse.set(\aocIn, ~adsrOut);
-
-    /*
-      ~sine1 =  Synth("Sine",target: ~nGroup,addAction: \addToTail);
-      ~sine1.set(\out,~sine1Out);
-
-      ~sine =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
-      ~sine.set(\cutoff,~mix1out);
-      ~sine.set(\cutoff,~mix3out);
-      ~sine.set(\mul, ~envout);
-      ~sine.set(\oscIn, ~sine1Out);
-      ~sine.set(\aocIn, ~adsrOut);
-    */
-
 
     ~noise1 =  Synth("Noise",target: ~nGroup,addAction: \addToTail);
     ~noise1.set(\freq, 77.midicps);
@@ -247,13 +251,15 @@ s.quit;
       ret.set(\fscale,~fscale);
       ret.set(\release,~release);
       ret.set(\attack,~attack);
-      ret.set(\gate,1);
       ret.set(\amp,~amp);
       ret.set(\out,~bellOut);
-
-      ret =  Synth("Sine",addAction: \addToHead);
+	  ret.set(\gate,1);
+		
+	  ret =  Synth("Sine",addAction: \addToHead);
+		ret.set(\out,~sine1Out);
+		ret.set(\amp,0.5);
       ret.set(\gate,1);
-      ret.set(\out,~sine1Out);
+
       ret;
     };
     
@@ -300,30 +306,31 @@ s.quit;
 ~startup.value;
 ~startTimer.value(120);
 
-~dcs = 0.04;
-~fscale = 1.00;
-~release = 0.1;
-~attack = 0.0;
-~amp = 0.1;
+~dcs = 4.4;
+~fscale = 4.00;
+~release = 0.2;
+~attack = 2.0;
+~amp = 0.025;
 
 ~nGroup.free;
 
-~rp = {~midiBassDrum.value;~midiSineDrum.value,~midiCantus_firmus.value;~circle.set(\zgate,1);}; // Example
+~rp = {~midiBassDrum.value;~midiSineDrum.value;~midiCantus_firmus.value;~circle.set(\zgate,1);}; // Exampl;
 
 
 ~noise1.set(\rq,0.15);
 ~noise1.set(\lagLev,4.00);
-~noise.set(\aoc,0.0);
+~noise.set(\aoc,1.0);
 ~noise.set(\spread,1);
+~noise.set(\amp,3);
 
 ~pulse1.set(\lagLev,0.0250);
-~pulse1.set(\width,0.75);
+~pulse1.set(\width,0.5);
 ~pulse.set(\clip,1);
 ~pulse.set(\aoc,1.0);
 ~pulse.set(\cutoff,~mix3out);
-~pulse.set(\mgain,01.0);
+~pulse.set(\mgain,2.0);
 ~pulse.set(\maoc,1.0);
-~pulse.set(\amp,0.10);
+~pulse.set(\amp,0.5);
 ~pulse.set(\overd,1.2);
 
 
