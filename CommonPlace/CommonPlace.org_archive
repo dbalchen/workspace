@@ -2099,3 +2099,128 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: TODO
   :ARCHIVE_ITAGS: noexport
   :END:
+
+* Unformatted 
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2016-06-16 Thu 15:48
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+ :  select event_type, 
+ :  total_chrg_amount,
+ :  surcharge_amount,
+ :  home_sid, serve_sid,
+ :  ciber_file_name_1||ciber_file_name_2,
+ :  file_report_period,
+ :  bp_start_date settlement_period
+ :  from PRDAPPC.USC_ROAM_EVNTS
+ :  where prod_id = 2 and bp_start_date = '16-FEB-2016' and 
+ :  
+ :  rownum < 1000
+ :  
+ :  \\WIMIDFILE06\Share\Share\IS Billing Systems Department\TC_KPI
+ :  [‎12/‎11/‎2015 2:14 PM] Smith, David: 
+ :  <\\WIMIDFILE06\Share\Share\IS Billing Systems Department\TC_KPI> 
+ :  <\\WIMIDFILE06\Share\Share\IS Billing Systems Department\AEM> 
+ :  <\\WIMIDFILE06\Share\Share\IS Billing Systems Department\EM1> 
+ :  
+ :  
+ :  
+ :  This where we are at....
+ :  
+ :  select * from PRDAPPC.USC_ROAM_EVNTS where prod_id = 2 and bp_start_date = '16-FEB-2016' and home_sid = '30985' and serve_sid = '01522' and total_chrg_amount > 0 and event_date >= '24-FEB-2016' and event_date < '26-FEB-2016' 
+ :   and ciber_file_name_1||ciber_file_name_2 = 'SDIRI_FCIBER_ID000472_T20160226172115.DAT' and event_type = 'Voice'
+ :  
+ :  select * from prm_app.prm_event_dtl_param where nr_param_2_val = '436' 
+ :  
+ :  select * from prm_app.ic_accumulated_chrg where rownum < 100;
+ :  
+ :  
+ :  select /*+ parrallel (a,4)*/ au_id, home_sid,serve_sid,count(*),sum(TOTAL_CHRG_AMOUNT) from PRDAPPC.USC_ROAM_EVNTS where prod_id = 2 
+ :  and home_sid in ('00166','26309','31042') and event_date < '01-APR-2016' and bp_start_date = '16-MAR-2016'  and event_type = 'Voice' group by au_id, home_sid,serve_sid;
+ :  
+ :  
+ :  
+ :  -- and event_date >= '16-MAR-2016' and event_date < '19-MAR-2016' 
+ :  and ciber_file_name_1||ciber_file_name_2 in (
+ :  'SDIRI_FCIBER_ID000008_T20160318162957.DAT',
+ :  'SDIRI_FCIBER_ID000009_T20160318164358.DAT',
+ :  'SDIRI_FCIBER_ID000010_T20160318164753.DAT',
+ :  'SDIRI_FCIBER_ID000011_T20160318164904.DAT',
+ :  'SDIRI_FCIBER_ID000533_T20160318165116.DAT',
+ :  'SDIRI_FCIBER_ID000534_T20160318172115.DAT',
+ :  'SDIRI_FCIBER_ID000535_T20160318175115.DAT',
+ :  'SDIRI_FCIBER_ID000535_T20160318175199.DAT',
+ :  'SDIRI_FCIBER_ID000536_T20160318182115.DAT',
+ :  'SDIRI_FCIBER_ID000536_T20160318182199.DAT')
+ :  and event_type = 'Voice' group by home_sid,serve_sid
+ :  
+ :  select * from PRDAPPC.USC_ROAM_EVNTS where prod_id = 2 and bp_start_date = '16-MAR-2016'  
+ :  and home_sid = '01239'  and serve_sid = '00017'
+ :  and ciber_file_name_1||ciber_file_name_2 in (
+ :  'SDIRI_FCIBER_ID000008_T20160318162957.DAT',
+ :  'SDIRI_FCIBER_ID000009_T20160318164358.DAT',
+ :  'SDIRI_FCIBER_ID000010_T20160318164753.DAT',
+ :  'SDIRI_FCIBER_ID000011_T20160318164904.DAT',
+ :  'SDIRI_FCIBER_ID000533_T20160318165116.DAT',
+ :  'SDIRI_FCIBER_ID000534_T20160318172115.DAT',
+ :  'SDIRI_FCIBER_ID000535_T20160318175115.DAT',
+ :  'SDIRI_FCIBER_ID000535_T20160318175199.DAT',
+ :  'SDIRI_FCIBER_ID000536_T20160318182115.DAT',
+ :  'SDIRI_FCIBER_ID000536_T20160318182199.DAT')
+ :  and event_type = 'Voice' 
+ :  
+ :  select unique(ciber_file_name_1||ciber_file_name_2) from PRDAPPC.USC_ROAM_EVNTS where prod_id = 2 and bp_start_date = '16-MAR-2016'  
+ :  and event_date >= '18-MAR-2016' and event_date < '19-MAR-2016' 
+ :  -- and ciber_file_name_1||ciber_file_name_2 = 'SDIRI_FCIBER_ID000472_T20160226172115.DAT' 
+ :  and event_type = 'Voice'
+ :  
+ :  select carrier_cd company_code, au_prod_id, au_evt_id, crdr_ind, gl_account, round(sum(au_charge),2)
+ :  from usc_sap_extract_v where au_prod_cat_id = 'IN' and au_bp_start_date = '16-Feb-2016'
+ :  group by carrier_cd, au_prod_id, au_evt_id, crdr_ind, gl_account order by 1, 2, 3, 4, 6, 5;
+ :  
+ :  
+ :  
+ :  
+ :  select * from ac1_control_hist where  file_name = 'SDIRI_FCIBER_ID000073_T20160409164014.DAT'
+ :  
+ :  
+ :  select * from ape1_rated_event where 
+ :  physical_source =  513475389989200 
+ :  and
+ :   rownum < 100
+ :  
+ :  select * from ape1_rated_event where rownum < 100
+ :  
+ :  select * from ac_physical_files where file_name = 'SDIRI_FCIBER_ID000595_T20160408175199.DAT'
+ :  
+ :  select * from ac1_control_hist where identifier = 513475389989200
+ :  
+ :  
+ :  
+ :  gunzip -c *201603[1,2,3]*gz | grep '^98' | grep 160415 | sort -u| perl -ne '$buff = $_; if((substr($buff,37,6) == 160415)) { print $buff;}' | more
+ :  
+ :  
+ :  JL?Iv&4M0&Tg
+ :  
+ :  
+ :  
+ :  
+ :   Settlement Date is equal to / is in  04/15/2016	
+ :  AND	
+ :  Filter on Column "My SID/BID"."My SID Code" in ( '43899','43976','43985', '45705')
+ :  AND	 Record Type is equal to / is in  32	
+ :  AND	 Process Date  is between  03/16/2016 and 03/31/2016	
+ :  AND	
+ :  Filter on Column "My Legacy SID/BID"."My Legacy SID Code" in ('00166','26309','31042')
+ :  
+ :  
+ :  egrep '00166|26309|31042'
+ :  
+ :  2016-04-15	2016-03-16	43899	00005	61403	04170	1373.33	2869656576	1373.33
+ :  
+ :  grep 00005 | grep 04170 | grep 1373
+ :  
+ :  
+ :  
+ : perl -ne '@buff = split(/\t/,$_); if ($buff[3] eq '00166' || $buff[3] eq '26309' || $buff[3] eq '31042') {print $_;}'
