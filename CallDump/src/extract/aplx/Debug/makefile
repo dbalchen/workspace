@@ -8,8 +8,8 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include subdir.mk
 -include src/subdir.mk
+-include subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -29,13 +29,13 @@ all: Aplxextract
 Aplxextract: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc  -o"Aplxextract" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc  -o "Aplxextract" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES) Aplxextract
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) Aplxextract
 	-@echo ' '
 
 .PHONY: all clean dependents

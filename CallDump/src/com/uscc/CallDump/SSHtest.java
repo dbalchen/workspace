@@ -17,7 +17,7 @@ public class SSHtest {
         Session session = null;
         try {
             session = jsch.getSession("calldmp", "kpr01scdap", 22);
-            session.setConfig("StrictHostKeyChecking", "no");
+//            session.setConfig("StrictHostKeyChecking", "no");
             session.setPassword("BooGoo900");
             session.connect();
 
