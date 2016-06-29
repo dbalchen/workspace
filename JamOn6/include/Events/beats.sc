@@ -16,22 +16,22 @@
 	\dur, Pfunc.new({~bassdrum.wait.next})
 ).play};
 
-~cantus_firmus = MyEvents.new;
-~cantus_firmus.waits = [8.0,4.0,4.0,8.0,4.0,4.0];
-~cantus_firmus.freqs = [65,63,67,65,63,60] + 12;
-~cantus_firmus.probs = [1,1,1,1,1,1];
-~cantus_firmus.durations = [8.0,4.0,4.0,8.0,4.0,4.0];
-~cantus_firmus.amp =1;
-~cantus_firmus.init;
+~string1_firmus = MyEvents.new;
+~string1_firmus.waits = [8.0,4.0,4.0,8.0,4.0,4.0];
+~string1_firmus.freqs = [65,63,67,65,63,60] + 12;
+~string1_firmus.probs = [1,1,1,1,1,1];
+~string1_firmus.durations = [8.0,4.0,4.0,8.0,4.0,4.0];
+~string1_firmus.amp =1;
+~string1_firmus.init;
 
-~midiCantus_firmus = {Pbind(\type, \midi,
+~midistring1_firmus = {Pbind(\type, \midi,
 	\midiout, ~synth2,
 	\midicmd, \noteOn,
-	\note,  Pfunc.new({~cantus_firmus.freq.next}- 60),
-	\amp, ~cantus_firmus.amp,
+	\note,  Pfunc.new({~string1_firmus.freq.next}- 60),
+	\amp, ~string1_firmus.amp,
 	\chan, 8,
-	\sustain, Pfunc.new({~cantus_firmus.duration.next}),
-	\dur, Pfunc.new({~cantus_firmus.wait.next})
+	\sustain, Pfunc.new({~string1_firmus.duration.next}),
+	\dur, Pfunc.new({~string1_firmus.wait.next})
 ).play};
 
 
@@ -51,4 +51,23 @@
 	\chan, 7,
 	\sustain, Pfunc.new({~sinedrum.duration.next}),
 	\dur, Pfunc.new({~sinedrum.wait.next})
+).play};
+
+
+~string1_firmus = MyEvents.new;
+~string1_firmus.waits = [8.0,4.0,4.0,8.0,4.0,4.0];
+~string1_firmus.freqs = [65,63,67,65,63,60] + 12;
+~string1_firmus.probs = [1,1,1,1,1,1];
+~string1_firmus.durations = [8.0,4.0,4.0,8.0,4.0,4.0];
+~string1_firmus.amp =1;
+~string1_firmus.init;
+
+~midistring1_firmus = {Pbind(\type, \midi,
+	\midiout, ~synth2,
+	\midicmd, \noteOn,
+	\note,  Pfunc.new({~string1_firmus.freq.next}- 60),
+	\amp, ~string1_firmus.amp,
+	\chan, 6,
+	\sustain, Pfunc.new({~string1_firmus.duration.next}),
+	\dur, Pfunc.new({~string1_firmus.wait.next})
 ).play};

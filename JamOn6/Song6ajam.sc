@@ -32,7 +32,7 @@ o.memSize = 2097152;
 		SynthDef("eStrings",
 			{
 				arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,bassamt = 0.09,
-				attack = 4, decay = 4, sustain = 0, release = 1, fattack = 0.0, fsustain = 1,
+				attack = 4, decay = 4, sustain = 0, release = 0.5, fattack = 0.0, fsustain = 1,
 				frelease = 0.05, aoc = 0, gain = 1, cutoff = 10000.00, bend = 0;
 
 				var sig, env, fenv;
@@ -126,28 +126,6 @@ o.memSize = 2097152;
 		~mixer4.set(\in1,~sine1Out);
 		~mixer4.set(\out,~vcaOut);
 
-/*
-		~strings1  =  Synth("sawStrings",addAction: \addToTail);
-		~strings1.set(\LagLev,0.5);
-		~strings1.set(\out,~stringsOut);
-		~strings1.set(\freq, 220);
-		~strings1.set(\width, 0.8);
-
-
-		~vca1 =  Synth("vca",addAction: \addToTail);
-		~vca1.set(\in,~vcaOut);
-
-
-
-		~vca2 =  Synth("vca",addAction: \addToTail);
-		~vca2.set(\in,~stringsOut);
-		~vca2.set(\spread, 1);
-		//	   ~vca2.set(\aocIn, ~envout);
-		~vca2.set(\aoc, 0.6);
-		~vca2.set(\aocIn,~circleOut);
-		~vca2.set(\amp, 1.0);
-
-
 
 		~pulse1 =  Synth("Pulse",target: ~nGroup,addAction: \addToTail);
 		~pulse1.set(\out,~pulse1Out);
@@ -175,25 +153,32 @@ o.memSize = 2097152;
 		~attack = 0.0;
 		~amp = 0.200;
 		~pitch = 440.00;
-*/
 
+		~channel6 = {arg num, vel = 1;
+			var ret;
+
+			ret = Synth("eStrings",target: ~nGroup2,addAction: \addToTail);
+			ret.set(\freq,(num-24).midicps);
+			ret.set(\release,0.5);
+			ret.set(\frelease,1);
+			ret.set(\gain,1.0);
+			ret.set(\fattack,4);
+			ret.set(\gate,1);
+
+			ret;
+		};
 		~channel7 = {arg num, vel = 1;
 			var ret;
 
-			~lbell.set(\gate,0);
 			ret = Synth("tbell",addAction: \addToHead);
 			ret.set(\freq,~pitch);
-
 			ret.set(\decayscale,~dcs);
 			ret.set(\fscale,~fscale);
 			ret.set(\release,~release);
 			ret.set(\attack,~attack);
-			//ret.set(\sustain,~dcs);
 			ret.set(\amp,~amp);
 			ret.set(\out,~bellOut);
 			ret.set(\gate,1);
-
-			//~lbell = ret;
 
 			ret =  Synth("Sine",addAction: \addToHead);
 			ret.set(\out,~sine1Out);
@@ -208,8 +193,6 @@ o.memSize = 2097152;
 
 			~noise1.set(\freq,num.midicps);
 			~pulse1.set(\freq,(num-36).midicps);
-			~strings1.set(\freq,(num-24).midicps);
-
 
 			~pitch = (num - 36).midicps;
 
@@ -219,7 +202,6 @@ o.memSize = 2097152;
 			ret.set(\attack,16);
 			ret.set(\cutoff,1);
 			ret.set(\aoc,1.0);
-			ret.set(\gate,1);
 
 			ret;
 		};
@@ -256,7 +238,7 @@ o.memSize = 2097152;
 
 ~nGroup.free;
 ~strings1.set(\LagLev,0.0);
-~rp = {~midiBassDrum.value;~midiSineDrum.value;~midiCantus_firmus.value;~circle.set(\zgate,1);}; // Exampl;
+~rp ={~midiBassDrum.value;~midiSineDrum.value;~midiCantus_firmus.value;~midistring1_firmus.value;~circle.set(\zgate,1);}; // Exampl;
 
 
 
@@ -278,15 +260,6 @@ o.memSize = 2097152;
 ~pulse.set(\amp,0.40);
 ~pulse.set(\amp,0.00);
 ~pulse.set(\overd,1.2);
-
-~strings1.set(\LagLev,1.5);
-~strings1.free;
-
-~vca2.set(\spread, 1);
-~vca2.set(\aoc, 0.6);
-~vca2.set(\aocIn,~circleOut);
-~vca2.set(\amp, 3.0);
-~sine.set(\amp,0.7600);
 
 ~myadsr.gui;
 
