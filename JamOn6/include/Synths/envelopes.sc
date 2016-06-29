@@ -74,3 +74,15 @@ SynthDef(\two2one, {arg out=0,in0 = 0, in1 = 0, bal = 0;
 	sig = (In.ar(in0)*amp1) + (In.ar(in1)*amp2);
 	Out.ar(out,sig);
 }).add;
+
+
+    SynthDef(\vca, {arg out = 0, in = 0, amp = 1, spread = 0, center = 0,
+	  clip = 1, overd = 1; 
+	var sig;
+	sig = In.ar(in,1);
+	sig = sig*overd;
+	sig = sig.clip2(clip);
+	sig = Splay.ar(sig,spread,center:center);
+
+	OffsetOut.ar(out, sig*amp);
+      }).add;
