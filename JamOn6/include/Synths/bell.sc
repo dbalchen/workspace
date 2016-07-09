@@ -24,21 +24,7 @@ SynthDef(\tbell, { |out, gate = 0, freq = 2434, attack = 0, release = 0.1, fscal
 
 			LFNoise1.kr(1.5).range(5482, 5483) - Line.kr(10, 0, 0.5),
 
-			LFNoise1.kr(2).range(8438, 8443) + Line.kr(15, 0, 0.05),
-
-			LFNoise1.kr(2).range(8665, 8670),
-
-			LFNoise1.kr(2).range(8704, 8709),
-
-			LFNoise1.kr(2).range(8807, 8817),
-
-			LFNoise1.kr(2).range(9570, 9607),
-
-			LFNoise1.kr(2).range(10567, 10572) - Line.kr(20, 0, 0.05),
-
-			LFNoise1.kr(2).range(10627, 10636) + Line.kr(35, 0, 0.05),
-
-			LFNoise1.kr(2).range(14689, 14697) - Line.kr(10, 0, 0.05)
+			LFNoise1.kr(2).range(8438, 8443) + Line.kr(15, 0, 0.05)
 
 		],
 
@@ -52,21 +38,7 @@ SynthDef(\tbell, { |out, gate = 0, freq = 2434, attack = 0, release = 0.1, fscal
 
 			LFNoise1.kr(1).range(-12, -6).dbamp,
 
-			-20.dbamp,
-
-			-20.dbamp,
-
-			-20.dbamp,
-
-			-25.dbamp,
-
-			-10.dbamp,
-
-			-20.dbamp,
-
-			-20.dbamp,
-
-			-25.dbamp
+			-20.dbamp
 
 		],
 
@@ -79,20 +51,6 @@ SynthDef(\tbell, { |out, gate = 0, freq = 2434, attack = 0, release = 0.1, fscal
 			5,
 
 			5,
-
-			0.6,
-
-			0.5,
-
-			0.3,
-
-			0.25,
-
-			0.4,
-
-			0.5,
-
-			0.4,
 
 			0.6
 

@@ -6,9 +6,9 @@ SynthDef(\bdSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spread 
 	sig = In.ar(oscIn,1);
 	gain = In.ar(gain) + mgain;
 	cutoff = In.ar(cutoff);
-	
+
 	mul = maoc*(In.ar(mul) - 1) + 1;
-	
+
 	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
 
 	aoc = aoc*(In.ar(aocIn) - 1) + 1;
