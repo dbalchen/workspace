@@ -36,11 +36,11 @@ end
 
 
 if File.identical?(__FILE__, $0)
-  require 'Root.rb'
-  require 'Pitch.rb'
-  require 'Notes.rb'
-  require 'Composition.rb'
-  require 'Track.rb'
+  require_relative 'Root.rb'
+  require_relative 'Pitch.rb'
+  require_relative 'Notes.rb'
+  require_relative 'Composition.rb'
+  require_relative 'Track.rb'
  # require 'Rhythm.rb'
   require 'yaml'
 

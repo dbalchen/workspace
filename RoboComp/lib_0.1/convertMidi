@@ -1,10 +1,10 @@
 #! /usr/bin/ruby
 #1.9.1
 
-require 'Root.rb'
-require 'Notes.rb'
-require 'Composition.rb'
-require 'Track.rb'
+require_relative 'Root.rb'
+require_relative 'Notes.rb'
+require_relative 'Composition.rb'
+require_relative 'Track.rb'
 require 'yaml'
 
 #input = `cat /home/dbalchen/workspace/RoboComp/lib_0.1/test.yaml`;
