@@ -1,11 +1,11 @@
 #! /usr/bin/ruby
 #1.9.1
 
-require 'Root.rb'
-require 'Notes.rb'
-require 'Pitch.rb'
-require 'Composition.rb'
-require 'Track.rb'
+require_relative 'Root.rb'
+require_relative 'Notes.rb'
+require_relative 'Pitch.rb'
+require_relative 'Composition.rb'
+require_relative 'Track.rb'
 require 'yaml'
 
 midi_input = ARGV[0]

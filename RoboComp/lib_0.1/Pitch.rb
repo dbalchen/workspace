@@ -1,6 +1,6 @@
 #! /usr/bin/ruby
 #1.9.1
-require 'Root.rb'
+require_relative 'Root.rb'
 
 class Pitch < Root
   attr :toneRow, true
