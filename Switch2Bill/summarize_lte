@@ -1,0 +1,62 @@
+#!/usr/bin/ksh
+
+basedir="/m04/switch"
+
+if [ -f ${basedir}/indicator.file ]
+then
+   exit;
+fi
+touch ${basedir}/indicator.file
+dt=$1
+
+if [ "$1" = "" ]
+then
+   dt=`date +%Y%m%d`
+fi
+
+status_file="lte_files.done"
+
+#files=`find ${basedir}/audit -name "*AAA*.sum.done"  -type f -mtime +7`
+#for file in $files
+#do
+#   rm -f ${file}
+#done
+
+files=`find ${basedir}/lte -name "*PGW*$dt*.DAT*" `
+
+rm -f ${basedir}/audit/lte_summarize.txt
+
+for file in $files
+do
+   basename=`basename ${file}`
+   basefile=`basename ${file} .gz`
+   grep ${basefile} ${basedir}/${status_file} > /dev/null
+   rc=$?
+   if [ "$rc" -ne "0" ]
+   then
+      echo "Processing: $basefile"
+
+      if [ "${basename}" = "${basefile}" ]
+      then
+         cmd="cat " 
+      else
+         cmd="gunzip -c "
+      fi
+      ${cmd} ${file} | grep '^DR' | cut -d'|' -f8,15,16,40,41 | grep -v '^|' | grep '|311580|' >> ${basedir}/audit/lte_summarize.txt
+      echo ${basefile} >> ${basedir}/${status_file}
+   else 
+      echo "Skipping: $basefile"
+   fi
+done
+
+if [ -f ${basedir}/audit/lte_summarize.txt ]
+then
+   
+   dt=`date +%Y%m%d_%H%M%S`
+   resultsfile="lte_load_file_${dt}.sum"
+   cat ${basedir}/audit/lte_summarize.txt | ${basedir}/group_lte.pl > ${basedir}/audit/${resultsfile}
+
+   cp ${basedir}/audit/${resultsfile} /m01/switch/mft
+fi
+
+rm -f ${basedir}/indicator.file

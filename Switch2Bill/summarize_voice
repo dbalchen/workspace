@@ -1,0 +1,65 @@
+#!/usr/bin/ksh
+
+. ./switches.txt
+. ./market.txt
+basedir="/${market}/switch"
+
+if [ -f ${basedir}/indicator.file ]
+then
+   exit;
+fi
+touch ${basedir}/indicator.file
+dt=$1
+
+if [ "$1" = "" ]
+then
+   dt=`date +%Y%m%d`
+fi
+
+for switch in $switches
+do
+   filedir="${basedir}/${switch}"
+   files=`find ${filedir} -name "*UFF*$dt*.DAT" -print -follow`
+   for file in $files
+   do
+      basefile=`basename ${file} .gz`
+      grep ${basefile} ${basedir}/voice_files.done > /dev/null
+      rc=$?
+      if [ "$rc" -ne "0" ]
+      then
+         echo "Processing: $basefile"
+         grep -h '^DR' ${file} | grep '|MT|' | cut -d'|' -f7,8,14,35,36 | sort | uniq > ${basedir}/audit/${basefile}.sum
+         grep -h '^DR' ${file} | grep '|MO|' | cut -d'|' -f7,8,13,35,36 | sort | uniq >> ${basedir}/audit/${basefile}.sum
+         echo ${basefile} >> ${basedir}/voice_files.done
+      else 
+         echo "Skipping: $basefile"
+      fi
+   done
+done
+
+dt=`date +%Y%m%d_%H%M%S`
+cat ${basedir}/audit/*UFF*.sum | sort | uniq | grep -v '|$' | grep -v '||' | ./group_voice.pl > ${basedir}/audit/voice_load_file_${dt}.sum
+
+rm -f ${basedir}/audit/*UFF*.sum
+
+cd ${basedir}/audit
+basefile=`basename ${basedir}/audit/voice_load_file_${dt}.sum .sum`
+#REMOVED echo "INDICATOR" > ${basedir}/audit/${basefile}.FIN
+
+#ftp -nv chi1dbrm <<EOF
+#   user scmmgr red4net
+#   cd ~md1csta1/voice_audit
+#   prompt
+#   mput voice_load_file*.sum
+#   put ${basefile}.FIN
+#EOF
+
+cp ${basedir}/audit/voice_load_file_${dt}.sum /m01/switch/mft
+#REMOVED cp ${basedir}/audit/voice_load_file_${dt}.FIN /m01/switch/mft
+
+rm -f ${basedir}/audit/voice_load_file_${dt}.sum
+#REMOVED rm -f ${basedir}/audit/voice_load_file_${dt}.FIN
+
+rm -f ${basedir}/indicator.file
+
+

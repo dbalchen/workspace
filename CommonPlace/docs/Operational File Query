@@ -1,0 +1,12 @@
+select b.rowid, b.phy_file_ident, b.file_name, b.nxt_pgm_name, nxt_file_alias, 
+	sum(b.in_rec_quantity) as INPUTFILE, sum(b.wr_rec_quantity) as PROCESSED, sum(b.dr_rec_quantity) as DROPPED, sum(b.gn_rec_quantity) as GENERATED 
+   from ac1_control_hist b
+  	where nxt_pgm_name in ('NONE','MD','REPORT','File2E','AEM') 
+		and nxt_file_alias in ('REJECT','UFF','DUPLICATE','GENERATE','UFF_RDRP','NONE','Diameter','SUCCESS','CIBER_DUP','DATAIN' ,'DATACBR','DATA_DRP')
+  		and b.cur_file_alias not in ('ROAM','SMSNTF')
+  		and file_format not in ('RERUN','CBRTBL','CIBER') 
+  		and file_status = 'CO'
+  --and trunc(sys_creation_date) <= trunc(sysdate-1)
+  		and b.phy_file_ident = 481507452557200
+  	group by b.rowid, b.phy_file_ident, b.file_name, b.nxt_pgm_name,  nxt_file_alias, b.in_rec_quantity, b.wr_rec_quantity, b.dr_rec_quantity, b.gn_rec_quantity
+  	order by b.phy_file_ident desc, b.rowid

@@ -1,0 +1,95 @@
+#!/usr/bin/ksh
+
+basedir="/m01/switch"
+
+if [ -f ${basedir}/indicator.file ]
+then
+   exit;
+fi
+touch ${basedir}/indicator.file
+dt=$1
+
+if [ "$1" = "" ]
+then
+   dt=`date +%Y%m%d`
+fi
+
+status_file="aaa_files.done"
+
+files=`find ${basedir}/audit -name "*AAA*.sum.done"  -type f -mtime +7`
+for file in $files
+do
+   rm -f ${file}
+done
+
+files=`find ${basedir}/AAA -name "*T$dt*.DAT.gz" `
+#set -x
+for file in $files
+do
+   basefile=`basename ${file} .gz`
+   grep ${basefile} ${basedir}/${status_file} > /dev/null
+   rc=$?
+   if [ "$rc" -ne "0" ]
+   then
+      echo "Processing: $basefile"
+      #gunzip -c ${file} | grep ',311220,' | cut -d',' -f8,9,20,24,27,31,32 | grep -v '^0,0' | grep -v ',R$' | cut -d',' -f1,2,3,4,6 | grep -v ',,' | ${basedir}/group_aaa.pl > ${basedir}/audit/${basefile}.tmp
+      gunzip -c ${file} | grep ',311220,' | cut -d',' -f8,9,20,24,27,31,32 | grep -v '^0,0' | grep -v ',R$' | cut -d',' -f1,2,3,4,6 | grep -v ',,' > ${basedir}/audit/${basefile}.tmp
+      gunzip -c ${file} | grep ',311220,' | cut -d',' -f8,9,20,24,27,31,32 | grep -v '^0,0' | grep -v ',R$' | cut -d',' -f1,2,3,4,6 | grep ',,' >> ${basedir}/${basefile}.empty
+      echo ${basefile} >> ${basedir}/${status_file}
+   else 
+      echo "Skipping: $basefile"
+   fi
+done
+files=`find ${basedir}  -name "*empty" -size 0`
+for file in $files
+do
+   rm -f ${file}
+done
+
+# Check for empty bsid
+#files=`find ${basedir}  -name "*empty" ! -size 0`
+#for file in $files
+#do
+#   cat ${file} | mailx -s "EMPTY BSID" craig.stalsberg@uscellular.com
+#done
+
+dt=`date +%Y%m%d_%H%M%S`
+cd ${basedir}/audit
+
+resultsfile="bsid_load_file_${dt}.sum"
+cat *AAA*.tmp | ${basedir}/group_aaa.pl > ${basedir}/audit/${resultsfile}
+
+basefile=`basename ${resultsfile} .sum`
+
+#REMOVED echo "INDICATOR" > ${basedir}/audit/${basefile}.FIN
+
+rm -f ${basedir}/audit/*AAA*.sum
+rm -f ${basedir}/audit/*AAA*.tmp
+
+cp ${basedir}/audit/${resultsfile} /m01/switch/mft
+#REMOVED cp ${basedir}/audit/${basefile}.FIN /m01/switch/mft
+
+rm -f ${basedir}/audit/${resultsfile}
+#REMOVED rm -f ${basedir}/audit/${basefile}.FIN
+
+# Cleanup files sent to EBI
+cd /m01/switch/mft
+files=`find . -name "*.done"  -type f -mtime +1`
+for file in $files
+do
+   gzip -v ${file}
+done
+files=`find . -name "*.done.gz"  -type f -mtime +3`
+for file in $files
+do
+   rm -f ${file}
+done
+
+cd /m01/switch/mft_to_stage/archive
+files=`find . -name "*.gz"  -type f -mmin +2880`
+for file in $files
+do
+   rm -f ${file}
+done
+
+rm -f ${basedir}/indicator.file

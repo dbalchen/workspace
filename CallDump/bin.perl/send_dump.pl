@@ -446,7 +446,7 @@ sub processLinePMG {
 #
 ###############################################################################
 sub processTAS{
-  setCellWidth(11,10,8,11,13,13,3,3,4,3,3,3,7,7,32);
+  setCellWidth(11,10,8,11,15,14,3,3,3,3,3,3,20,7,32);
   # Loop through the input file records:
   #   Detect if record is a title or a a data line.
   #   Print the record to the excel worksheet.
@@ -478,7 +478,7 @@ sub processTAS{
           emailSpreadsheet($excelFile,$email);
           unlink("$excelFile");
           getNewWB();
-          setCellWidth(11,10,8,11,13,13,3,3,4,3,3,3,7,7,32);
+          setCellWidth(11,10,8,11,14,14,3,3,3,3,3,3,20,7,32);
           $row = 0;
      }
   }#end for
@@ -499,7 +499,7 @@ sub processTAS{
 sub processLineTAS {
   my $line = shift;
   # Define length of each consecutive field in a data record.
-  my @idx = (0,11,10,8,11,13,13,3,3,4,3,3,3,7,7,32);
+  my @idx = (0,11,10,8,11,14,14,3,3,3,3,3,3,20,7,32);
   my @rec = ();
   my $strt_pos = 0;
   for(my $i=0; $i<$#idx; $i++){
