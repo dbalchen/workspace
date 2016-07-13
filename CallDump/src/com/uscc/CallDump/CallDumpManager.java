@@ -143,8 +143,7 @@ public class CallDumpManager extends Thread {
 								.getSearchStringType5());
 						cds.setSearchAndType(request.getSearchString6(), request
 								.getSearchStringType6());
-						cds.setSearchAndType(request.getSearchString6(), request
-								.getSearchStringTypeData());
+
 						
 						writeLog("For the search strings and types..");
 						writeLog(cds.getSearchAndType());
