@@ -75,10 +75,10 @@
 
 for(0,~zz.size - 1,
 
-  { arg i; 
+  { arg i;
     var za;
     za = Array.newClear(16);
-    ~zz.put(i,za); 
+    ~zz.put(i,za);
   }
   );
 
@@ -202,7 +202,7 @@ MIDIIn.polytouch = { arg src, chan, num, vel;
 
 };
 
-MIDIIn.control = { arg src, chan, num, val; 
+MIDIIn.control = { arg src, chan, num, val;
 
 
 };
@@ -212,4 +212,4 @@ MIDIIn.program = { arg src, chan, prog;
 
 };
 
- 
+
