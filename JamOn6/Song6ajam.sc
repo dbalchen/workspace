@@ -28,6 +28,7 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/JamOn6/include/Synths/bell.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/stringBeats.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/Events/bellBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/eStrings.sc".load;
 
 		~nGroup = Group.new;
@@ -51,7 +52,9 @@ o.memSize = 2097152;
 		~noise1Out = Bus.audio(s,1);
 		~sine1Out = Bus.audio(s,1);
 		~bellOut = Bus.audio(s,1);
+
 		~vcaOut = Bus.audio(s,1);
+		~vca2Out = Bus.audio(s,1);
 
 		~stringsOut  = Bus.audio(s,1);
 
@@ -94,7 +97,13 @@ o.memSize = 2097152;
 
 		~vca1 =  Synth("vca",addAction: \addToTail);
 		~vca1.set(\in,~vcaOut);
+		//		~vca1.set(\center,-1);
 
+		/*
+		~vca2 =  Synth("vca",addAction: \addToTail);
+		~vca2.set(\in,~vca2Out);
+		~vca2.set(\center,0);
+		*/
 		~pulse1 =  Synth("Pulse",target: ~nGroup,addAction: \addToTail);
 		~pulse1.set(\out,~pulse1Out);
 
@@ -116,9 +125,9 @@ o.memSize = 2097152;
 		~noise.set(\aocIn, ~circleOut);
 
 		~dcs = 4.0;
-		~fscale = 2;
+		~fscale = 1;
 		~release = 12.0;
-		~attack = 4.0;
+		~attack = 0.0;
 		~amp = 0.200;
 		~pitch = 87.3070578583;
 		~mixer4.set(\bal,-0.60);
@@ -141,18 +150,15 @@ o.memSize = 2097152;
 		~pulse.set(\amp,0.80);
 		~mixer3.set(\bal,0.90);
 
-
 		~channel2 = {arg num, vel = 1;
 			var ret;
 			ret = ~midiStrings.value(~string3_firmus,num,2);
-			//			ret = ~midiStrings.value(~string1_firmus,num,6);
 			ret;
 		};
 
 		~channel3 = {arg num, vel = 1;
 			var ret;
 			ret = ~midiStrings.value(~string2_firmus,num,3);
-			//			ret = ~midiStrings.value(~string1_firmus,num,6);
 			ret;
 		};
 
@@ -177,6 +183,7 @@ o.memSize = 2097152;
 			ret;
 
 		};
+
 
 		~channel6 = {arg num, vel = 1;
 			var ret;
@@ -232,6 +239,7 @@ o.memSize = 2097152;
 			~nGroup;
 
 		};
+
 	)
 
 };
@@ -239,37 +247,43 @@ o.memSize = 2097152;
 
 ~startup.value;
 ~startTimer.value(120);
-
+~synth2 = ~synth2.latency_(Server.default.latency);
 ~string2_firmus.amp = 0.0;
-~string1_firmus.amp = 1.0;
+~string1_firmus.amp = 0.0;
 ~string3_firmus.amp = 0.0;
 
-~dcs = 2.0;
+~dcs = 15.0;
 ~fscale = 1.0;
-~release = 16.0;
-~attack = 4.00;
-~amp = 0.2;
+~release = 1.2;
+~attack = 0.00;
+~amp = 0.8;
 ~amp = 0.01;
 ~amp = 0;
 
 ~amp = 0.00;
 ~rp={
-	s.sync;~midiBassDrum.value;
+	s.sync;
 	~midiBellDrum.value;
+	~midiBassDrum.value;
 	~midiCantus_firmus.value;
 	~midistring1_firmus.value;
 	~midistring2_firmus.value;
-	~midistring3_firmus.value;
 	~circle.set(\zgate,1);
 	~midiSineDrum.value;
 	~midiAdsr.value;
-
 };
+
+Server.latency
 
 //	0.2695.wait;~pSineDrum.value;};
 
-~rp = {~midiBellDrum.value;};
-~rp = {~midiCantus_firmus.value;}
+~rp = {
+	//	~pBell.value;
+	~midiBellDrum.value;
+
+};
+~rp = {				~midistring1_firmus.value;
+	~midistring2_firmus.value;}
 
 ~noise1.set(\rq,0.45);
 ~noise1.set(\lagLev,4.00);

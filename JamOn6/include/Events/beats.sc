@@ -37,36 +37,7 @@
 
 
 
-~sinedrum = ~bassdrum.deepCopy;
-~sinedrum.amp = 0.6;
-~sinedrum.init;
 
-~midiSineDrum = {Pbind(\type, \midi,
-	\midiout, ~synth2,
-	\midicmd, \noteOn,
-	\note,  Pfunc.new({~sinedrum.freq.next}- 60),
-	\amp, ~sinedrum.amp,
-	\chan, 5,
-	\sustain, Pfunc.new({~sinedrum.duration.next}),
-	\dur, Pfunc.new({~sinedrum.wait.next})
-).play};
-
-
-~belldrum = ~bassdrum.deepCopy;
-~belldrum.waits = ~bassdrum.waits * 2;
-~belldrum.durations = ~bassdrum.durations * 2;
-~belldrum.waits = ~bassdrum.waits * 16;
-~belldrum.durations = ~bassdrum.durations * 16;
-~belldrum.init;
-~midiBellDrum = {Pbind(\type, \midi,
-	\midiout, ~synth2,
-	\midicmd, \noteOn,
-	\note,  Pfunc.new({~belldrum.freq.next}- 60),
-	\amp, ~belldrum.amp,
-	\chan, 7,
-	\sustain, Pfunc.new({~belldrum.duration.next}),
-	\dur, Pfunc.new({~belldrum.wait.next})
-).play};
 
 ~adsr = ~bassdrum.deepCopy;
 ~adsr.init;
@@ -83,5 +54,8 @@
 
 
 
+~env0 = ~bassdrum.deepCopy;
+~env0.init;
 
-
+~env1 = ~bassdrum.deepCopy;
+~env1.init;
