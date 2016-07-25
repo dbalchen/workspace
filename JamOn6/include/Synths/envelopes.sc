@@ -65,10 +65,10 @@ SynthDef(\myCircle,{arg out = 0, zgate = 0;
 	Out.ar(out,sig);}).add;
 
 
-SynthDef(\two2one, {arg out=0,in0 = 0, in1 = 0, bal = 0;
+SynthDef(\two2one, {arg out=0,in0 = 0, in1 = 0, bal = 0, bmod = 0;
 	var amp1 = 1, amp2 = 1, sig;
 
-	bal = bal +1;
+	bal = bal + 1 + In.kr(bmod);
 	amp1 = bal*0.5;
 	amp2 = 1 - amp1;
 	sig = (In.ar(in0)*amp1) + (In.ar(in1)*amp2);
