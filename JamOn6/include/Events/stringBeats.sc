@@ -8,10 +8,10 @@
 ~string1_firmus.envelope.attacks = [8.0,4.0,4.0,8.0,4.0,4.0];
 ~string1_firmus.envelope.decays =  [8.0,4.0,4.0,8.0,4.0,4.0];
 ~string1_firmus.envelope.releases = [1,1,1,1,1,1];
-~string1_firmus.envelope.attack = 0.45;
+~string1_firmus.envelope.attack = 0.75;
 ~string1_firmus.envelope.decay = 0.5;
 ~string1_firmus.envelope.sustain = 0.0;
-~string1_firmus.envelope.release = 0.5;
+~string1_firmus.envelope.release = 0.44;
 ~string1_firmus.envelope.init;
 ~string1_firmus.filter.init;
 ~string1_firmus.filter.cutoff = 2800.00;

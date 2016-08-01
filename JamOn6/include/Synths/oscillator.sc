@@ -27,15 +27,15 @@ SynthDef(\Sine, {arg out = 0, amp = 1;
 
 /*
 SynthDef(\sawStrings, {arg out = 0, freq = 220, width = 0.5,lagLev = 0.0;
-	var sig;
-	freq = Lag.kr(freq, lagLev);
+var sig;
+freq = Lag.kr(freq, lagLev);
 
-	freq = {freq * LFNoise2.kr(2.5,0.01,1)}!16;
+freq = {freq * LFNoise2.kr(2.5,0.01,1)}!16;
 
-	sig = (LFSaw.ar(freq,0,0.1));
-	sig = Mix.new(sig);
-	Out.ar(out, sig/8);
-	}).add; */
+sig = (LFSaw.ar(freq,0,0.1));
+sig = Mix.new(sig);
+Out.ar(out, sig/8);
+}).add; */
 
 SynthDef(\vca, {arg out = 0, in = 0, amp = 1, spread = 0, center = 0,
 	clip = 1, overd = 1, aoc = 0, aocIn = 0;

@@ -17,6 +17,7 @@ o.memSize = 2097152;
 "/home/dbalchen/Music/setup.sc".load;
 
 
+
 (
 ~startup = {
 
@@ -30,125 +31,40 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/JamOn6/include/Events/stringBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/bellBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/eStrings.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/Patches/initPatch.sc".load;
 
-		~nGroup = Group.new;
+		SynthDef(\myExtCircle,{arg out = 0, mull = 1/2, phase = 1, zgate = 0;
+			var sig,sig2,rate;
 
-		~envout = Bus.audio(s,1);
-		~envout1 = Bus.audio(s,1);
-		~asrOut = Bus.audio(s,1);
-		~adsrOut = Bus.audio(s,1);
+			sig =  LFTri.kr(1/1024,phase)*0.9 * zgate;
+			sig2 = (SinOsc.kr(1/256)) * zgate * mull;
+			rate = 0.9-sig.abs;
+			sig2 = sig2*rate;
+			sig = sig + sig2;
+			Out.kr(out,sig);}).add;
 
-		~wcut = Bus.audio(s,1);
-		~wmul = Bus.audio(s,1);
-		~wgain = Bus.audio(s,1);
+		~circleExtOut = Bus.control(s,1);
+		~circleExt = Synth("myExtCircle",addAction: \addToHead);
+		~circleExt.set(\out,~circleExtOut);
 
-		~mix1out = Bus.audio(s,1);
-		~mix2out = Bus.audio(s,1);
-		~mix3out = Bus.audio(s,1);
-		~mix4out = Bus.audio(s,1);
-		~circleOut = Bus.audio(s,1);
-
-		~pulse1Out = Bus.audio(s,1);
-		~noise1Out = Bus.audio(s,1);
-		~sine1Out = Bus.audio(s,1);
-		~bellOut = Bus.audio(s,1);
-
-		~vcaOut = Bus.audio(s,1);
-		~vca2Out = Bus.audio(s,1);
-
-		~stringsOut  = Bus.audio(s,1);
-
-		~myadsr = MyADSR.new;
-		~myadsr.init;
-		~myadsr.attack = 0.2;
-		~myadsr.decay = 2.5;
-		~myadsr.sustain = 0.0;
-		~myadsr.release = 0.0;
+		~circleExt.set(\mull,0.5
+		);
+		~mixer3.set(\bmod,~circleExtOut);
 
 
-		~wind = Synth("windspeed",target: ~nGroup,addAction: \addToHead);
-		~wind.set(\out,~wcut);
-		~wind.set(\out2,~wmul);
-		~wind.set(\out3,~wgain);
 
-		~circle = Synth("myCircle",target: ~nGroup,addAction: \addToHead);
-		~circle.set(\out,~circleOut);
+		~circleExtOut2 = Bus.control(s,1);
+		~circleExt2 = Synth("myExtCircle",addAction: \addToHead);
+		~circleExt.set(\phase,3);
+		~circleExt.set(\out,~circleExtOut2);
 
+		~circleExt.set(\mull,0.5);
+		~mixer1.set(\bmod,~circleExtOut2);
+		~mixer2.set(\bmod,~circleExtOut2);
 
-		~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-		~mixer1.set(\in0,~wcut);
-		~mixer1.set(\in1,~envout1);
-		~mixer1.set(\out,~mix1out);
+		//		~noise.set(\amp,0.0);
+		//		~vca1.set(\amp,0.0);
 
-		~mixer2 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-		~mixer2.set(\in0,~wmul);
-		~mixer2.set(\in1,~envout);
-		~mixer2.set(\out,~mix2out);
-
-		~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-		~mixer3.set(\in0,~envout1);
-		~mixer3.set(\in1,~asrOut);
-		~mixer3.set(\out,~mix3out);
-
-		~mixer4 = Synth("two2one",addAction: \addToTail);
-		~mixer4.set(\in0,~bellOut);
-		~mixer4.set(\in1,~sine1Out);
-		~mixer4.set(\out,~vcaOut);
-
-		~vca1 =  Synth("vca",addAction: \addToTail);
-		~vca1.set(\in,~vcaOut);
-		//		~vca1.set(\center,-1);
-
-		/*
-		~vca2 =  Synth("vca",addAction: \addToTail);
-		~vca2.set(\in,~vca2Out);
-		~vca2.set(\center,0);
-		*/
-		~pulse1 =  Synth("Pulse",target: ~nGroup,addAction: \addToTail);
-		~pulse1.set(\out,~pulse1Out);
-
-		~pulse =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
-		~pulse.set(\cutoff,~mix3out);
-		~pulse.set(\mul, ~envout);
-		~pulse.set(\oscIn, ~pulse1Out);
-		~pulse.set(\aocIn, ~adsrOut);
-
-		~noise1 =  Synth("Noise",target: ~nGroup,addAction: \addToTail);
-		~noise1.set(\freq, 77.midicps);
-		~noise1.set(\out,~noise1Out);
-
-		~noise =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
-		~noise.set(\cutoff,~mix1out);
-		~noise.set(\gain,~wgain);
-		~noise.set(\mul, ~mix2out);
-		~noise.set(\oscIn, ~noise1Out);
-		~noise.set(\aocIn, ~circleOut);
-
-		~dcs = 4.0;
-		~fscale = 1;
-		~release = 12.0;
-		~attack = 0.0;
-		~amp = 0.200;
-		~pitch = 87.3070578583;
-		~mixer4.set(\bal,-0.60);
-		~vca1.set(\amp,0.6);
-
-		~noise1.set(\rq,0.15);
-		~noise1.set(\lagLev,4.00);
-		~noise.set(\aoc,0.75);
-		~noise.set(\spread,1);
-		~noise.set(\amp,3.25);
-		~mixer1.set(\bal,-0.35);
-		~mixer2.set(\bal,-1.0);
-
-		~pulse1.set(\lagLev,0.0250);
-		~pulse.set(\clip,1);
-		~pulse.set(\aoc,1.0);
-		~pulse.set(\cutoff,~mix3out);
-		~pulse.set(\mgain,1.45);
-		~pulse.set(\maoc,0.9);
-		~pulse.set(\amp,0.80);
-		~mixer3.set(\bal,0.90);
 
 		~channel2 = {arg num, vel = 1;
 			var ret;
@@ -252,12 +168,12 @@ o.memSize = 2097152;
 ~string1_firmus.amp = 0.0;
 ~string3_firmus.amp = 0.0;
 
-~dcs = 15.0;
-~fscale = 1.0;
+~dcs = 14.8;
+~fscale = 1.5;
 ~release = 1.2;
-~attack = 0.00;
+~attack = 8.00;
 ~amp = 0.8;
-~amp = 0.01;
+~amp = 0.2;
 ~amp = 0;
 
 ~amp = 0.00;
@@ -269,6 +185,7 @@ o.memSize = 2097152;
 	~midistring1_firmus.value;
 	~midistring2_firmus.value;
 	~circle.set(\zgate,1);
+	~circleExt.set(\zgate,1);
 	~midiSineDrum.value;
 	~midiAdsr.value;
 };
@@ -285,7 +202,7 @@ Server.latency
 ~rp = {				~midistring1_firmus.value;
 	~midistring2_firmus.value;}
 
-~noise1.set(\rq,0.45);
+~noise1.set(\rq,0.15);
 ~noise1.set(\lagLev,4.00);
 ~noise.set(\aoc,0.0);
 
@@ -293,7 +210,7 @@ Server.latency
 ~noise.set(\spread,1);
 ~noise.set(\amp,5.0);
 ~noise.set(\amp,3.25);
-~noise.set(\amp,2.0);
+~noise.set(\amp,1.0);
 ~noise.set(\amp,0.0);
 
 ~pulse1.set(\lagLev,0.50);
@@ -302,13 +219,13 @@ Server.latency
 ~pulse.set(\aoc,0.0);
 ~pulse.set(\cutoff,~mix3out);
 ~pulse.set(\mgain,1.45);
-~pulse.set(\maoc,0.0);
+~pulse.set(\maoc,0.1);
 ~pulse.set(\amp,0.10);
 ~pulse.set(\amp,0.00);
 ~pulse.set(\overd,1.2);
 
 
-~vca1.set(\amp,0.0);
+~vca1.set(\amp,0.2);
 ~myadsr.gui;
 
 ~mixergui1 = SimpleMix.new;
@@ -348,19 +265,44 @@ s.latency
 
 		t.schedAbs(timeNow + 00,{ // 00 = Time in beats
 			(
-				~midistring1_firmus.value;
-				~midistring2_firmus.value;
-			);
+				~mixer4.set(\bal,-1.0);
+				~mixer1.set(\bal,-1.0);
+				~mixer2.set(\bal,-1.0);
+				~mixer3.set(\bal,1.0);
+				~midiBellDrum.value;
+				~midiBassDrum.value;
+				~midiCantus_firmus.value;
+				~circle.set(\zgate,1);
+				~midiSineDrum.value;
+				~midiAdsr.value;
+		);};); // End of t.schedAbs
 
+		t.schedAbs(timeNow + 16,{ // 00 = Time in beats
 			(
-				// If No put stuff here otherwise nil
-				nil
-			);
-		};	 // End of if statement
+				~mixer1.set(\bal,-0.35);
+				~circleExt2.set(\zgate,1);
+				~mixer2.set(\bal,-1.0);
 
-		); // End of t.schedAbs
+		);};); // End of t.schedAbs
 
 
+		t.schedAbs(timeNow + 32,{ // 00 = Time in beats
+			(
+				~circleExt.set(\zgate,1);
+				~mixer4.set(\bal,-0.75);
+				~mixer3.set(\bal,0.0);
+		);};); // End of t.schedAbs
+
+
+		t.schedAbs(timeNow + (96-0.2),{ // 00 = Time in beats
+			(
+				~midistring1_firmus.value;
+		);};); // End of t.schedAbs
+
+		t.schedAbs(timeNow + (160-0.2),{ // 00 = Time in beats
+			(
+				~midistring2_firmus.value;
+		);};); // End of t.schedAbs
 		//Add more
 
 	}); // End of Routine
@@ -369,5 +311,9 @@ s.latency
 
 )
 
-
+~startup.value;
+~startTimer.value(120);
+~synth2 = ~synth2.latency_(Server.default.latency);
 ~rp = {~start.value;};
+s.boot;
+s.quit;
