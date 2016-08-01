@@ -53,7 +53,7 @@ then
 fi
 
 
-pairs="pgw-PGW ecs-AAA voice-UFF"
+pairs="pgw-PGW ecs-AAA tas-TAS gsmv-GSMV gsmd-GSMD voice-UFF"
 
 cd ${stage_dir}
 

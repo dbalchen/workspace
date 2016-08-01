@@ -1,5 +1,4 @@
 #!/usr/bin/ksh
-
 MISSING_DIRECTORY="1"
 MISSING_FILE="2"
 MISSING_VARIABLE="3"
@@ -32,7 +31,7 @@ date >> /m01/switch/run.log
 dt=`date --date='1 days ago' +%Y%m%d`
 dt="${dt}0000"
 
-targets="m01-switch m02-switch m03-switch m04-switch m05-switch m04-switchb"
+targets="m01-switchb m01-switch m02-switch m03-switch m04-switch m05-switch m04-switchb"
 
 for target in $targets
 do
