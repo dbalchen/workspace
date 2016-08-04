@@ -1,0 +1,145 @@
+#+STARTUP: overview
+#+TAGS: Presentation(p) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET 
+#+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+#+TITLE: Project_Name
+#+BEGIN_LaTeX
+\newpage
+\clearpage
+%\addtolength{\oddsidemargin}{-.25in}
+\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+% \newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{3}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+#+END_LaTeX
+[TABLE-OF-CONTENTS] 
+#+BEGIN_LaTeX
+\newpage
+\pagenumbering{arabic}
+#+END_LaTeX
+:CLOSET:
+: Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+: Days  #+PROPERTY: Effort_ALL 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00
+: weeks #+PROPERTY: Effort_ALL 5.00 10.00 15.00 20.00 25.00 30.00 35.00 40.00 45.00
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+
+ : New Page
+ : \newpage
+:END:
+* /Project_Name Analysis/
+** Introduction
+*** Purpose of Project Management Plan
+    /Provide the purpose of the project charter. The intended audience of the <Project Name> PMP is all project stakeholders including the project sponsor, senior leadership and the project team./
+** Executive Summary of Project Charter
+   /[Provide an executive summary of the approved project charter. Provide a reference to the approved Project Charter. Elaborate on any sections within the Project Charter that need further detail contained within the PMP.]/
+*** Assumptions/Constraints
+    /[Insert summary of any changes from the project assumptions and/or constraints that were originally outlined in the project charter.]/
+** Scope Management
+   /[Insert the project's scope management plan or provide a reference to where it is stored.]/
+*** Work Breakdown Structure
+    /[Insert the project's work breakdown structure or provide a reference to where it is stored.]/
+*** Deployment Plan
+    /[Example: The project involves deploying an application to state health partners. This section would discuss the approach for rolling out the application to the end users, including conducting environment assessments, developing memorandums of understandings, hardware/software installation, data conversion.]/
+*** Change Control Management
+    /[Example of Change Control: If a development server for your project is administered by another organization that is responsible for installing machine upgrades and there are scheduled outages that will impact your project schedule. Changes to the project will need to be made to deal with the potential impact of the scheduled outage.]/
+** Schedule/Time Management
+** Human Resource Management
+   /[Insert the project's human resource management plan or provide a reference to where it is stored.]/
+** Cost/Budget Management
+   /[Insert the project's cost management plan or provide a reference to where it is stored.]/
+** Quality Management
+   /[Example: For an information system, controlling the consistency of screen layouts would include reviewing all screens to make sure they match the standards. Quality measures may be no bugs or defects for certain critical requirements, consistent screen layouts, or correctly calculating variables. Quality may be ensured through inspections, audits, formal testing and documentation of defects in a defect tracking system to ensure defects are fixed, retested and closed. Some projects may choose to use a traceability matrix to determine if critical requirements have been met.]/
+** Communications Management
+   /[Insert the project's communication management plan or provide a reference to where it is stored.]/
+*** Communication Matrix
+|-------------+----------+----------+-----------+---------------+---------------------|
+| Stakeholder | Messages | Vehicles | Frequency | Communicators | Feedback Mechanisms |
+|-------------+----------+----------+-----------+---------------+---------------------|
+|             |          |          |           |               |                     |
+|-------------+----------+----------+-----------+---------------+---------------------|
+** Risk Management
+   /[Insert the project's risk management plan or provide a reference to where it is stored.]/
+*** Risk Log
+    /[The Risk Log is normally maintained as a separate document. Provide a reference to where it is stored.]/
+** Issue Management
+   /[Insert the project's issue management plan or provide a reference to where it is stored.]/
+*** Issue Log
+    /[The Issue Log is normally maintained as a separate document. Provide a reference to where it is stored.]/
+** Procurement Management
+   /[Example: This can include information such as ensuring project team members are assigned computers, how development and test servers are procured or can go into more detail and include an acquisition strategy that details how the project will be staffed (e.g., performance based fixed price contract, CITS contractors).]/
+** Compliance Related Planning
+   /[Insert a list of compliance related processes the project must
+   adhere to]
+
+* /Project_Name Documentation/ [%]
+  SCHEDULED:
+  - [ ] Documentation
+  - [ ] Code
+  - [ ] Test 
+  - [ ] Deploy
+
+** Project Scope
+** Assumptions
+** User Requirements
+** Process Decomposition
+** Executable
+*** /Program Name/
+    - *Language:*
+    - *Source Code Location:*
+    - *Parameters:* /input and output/
+    - *Description:*
+
+** Data Decomposition
+   - *Table/Field Name:*
+   - *Purpose of File/Table:*
+   - *Type of Change:* /create new or modify existing/
+   - *Description of Change:* /or reason for adding/
+   - *Primary Keys and Indices:*
+   - *Estimated Rows and Growth Rate:*
+|-------------------+------+--------+-------------|
+| Column/Field Name | Type | Values | Description |
+|-------------------+------+--------+-------------|
+|                   |      |        |             |
+|-------------------+------+--------+-------------|
+
+** Infrastructure Considerations
+** Testing Approach
+** Implementation Considerations
+* SOFTWARE CHANGES
+
+#+BEGIN_LaTeX
+\newpage
+\begin{landscape} 
+#+END_LaTeX
+* TEST CONDITIONS
+|--------------+---------------+------------------+-----------------------------------+------------------+----------------+-----------|
+| Test Cond Id | Module Tested | Condition Tested | Test Data - Specify Modifications | Expected Results | Actual Results | Revw'd By |
+|--------------+---------------+------------------+-----------------------------------+------------------+----------------+-----------|
+|              |               |                  |                                   |                  |                |           |
+|--------------+---------------+------------------+-----------------------------------+------------------+----------------+-----------|
+#+BEGIN_LaTeX
+\end{landscape} 
+\newpage
+#+END_LaTeX
+* TEST EXECUTION RESULTS
