@@ -38,10 +38,12 @@
 \pagenumbering{arabic}
 #+END_LaTeX
 :CLOSET:
-: Hours #+PROPERTY: Effort_ALL 1 2 3 4 5 6 7 8
-: Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
-: weeks #+PROPERTY: Effort_ALL 5d 10d 15d 20d 25d 30d 35d 40d 45d
-: #+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+  : Hours #+PROPERTY: Effort_ALL 1 2 3 4 5 6 7 8
+  : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
+  : weeks #+PROPERTY: Effort_ALL 5d 10d 15d 20d 25d 30d 35d 40d 45d
+  : #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
+  : #+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
+
  : Add a Picture
  :   #+ATTR_LaTeX: width=13cm
  :   [[file:example_picture.png]]
@@ -59,37 +61,119 @@
     /[Insert summary of any changes from the project assumptions and/or constraints that were originally outlined in the project charter.]/
 ** Scope Management
    /[Insert the project's scope management plan or provide a reference to where it is stored.]/
-*** Work Breakdown Structure				:taskjuggler_project:
-**** Analysis
-***** Usage Types
-****** File Location
-***** System Flow
-****** ARCM
-******* ARCM Tables
-***** Data CIBER (AAA)
-***** Analyse Mediations Outcollect Process
-**** Development
-***** Create SQL for each data type
-****** Volte
-******* Incollect
-******* Outcollect
-****** LTE
-******* Incollect
-******* Outcollect
-****** CDMA (AAA)
-******* Data Ciber Incollects (done)
-******* Data CIBER Outcollects (Talk to Craig)
-****** Voice
-******* Incollects
-******* Outcollects
-****** GSM (Incollect Only)
-******* GSMV
-******* GSMD
+** Usage Reconciliation					:taskjuggler_project:
+     Hello It's me lets talk about this project.
+*** Analysis
+   :PROPERTIES:
+   :blocker:  start
+   :ordered:  t
+   :END:
+**** Usage Types
+******* Files and Properties
+     :PROPERTIES:
+     :effort:   1.5d
+     :END:
+**** System Flow
+***** ARCM
+****** Flow
+      :PROPERTIES:
+      :effort:   4d
+      :END:
+****** ARCM Tables
+      :PROPERTIES:
+      :effort:   2d
+      :END:
+**** Analyse Mediations Outcollect Process
+      :PROPERTIES:
+      :effort:   3d
+      :END:
+*** Development
+   :PROPERTIES:
+   :ordered:  t
+   :blocker:  previous-sibling
+   :END:
+**** Create SQL for each data type
+    :PROPERTIES:
+    :blocker:  start
+    :ordered:  t
+    :END:
+***** Volte
+     :PROPERTIES:
+     :ordered:  t
+     :END:
+****** Incollect
+      :PROPERTIES:
+      :effort:   5h
+      :END:
+****** Outcollect
+      :PROPERTIES:
+      :effort:   5h
+      :END:
+***** LTE
+     :PROPERTIES:
+     :ordered:  t
+     :END:
+****** Incollect
+      :PROPERTIES:
+      :effort:   5h
+      :END:
+****** Outcollect
+      :PROPERTIES:
+      :effort:   5h
+      :END:
+***** CDMA (AAA)
+     :PROPERTIES:
+     :ordered:  t
+     :END:
+****** Data Ciber Incollects (done)
+      :PROPERTIES:
+      :effort:   5h
+      :END:
+****** Data CIBER Outcollects (Talk to Craig)
+      :PROPERTIES:
+      :effort:   3d
+      :END:
+***** Voice
+     :PROPERTIES:
+     :ordered:  t
+     :END:
+****** Incollects
+      :PROPERTIES:
+      :effort:   5h
+      :END:
+****** Outcollects
+      :PROPERTIES:
+      :effort:   3d
+      :END:
+***** GSM (Incollect Only)
+     :PROPERTIES:
+     :ordered:  t
+     :END:
+****** GSMV
+      :PROPERTIES:
+      :effort:   5h
+      :END:
+****** GSMD
+      :PROPERTIES:
+      :effort:  5h 
+      :END:
 **** Coding
+   :PROPERTIES:
+   :effort:   15d
+   :blocker:
+   :END:
 **** Testing
-*** Deployment Plan
+   :PROPERTIES:
+   :effort:   5d
+   :blocker:
+   :END:
+*** Contingency 
+   :PROPERTIES:
+   :effort:   10d
+   :END:
+** Deployment Plan
     /[Example: The project involves deploying an application to state health partners. This section would discuss the approach for rolling out the application to the end users, including conducting environment assessments, developing memorandums of understandings, hardware/software installation, data conversion.]/
-*** Change Control Management
+** Change Control Management
     /[Example of Change Control: If a development server for your project is administered by another organization that is responsible for installing machine upgrades and there are scheduled outages that will impact your project schedule. Changes to the project will need to be made to deal with the potential impact of the scheduled outage.]/
 ** Schedule/Time Management
 ** Human Resource Management
@@ -172,81 +256,5 @@
 #+END_LaTeX
 * TEST EXECUTION RESULTS
 
-#+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 15d
-#+COLUMNS: %30ITEM(Task) %Effort
-* Usage Reconciliation 					:taskjuggler_project:
-** Analysis
-*** Usage Types
-**** Files and Properties
-     :PROPERTIES:
-     :Effort:   3d
-     :END:
-*** System Flow
-**** ARCM
-***** Flow
-      :PROPERTIES:
-      :Effort:   1d
-      :END:
-***** ARCM Tables
-      :PROPERTIES:
-      :Effort:   3d
-      :END:
-*** Analyse Mediations Outcollect Process
-    :PROPERTIES:
-    :Effort:   5d
-    :END:
-** Development
-*** Create SQL for each data type
-**** Volte
-***** Incollect
-      :PROPERTIES:
-      :Effort:   1d
-      :END:
-***** Outcollect
-      :PROPERTIES:
-      :Effort:   1d
-      :END:
-**** LTE
-***** Incollect
-      :PROPERTIES:
-      :Effort:   1d
-      :END:
-***** Outcollect
-      :PROPERTIES:
-      :Effort:   1d
-      :END:
-**** CDMA (AAA)
-***** Data Ciber Incollects (done)
-      :PROPERTIES:
-      :Effort:   1d
-      :END:
-***** Data CIBER Outcollects (Talk to Craig)
-      :PROPERTIES:
-      :Effort:   3d
-      :END:
-**** Voice
-***** Incollects
-      :PROPERTIES:
-      :Effort:   1d
-      :END:
-***** Outcollects
-      :PROPERTIES:
-      :Effort:   3d
-      :END:
-**** GSM (Incollect Only)
-***** GSMV
-      :PROPERTIES:
-      :Effort:   2d
-      :END:
-***** GSMD
-      :PROPERTIES:
-      :Effort:   2d
-      :END:
-** Coding
-   :PROPERTIES:
-   :Effort:   15d
-   :END:
-** Testing
-   :PROPERTIES:
-   :Effort:   5d
-   :END:
+
+
