@@ -7,14 +7,14 @@
 ~bassdrum.init;
 
 ~midiBassDrum = {Pbind(\type, \midi,
-	\midiout, ~synth2,
-	\midicmd, \noteOn,
-	\note,  Pfunc.new({~bassdrum.freq.next}- 60),
-	\amp, ~bassdrum.amp,
-	\chan, 9,
-	\sustain, Pfunc.new({~bassdrum.duration.next}),
-	\dur, Pfunc.new({~bassdrum.wait.next})
-).play};
+		       \midiout, ~synth2,
+		       \midicmd, \noteOn,
+		       \note,  Pfunc.new({~bassdrum.freq.next}- 60),
+		       \amp, ~bassdrum.amp,
+		       \chan, 9,
+		       \sustain, Pfunc.new({~bassdrum.duration.next}),
+		       \dur, Pfunc.new({~bassdrum.wait.next})
+		       ).play};
 
 
 ~cantus_firmus = MyEvents.new;
@@ -26,14 +26,14 @@
 ~cantus_firmus.init;
 
 ~midiCantus_firmus = {Pbind(\type, \midi,
-	\midiout, ~synth2,
-	\midicmd, \noteOn,
-	\note,  Pfunc.new({~cantus_firmus.freq.next}- 60),
-	\amp, ~cantus_firmus.amp,
-	\chan, 8,
-	\sustain, Pfunc.new({~cantus_firmus.duration.next}),
-	\dur, Pfunc.new({~cantus_firmus.wait.next})
-).play};
+			    \midiout, ~synth2,
+			    \midicmd, \noteOn,
+			    \note,  Pfunc.new({~cantus_firmus.freq.next}- 60),
+			    \amp, ~cantus_firmus.amp,
+			    \chan, 8,
+			    \sustain, Pfunc.new({~cantus_firmus.duration.next}),
+			    \dur, Pfunc.new({~cantus_firmus.wait.next})
+			    ).play};
 
 
 
@@ -43,14 +43,14 @@
 ~adsr.init;
 
 ~midiAdsr = {Pbind(\type, \midi,
-	\midiout, ~synth2,
-	\midicmd, \noteOn,
-	\note,  Pfunc.new({~adsr.freq.next}- 60),
-	\amp, ~adsr.amp,
-	\chan, 4,
-	\sustain, Pfunc.new({~adsr.duration.next}),
-	\dur, Pfunc.new({~adsr.wait.next})
-).play};
+		   \midiout, ~synth2,
+		   \midicmd, \noteOn,
+		   \note,  Pfunc.new({~adsr.freq.next}- 60),
+		   \amp, ~adsr.amp,
+		   \chan, 4,
+		   \sustain, Pfunc.new({~adsr.duration.next}),
+		   \dur, Pfunc.new({~adsr.wait.next})
+		   ).play};
 
 
 
@@ -59,3 +59,8 @@
 
 ~env1 = ~bassdrum.deepCopy;
 ~env1.init;
+
+~pad_firmus = MyEvents.new;
+~pad_firmus.amp = 0.04;
+~pad_firmus.init;
+

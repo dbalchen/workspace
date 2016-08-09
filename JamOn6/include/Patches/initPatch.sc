@@ -1,8 +1,15 @@
 ~nGroup = Group.new;
+~oGroup = Group.new
 
 ~envout = Bus.audio(s,1);
 ~envout1 = Bus.audio(s,1);
+
+~env2out = Bus.audio(s,1);
+~env2out1 = Bus.audio(s,1);
+
 ~asrOut = Bus.audio(s,1);
+
+~adsr2Out = Bus.audio(s,1);
 ~adsrOut = Bus.audio(s,1);
 
 ~wcut = Bus.audio(s,1);
@@ -11,19 +18,14 @@
 
 ~mix1out = Bus.audio(s,1);
 ~mix2out = Bus.audio(s,1);
+
 ~mix3out = Bus.audio(s,1);
-~mix4out = Bus.audio(s,1);
+
 ~circleOut = Bus.audio(s,1);
 
 ~pulse1Out = Bus.audio(s,1);
 ~noise1Out = Bus.audio(s,1);
 ~sine1Out = Bus.audio(s,1);
-~bellOut = Bus.audio(s,1);
-
-~vcaOut = Bus.audio(s,1);
-~vca2Out = Bus.audio(s,1);
-
-~stringsOut  = Bus.audio(s,1);
 
 ~myadsr = MyADSR.new;
 ~myadsr.init;
@@ -32,6 +34,12 @@
 ~myadsr.sustain = 0.0;
 ~myadsr.release = 0.0;
 
+~myadsr2 = MyADSR.new;
+~myadsr2.init;
+~myadsr2.attack = 0.2;
+~myadsr2.decay = 2.5;
+~myadsr2.sustain = 0.0;
+~myadsr2.release = 0.0;
 
 ~wind = Synth("windspeed",target: ~nGroup,addAction: \addToHead);
 ~wind.set(\out,~wcut);
@@ -41,6 +49,32 @@
 ~circle = Synth("myCircle",target: ~nGroup,addAction: \addToHead);
 ~circle.set(\out,~circleOut);
 
+~circleExtOut = Bus.control(s,1);
+~circleExt = Synth("myExtCircle",addAction: \addToHead);
+~circleExt.set(\out,~circleExtOut);
+~circleExt.set(\phase,1);
+~circleExt.set(\mull,0.1);
+~circleExt.set(\ratio,0.98);
+~circleExt.set(\mull,0.9);
+~circleExt.set(\sig2p,16);
+~circleExt.set(\mull,0.9);
+~mixer3.set(\bmod,~circleExtOut);
+
+~circleExtOut2 = Bus.control(s,1);
+~circleExt2 = Synth("myExtCircle",addAction: \addToHead);
+~circleExt2.set(\phase,3);
+~circleExt2.set(\out,~circleExtOut2);
+~circleExt2.set(\mull,0.25);
+~circleExt.set(\ratio,0.65);
+~circleExt.set(\add, 0.3);
+~mixer1.set(\bmod,~circleExtOut2);
+
+~circleExtOut3 = Bus.control(s,1);
+~circleExt3 = Synth("myExtCircle",addAction: \addToHead);
+~circleExt3.set(\out,~circleExtOut3);
+~circleExt3.set(\phase,3);
+~circleExt3.set(\mull,0.15);
+~mixer2.set(\bmod,~circleExtOut3);
 
 ~mixer1 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
 ~mixer1.set(\in0,~wcut);
@@ -53,26 +87,24 @@
 ~mixer2.set(\out,~mix2out);
 
 ~mixer3 = Synth("two2one",target: ~nGroup,addAction: \addToTail);
-~mixer3.set(\in0,~envout1);
+~mixer3.set(\in0,~env2out1);
 ~mixer3.set(\in1,~asrOut);
 ~mixer3.set(\out,~mix3out);
 
-~mixer4 = Synth("two2one",addAction: \addToTail);
-~mixer4.set(\in0,~bellOut);
-~mixer4.set(\in1,~sine1Out);
-~mixer4.set(\out,~vcaOut);
-
 ~vca1 =  Synth("vca",addAction: \addToTail);
-~vca1.set(\in,~vcaOut);
+~vca1.set(\in,~sine1Out);
+
+~vca2 =  Synth("vca",addAction: \addToTail);
+~vca2.set(\in,~bellOut);
 
 ~pulse1 =  Synth("Pulse",target: ~nGroup,addAction: \addToTail);
 ~pulse1.set(\out,~pulse1Out);
 
 ~pulse =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
 ~pulse.set(\cutoff,~mix3out);
-~pulse.set(\mul, ~envout);
+~pulse.set(\mul, ~env2out);
 ~pulse.set(\oscIn, ~pulse1Out);
-~pulse.set(\aocIn, ~adsrOut);
+~pulse.set(\aocIn, ~adsr2Out);
 
 ~noise1 =  Synth("Noise",target: ~nGroup,addAction: \addToTail);
 ~noise1.set(\freq, 77.midicps);
@@ -91,8 +123,6 @@
 ~attack = 0.0;
 ~amp = 0.400;
 ~pitch = 87.3070578583;
-~mixer4.set(\bal,-0.75);
-~vca1.set(\amp,0.4);
 
 ~noise1.set(\rq,0.15);
 ~noise1.set(\lagLev,4.00);
