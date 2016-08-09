@@ -31,6 +31,7 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/JamOn6/include/Events/stringBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/bellBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/eStrings.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/Synths/FMDarkpad.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/initPatch.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/midiDefs.sc".load;
 
@@ -53,9 +54,9 @@ o.memSize = 2097152;
 		~circleExt.set(\mull,0.1);
 		~circleExt.set(\ratio,0.98);
 		~circleExt.set(\mull,0.9);
-       // ~circleExt.set(\sig2p,16);
+		// ~circleExt.set(\sig2p,16);
 		~circleExt.set(\sig2p,16);
-        ~circleExt.set(\mull,0.9);
+		~circleExt.set(\mull,0.9);
 		~mixer3.set(\bmod,~circleExtOut);
 
 		~circleExtOut2 = Bus.control(s,1);
@@ -88,6 +89,15 @@ o.memSize = 2097152;
 		}).add;
 
 
+		~pad_firmus = MyEvents.new;
+		~pad_firmus.amp = 0.04;
+		~pad_firmus.init;
+
+		~channel1 = {arg num, vel = 1;
+			var ret;
+			ret = ~midiFMdarkpad1.value(~pad_firmus,num);
+			ret;
+		};
 
 
 	)
@@ -103,16 +113,17 @@ o.memSize = 2097152;
 ~string1_firmus.amp = 0.0;
 ~string3_firmus.amp = 0.0;
 
-~dcs = 14.8;
-~fscale = 1.5;
-~release = 1.2;
-~attack = 8.00;
+~dcs = 1.5;
+~fscale = 1.0;
+
+~release = 0.5;
+~attack = 3.00;
 ~amp = 0.8;
 ~amp = 0.2;
 ~amp = 0;
 ~circleExt.set(\mull,0.9);
-~circleExt.set(\sig2p,4);
-~circleExt.set(\mull,0.9);
+~circleExt.set(\sig2p,8);
+~circleExt.set(\mull,0.1);
 ~rp={
 	s.sync;
 	~midiBellDrum.value;
@@ -215,14 +226,14 @@ TempoClock.default.tempo = 120 / 60;
 			(
 
 				~mixer4.set(\bal,-1);
-			//	~mixer3.set(\bal,0.0);
-			//	~circleExt.set(\zgate,1);
+				//	~mixer3.set(\bal,0.0);
+				//	~circleExt.set(\zgate,1);
 		);};); // End of t.schedAbs
 
 
 		t.schedAbs(timeNow + (96-0.2),{ // 00 = Time in beats
 			(
-			//	~midistring1_firmus.value;
+				//	~midistring1_firmus.value;
 		);};); // End of t.schedAbs
 
 		t.schedAbs(timeNow + (160-0.2),{ // 00 = Time in beats
