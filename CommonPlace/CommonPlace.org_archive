@@ -2224,3 +2224,13 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
  :  
  :  
  : perl -ne '@buff = split(/\t/,$_); if ($buff[3] eq '00166' || $buff[3] eq '26309' || $buff[3] eq '31042') {print $_;}'
+
+* TODO Fix the CIBER return issue... 
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2016-07-14 Thu 17:08
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Goals
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
