@@ -67,8 +67,8 @@
 ~string2_firmus.envelope.attacks =  (~string1_firmus.envelope.attacks ++ ~string1_firmus.envelope.attacks) * 0.5;
 ~string2_firmus.envelope.decays =   (~string1_firmus.envelope.decays ++ ~string1_firmus.envelope.decays) * 0.5;
 ~string2_firmus.envelope.releases =  (~string1_firmus.envelope.releases ++  ~string1_firmus.envelope.releases) * 0.5;
-~string2_firmus.envelope.attack = 0.45;
-~string2_firmus.envelope.decay = 0.25;
+~string2_firmus.envelope.attack = 0.75;
+~string2_firmus.envelope.decay = 0.5;
 ~string2_firmus.envelope.sustain = 0.0;
 ~string2_firmus.envelope.release = 0.5;
 ~string2_firmus.envelope.init;
@@ -86,72 +86,4 @@
 	\chan, 3,
 	\sustain, Pfunc.new({~string2_firmus.duration.next}),
 	\dur, Pfunc.new({~string2_firmus.wait.next})
-).play};
-
-
-
-~string3_firmus = ~string2_firmus.deepCopy;
-~string3_firmus.waits = (~string2_firmus.waits ++ ~string2_firmus.waits)  * 0.50;
-//~p0 = Prand([62,58,65,60,56,63,64,67,57,53,55],inf).asStream.next;
-~pb0 = Prand([62,58,65,60],inf).asStream.next;
-~pb1 = Prand([62,58,65,60],inf).asStream.next;
-~pb2 = Prand([62,58,65,60],inf).asStream.next;
-~pb3 = Prand([62,58,65,60],inf).asStream.next;
-~pb4 = Prand([62,58,65,60],inf).asStream.next;
-~pb5 = Prand([62,58,65,60],inf).asStream.next;
-
-
-~pb6 = Prand([58,60,56,63],inf).asStream.next;
-~pb7 = Prand([58,60,56,63],inf).asStream.next;
-~pb8 = Prand([55,53,62,60,64,67],inf).asStream.next;
-~pb9 = Prand([55,53,62,60,64,67],inf).asStream.next;
-~pb10 = Prand([55,53,62,60,64,67],inf).asStream.next;
-~pb11 = Prand([55,53,62,60,64,67],inf).asStream.next;
-
-
-~pb12 = Prand([62,58,65,60],inf).asStream.next;
-~pb13 = Prand([62,58,65,60],inf).asStream.next;
-~pb14 = Prand([62,58,65,60],inf).asStream.next;
-~pb15 = Prand([62,58,65,60],inf).asStream.next;
-~pb16 = Prand([62,58,65,60],inf).asStream.next;
-~pb17 = Prand([62,58,65,60],inf).asStream.next;
-
-
-~pb18 = Prand([58,60,56,63],inf).asStream.next;
-~pb19 = Prand([58,60,56,63],inf).asStream.next;
-
-~pb20 = Prand([60,57,53,55],inf).asStream.next;
-~pb21 = Prand([60,57,53,55],inf).asStream.next;
-~pb22 = Prand([60,57,53,55],inf).asStream.next;
-~pb23 = Prand([60,57,53,55],inf).asStream.next;
-
-
-~string3_firmus.freqs = [~pb0,~pb1,~pb2,~pb3,~pb4,~pb5,~pb6,~pb7,~pb8,~pb9,~pb10,~pb11,~pb12,~pb13,~pb14,~pb15,~pb16,~pb17,~pb18,~pb19,~pb20,~pb21,~pb22,~pb23] + 12;
-
-//~string3_firmus.freqs = Array.fill(12,{~p0.next});
-~string3_firmus.probs =  (~string2_firmus.probs ++ ~string2_firmus.probs) * 1.0;
-~string3_firmus.durations = (~string2_firmus.durations ++ ~string2_firmus.durations) * 0.5;
-~string3_firmus.init;
-~string3_firmus.envelope.attacks =  (~string2_firmus.envelope.attacks ++ ~string2_firmus.envelope.attacks) * 0.5;
-~string3_firmus.envelope.decays =   (~string2_firmus.envelope.decays ++ ~string2_firmus.envelope.decays) * 0.5;
-~string3_firmus.envelope.releases =  (~string2_firmus.envelope.releases ++  ~string2_firmus.envelope.releases) * 0.5;
-~string3_firmus.envelope.attack = 0.45;
-~string3_firmus.envelope.decay = 0.5;
-~string3_firmus.envelope.sustain = 0.0;
-~string3_firmus.envelope.release = 0.5;
-~string3_firmus.envelope.init;
-~string3_firmus.filter.init;
-~string3_firmus.filter.cutoff = 4800.00;
-~string3_firmus.filter.gain = 1.5;
-
-~string3_firmus.filter.release = 1.2;
-
-~midistring3_firmus = {Pbind(\type, \midi,
-	\midiout, ~synth2,
-	\midicmd, \noteOn,
-	\note,  Pfunc.new({~string3_firmus.freq.next}- 60),
-	\amp, ~string3_firmus.amp,
-	\chan, 2,
-	\sustain, Pfunc.new({~string3_firmus.duration.next}),
-	\dur, Pfunc.new({~string3_firmus.wait.next})
 ).play};
