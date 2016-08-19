@@ -4,7 +4,7 @@
 #+TAGS: Presentation(p) noexport(n) taskjuggler_project(t) taskjuggler_resource(r) 
 #+DRAWERS: PICTURE CLOSET 
 #+PROPERTY: allocate_ALL dev doc test
-#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+#+COLUMNS: %30ITEM(Task) %effort %allocate %blocker %ordered
 #+STARTUP: hidestars hideblocks 
 #+LaTeX_CLASS_OPTIONS: [12pt,twoside]
 #+LATEX_HEADER: \usepackage{lscape} 
@@ -56,7 +56,6 @@
    - [ ] Number of records processed per day.
 ** TODO Fix the error monitors.
    - [ ] Find out what is causing the remaining errors.
-** TODO Fix the CIBER return issue... 
 * Statement of Principals						  
 
    - /Mathematics is a language with no ambiguity./
@@ -72,7 +71,7 @@
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-  One major undertaking in the transition to *TOPS* is moving most of
+One major undertaking in the transition to *TOPS* is moving most of
   the voice mediation to the *INTEC* platform. To help facilitate this
   move, the current rules system *(RBMS)* was studied and
   documented. The following provides a brief overview of the processes
@@ -187,9 +186,9 @@
 | PMG/PTX      | GMT             |
 | TAS          | GMT             |
 | MOT/ALU      | EST             |
-| Voice/Volte  | Switch Location |
+| Voice        | Switch Location |
 | CIBER        | Switch Location |
-| GSMD         | GMT             |
+| GSMD/V/S     | GMT             |
 |--------------+-----------------|
 
 
@@ -1606,7 +1605,7 @@ digraph BI {
 | CYCLE_YEAR                   | NUMBER (4)          |                       |
 | BILLING_ARRANGEMENT          | NUMBER (18)         |                       |
 | SOURCE_ID                    | NUMBER (15)         |                       |
-| EVENT_STATE                  | CHAR (1 Byte)       |                       |
+| EVENT_STATE                  | CHAR (1 Byte)       | X = Stripped          |
 | EVENT_STATE_REASON_CODE      | CHAR (5 Byte)       |                       |
 | RERATE_TYPE                  | CHAR (1 Byte)       |                       |
 | ORIGINAL_EVENT_ID            | NUMBER (18)         |                       |
@@ -2288,7 +2287,7 @@ digraph BI {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX 
-*** M19_MIN_LR
+*** Mi9_MIN_LR
    Contains the *USCC* MIN (MSID) block ranges and there *SID* code. The Block Ranges are listed in the *Technical Data Sheet* from *Syniverse*. This only contains *USCC* MINS only. For foreign carriers see the *VISITOR_MIN_LR*.
 #+BEGIN_LaTeX
 \scriptsize
@@ -3127,7 +3126,7 @@ AND expiration_date IS NULL
 #+END_LaTeX
 #+ATTR_LaTeX: longtable align=lll
 |--------------------+--------------------+----------------|
-| *Name*             | *Data Type*        | *Descritption* |
+| *Name*             | *Data Type*        | *Description*  |
 |--------------------+--------------------+----------------|
 | AIR_CHRG_AMT       | NUMBER (18,5)      |                |
 | APPLICATION_ID     | CHAR (6 Byte)      |                |
@@ -4029,5 +4028,37 @@ forgot about this:
 [fn:2] *CIBER* - InCollect processing is still handled by *A&F* and *RBMS*
 
 * Unformatted
-
-select unique(l9_home_sid||l9_serve_sid)  from ape1_rated_event where cycle_code=99 and trunc(start_time)='14-JUN-2016' and l3_payment_category='POST' and resource_type='OTCL'
+select /*+ parallel (16) */ x_notification_type, count(*) from table_x_notification
+                    where x_notification_type = 'OVERAGE'
+                    and trunc(x_create_date) = trunc(sysdate)
+                    group by x_notification_type
+                    union
+                    select /*+ parallel (16) */ x_notification_type, count(*) from table_x_notification
+                    where x_notification_type = 'BUCKET'
+                    and trunc(x_create_date) = trunc(sysdate)
+                    group by x_notification_type
+                    union
+                    select /*+ parallel (16) */ x_notification_type, count(*) from table_x_notification
+                    where x_notification_type = 'BALANCE'
+                    and trunc(x_create_date) = trunc(sysdate)
+                    group by x_notification_type
+                    union
+                    select /*+ parallel (16) */ x_notification_type, count(*) from table_x_notification
+                    where x_notification_type = 'DISCLAIMER'
+                    and trunc(x_create_date) = trunc(sysdate)
+                    group by x_notification_type
+                    order by 1 desc
+                    
+         
+select /*+ parallel (16) */ count(*) from TRB1_SUB_ERRS
+                    where  actv_code_id = 5041
+                    and trunc(error_issue_date) <= trunc(sysdate)
+                    order by error_recycle_time desc
+                    
+                    
+                    
+                    
+                    
+                    
+                               
+                    
