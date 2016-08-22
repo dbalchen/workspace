@@ -34,7 +34,7 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/JamOn6/include/Synths/FMDarkpad.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/initPatch.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/midiDefs.sc".load;
-
+		"/home/dbalchen/Music/JamOn6/include/Patches/patchFunctions.sc".load;
 
 	)
 
@@ -45,31 +45,17 @@ o.memSize = 2097152;
 ~startTimer.value(120);
 ~synth2 = ~synth2.latency_(Server.default.latency);
 
-
-~dcs = 1.0;
-~fscale = 1.0;
-~release = 0.5;
-~attack = 3.00;
-~amp = 0.1;
-
 ~mixer1.set(\bal,1.0);
 ~mixer2.set(\bal,1.0);
 
-~circleExtOut = Bus.control(s,1);
-~circleExt = nil;
-~circleExt = Synth("myExtCircle",addAction: \addToHead);
-~circleExt.set(\out,~circleExtOut);
-~circleExt.set(\phase,1);
-~circleExt.set(\mull,0.1);
-~circleExt.set(\ratio,0.98);
-~circleExt.set(\mull,0.9);
-~circleExt.set(\sig2p,16);
-~circleExt.set(\sigp,256);
-~circleExt.set(\mull,0.9);
-~mixer3.set(\bmod,~circleExtOut);
-~mixer3.set(\bal,0);
-~circleExt.set(\gate,1);
+~pulseSweep.value;
 
+~pulseSweepOff.value;
+
+~circleOut = Bus.audio(s,1);
+~circle = Synth("myCircle",addAction: \addToHead);
+~circle.set(\out,~circleOut);
+~circle.set(\gate,1);
 
 
 ~rp={

@@ -1,4 +1,4 @@
-SynthDef(\bdSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spread = 0, center = 0,// VCA Controls
+-SynthDef(\bdSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spread = 0, center = 0,// VCA Controls
 	clip = 1, overd = 1, cutoff = 5000, gain = 1, mgain = 0, mul = 1, maoc = 1; // Clip and Low Pass Filter
 
 	var sig;

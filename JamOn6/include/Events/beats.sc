@@ -36,9 +36,6 @@
 ).play};
 
 
-
-
-
 ~adsr = ~bassdrum.deepCopy;
 ~adsr.init;
 

@@ -1,10 +1,6 @@
 ~nGroup = Group.new;
 ~oGroup = Group.new;
 
-
-
-
-
 // ~adsrOut = Bus.audio(s,1);
 // ~myadsr = MyADSR.new;
 // ~myadsr.init;
@@ -12,12 +8,6 @@
 // ~myadsr.decay = 2.5;
 // ~myadsr.sustain = 0.0;
 // ~myadsr.release = 0.0;
-
-
-
-~circle = Synth("myCircle",addAction: \addToHead);
-~circle.set(\out,~circleOut);
-
 
 //
 // ~circleExtOut2 = Bus.control(s,1);
@@ -47,12 +37,12 @@
 ~vca2 =  Synth("vca",addAction: \addToTail);
 ~vca2.set(\in,~bellOut);
 
-~dcs = 3.5;
+~dcs = 2.0;
 ~fscale = 1.0;
 ~release = 0.5;
-~attack = 0.0;
-~amp = 0.035;
-~pitch = 87.3070578583;
+~attack = 3.00;
+~amp = 0.09;
+~pitch = 87.3070578583/2;
 
 ~env2out = Bus.audio(s,1);
 ~env2out1 = Bus.audio(s,1);
@@ -84,11 +74,11 @@
 ~pulse.set(\aocIn, ~adsr2Out);
 ~pulse1.set(\lagLev,0.0250);
 ~pulse.set(\clip,1);
-~pulse.set(\aoc,1.0);
+~pulse.set(\aoc,0.90);
 ~pulse.set(\cutoff,~mix3out);
 ~pulse.set(\mgain,1.45);
 ~pulse.set(\maoc,0.98);
-~pulse.set(\amp,0.5);
+~pulse.set(\amp,0.75);
 
 ~envout = Bus.audio(s,1);
 ~envout1 = Bus.audio(s,1);
@@ -98,7 +88,6 @@
 ~mix1out = Bus.audio(s,1);
 ~mix2out = Bus.audio(s,1);
 ~noise1Out = Bus.audio(s,1);
-~circleOut = Bus.audio(s,1);
 
 ~wind = Synth("windspeed",target: ~oGroup,addAction: \addToHead);
 ~wind.set(\out,~wcut);
@@ -135,4 +124,4 @@
 ~mixer2.set(\bal,-1.0);
 
 
-~pad_firmus.amp = 0.04;
+~pad_firmus.amp = 0.1;

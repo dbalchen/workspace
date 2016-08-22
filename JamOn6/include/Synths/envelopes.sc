@@ -5,6 +5,9 @@ SynthDef(\zeroRate,{arg out = 0;
 SynthDef(\iRate,{arg out = 0;
 	Out.kr(out, 1);}).add;
 
+SynthDef(\iRate0,{arg out = 0;
+	Out.kr(out, 0);}).add;
+
 
 SynthDef(\env0, {arg out=0,r1 = 0.5,r2 = 1, r3 = 0.5, r4 = 0, r5 = 0,gate = 0;
 	var sig;
@@ -59,23 +62,21 @@ SynthDef(\myADSR,{arg out = 0, attack = 0, decay = 0.0, sustain = 0, release = 0
 	Out.ar(out,sig*cutoff)}).add;
 
 
-SynthDef(\myCircle,{arg out = 0, zgate = 0;
+SynthDef(\myCircle,{arg out = 0, gate = 0;
 	var sig;
-	sig = (SinOsc.ar(1/32)) * zgate;
+	sig = (SinOsc.ar(1/32)) * gate;
 	Out.ar(out,sig);}).add;
 
-SynthDef(\myExtCircle,{arg out = 0, mull = 1/2, phase = 1, sigp = 1024, sig2p = 256, ratio = 1, add = 0, gate = 0;
+SynthDef(\myExtCircle,{arg out = 0, mull = 1/2, sig2p = 256, gate = 0 , start = 1, end = -1, time = 128;
 	var sig,sig2,rate;
-	
-	sig = Env.new([1,-1],[64]);
-	sig = EnvGen.kr(sig,gate:gate);
-	
+
+	sig = Env.new([start,end],[time]);
+	sig = EnvGen.kr(sig,doneAction:2,gate:gate);
+
 	sig2 = (SinOsc.kr(1/sig2p)) * gate * mull;
 	rate = 1.0 - sig.abs;
 	sig2 = sig2*rate;
 	sig = sig + sig2;
-	sig = (sig*ratio);
-	sig = sig + add;
 	Out.kr(out,sig);}).add;
 
 SynthDef(\two2one, {arg out=0,in0 = 0, in1 = 0,bal = 0, bmod = 999;
