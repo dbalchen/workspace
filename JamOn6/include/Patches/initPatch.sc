@@ -39,9 +39,9 @@
 
 ~dcs = 2.0;
 ~fscale = 1.0;
-~release = 0.5;
+~release = 1.5;
 ~attack = 3.00;
-~amp = 0.09;
+~amp = 0.07;
 ~pitch = 87.3070578583/2;
 
 ~env2out = Bus.audio(s,1);
@@ -105,7 +105,7 @@
 ~mixer2.set(\out,~mix2out);
 
 ~noise1 =  Synth("Noise",target: ~nGroup,addAction: \addToTail);
-~noise1.set(\freq, 77.midicps);
+~noise1.set(\freq, 65.midicps);
 ~noise1.set(\out,~noise1Out);
 
 ~noise =  Synth("bdSound",target: ~nGroup,addAction: \addToTail);
@@ -114,6 +114,7 @@
 ~noise.set(\mul, ~mix2out);
 ~noise.set(\oscIn, ~noise1Out);
 ~noise.set(\aocIn, ~circleOut);
+~noise.set(\spread,1);
 
 ~noise1.set(\rq,0.15);
 ~noise1.set(\lagLev,4.00);

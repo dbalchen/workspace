@@ -20,8 +20,9 @@ o.memSize = 2097152;
 
 (
 ~startup = {
-
-	(
+	s.quit;
+	s.boot;
+//	(
 
 		"/home/dbalchen/Music/JamOn6/include/Synths/bdSynth.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
@@ -36,7 +37,7 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/JamOn6/include/Patches/midiDefs.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/patchFunctions.sc".load;
 
-	)
+//	)
 
 };
 )
@@ -48,8 +49,11 @@ o.memSize = 2097152;
 ~mixer1.set(\bal,1.0);
 ~mixer2.set(\bal,1.0);
 
-~pulseSweep.value;
 
+~noiseSweep.value;
+~noiseSweep2.value;
+
+~pulseSweep.value;
 ~pulseSweepOff.value;
 
 ~circleOut = Bus.audio(s,1);
@@ -106,27 +110,16 @@ TempoClock.default.tempo = 120 / 60;
 
 		t.schedAbs(timeNow + 00,{ // 00 = Time in beats
 			(
-				~mixer4.set(\bal,-1.0);
-				~mixer1.set(\bal,-1.0);
-				~mixer2.set(\bal,-1.0);
-				// ~mixer3.set(\bal,1.0);
-				~mixer3.set(\bal,0.0);
-				~circleExt.set(\zgate,1);
-
-				~midiBellDrum.value;
-				~midiBassDrum.value;
-				~midiCantus_firmus.value;
-				~circle.set(\zgate,1);
-				~midiSineDrum.value;
-				~midiAdsr.value;
+				~mixer1.set(\bal,1.0);
+				~mixer2.set(\bal,1.0);
+				~noiseSweep.value;
+				~noiseSweep2.value;
 		);};); // End of t.schedAbs
 
-		t.schedAbs(timeNow + 16,{ // 00 = Time in beats
+		t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
 			(
-				~mixer1.set(\bal,0.0);
-				~mixer2.set(\bal,0.0);
-				~circleExt2.set(\zgate,1);
-				~circleExt3.set(\zgate,1);
+
+
 
 		);};); // End of t.schedAbs
 
@@ -134,20 +127,17 @@ TempoClock.default.tempo = 120 / 60;
 		t.schedAbs(timeNow + 32,{ // 00 = Time in beats
 			(
 
-				~mixer4.set(\bal,-1);
-				//	~mixer3.set(\bal,0.0);
-				//	~circleExt.set(\zgate,1);
 		);};); // End of t.schedAbs
 
 
 		t.schedAbs(timeNow + (96-0.2),{ // 00 = Time in beats
 			(
-				//	~midistring1_firmus.value;
+
 		);};); // End of t.schedAbs
 
 		t.schedAbs(timeNow + (160-0.2),{ // 00 = Time in beats
 			(
-				//~midistring2_firmus.value;
+
 		);};); // End of t.schedAbs
 		//Add more
 
