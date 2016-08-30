@@ -90,15 +90,15 @@ SynthDef(\two2one, {arg out=0,in0 = 0, in1 = 0,bal = 0, bmod = 999;
 }).add;
 
 SynthDef(\two2two, {arg out=0, out1 = 0, in0 = 0, in1 = 0, bal = 0, bmod = 999;
-	var amp1 = 1, amp2 = 1, sig;
+	var amp1 = 1, amp2 = 1, sig0, sig1;
 
 	bal = bal + 1 + In.kr(bmod);
 	amp1 = bal*0.5;
 	amp2 = 1 - amp1;
-	sig = (In.ar(in0)*amp1) + (In.ar(in1)*amp2);
-	Out.ar(out,sig);
-	Out.ar(out1,sig);
-
+	sig0 = (In.ar(in0)*amp1);
+	sig1 = (In.ar(in1)*amp2);
+	Out.ar(out,sig0);
+	Out.ar(out1,sig1);
 }).add;
 
 

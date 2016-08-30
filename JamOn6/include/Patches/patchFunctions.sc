@@ -55,3 +55,33 @@
 	~mixer1.set(\bmod,~circleExt3Out);
 	~mixer1.set(\bal,0);
 	~circleExt3.set(\gate,1); };
+
+
+~pulseAmp = {arg start = 0, end = 1;
+
+	~circleExt4Out = Bus.control(s,1);
+	~circleExt4.set(\gate,0);
+	~circleExt4 = nil;
+	~circleExt4 = Synth("myExtCircle",addAction: \addToHead);
+	~circleExt4.set(\start,start);
+	~circleExt4.set(\end,end);
+	~circleExt4.set(\out,~circleExt4Out);
+	~circleExt4.set(\mull,0.5);
+	~circleExt4.set(\sig2p,(8*4*2));
+	~circleExt4.set(\time,(16*4*2));
+	~circleExt4.set(\gate,1); };
+
+
+~sineAmp = {arg start = 0, end = 1;
+
+	~circleExt5Out = Bus.control(s,1);
+	~circleExt5.set(\gate,0);
+	~circleExt5 = nil;
+	~circleExt5 = Synth("myExtCircle",addAction: \addToHead);
+	~circleExt5.set(\start,start);
+	~circleExt5.set(\end,end);
+	~circleExt5.set(\out,~circleExt5Out);
+	~circleExt5.set(\mull,0.5);
+	~circleExt5.set(\sig2p,(8*4*2));
+	~circleExt5.set(\time,(16*4*2));
+	~circleExt5.set(\gate,1); };

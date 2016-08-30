@@ -9,24 +9,6 @@
 // ~myadsr.sustain = 0.0;
 // ~myadsr.release = 0.0;
 
-//
-// ~circleExtOut2 = Bus.control(s,1);
-// ~circleExt2 = Synth("myExtCircle",addAction: \addToHead);
-// ~circleExt2.set(\phase,3);
-// ~circleExt2.set(\out,~circleExtOut2);
-// ~circleExt2.set(\mull,0.25);
-// ~circleExt.set(\ratio,0.65);
-// ~circleExt.set(\add, 0.3);
-// ~mixer1.set(\bmod,~circleExtOut2);
-//
-// ~circleExtOut3 = Bus.control(s,1);
-// ~circleExt3 = Synth("myExtCircle",addAction: \addToHead);
-// ~circleExt3.set(\out,~circleExtOut3);
-// ~circleExt3.set(\phase,3);
-// ~circleExt3.set(\mull,0.15);
-// ~mixer2.set(\bmod,~circleExtOut3);
-//
-
 
 ~sine1Out = Bus.audio(s,1);
 ~vca1 =  Synth("vca",addAction: \addToTail);
@@ -66,6 +48,7 @@
 
 ~pulse1 =  Synth("Pulse",target: ~oGroup,addAction: \addToTail);
 ~pulse1.set(\out,~pulse1Out);
+~pulse1.set(\amp,In.kr(~circleExt4Out));
 
 ~pulse =  Synth("bdSound",target: ~oGroup,addAction: \addToTail);
 ~pulse.set(\cutoff,~mix3out);

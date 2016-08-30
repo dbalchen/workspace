@@ -20,9 +20,8 @@ o.memSize = 2097152;
 
 (
 ~startup = {
-	s.quit;
-	s.boot;
-//	(
+
+	(
 
 		"/home/dbalchen/Music/JamOn6/include/Synths/bdSynth.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
@@ -37,7 +36,7 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/JamOn6/include/Patches/midiDefs.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/patchFunctions.sc".load;
 
-//	)
+	)
 
 };
 )
@@ -64,15 +63,6 @@ o.memSize = 2097152;
 
 ~rp={
 	s.sync;
-	~midiBellDrum.value;
-	~midiBassDrum.value;
-	~midiCantus_firmus.value;
-	~midistring1_firmus.value;
-	~midistring2_firmus.value;
-	~circle.set(\zgate,1);
-	~circleExt.set(\zgate,1);
-	~midiSineDrum.value;
-	~midiAdsr.value;
 };
 
 
@@ -116,10 +106,12 @@ TempoClock.default.tempo = 120 / 60;
 				~noiseSweep2.value;
 		);};); // End of t.schedAbs
 
-		t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
+		t.schedAbs(timeNow + (16*4),{ // 00 = Time in beats
 			(
 
-
+			 ~pulseSweep.value;
+			 ~pulseAmp.value;
+			 ~sineAmp.value;
 
 		);};); // End of t.schedAbs
 

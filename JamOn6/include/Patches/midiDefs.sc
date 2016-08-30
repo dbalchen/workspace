@@ -34,7 +34,8 @@
 ~channel4 = {arg num, vel = 1;
 	var ret;
 	ret = Synth("Sine",addAction: \addToHead);
-	ret.set(\amp,~sinedrum.amp);
+//	ret.set(\amp,~sinedrum.amp);
+	     ret.set(\amp,In.kr(~circleExt5Out)); 
 	ret.set(\out,~sine1Out);
 	ret.set(\gate,1);
 	ret;
