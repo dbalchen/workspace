@@ -10,10 +10,11 @@
 // ~myadsr.release = 0.0;
 
 
-//~sine1Out = Bus.audio(s,1);
-//~vca1 =  Synth("vca",addAction: \addToTail);
-//~vca1.set(\in,~sine1Out);
-//~vca1.set(\amp,0.75);
+~sine1Out = Bus.audio(s,1);
+~vca1 =  Synth("vca",addAction: \addToTail);
+~vca1.set(\in,~sine1Out);
+~vca1.set(\bamp,~circleExt5Out);
+~vca1.set(\amp,0.0);
 
 ~bellOut = Bus.audio(s,1);
 ~vca2 =  Synth("vca",addAction: \addToTail);
@@ -108,5 +109,13 @@
 ~mixer1.set(\bal,-0.35);
 ~mixer2.set(\bal,-1.0);
 
-
+~pad_firmusOut = Bus.audio(s,1);
 ~pad_firmus.amp = 0.1;
+~pad_firmus.out = ~pad_firmusOut
+
+~string1_firmusOut = Bus.audio(s,1);
+~mixer2 = Synth("two2two",target: ~nGroup,addAction: \addToTail);
+~mixer2.set(\in0,~pad_firmusOut);
+~mixer2.set(\in1,~string1_firmusOut);
+
+

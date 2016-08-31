@@ -102,17 +102,18 @@ TempoClock.default.tempo = 120 / 60;
 			(
 				~mixer1.set(\bal,1.0);
 				~mixer2.set(\bal,1.0);
+		);};); // End of t.schedAbs
+
+		t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
+			(
 				~noiseSweep.value;
 				~noiseSweep2.value;
 		);};); // End of t.schedAbs
 
 		t.schedAbs(timeNow + (16*4),{ // 00 = Time in beats
 			(
-
-
 				~pulseAmp.value;
 				~sineAmp.value;
-
 		);};); // End of t.schedAbs
 
 

@@ -34,7 +34,7 @@
 	~circleExt2.set(\out,~circleExt2Out);
 	~circleExt2.set(\mull,0.25);
 	~circleExt2.set(\sig2p,((8*4)/2));
-	~circleExt2.set(\time,((32*4)/2));
+	~circleExt2.set(\time,((24*4)/2));
 	~mixer2.set(\bmod,~circleExt2Out);
 	~mixer2.set(\bal,0);
 	~circleExt2.set(\gate,1); };
@@ -51,7 +51,7 @@
 	~circleExt3.set(\out,~circleExt3Out);
 	~circleExt3.set(\mull,0.5);
 	~circleExt3.set(\sig2p,((8*4)/2));
-	~circleExt3.set(\time,((32*4)*2));
+	~circleExt3.set(\time,((24*4)*2));
 	~mixer1.set(\bmod,~circleExt3Out);
 	~mixer1.set(\bal,0);
 	~circleExt3.set(\gate,1); };
