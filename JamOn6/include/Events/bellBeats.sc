@@ -1,5 +1,5 @@
 ~sinedrum = ~bassdrum.deepCopy;
-~sinedrum.amp = 0.6;
+~sinedrum.amp = 0.0;
 ~sinedrum.init;
 
 ~midiSineDrum = {Pbind(\type, \midi,

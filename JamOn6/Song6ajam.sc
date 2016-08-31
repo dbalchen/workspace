@@ -109,16 +109,16 @@ TempoClock.default.tempo = 120 / 60;
 		t.schedAbs(timeNow + (16*4),{ // 00 = Time in beats
 			(
 
-			 ~pulseSweep.value;
-			 ~pulseAmp.value;
-			 ~sineAmp.value;
+
+				~pulseAmp.value;
+				~sineAmp.value;
 
 		);};); // End of t.schedAbs
 
 
-		t.schedAbs(timeNow + 32,{ // 00 = Time in beats
+		t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
 			(
-
+				~pulseSweep.value;
 		);};); // End of t.schedAbs
 
 

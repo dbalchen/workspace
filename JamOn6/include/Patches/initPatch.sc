@@ -10,10 +10,10 @@
 // ~myadsr.release = 0.0;
 
 
-~sine1Out = Bus.audio(s,1);
-~vca1 =  Synth("vca",addAction: \addToTail);
-~vca1.set(\in,~sine1Out);
-~vca1.set(\amp,0.75);
+//~sine1Out = Bus.audio(s,1);
+//~vca1 =  Synth("vca",addAction: \addToTail);
+//~vca1.set(\in,~sine1Out);
+//~vca1.set(\amp,0.75);
 
 ~bellOut = Bus.audio(s,1);
 ~vca2 =  Synth("vca",addAction: \addToTail);
@@ -48,7 +48,8 @@
 
 ~pulse1 =  Synth("Pulse",target: ~oGroup,addAction: \addToTail);
 ~pulse1.set(\out,~pulse1Out);
-~pulse1.set(\amp,In.kr(~circleExt4Out));
+~pulse1.set(\bamp,~circleExt4Out);
+~pulse1.set(\amp,0);
 
 ~pulse =  Synth("bdSound",target: ~oGroup,addAction: \addToTail);
 ~pulse.set(\cutoff,~mix3out);
