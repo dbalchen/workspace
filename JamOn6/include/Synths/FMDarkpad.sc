@@ -2,7 +2,7 @@
 // SuperCollider Workspace
 // =====================================================================
 
-SynthDef("FMdarkpad1", {arg freq = 58.6, gate = 0, cutoff = 5000, gain = 0.35,amp = 0.5;
+SynthDef("FMdarkpad1", {arg out = 0; freq = 58.6, gate = 0, cutoff = 5000, gain = 0.35,amp = 0.5;
 
 	var op1,op2,op3,op4,op5,op6,
 	env1,env2,env3,env4,env5,env6,
