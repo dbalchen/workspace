@@ -121,19 +121,8 @@ TempoClock.default.tempo = 120 / 60;
 
 		t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
 			(
-
-				~circleExt2Out = Bus.control(s,1);
-				~circleExt2 = ~modCircle.value(~circleExt2Out,1,-1,((24*4)/2),((8*4)/2),0.25);
-				~mixer2.set(\bmod,~circleExt2Out);
-				~mixer2.set(\bal,0);
-				~circleExt2.set(\gate,1);
-
-				~circleExt3Out = Bus.control(s,1);
-				~circleExt3 = ~modCircle.value(~circleExt3Out,1,-0.5,((24*4)/2),((8*4)/2),0.5);
-				~mixer1.set(\bmod,~circleExt3Out);
-				~mixer1.set(\bal,0);
-				~circleExt3.set(\gate,1);
-
+			~noiseSweep.value;
+			~noiseSweep2.value;
 		);};); // End of t.schedAbs
 
 		t.schedAbs(timeNow + (16*4),{ // 00 = Time in beats
