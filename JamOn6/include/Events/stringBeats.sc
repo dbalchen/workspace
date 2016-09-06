@@ -23,7 +23,7 @@
 	\midicmd, \noteOn,
 	\note,  Pfunc.new({~string1_firmus.freq.next}- 60),
 	\amp, ~string1_firmus.amp,
-	\chan, 6,
+	\chan, 1,
 	\sustain, Pfunc.new({~string1_firmus.duration.next}),
 	\dur, Pfunc.new({~string1_firmus.wait.next})
 ).play};

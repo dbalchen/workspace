@@ -24,7 +24,7 @@
 ~fscale = 1.0;
 ~release = 1.5;
 ~attack = 3.00;
-~amp = 0.07;
+~amp = 0.03;
 ~pitch = 87.3070578583/2;
 
 ~env2out = Bus.audio(s,1);
@@ -106,16 +106,16 @@
 ~noise.set(\aoc,0.75);
 ~noise.set(\spread,1);
 ~noise.set(\amp,3.25);
-~mixer1.set(\bal,-0.35);
-~mixer2.set(\bal,-1.0);
 
-~pad_firmusOut = Bus.audio(s,1);
-~pad_firmus.amp = 0.1;
-~pad_firmus.out = ~pad_firmusOut
+~pad_firmusOut = Bus.audio(s,2);
+~pad_firmus.amp = 0.2;
+~pad_firmus.out = ~pad_firmusOut;
 
-~string1_firmusOut = Bus.audio(s,1);
-~mixer2 = Synth("two2two",target: ~nGroup,addAction: \addToTail);
-~mixer2.set(\in0,~pad_firmusOut);
-~mixer2.set(\in1,~string1_firmusOut);
+~string1_firmusOut = Bus.audio(s,2);
+~string1_firmus.out = ~string1_firmusOut;
+
+~mixer4 = Synth("two2two",target: ~nGroup,addAction: \addToTail);
+~mixer4.set(\in1,~pad_firmusOut);
+~mixer4.set(\in0,~string1_firmusOut);
 
 

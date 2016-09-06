@@ -51,7 +51,7 @@
 	~circleExt3.set(\out,~circleExt3Out);
 	~circleExt3.set(\mull,0.5);
 	~circleExt3.set(\sig2p,((8*4)/2));
-	~circleExt3.set(\time,((24*4)*2));
+	~circleExt3.set(\time,((24*4)/2));
 	~mixer1.set(\bmod,~circleExt3Out);
 	~mixer1.set(\bal,0);
 	~circleExt3.set(\gate,1); };
@@ -85,3 +85,37 @@
 	~circleExt5.set(\sig2p,((8*4)/2));
 	~circleExt5.set(\time,((16*4)/2));
 	~circleExt5.set(\gate,1); };
+
+
+
+~stringSweep = {
+
+	~circleExt6Out = Bus.control(s,1);
+	~circleExt6.set(\gate,0);
+	~circleExt6 = nil;
+	~circleExt6 = Synth("myExtCircle",addAction: \addToHead);
+	~circleExt6.set(\start,-1);
+	~circleExt6.set(\end,1);
+	~circleExt6.set(\out,~circleExt6Out);
+	~circleExt6.set(\mull,0.5);
+	~circleExt6.set(\sig2p,((16*4)/2));
+	~circleExt6.set(\time,((64*4)/2));
+	~mixer4.set(\bmod,~circleExt6Out);
+	~mixer4.set(\bal,0);
+	~circleExt6.set(\gate,1); };
+
+
+
+
+~modCircle = {arg out, start = 0, end = 1, time = 4, time2 = 4, mult = 1;
+	var mod;
+	mod  = Synth("myExtCircle",addAction: \addToHead);
+	mod.set(\start,start);
+	mod.set(\end,end);
+	mod.set(\out,out);
+	mod.set(\mull,mult);
+	mod.set(\sig2p,time2);
+	mod.set(\time,time);
+	mod;
+};
+

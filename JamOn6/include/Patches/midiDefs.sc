@@ -6,13 +6,13 @@
 
 ~channel1 = {arg num, vel = 1;
 	var ret;
-	ret = ~midiStrings.value(~string1_firmus,num,6);
+	ret = ~midiStrings.value(~string1_firmus,num,1);
 	ret;
 };
 
 ~channel2 = {arg num, vel = 1;
 	var ret;
-	ret = ~midiStrings.value(~string2_firmus,num,3);
+	ret = ~midiStrings.value(~string2_firmus,num,2);
 	ret;
 };
 
@@ -34,8 +34,9 @@
 ~channel4 = {arg num, vel = 1;
 	var ret;
 	ret = Synth("Sine",addAction: \addToHead);
-//	ret.set(\bamp,~circleExt5Out);
+	//	ret.set(\bamp,~circleExt5Out);
 	ret.set(\out,~sine1Out);
+	ret.set(\amp,0.6);
 	ret.set(\gate,1);
 	ret;
 

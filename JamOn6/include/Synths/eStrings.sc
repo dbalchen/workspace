@@ -15,7 +15,6 @@ SynthDef("eStrings",
 
 		sig = (LFSaw.ar(freq,0,0.1));
 
-		sig = Splay.ar(sig);
 		sig = sig*EnvGen.kr(env, gate: gate,doneAction:da);
 		sig = MoogFF.ar
 		(
@@ -24,6 +23,7 @@ SynthDef("eStrings",
 			gain
 		);
 
+		sig = Splay.ar(sig);
 
 		Out.ar(out,amp*sig);
 
