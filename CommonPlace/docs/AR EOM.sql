@@ -21,3 +21,6 @@
 :          inner join sa.table_fin_accnt fa on fa_rl.fin_accnt_role2fin_accnt=fa.objid
 :          inner join sa.table_contact con on fa_rl.con_accnt_role2contact=con.objid
 :         where s_fa_id='851316127';
+**** Query for the EOM
+: select  distinct account_id,L9_GEO_CODE from ar1_account where account_id 
+: in (select account_id from prdcustc.geo_code_09012014 where GEO_CODE in ('0','00'))

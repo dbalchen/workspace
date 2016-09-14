@@ -2,12 +2,12 @@
 --- Get the file Identifiers for settlement Period (A settlement period is between 16th and 15th of the next month (Ex. April 16th - May 15th)
 
 select file_name, identifier 
-	from prdafc.ac1_control_hist 
+	from ac1_control_hist 
 	where file_name like 'SDATACBR_FDATACBR%YYYYMMDD%.DAT'; YYYY = Year, MM = Month DD = Day)
 
 --TC_AF_IN (Turbo Charging A&F input)
 select sum(in_rec_quantity) 
-	from prdafc.ac1_control_hist 
+	from ac1_control_hist 
 	where phy_file_ident = 515547210078200
 	 and cur_pgm_name = 'LSN' 
 	 and cur_file_alias = 'DATACBR' 
@@ -16,7 +16,7 @@ select sum(in_rec_quantity)
 
 --TC_AF_DROP (Dropped by A&F)
 select sum(wr_rec_quantity) 
-	from prdafc.ac1_control_hist 
+	from ac1_control_hist 
 	where phy_file_ident = 515547210078200
 	 and cur_pgm_name = 'MD' 
 	 and cur_file_alias = 'DATA_DRP' 
@@ -25,21 +25,21 @@ select sum(wr_rec_quantity)
 
 --TC_ES_IN (Turbo Charging Event Server input)
 select sum(wr_rec_quantity) 
-	from prdafc.ac1_control_hist 
-	where phy_file_ident = 515547210078200
+	from ac1_control_hist 
+	where nxt_file_alias = 'Diameter';
 	 and cur_pgm_name = 'MD' 
 	 and cur_file_alias = 'TCUSAGE' 
 	 and nxt_pgm_name = 'File2E' 
-	 and nxt_file_alias = 'Diameter';
+	 and phy_file_ident = 515547210078200;
 
 --TC_ES_REJ (Rejected by Event Server)
 select sum(wr_rec_quantity) 
-	from prdafc.ac1_control_hist 
-	where phy_file_ident = 515547210078200
+	from ac1_control_hist 
+	where nxt_file_alias = 'REJECT'
 	 and cur_pgm_name = 'File2E' 
 	 and cur_file_alias = 'Diameter' 
 	 and nxt_pgm_name = 'NONE' 
-	 and nxt_file_alias = 'REJECT';
+	 and phy_file_ident = 515547210078200;
 
 -- Rejected Records
 select l9_channel, original_event_id, error_id, max(l9_original_air_time_chg_amt)  
@@ -54,12 +54,13 @@ group by  original_event_id, l9_channel, error_id;
 
 --TC_ES_OUT (Event Server output)
 select sum(wr_rec_quantity) 
-	from prdafc.ac1_control_hist 
-	where phy_file_ident = 515547210078200
+	from ac1_control_hist 
+	where nxt_file_alias = 'GENERATE'
 	 and cur_pgm_name = 'File2E' 
 	 and cur_file_alias = 'Diameter' 
 	 and nxt_pgm_name = 'NONE' 
-	 and nxt_file_alias = 'GENERATE';
+ 	 and phy_file_ident = 515547210078200;
+	
 
 --- Counting events in APRM
 --APRM_SUCCESS (Successfully processed in APRM)
@@ -73,7 +74,7 @@ select /*+ PARALLEL(t1,12) */ count(*)
 
 -- -- Breakdown Costs by carrier code ---
 select /*+ PARALLEL(h1,12) */ carrier_cd, bp_start_date,ciber_file_name_1||ciber_file_name_2, count(*), sum(usage),sum(TOTAL_CHRG_AMOUNT)  
-	from  PRDAPPC.USC_ROAM_EVNTS where (ciber_file_name_1||ciber_file_name_2 = 'SDATACBR_FDATACBR_ID019892_T20160503003300.DAT') 
+	from  USC_ROAM_EVNTS where (ciber_file_name_1||ciber_file_name_2 = 'SDATACBR_FDATACBR_ID019892_T20160503003300.DAT') 
 	 or  (ciber_file_name_1||ciber_file_name_2 = 'SDATACBR_FDATACBR_ID019892_T20160503003300.DAT') 
 	 or  (ciber_file_name_1||ciber_file_name_2 like 'SDATACBR_FDATACBR_ID019892_T20160503003300.DAT') 
 	 or  (ciber_file_name_1||ciber_file_name_2 like 'SDATACBR_FDATACBR_ID019892_T20160503003300.DAT') 

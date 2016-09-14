@@ -1,0 +1,60 @@
+** APRM Accrual Query
+   :  SELECT /*+ parallel(a,24)  parallel(p,24)  parallel(s,24) */a.bp_start_date,a.orig_bp,a.event_date,
+   :  TO_DATE(TO_CHAR(a.sys_creation_date,'MM/DD/YYYY'),'MM/DD/YYYY') AS sys_creation_date,	
+   :  SUM(NVL(a.tot_org_chrg_prm_v,0)) AS tot_org_chrg_prm_v,	
+   :  SUM(NVL(a.tot_chrg_param_val,0)) AS tot_chrg_param_val,	
+   :  SUM(NVL(a.tot_net_usage_chrg,0)) AS tot_net_usage_chrg,	
+   :  p.carrier_cd,p.prod_cat_id,p.rate_plan_cd,p.nr_param_2_val,	
+   :  p.future_3,p.future_6, s.sid_commercial_name	
+   :  FROM prm_app.ic_accumulated_chrg a	
+   :  INNER JOIN	
+   :  prm_app.prm_event_dtl_param p	
+   :  ON a.au_id=p.au_id	
+   :  LEFT OUTER JOIN	
+   :  (SELECT a.*, sid_commercial_name FROM (SELECT /*+ parallel(a,24) full(a)*/MIN(cindex) 
+   :  AS cindex, setlmnt_contract_cd FROM pc9_sid a GROUP BY setlmnt_contract_cd) a, pc9_sid b WHERE a.cindex=b.cindex) s	
+   :  ON SUBSTR(p.nr_param_2_val,1,3)=SUBSTR(s.setlmnt_contract_cd,1,3)	
+   :  WHERE prod_cat_id='IN'	
+   :  AND bp_start_date='16-JAN-2016' and event_date < '01-FEB-2016' 	
+   :  GROUP BY (a.bp_start_date, a.orig_bp, a.event_date, a.sys_creation_date, p.carrier_cd, 
+   :            p.prod_cat_id, p.rate_plan_cd, p.nr_param_2_val, p.future_3, p.future_6, s.sid_commercial_name);	
+
+** APRM Settlement Query
+   : SELECT /*+ parallel(a,24)  parallel(p,24)  parallel(s,24) */  a.bp_start_date,a.orig_bp,
+   :  a.event_date,TO_DATE(TO_CHAR(a.sys_creation_date,'MM/DD/YYYY'),'MM/DD/YYYY') AS sys_creation_date,	
+   :  SUM(NVL(a.tot_org_chrg_prm_v,0)) AS tot_org_chrg_prm_v,	
+   :  SUM(NVL(a.tot_chrg_param_val,0)) AS tot_chrg_param_val,	
+   :  SUM(NVL(a.tot_net_usage_chrg,0)) AS tot_net_usage_chrg,	
+   :  p.carrier_cd,p.prod_cat_id,p.rate_plan_cd,p.nr_param_2_val,	
+   :  p.future_3,p.future_6, s.sid_commercial_name	
+   : FROM prm_app.ic_accumulated_chrg a	
+   :  INNER JOIN	
+   :  prm_app.prm_event_dtl_param p	
+   :  ON a.au_id=p.au_id	
+   :  LEFT OUTER JOIN	
+   :  (SELECT a.*, sid_commercial_name FROM (SELECT /*+ parallel(a,24) full(a)*/  MIN(cindex) AS cindex, 
+   :  setlmnt_contract_cd FROM pc9_sid a GROUP BY setlmnt_contract_cd) a, pc9_sid b WHERE a.cindex=b.cindex) s	
+   :  ON SUBSTR(p.nr_param_2_val,1,3)=SUBSTR(s.setlmnt_contract_cd,1,3)	
+   : WHERE prod_cat_id='IN'	
+   :  AND bp_start_date='16-JAN-2016'	
+   : GROUP BY (a.bp_start_date, a.orig_bp, a.event_date, a.sys_creation_date, p.carrier_cd, p.prod_cat_id, 
+   :  p.rate_plan_cd, p.nr_param_2_val, p.future_3, p.future_6, s.sid_commercial_name);	
+** Intra Roaming Query
+   : SELECT prm_app.ic_accumulated_chrg.BP_START_DATE,prm_app.ic_accumulated_chrg.ORIG_BP,
+   :  prm_app.ic_accumulated_chrg.event_date,	
+   :  SUM(NVL(prm_app.ic_accumulated_chrg.TOT_ORG_CHRG_PRM_V,0)) AS TOT_ORG_CHRG_PRM_V,	
+   :  SUM(NVL(prm_app.ic_accumulated_chrg.TOT_CHRG_PARAM_VAL,0)) AS TOT_CHRG_PARAM_VAL,	
+   :  SUM(NVL(prm_app.ic_accumulated_chrg.TOT_NET_USAGE_CHRG,0)) AS TOT_NET_USAGE_CHRG,	
+   :  SUM(NVL(prm_app.ic_accumulated_chrg.CP_USAGE_CHRG,0)) AS CP_USAGE_CHRG,	
+   :  prm_app.PRM_EVENT_DTL_PARAM.CARRIER_CD,prm_app.PRM_EVENT_DTL_PARAM.PROD_CAT_ID,
+   :  prm_app.prm_event_dtl_param.qual_param_1_val,prm_app.PRM_EVENT_DTL_PARAM.RATE_PLAN_CD,
+   :  prm_app.PRM_EVENT_DTL_PARAM.NR_PARAM_2_VAL,prm_app.PRM_EVENT_DTL_PARAM.FUTURE_3,prm_app.PRM_EVENT_DTL_PARAM.FUTURE_6	
+   : FROM prm_app.ic_accumulated_chrg	
+   :  INNER JOIN prm_app.PRM_EVENT_DTL_PARAM	
+   :  ON prm_app.ic_accumulated_chrg.AU_ID=prm_app.PRM_EVENT_DTL_PARAM.AU_ID	
+   : WHERE prod_cat_id='IR'	
+   :  AND bp_start_date='01-JAN-2016'	
+   : GROUP BY (prm_app.ic_accumulated_chrg.BP_START_DATE,prm_app.ic_accumulated_chrg.ORIG_BP,prm_app.ic_accumulated_chrg.event_date,
+   :   prm_app.PRM_EVENT_DTL_PARAM.CARRIER_CD,prm_app.PRM_EVENT_DTL_PARAM.PROD_CAT_ID,prm_app.prm_event_dtl_param.qual_param_1_val,
+   :   prm_app.PRM_EVENT_DTL_PARAM.RATE_PLAN_CD,prm_app.PRM_EVENT_DTL_PARAM.NR_PARAM_2_VAL,
+   :   prm_app.PRM_EVENT_DTL_PARAM.FUTURE_3,prm_app.PRM_EVENT_DTL_PARAM.FUTURE_6);	
