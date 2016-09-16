@@ -3,16 +3,20 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "SDIRI_FCIBER_ID000090_T20160829173752.DAT";
+$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001063_T20160915175115.DAT";
 
 # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 my $ORACLE_SID  = "bodsprd";
 $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ORACLE_HOME/bin";
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-my $filename = $ARGV[0];
+my $hh = "cat $ARGV[0] | grep '^98' | sort -u | cut -b 26-37| awk '{ sum+=".'$1'."} END {print sum}'";
+
+my $filesum = `$hh`; $filesum = $filesum/100;
+
+my $filename = (split('/',$ARGV[0]))[-1];
 
 my $dbconn = getBODSPRD();
 
@@ -91,10 +95,17 @@ $sth->execute() or sendErr();
 
 my %reportVariable = {};
 while (my @rows2 = $sth->fetchrow_array() ) {
+
+  $rows2[1] =~ s/\s+//g;
+
+  if (length($rows2[1]) == 0) {
+    $rows2[1] = 0;
+  }
+  
   $reportVariable{$rows2[0]} = $rows2[1];
 }
 
-$sql = "select /*+ PARALLEL(t1,12) */ 'APRM_SUCCESS', count(*), sum(TOTAL_CHRG_AMOUNT)
+$sql = "select /*+ PARALLEL(t1,12) */ 'APRM_SUCCESS', count(*), cast(sum(TOTAL_CHRG_AMOUNT) as decimal (18,2))
     from usc_roam_evnts t1
     where
     prod_id = 2 and event_id <> 2
@@ -107,27 +118,36 @@ $sth->execute() or sendErr();
 my @aprm = $sth->fetchrow_array();
 
 
-$sql = "select l9_channel, original_event_id, error_id, max(l9_original_air_time_chg_amt)  
+$sql = "select l9_channel, error_id, max(l9_original_air_time_chg_amt)  
     from ape1_rejected_event 
     where original_event_id 
      in (select unique(original_event_id) 
         from ape1_rejected_event 
         where physical_source = $fileId[1]) 
-     and processing_status = 'CO' 
      and event_id = original_event_id 
 group by  original_event_id, l9_channel, error_id";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-@errorRows = [];
+my $errorRpt = $filename.'.err'.'.csv';
+open( ERR, ">$errorRpt" ) || errorExit("Could not open error file.... Fail!!!!");
+my $rejectSum = 0;
+
 while (my @rows3 = $sth->fetchrow_array() ) {
-  push(@errorRows,\@rows3);
+  $rejectSum = $rejectSum + $rows3[2];
+  
+  print ERR $rows3[0]."\t".$rows3[1]."\t".$rows3[2]."\n";
+
 }
 
+my $reportFile = $filename.'.csv';
 
+open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... CallDump Failed!!!!");
 
-print $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DroppedbyES'}."\t".$reportVariable{'Rejected'}."\t".$reportVariable{'DuplicatebyES'}."\t".$reportVariable{'Generate'}."\t".$aprm[1]."\t".$aprm[2]."\n";
+print RPT $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DroppedbyES'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$reportVariable{'DuplicatebyES'}."\t".$reportVariable{'Generate'}."\t".$aprm[1]."\t".$aprm[2]."\n";
+
+close(RPT);
 
 $dbconn->disconnect();
 exit(0);

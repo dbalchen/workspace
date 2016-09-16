@@ -51,73 +51,86 @@
  : New Page
  : \newpage
 :END:
-* Data Roaming Reconciliation Analysis
-** Purpose of Project Management Plan
+* Data Roaming Reconciliation Documentation [0%]
+  SCHEDULED:
+  - [ ] Documentation
+  - [ ] Code
+  - [ ] Test 
+  - [ ] Deploy
+
+** Project Scope
     Create a reconciliation report that will be run both daily and monthly for all roaming data types.
-** Executive Summary of Project Charter
-   To reconcile in both usage and revenue for all roaming (Incollect and Outcollects). 
-** Assumptions/Constraints
-    /[Insert summary of any changes from the project assumptions and/or constraints that were originally outlined in the project charter.]/
-** Scope Management
-   :PROPERTIES:
-   :q:
-   :END:
-   /[Insert the project's scope management plan or provide a reference to where it is stored.]/
+    To reconcile in both usage and revenue for all roaming (Incollect and Outcollects). 
+** Assumptions
+** User Requirements
+   There will be a Daily and monthly report sent for each roaming type.
+*** Daily Report
+      [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
+*** Monthly Report
+    <Example Here>
 #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
 #+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
-* Work Breakdown					:taskjuggler_project:
-** Analysis
+** TODO Process Decomposition [%]			:taskjuggler_project:
+   - [ ] OutCollects [%]
+     - [ ]Read Craigs Doc
+     - [ ] Is there anything for voice or is it just data?
+     - [ ] I believe 
+   - [ ] How do we plan to compare to Syniverse [%]
+     - [ ] Will there be a job that reads the file then adds the information to the database.
+   - [ ] Where does all the ARCM come in....
+   - [ ] Where does VOLTE and LTE in collects come into play.
+*** Analysis
    :PROPERTIES:
    :blocker:  start
    :ordered:  t
    :END:
-*** Usage Types (Incollects)
+**** Usage Types (Incollects) [0%]
      :PROPERTIES:
      :effort:   1.5d
      :END:
-    - CDMA Voice
+    - [ ] CDMA Voice
       - *Directory:* //pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/
       - *Machine:* kpr02batch
       - *Record Type:* CIBER
-    - CDMA Data
+    - [ ] CDMA Data
       - *Directory:* //pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/
       - *Machine:* kpr02batch
       - *Record Type:* CIBER
-    - Volte
+    - [ ] Volte
       - *Directory:* //m01/switchb/tas/
       - *Machine:* kpr01scdap
       - *Record Type:* UFF
-    - LTE
+    - [ ] LTE
       - *Directory*: //m04/switch/lte/
       - *Machine:* kpr01scdap
       - *Record Type:* UFF
-    - GSM
-      - *Directory*: //m01/switchb/gsmd/ (data)
-	- //m01/switchb/gsmv/ (voice)
-	- //m01/switchb/gsms/ (SMS)
-	- //m01/switchb/gsmt/ (PMG)
-      - *Machine:* kpr01scdap
+    - [ ] GSM
+      - *Directory*: /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/GSMI (data)
+	- ../GSMI/gsmv/ (voice)
+	- ../GSMI/gsms/ (SMS)
+	- ../GSMI/gsmt/ (PMG)
+      - *Machine:* kpr02batch
       - *Record Type:* UFF
-*** System Flow
-**** ARCM
-***** Flow
+**** System Flow
+***** ARCM
+****** Flow
       :PROPERTIES:
       :effort:   4d
       :END:
-***** ARCM Tables
+****** ARCM Tables
       :PROPERTIES:
       :effort:   2d
       :END:
-*** Analyse Mediations Outcollect Process
+**** Analyse Mediations Outcollect Process
       :PROPERTIES:
       :effort:   3d
       :END:
-** Development
+*** Development
    :PROPERTIES:
    :ordered:  t
    :blocker:  previous-sibling
    :END:
-*** Create table
+**** Create table
     Create the table using the spreadsheet as a reference.
     [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
 
@@ -128,12 +141,12 @@
     :  column_n datatype [ NULL | NOT NULL ]
     : );
 
-*** Create SQL for each data type
+**** Create SQL for each data type
     :PROPERTIES:
     :blocker:  start
     :ordered:  t
     :END:
-**** Volte
+***** Volte
      :PROPERTIES:
      :ordered:  t
      :END:
@@ -145,128 +158,81 @@
       :PROPERTIES:
       :effort:   5h
       :END:
-**** LTE
+***** LTE
      :PROPERTIES:
      :ordered:  t
      :END:
-***** Incollect
+****** Incollect
       :PROPERTIES:
       :effort:   5h
       :END:
-***** Outcollect
+****** Outcollect
       :PROPERTIES:
       :effort:   5h
       :END:
-**** CDMA (AAA)
+***** CDMA (AAA)
      :PROPERTIES:
      :ordered:  t
      :END:
-***** Data Ciber Incollects (done)
+****** Data Ciber Incollects (done)
       [[file:docs/CDMA_Data_Incollect.sql][Data Incollect SQL]]
       :PROPERTIES:
       :effort:   5h
       :END:
-***** Data CIBER Outcollects (Talk to Craig)
+****** Data CIBER Outcollects (Talk to Craig)
       :PROPERTIES:
       :effort:   3d
       :END:
-**** Voice
+***** Voice
      :PROPERTIES:
      :ordered:  t
      :END:
-***** Incollects
+****** Incollects
       [[file:docs/CDMA_Voice_Incollect.sql][Voice Incollects SQL]]
       :PROPERTIES:
       :effort:   5h
       :END:
-***** Outcollects
+****** Outcollects
       :PROPERTIES:
       :effort:   3d
       :END:
-**** GSM (Incollect Only)
+***** GSM (Incollect Only)
      :PROPERTIES:
      :ordered:  t
      :END:
-***** GSMV
+****** GSMV
       :PROPERTIES:
       :effort:   5h
       :END:
-***** GSMD
+****** GSMD
       :PROPERTIES:
       :effort:  5h 
       :END:
-*** Coding
+**** Coding
    :PROPERTIES:
    :effort:   15d
    :blocker:
    :END:
-*** Testing
+**** Testing
    :PROPERTIES:
    :effort:   5d
    :blocker:
    :END:
-** Contingency 
+**** Contingency 
    :PROPERTIES:
    :effort:   10d
    :blocker:  previous-sibling
    :ordered:  t
    :END:
-** Deployment Plan
-    /[Example: The project involves deploying an application to state health partners. This section would discuss the approach for rolling out the application to the end users, including conducting environment assessments, developing memorandums of understandings, hardware/software installation, data conversion.]/
-** Change Control Management
-    /[Example of Change Control: If a development server for your project is administered by another organization that is responsible for installing machine upgrades and there are scheduled outages that will impact your project schedule. Changes to the project will need to be made to deal with the potential impact of the scheduled outage.]/
-* Schedule/Time Management
-  - Build Date
-    DEADLINE: <2016-12-18 Sun>   
-  - Planned Implimentation Date
-    DEADLINE: <2017-02-12 Sun>
-* Human Resource Management
-   /[Insert the project's human resource management plan or provide a reference to where it is stored.]/
-* Cost/Budget Management
-   /[Insert the project's cost management plan or provide a reference to where it is stored.]/
-* Quality Management
-   /[Example: For an information system, controlling the consistency of screen layouts would include reviewing all screens to make sure they match the standards. Quality measures may be no bugs or defects for certain critical requirements, consistent screen layouts, or correctly calculating variables. Quality may be ensured through inspections, audits, formal testing and documentation of defects in a defect tracking system to ensure defects are fixed, retested and closed. Some projects may choose to use a traceability matrix to determine if critical requirements have been met.]/
-* Communications Management
-   /[Insert the project's communication management plan or provide a reference to where it is stored.]/
-** Communication Matrix
-|-------------+----------+----------+-----------+---------------+---------------------|
-| Stakeholder | Messages | Vehicles | Frequency | Communicators | Feedback Mechanisms |
-|-------------+----------+----------+-----------+---------------+---------------------|
-|             |          |          |           |               |                     |
-|-------------+----------+----------+-----------+---------------+---------------------|
-* Risk Management
-   /[Insert the project's risk management plan or provide a reference to where it is stored.]/
-*** Risk Log
-    /[The Risk Log is normally maintained as a separate document. Provide a reference to where it is stored.]/
-* Issue Management
-   /[Insert the project's issue management plan or provide a reference to where it is stored.]/
-** Issue Log
-    /[The Issue Log is normally maintained as a separate document. Provide a reference to where it is stored.]/
-* Procurement Management
-   /[Example: This can include information such as ensuring project team members are assigned computers, how development and test servers are procured or can go into more detail and include an acquisition strategy that details how the project will be staffed (e.g., performance based fixed price contract, CITS contractors).]/
-* Compliance Related Planning
-   /[Insert a list of compliance related processes the project must
-   adhere to]
 
-* Data Roaming Reconciliation Documentation [%]
-  SCHEDULED:
-  - [ ] Documentation
-  - [ ] Code
-  - [ ] Test 
-  - [ ] Deploy
-
-** Project Scope
-** Assumptions
-** User Requirements
-** Process Decomposition
-** Executable
-*** /Program Name/
+**** Executable
+***** /Program Name/
     - *Language:*
     - *Source Code Location:*
     - *Parameters:* /input and output/
     - *Description:*
 
-** Data Decomposition
+*** Data Decomposition
    - *Table/Field Name:*
    - *Purpose of File/Table:*
    - *Type of Change:* /create new or modify existing/
@@ -279,9 +245,28 @@
 |                   |      |        |             |
 |-------------------+------+--------+-------------|
 
+*** Schedule/Time Management
+  - Build Date
+    DEADLINE: <2016-12-18 Sun>   
+  - Planned Implimentation Date
+    DEADLINE: <2017-02-12 Sun>
 ** Infrastructure Considerations
 ** Testing Approach
 ** Implementation Considerations
+* Communications Management
+   /[Insert the project's communication management plan or provide a reference to where it is stored.]/
+** Communication Matrix
+|-------------+----------+----------+-----------+---------------+---------------------|
+| Stakeholder | Messages | Vehicles | Frequency | Communicators | Feedback Mechanisms |
+|-------------+----------+----------+-----------+---------------+---------------------|
+|             |          |          |           |               |                     |
+|-------------+----------+----------+-----------+---------------+---------------------|
+
+* Issue Management
+   /[Insert the project's issue management plan or provide a reference to where it is stored.]/
+** Issue Log
+    /[The Issue Log is normally maintained as a separate document. Provide a reference to where it is stored.]/
+
 * SOFTWARE CHANGES
 
 #+BEGIN_LaTeX
@@ -299,6 +284,3 @@
 \newpage
 #+END_LaTeX
 * TEST EXECUTION RESULTS
-
-
-
