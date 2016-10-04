@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-# $ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID023185_T20160915023301.DAT";
+#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID023185_T20160915023301.DAT";
 
 # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -28,6 +28,15 @@ $sth->bind_param( 1, $filename );
 $sth->execute() or sendErr();
 
 my @fileId = $sth->fetchrow_array();
+
+if($fileId[1] eq "")
+{
+my $reportFile = $filename.'.rpt.csv';
+open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
+print RPT $filename."\t"."File still processing\n";
+close(RPT);
+$dbconn->disconnect();exit(0);
+}
 
 $sql = "select 'IN_REC_QUANTITY', sum(in_rec_quantity) 
      from ac1_control_hist 
@@ -137,9 +146,9 @@ exit(0);
 
 sub getBODSPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar500#" );
+#  my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+#  my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+   my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar500#" );
   unless ( defined $dbods ) {
     sendErr();
   }

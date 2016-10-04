@@ -23,79 +23,80 @@ my %tab = {};
 
 $dirs{'SDIRI_FCIBER'} = '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI';
 $dirs{'SDATACBR_FDATACBR'} = '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR';
+$dirs{'CIBER_CIBER'} = '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output';
 
 $jobs{'SDIRI_FCIBER'} = 'getFileInfo.pl';
 $jobs{'SDATACBR_FDATACBR'} = 'getFileInfoData.pl';
+$jobs{'CIBER_CIBER'} = 'getFileInfoOutcollect.pl';
 
 $headings{'SDIRI_FCIBER'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Duplicates','Sent To TC','Rejected','Rejected Total','APRM Records','APRM Total'];
 $headings{'SDATACBR_FDATACBR'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Sent To TC','Rejected','Rejected Total','APRM Records','APRM Total'];
 
 $tab{'SDIRI_FCIBER'} = "Voice";
 $tab{'SDATACBR_FDATACBR'} = "Data";
+$tab{'CIBER_CIBER'} = 'Outcollect';
 
 # Get Roaming switches to check
 
 my @switches = split(',', $ARGV[0]);
 
-# Get the date of the day before.
-my ($day,$month,$year) = (localtime((time - 60 * 60 * (12 + (localtime)[2] ) ) ) )[ 3, 4, 5 ];
-my $timeStamp = 1900 + $year . pad( $month + 1, '0', 2 ) . pad( $day, '0', 2 );
+my $timestamp =  $ARGV[1];
 
-### Test Only
-# $timeStamp = '20160927';
-
-my $excel_file = "CDMA_".$timeStamp.'.xlsx';
-# $workbook = Spreadsheet::WriteExcel->new($excel_file);
+my $excel_file = "CDMA_".$timeStamp.'.xls';
+$workbook = Spreadsheet::WriteExcel->new($excel_file);
 
 # Get Roaming files
-# foreach my $switch (@switches) {
+ foreach my $switch (@switches) {
 
-#   my $hh = 'find '.$dirs{$switch}.' -name "' . $switch . '*' . $timeStamp . '*DAT*" -print |';
+   my $hh = 'find '.$dirs{$switch}.' -name "' . $switch . '*' . $timeStamp . '*DAT*" -print |';
 
-#   if ( !open( FINDLIST, "$hh" ) ) {
-#     errorExit("Cannot create FINDLIST: $!\n");
-#   }
+   if ( !open( FINDLIST, "$hh" ) ) {
+     errorExit("Cannot create FINDLIST: $!\n");
+   }
 
-#   while ( my $filename = <FINDLIST> ) {
-#     chomp($filename);
-#     $hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
+   while ( my $filename = <FINDLIST> ) {
+     chomp($filename);
+     $hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
 
-#     system($hh);
-#     my $tproc = getTotalProc();
-#     while ($tproc > $max_process ) {
-#       sleep 10;
-#       $tproc = getTotalProc()
-#     }
-#   }
+     system($hh);
+     my $tproc = getTotalProc();
+     while ($tproc > $max_process ) {
+       sleep 10;
+       $tproc = getTotalProc()
+     }
+   }
 
-#   $hh = "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $timeStamp &";
-#   system($hh);
+   $hh = "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $timeStamp &";
+   system($hh);
   
-#   sleep 10;
-#   $tproc = getTotalProc();
-#   while($tproc > 0) {sleep 10; $tproc = getTotalProc(); }
+   sleep 10;
+   $tproc = getTotalProc();
+   while($tproc > 0) {sleep 10; $tproc = getTotalProc(); }
   
-#   createExcel($timeStamp,$switch,"rpt",$headings{$switch},$tab{$switch});
+   createExcel($timeStamp,$switch,"rpt",$headings{$switch},$tab{$switch});
 
-#   my $heading = ['File Name','Error Code','Airtime Charge'];
+   my $heading = ['File Name','Error Code','Airtime Charge'];
 
-#   my $rejectTab = "Rejected ".$tab{$switch};
-#   createExcel($timeStamp,$switch,"err",$heading,$rejectTab);
+   my $rejectTab = "Rejected ".$tab{$switch};
+   createExcel($timeStamp,$switch,"err",$heading,$rejectTab);
 
-#   $heading = ['Carrier Code','BP Start Date','Record Count','Usage Sum','Sum Amount'];
-#   $rejectTab = $tab{$switch}." APRM";
-#   createExcel($timeStamp,$switch,"arpm",$heading,$rejectTab);
+   $heading = ['Carrier Code','BP Start Date','Record Count','Usage Sum','Sum Amount'];
+   $rejectTab = $tab{$switch}." APRM";
+   createExcel($timeStamp,$switch,"arpm",$heading,$rejectTab);
   
-#   $hh = "rm $switch".'*csv';
-#   system("$hh");
+   $hh = "rm $switch".'*csv';
+   system("$hh");
   
-  # }
+   }
 
-# $workbook->close;
+ $workbook->close;
 
+my @email = ('ISBillingOperations@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
 
-
-sendMsg();
+foreach my $too (@email)
+{
+# sendMsg($too);
+}
 
   exit(0);
 
@@ -145,8 +146,9 @@ sendMsg();
 
 
   sub sendMsg(){
-        my $to = "david.balchen\@uscellular.com";
-        my $cc = "david.balchen\@uscellular.com";
+
+        my($to) = @_;
+	my $mime_type = 'multipart/mixed';
         my $from = "david.balchen\@uscellular.com"; 
         my $subject = "Roaming Reconciliation Report for $timeStamp";
         my $message = "You'll find the report attached to this email";
@@ -156,15 +158,15 @@ sendMsg();
                 To => $to,
                 Cc => $cc,
                 Subject => $subject,
-                Data => $message
-        );
+                Type=>$mime_type) or die "Error creating " .  "MIME body: $!\n";
 
-        $msg->attach(
-        Type => "application/vnd.ms-excel",
-        Path => $ENV{'REC_HOME'},
-        Filename => $excel_file,
-        Disposition => "attachment"
-        );
+        $msg->attach(Type=>'TEXT',
+                     Data=>$message) or die "Error adding text message: $!\n";
+
+        $msg->attach(Type=>'application/octet-stream',
+                     Encoding=>'base64',
+                     Path=>$ENV{'REC_HOME'}.$excel_file,
+                     Filename=>$excel_file) or die "Error attaching file: $!\n";
         
         $msg->send();
 }

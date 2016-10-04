@@ -30,6 +30,17 @@ $sth->execute() or sendErr();
 
 my @fileId = $sth->fetchrow_array();
 
+if($fileId[1] eq "")
+{
+my $reportFile = $filename.'.rpt.csv';
+open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
+print RPT $filename."\t"."File still processing\n";
+close(RPT);
+$dbconn->disconnect();exit(0);
+}
+
+
+
 $sql = "select 'IN_REC_QUANTITY',sum(in_rec_quantity) 
     from ac1_control_hist 
     where phy_file_ident = $fileId[1]
