@@ -2,7 +2,7 @@
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
 <node TEXT="Notes" ID="ID_1224027211" CREATED="1468275705048" MODIFIED="1470337133214" COLOR="#000000" TEXT_SHORTENED="true">
 <font NAME="SansSerif" SIZE="20"/>
-<hook NAME="MapStyle" zoom="0.484">
+<hook NAME="MapStyle" zoom="1.037" layout="OUTLINE">
     <properties show_icon_for_attributes="true" show_note_icons="true"/>
 
 <map_styles>
@@ -596,17 +596,7 @@ Authentication Protocol (<b>EAP</b>).</li>
 </html>
 </richcontent>
 </node>
-<node ID="sec-2-4" CREATED="1468275705066" MODIFIED="1468275705066" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>Guide By Criteria
-</p>
-</body>
-</html>
-</richcontent>
+<node TEXT="Guide By Criteria" ID="sec-2-4" CREATED="1468275705066" MODIFIED="1471982026928" COLOR="#00b439">
 <font NAME="SansSerif" SIZE="16"/>
 <edge STYLE="bezier" WIDTH="thin"/>
 <richcontent TYPE="NOTE">
@@ -13489,23 +13479,6 @@ Some tables require that a unique hash value be created to create those values u
 </richcontent>
 </node>
 </node>
-<node TEXT="SQL Join Reference" ID="sec-7-3" CREATED="1468275705086" MODIFIED="1469732963360" COLOR="#00b439">
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<div class="figure">
-<p><img src="Pictures/Sql_Joins.png" alt="Sql_Joins.png" />
-</p>
-</div>
-</body>
-</html>
-</richcontent>
-</node>
 <node ID="sec-9-1" CREATED="1468275705120" MODIFIED="1468275705120" COLOR="#00b439"><richcontent TYPE="NODE">
 
 <html>
@@ -13937,6 +13910,23 @@ Some tables require that a unique hash value be created to create those values u
 </html>
 </richcontent>
 </node>
+</node>
+<node TEXT="SQL Join Reference" ID="sec-7-3" CREATED="1468275705086" MODIFIED="1469732963360" COLOR="#00b439">
+<font NAME="SansSerif" SIZE="16"/>
+<edge STYLE="bezier" WIDTH="thin"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<div class="figure">
+<p><img src="Pictures/Sql_Joins.png" alt="Sql_Joins.png" />
+</p>
+</div>
+</body>
+</html>
+</richcontent>
 </node>
 </node>
 <node TEXT="TOPS Operations" POSITION="right" ID="sec-3" CREATED="1468275705068" MODIFIED="1470236074701" COLOR="#0033ff">
