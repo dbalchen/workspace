@@ -940,7 +940,6 @@ The call records can come in four possible states.
       : <\\chil-data1\Share\Common\TOPS\outcollects>
 
 * Databases
-
 ** Production Database - Login/Password
 #+BEGIN_LaTeX
 \footnotesize
@@ -1036,7 +1035,6 @@ The call records can come in four possible states.
       For each DB instance, except ODS and SIT, You need to alter the
       session before you can use it.\\ For example for usage 1 type
       : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
-
 
 ** Production Database Tables
 #+BEGIN_LaTeX
@@ -1796,7 +1794,6 @@ The call records can come in four possible states.
 
 	 [[file:///home/dbalchen/workspace/CommonPlace/docs/em1_example.sql][EM1_RECORD Example]]
 
-
 ** AR Tables
 
 *** AR1_ACCOUNT
@@ -2240,21 +2237,19 @@ The call records can come in four possible states.
     -  ar1-JGL-control
 
 
-
 ** BPT Tables
-
       The *Business Process Tables* are the Tops equivalent to the
       reference tables in *CARES*. The following is the list of all
       *BPT* tables that we are responsible for:
 
 *** ADJ1_OUTCOL_PROVIDER
+    A list of all vendors we have an agreement with for out-collects.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-         A list of all vendors we have an agreement with for
-         out-collects.
+
 |-------------------+--------------------+---------------|
 | *Column Name*     | *Data Type*        | *Description* |
 |-------------------+--------------------+---------------|
@@ -2988,10 +2983,14 @@ needs to be in
             include your *Smart Ticket* with their hot fix.
          7. Represent the change in the *Change Control Meeting*
 
-
 ** APRM Tables
 
-*** PRDAPPC.USC_ROAM_EVNTS
+*** USC_ROAM_EVNTS
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
 |--------------------+--------------------+----------------|
 | *Name*             | *Data Type*        | *Descritption* |
 |--------------------+--------------------+----------------|
@@ -3037,8 +3036,15 @@ needs to be in
 | Visit_Ind          | Char (1 Byte)      |                |
 | Volume_Type        | Char (2 Byte)      |                |
 |--------------------+--------------------+----------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ***  usc_sap_extract_v
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
 |------------------+--------------------+----------------|
 | *Name*           | *Data Type*        | *Descritption* |
 |------------------+--------------------+----------------|
@@ -3060,14 +3066,491 @@ needs to be in
 |------------------+--------------------+----------------|
 
 ** SQL Join Reference
+      [[file:Pictures/Sql_Joins.png]]
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+
+* TOPS Operations
+
+   -  
+
+      Acquisition and Formating (A&F)
+
+      *A&F* is to the new system what *MAF and RBMS* was to the old.
+      Since the majority of rules will be moved to *INTEC, A&F's*
+      primary function in the *post-TOPS* world will be to move the data
+      from the *UFF* to the usage record^{[[#fn.1][1]]}. If an *A&F*
+      error does occur the record will be dumped into a file to be later
+      processed by the *AEM* /(Amdocs Error Manager)/.
+
+   -  + -
+
+** TurboCharging
+
+      [[Pictures/TC.png]] Though the overall architecture seems to be
+      the same, with some name changes like *MAF* is now
+      A&F^{[[#fn.2][2]]}, as *CARES* the major change has been the
+      addition of the new real-time rater which *Amdocs* calls *Turbo
+      Charging* that can handle both PRE and POST pay customers.\\
+
+      -  All interaction is done through the network interface.
+      -  All tables are now in memory to improve performance.
+      -  We can re-rate continuously by running re-rating in daemon
+         mode.
+      -  We can rate in other units beside minutes like *Content,
+         Volume, Qos*.
+      -  Rating can be by step or tiered.
+      -  *Event flow:*
+
+         1. An event comes in to via a network element
+         2. Transforms data into a conical form which also includes the
+            network element.
+         3. Gets Rated
+
+            -  For *Pre-Pay* the HLR^{[[#fn.3][3]]}. is handled by the
+               *SCP*
+
+         4. The response is sent back to the calling network element.
+
+      -  *International Calls* are rated to the country not the
+         individual city/town.
+      -  Find that in *LD\_COUNTRY\_RATES* table.
+      -  For *Pre-Pay* roaming customers still get a record which needs
+         to go through *CIBER* process.
+      -  Major problem for *CCMI*. It was decided to remove it but the
+         *LERG* does not give us the granularity that we might need.
+      -  For *Pre-Pay* *MMS* we will not charge each recipient only the
+         sender.
+      -  We convert everything to the *Home SID time* for bill
+         presentment.
+      -  Limiting or /choking/ usage can be handled by *Diameter* for
+         real-time and *Turbo-Charging* for *Post-Pay*
+
+      -  
+
+*** RLC (Rating Logic configurator)
+
+         -  The *RLC* has a repository that keeps it rules as an *XML*
+            string in a /database column/.
+         -  Though they are stored as *XML* you can view them as
+            *Product Catalog UI*.
+
+            -  *Customer* defines set of attributes possibly having
+               different values for different
+               *customers/subscribers*.These attributes are further used
+               in qualification criteria to define guiding to service
+               functionality, and in event handlers to personalize
+               pricing logic for specific customer/subscriber
+            -  *Performance Indicator* defines set of attributes
+               (counters) to keep accumulated usage for some specific
+               pricing item Its attributes are used and modified by the
+               event handlers logic.
+            -  *Item Parameters* define a set of attributes that are the
+               parameters of the Pricing Item Type Their values are set
+               in the Product Catalog UI tool while creating a Pricing
+               Item based on a given Pricing Item Type
+            -  *External record* defines a set of attributes associated
+               with a specific extract record layout.
+            -  *Variables* define a set of attributes (variables) are
+               used by handlers statements.
+
+         -  *PIT* /Pricing Item Type/
+         -  We can define a number of different *Rating roles* and
+            rating events.
+         -  Incoming calls are not dropped but instead are zero rated.
+
+         1. [[][]]Configuration Tools\\
+
+            The tool is a split screen application. On the left side
+            contains all the rating schemes which are then dragged and
+            dropped to create a tree structure on the right side.
+
+            -  *RLC - Rating Logic configurator* /Used to configure the
+               rating engine/
+            -  Uses the *EPC* to create the rating logic, not the price
+               plans. Once your finished with the configurator you the
+               compile with the *ICC (Implementation Compiler
+               configurator)* which then creates C++ code thats added to
+               the rater.
+            -  *TCC (Turbo-Charging configurator)* - Used to configure
+               the Turbo-Charging rater.
+            -  *Replenishment Manager* - Used for *Pre-Pay*.
+
+      -  
+
+** AEM
+
+         AEM gets the Turbo-Charging errors from the
+         *APE1\_REJECTED\_EVENTS* table. For *A&F* they are in the
+         *EM1\_RECORD* table. Since there are so many coulmns in the
+         EM1\_RECORD table we must limit are query's to the following
+         columns. [[docs/EM1%20Query's][EM1 Queries]]
+
+   -  + -
+
+** Production Servers/EpsMonitors
+
+      -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
+
+         -  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
+
+      -  *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
+
+         -  /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
+
+      -  *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
+
+         -  /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
+
+      -  *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
+      -  *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
+      -  *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
+      -  *Event3* -- *kprl3event.uscc.com (10.176.181.118)*
+      -  *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
+      -  *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
+      -  *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
+
+      -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
+
+         -  /inf\_nas/apm1/prod/aprmoper/eps/monitors
+
+      -  
+
+         Event Servers
+
+         There are multiple Event Servers which coresspond to bill cycle
+         and run on the event servers. Their status can be viewed using
+         the following query on the *PRDAF* database.
+
+         #+BEGIN_EXAMPLE
+             SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
+         #+END_EXAMPLE
+
+         From the output if the column *event status = Y* then that
+         particular server is in use. If your job requires an event
+         server that is already in use you can change it to one that is
+         not by using *SQL* below on the *PRDCUST* database logged in as
+         *PRDOPRC*.
+
+         In this example we are setting the job rec to run using the
+         *ES\_EOC1045* event server
+
+         #+BEGIN_EXAMPLE
+             Update OP_APP_DATA set data = 'ES_EOC1045'
+                    where JOB_REC = '{Your Job Rec}' and field_seq_num = 1 
+                    and table_NAME IN ('ADJ1EVENTSRV');
+         #+END_EXAMPLE
+
+      -  
+
+         Rerate Servers
+
+         There are three *Rerate Servers* they are:
+
+         1. *RRP\_EOC1056*
+         2. *RRP\_EOC1068*
+         3. *RRP\_EOC1192*
+
+   -  + -
+
+** OutCollect Operational Jobs (CIBER Processing)
+
+      *CIBER* files are a collection of roaming records, these can be
+      either a foreign carrier on our network or one of our customers on
+      another network. More succinctly there are two types of roaming
+      scenarios.
+
+      1. *OutCollects*\\
+
+      Non-USCC customers using our network, eventually the records
+      created become part of the *OutCollect* process.
+
+      1. *InCollects*\\
+         USCC customers roaming on another carriers network. These
+         records are sent to Syniverse which in turn sends them to us
+         and become part of our *InCollect* process. All though
+         InCollects come pre-rated they are still re-rated according to
+         their plan.
+
+      The OutCollect process runs twice a day *1:00 a.m/p.m.*
+
+      -  *OUTCOL*\\
+         Extracts from the *APE1\_RATED\_EVENT* table and creates files
+         for *MAS*.
+      -  *ADJ9MAS OUTCOL*\\
+         Creates files for *SPL1*.
+      -  *SPL1* - /Daemon/\\
+         Processes files as it sees them and creates files for *RGD*.
+      -  *RGD* - /Daemon/\\
+         Processes files as it sees them and creates files for *APP*.
+      -  *APP* - /Daemon/\\
+         Processes files in RD after 12 hours of the last files
+         processed. Output files for *Syniverse*.
+      -  *MF9FTDTAX*\\
+         Loads data into *MF9\_OUTCOL\_TAXES* table
+      -  *AR9OUTCLTAX*\\
+
+      End-day after *MF9FTDTAX*.
+
+      -  
+
+         OutCollect Files
+
+         These are the file that are created by *TOPS* that will be sent
+         to *Syniverse*.
+
+         -  *aprout (OutCollect Directory)*\\
+
+         *pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output*
+
+      -  
+
+         Operational Tables
+
+         1. [[][]]*AC1\_CONTROL*\\
+
+            The Outbound Syniverse files
+
+            #+BEGIN_EXAMPLE
+                select * from ac1_control
+                where nxt_pgm_name = 'CBRRPT'
+                and cur_pgm_name = 'APP'
+
+                FILE_NAME
+                ---------
+                CIBER_CIBER_20130917090101_1312027_0001.dat
+                CIBER_CIBER_20131012092425_1237215_0013.dat
+                CIBER_CIBER_20130927090046_1027159_0012.dat
+                ...
+                CIBER_CIBER_20131011211952_1237215_0012.dat
+            #+END_EXAMPLE
+
+         2. [[][]]*MF1\_CIBER\_BATCH\_SEQ*\\
+
+            Contain the CIBER batch sequence numbers /(See Database
+            Section)/.
+
+   -  + -
+
+** Overage Protection
+
+      Overage notifications are detected on an event by event basis. As
+      events are processed by *TC* and added to the *APE1\_ACCUMULATORS*
+      table a check is made against the
+      *L9\_FIRST\_THRESHOLD/L9\_SECOND\_THRESHOLD* fields. If an overage
+      is detected the ***FIELD*** CTN is added to file (segregated by
+      unique *TC* file?) in the NTF directory. MFT then pulls these
+      files and delivers to DMI for distribution. A note is added to the
+      NOTIFICATION\_HUB.SMS\_NOTIFICATION table (ODS) indicating the
+      message was sent by DMI.
+
+      -  
+
+         Overage process flow
+
+         #+BEGIN_HTML
+           <div class="figure">
+         #+END_HTML
+
+         [[Pictures/overage.png]]
+
+         #+BEGIN_HTML
+           </div>
+         #+END_HTML
+
+      -  
+
+         Output Location
+
+         #+BEGIN_EXAMPLE
+             select notif_desc, file_path from CM9_NOTIFICATION_DEF
+             where  FILE_PATH = '$ABP_APR_ROOT/interfaces/output/NTF'
+             and FILE_ALIAS = 'SMSNTF'
+         #+END_EXAMPLE
+
+         | *NOTIF\_DESC*                             | *FILE\_PATH*                            |
+         |-------------------------------------------+-----------------------------------------|
+         | Overage cap notification on group level   | $ABP\_APR\_ROOT/interfaces/output/NTF   |
+         | Disclaimer notification on group level    | $ABP\_APR\_ROOT/interfaces/output/NTF   |
+         | Bucket notification on group level        | $ABP\_APR\_ROOT/interfaces/output/NTF   |
+
+         | *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
+
+      -  
+
+         Fields of Interest
+
+         S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
+         L3\_CALL\_SOURCE
+
+   -  
+
+      Billing Process
+
+      The billing process follows a map which is created by the job
+      *ADJ3\_APR\_CycleBillRun\_Sh*. If it completes successfully it
+      will create a billing map that will look something like the
+      following:
 
       #+BEGIN_HTML
         <div class="figure">
       #+END_HTML
 
- :       [[Pictures/Sql_Joins.png]]
+      [[Pictures/billing_tc_map-27124108.png]]
 
       #+BEGIN_HTML
         </div>
       #+END_HTML
 
+   -  + -
+
+** Log File Location
+
+      -  
+
+         Batch 1
+
+         -  cdlog -
+            \//pkgbl01\//inf\//aimsys\//prdwrk1\//var\//usc\//log
+         -  A&F | ssh prdwrk2@kpr02batch | MF1\_MD\_MD\_USC
+         -  F2E | ssh prdwrk4@kpr02batch |
+            ADJ1\_File2E\_Daemon\_Shell\_Sh\_F2E
+
+   -  
+
+      Alias
+
+      -  *cdlog* - cd to the logfile directory.
+      -  *cdswitch (Batch1 Only)* - cd to the switch directory.
+      -  *aprout* - cd to the *CIBER* out directories.
+
+   -  
+
+      Operational Terms and Definitions
+
+      -  *Front-end Processes*
+
+         -  *CRM:* Customer Relationship Manager
+
+            -  *Smart Client Designer*
+            -  *ASCF Designer - Amdocs Smart Client Designer*
+            -  *APM - Amdocs Process manager*
+
+         -  *RIM:* Retail Interaction Manager
+
+            -  *POS:* Point of sale provided by *Microtelecom*
+            -  *Pricing Studio*
+            -  *ASM Amdocs Security Module*
+
+      -  *Provisioning*
+
+         -  *AM or AAM - Activation Manager:* Provision Tool
+
+            -  *APM:* The Gui front end to *AM*
+
+      -  *Usage Acquisition and Rating*
+
+         -  *A&F* Acquisition and formatting
+         -  *Turbo-Charging* Real-time rater
+
+            -  *SCP* - Session Control Protocol
+
+         -  *MAF now called Acquisition and Formatting*
+         -  *AMC - Amdocs Monitoring and control*
+         -  *AEM - Amdocs Error Manager* /replaces EMS/
+         -  *RLC* - Rating Logic Configurator
+
+      -  *Billing*
+
+         -  *Billing Configurator*
+         -  *Invoicing Configurator*
+         -  *Replenishment Manager*
+         -  *Designer Studio* /for bill layout/
+         -  *Pooling* - Everyone brings there services to be shared
+            within everyone in the pool. Pooling is customization.
+         -  *Sharing* - A finite set of resources are set-up and
+            everyone can use it.
+         -  *MRC - Monthly Recurring Charge*
+
+      -  *Integration sub-systems*
+
+         -  *AIF - Amdocs Integration Framework*
+         -  *\index{ASM}ASM - Amdocs Security Manager*
+         -  *APM - Amdocs Process Manager*
+         -  *MMI - Multimedia Integrator*
+         -  *OM - Order Manager*
+         -  *OMS - Order Management System*
+
+   -  + -
+
+** Operational SQL
+
+      -  
+
+         TC Files by Physical File
+
+         -  phy\_file\_ident = {some identifier}
+            [[docs/Operational%20File%20Query][AC\_CONTROL\_HIST Query]]
+
+      -  
+
+         Incollect Voice CIBER
+
+         [[docs/Ciber_Voice_Incollects.sql][Voice Operational SQL]]
+
+      -  
+
+         Incollect Data CIBER
+
+         [[docs/Ciber_Data_Incollects.sql][Data Operational SQL]]
+
+   -  
+
+      TC Runbook
+
+      [[docs/AB%208%201%20-%20TC%208%201%20SP2%20-%20Run%20Book%20Core.pdf][TC
+      Runbook Version 8.1]]
+
+   -  + -
+
+** Production Support - SUP1
+
+      -  
+
+         Support Server
+
+         Accessed from Putty in *TOPS* Production Support Applications.
+         Should be able to login on with LAN ID and password (which is
+         same as your LAN ID).
+
+         | *SERVER NAME*         |
+         |-----------------------|
+         | Ksr01omsap.uscc.com   |
+         | ksr01bmrim.uscc.com   |
+         | ksr01csmap.uscc.com   |
+         | ksr01batch.uscc.com   |
+         | ksr01tiger.uscc.com   |
+         | ksr01aprma.uscc.com   |
+         | ksr01mcsap.uscc.com   |
+         | ksr01ebiap.uscc.com   |
+         | msr01esadm.uscc.com   |
+         | msr01esb01.uscc.com   |
+         | msr01esb02.uscc.com   |
+         | msr01wladm.uscc.com   |
+         | msr01wls01.uscc.com   |
+         | msr01wls02.uscc.com   |
+         | msr01web01.uscc.com   |
+         | msr01web02.uscc.com   |
+
+      -  
+
+         Development Servers
+
+         | *Environment*   | *IP*           | *Hostname*   | *UserID*   | *Password*   |
+         |-----------------+----------------+--------------+------------+--------------|
+         | Development     | 10.106.10.9    | mdr01bld01   | md1dbal1   | /password/   |
+         | Testing         | 10.106.10.9    | mdr01bld01   | d\_medap   | Henry*123    |
+         | CallDump        | 10.176.179.3   | kpr01scdap   | calldmp    | Henry*128    |

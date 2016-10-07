@@ -12,12 +12,12 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-my $filetype = $ARGV[0].'%'.$ARGV[1].'%DAT';
+my $filetype = $ARGV[0].'%'.$ARGV[1].'%';
 
 
-  my $dbconn = getBODSPRD();
+my $dbconn = getBODSPRD();
 
-my $sql = 'select /*+ PARALLEL(h1,12) */ carrier_cd, bp_start_date, count(*), sum(usage),sum(TOTAL_CHRG_AMOUNT)  from  USC_ROAM_EVNTS where (ciber_file_name_1||ciber_file_name_2 like '."'".$filetype."') group by carrier_cd, bp_start_date order by carrier_cd";
+my $sql = 'select /*+ PARALLEL(h1,12) */ carrier_cd, bp_start_date, count(*), sum(usage),sum(TOTAL_CHRG_AMOUNT) from USC_ROAM_EVNTS where (ciber_file_name_1||ciber_file_name_2 like '."'".$filetype."') and generated_rec < 2 group by carrier_cd, bp_start_date order by carrier_cd";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -25,7 +25,7 @@ $sth->execute() or sendErr();
 
 my $filename = $ARGV[0].$ARGV[1].'.arpm.csv';
     
-  open( RPT, ">$filename" ) || errorExit("Report Failed!!!!");
+open( RPT, ">$filename" ) || errorExit("Report Failed!!!!");
 
 while (my @rows = $sth->fetchrow_array() ) {
 

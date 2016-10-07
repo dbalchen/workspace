@@ -79,20 +79,20 @@
      - [ ] Will there be a job that reads the file then adds the information to the database.
    - [ ] Where does all the ARCM come in....
    - [ ] Where does VOLTE and LTE in collects come into play.
-*** Analysis
+*** Analysis [%]
    :PROPERTIES:
    :blocker:  start
    :ordered:  t
    :END:
-**** Usage Types (Incollects) [0%]
+**** Usage Types (Incollects) [40%]
      :PROPERTIES:
      :effort:   1.5d
      :END:
-    - [ ] CDMA Voice
+    - [X] CDMA Voice
       - *Directory:* //pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/
       - *Machine:* kpr02batch
       - *Record Type:* CIBER
-    - [ ] CDMA Data
+    - [X] CDMA Data
       - *Directory:* //pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/
       - *Machine:* kpr02batch
       - *Record Type:* CIBER
