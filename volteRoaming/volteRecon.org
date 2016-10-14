@@ -70,12 +70,12 @@
     <Example Here>
 #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
 #+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
-** TODO Process Decomposition [%]			:taskjuggler_project:
-   - [ ] OutCollects [%]
+** TODO Process Decomposition [25%] 			:taskjuggler_project:
+   - [X] OutCollects [100%]
      - [ ]Read Craigs Doc
-     - [ ] Is there anything for voice or is it just data?
-     - [ ] I believe 
-   - [ ] How do we plan to compare to Syniverse [%]
+     - [X] Is there anything for voice or is it just data?
+     - [X] I believe 
+   - [ ] How do we plan to compare to Syniverse [0%]
      - [ ] Will there be a job that reads the file then adds the information to the database.
    - [ ] Where does all the ARCM come in....
    - [ ] Where does VOLTE and LTE in collects come into play.
@@ -121,7 +121,7 @@
       :PROPERTIES:
       :effort:   2d
       :END:
-**** Analyse Mediations Outcollect Process
+**** DONE Analyse Mediations Outcollect Process
       :PROPERTIES:
       :effort:   3d
       :END:
@@ -146,19 +146,19 @@
     :blocker:  start
     :ordered:  t
     :END:
-***** Volte
+***** TODO Volte
      :PROPERTIES:
      :ordered:  t
      :END:
-***** Incollect
+****** Incollect
       :PROPERTIES:
       :effort:   5h
       :END:
-***** Outcollect
+******  Outcollect
       :PROPERTIES:
       :effort:   5h
       :END:
-***** LTE
+***** TODO LTE
      :PROPERTIES:
      :ordered:  t
      :END:
@@ -170,7 +170,7 @@
       :PROPERTIES:
       :effort:   5h
       :END:
-***** CDMA (AAA)
+***** DONE CDMA (AAA)
      :PROPERTIES:
      :ordered:  t
      :END:
@@ -183,7 +183,7 @@
       :PROPERTIES:
       :effort:   3d
       :END:
-***** Voice
+***** DONE Voice
      :PROPERTIES:
      :ordered:  t
      :END:
@@ -196,7 +196,7 @@
       :PROPERTIES:
       :effort:   3d
       :END:
-***** GSM (Incollect Only)
+***** TODO GSM (Incollect Only)
      :PROPERTIES:
      :ordered:  t
      :END:

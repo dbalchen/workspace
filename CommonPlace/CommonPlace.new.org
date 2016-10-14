@@ -3072,27 +3072,19 @@ needs to be in
 \normalsize
 #+END_LaTeX
 
-
 * TOPS Operations
-
-   -  
-
-      Acquisition and Formating (A&F)
-
+** Acquisition and Formating (A&F)
       *A&F* is to the new system what *MAF and RBMS* was to the old.
       Since the majority of rules will be moved to *INTEC, A&F's*
       primary function in the *post-TOPS* world will be to move the data
-      from the *UFF* to the usage record^{[[#fn.1][1]]}. If an *A&F*
+      from the *UFF* to the usage record. If an *A&F*
       error does occur the record will be dumped into a file to be later
       processed by the *AEM* /(Amdocs Error Manager)/.
-
-   -  + -
-
 ** TurboCharging
-
-      [[Pictures/TC.png]] Though the overall architecture seems to be
+      [[file:Pictures/TC.png]] 
+      Though the overall architecture seems to be
       the same, with some name changes like *MAF* is now
-      A&F^{[[#fn.2][2]]}, as *CARES* the major change has been the
+      A&F, as *CARES* the major change has been the
       addition of the new real-time rater which *Amdocs* calls *Turbo
       Charging* that can handle both PRE and POST pay customers.\\
 
@@ -3110,7 +3102,7 @@ needs to be in
             network element.
          3. Gets Rated
 
-            -  For *Pre-Pay* the HLR^{[[#fn.3][3]]}. is handled by the
+            -  For *Pre-Pay* the HLR. is handled by the
                *SCP*
 
          4. The response is sent back to the calling network element.
@@ -3129,10 +3121,7 @@ needs to be in
       -  Limiting or /choking/ usage can be handled by *Diameter* for
          real-time and *Turbo-Charging* for *Post-Pay*
 
-      -  
-
 *** RLC (Rating Logic configurator)
-
          -  The *RLC* has a repository that keeps it rules as an *XML*
             string in a /database column/.
          -  Though they are stored as *XML* you can view them as
@@ -3162,8 +3151,7 @@ needs to be in
             rating events.
          -  Incoming calls are not dropped but instead are zero rated.
 
-         1. [[][]]Configuration Tools\\
-
+         1. Configuration Tools\\
             The tool is a split screen application. On the left side
             contains all the rating schemes which are then dragged and
             dropped to create a tree structure on the right side.
@@ -3178,32 +3166,26 @@ needs to be in
             -  *TCC (Turbo-Charging configurator)* - Used to configure
                the Turbo-Charging rater.
             -  *Replenishment Manager* - Used for *Pre-Pay*.
-
-      -  
-
 ** AEM
-
          AEM gets the Turbo-Charging errors from the
-         *APE1\_REJECTED\_EVENTS* table. For *A&F* they are in the
-         *EM1\_RECORD* table. Since there are so many coulmns in the
-         EM1\_RECORD table we must limit are query's to the following
-         columns. [[docs/EM1%20Query's][EM1 Queries]]
+         *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
+         *EM1_RECORD* table. Since there are so many coulmns in the
+         EM1_RECORD table we must limit are query's to the following
 
-   -  + -
-
+         columns. [[file:docs/EM1%20Query's][EM1 Queries]]
 ** Production Servers/EpsMonitors
 
       -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
 
-         -  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
+         :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
 
       -  *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
 
-         -  /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
+         : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
 
       -  *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
 
-         -  /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
+         : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
 
       -  *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
       -  *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
@@ -3215,19 +3197,14 @@ needs to be in
 
       -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
 
-         -  /inf\_nas/apm1/prod/aprmoper/eps/monitors
+         : /inf\_nas/apm1/prod/aprmoper/eps/monitors
 
-      -  
-
-         Event Servers
-
+*** Event Servers
          There are multiple Event Servers which coresspond to bill cycle
          and run on the event servers. Their status can be viewed using
          the following query on the *PRDAF* database.
 
-         #+BEGIN_EXAMPLE
-             SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
-         #+END_EXAMPLE
+         : SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
 
          From the output if the column *event status = Y* then that
          particular server is in use. If your job requires an event
@@ -3238,26 +3215,16 @@ needs to be in
          In this example we are setting the job rec to run using the
          *ES\_EOC1045* event server
 
-         #+BEGIN_EXAMPLE
-             Update OP_APP_DATA set data = 'ES_EOC1045'
-                    where JOB_REC = '{Your Job Rec}' and field_seq_num = 1 
-                    and table_NAME IN ('ADJ1EVENTSRV');
-         #+END_EXAMPLE
+          :   Update OP_APP_DATA set data = 'ES_EOC1045'
+          :          where JOB_REC = '{Your Job Rec}' and field_seq_num = 1 
+          :          and table_NAME IN ('ADJ1EVENTSRV');
 
-      -  
-
-         Rerate Servers
-
+*** Rerate Servers
          There are three *Rerate Servers* they are:
-
-         1. *RRP\_EOC1056*
-         2. *RRP\_EOC1068*
-         3. *RRP\_EOC1192*
-
-   -  + -
-
+         1. *RRP_EOC1056*
+         2. *RRP_EOC1068*
+         3. *RRP_EOC1192*
 ** OutCollect Operational Jobs (CIBER Processing)
-
       *CIBER* files are a collection of roaming records, these can be
       either a foreign carrier on our network or one of our customers on
       another network. More succinctly there are two types of roaming
@@ -3294,11 +3261,7 @@ needs to be in
       -  *AR9OUTCLTAX*\\
 
       End-day after *MF9FTDTAX*.
-
-      -  
-
-         OutCollect Files
-
+*** OutCollect Files
          These are the file that are created by *TOPS* that will be sent
          to *Syniverse*.
 
@@ -3308,32 +3271,25 @@ needs to be in
 
       -  
 
-         Operational Tables
+**** Operational Tables
 
-         1. [[][]]*AC1\_CONTROL*\\
+         1. *AC1\_CONTROL*\\
+            The Outbound Syniverse files       
+            :    select * from ac1_control
+            :    where nxt_pgm_name = 'CBRRPT'
+            :    and cur_pgm_name = 'APP'
+	    :
+            :    FILE_NAME
+            :    ---------
+            :    CIBER_CIBER_20130917090101_1312027_0001.dat
+            :    CIBER_CIBER_20131012092425_1237215_0013.dat
+            :    CIBER_CIBER_20130927090046_1027159_0012.dat
+            :    ...
+            :    CIBER_CIBER_20131011211952_1237215_0012.dat
 
-            The Outbound Syniverse files
-
-            #+BEGIN_EXAMPLE
-                select * from ac1_control
-                where nxt_pgm_name = 'CBRRPT'
-                and cur_pgm_name = 'APP'
-
-                FILE_NAME
-                ---------
-                CIBER_CIBER_20130917090101_1312027_0001.dat
-                CIBER_CIBER_20131012092425_1237215_0013.dat
-                CIBER_CIBER_20130927090046_1027159_0012.dat
-                ...
-                CIBER_CIBER_20131011211952_1237215_0012.dat
-            #+END_EXAMPLE
-
-         2. [[][]]*MF1\_CIBER\_BATCH\_SEQ*\\
-
+         2. *MF1\_CIBER\_BATCH\_SEQ*\\
             Contain the CIBER batch sequence numbers /(See Database
             Section)/.
-
-   -  + -
 
 ** Overage Protection
 
@@ -3351,15 +3307,8 @@ needs to be in
 
          Overage process flow
 
-         #+BEGIN_HTML
-           <div class="figure">
-         #+END_HTML
+         [[file:Pictures/overage.png]]
 
-         [[Pictures/overage.png]]
-
-         #+BEGIN_HTML
-           </div>
-         #+END_HTML
 
       -  
 
@@ -3399,7 +3348,7 @@ needs to be in
         <div class="figure">
       #+END_HTML
 
-      [[Pictures/billing_tc_map-27124108.png]]
+      [[file:Pictures/billing_tc_map-27124108.png]]
 
       #+BEGIN_HTML
         </div>
@@ -3493,26 +3442,25 @@ needs to be in
          TC Files by Physical File
 
          -  phy\_file\_ident = {some identifier}
-            [[docs/Operational%20File%20Query][AC\_CONTROL\_HIST Query]]
+          P
+
 
       -  
 
          Incollect Voice CIBER
 
-         [[docs/Ciber_Voice_Incollects.sql][Voice Operational SQL]]
+         [[file:docs/Ciber_Voice_Incollects.sql][Voice Operational SQL]]
 
       -  
 
          Incollect Data CIBER
 
-         [[docs/Ciber_Data_Incollects.sql][Data Operational SQL]]
+         [[file:docs/Ciber_Data_Incollects.sql][Data Operational SQL]]
 
    -  
 
       TC Runbook
-
-      [[docs/AB%208%201%20-%20TC%208%201%20SP2%20-%20Run%20Book%20Core.pdf][TC
-      Runbook Version 8.1]]
+      [[file:docs/AB%208%201%20-%20TC%208%201%20SP2%20-%20Run%20Book%20Core.pdf][TC Run Book]]
 
    -  + -
 
