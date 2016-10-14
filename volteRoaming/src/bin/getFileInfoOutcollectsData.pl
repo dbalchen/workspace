@@ -6,11 +6,11 @@ use DBI;
 #$ARGV[0] = "20161003";
 
 # For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 
 my $dbconn = getBRMPRD();
@@ -61,7 +61,7 @@ sub getBRMPRD {
 
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "Reptar500#" );
+  my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "500#Reptar" );
   unless ( defined $dbods ) {
     sendErr();
   }

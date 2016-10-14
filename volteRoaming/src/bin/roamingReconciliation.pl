@@ -1,18 +1,23 @@
 #! /usr/local/bin/perl
 
 BEGIN {
-  push(@INC, '/home/dbalchen/workspace/perl_lib/lib/perl5');
+ push(@INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5');
+#  push(@INC, '/home/dbalchen/workspace/perl_lib/lib/perl5');
 }
 
 use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER";
+#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER";
+#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR";
+#$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
 #$ARGV[0] = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # Setup Initial variables
 my $max_process = 10;
@@ -32,8 +37,8 @@ $jobs{'SDATACBR_FDATACBR'} = 'getFileInfoData.pl';
 $jobs{'CIBER_CIBER'} = 'getFileInfoOutcollects.pl';
 $jobs{'DATA_CIBER'} = 'getFileInfoOutcollectsData.pl';
 
-$headings{'SDIRI_FCIBER'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Duplicates','Sent To TC','Rejected','Rejected Total','APRM Records','APRM Total'];
-$headings{'SDATACBR_FDATACBR'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Sent To TC','Rejected','Rejected Total','APRM Records','APRM Total'];
+$headings{'SDIRI_FCIBER'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Duplicates','Sent To TC','Dropped TC','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
+$headings{'SDATACBR_FDATACBR'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Sent To TC','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
 $headings{'CIBER_CIBER'} = ['File Name','Total Records','Total Charges','APRM Records','APRM Total'];
 $headings{'DATA_CIBER'} = ['Clearinghouse','Total Records','Revenue','Data Volume'];
 
@@ -45,8 +50,8 @@ $tab{'DATA_CIBER'} = 'Data Outcollect';
 
 my @switches = split(',', $ARGV[0]);
 
-#my $timeStamp =  $ARGV[1];
-my $timeStamp = '20161003';
+my $timeStamp =  $ARGV[1];
+#my $timeStamp = '20161003';
 
 my $excel_file = "CDMA_".$timeStamp.'.xls';
 $workbook = Spreadsheet::WriteExcel->new($excel_file);
@@ -113,10 +118,11 @@ foreach my $switch (@switches) {
 
 $workbook->close;
 
-my @email = ('ISBillingOperations@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
+my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','Janet.Korish@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
+#my @email = ('david.balchen@uscellular.com');
 
 foreach my $too (@email) {
-  # sendMsg($too);
+   sendMsg($too);
 }
 
 exit(0);
@@ -151,18 +157,6 @@ sub getTotalProc {
   my $total_proc = `$shh`;
   chomp $total_proc;
   return $total_proc;
-}
-
-sub pad {
-
-  my ( $padString, $padwith, $length ) = @_;
-
-  while ( length($padString) < $length ) {
-    $padString = $padwith . $padString;
-  }
-
-  return $padString;
-
 }
 
 

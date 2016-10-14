@@ -15,24 +15,36 @@ my $pid = "ROAMRECON.pid";
 scheduledTask();
 
 my $cron = new Schedule::Cron(\&scheduledTask,processprefix=>"ROAMRECON");
-my $time = "00 6 * * *";
+my $time = "00 12 * * *";
 $cron->add_entry($time);
-$cron->run(detach=>1,pid_file=>"/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/$pid");
+$cron->run(detach=>1,pid_file=>"/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/$pid");
 
 exit(0);
 
 sub scheduledTask{
 
-chdir("/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon");
+chdir("/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2");
 
 # Get the date of the day before.
 my ($day,$month,$year) = (localtime((time - 60 * 60 * (12 + (localtime)[2] ) ) ) )[ 3, 4, 5 ];
-my $timeStamp = 1900 + $year . pad( $month + 1, '0', 2 ) . pad( $day, '0', 2 );
+my $timeStamp = 1900 + $year.pad( $month + 1, '0', 2 ).pad( $day, '0', 2 );
 
-
-$hh = "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/roamingReconciliation.pl SDIRI_FCIBER,SDATACBR_FDATACBR $timestamp &";
+$hh = "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/roamingReconciliation.pl SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER $timeStamp & ";
 
 system($hh);
 
 };
+
+sub pad {
+
+  my ( $padString, $padwith, $length ) = @_;
+
+  while ( length($padString) < $length ) {
+    $padString = $padwith . $padString;
+  }
+
+  return $padString;
+
+}
+
 
