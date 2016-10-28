@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID023185_T20160915023301.DAT";
+#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID023533_T20161003203301.DAT";
 
 # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -35,6 +35,10 @@ my $reportFile = $filename.'.rpt.csv';
 open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
 print RPT $filename."\t"."File still processing\n";
 close(RPT);
+$reportFile = $filename.'.err.csv';
+open( ERR, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
+print ERR $filename."\t"."File still processing\n";
+close(ERR);
 $dbconn->disconnect();exit(0);
 }
 
@@ -106,15 +110,14 @@ $sth->execute() or sendErr();
 my @aprm = $sth->fetchrow_array();
 
 
-$sql = "select l9_channel, error_id,  cast(max(l9_original_air_time_chg_amt) as decimal (18,2)) 
+$sql = "select l9_channel, error_id, error_desc,  cast(max(l9_original_air_time_chg_amt) as decimal (18,2)) 
      from ape1_rejected_event 
      where original_event_id
       in (select unique(original_event_id)
            from ape1_rejected_event
            where physical_source = $fileId[1])
-      and (processing_status = 'CO' or  processing_status = 'FI')
       and event_id = original_event_id
-group by   original_event_id, l9_channel, error_id";
+group by  original_event_id, l9_channel, error_id,error_desc";
 
 
 $sth = $dbconn->prepare($sql);
@@ -125,9 +128,11 @@ open( ERR, ">$errorRpt" ) || errorExit("Could not open error file.... Fail!!!!")
 my $rejectSum = 0;
 
 while (my @rows3 = $sth->fetchrow_array() ) {
-  $rejectSum = $rejectSum + $rows3[2];
+    $rejectSum = $rejectSum + $rows3[3];
+
+    $rows3[2] = (split('<',$rows3[2]))[0];
   
-  print ERR $rows3[0]."\t".$rows3[1]."\t".$rows3[2]."\n";
+  print ERR $rows3[0]."\t".$rows3[1]."\t".$rows3[2]."\t".$rows3[3]."\n";
 
 }
 
@@ -136,8 +141,9 @@ close(ERR);
 my $reportFile = $filename.'.rpt.csv';
 
 open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... CallDump Failed!!!!");
+my $aprmdiff = ($reportVariable{'SenttoTC'} - ($reportVariable{'Rejected'})) - $aprm[1];
 
-print RPT $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprm[1]."\t".$aprm[2]."\n";
+print RPT $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprmdiff."\t".$aprm[1]."\t".$aprm[2]."\n";
 
 close(RPT);
 
@@ -148,7 +154,7 @@ sub getBODSPRD {
 
 #  my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 #  my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-   my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar500#" );
+   my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "500#Reptar" );
   unless ( defined $dbods ) {
     sendErr();
   }
