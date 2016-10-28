@@ -1031,7 +1031,6 @@ The call records can come in four possible states.
 #+END_LaTeX
 
 ** DB Preparation
-
       For each DB instance, except ODS and SIT, You need to alter the
       session before you can use it.\\ For example for usage 1 type
       : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
@@ -2236,7 +2235,6 @@ The call records can come in four possible states.
     -  ar1_transaction_log
     -  ar1-JGL-control
 
-
 ** BPT Tables
       The *Business Process Tables* are the Tops equivalent to the
       reference tables in *CARES*. The following is the list of all
@@ -2984,7 +2982,6 @@ needs to be in
          7. Represent the change in the *Change Control Meeting*
 
 ** APRM Tables
-
 *** USC_ROAM_EVNTS
 #+BEGIN_LaTeX
 \footnotesize
@@ -3039,7 +3036,7 @@ needs to be in
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-***  usc_sap_extract_v
+*** usc_sap_extract_v
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3087,7 +3084,6 @@ needs to be in
       A&F, as *CARES* the major change has been the
       addition of the new real-time rater which *Amdocs* calls *Turbo
       Charging* that can handle both PRE and POST pay customers.\\
-
       -  All interaction is done through the network interface.
       -  All tables are now in memory to improve performance.
       -  We can re-rate continuously by running re-rating in daemon
@@ -3101,10 +3097,8 @@ needs to be in
          2. Transforms data into a conical form which also includes the
             network element.
          3. Gets Rated
-
             -  For *Pre-Pay* the HLR. is handled by the
                *SCP*
-
          4. The response is sent back to the calling network element.
 
       -  *International Calls* are rated to the country not the
@@ -3126,7 +3120,6 @@ needs to be in
             string in a /database column/.
          -  Though they are stored as *XML* you can view them as
             *Product Catalog UI*.
-
             -  *Customer* defines set of attributes possibly having
                different values for different
                *customers/subscribers*.These attributes are further used
@@ -3151,7 +3144,7 @@ needs to be in
             rating events.
          -  Incoming calls are not dropped but instead are zero rated.
 
-         1. Configuration Tools\\
+         -  Configuration Tools\\
             The tool is a split screen application. On the left side
             contains all the rating schemes which are then dragged and
             dropped to create a tree structure on the right side.
@@ -3170,23 +3163,15 @@ needs to be in
          AEM gets the Turbo-Charging errors from the
          *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
          *EM1_RECORD* table. Since there are so many coulmns in the
-         EM1_RECORD table we must limit are query's to the following
-
+         *EM1_RECORD* table we must limit are query's to the following
          columns. [[file:docs/EM1%20Query's][EM1 Queries]]
 ** Production Servers/EpsMonitors
-
       -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
-
          :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
-
       -  *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
-
          : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
-
       -  *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
-
          : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
-
       -  *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
       -  *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
       -  *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
@@ -3194,9 +3179,7 @@ needs to be in
       -  *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
       -  *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
       -  *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
-
       -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
-
          : /inf\_nas/apm1/prod/aprmoper/eps/monitors
 
 *** Event Servers
@@ -3230,12 +3213,12 @@ needs to be in
       another network. More succinctly there are two types of roaming
       scenarios.
 
-      1. *OutCollects*\\
+      - *OutCollects*\\
 
       Non-USCC customers using our network, eventually the records
       created become part of the *OutCollect* process.
 
-      1. *InCollects*\\
+      - *InCollects*\\
          USCC customers roaming on another carriers network. These
          records are sent to Syniverse which in turn sends them to us
          and become part of our *InCollect* process. All though
@@ -3269,7 +3252,6 @@ needs to be in
 
          *pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output*
 
-      -  
 
 **** Operational Tables
 
@@ -3303,35 +3285,21 @@ needs to be in
       NOTIFICATION\_HUB.SMS\_NOTIFICATION table (ODS) indicating the
       message was sent by DMI.
 
-      -  
-
-         Overage process flow
-
+      - Overage process flow
          [[file:Pictures/overage.png]]
 
+      - Output Location
+|-----------------------------------------+---------------------------------------|
+| *NOTIF\_DESC*                           | *FILE\_PATH*                          |
+|-----------------------------------------+---------------------------------------|
+| Overage cap notification on group level | $ABP\_APR\_ROOT/interfaces/output/NTF |
+| Disclaimer notification on group level  | $ABP\_APR\_ROOT/interfaces/output/NTF |
+| Bucket notification on group level      | $ABP\_APR\_ROOT/interfaces/output/NTF |
+|-----------------------------------------+---------------------------------------|
 
-      -  
+| *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
 
-         Output Location
-
-         #+BEGIN_EXAMPLE
-             select notif_desc, file_path from CM9_NOTIFICATION_DEF
-             where  FILE_PATH = '$ABP_APR_ROOT/interfaces/output/NTF'
-             and FILE_ALIAS = 'SMSNTF'
-         #+END_EXAMPLE
-
-         | *NOTIF\_DESC*                             | *FILE\_PATH*                            |
-         |-------------------------------------------+-----------------------------------------|
-         | Overage cap notification on group level   | $ABP\_APR\_ROOT/interfaces/output/NTF   |
-         | Disclaimer notification on group level    | $ABP\_APR\_ROOT/interfaces/output/NTF   |
-         | Bucket notification on group level        | $ABP\_APR\_ROOT/interfaces/output/NTF   |
-
-         | *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
-
-      -  
-
-         Fields of Interest
-
+      -  Fields of Interest
          S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
          L3\_CALL\_SOURCE
 

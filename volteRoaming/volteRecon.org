@@ -59,32 +59,30 @@
   - [ ] Deploy
 
 ** Project Scope
-    Create a reconciliation report that will be run both daily and monthly for all roaming data types.
-    To reconcile in both usage and revenue for all roaming (Incollect and Outcollects). 
+    Create a daily reconciliation report for all roaming data types to reconcile both usage and revenue.
 ** Assumptions
 ** User Requirements
    There will be a Daily and monthly report sent for each roaming type.
 *** Daily Report
       [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
-*** Monthly Report
-    <Example Here>
 #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
 #+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
-** TODO Process Decomposition [25%] 			:taskjuggler_project:
+** TODO Process Decomposition [50%] 			:taskjuggler_project:
    - [X] OutCollects [100%]
      - [ ]Read Craigs Doc
      - [X] Is there anything for voice or is it just data?
      - [X] I believe 
    - [ ] How do we plan to compare to Syniverse [0%]
      - [ ] Will there be a job that reads the file then adds the information to the database.
-   - [ ] Where does all the ARCM come in....
+   - [X] Where does all the ARCM come in 
+     Used for LTE and Volte
    - [ ] Where does VOLTE and LTE in collects come into play.
-*** Analysis [%]
+** Analysis [%]
    :PROPERTIES:
    :blocker:  start
    :ordered:  t
    :END:
-**** Usage Types (Incollects) [40%]
+*** Usage Types (Incollects) [40%]
      :PROPERTIES:
      :effort:   1.5d
      :END:
@@ -101,9 +99,9 @@
       - *Machine:* kpr01scdap
       - *Record Type:* UFF
     - [ ] LTE
-      - *Directory*: //m04/switch/lte/
-      - *Machine:* kpr01scdap
-      - *Record Type:* UFF
+      - *Directory*: 
+      - *Machine:* kp02batch
+      - *Record Type:* TAP
     - [ ] GSM
       - *Directory*: /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/GSMI (data)
 	- ../GSMI/gsmv/ (voice)
@@ -111,26 +109,52 @@
 	- ../GSMI/gsmt/ (PMG)
       - *Machine:* kpr02batch
       - *Record Type:* UFF
-**** System Flow
+*** System Flow
 ***** ARCM
-****** Flow
+     #+ATTR_LaTeX: width=13cm
+      [[file:docs/ARCM_Incollect.png]]
       :PROPERTIES:
       :effort:   4d
       :END:
 ****** ARCM Tables
+
+       - SMM1_COLLECT_FILES_HIST
+|-------------------+---------------------+------------|
+| *Columns*         | *Data Type*         | *Comments* |
+|-------------------+---------------------+------------|
+| SYS_UPDATE_DATE   | DATE                |            |
+| SYS_CREATION_DATE | DATE                |            |
+| SOURCE_TYPE       | VARCHAR2 (10 Byte)  |            |
+| SOURCE_ID         | NUMBER (22)         |            |
+| REJECT_REASON     | VARCHAR2 (512 Byte) |            |
+| PHYSICAL_DATE     | DATE                |            |
+| PERIOD_KEY        | NUMBER (4)          |            |
+| OPERATOR_ID       | NUMBER (9)          |            |
+| IS_INSTANCE_ID    | NUMBER (11)         |            |
+| FILE_STATUS       | VARCHAR2 (2 Byte)   |            |
+| FILE_SIZE         | NUMBER (15)         |            |
+| FILE_PATH         | VARCHAR2 (512 Byte) |            |
+| FILE_NAME         | VARCHAR2 (200 Byte) |            |
+| FILE_IDENTIFIER   | NUMBER (22)         |            |
+| FILE_FORMAT       | VARCHAR2 (10 Byte)  |            |
+| DL_UPDATE_STAMP   | NUMBER (4)          |            |
+| DL_SERVICE_CODE   | CHAR (5 Byte)       |            |
+| APPLICATION_ID    | CHAR (6 Byte)       |            |
+|-------------------+---------------------+------------|
+
       :PROPERTIES:
       :effort:   2d
       :END:
-**** DONE Analyse Mediations Outcollect Process
+*** DONE Analyse Mediations Outcollect Process
       :PROPERTIES:
       :effort:   3d
       :END:
-*** Development
+** Development
    :PROPERTIES:
    :ordered:  t
    :blocker:  previous-sibling
    :END:
-**** Create table
+*** Create table
     Create the table using the spreadsheet as a reference.
     [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
 
@@ -141,98 +165,98 @@
     :  column_n datatype [ NULL | NOT NULL ]
     : );
 
-**** Create SQL for each data type
+*** Create SQL for each data type
     :PROPERTIES:
     :blocker:  start
     :ordered:  t
     :END:
-***** TODO Volte
+**** TODO Volte
      :PROPERTIES:
      :ordered:  t
      :END:
-****** Incollect
+***** Incollect
       :PROPERTIES:
       :effort:   5h
       :END:
-******  Outcollect
+***** Outcollect
       :PROPERTIES:
       :effort:   5h
       :END:
-***** TODO LTE
+**** TODO LTE
      :PROPERTIES:
      :ordered:  t
      :END:
-****** Incollect
+***** Incollect
       :PROPERTIES:
       :effort:   5h
       :END:
-****** Outcollect
+***** Outcollect
       :PROPERTIES:
       :effort:   5h
       :END:
-***** DONE CDMA (AAA)
+**** DONE CDMA (AAA)
      :PROPERTIES:
      :ordered:  t
      :END:
-****** Data Ciber Incollects (done)
+***** Data Ciber Incollects (done)
       [[file:docs/CDMA_Data_Incollect.sql][Data Incollect SQL]]
       :PROPERTIES:
       :effort:   5h
       :END:
-****** Data CIBER Outcollects (Talk to Craig)
+***** Data CIBER Outcollects (Talk to Craig)
       :PROPERTIES:
       :effort:   3d
       :END:
-***** DONE Voice
+**** DONE Voice
      :PROPERTIES:
      :ordered:  t
      :END:
-****** Incollects
+***** Incollects
       [[file:docs/CDMA_Voice_Incollect.sql][Voice Incollects SQL]]
       :PROPERTIES:
       :effort:   5h
       :END:
-****** Outcollects
+***** Outcollects
       :PROPERTIES:
       :effort:   3d
       :END:
-***** TODO GSM (Incollect Only)
+**** TODO GSM (Incollect Only)
      :PROPERTIES:
      :ordered:  t
      :END:
-****** GSMV
+***** GSMV
       :PROPERTIES:
       :effort:   5h
       :END:
-****** GSMD
+***** GSMD
       :PROPERTIES:
       :effort:  5h 
       :END:
-**** Coding
+*** Coding
    :PROPERTIES:
    :effort:   15d
    :blocker:
    :END:
-**** Testing
+*** Testing
    :PROPERTIES:
    :effort:   5d
    :blocker:
    :END:
-**** Contingency 
+*** Contingency 
    :PROPERTIES:
    :effort:   10d
    :blocker:  previous-sibling
    :ordered:  t
    :END:
 
-**** Executable
+*** Executable
 ***** /Program Name/
     - *Language:*
     - *Source Code Location:*
     - *Parameters:* /input and output/
     - *Description:*
 
-*** Data Decomposition
+** Data Decomposition
    - *Table/Field Name:*
    - *Purpose of File/Table:*
    - *Type of Change:* /create new or modify existing/
@@ -245,7 +269,7 @@
 |                   |      |        |             |
 |-------------------+------+--------+-------------|
 
-*** Schedule/Time Management
+** Schedule/Time Management
   - Build Date
     DEADLINE: <2016-12-18 Sun>   
   - Planned Implimentation Date

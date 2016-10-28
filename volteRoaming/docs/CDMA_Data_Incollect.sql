@@ -1,4 +1,4 @@
-Counting Data events in TC
+-Counting Data events in TC
 
 Get the file Identifiers for settlement Period (A settlement period is between 16th and 15th of the next month (Ex. April 16th - May 15th)
 select file_name, identifier 
