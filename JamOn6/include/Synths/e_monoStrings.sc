@@ -1,15 +1,17 @@
 SynthDef("osc_monoStrings",
 {
-	arg out = 0, freq = 110, amp = 0.5;
+	arg out = 0, freq = 110, lagLev = 2.50, amp = 0.5;
 
 	var sig;
-	
+
+	freq = Lag.kr(freq, lagLev);
+
 	freq = {freq * LFNoise2.kr(2.5,0.01,1)}!16;
 
 	sig = (LFSaw.ar(freq,0,0.1));
 
 	Out.ar(out,sig);
-}
+}).add;
 
 
 
@@ -25,9 +27,9 @@ SynthDef("e_monoStrings",
 
 		fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
 		fenv = EnvGen.kr(fenv, gate);
-		
-		sig = In.ar(in);
-		
+
+		sig = In.ar(in,16);
+
 		sig = sig*EnvGen.kr(env, gate: gate,doneAction:da);
 		sig = MoogFF.ar
 		(
@@ -51,7 +53,7 @@ SynthDef("e_monoStrings",
 
 	if(num.isMemberOf(Integer),
 		{
-			tt = Synth("e_monoStrings");
+			tt = Synth("e_monoStrings",addAction: \addToTail);
 			tt.set(\gate,0);
 			flt.setFilter(tt);
 			env.setEnvelope(tt);
@@ -59,7 +61,7 @@ SynthDef("e_monoStrings",
 			tt.set(\da,2);
 			tt.set(\amp,amp);
 			tt.set(\in,in);
-			tt.set(\out,myevents.out);
+	//		tt.set(\out,myevents.out);
 			tt.set(\gate,1);
 	}, {["rest"].post}); // false action
 

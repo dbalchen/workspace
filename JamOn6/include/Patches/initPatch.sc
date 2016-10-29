@@ -118,4 +118,14 @@
 ~mixer4.set(\in1,~pad_firmusOut);
 ~mixer4.set(\in0,~string1_firmusOut);
 
+~mixergui1 = SimpleMix.new;
+~mixergui1.mixer = ~mixer1;
 
+~mixergui2 = SimpleMix.new;
+~mixergui2.mixer = ~mixer2;
+
+~mixergui3 = SimpleMix.new;
+~mixergui3.mixer = ~mixer3;
+
+~mixergui4 = SimpleMix.new;
+~mixergui4.mixer = ~mixer4;

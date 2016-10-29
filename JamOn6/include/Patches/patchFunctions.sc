@@ -15,7 +15,7 @@
 };
 
 
-~noiseSweep = {arg start = -1, end = 1, time = ((24*4)/2), time2 = ((8*4)/2), mult = 0.25;
+~noiseSweep = {arg start = 1, end = -1, time = ((24*4)/2), time2 = ((8*4)/2), mult = 0.25;
 
 	~circleExt2Out = Bus.control(s,1);
 	~circleExt2 = ~modCircle.value(~circleExt2Out,start,end,time,time2,mult);
@@ -31,14 +31,14 @@
 	~mixer2.set(\bal,0.80);
 };
 
-~noiseSweep2 = {arg start = -1, end = 1, time = ((24*4)/2), time2 = ((8*4)/2), mult = 0.05;
+~noiseSweep2 = {arg start = 1, end = -0.25, time = ((24*4)/2), time2 = ((8*4)/2), mult = 0.05;
 
 	~circleExt3Out = Bus.control(s,1);
 	~circleExt3 = ~modCircle.value(~circleExt3Out,start,end,time,time2,mult);
 	~mixer1.set(\bmod,~circleExt3Out);
 	~mixer1.set(\bal,0);
 	~circleExt3.set(\gate,1); };
-	
+
 ~noiseSweep2Off = {
 
 	~circleExt3.set(\gate,0);
@@ -55,7 +55,7 @@
 	~circleExt4.set(\gate,1); };
 
 
-~sineAmp = {arg out, start = 0, end = 1, time = ((16*4)/2), time2 = ((8*4)/2), mult = 0.15;
+~sineAmp = {arg start = 0, end = 0.6, time = ((16*4)/2), time2 = ((8*4)/2), mult = 0.15;
 
 	~circleExt5Out = Bus.control(s,1);
         ~circleExt5 = ~modCircle.value(~circleExt5Out,start,end,time,time2,mult);
@@ -71,7 +71,13 @@
 	~mixer4.set(\bal,0);
 	~circleExt6.set(\gate,1); };
 
+~stringSweepOff = {
 
+	~circleExt6.set(\gate,0);
+	~circleExt6 = nil;
+	~mixer4.set(\bmod,999);
+	~mixer4.set(\bal,0.80);
+};
 
 
 ~modCircle = {arg out, start = 0, end = 1, time = 4, time2 = 4, mult = 1;

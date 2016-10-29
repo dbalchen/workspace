@@ -23,6 +23,7 @@ o.memSize = 2097152;
 
 	(
 
+
 		"/home/dbalchen/Music/JamOn6/include/Synths/bdSynth.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/oscillator.sc".load;
@@ -31,6 +32,7 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/JamOn6/include/Events/stringBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/bellBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/eStrings.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/Synths/e_monoStrings.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/FMDarkpad.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/initPatch.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/patchFunctions.sc".load;
@@ -43,66 +45,163 @@ o.memSize = 2097152;
 
 ~startup.value;
 ~startTimer.value(120);
+
+
+
 ~synth2 = ~synth2.latency_(Server.default.latency);
 
-~mixer1.set(\bal,1.0);
-~mixer2.set(\bal,1.0);
 
-
-~noiseSweep.value;
-~noiseSweep2.value;
-
-~pulseSweep.value;
-~pulseSweepOff.value;
-
-~circleOut = Bus.audio(s,1);
-~circle = Synth("myCircle",addAction: \addToHead);
-~circle.set(\out,~circleOut);
-~circle.set(\gate,1);
-
+~dcs = 0.4;
+~fscale = 16.0;
+~release = 0.1;
+~attack = 0.00;
+~amp = 0.02;
+//
+~rp={
+	s.sync;
+	~midiClock.value;
+	~midicf_clock.value;
+	~midistring1_firmus.value;
+};
 
 ~rp={
 	s.sync;
+~midiBellDrum.value
 };
-
-
 
 
 ~myadsr.gui;
 
-~mixergui1 = SimpleMix.new;
-~mixergui1.mixer = ~mixer1;
+~mixer1.set(\bal,-0.5);
+~mixer2.set(\bal,-0.25);
+
+~noiseSweepOff.value;
+~noiseSweep2Off.value;
+~mixer1.set(\bal,1);
+~mixer2.set(\bal,1);
+
+~mixer3.set(\bal,0.8);
+~mixer4.set(\bal,1);
+
 ~mixergui1.gui;
-
-~mixergui2 = SimpleMix.new;
-~mixergui2.mixer = ~mixer2;
 ~mixergui2.gui;
-
-~mixergui3 = SimpleMix.new;
-~mixergui3.mixer = ~mixer3;
 ~mixergui3.gui;
-
-~mixergui4 = SimpleMix.new;
-~mixergui4.mixer = ~mixer4;
 ~mixergui4.gui;
 
 ~string1_firmus.filter.gui;
 ~string1_firmus.envelope.gui;
 
-~circleExt2 = ~modCircle.value(~circleExt2Out,1,-1,((24*4)/2),((8*4)/2),0.25);
-~mixer2.set(\bmod,~circleExt2Out);
-~mixer2.set(\bal,0);
-~circleExt2.set(\gate,1);
-
-~circleExt3 = ~modCircle.value(~circleExt3Out,1,-0.5,((24*4)/2),((8*4)/2),0.5);
-~mixer1.set(\bmod,~circleExt3Out);
-~mixer1.set(\bal,0);
-~circleExt3.set(\gate,1);
+~string1_firmus.amp = 1.5;
+~string2_firmus.amp = 2;
 
 ~vca1.set(\amp,0.0);
-~noiseSweep.value;
-~noiseSweep2.value;
 
+~rp={
+~noiseSweep.value(1,-1,((24*4)/2), ((8*4)/2), 0.75);
+~noiseSweep2.value(1,-0.25,((24*4)/2),((8*4)/2), 0.75);
+}
+
+
+~rp={
+~noiseSweep.value(-1,1,((24*4)/2), ((8*4)/2), 0.25);
+~noiseSweep2.value(-0.25,1,((24*4)/2),((8*4)/2), 0.75);
+}
+
+
+
+~noiseSweepOff.value;
+~noiseSweep2Off.value;
+
+
+~rp={
+~circleExt4.set(\gate,0);
+~pulse1.set(\bamp,998);
+~pulse1.set(\amp,0);
+
+~pulseAmp.value(0,1,((16*4)/2),((8*4)/2),-0.85);
+~pulse1.set(\bamp,~circleExt4Out);
+~pulse1.set(\amp,0);
+
+	//~pulseSweep.value;
+}
+
+
+~rp={
+~circleExt4.set(\gate,0);
+~pulse1.set(\bamp,998);
+~pulse1.set(\amp,0);
+
+~pulseAmp.value(0,1,((16*4)/2),((8*4)/2),-0.75);
+~pulse1.set(\bamp,~circleExt4Out);
+~pulse1.set(\amp,0);
+
+~pulseSweep.value;
+}
+
+
+
+~pulseSweepOff.value(-1,0.8,((16*4)/2),((8*4)/2),0.05);
+
+~rp={
+~pulseAmp.value(1,0,((16*4)/2),((8*4)/2),-0.75);
+~pulse1.set(\bamp,~circleExt4Out);
+~pulse1.set(\amp,0);
+}
+
+
+~rp={
+~midistring1_firmus.value;
+}
+
+
+~rp={
+~midistring2_firmus.value;
+}
+
+~midistring1_firmus = nil;
+
+~string1_firmus - nil;
+
+
+
+~circleExt5.set(\gate,0);
+~vca1.set(\bamp,998);
+~vca1.set(\amp,0.5);
+
+~rp={
+	~circleExt5.set(\gate,0);
+~vca1.set(\bamp,998);
+~vca1.set(\amp,0);
+~sineAmp.value(0, 0.45,((16*4)/2), ((8*4)/2), 0.75);
+~vca1.set(\bamp,~circleExt5Out);
+	~vca1.set(\amp,0.0);
+	~circleExt4.set(\gate,0);
+~pulse1.set(\bamp,998);
+~pulse1.set(\amp,0);
+
+~pulseAmp.value(0,1,((16*4)/2),((8*4)/2),-0.75);
+~pulse1.set(\bamp,~circleExt4Out);
+~pulse1.set(\amp,0);
+
+}
+
+~rp={
+		~circleExt5.set(\gate,0);
+~vca1.set(\bamp,998);
+~vca1.set(\amp,0);
+		~circleExt4.set(\gate,0);
+	~pulse1.set(\bamp,998);
+	
+~sineAmp.value(0.45,0,((16*4)/2), ((8*4)/2), 0.75);
+~vca1.set(\bamp,~circleExt5Out);
+	~vca1.set(\amp,0.0);
+	~pulseAmp.value(1,0,((16*4)/2),((8*4)/2),-0.75);
+~pulse1.set(\bamp,~circleExt4Out);
+~pulse1.set(\amp,0);
+}
+
+~vca1.set(\amp,0.30);
+~pulse1.set(\amp,1);
 
 TempoClock.default.tempo = 120 / 60;
 
@@ -114,41 +213,7 @@ TempoClock.default.tempo = 120 / 60;
 	Routine.run({
 		s.sync;
 		timeNow = TempoClock.default.beats;
-
-		~mixer1.set(\bal,1.0);
-		~mixer2.set(\bal,1.0);
-		~stringSweep.value;
-
-		t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
-			(
-			~noiseSweep.value;
-			~noiseSweep2.value;
-		);};); // End of t.schedAbs
-
-		t.schedAbs(timeNow + (16*4),{ // 00 = Time in beats
-			(
-				~pulseAmp.value;
-				~sineAmp.value;
-		);};); // End of t.schedAbs
-
-
-		t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
-			(
-				~pulseSweep.value;
-		);};); // End of t.schedAbs
-
-
-		t.schedAbs(timeNow + (96-0.2),{ // 00 = Time in beats
-			(
-
-		);};); // End of t.schedAbs
-
-		t.schedAbs(timeNow + (160-0.2),{ // 00 = Time in beats
-			(
-
-		);};); // End of t.schedAbs
-		//Add more
-
+~startTimer.value(120);
 	}); // End of Routine
 
 }; //End of Start

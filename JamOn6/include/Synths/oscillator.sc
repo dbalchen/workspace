@@ -16,7 +16,7 @@ SynthDef(\Pulse, {arg out = 0, freq = 55, width = 0.5, lagLev = 0.0, bamp = 998,
 }).add;
 
 
-SynthDef(\Sine, {arg out = 0, bamp = 998, amp = 1;
+SynthDef(\Sine, {arg out = 0, amp = 1;
 	var sig,env1,env1m,env0;
 
 	env0 =  EnvGen.ar(Env.new([0.5, 1, 0.5, 0], [0.005, 0.06, 0.26], [-4, -2, -4]), doneAction:2);
