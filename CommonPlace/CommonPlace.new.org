@@ -122,8 +122,9 @@
 #+BEGIN_LaTeX
 \small
 #+END_LaTeX
-
+|------------------------+-------------------+-----------------------|
 | *MMS*                  | *SMS*             | *Content*             |
+|------------------------+-------------------+-----------------------|
 | 1. Event type ID       | 1. Event type ID  | 1. Event type ID      |
 | 2. Start time          | 2. Start time     | 2. Start time         |
 | 3. Resource value      | 3. Resource value | 3. Resource value     |
@@ -131,8 +132,9 @@
 | 5. Called number       | 5. Called number  |                       |
 | 6. Calling number      | 6. Calling number |                       |
 |                        |                   |                       |
-|                        |                   |                       |
+|------------------------+-------------------+-----------------------|
 | *Voice*                | *Data*            | *LTE*                 |
+|------------------------+-------------------+-----------------------|
 | 1. Event type ID       | 1. Event type ID  | 1. Event type ID      |
 | 2. Start time          | 2. Start time     | 2. Start time         |
 | 3. Resource value      | 3. Resource value | 3. Resource value     |
@@ -140,6 +142,7 @@
 | 5. Surcharge indicator | 5. Call source    | 5. Call source        |
 | 6. Air elapsed time    |                   |                       |
 | 7. Calling number      |                   |                       |
+|------------------------+-------------------+-----------------------|
 
 #+BEGIN_LaTeX
 \normalsize
@@ -939,6 +942,7 @@ The call records can come in four possible states.
 
       : <\\chil-data1\Share\Common\TOPS\outcollects>
 
+\newpage
 * Databases
 ** Production Database - Login/Password
 #+BEGIN_LaTeX
@@ -1208,6 +1212,8 @@ The call records can come in four possible states.
 
 #+BEGIN_LaTeX
 \normalsize
+\newpage
+
 #+END_LaTeX
 *** APE1_RATED_EVENT
          Where all the rateable events are contained. Most data inquires
@@ -3214,7 +3220,6 @@ needs to be in
       scenarios.
 
       - *OutCollects*\\
-
       Non-USCC customers using our network, eventually the records
       created become part of the *OutCollect* process.
 
@@ -3224,9 +3229,8 @@ needs to be in
          and become part of our *InCollect* process. All though
          InCollects come pre-rated they are still re-rated according to
          their plan.
-
+\\
       The OutCollect process runs twice a day *1:00 a.m/p.m.*
-
       -  *OUTCOL*\\
          Extracts from the *APE1\_RATED\_EVENT* table and creates files
          for *MAS*.
@@ -3325,16 +3329,12 @@ needs to be in
    -  + -
 
 ** Log File Location
-
-      -  
-
-         Batch 1
-
-         -  cdlog -
+   - Batch 1
+     -  cdlog -
             \//pkgbl01\//inf\//aimsys\//prdwrk1\//var\//usc\//log
-         -  A&F | ssh prdwrk2@kpr02batch | MF1\_MD\_MD\_USC
+         -  A&F | ssh prdwrk2@kpr02batch | MF1_MD_MD_USC
          -  F2E | ssh prdwrk4@kpr02batch |
-            ADJ1\_File2E\_Daemon\_Shell\_Sh\_F2E
+            ADJ1_File2E_Daemon_Shell_Sh_F2E
 
    -  
 
@@ -3346,42 +3346,28 @@ needs to be in
 
    -  
 
-      Operational Terms and Definitions
-
+** Operational Terms and Definitions
       -  *Front-end Processes*
-
          -  *CRM:* Customer Relationship Manager
-
             -  *Smart Client Designer*
             -  *ASCF Designer - Amdocs Smart Client Designer*
             -  *APM - Amdocs Process manager*
-
          -  *RIM:* Retail Interaction Manager
-
             -  *POS:* Point of sale provided by *Microtelecom*
             -  *Pricing Studio*
             -  *ASM Amdocs Security Module*
-
       -  *Provisioning*
-
          -  *AM or AAM - Activation Manager:* Provision Tool
-
-            -  *APM:* The Gui front end to *AM*
-
+         -  *APM:* The Gui front end to *AM*
       -  *Usage Acquisition and Rating*
-
          -  *A&F* Acquisition and formatting
          -  *Turbo-Charging* Real-time rater
-
             -  *SCP* - Session Control Protocol
-
          -  *MAF now called Acquisition and Formatting*
          -  *AMC - Amdocs Monitoring and control*
          -  *AEM - Amdocs Error Manager* /replaces EMS/
          -  *RLC* - Rating Logic Configurator
-
       -  *Billing*
-
          -  *Billing Configurator*
          -  *Invoicing Configurator*
          -  *Replenishment Manager*
@@ -3391,9 +3377,7 @@ needs to be in
          -  *Sharing* - A finite set of resources are set-up and
             everyone can use it.
          -  *MRC - Monthly Recurring Charge*
-
       -  *Integration sub-systems*
-
          -  *AIF - Amdocs Integration Framework*
          -  *\index{ASM}ASM - Amdocs Security Manager*
          -  *APM - Amdocs Process Manager*
@@ -3401,72 +3385,39 @@ needs to be in
          -  *OM - Order Manager*
          -  *OMS - Order Management System*
 
-   -  + -
-
 ** Operational SQL
-
-      -  
-
-         TC Files by Physical File
-
-         -  phy\_file\_ident = {some identifier}
-          P
-
-
-      -  
-
-         Incollect Voice CIBER
-
-         [[file:docs/Ciber_Voice_Incollects.sql][Voice Operational SQL]]
-
-      -  
-
-         Incollect Data CIBER
-
-         [[file:docs/Ciber_Data_Incollects.sql][Data Operational SQL]]
-
-   -  
-
-      TC Runbook
-      [[file:docs/AB%208%201%20-%20TC%208%201%20SP2%20-%20Run%20Book%20Core.pdf][TC Run Book]]
-
-   -  + -
-
 ** Production Support - SUP1
+*** Support Server
+    Accessed from Putty in *TOPS* Production Support Applications.
+    Should be able to login on with LAN ID and password (which is
+    same as your LAN ID).
+|---------------------|
+| *SERVER NAME*       |
+|---------------------|
+| Ksr01omsap.uscc.com |
+| ksr01bmrim.uscc.com |
+| ksr01csmap.uscc.com |
+| ksr01batch.uscc.com |
+| ksr01tiger.uscc.com |
+| ksr01aprma.uscc.com |
+| ksr01mcsap.uscc.com |
+| ksr01ebiap.uscc.com |
+| msr01esadm.uscc.com |
+| msr01esb01.uscc.com |
+| msr01esb02.uscc.com |
+| msr01wladm.uscc.com |
+| msr01wls01.uscc.com |
+| msr01wls02.uscc.com |
+| msr01web01.uscc.com |
+| msr01web02.uscc.com |
+|---------------------|
 
-      -  
+*** Development Servers
+|---------------+--------------+------------+----------+------------|
+| *Environment* |         *IP* | *Hostname* | *UserID* | *Password* |
+|---------------+--------------+------------+----------+------------|
+| Development   |  10.106.10.9 | mdr01bld01 | md1dbal1 | /password/ |
+| Testing       |  10.106.10.9 | mdr01bld01 | d\_medap | Henry*123  |
+| CallDump      | 10.176.179.3 | kpr01scdap | calldmp  | Henry*128  |
+|---------------+--------------+------------+----------+------------|
 
-         Support Server
-
-         Accessed from Putty in *TOPS* Production Support Applications.
-         Should be able to login on with LAN ID and password (which is
-         same as your LAN ID).
-
-         | *SERVER NAME*         |
-         |-----------------------|
-         | Ksr01omsap.uscc.com   |
-         | ksr01bmrim.uscc.com   |
-         | ksr01csmap.uscc.com   |
-         | ksr01batch.uscc.com   |
-         | ksr01tiger.uscc.com   |
-         | ksr01aprma.uscc.com   |
-         | ksr01mcsap.uscc.com   |
-         | ksr01ebiap.uscc.com   |
-         | msr01esadm.uscc.com   |
-         | msr01esb01.uscc.com   |
-         | msr01esb02.uscc.com   |
-         | msr01wladm.uscc.com   |
-         | msr01wls01.uscc.com   |
-         | msr01wls02.uscc.com   |
-         | msr01web01.uscc.com   |
-         | msr01web02.uscc.com   |
-
-      -  
-
-         Development Servers
-
-         | *Environment*   | *IP*           | *Hostname*   | *UserID*   | *Password*   |
-         |-----------------+----------------+--------------+------------+--------------|
-         | Development     | 10.106.10.9    | mdr01bld01   | md1dbal1   | /password/   |
-         | Testing         | 10.106.10.9    | mdr01bld01   | d\_medap   | Henry*123    |
-         | CallDump        | 10.176.179.3   | kpr01scdap   | calldmp    | Henry*128    |

@@ -48,9 +48,9 @@ $sth->execute() or sendErr();
 
 ### Test Only
 
-#@rows = (0,1000,1000.23);
+my $dropped = ($argv[3] - $argv[5]) - $rows[0];
 
-print RPT $argv[0]."\t".$argv[1]."\t".$argv[2]."\t".$argv[3]."\t".$argv[4]."\t".$argv[5]."\t".$argv[6]."\t".$rows[0]."\t".$rows[1]."\t".$rows[2]."\n";
+print RPT $argv[0]."\t".$argv[1]."\t".$argv[2]."\t".$argv[3]."\t".$argv[4]."\t".$argv[5]."\t".$argv[6]."\t".$dropped."\t".$rows[0]."\t".$rows[1]."\n";
 
 close(RPT);
 

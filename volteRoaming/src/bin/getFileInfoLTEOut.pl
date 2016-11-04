@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000064260_20161026_023328.ASC.done";
+#$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000064260_20161026_023328.ASC.done";
 
 # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -36,7 +36,7 @@ print RPT "$filename\t$disp_file_seq\t$totalRecs\n";
 
 while (my @rows = $sth->fetchrow_array() ) {
 
-    print RPT $rows[0]."\t".$disp_file_seq."\t"."\t\t".$rows[1]."\t".$rows[2]."\n";
+    print RPT $rows[0]."\t".$disp_file_seq."\t"."\t".$rows[1]."\t".$rows[2]."\n";
     
 }
 

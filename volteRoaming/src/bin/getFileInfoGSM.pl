@@ -6,11 +6,11 @@ use DBI;
 #$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001117_T20161003182199.DAT";
 
 # For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+ my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+ my $ORACLE_SID  = "bodsprd";
+ $ENV{ORACLE_HOME} = $ORACLE_HOME;
+ $ENV{ORACLE_SID}  = $ORACLE_SID;
+ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $hh = "cat $ARGV[0] | grep '^98' | sort -u | cut -b 26-37| awk '{ sum+=".'$1'."} END {print sum}'";
 
@@ -45,51 +45,37 @@ if ($fileId[1] eq "") {
 
 
 
-$sql = "select 'IN_REC_QUANTITY',sum(in_rec_quantity) 
+$sql = "
+select 'IN_REC_QUANTITY',sum(in_rec_quantity) 
     from ac1_control_hist 
     where phy_file_ident = $fileId[1]
      and cur_pgm_name = 'LSN' 
-     and cur_file_alias = 'CIBER' 
-     and nxt_pgm_name = 'SPL' 
-     and nxt_file_alias = 'CIBER'
+     and cur_file_alias = 'UFF' 
+     and nxt_pgm_name = 'MD' 
+     and nxt_file_alias = 'UFF'
 union
 select 'Dropped', sum(wr_rec_quantity) 
     from ac1_control_hist 
-    where phy_file_ident = $fileId[1]
-     and cur_pgm_name = 'SPL' 
-     and cur_file_alias = 'CBR_DRP' 
-     and nxt_pgm_name = 'NONE' 
-     and nxt_file_alias = 'CBR_DRP'
-union
-select 'Duplicates', sum(wr_rec_quantity) 
-    from ac1_control_hist 
-    where phy_file_ident = $fileId[1]
+    where phy_file_ident =$fileId[1]
      and cur_pgm_name = 'MD' 
-     and cur_file_alias = 'CIBER_DUP' 
-     and nxt_pgm_name = 'MD' 
-     and nxt_file_alias = 'CIBER_DUP'
+     and cur_file_alias = 'UFF_DRP' 
+     and nxt_pgm_name = 'NONE' 
+     and nxt_file_alias = 'NONE'
 union
 select 'SenttoTC', sum(in_rec_quantity) 
     from ac1_control_hist 
-    where phy_file_ident = $fileId[1]
+    where phy_file_ident =$fileId[1]
      and cur_pgm_name||'|'||cur_file_alias||'|'||nxt_pgm_name||'|'||nxt_file_alias 
      in ('MD|TCUSAGE|File2E|Diameter','File2E|Diameter|File2E|Diameter')
 union
 select 'Rejected', sum(wr_rec_quantity) 
     from ac1_control_hist 
-    where phy_file_ident = $fileId[1]
+    where phy_file_ident =$fileId[1]
      and cur_pgm_name = 'File2E' 
      and cur_file_alias = 'Diameter' 
      and nxt_pgm_name = 'NONE' 
      and nxt_file_alias = 'REJECT'
-union
-select 'DupTC',sum(wr_rec_quantity) 
-    from ac1_control_hist 
-    where phy_file_ident = $fileId[1]
-     and cur_pgm_name = 'File2E' 
-     and cur_file_alias = 'Diameter' 
-     and nxt_pgm_name = 'NONE' 
-     and nxt_file_alias = 'DUPLICATE'";
+";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
