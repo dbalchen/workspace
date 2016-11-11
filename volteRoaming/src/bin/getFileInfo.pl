@@ -3,14 +3,19 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001117_T20161003182199.DAT";
+$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001225_T20161110182199.DAT";
 
-# For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+
+
+# For test only....
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $hh = "cat $ARGV[0] | grep '^98' | sort -u | cut -b 26-37| awk '{ sum+=".'$1'."} END {print sum}'";
 

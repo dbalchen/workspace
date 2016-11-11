@@ -6,12 +6,19 @@ use DBI;
 # $ARGV[0] = "20161003";
 
 # For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my @argv = split(/,/,@ARGV[0]);
+
+my $prefix = "LTE";
+
+if(index($argv[0],"NLDLT") >= 0)
+{
+    $prefix = "NLDLT";
+}
 
 my $dbconn = getBRMPRD();
 
@@ -20,7 +27,7 @@ my $sql = "select s_444, error_code, error_desc,cast(S_402 as decimal(19,9)) fro
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-my $report = "LTE".'_'.$argv[0].'_'.$argv[7].'.err'.'.csv';
+my $report = $prefix.'_'.$argv[0].'_'.$argv[7].'.err'.'.csv';
 open( ERR, ">$report" ) || errorExit("Could not open error file.... Fail!!!!");
 
 while (my @rows = $sth->fetchrow_array() ) {
@@ -32,9 +39,7 @@ close(ERR);
 
 $dbconn->disconnect();
 
-
-
-$report = "LTE".'_'.$argv[0].'_'.$argv[7].'.rpt'.'.csv';
+$report = $prefix.'_'.$argv[0].'_'.$argv[7].'.rpt'.'.csv';
 
 open( RPT, ">$report" ) || errorExit("Could not open error file.... Fail!!!!");
 

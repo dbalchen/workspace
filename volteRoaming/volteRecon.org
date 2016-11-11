@@ -67,22 +67,22 @@
       [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
 #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
 #+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
-** TODO Process Decomposition [50%] 			:taskjuggler_project:
+** TODO Process Decomposition [75%] 			:taskjuggler_project:
    - [X] OutCollects [100%]
-     - [ ]Read Craigs Doc
+     - [X] Read Craigs Doc
      - [X] Is there anything for voice or is it just data?
      - [X] I believe 
    - [ ] How do we plan to compare to Syniverse [0%]
      - [ ] Will there be a job that reads the file then adds the information to the database.
    - [X] Where does all the ARCM come in 
      Used for LTE and Volte
-   - [ ] Where does VOLTE and LTE in collects come into play.
+   - [X] Where does VOLTE and LTE in collects come into play.
 ** Analysis [%]
    :PROPERTIES:
    :blocker:  start
    :ordered:  t
    :END:
-*** Usage Types (Incollects) [40%]
+*** Usage Types (Incollects) [80%]
      :PROPERTIES:
      :effort:   1.5d
      :END:
@@ -96,19 +96,19 @@
       - *Record Type:* CIBER
     - [ ] Volte
       - *Directory:* //m01/switchb/tas/
-      - *Machine:* kpr01scdap
-      - *Record Type:* UFF
-    - [ ] LTE
+      - *Machine:* kpr02batch
+      - *Record Type:* TAP
+    - [X] LTE
       - *Directory*: 
       - *Machine:* kp02batch
       - *Record Type:* TAP
-    - [ ] GSM
+    - [X] GSM
       - *Directory*: /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/GSMI (data)
 	- ../GSMI/gsmv/ (voice)
 	- ../GSMI/gsms/ (SMS)
 	- ../GSMI/gsmt/ (PMG)
       - *Machine:* kpr02batch
-      - *Record Type:* UFF
+      - *Record Type:* TAP
 *** System Flow
 ***** ARCM
      #+ATTR_LaTeX: width=13cm

@@ -14,6 +14,8 @@ my %sqls = {};
 
 $sqls{'LTE'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter) from prdappc.prm_rom_incol_events t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
 
+$sqls{'NLDLT'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter) from prdappc.prm_rom_incol_events t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date";
+
 $sqls{'DISP_RM'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prdappc.prm_rom_outcol_events t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
 
 my $dbconn = getAPRM();
@@ -22,7 +24,6 @@ my $sql = $sqls{$ARGV[0]};
 my $sth = $dbconn->prepare($sql);
 
 $sth->execute() or sendErr();
-
 
 my $filename = $ARGV[0].$ARGV[1].'.arpm.csv';
     

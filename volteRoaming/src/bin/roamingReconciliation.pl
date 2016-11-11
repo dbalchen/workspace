@@ -1,8 +1,8 @@
 #! /usr/local/bin/perl
 
 BEGIN {
-  # push(@INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5');
-    push(@INC, '/home/dbalchen/workspace/perl_lib/lib/perl5');
+ push(@INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5');
+ # push(@INC, '/home/dbalchen/workspace/perl_lib/lib/perl5');
 }
 
 use Spreadsheet::WriteExcel;
@@ -19,9 +19,10 @@ use MIME::Lite;
 #$ARGV[0] = "DATA_CIBER";
 #$ARGV[0] = "LTE";
 #$ARGV[0] = "DISP_RM";
+#$ARGV[0] = "NLDLT";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+# $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # Setup Initial variables
 my $max_process = 5;
@@ -43,7 +44,7 @@ $jobs{'CIBER_CIBER'} = 'getFileInfoOutcollects.pl';
 $jobs{'DATA_CIBER'} = 'getFileInfoOutcollectsData.pl';
 $jobs{'LTE'} = 'getFileInfoLTE.pl';
 $jobs{'DISP_RM'} = 'getFileInfoLTEOut.pl';
-
+$jobs{'NLDLT'} = 'getFileInfoLTE.pl';
 
 $headings{'SDIRI_FCIBER'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Duplicates','Sent To TC','Dropped TC','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
 $headings{'SDATACBR_FDATACBR'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Sent To TC','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
@@ -51,19 +52,22 @@ $headings{'CIBER_CIBER'} = ['File Name','Total Records','Total Charges','APRM Re
 $headings{'DATA_CIBER'} = ['Clearinghouse','Total Records','Revenue','Data Volume'];
 $headings{'LTE'} = ['File Name','Identifier','Sender','Total Records','Total Charges','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
 $headings{'DISP_RM'} = ['File Name','Identifier','Total Out','Total Records','APRM Totals'];
+$headings{'NLDLT'} = ['File Name','Identifier','Sender','Total Records','Total Charges','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
+
     
-$tab{'SDIRI_FCIBER'} = "Voice Incollect";
-$tab{'SDATACBR_FDATACBR'} = "Data Incollect";
-$tab{'CIBER_CIBER'} = 'Voice Outcollect';
+$tab{'SDIRI_FCIBER'} = "CDMA Voice Incollect";
+$tab{'SDATACBR_FDATACBR'} = "CDMA Data Incollect";
+$tab{'CIBER_CIBER'} = 'CDMA Voice Outcollect';
 $tab{'DATA_CIBER'} = 'Data Outcollect';
 $tab{'LTE'} = 'LTE Incollect';
 $tab{'DISP_RM'} = 'LTE Outcollect';
+$tab{'NLDLT'} = 'GSM (Incollect)';
 # Get Roaming switches to check
 
 my @switches = split(',', $ARGV[0]);
 
 my $timeStamp =  $ARGV[1];
-#my $timeStamp = '20161030';
+#my $timeStamp = '20161107';
 
 my $excel_file = "RORC_".$timeStamp.'.xls';
 $workbook = Spreadsheet::WriteExcel->new($excel_file);
@@ -71,92 +75,98 @@ $workbook = Spreadsheet::WriteExcel->new($excel_file);
 # Get Roaming files
 foreach my $switch (@switches) {
   my $hh = "";
-my $maxRecs = 0;
-if ($switch ne "DATA_CIBER") {
+  my $maxRecs = 0;
+  if ($switch ne "DATA_CIBER") {
 
-  if ($switch eq "LTE") {
-  $hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp |";
-} else {
-  $hh = 'find '.$dirs{$switch}.' -name "' . $switch . '*' . $timeStamp . '*" -print |';
-}
+    if ($switch eq "LTE") {
+      $hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp |";
+    } elsif ($switch eq "NLDLT") {
+      $hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp NLDLT|";
+    } else {
+      $hh = 'find '.$dirs{$switch}.' -name "' . $switch . '*' . $timeStamp . '*" -print |';
+    }
 
-if ( !open( FINDLIST, "$hh" ) ) {
-     errorExit("Cannot create FINDLIST: $!\n");
-  }
+    if ( !open( FINDLIST, "$hh" ) ) {
+      errorExit("Cannot create FINDLIST: $!\n");
+    }
 
-while ( my $filename = <FINDLIST> ) {
-	chomp($filename);
+    while ( my $filename = <FINDLIST> ) {
+      chomp($filename);
 
-	$hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
+      $hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
 
-	# For testing...
-	if ($maxRecs < 5000) {
+      # For testing...
+      if ($maxRecs < 5000) {
 	system($hh);
 	$maxRecs = $maxRecs + 1;
-     }
+      }
 	    
-my $tproc = getTotalProc();
-			 while ($tproc > $max_process ) {
-			 sleep 10;
-			 $tproc = getTotalProc()
-		       }
-}
+      my $tproc = getTotalProc();
+      while ($tproc > $max_process ) {
+	sleep 10;
+	$tproc = getTotalProc()
+      }
+    }
 
-if ($switch eq 'LTE' || $switch eq 'DISP_RM') {
-  $hh = "$ENV{'REC_HOME'}/getFileInfoAprmLTE.pl $switch $timeStamp &";
-} else {	
-  $hh = "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $timeStamp &";
-}
-system($hh);
+    if ($maxRecs > 0) {
+      if ($switch eq 'LTE' || $switch eq 'DISP_RM' || $switch eq 'NLDLT') {
+	$hh = "$ENV{'REC_HOME'}/getFileInfoAprmLTE.pl $switch $timeStamp &";
+      } else {	
+	$hh = "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $timeStamp &";
+      }
+      system($hh);
+    }
 
+  } else {
 
-} else {
+    $hh = "$ENV{'REC_HOME'}/$jobs{$switch} $timeStamp &";
+    system($hh);
+  }
 
-  $hh = "$ENV{'REC_HOME'}/$jobs{$switch} $timeStamp &";
-  system($hh);
-}
+  sleep 10;
+  $tproc = getTotalProc();
 
-sleep 10;
-$tproc = getTotalProc();
-
-while ($tproc > 0) {
-  sleep 10; $tproc = getTotalProc();
-}
-
-createExcel($timeStamp,$switch,"rpt",$headings{$switch},$tab{$switch});
-
-if (($switch ne "CIBER_CIBER") && ($switch ne "DATA_CIBER") && ($switch ne "DISP_RM")) {
-  my $heading = ['File Name','Error Code','Error Description','Airtime Charge'];
-
-  my $rejectTab = "Rejected ".$tab{$switch};
-  createExcel($timeStamp,$switch,"err",$heading,$rejectTab);
-}
-
-# Work Here
-if ($switch eq "DISP_RM" ||  $switch eq "LTE" ) {
-  $heading = ['Carrier Code','BP Start Date','Record Count','Usage Sum','Data Volume'];
-  $rejectTab = $tab{$switch}." APRM";
-  createExcel($timeStamp,$switch,"arpm",$heading,$rejectTab);
-	
-} elsif ($switch eq "DATA_CIBER") {
-  $heading = ['Partner','Settlement_Date','Clearinghouse','Revenue','Data_Volume'];
-  $rejectTab = $tab{$switch}." by Partner";
-  createExcel($timeStamp,$switch,"partner",$heading,$rejectTab);
-} else {
-  $heading = ['Carrier Code','Market Code','BP Start Date','Record Count','Usage Sum','Sum Amount'];
-  $rejectTab = $tab{$switch}." APRM";
-  createExcel($timeStamp,$switch,"arpm",$heading,$rejectTab);
-}
+  while ($tproc > 0) {
+    sleep 10; $tproc = getTotalProc();
+  }
 
 
-$hh = "rm $switch".'*csv';
-system("$hh");
+  if ($maxRecs > 0 || $switch eq "DATA_CIBER") {
+    createExcel($timeStamp,$switch,"rpt",$headings{$switch},$tab{$switch});
+
+    if (($switch ne "CIBER_CIBER") && ($switch ne "DATA_CIBER") && ($switch ne "DISP_RM")) {
+      my $heading = ['File Name','Error Code','Error Description','Airtime Charge'];
+
+      my $rejectTab = "Rejected ".$tab{$switch};
+      createExcel($timeStamp,$switch,"err",$heading,$rejectTab);
+    }
+
+    # Work Here
+    if ($switch eq "DISP_RM" ||  $switch eq "LTE" || $switch eq "NLDLT") {
+      $heading = ['Carrier Code','BP Start Date','Record Count','Usage Sum','Data Volume'];
+      $rejectTab = $tab{$switch}." APRM";
+      createExcel($timeStamp,$switch,"arpm",$heading,$rejectTab);
+    
+    } elsif ($switch eq "DATA_CIBER") {
+      $heading = ['Partner','Settlement_Date','Clearinghouse','Revenue','Data_Volume'];
+      $rejectTab = $tab{$switch}." by Partner";
+      createExcel($timeStamp,$switch,"partner",$heading,$rejectTab);
+
+    } else {
+      $heading = ['Carrier Code','Market Code','BP Start Date','Record Count','Usage Sum','Sum Amount'];
+      $rejectTab = $tab{$switch}." APRM";
+      createExcel($timeStamp,$switch,"arpm",$heading,$rejectTab);
+    }
+
+  }
+  $hh = "rm $switch".'*csv';
+  system("$hh");
 }
 
 $workbook->close;
 
-my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','Janet.Korish@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
-#my @email = ('david.balchen@uscellular.com');
+#my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','Janet.Korish@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
+my @email = ('david.balchen@uscellular.com');
 
 foreach my $too (@email) {
   sendMsg($too);
