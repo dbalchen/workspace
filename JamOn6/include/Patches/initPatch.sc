@@ -38,7 +38,7 @@
 ~myadsr2.init;
 ~myadsr2.attack = 0.2;
 ~myadsr2.decay = 2.5;
-~myadsr2.sustain = 0.0;
+~myadsr2.sustain = 0.5;
 ~myadsr2.release = 0.0;
 
 ~mixer3 = Synth("two2one",target: ~oGroup,addAction: \addToTail);

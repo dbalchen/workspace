@@ -46,162 +46,16 @@ o.memSize = 2097152;
 ~startup.value;
 ~startTimer.value(120);
 
-
-
-~synth2 = ~synth2.latency_(Server.default.latency);
-
-
-~dcs = 0.4;
-~fscale = 16.0;
-~release = 0.1;
-~attack = 0.00;
-~amp = 0.02;
-//
-~rp={
-	s.sync;
-	~midiClock.value;
-	~midicf_clock.value;
-	~midistring1_firmus.value;
-};
-
-~rp={
-	s.sync;
-~midiBellDrum.value
-};
-
-
-~myadsr.gui;
-
-~mixer1.set(\bal,-0.5);
-~mixer2.set(\bal,-0.25);
-
-~noiseSweepOff.value;
-~noiseSweep2Off.value;
-~mixer1.set(\bal,1);
-~mixer2.set(\bal,1);
-
-~mixer3.set(\bal,0.8);
-~mixer4.set(\bal,1);
-
-~mixergui1.gui;
-~mixergui2.gui;
-~mixergui3.gui;
-~mixergui4.gui;
-
-~string1_firmus.filter.gui;
-~string1_firmus.envelope.gui;
-
-~string1_firmus.amp = 1.5;
-~string2_firmus.amp = 2;
-
-~vca1.set(\amp,0.0);
-
-~rp={
-~noiseSweep.value(1,-1,((24*4)/2), ((8*4)/2), 0.75);
-~noiseSweep2.value(1,-0.25,((24*4)/2),((8*4)/2), 0.75);
-}
-
-
-~rp={
-~noiseSweep.value(-1,1,((24*4)/2), ((8*4)/2), 0.25);
-~noiseSweep2.value(-0.25,1,((24*4)/2),((8*4)/2), 0.75);
-}
-
-
-
-~noiseSweepOff.value;
-~noiseSweep2Off.value;
-
-
-~rp={
+~mixer1.set(\bal,-0.25);
+~mixer2.set(\bal,-1);
 ~circleExt4.set(\gate,0);
 ~pulse1.set(\bamp,998);
-~pulse1.set(\amp,0);
-
-~pulseAmp.value(0,1,((16*4)/2),((8*4)/2),-0.85);
-~pulse1.set(\bamp,~circleExt4Out);
-~pulse1.set(\amp,0);
-
-	//~pulseSweep.value;
-}
-
-
-~rp={
-~circleExt4.set(\gate,0);
-~pulse1.set(\bamp,998);
-~pulse1.set(\amp,0);
-
-~pulseAmp.value(0,1,((16*4)/2),((8*4)/2),-0.75);
-~pulse1.set(\bamp,~circleExt4Out);
-~pulse1.set(\amp,0);
-
-~pulseSweep.value;
-}
-
-
-
-~pulseSweepOff.value(-1,0.8,((16*4)/2),((8*4)/2),0.05);
-
-~rp={
-~pulseAmp.value(1,0,((16*4)/2),((8*4)/2),-0.75);
-~pulse1.set(\bamp,~circleExt4Out);
-~pulse1.set(\amp,0);
-}
-
-
-~rp={
-~midistring1_firmus.value;
-}
-
-
-~rp={
-~midistring2_firmus.value;
-}
-
-~midistring1_firmus = nil;
-
-~string1_firmus - nil;
-
-
-
+~pulse1.set(\amp,1.2);
 ~circleExt5.set(\gate,0);
 ~vca1.set(\bamp,998);
-~vca1.set(\amp,0.5);
-
-~rp={
-	~circleExt5.set(\gate,0);
-~vca1.set(\bamp,998);
-~vca1.set(\amp,0);
-~sineAmp.value(0, 0.45,((16*4)/2), ((8*4)/2), 0.75);
-~vca1.set(\bamp,~circleExt5Out);
-	~vca1.set(\amp,0.0);
-	~circleExt4.set(\gate,0);
-~pulse1.set(\bamp,998);
-~pulse1.set(\amp,0);
-
-~pulseAmp.value(0,1,((16*4)/2),((8*4)/2),-0.75);
-~pulse1.set(\bamp,~circleExt4Out);
-~pulse1.set(\amp,0);
-
-}
-
-~rp={
-		~circleExt5.set(\gate,0);
-~vca1.set(\bamp,998);
-~vca1.set(\amp,0);
-		~circleExt4.set(\gate,0);
-	~pulse1.set(\bamp,998);
-	
-~sineAmp.value(0.45,0,((16*4)/2), ((8*4)/2), 0.75);
-~vca1.set(\bamp,~circleExt5Out);
-	~vca1.set(\amp,0.0);
-	~pulseAmp.value(1,0,((16*4)/2),((8*4)/2),-0.75);
-~pulse1.set(\bamp,~circleExt4Out);
-~pulse1.set(\amp,0);
-}
-
-~vca1.set(\amp,0.30);
-~pulse1.set(\amp,1);
+~vca1.set(\amp,0.4);
+~mixer3.set(\bal,0.85);
+~mixer4.set(\bal,1);
 
 TempoClock.default.tempo = 120 / 60;
 
@@ -213,7 +67,10 @@ TempoClock.default.tempo = 120 / 60;
 	Routine.run({
 		s.sync;
 		timeNow = TempoClock.default.beats;
-~startTimer.value(120);
+
+
+
+
 	}); // End of Routine
 
 }; //End of Start

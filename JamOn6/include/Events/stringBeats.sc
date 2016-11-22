@@ -7,7 +7,7 @@
 ~string1_firmus.init;
 ~string1_firmus.envelope.attack = 1.5;
 ~string1_firmus.envelope.decay = 3.8;
-~string1_firmus.envelope.sustain = 0.1;
+~string1_firmus.envelope.sustain = 0.7;
 ~string1_firmus.envelope.release = 0.5;
 ~string1_firmus.envelope.init;
 ~string1_firmus.filter.init;
@@ -60,16 +60,16 @@
 */
 
 ~string2_firmus.init;
-~string2_firmus.envelope.attack = 2.0;
+~string2_firmus.envelope.attack = 1.5;
 ~string2_firmus.envelope.decay = 2.0;
-~string2_firmus.envelope.sustain = 0.0;
-~string2_firmus.envelope.release = 0.3;
+~string2_firmus.envelope.sustain = 0.6;
+~string2_firmus.envelope.release = 0.4;
 ~string2_firmus.envelope.init;
 ~string2_firmus.filter.init;
-~string2_firmus.filter.cutoff = 3800.00;
+~string2_firmus.filter.cutoff = 3400.00;
 ~string2_firmus.filter.gain = 1.5;
-~string2_firmus.filter.attack = 0.45;
-~string2_firmus.filter.release = 1.2;
+~string2_firmus.filter.attack = 0.25;
+~string2_firmus.filter.release = 1.0;
 
 ~midistring2_firmus = {Pbind(\type, \midi,
 	\midiout, ~synth2,
