@@ -3,22 +3,22 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20161011003027_268683_0020.dat.done";
+#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20161113002356_383238_0027.dat.done";
+
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#my $ORACLE_SID  = "bodsprd";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# my $ORACLE_SID  = "bodsprd";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-my $hh = "cat $ARGV[0] | grep '^98' | sort -u | cut -b 26-37| awk '{ sum+=".'$1'."} END {print sum}'";
 
-my $filesum = `$hh`; chomp($filesum);$filesum = $filesum/100;
-
-my $hh = "cat $ARGV[0] | grep '^98' | sort -u | cut -b 22-25| awk '{ sum+=".'$1'."} END {print sum}'";
-my $fileTotal = `$hh`;
-chomp($fileTotal);
+my $hh = "cat $ARGV[0] | grep '^22' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
+my $ttemp = ""; $ttemp = `$hh`; chomp($ttemp);
+my ($fileTotal,$filesum,$usage) = split("\t",$ttemp);
 
 my $filename = (split('/',$ARGV[0]))[-1];
 my $filename2 = $filename;
@@ -40,7 +40,7 @@ my $reportFile = $filename.'.rpt.csv';
 
 open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... CallDump Failed!!!!");
 
-print RPT $filename."\t".$fileTotal."\t".$filesum."\t".$aprm[1]."\t".$aprm[2]."\n";
+print RPT $filename."\t".$fileTotal."\t".$usage."\t".$filesum."\t".$aprm[1]."\t".$aprm[2]."\n";
 
 close(RPT);
 

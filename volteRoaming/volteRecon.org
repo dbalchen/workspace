@@ -67,7 +67,7 @@
       [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
 #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
 #+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
-** TODO Process Decomposition [75%] 			:taskjuggler_project:
+** TODO Process Decomposition [75%] 
    - [X] OutCollects [100%]
      - [X] Read Craigs Doc
      - [X] Is there anything for voice or is it just data?
@@ -165,96 +165,118 @@
     :  column_n datatype [ NULL | NOT NULL ]
     : );
 
-*** Create SQL for each data type
-    :PROPERTIES:
-    :blocker:  start
-    :ordered:  t
-    :END:
-**** TODO Volte
-     :PROPERTIES:
-     :ordered:  t
-     :END:
-***** Incollect
-      :PROPERTIES:
-      :effort:   5h
-      :END:
-***** Outcollect
-      :PROPERTIES:
-      :effort:   5h
-      :END:
-**** TODO LTE
-     :PROPERTIES:
-     :ordered:  t
-     :END:
-***** Incollect
-      :PROPERTIES:
-      :effort:   5h
-      :END:
-***** Outcollect
-      :PROPERTIES:
-      :effort:   5h
-      :END:
-**** DONE CDMA (AAA)
-     :PROPERTIES:
-     :ordered:  t
-     :END:
-***** Data Ciber Incollects (done)
-      [[file:docs/CDMA_Data_Incollect.sql][Data Incollect SQL]]
-      :PROPERTIES:
-      :effort:   5h
-      :END:
-***** Data CIBER Outcollects (Talk to Craig)
-      :PROPERTIES:
-      :effort:   3d
-      :END:
-**** DONE Voice
-     :PROPERTIES:
-     :ordered:  t
-     :END:
-***** Incollects
-      [[file:docs/CDMA_Voice_Incollect.sql][Voice Incollects SQL]]
-      :PROPERTIES:
-      :effort:   5h
-      :END:
-***** Outcollects
-      :PROPERTIES:
-      :effort:   3d
-      :END:
-**** TODO GSM (Incollect Only)
-     :PROPERTIES:
-     :ordered:  t
-     :END:
-***** GSMV
-      :PROPERTIES:
-      :effort:   5h
-      :END:
-***** GSMD
-      :PROPERTIES:
-      :effort:  5h 
-      :END:
-*** Coding
-   :PROPERTIES:
-   :effort:   15d
-   :blocker:
-   :END:
-*** Testing
-   :PROPERTIES:
-   :effort:   5d
-   :blocker:
-   :END:
-*** Contingency 
-   :PROPERTIES:
-   :effort:   10d
-   :blocker:  previous-sibling
-   :ordered:  t
-   :END:
-
 *** Executable
-***** /Program Name/
-    - *Language:*
+***** *runRecon.pl*
+    - *Language:* Perl
     - *Source Code Location:*
-    - *Parameters:* /input and output/
-    - *Description:*
+    - *Parameters:* /none/
+    - *Description:* \\
+      Perl CRON script that fires off the reconciliation process at given given time. Once the process is complte it whats until the next scheduled run. Eventually this process will be modified to run within the EPS monitors.
+
+***** *roamingReconciliation.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:* List of reports to run and the date to run them on.
+    - *Description:* \\
+      The main process which tracks all the sub processes for each roaming type. Summerizes the output and creates a spreadsheet and populates the roaming reconciliation table (ROAMRECON) with the results.
+
+***** *getFileInfo.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:* 
+      - *Input* The name of the file do perform the reconciliation.
+      - *Output* The query results for the file as well as list of all the rejected and dropped records .
+    - *Description:* \\
+      Whenever *roamingReconciliation.pl* finds a *CDMA Voice Incollect* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 3 reports:
+      - Database summation from input file to APRM.
+      - List of rejected records.
+      - List of dropped records.
+
+***** *getFileInfoData.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:* 
+      - *Input* The name of the file do perform the reconciliation.
+      - *Output* The query results for the file as well as list of all the rejected and dropped records .
+    - *Description:* \\
+      Whenever *roamingReconciliation.pl* finds a *CDMA Data Incollect* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 3 reports:
+      - Database summation from input file to APRM.
+      - List of rejected records.
+      - List of dropped records.
+
+***** *getFileInfoOutcollects.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:*
+      - *Input* The name of the file do perform the reconciliation.
+      - *Output* The query results for the file.
+    - *Description:* \\
+      Whenever *roamingReconciliation.pl* finds a *CDMA Voice Outcollect* file that needs to be reconcilied it will kick off this job. The job then will produce a file with the results of the file query.
+
+***** *getFileInfoOutcollectsData.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:* Date of reconcliation.
+    - *Description:* \\
+      This jobs reconciles whole days for *Data Outcollects* and produces two reports one by clearinghose the other by business partner. 
+
+***** *getFileInfoLTE.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:* 
+      - *Input* The name of the file, plus other information, to perform the reconciliation.
+      - *Output* The query results for the file as well as list of all the rejected and dropped records .
+    - *Description:* \\
+      Whenever *roamingReconciliation.pl* finds a *LTE Incollect or GSM* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 3 reports:
+      - Database summation from input file to APRM.
+      - List of rejected records.
+      - List of dropped records.
+
+***** *getFileInfoLTEOut.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:*
+      - *Input* The name of the file, plus other information, to perform the reconciliation.
+      - *Output* The query results for the file.
+    - *Description:* \\
+      Whenever *roamingReconciliation.pl* finds a *LTE Outcollect* file that needs to be reconciled it will kick off this job.The job then will produce a file with the results of the file query.
+
+***** *getFileInfoAprm.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:*
+      - *Input* Date of reconciliation
+      - *Output* APRM dump by carrier code for a given day.
+    - *Description:* \\
+      Used to create a report for all CDMA data to show APRM data by carrier code for a given day.
+
+***** *getFileInfoAprmLTE.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:*
+      - *Input* Date of reconciliation
+      - *Output* APRM dump by carrier code for a given day.
+    - *Description:* \\
+      Used to create a report for all LTE data (LTE, GSM and VOLTE) to show APRM data by carrier code for a given day.
+
+***** *listLTE.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:*
+      - *Input* Date of reconciliation
+      - *Output* List of LTE files
+    - *Description:* \\
+      Used to list files for both GSM and LTE incollect.
+
+***** *addMultiUp.pl*
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:*
+      - *Input* tab delimited record
+      - *Output* Sum for each column
+    - *Description:* \\
+      Utility program to sum multiple tab delimited columns 
+
 
 ** Data Decomposition
    - *Table/Field Name:*

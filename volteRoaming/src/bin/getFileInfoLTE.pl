@@ -45,7 +45,7 @@ open( RPT, ">$report" ) || errorExit("Could not open error file.... Fail!!!!");
 
 my $dbconn = getAPRM();
 
-my $sql = "select /*+ PARALLEL(t1,12) */  count(*), sum(charge_amount)  from  prdappc.prm_rom_incol_events t1 where tap_in_file_name = '$argv[0]'";
+my $sql = "select /*+ PARALLEL(t1,12) */  count(*), sum(charge_amount),sum(charge_parameter)  from  prdappc.prm_rom_incol_events t1 where tap_in_file_name = '$argv[0]'";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -55,7 +55,7 @@ $sth->execute() or sendErr();
 
 my $dropped = ($argv[3] - $argv[5]) - $rows[0];
 
-print RPT $argv[0]."\t".$argv[1]."\t".$argv[2]."\t".$argv[3]."\t".$argv[4]."\t".$argv[5]."\t".$argv[6]."\t".$dropped."\t".$rows[0]."\t".$rows[1]."\n";
+print RPT $argv[0]."\t".$argv[1]."\t".$argv[2]."\t".$argv[3]."\t".$argv[4]."\t".$rows[2]."\t".$argv[5]."\t".$argv[6]."\t".$dropped."\t".$rows[0]."\t".$rows[1]."\n";
 
 close(RPT);
 

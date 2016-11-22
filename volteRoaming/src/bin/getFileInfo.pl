@@ -3,23 +3,29 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001225_T20161110182199.DAT";
+#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001225_T20161110182199.DAT";
 
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-my $hh = "cat $ARGV[0] | grep '^98' | sort -u | cut -b 26-37| awk '{ sum+=".'$1'."} END {print sum}'";
+my $hh = "cat $ARGV[0] | grep '^22' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
+my $ttemp = ""; $ttemp = `$hh`; chomp($ttemp);
+my ($total,$filesum,$usage) = split("\t",$ttemp);
 
-my $filesum = `$hh`; $filesum = $filesum/100;
+$hh = "cat $ARGV[0] | grep '^52' | sort -u | cut -b 72-81 | $ENV{'REC_HOME'}/addMultiUp.pl";
+$ttemp = ""; $ttemp = `$hh`; chomp($ttemp);
+my($ttot,$tsum) = split("\t",$ttemp);
+
+$total = $total + $ttot; $filesum = $filesum + $tsum;
 
 my $filename = (split('/',$ARGV[0]))[-1];
 
@@ -143,9 +149,9 @@ open( ERR, ">$errorRpt" ) || errorExit("Could not open error file.... Fail!!!!")
 my $rejectSum = 0;
 
 while (my @rows3 = $sth->fetchrow_array() ) {
-    $rejectSum = $rejectSum + $rows3[3];
+  $rejectSum = $rejectSum + $rows3[3];
 
-    $rows3[2] = (split('<',$rows3[2]))[0];
+  $rows3[2] = (split('<',$rows3[2]))[0];
   
   print ERR $rows3[0]."\t".$rows3[1]."\t".$rows3[2]."\t".$rows3[3]."\n";
 
@@ -153,13 +159,39 @@ while (my @rows3 = $sth->fetchrow_array() ) {
 
 close(ERR);
 
+$dbconn->disconnect();
+
+
+my $dbconn = getAPRM();
+
+$sql = "select file_tp, usage_chrg_1 from prdappc.prm_dat_err_mngr where prod_id = 2 and event_id = 2 and substr(adu,instr(adu,'SDIRI_FCIBER_ID'),46) = '$fileId[1]'";
+
+$sth = $dbconn->prepare($sql);
+$sth->execute() or sendErr();
+
+my $aprm_dropRpt = $filename.'.adrop'.'.csv';
+open( DRP, ">$aprm_dropRpt" ) || errorExit("Could not open drop file.... Fail!!!!");
+
+my $aprmdiff = 0;
+my $dropSum = 0;
+while (my @rows4 = $sth->fetchrow_array() ) {
+  $dropSum = $drop + $rows4[1];
+  $aprmdiff = $aprmdiff + 1;
+
+  print DRP $fileId[0]."\t".$row4[0]."\t".$row4[1]."\n";
+
+}
+
+close(DRP);
+
+
 my $reportFile = $filename.'.rpt.csv';
 
 open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... CallDump Failed!!!!");
 
-my $aprmdiff = ($reportVariable{'SenttoTC'} - ($reportVariable{'Rejected'} + $reportVariable{'DupTC'})) - $aprm[1];
+my $tcaprDif = ($reportVariable{'SenttoTC'} - ($reportVariable{'Rejected'} + $reportVariable{'DupTC'} + $aprmdiff)) - $aprm[1];
 
-print RPT $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DupTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprmdiff."\t".$aprm[1]."\t".$aprm[2]."\n";
+print RPT $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$usage."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DupTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprmdiff."\t".$dropSum."\t".$tcaprDif."\t".$aprm[1]."\t".$aprm[2]."\n";
 
 close(RPT);
 
@@ -177,3 +209,13 @@ sub getBODSPRD {
   return $dbods;
 }
 
+sub getAPRM {
+
+  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+  my $dbods = DBI->connect( "dbi:Oracle:PRDAPRM", "md1dbal1", "500#Reptar" );
+  unless ( defined $dbods ) {
+    sendErr();
+  }
+  return $dbods;
+}

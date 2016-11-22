@@ -11,7 +11,7 @@ use MIME::Lite;
 
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,DISP_RM";
+#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,DISP_RM,NLDLT";
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR";
 #$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
@@ -22,7 +22,7 @@ use MIME::Lite;
 #$ARGV[0] = "NLDLT";
 
 # $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # Setup Initial variables
 my $max_process = 5;
@@ -46,13 +46,14 @@ $jobs{'LTE'} = 'getFileInfoLTE.pl';
 $jobs{'DISP_RM'} = 'getFileInfoLTEOut.pl';
 $jobs{'NLDLT'} = 'getFileInfoLTE.pl';
 
-$headings{'SDIRI_FCIBER'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Duplicates','Sent To TC','Dropped TC','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
-$headings{'SDATACBR_FDATACBR'} = ['File Name','Identifier','Total Records','Total Charges','Dropped Records','Sent To TC','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
-$headings{'CIBER_CIBER'} = ['File Name','Total Records','Total Charges','APRM Records','APRM Total'];
+$headings{'SDIRI_FCIBER'} = ['File Name','Identifier','Total Records','Total Minutes','Total Charges','Dropped Records','Duplicates','Sent To TC','Dropped TC','Rejected','Rejected Total','Dropped APRM','Dropped APRM Sum','TC APRM Difference','APRM Records','APRM Total'];
+$headings{'SDATACBR_FDATACBR'} = ['File Name','Identifier','Total Records','Total Bytes','Total Charges','Dropped Records','Duplicates','Sent To TC','Dropped TC','Rejected','Rejected Total','Dropped APRM','Dropped APRM Sum','TC APRM Difference','APRM Records','APRM Total'];
+
+$headings{'CIBER_CIBER'} = ['File Name','Total Records','Total Minutes','Total Charges','APRM Records','APRM Total'];
 $headings{'DATA_CIBER'} = ['Clearinghouse','Total Records','Revenue','Data Volume'];
-$headings{'LTE'} = ['File Name','Identifier','Sender','Total Records','Total Charges','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
+$headings{'LTE'} = ['File Name','Identifier','Sender','Total Records','Total Charges','Total Bytes','Rejected Records','Rejected Charges','TC APRM Difference','APRM Records','APRM Total'];
 $headings{'DISP_RM'} = ['File Name','Identifier','Total Out','Total Records','APRM Totals'];
-$headings{'NLDLT'} = ['File Name','Identifier','Sender','Total Records','Total Charges','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
+$headings{'NLDLT'} = ['File Name','Identifier','Sender','Total Records','Total Charges','Total Usage','Rejected','Rejected Total','Dropped APRM','APRM Records','APRM Total'];
 
     
 $tab{'SDIRI_FCIBER'} = "CDMA Voice Incollect";
@@ -67,7 +68,7 @@ $tab{'NLDLT'} = 'GSM (Incollect)';
 my @switches = split(',', $ARGV[0]);
 
 my $timeStamp =  $ARGV[1];
-#my $timeStamp = '20161107';
+#my $timeStamp = '20161116';
 
 my $excel_file = "RORC_".$timeStamp.'.xls';
 $workbook = Spreadsheet::WriteExcel->new($excel_file);
@@ -139,6 +140,14 @@ foreach my $switch (@switches) {
 
       my $rejectTab = "Rejected ".$tab{$switch};
       createExcel($timeStamp,$switch,"err",$heading,$rejectTab);
+
+      if($switch eq 'SDIRI_FCIBER' || $switch eq 'SDATACBR_FDATACBR')
+      {
+
+      $rejectTab = "Dropped ".$tab{$switch};
+      createExcel($timeStamp,$switch,"adrop",$heading,$rejectTab);
+      }
+      
     }
 
     # Work Here
@@ -165,8 +174,8 @@ foreach my $switch (@switches) {
 
 $workbook->close;
 
-#my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','Janet.Korish@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
-my @email = ('david.balchen@uscellular.com');
+my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','Janet.Korish@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
+#my @email = ('david.balchen@uscellular.com');
 
 foreach my $too (@email) {
   sendMsg($too);

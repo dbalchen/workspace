@@ -244,7 +244,10 @@ subgraph cluster_3 {
 
 }
 :END:
+
    [[file:Pictures/usage_flow.jpg]]
+
+
 #+BEGIN_LaTeX
 \end{landscape} 
 \newpage
@@ -260,66 +263,47 @@ subgraph cluster_3 {
 \newpage
 #+END_LaTeX
 ** Voice Overview
-
-      One major undertaking in the transition to *TOPS*is moving most
-      of the voice mediation to the *INTEC*platform. To help facilitate
-      this move, the current rules system *(RBMS)*was studied and
-      documented. The following provides a brief overview of the
-      processes used.
+   One major undertaking in the transition to *TOPS* is moving most of the voice mediation to the *INTEC* platform. To help facilitate this move, the current rules system *(RBMS)* was studied and documented. The following provides a brief overview of the processes used.
 *** Call Types
     1. *M-M* - Mobile to Mobile
     2. *M-L* - Mobile to Land Line
     3. *L-M* - Land Line to Mobile
     4. *L-L* - Land Line to Land Line
-
-The call records can come in four possible states.
+    The call records can come in four possible states.
     1. Mobile Terminating (Incoming)
     2. Mobile Originating (Outgoing)
     3. *NTI ONLY*
-        -  *Both* \\ *(NTI Mobile to Mobile)* in which for every
-            voice event, two records are created, a *Mobile
-            Originated* and *Mobile Terminated* record. For *APLX*
-            this is taken care of automatically. In the case of an
-            *NTI* switch, depending on the call scenario, it is up to
-             the mediation platform to create one if needed.
-        -  *Neither* \\ (per example *L-L* )
-#+BEGIN_LaTeX
-\newpage 
-#+END_LaTeX
+       - *Both*  \newline *(NTI Mobile to Mobile)* in which for every voice event, two records are created, a *Mobile Originated* and *Mobile Terminated* record. For *APLX* this is taken care of automatically. In the case of an *NTI* switch, depending on the call scenario, it is up to the mediation platform to create one if needed.
+       - *Neither* \newline (per example *L-L* )
 
 #+BEGIN_LaTeX
+\newpage 
 \begin{landscape}  
 #+END_LaTeX
 *** Incoming - Mobile Terminated
          An *Incoming* call is a /mobile terminated/ call where one of
          our customers receives a call from some caller to a *USCC*
-         switch.
-\\
+         switch.\\
          *The diagram below shows the data flow for an incoming
-         call:*
-\\
-\\
-#+ATTR_LaTeX: width=20cm
+         call:* \\
+ #+ATTR_LaTeX: width=20cm
    [[file:Pictures/incoming.png]]
 
 #+BEGIN_LaTeX
 \newpage 
 #+END_LaTeX
 *** Outgoing - Mobile Originated
-         An *outgoing* call is a /mobile originating/ call from a *USCC*
-         customer in which the following can occur.
-\\
-         *The diagram below shows the data flow for an outgoing call:*
-\\
+    An *outgoing* call is a /mobile originating/ call from a *USCC* customer in which the following can occur.\\
+    *The diagram below shows the data flow for an outgoing call:*
 \\
 #+ATTR_LaTeX: width=23cm
     [[file:Pictures/outgoing.png]]
+
 #+BEGIN_LaTeX
 \end{landscape} 
-#+END_LaTeX
-#+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
+
 * Unified File Format (UFF)
    In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
    will be reformatted into a /Unified File Format/ (*UFF*). This format
@@ -378,7 +362,7 @@ The call records can come in four possible states.
 |      25 | Terminating Number      | Normalized number /(example 6085551212 instead of 411/            |
 |      26 | Dialed Digits           | The untranslated dialed number /(e.g. 441 instead of 555-1212)/   |
 |      27 | Terminating Address     | IP Address/Email Name Client IP for *PMG*                         |
-|      28 | Termination Code        | *SMS.CALL_TERMINATION_CODE*                                     |
+|      28 | Termination Code        | *SMS.CALL_TERMINATION_CODE*                                       |
 |      29 | Service Feature         | MPS Service feature codes                                         |
 |      30 | Call Forwarding Ind     | If the call has been forwarded than true, false otherwise.        |
 |         |                         | 0 = False                                                         |
@@ -403,9 +387,9 @@ The call records can come in four possible states.
 |         |                         | Includes the duration in seconds of the data session              |
 |      37 | Roaming Ind             | Data roaming indicator 0 = False 1 = True                         |
 |      38 | Session ID              | Primary Key for AAA, Transaction ID for                           |
-|         |                         | PSMS AAA.SESSION_ID <= 64 Chars                                  |
-|         |                         | PSMS.TRANS_ID <= 50 Chars                                        |
-|         |                         | QIS.EVENT_ID <= 50 chars Used to find the charge code            |
+|         |                         | PSMS AAA.SESSION_ID <= 64 Chars                                   |
+|         |                         | PSMS.TRANS_ID <= 50 Chars                                         |
+|         |                         | QIS.EVENT_ID <= 50 chars Used to find the charge code             |
 |      39 | Session Type            | For QIS 0 = Charge (only) For PSMS there are two possible values: |
 |         |                         | 0 = Charge                                                        |
 |         |                         | 1 = Adjustment                                                    |
@@ -429,7 +413,7 @@ The call records can come in four possible states.
 |         |                         | If it is a one-off, it is not                                     |
 |         |                         | presented in the invoice line item.                               |
 |      47 | Content Amount          | Combines Pre-rated usage amount for QIS and PSMS                  |
-|      48 | Orig_trans_ID         | Orig Trans ID PSMS.TRANS_ID                                      |
+|      48 | Orig_trans_ID           | Orig Trans ID PSMS.TRANS_ID                                       |
 |      49 | Network Flag            | Used by QIS to calculate the charge code.                         |
 |         |                         | 0 = not a 1 = is a network application..                          |
 |         |                         | Default is 0                                                      |
@@ -438,7 +422,7 @@ The call records can come in four possible states.
 |      52 | LTE Handoff             | This maybe needed after the move to LTE,                          |
 |         |                         | so is just used as a placeholder                                  |
 |      53 | Market/Sub-market       | The Market and Sub-market for a customer this can also be blank.  |
-|         |                         | This field is populated by using a MSID against the MIN_LR       |
+|         |                         | This field is populated by using a MSID against the MIN_LR        |
 |      54 | Originating IMSI        | The IMSI assigned to the SIM card originating a LTE or eHRPD      |
 |         |                         | data session. This can be a routing parameter                     |
 |         |                         | for LTE or eHRPD traffic.                                         |
@@ -901,13 +885,13 @@ The call records can come in four possible states.
             processes the source, compilation and processing occur on
             the NDC machines where the base language is C.
     -  *Questions*
-
        -  [ ] What are the names of the NDC machines.
        -  [ ] Where is the source code kept.
-
     -  *Contacts*
        -  Roberto Amezcua
-
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX 
 *** OutCollects
      [[file:Pictures/outcoll.png]]
     -  *Business Process -* Mediation
@@ -2284,13 +2268,10 @@ The call records can come in four possible states.
     Time zone parameters.
 
 *** AGD1_RESOURCES_REF
-         Lists *TOPS* resources used by Turbo charging very important to
-         map *SIDS* to there offers.
+    Lists *TOPS* resources used by Turbo charging very important to map *SIDS* to there offers.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
-
-#+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+-------------------+---------------|
 | *Column Name*         | *Data Type*       | *Description* |
 |-----------------------+-------------------+---------------|
@@ -2323,7 +2304,7 @@ The call records can come in four possible states.
 #+END_LaTeX
 
 *** APE1_SUBSCR_DATA_REF
-         List subscriber reference data. (Customer data)
+    List subscriber reference data. (Customer data)
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3109,7 +3090,7 @@ needs to be in
 
       -  *International Calls* are rated to the country not the
          individual city/town.
-      -  Find that in *LD\_COUNTRY\_RATES* table.
+      -  Find that in *LD_COUNTRY_RATES* table.
       -  For *Pre-Pay* roaming customers still get a record which needs
          to go through *CIBER* process.
       -  Major problem for *CCMI*. It was decided to remove it but the
@@ -3186,7 +3167,7 @@ needs to be in
       -  *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
       -  *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
       -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
-         : /inf\_nas/apm1/prod/aprmoper/eps/monitors
+         : /inf_nas/apm1/prod/aprmoper/eps/monitors
 
 *** Event Servers
          There are multiple Event Servers which coresspond to bill cycle
@@ -3202,7 +3183,7 @@ needs to be in
          *PRDOPRC*.
 
          In this example we are setting the job rec to run using the
-         *ES\_EOC1045* event server
+         *ES_EOC1045* event server
 
           :   Update OP_APP_DATA set data = 'ES_EOC1045'
           :          where JOB_REC = '{Your Job Rec}' and field_seq_num = 1 
@@ -3232,7 +3213,7 @@ needs to be in
 \\
       The OutCollect process runs twice a day *1:00 a.m/p.m.*
       -  *OUTCOL*\\
-         Extracts from the *APE1\_RATED\_EVENT* table and creates files
+         Extracts from the *APE1_RATED_EVENT* table and creates files
          for *MAS*.
       -  *ADJ9MAS OUTCOL*\\
          Creates files for *SPL1*.
@@ -3244,7 +3225,7 @@ needs to be in
          Processes files in RD after 12 hours of the last files
          processed. Output files for *Syniverse*.
       -  *MF9FTDTAX*\\
-         Loads data into *MF9\_OUTCOL\_TAXES* table
+         Loads data into *MF9_OUTCOL_TAXES* table
       -  *AR9OUTCLTAX*\\
 
       End-day after *MF9FTDTAX*.
@@ -3259,7 +3240,7 @@ needs to be in
 
 **** Operational Tables
 
-         1. *AC1\_CONTROL*\\
+         1. *AC1_CONTROL*\\
             The Outbound Syniverse files       
             :    select * from ac1_control
             :    where nxt_pgm_name = 'CBRRPT'
@@ -3273,60 +3254,47 @@ needs to be in
             :    ...
             :    CIBER_CIBER_20131011211952_1237215_0012.dat
 
-         2. *MF1\_CIBER\_BATCH\_SEQ*\\
+         2. *MF1_CIBER_BATCH_SEQ*\\
             Contain the CIBER batch sequence numbers /(See Database
             Section)/.
 
 ** Overage Protection
 
       Overage notifications are detected on an event by event basis. As
-      events are processed by *TC* and added to the *APE1\_ACCUMULATORS*
+      events are processed by *TC* and added to the *APE1_ACCUMULATORS*
       table a check is made against the
-      *L9\_FIRST\_THRESHOLD/L9\_SECOND\_THRESHOLD* fields. If an overage
+      *L9_FIRST_THRESHOLD/L9_SECOND_THRESHOLD* fields. If an overage
       is detected the ***FIELD*** CTN is added to file (segregated by
       unique *TC* file?) in the NTF directory. MFT then pulls these
       files and delivers to DMI for distribution. A note is added to the
-      NOTIFICATION\_HUB.SMS\_NOTIFICATION table (ODS) indicating the
+      NOTIFICATION_HUB.SMS_NOTIFICATION table (ODS) indicating the
       message was sent by DMI.
 
       - Overage process flow
          [[file:Pictures/overage.png]]
 
       - Output Location
-|-----------------------------------------+---------------------------------------|
-| *NOTIF\_DESC*                           | *FILE\_PATH*                          |
-|-----------------------------------------+---------------------------------------|
-| Overage cap notification on group level | $ABP\_APR\_ROOT/interfaces/output/NTF |
-| Disclaimer notification on group level  | $ABP\_APR\_ROOT/interfaces/output/NTF |
-| Bucket notification on group level      | $ABP\_APR\_ROOT/interfaces/output/NTF |
-|-----------------------------------------+---------------------------------------|
+|-----------------------------------------+-------------------------------------|
+| *NOTIF_DESC*                            | *FILE_PATH*                         |
+|-----------------------------------------+-------------------------------------|
+| Overage cap notification on group level | $ABP_APR_ROOT/interfaces/output/NTF |
+| Disclaimer notification on group level  | $ABP_APR_ROOT/interfaces/output/NTF |
+| Bucket notification on group level      | $ABP_APR_ROOT/interfaces/output/NTF |
+|-----------------------------------------+-------------------------------------|
 
 | *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
 
       -  Fields of Interest
          S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
-         L3\_CALL\_SOURCE
+         L3_CALL_SOURCE
 
-   -  
-
-      Billing Process
-
+*** Billing Process
       The billing process follows a map which is created by the job
-      *ADJ3\_APR\_CycleBillRun\_Sh*. If it completes successfully it
+      *ADJ3_APR_CycleBillRun_Sh*. If it completes successfully it
       will create a billing map that will look something like the
       following:
 
-      #+BEGIN_HTML
-        <div class="figure">
-      #+END_HTML
-
       [[file:Pictures/billing_tc_map-27124108.png]]
-
-      #+BEGIN_HTML
-        </div>
-      #+END_HTML
-
-   -  + -
 
 ** Log File Location
    - Batch 1
@@ -3336,15 +3304,10 @@ needs to be in
          -  F2E | ssh prdwrk4@kpr02batch |
             ADJ1_File2E_Daemon_Shell_Sh_F2E
 
-   -  
-
-      Alias
-
+   -  Alias
       -  *cdlog* - cd to the logfile directory.
       -  *cdswitch (Batch1 Only)* - cd to the switch directory.
       -  *aprout* - cd to the *CIBER* out directories.
-
-   -  
 
 ** Operational Terms and Definitions
       -  *Front-end Processes*
@@ -3385,12 +3348,16 @@ needs to be in
          -  *OM - Order Manager*
          -  *OMS - Order Management System*
 
-** Operational SQL
 ** Production Support - SUP1
 *** Support Server
     Accessed from Putty in *TOPS* Production Support Applications.
     Should be able to login on with LAN ID and password (which is
     same as your LAN ID).
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l
 |---------------------|
 | *SERVER NAME*       |
 |---------------------|
@@ -3412,12 +3379,352 @@ needs to be in
 | msr01web02.uscc.com |
 |---------------------|
 
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 *** Development Servers
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align lllll
 |---------------+--------------+------------+----------+------------|
 | *Environment* |         *IP* | *Hostname* | *UserID* | *Password* |
 |---------------+--------------+------------+----------+------------|
 | Development   |  10.106.10.9 | mdr01bld01 | md1dbal1 | /password/ |
-| Testing       |  10.106.10.9 | mdr01bld01 | d\_medap | Henry*123  |
+| Testing       |  10.106.10.9 | mdr01bld01 | d_medap  | Henry*123  |
 | CallDump      | 10.176.179.3 | kpr01scdap | calldmp  | Henry*128  |
 |---------------+--------------+------------+----------+------------|
 
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+** TC Oncall Daily Duties
+*** Check the Web Monitors
+    -   Batch Tab
+        -  Open Remedy against Amdocs - Tier 2 Billing to restart
+               the scripts when any of the Batch1, Batch2, Batch3, or
+               APRM columns are missing indicating they are down.
+        -  Open Remedy against Amdocs - Tier 2 Billing to restart
+               the script when any of these scripts are red indicating
+               they are down.\\
+
+| *Batch 1 APPS* |
+
+|------------------------------+----+-------|
+| Aged_reject_to_close_prdcust | Up | Jul23 |
+| AnFReport                    | Up | Jul23 |
+| BillingTasks                 | Up | Jul26 |
+| cpni_auto                    | Up | Jul23 |
+| ovpDmiRejectsWA              | Up | Jul26 |
+| ovpMonitorAuto               | Up | Jul24 |
+|------------------------------+----+-------|
+
+| *Batch 2 APPS* |
+
+|---------------------------+----+-------|
+| af_fixer                  | Up | Jul27 |
+| auto_error_handle_PRDUSG1 | Up | Jul27 |
+| auto_error_handle_PRDUSG2 | Up | Jul27 |
+| auto_error_handle_PRDUSG3 | Up | Jul27 |
+| auto_error_handle_PRDUSG4 | Up | Jul27 |
+| large_charge              | Up | Jul27 |
+| Log_Monitoring            | Up | 14:19 |
+| pseudoCron                | Up | Jul27 |
+| pseudoCron1day            | Up | Jul27 |
+|---------------------------+----+-------|
+
+| *Batch 2 Filesystem* |
+
+|----------+--------+--------+-------------+--------|
+| *Folder* | *Size* | *Used* | *Available* | *Used* |
+|----------+--------+--------+-------------+--------|
+| /var     | 1.9G   | 267M   | 1.6G        |    15% |
+| /tmp     | 5.7G   | 1.8G   | 3.6G        |    34% |
+| /af      | 9.4T   | 2.1T   | 7.4T        |    23% |
+| /JP_FS   | 5.9T   | 2.8T   | 3.2T        |    47% |
+|----------+--------+--------+-------------+--------|
+
+    -  Event Tab
+       -  Open Remedy against Amdocs - Tier 2 Billing to restart
+               the scripts when any of the Event1 through Event6 columns
+               are missing indicating they are down.
+       -  Open Remedy against Amdocs - Infra Environments to
+               investigate available space when any of the File system %
+               Used sections are red.
+    -  AC1 Control Tab
+       -  Open Remedy against Amdocs for AF and stuck in IU or RD
+               files when creation date and is less than current date.
+       -  Use the A&F monitor report for <MM/DD/YYYY> and APRM
+               monitor report for <MM/DD/YYYY> emails as supporting
+               evidence, which run every hour.
+    -  AEM Tab
+       -  Ignore -- monitor was turned off due a conflict with
+               prepaid event transactions.
+    -  Other Tab
+       -  Open Remedy against Amdocs - Tier 2 Billing to check on
+               going rerating when rows are in red for more than one
+               day.
+    - Check Overage Protection Monitor.
+      -  Go to the MPS mailbox and look for the Overage Notification
+            Count for <MM-DD-YYYY> email.\\
+            When received with counts similar to these there are no
+            issues.
+         #+BEGIN_EXAMPLE
+             Total Files: 42987
+             Total Records: 154323
+             75%: 84418
+             100%: 69830
+             Disclaimer: 60
+             Balance: 15
+         #+END_EXAMPLE
+         -  When count are significantly low open a Sev 3 ticket against
+            Amdocs.
+         #+BEGIN_EXAMPLE
+             Total Files: 2607
+             Total Records: 9458
+             75%: 5365
+             100%: 4092
+             Disclaimer: 0
+             Balance: 1
+         #+END_EXAMPLE
+         -  Open a Sev 2 ticket against Amdocs when Overage Notification
+            Count FAILED for <MM-DD-YYYY>! is received.
+
+            -  Call IS Support at 608-828-5812 to inform them of a Sev 2
+               or above ticket.
+            -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
+               217-766-1979.
+            -  Email applicable teams the ticket number and description.
+
+         #+BEGIN_EXAMPLE
+             To:  GSSUSCCTier25RA@amdocs.com
+             Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+         #+END_EXAMPLE
+
+    -  Check .LOG file monitor.
+       -  Go to the MPS mailbox and look for the Log Monitoring Count
+            for <MM-DD-YYYY> ! email
+       -  When received with No LOG files where found for <MM-DD-YYYY>
+            there are no issues.
+       -  When received with "Log files found for <MM-DD-YYYY> Total
+            Log Files: <XXXXXX> open a sev 3 Remedy ticket against
+            Amdocs.
+       -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
+               217-766-1979.
+       -  Email applicable teams the ticket number and description.
+            #+BEGIN_EXAMPLE
+                To:  GSSUSCCTier25RA@amdocs.com
+                Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+            #+END_EXAMPLE
+
+    -  Check AC1_CONTROL Fixer Status.
+       -  Go to the MPS mailbox and look for the AC1_CONTROL Fixer
+            Status emails. There are two. One at ~12:04AM and on at
+            ~4:03AM.
+       -  The output is similar to what is shown below. The only
+            action needed is when a Sid is removed other than *SIDS*
+            45696, 49697, and 49698. When a Sid other than the
+            aforementioned *SIDS* is removed open a Sev 4 Remedy against
+            Inter-carrier Services, email the ticket number,
+            description, and details to Zachary.Gutter@uscellular.com
+            asking him to validate the Sid.
+
+            #+BEGIN_EXAMPLE
+                Results for the AC1_CONTROL Fixer:
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                Fixed /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/
+                      switch/DIRI/SDIRI_FCIBER_ID000069_T20150802185115.DAT 
+                and replaced it with /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs
+                      /up/physical/switch/DIRI/SDIRI_FCIBER_ID000069_T20150802185199
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                Sid:  was removed
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 0 CIBER AF files with wr_rec_quantity of 2
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 0 out of sequence CIBER files
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 0 OutColllects files stuck IU and set to RD
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 0 File2E stuck IU/AF files and set to RD
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 0 Files stuck FR files and set to RD
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 21 ORG records updated at prdusg1c.ape1_subscriber_rerate
+                from num_of_rerate_tries=3 to 1
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 14 ORG records updated at prdusg2c.ape1_subscriber_rerate 
+                from num_of_rerate_tries=3 to 1
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 28 ORG records updated at prdusg3c.ape1_subscriber_rerate 
+                from num_of_rerate_tries=3 to 1
+            #+END_EXAMPLE
+
+            #+BEGIN_EXAMPLE
+                There were 28 ORG records updated at prdusg4c.ape1_subscriber_rerate 
+                from num_of_rerate_tries=3 to 1
+            #+END_EXAMPLE
+
+      -  + -
+
+         Check Large Charge monitor.
+
+         -  Go to the MPS mailbox and look for the Large Charge email.
+         -  When the subject line is other than Large Charge Not
+            Detected - No Action Required open a sev 3 Remedy against
+            Amdocs.
+
+            -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
+               217-766-1979.
+            -  Email applicable teams the ticket number and description.
+
+            #+BEGIN_EXAMPLE
+                To:  GSSUSCCTier25RA@amdocs.com
+                Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+            #+END_EXAMPLE
+
+         -  
+
+            High Dollar Amount Recovery Procedure
+
+            *IMPORTANT : High Dollar amounts must be reversed on the
+            same day they are created.*
+
+            1. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com receives an
+               internal alert indicating there is a high dollar amount
+               issue.
+            2. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com calls the USC
+               Billing On-Call Person from the daily Billing Priorities
+               Email as soon as the alert is received.
+            3. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com sends an email to
+               the USCDLISOps-BillingandAROperations@uscellular.com
+               email distribution list within 1 hour of the initial
+               internal alert. This email contains:
+
+               -  FA/BAR
+               -  transaction_id
+               -  amount (e.g. charges_amount)
+               -  tax_amount
+               -  debit_id
+               -  l9_geo_cod
+               -  operator_id (associate id)
+               -  first_name
+               -  last_name
+               -  e_mail
+               -  employee_no
+               -  work_group
+
+            4. USC forwards the Amdocs communication email to the
+               following Financial Services email addresses within 1
+               hour of receiving the email communication from Amdocs:
+
+               -  NFSC-TulsaResolutions@uscellular.com
+               -  NFSCMADFSHelpDesk@uscellular.com
+               -  Lane.Dohl@uscellular.com
+
+            5. Financial Services reverses any incorrect transactions
+               and replies to the email distribution list for USC and
+               Amdocs. If the process is successful, no further action
+               is required. If there are any other issues, further
+               escalation is needed using our standard processes. This
+               escalation requires a Sev-3 ticket created and routed to
+               the Amdocs Tier 2 Billing queue.
+
+      -  
+
+         Check out of sequence CIBER records monitor.
+
+         -  Go to the MPS mailbox and look for the out of sequence CIBER
+            records email.
+         -  When the subject line is other than No out of sequence CIBER
+            records for <YYYYMMDD> open a sev 4 Remedy against Amdocs.
+
+            -  Email applicable teams the ticket number and description.
+
+         #+BEGIN_EXAMPLE
+             To:  GSSUSCCTier25RA@amdocs.com
+             Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+         #+END_EXAMPLE
+
+      -  
+
+         Check Late Usage Processing
+
+         Follow the link below to see a query to find late usage for a
+         given cycle.
+         [[file:///home/dbalchen/workspace/CommonPlace/docs/LateUsage.sql][Late
+         Usage SQL]]
+
+      -  
+
+         When Notified Nonfictions.
+
+         -  kpr01ebiap maintenance.
+
+            -  Login to the EBI server with your LAN ID and password.
+            -  Check if AEM and KPI scripts are running.
+
+         #+BEGIN_EXAMPLE
+             [md1dsmi1@kpr01ebiap eps]$ ps -ef | grep perl | grep md1dsmi1 | grep -v grep
+             md1dsmi1   16566       1  0 Jul30 ?        00:00:00 perl ./aem_purge_trending_split.pl 1 0
+             md1dsmi1 2345044       1  0 Jul28 ?        00:00:00 perl ./aem_error_trending_auto.pl
+             md1dsmi1 2345048       1  0 Jul28 ?        00:00:00 perl ./aem_purge_trending_auto.pl
+             md1dsmi1 2345050       1  0 Jul28 ?        00:00:00 perl ./em1_errors_trending_auto.pl
+             md1dsmi1 2345052       1  0 Jul28 ?        00:00:00 perl ./em1_errors_write_off_auto.pl
+             md1dsmi1 2345053       1  0 Jul28 ?        00:00:00 perl ./remedy_reports_auto.pl
+             md1dsmi1 2345054       1  0 Jul28 ?        00:00:43 perl ./tc_kpi_auto.pl 2 2 1 1
+             md1dsmi1 2345055       1  0 Jul28 ?        00:00:02 perl ./tc_kpi_datain_auto.pl 2 2 1 1
+         #+END_EXAMPLE
+
+         -  Check if Business Report scripts are running.
+
+         #+BEGIN_EXAMPLE
+             [md1dsmi1@kpr01ebiap eps]$ ps -ef | grep MainLoop | grep -v grep
+             md1dsmi1 2188567       1  0 Jul28 ?        00:00:00 HS1H MainLoop - next: 
+             md1dsmi1 2188568       1  0 Jul28 ?        00:00:00 CancelLineIL MainLoop - next:
+             md1dsmi1 2188569       1  0 Jul28 ?        00:00:00 MADISON MainLoop - next: 
+             md1dsmi1 2188570       1  0 Jul28 ?        00:00:00 CancelLineWI MainLoop - next:
+             md1dsmi1 2188571       1  0 Jul28 ?        00:00:00 daily_counts MainLoop - next:
+         #+END_EXAMPLE
+
+      -  
+
+         Restart AEM and KPI scripts.
+
+         -  Login to the EBI server with your LAN ID and password.
+         -  cd to /home/common/eps/das
+         -  Run from the command line nohup ./StartAllErrorAndKPI.sh &
+
+      -  
+
+         Restart Business Report scripts.
+
+         -  Login to the EBI server with your LAN ID and password.
+         -  cd to /home/common/eps/reports
+         -  Run from the command line nohup ./StartAllReportCron.sh &
+
+         Note all scripts use Dave Smith's LAN ID password and when the
+         failure is due to the password being expired please notify him
+         immediately and if he is out of the office wait until he
+         returns to the office to reset his password and update the
+         scripts.

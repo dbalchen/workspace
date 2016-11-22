@@ -1,0 +1,109 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/dbalchen/workspace/volteRoaming/volteRecon.org
+
+
+* Create SQL for each data type
+  :PROPERTIES:
+  :blocker:  start
+  :ordered:  t
+  :ARCHIVE_TIME: 2016-11-22 Tue 15:56
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/Development
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
+** TODO Volte
+   :PROPERTIES:
+   :ordered:  t
+   :END:
+*** Incollect
+    :PROPERTIES:
+    :effort:   5h
+    :END:
+*** Outcollect
+    :PROPERTIES:
+    :effort:   5h
+    :END:
+** TODO LTE
+   :PROPERTIES:
+   :ordered:  t
+   :END:
+*** Incollect
+    :PROPERTIES:
+    :effort:   5h
+    :END:
+*** Outcollect
+    :PROPERTIES:
+    :effort:   5h
+    :END:
+** DONE CDMA (AAA)
+   :PROPERTIES:
+   :ordered:  t
+   :END:
+*** Data Ciber Incollects (done)
+    [[file:docs/CDMA_Data_Incollect.sql][Data Incollect SQL]]
+    :PROPERTIES:
+    :effort:   5h
+    :END:
+*** Data CIBER Outcollects (Talk to Craig)
+    :PROPERTIES:
+    :effort:   3d
+    :END:
+** DONE Voice
+   :PROPERTIES:
+   :ordered:  t
+   :END:
+*** Incollects
+    [[file:docs/CDMA_Voice_Incollect.sql][Voice Incollects SQL]]
+    :PROPERTIES:
+    :effort:   5h
+    :END:
+*** Outcollects
+    :PROPERTIES:
+    :effort:   3d
+    :END:
+** TODO GSM (Incollect Only)
+   :PROPERTIES:
+   :ordered:  t
+   :END:
+*** GSMV
+    :PROPERTIES:
+    :effort:   5h
+    :END:
+*** GSMD
+    :PROPERTIES:
+    :effort:   5h
+    :END:
+
+* Contingency 
+  :PROPERTIES:
+  :effort:   10d
+  :blocker:  previous-sibling
+  :ordered:  t
+  :ARCHIVE_TIME: 2016-11-22 Tue 15:56
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/Development
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
+
+
+* Coding
+  :PROPERTIES:
+  :effort:   15d
+  :blocker:
+  :ARCHIVE_TIME: 2016-11-22 Tue 15:56
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/Development
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
+
+* Testing
+  :PROPERTIES:
+  :effort:   5d
+  :blocker:
+  :ARCHIVE_TIME: 2016-11-22 Tue 15:57
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/Development
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
