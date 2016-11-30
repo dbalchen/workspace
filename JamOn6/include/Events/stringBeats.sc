@@ -82,6 +82,32 @@
 ).play};
 
 
+~string3_firmus = ~cf_clock.deepCopy;
+~string3_firmus.filter = 1;
+~string3_firmus.envelope = 1;
+~string3_firmus.init;
+~string3_firmus.envelope.attack = 0.75;
+~string3_firmus.envelope.decay = 0.75;
+~string3_firmus.envelope.sustain = 0.6;
+~string3_firmus.envelope.release = 0.4;
+~string3_firmus.envelope.init;
+~string3_firmus.filter.init;
+~string3_firmus.filter.cutoff = 3800.00;
+~string3_firmus.filter.gain = 0.5;
+~string3_firmus.filter.attack = 0.25;
+~string3_firmus.filter.release = 0.650;
+
+~midistring3_firmus = {Pbind(\type, \midi,
+	\midiout, ~synth2,
+	\midicmd, \noteOn,
+	\note,  Pfunc.new({~string3_firmus.freq.next}- 60),
+	\amp, ~string3_firmus.amp,
+	\chan, 3,
+	\sustain, Pfunc.new({~string3_firmus.duration.next}),
+	\dur, Pfunc.new({~string3_firmus.wait.next})
+).play};
+
+
 
 ~pad_firmus = ~cf_clock.deepCopy;
 ~pad_firmus.freqs = ~pad_firmus.freqs + 12;

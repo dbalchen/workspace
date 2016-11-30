@@ -66,7 +66,16 @@ OSCdef(\mainClock, { |m|
 
 ~channel0 = {arg num, vel = 1;
 	var ret;
-	ret = ~midiFMdarkpad1.value(~pad_firmus,num);
+
+	ret = Synth("tbell",addAction: \addToHead);
+	ret.set(\freq,num.midicps);
+	ret.set(\decayscale,~dcs);
+	ret.set(\fscale,~fscale);
+	ret.set(\release,~release);
+	ret.set(\attack,~attack);
+	ret.set(\amp,~amp);
+	ret.set(\out,~bellOut);
+	ret.set(\gate,1);
 	ret;
 };
 
@@ -84,16 +93,7 @@ OSCdef(\mainClock, { |m|
 
 ~channel3 = {arg num, vel = 1;
 	var ret;
-
-	ret = Synth("tbell",addAction: \addToHead);
-	ret.set(\freq,num.midicps);
-	ret.set(\decayscale,~dcs);
-	ret.set(\fscale,~fscale);
-	ret.set(\release,~release);
-	ret.set(\attack,~attack);
-	ret.set(\amp,~amp);
-	ret.set(\out,~bellOut);
-	ret.set(\gate,1);
+	ret = ~midiStrings.value(~string3_firmus,num,3);
 	ret;
 };
 

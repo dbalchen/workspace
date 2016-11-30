@@ -150,17 +150,17 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 
 ~noise.set(\aoc,0.3);
 
-~noiseSweep.value(1,-0.4,((24*4)/2), ((4*4)/2), 0.25);
-~noiseSweep2.value(1,-0.40,((24*4)/2),((8*4)/2), 0.75);
+~noiseSweep.value(1,-0.25,((16*4)/2), ((4*4)/2), 0.25);
+~noiseSweep2.value(1,-1,((16*4)/2),((8*4)/2), 0.75);
 
-~noiseSweep.value(-0.4,1,((24*4)/2), ((4*4)/2), 1.0);
-~noiseSweep2.value(-0.4,1,((24*4)/2),((8*4)/2), 0.55);
+~noiseSweep.value(-0.25,1,((24*4)/2), ((4*4)/2), 1.0);
+~noiseSweep2.value(-1,1,((24*4)/2),((8*4)/2), 0.55);
 
 
 
 ~pulseAmp.value(0,1,((24*4)/2),((4*4)/2),-0.85);
 ~pulse1.set(\bamp,~circleExt4Out);
-~pulse1.set(\amp,0);
+~pulse1.set(\amp,1);
 
 ~sineAmp.value(0, 0.45,((24*4)/2), ((2*4)/2), 0.5);
 
@@ -174,7 +174,7 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~vca1.set(\amp,0);
 ~sineAmp.value(0.45, 0.0,((4*4)/2), ((2*4)/2), 1.0);
 
-~pulseSweep.value(-1,0.9,((24*4)/2),((8*4)/2), 0.55);
+
 
 
 
@@ -223,13 +223,13 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~string1_firmus.filter.gui;
 ~string1_firmus.envelope.gui;
 
-~string1_firmus.amp = 1.7;
+~string1_firmus.amp = 1.53;
 ~string2_firmus.amp = 1.35;
 
 ~vca1.set(\amp,0.0);
 
 ~rp={
-	~noiseSweep.value(1,-1,((24*4)/2), ((8*4)/2), 0.75);
+	~noiseSweep.value(1,-1,((16*4)/2), ((8*4)/2), 0.75);
 	~noiseSweep2.value(1,-0.25,((24*4)/2),((8*4)/2), 0.5);
 }
 
@@ -346,112 +346,112 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 
 
 
-		//~startTimer.value(120);
-		~mixer1.set(\bal,1);
-		~mixer2.set(\bal,1);
-		~circleExt4.set(\gate,0);
-		~pulse1.set(\bamp,998);
+//~startTimer.value(120);
+~mixer1.set(\bal,1);
+~mixer2.set(\bal,1);
+~circleExt4.set(\gate,0);
+~pulse1.set(\bamp,998);
+~pulse1.set(\amp,0);
+~circleExt5.set(\gate,0);
+~vca1.set(\bamp,998);
+~vca1.set(\amp,0);
+
+t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
+	(
+		~noiseSweep.value(1,-0.4,((24*4)/2), ((4*4)/2), 0.25);
+		~noiseSweep2.value(1,-0.40,((24*4)/2),((8*4)/2), 0.75);
+
+		~pulseAmp.value(0,1,((16*4)/2),((4*4)/2),0.05);
+		~pulse1.set(\bamp,~circleExt4Out);
 		~pulse1.set(\amp,0);
-		~circleExt5.set(\gate,0);
-		~vca1.set(\bamp,998);
-		~vca1.set(\amp,0);
 
-		t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
-			(
-				~noiseSweep.value(1,-0.4,((24*4)/2), ((4*4)/2), 0.25);
-				~noiseSweep2.value(1,-0.40,((24*4)/2),((8*4)/2), 0.75);
+		~sineAmp.value(0, 0.45,((16*4)/2), ((2*4)/2), 0.5);
 
-				~pulseAmp.value(0,1,((16*4)/2),((4*4)/2),0.05);
-				~pulse1.set(\bamp,~circleExt4Out);
-				~pulse1.set(\amp,0);
+		~vca1.set(\bamp,~circleExt5Out);
+		~vca1.set(\amp,0.0);
 
-				~sineAmp.value(0, 0.45,((16*4)/2), ((2*4)/2), 0.5);
-
-				~vca1.set(\bamp,~circleExt5Out);
-				~vca1.set(\amp,0.0);
-
-		);};); // End of t.schedAbs
+);};); // End of t.schedAbs
 
 
 
 
-		t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
-			(
+t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
+	(
 
-				~pulseSweep.value;
+		~pulseSweep.value;
 
 
 
-		);};); // End of t.schedAbs		//~startTimer.value(120);
-		~mixer1.set(\bal,1);
-		~mixer2.set(\bal,1);
-		~circleExt4.set(\gate,0);
-		~pulse1.set(\bamp,998);
+);};); // End of t.schedAbs		//~startTimer.value(120);
+~mixer1.set(\bal,1);
+~mixer2.set(\bal,1);
+~circleExt4.set(\gate,0);
+~pulse1.set(\bamp,998);
+~pulse1.set(\amp,0);
+~circleExt5.set(\gate,0);
+~vca1.set(\bamp,998);
+~vca1.set(\amp,0);
+
+t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
+	(
+		~noiseSweep.value(1,-0.4,((24*4)/2), ((4*4)/2), 0.25);
+		~noiseSweep2.value(1,-0.40,((24*4)/2),((8*4)/2), 0.75);
+
+		~pulseAmp.value(0,1,((16*4)/2),((4*4)/2),0.05);
+		~pulse1.set(\bamp,~circleExt4Out);
 		~pulse1.set(\amp,0);
-		~circleExt5.set(\gate,0);
-		~vca1.set(\bamp,998);
-		~vca1.set(\amp,0);
 
-		t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
-			(
-				~noiseSweep.value(1,-0.4,((24*4)/2), ((4*4)/2), 0.25);
-				~noiseSweep2.value(1,-0.40,((24*4)/2),((8*4)/2), 0.75);
+		~sineAmp.value(0, 0.45,((16*4)/2), ((2*4)/2), 0.5);
 
-				~pulseAmp.value(0,1,((16*4)/2),((4*4)/2),0.05);
-				~pulse1.set(\bamp,~circleExt4Out);
-				~pulse1.set(\amp,0);
+		~vca1.set(\bamp,~circleExt5Out);
+		~vca1.set(\amp,0.0);
 
-				~sineAmp.value(0, 0.45,((16*4)/2), ((2*4)/2), 0.5);
-
-				~vca1.set(\bamp,~circleExt5Out);
-				~vca1.set(\amp,0.0);
-
-		);};); // End of t.schedAbs
+);};); // End of t.schedAbs
 
 
 
 
-		t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
-			(
+t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
+	(
 
-				~pulseSweep.value;
+		~pulseSweep.value;
 
 
 
-		);};); // End of t.schedAbs		//~startTimer.value(120);
-		~mixer1.set(\bal,1);
-		~mixer2.set(\bal,1);
-		~circleExt4.set(\gate,0);
-		~pulse1.set(\bamp,998);
+);};); // End of t.schedAbs		//~startTimer.value(120);
+~mixer1.set(\bal,1);
+~mixer2.set(\bal,1);
+~circleExt4.set(\gate,0);
+~pulse1.set(\bamp,998);
+~pulse1.set(\amp,0);
+~circleExt5.set(\gate,0);
+~vca1.set(\bamp,998);
+~vca1.set(\amp,0);
+
+t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
+	(
+		~noiseSweep.value(1,-0.4,((24*4)/2), ((4*4)/2), 0.25);
+		~noiseSweep2.value(1,-0.40,((24*4)/2),((8*4)/2), 0.75);
+
+		~pulseAmp.value(0,1,((16*4)/2),((4*4)/2),0.05);
+		~pulse1.set(\bamp,~circleExt4Out);
 		~pulse1.set(\amp,0);
-		~circleExt5.set(\gate,0);
-		~vca1.set(\bamp,998);
-		~vca1.set(\amp,0);
 
-		t.schedAbs(timeNow + (8*4),{ // 00 = Time in beats
-			(
-				~noiseSweep.value(1,-0.4,((24*4)/2), ((4*4)/2), 0.25);
-				~noiseSweep2.value(1,-0.40,((24*4)/2),((8*4)/2), 0.75);
+		~sineAmp.value(0, 0.45,((16*4)/2), ((2*4)/2), 0.5);
 
-				~pulseAmp.value(0,1,((16*4)/2),((4*4)/2),0.05);
-				~pulse1.set(\bamp,~circleExt4Out);
-				~pulse1.set(\amp,0);
+		~vca1.set(\bamp,~circleExt5Out);
+		~vca1.set(\amp,0.0);
 
-				~sineAmp.value(0, 0.45,((16*4)/2), ((2*4)/2), 0.5);
-
-				~vca1.set(\bamp,~circleExt5Out);
-				~vca1.set(\amp,0.0);
-
-		);};); // End of t.schedAbs
+);};); // End of t.schedAbs
 
 
 
 
-		t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
-			(
+t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
+	(
 
-				~pulseSweep.value;
+		~pulseSweep.value;
 
 
 
-		);};); // End of t.schedAbs
+);};); // End of t.schedAbs

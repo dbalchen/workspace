@@ -22,8 +22,6 @@ o.memSize = 2097152;
 ~startup = {
 
 	(
-
-
 		"/home/dbalchen/Music/JamOn6/include/Synths/bdSynth.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/oscillator.sc".load;
@@ -46,16 +44,55 @@ o.memSize = 2097152;
 ~startup.value;
 ~startTimer.value(120);
 
-~mixer1.set(\bal,-0.25);
-~mixer2.set(\bal,-1);
+~mixer1.set(\bal,1);
+~mixer2.set(\bal,1);
 ~circleExt4.set(\gate,0);
 ~pulse1.set(\bamp,998);
 ~pulse1.set(\amp,1.2);
 ~circleExt5.set(\gate,0);
 ~vca1.set(\bamp,998);
 ~vca1.set(\amp,0.4);
-~mixer3.set(\bal,0.85);
+~mixer3.set(\bal,0.75);
 ~mixer4.set(\bal,1);
+
+
+~noise.set(\out,2);
+~vca1.set(\out,6);
+~pulse.set(\out,4);
+~string2_firmus.out = 8;
+~string3_firmus.out = 10;
+
+~string1_firmus.envelope.attack = 1.5;
+~string1_firmus.envelope.decay = 1.2;
+~string1_firmus.envelope.sustain = 0.50;
+~string1_firmus.envelope.release = 0.4;
+~string1_firmus.filter.cutoff = 1400.00;
+~string1_firmus.filter.gain = 0.45;
+~string1_firmus.filter.attack = 1.5;
+~string1_firmus.filter.release = 0.8;
+
+~string2_firmus.envelope.attack = 0.75;
+~string2_firmus.envelope.decay = 0.75;
+~string2_firmus.envelope.sustain = 0.6;
+~string2_firmus.envelope.release = 0.3;
+~string2_firmus.filter.cutoff = 3400.00;
+~string2_firmus.filter.gain = 0.5;
+~string2_firmus.filter.attack = 0.25;
+~string2_firmus.filter.release = 0.65;
+
+~string1_firmus.envelope.attack = 0.75;
+~string1_firmus.envelope.decay = 0.75;
+~string1_firmus.filter.attack = 0.25;
+~string1_firmus.filter.release = 0.65;
+~string1_firmus.envelope.release = 0.3;
+~string1_firmus.filter.release = 0.65;
+
+~noiseSweep.value(1,-0.25,((16*4)/2), ((4*4)/2), 0.25);
+~noiseSweep2.value(1,-1,((16*4)/2),((8*4)/2), 0.75);
+
+~pulseSweep.value(0.85,-1,((24*4)/2),((8*4)/2), 0.55);
+~pulseSweep.value(-1,0.85,((24*4)/2),((8*4)/2), 0.55);
+
 
 TempoClock.default.tempo = 120 / 60;
 
@@ -77,9 +114,3 @@ TempoClock.default.tempo = 120 / 60;
 
 )
 
-~startup.value;
-~startTimer.value(120);
-~synth2 = ~synth2.latency_(Server.default.latency);
-~rp = {~start.value;};
-s.boot;
-s.quit;
