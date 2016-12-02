@@ -51,136 +51,53 @@
  : New Page
  : \newpage
 :END:
-* Data Roaming Reconciliation Documentation [0%]
-  SCHEDULED:
-  - [ ] Documentation
-  - [ ] Code
-  - [ ] Test 
-  - [ ] Deploy
-
+* Daily Roaming Reconciliation
 ** Project Scope
     Create a daily reconciliation report for all roaming data types to reconcile both usage and revenue.
+*** Work Breakdown Structure
+    /[Insert the project's work breakdown structure or provide a reference to where it is stored.]/
+*** Deployment Plan
+    /[Example: The project involves deploying an application to state health partners. This section would discuss the approach for rolling out the application to the end users, including conducting environment assessments, developing memorandums of understandings, hardware/software installation, data conversion.]/
+*** Change Control Management
+    /[Example of Change Control: If a development server for your project is administered by another organization that is responsible for installing machine upgrades and there are scheduled outages that will impact your project schedule. Changes to the project will need to be made to deal with the potential impact of the scheduled outage.]/
 ** Assumptions
+** Quality Management
+   /[Example: For an information system, controlling the consistency of screen layouts would include reviewing all screens to make sure they match the standards. Quality measures may be no bugs or defects for certain critical requirements, consistent screen layouts, or correctly calculating variables. Quality may be ensured through inspections, audits, formal testing and documentation of defects in a defect tracking system to ensure defects are fixed, retested and closed. Some projects may choose to use a traceability matrix to determine if critical requirements have been met.]/
+** Communications Management
+   /[Insert the project's communication management plan or provide a reference to where it is stored.]/
+*** Communication Matrix
+|-------------+----------+----------+-----------+---------------+---------------------|
+| Stakeholder | Messages | Vehicles | Frequency | Communicators | Feedback Mechanisms |
+|-------------+----------+----------+-----------+---------------+---------------------|
+|             |          |          |           |               |                     |
+|-------------+----------+----------+-----------+---------------+---------------------|
 ** User Requirements
    There will be a Daily and monthly report sent for each roaming type.
 *** Daily Report
       [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
-#+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
-#+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
-** TODO Process Decomposition [75%] 
-   - [X] OutCollects [100%]
-     - [X] Read Craigs Doc
-     - [X] Is there anything for voice or is it just data?
-     - [X] I believe 
-   - [ ] How do we plan to compare to Syniverse [0%]
-     - [ ] Will there be a job that reads the file then adds the information to the database.
-   - [X] Where does all the ARCM come in 
-     Used for LTE and Volte
-   - [X] Where does VOLTE and LTE in collects come into play.
-** Analysis [%]
-   :PROPERTIES:
-   :blocker:  start
-   :ordered:  t
-   :END:
-*** Usage Types (Incollects) [80%]
-     :PROPERTIES:
-     :effort:   1.5d
-     :END:
-    - [X] CDMA Voice
-      - *Directory:* //pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/
-      - *Machine:* kpr02batch
-      - *Record Type:* CIBER
-    - [X] CDMA Data
-      - *Directory:* //pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/
-      - *Machine:* kpr02batch
-      - *Record Type:* CIBER
-    - [ ] Volte
-      - *Directory:* //m01/switchb/tas/
-      - *Machine:* kpr02batch
-      - *Record Type:* TAP
-    - [X] LTE
-      - *Directory*: 
-      - *Machine:* kp02batch
-      - *Record Type:* TAP
-    - [X] GSM
-      - *Directory*: /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/GSMI (data)
-	- ../GSMI/gsmv/ (voice)
-	- ../GSMI/gsms/ (SMS)
-	- ../GSMI/gsmt/ (PMG)
-      - *Machine:* kpr02batch
-      - *Record Type:* TAP
-*** System Flow
+** Process Decomposition
 ***** ARCM
      #+ATTR_LaTeX: width=13cm
       [[file:docs/ARCM_Incollect.png]]
       :PROPERTIES:
       :effort:   4d
       :END:
-****** ARCM Tables
-
-       - SMM1_COLLECT_FILES_HIST
-|-------------------+---------------------+------------|
-| *Columns*         | *Data Type*         | *Comments* |
-|-------------------+---------------------+------------|
-| SYS_UPDATE_DATE   | DATE                |            |
-| SYS_CREATION_DATE | DATE                |            |
-| SOURCE_TYPE       | VARCHAR2 (10 Byte)  |            |
-| SOURCE_ID         | NUMBER (22)         |            |
-| REJECT_REASON     | VARCHAR2 (512 Byte) |            |
-| PHYSICAL_DATE     | DATE                |            |
-| PERIOD_KEY        | NUMBER (4)          |            |
-| OPERATOR_ID       | NUMBER (9)          |            |
-| IS_INSTANCE_ID    | NUMBER (11)         |            |
-| FILE_STATUS       | VARCHAR2 (2 Byte)   |            |
-| FILE_SIZE         | NUMBER (15)         |            |
-| FILE_PATH         | VARCHAR2 (512 Byte) |            |
-| FILE_NAME         | VARCHAR2 (200 Byte) |            |
-| FILE_IDENTIFIER   | NUMBER (22)         |            |
-| FILE_FORMAT       | VARCHAR2 (10 Byte)  |            |
-| DL_UPDATE_STAMP   | NUMBER (4)          |            |
-| DL_SERVICE_CODE   | CHAR (5 Byte)       |            |
-| APPLICATION_ID    | CHAR (6 Byte)       |            |
-|-------------------+---------------------+------------|
-
-      :PROPERTIES:
-      :effort:   2d
-      :END:
-*** DONE Analyse Mediations Outcollect Process
-      :PROPERTIES:
-      :effort:   3d
-      :END:
-** Development
-   :PROPERTIES:
-   :ordered:  t
-   :blocker:  previous-sibling
-   :END:
-*** Create table
-    Create the table using the spreadsheet as a reference.
-    [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
-
-    : CREATE TABLE table_name
-    : ( 
-    :  column1 datatype [ NULL | NOT NULL ],
-    :  column2 datatype [ NULL | NOT NULL ],
-    :  column_n datatype [ NULL | NOT NULL ]
-    : );
-
-*** Executable
-***** *runRecon.pl*
+** Executable
+**** *runRecon.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:* /none/
     - *Description:* \\
       Perl CRON script that fires off the reconciliation process at given given time. Once the process is complte it whats until the next scheduled run. Eventually this process will be modified to run within the EPS monitors.
 
-***** *roamingReconciliation.pl*
+**** *roamingReconciliation.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:* List of reports to run and the date to run them on.
     - *Description:* \\
       The main process which tracks all the sub processes for each roaming type. Summerizes the output and creates a spreadsheet and populates the roaming reconciliation table (ROAMRECON) with the results.
 
-***** *getFileInfo.pl*
+**** *getFileInfo.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:* 
@@ -192,7 +109,7 @@
       - List of rejected records.
       - List of dropped records.
 
-***** *getFileInfoData.pl*
+**** *getFileInfoData.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:* 
@@ -204,7 +121,7 @@
       - List of rejected records.
       - List of dropped records.
 
-***** *getFileInfoOutcollects.pl*
+**** *getFileInfoOutcollects.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:*
@@ -213,14 +130,14 @@
     - *Description:* \\
       Whenever *roamingReconciliation.pl* finds a *CDMA Voice Outcollect* file that needs to be reconcilied it will kick off this job. The job then will produce a file with the results of the file query.
 
-***** *getFileInfoOutcollectsData.pl*
+**** *getFileInfoOutcollectsData.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:* Date of reconcliation.
     - *Description:* \\
       This jobs reconciles whole days for *Data Outcollects* and produces two reports one by clearinghose the other by business partner. 
 
-***** *getFileInfoLTE.pl*
+**** *getFileInfoLTE.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:* 
@@ -232,7 +149,7 @@
       - List of rejected records.
       - List of dropped records.
 
-***** *getFileInfoLTEOut.pl*
+**** *getFileInfoLTEOut.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:*
@@ -241,7 +158,7 @@
     - *Description:* \\
       Whenever *roamingReconciliation.pl* finds a *LTE Outcollect* file that needs to be reconciled it will kick off this job.The job then will produce a file with the results of the file query.
 
-***** *getFileInfoAprm.pl*
+**** *getFileInfoAprm.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:*
@@ -250,7 +167,7 @@
     - *Description:* \\
       Used to create a report for all CDMA data to show APRM data by carrier code for a given day.
 
-***** *getFileInfoAprmLTE.pl*
+**** *getFileInfoAprmLTE.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:*
@@ -259,7 +176,7 @@
     - *Description:* \\
       Used to create a report for all LTE data (LTE, GSM and VOLTE) to show APRM data by carrier code for a given day.
 
-***** *listLTE.pl*
+**** *listLTE.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:*
@@ -268,7 +185,7 @@
     - *Description:* \\
       Used to list files for both GSM and LTE incollect.
 
-***** *addMultiUp.pl*
+**** *addMultiUp.pl*
     - *Language:* Perl
     - *Source Code Location:*
     - *Parameters:*
@@ -279,26 +196,640 @@
 
 
 ** Data Decomposition
-   - *Table/Field Name:*
-   - *Purpose of File/Table:*
+   - *Table/Field Name: AC1_CONTROL_HIST*
+   - *Purpose of File/Table:* Contains all of a CDMA files statistics (Drops, Rejects Duplicates).
    - *Type of Change:* /create new or modify existing/
    - *Description of Change:* /or reason for adding/
-   - *Primary Keys and Indices:*
-   - *Estimated Rows and Growth Rate:*
-|-------------------+------+--------+-------------|
-| Column/Field Name | Type | Values | Description |
-|-------------------+------+--------+-------------|
-|                   |      |        |             |
-|-------------------+------+--------+-------------|
+   - *Primary Keys and Indices:*  IDENTIFIER and IMP_PERIOD
+   - *Estimated Rows and Growth Rate:* None
+|-------------------------+--------+---------------------+---------------|
+| *ColumnName*            | *Null* | *DataType*          | *Description* |
+|-------------------------+--------+---------------------+---------------|
+| WR_VOLUME_QUANTITY      | Y      | NUMBER (15,2)       |               |
+| WR_TIME_QUANTITY        | Y      | NUMBER (13,2)       |               |
+| WR_REC_QUANTITY         | Y      | NUMBER (9)          |               |
+| WR_MONEY_QUANTITY       | Y      | NUMBER (13,2)       |               |
+| WR_EURO_QUANTITY        | Y      | NUMBER (13,2)       |               |
+| TARGET_HOST             | Y      | VARCHAR2 (50 Byte)  |               |
+| TARGET_FILE_PATH        | Y      | VARCHAR2 (512 Byte) |               |
+| TARGET_FILE_DELETED_IND | Y      | CHAR (1 Byte)       |               |
+| TABLE_ISSUE_CODE        | Y      | NUMBER (9)          |               |
+| TABLE_ALIAS             | Y      | NUMBER (5)          |               |
+| SYSTEM_ID               | Y      | CHAR (5 Byte)       |               |
+| SYS_UPDATE_DATE         | Y      | DATE                |               |
+| SYS_CREATION_DATE       | N      | DATE                |               |
+| STATUS_CODE             | Y      | VARCHAR2 (200 Byte) |               |
+| STATUS_CATEGORY         | Y      | VARCHAR2 (20 Byte)  |               |
+| SOURCE_TYPE             | Y      | CHAR (10 Byte)      |               |
+| SOURCE_SITE_ID          | Y      | NUMBER (9)          |               |
+| SOURCE_FILE_TYPE        | Y      | CHAR (10 Byte)      |               |
+| REPRO_IND               | Y      | CHAR (1 Byte)       |               |
+| REJECTED_REASON_CD      | Y      | CHAR (3 Byte)       |               |
+| RECYCLE_COUNTER         | Y      | NUMBER (15)         |               |
+| PROCESSED_REC_NO        | Y      | NUMBER (9)          |               |
+| PRIORITY                | Y      | CHAR (1 Byte)       |               |
+| PHY_INTERVAL_ID         | Y      | NUMBER (9)          |               |
+| PHY_FILE_IDENT          | Y      | NUMBER (15)         |               |
+| OWNER_NAME              | Y      | VARCHAR2 (50 Byte)  |               |
+| OUT_REQ_QUANTITY        | Y      | NUMBER (9)          |               |
+| ORIGIN_FILE_IDENT       | Y      | NUMBER (15)         |               |
+| OPERATOR_ID             | Y      | NUMBER (9)          |               |
+| NXT_PROCESS_START_TIME  | Y      | DATE                |               |
+| NXT_PROCESS_ID          | Y      | NUMBER (9)          |               |
+| NXT_PGM_NAME            | Y      | VARCHAR2 (32 Byte)  |               |
+| NXT_FILE_ALIAS          | Y      | VARCHAR2 (10 Byte)  |               |
+| MONITOR_DATA            | Y      | VARCHAR2 (50 Byte)  |               |
+| MAX_EVENT_TIME          | Y      | DATE                |               |
+| LOGICAL_FILE_IDENT      | Y      | NUMBER (15)         |               |
+| IN_VOLUME_QUANTITY      | Y      | NUMBER (15,2)       |               |
+| IN_TIME_QUANTITY        | Y      | NUMBER (13,2)       |               |
+| IN_REC_QUANTITY         | Y      | NUMBER (9)          |               |
+| IN_MONEY_QUANTITY       | Y      | NUMBER (13,2)       |               |
+| IN_EURO_QUANTITY        | Y      | NUMBER (13,2)       |               |
+| IMP_PERIOD              | N      | NUMBER (9)          |               |
+| IDENTIFIER              | N      | NUMBER (15)         |               |
+| HOST_NAME               | Y      | VARCHAR2 (50 Byte)  |               |
+| HIST_STAMP              | Y      | DATE                |               |
+| GROUP_SIZE              | Y      | NUMBER (4)          |               |
+| GROUP_SEQUENCE          | Y      | NUMBER (15)         |               |
+| GR_REPLICATED           | Y      | CHAR (1 Byte)       |               |
+| GR_IND                  | Y      | CHAR (1 Byte)       |               |
+| GR_FILE_TYPE            | Y      | CHAR (1 Byte)       |               |
+| GN_VOLUME_QUANTITY      | Y      | NUMBER (15,2)       |               |
+| GN_TIME_QUANTITY        | Y      | NUMBER (13,2)       |               |
+| GN_REC_QUANTITY         | Y      | NUMBER (9)          |               |
+| GN_MONEY_QUANTITY       | Y      | NUMBER (13,2)       |               |
+| GN_EURO_QUANTITY        | Y      | NUMBER (13,2)       |               |
+| FR_TIME                 | Y      | DATE                |               |
+| FILE_TYPE               | Y      | CHAR (2 Byte)       |               |
+| FILE_STATUS             | Y      | VARCHAR2 (2 Byte)   |               |
+| FILE_SIZE               | Y      | NUMBER (15)         |               |
+| FILE_SEQ_NO             | Y      | NUMBER (6)          |               |
+| FILE_PATH               | Y      | VARCHAR2 (512 Byte) |               |
+| FILE_NAME               | Y      | VARCHAR2 (200 Byte) |               |
+| FILE_GROUP              | Y      | CHAR (1 Byte)       |               |
+| FILE_FORMAT             | Y      | VARCHAR2 (10 Byte)  |               |
+| FILE_DELETED_IND        | Y      | CHAR (1 Byte)       |               |
+| FILE_CREATE_DATE        | Y      | DATE                |               |
+| EXTERNAL_ID             | Y      | VARCHAR2 (32 Byte)  |               |
+| EXT_ORIG_IDENT          | Y      | NUMBER (9)          |               |
+| EXT_IDENTIFIER          | Y      | NUMBER (9)          |               |
+| ENGINE_INTERVAL_ID      | Y      | NUMBER (9)          |               |
+| END_PROCESS_TIME        | Y      | DATE                |               |
+| DR_VOLUME_QUANTITY      | Y      | NUMBER (15,2)       |               |
+| DR_TIME_QUANTITY        | Y      | NUMBER (13,2)       |               |
+| DR_REC_QUANTITY         | Y      | NUMBER (9)          |               |
+| DR_MONEY_QUANTITY       | Y      | NUMBER (13,2)       |               |
+| DR_EURO_QUANTITY        | Y      | NUMBER (13,2)       |               |
+| DL_UPDATE_STAMP         | Y      | NUMBER (4)          |               |
+| DL_SERVICE_CODE         | Y      | CHAR (5 Byte)       |               |
+| DEST_ROUT_CRTRIA        | Y      | VARCHAR2 (24 Byte)  |               |
+| DATA_GROUP              | Y      | VARCHAR2 (64 Byte)  |               |
+| CUR_PROCESS_ID          | Y      | NUMBER (9)          |               |
+| CUR_PGM_NAME            | Y      | VARCHAR2 (32 Byte)  |               |
+| CUR_FILE_ALIAS          | Y      | VARCHAR2 (10 Byte)  |               |
+| BULK_ID                 | N      | NUMBER (9)          |               |
+| BALANCE_DATE            | Y      | DATE                |               |
+| AUDIT_INTERVAL_ID       | Y      | NUMBER (9)          |               |
+| APPLICATION_ID          | Y      | CHAR (6 Byte)       |               |
+| APPLICATION_CODE        | Y      | VARCHAR2 (50 Byte)  |               |
+| ADDITIONAL_ATTR         | Y      | VARCHAR2 (300 Byte) |               |
+| ABP_VAR                 | Y      | VARCHAR2 (512 Byte) |               |
+|-------------------------+--------+---------------------+---------------|
 
-** Schedule/Time Management
+
+   - *Table/Field Name: usc_roam_evnts*
+   - *Purpose of File/Table:* *APRM* rated events table.
+   - *Type of Change:* /create new or modify existing/
+   - *Description of Change:* /or reason for adding/
+   - *Primary Keys and Indices:*  EDR_ID,  GENERATED_REC, EVENT_DATE and AU_ID.
+   - *Estimated Rows and Growth Rate:* None
+|----------------------+--------+--------------------+---------------|
+| *ColumnName*         | *Null* | *DataType*         | *Description* |
+|----------------------+--------+--------------------+---------------|
+| VOLUME_TYPE          | Y      | CHAR (2 Byte)      |               |
+| VISIT_IND            | Y      | CHAR (1 Byte)      |               |
+| USC_UOM              | Y      | CHAR (1 Byte)      |               |
+| USAGE                | Y      | NUMBER (18,5)      |               |
+| TOTAL_TAX            | Y      | NUMBER (18,5)      |               |
+| TOTAL_CHRG_AMOUNT    | Y      | NUMBER (18,5)      |               |
+| TOLL_TP_IND          | Y      | VARCHAR2 (20 Byte) |               |
+| TOLL_DURATION        | Y      | NUMBER (11)        |               |
+| TOLL_CHRG            | Y      | NUMBER (18,5)      |               |
+| TERMINATING_ID       | Y      | CHAR (20 Byte)     |               |
+| SYS_UPDATE_DATE      | Y      | DATE               |               |
+| SYS_CREATION_DATE    | N      | DATE               |               |
+| SURCHARGE_IND        | Y      | CHAR (1 Byte)      |               |
+| SURCHARGE_AMOUNT     | Y      | NUMBER (18,5)      |               |
+| SUBSCRIBER_ID        | Y      | CHAR (10 Byte)     |               |
+| SERVE_SID            | Y      | CHAR (5 Byte)      |               |
+| SERVE_COMPANY        | Y      | VARCHAR2 (20 Byte) |               |
+| PROD_ID              | Y      | NUMBER (4)         |               |
+| OTHER_COMPANY        | Y      | VARCHAR2 (20 Byte) |               |
+| ORIGINATING_ID       | Y      | CHAR (20 Byte)     |               |
+| ORIG_BP              | N      | DATE               |               |
+| OPERATOR_ID          | Y      | NUMBER (9)         |               |
+| ODS_LAST_UPDATE_DATE | Y      | DATE               |               |
+| ODS_INSERT_DATE      | Y      | DATE               |               |
+| NTWRK_ROAM_IND       | Y      | CHAR (1 Byte)      |               |
+| HOME_SID             | Y      | CHAR (5 Byte)      |               |
+| HOME_COMPANY         | Y      | VARCHAR2 (20 Byte) |               |
+| GEO_CODE             | Y      | VARCHAR2 (10 Byte) |               |
+| GENERATED_REC        | N      | NUMBER (4)         |               |
+| FILE_REPORT_PERIOD   | Y      | DATE               |               |
+| EVENT_TYPE           | Y      | VARCHAR2 (20 Byte) |               |
+| EVENT_ID             | Y      | NUMBER (4)         |               |
+| EVENT_DATE           | N      | DATE               |               |
+| EDR_ID               | N      | NUMBER (11)        |               |
+| DL_UPDATE_STAMP      | Y      | NUMBER (4)         |               |
+| DL_SERVICE_CODE      | N      | CHAR (5 Byte)      |               |
+| CIBER_FILE_NAME_2    | Y      | VARCHAR2 (50 Byte) |               |
+| CIBER_FILE_NAME_1    | Y      | VARCHAR2 (50 Byte) |               |
+| CARRIER_CD           | Y      | VARCHAR2 (20 Byte) |               |
+| BP_START_DATE        | N      | DATE               |               |
+| AU_ID                | N      | NUMBER (9)         |               |
+| APPLICATION_ID       | Y      | CHAR (6 Byte)      |               |
+| AIR_CHRG_AMT         | Y      | NUMBER (18,5)      |               |
+|----------------------+--------+--------------------+---------------|
+
+   - *Table/Field Name: prm_dat_err_mngr*
+   - *Purpose of File/Table:* *APRM* rejected events table.
+   - *Type of Change:* /create new or modify existing/
+   - *Description of Change:* /or reason for adding/
+   - *Primary Keys and Indices:*  ERR_SEQ_NUM.
+   - *Estimated Rows and Growth Rate:* None
+|---------------------------+--------+----------------------+---------------|
+| *ColumnName*              | *Null* | *DataType*           | *Description* |
+|---------------------------+--------+----------------------+---------------|
+| USAGE_CHRG_3              | Y      | NUMBER (18,5)        |               |
+| USAGE_CHRG_2              | Y      | NUMBER (18,5)        |               |
+| USAGE_CHRG_1              | Y      | NUMBER (18,5)        |               |
+| UPD_USER_NAME             | Y      | VARCHAR2 (254 Byte)  |               |
+| UOM_3                     | Y      | CHAR (2 Byte)        |               |
+| UOM_2                     | Y      | CHAR (2 Byte)        |               |
+| UOM_1                     | Y      | CHAR (2 Byte)        |               |
+| UNDO_IND                  | Y      | CHAR (1 Byte)        |               |
+| TOTAL_BILL_DAYS           | Y      | NUMBER (9)           |               |
+| TERMINATING_ID            | Y      | CHAR (20 Byte)       |               |
+| TENANT_CD                 | Y      | VARCHAR2 (20 Byte)   |               |
+| TAX_SET_CD                | Y      | CHAR (2 Byte)        |               |
+| SYS_UPDATE_DATE           | Y      | DATE                 |               |
+| SYS_CREATION_DATE         | N      | DATE                 |               |
+| SIZE_OF_ORIG_PARAM        | Y      | NUMBER (4)           |               |
+| SIZE_OF_ADU               | Y      | NUMBER (4)           |               |
+| SESSION_ID                | Y      | CHAR (20 Byte)       |               |
+| SERVICE_ID                | Y      | NUMBER (20)          |               |
+| SEQ_LABEL                 | Y      | VARCHAR2 (2 Byte)    |               |
+| RPU_RATE_CD_SEQ_3         | Y      | NUMBER (9)           |               |
+| RPU_RATE_CD_SEQ_2         | Y      | NUMBER (9)           |               |
+| RPU_RATE_CD_SEQ_1         | Y      | NUMBER (9)           |               |
+| RERATE_INVCN_CD           | Y      | CHAR (9 Byte)        |               |
+| RERATE_IND                | Y      | VARCHAR2 (1 Byte)    |               |
+| RERATE_CNT                | Y      | NUMBER (3)           |               |
+| RECYCLE_CNTR              | Y      | NUMBER (3)           |               |
+| REC_HANDLE_IND            | N      | CHAR (1 Byte)        |               |
+| RATE_SEGMENTS             | Y      | VARCHAR2 (2000 Byte) |               |
+| RATE_PLAN_CD              | Y      | VARCHAR2 (20 Byte)   |               |
+| RATE_CLASS_SET_CD         | Y      | CHAR (4 Byte)        |               |
+| RANK1_ACCOUNT_CD          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_9_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_9_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_8_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_8_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_7_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_7_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_6_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_6_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_5_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_5_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_4_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_4_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_3_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_3_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_2_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_2_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_10_VAL         | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_10_SET_CD      | Y      | CHAR (4 Byte)        |               |
+| QUAL_PARAM_1_VAL          | Y      | VARCHAR2 (20 Byte)   |               |
+| QUAL_PARAM_1_SET_CD       | Y      | CHAR (4 Byte)        |               |
+| PROD_ID                   | Y      | NUMBER (4)           |               |
+| PROD_CAT_ID               | Y      | CHAR (2 Byte)        |               |
+| PROCESS_DATETIME          | Y      | DATE                 |               |
+| PHY_FILE_ID               | Y      | NUMBER (9)           |               |
+| ORIGINATING_ID            | Y      | CHAR (20 Byte)       |               |
+| ORIG_TOT_USAGE_CHRG_3     | Y      | NUMBER (18,5)        |               |
+| ORIG_TOT_USAGE_CHRG_2     | Y      | NUMBER (18,5)        |               |
+| ORIG_TOT_USAGE_CHRG_1     | Y      | NUMBER (18,5)        |               |
+| ORIG_TOT_ACCES_CHRG_3     | Y      | NUMBER (18,5)        |               |
+| ORIG_TOT_ACCES_CHRG_2     | Y      | NUMBER (18,5)        |               |
+| ORIG_TOT_ACCES_CHRG_1     | Y      | NUMBER (18,5)        |               |
+| ORIG_PROCESS_DATE         | Y      | DATE                 |               |
+| ORIG_PARAM                | Y      | VARCHAR2 (2000 Byte) |               |
+| ORIG_EVENT_START_DATETIME | Y      | DATE                 |               |
+| ORIG_CHRG_PARAM_VAL_3     | Y      | NUMBER (18,5)        |               |
+| ORIG_CHRG_PARAM_VAL_2     | Y      | NUMBER (18,5)        |               |
+| ORIG_CHRG_PARAM_VAL_1     | Y      | NUMBER (18,5)        |               |
+| OPERATOR_ID               | Y      | NUMBER (9)           |               |
+| ONE_TIME_CHRG_IND         | Y      | CHAR (1 Byte)        |               |
+| NUM_OF_RATE_SEG           | Y      | NUMBER (1)           |               |
+| NUM_OF_ORIG_PARAM         | Y      | NUMBER (4)           |               |
+| NUM_OF_DAYS               | Y      | NUMBER (9)           |               |
+| NUM_OF_ADU_PARAM          | Y      | NUMBER (4)           |               |
+| NR_PARAM_4_VAL            | Y      | CHAR (20 Byte)       |               |
+| NR_PARAM_3_VAL            | Y      | CHAR (20 Byte)       |               |
+| NR_PARAM_2_VAL            | Y      | CHAR (20 Byte)       |               |
+| NR_PARAM_1_VAL            | Y      | CHAR (20 Byte)       |               |
+| NEXT_PROCESS_IND          | Y      | CHAR (1 Byte)        |               |
+| JURISDICTION              | Y      | CHAR (1 Byte)        |               |
+| INS_DATE                  | Y      | DATE                 |               |
+| IECD                      | Y      | CHAR (4 Byte)        |               |
+| GENERATED_REC             | N      | NUMBER (4)           |               |
+| FUTURE_9                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_8                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_7                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_6                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_5                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_4                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_3                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_2                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_15                 | Y      | VARCHAR2 (50 Byte)   |               |
+| FUTURE_14                 | Y      | VARCHAR2 (50 Byte)   |               |
+| FUTURE_13                 | Y      | VARCHAR2 (50 Byte)   |               |
+| FUTURE_12                 | Y      | VARCHAR2 (50 Byte)   |               |
+| FUTURE_11                 | Y      | VARCHAR2 (50 Byte)   |               |
+| FUTURE_10                 | Y      | VARCHAR2 (20 Byte)   |               |
+| FUTURE_1                  | Y      | VARCHAR2 (20 Byte)   |               |
+| FILE_TP                   | Y      | VARCHAR2 (30 Byte)   |               |
+| EXT_TRUNK                 | Y      | CHAR (10 Byte)       |               |
+| EVENT_START_DATETIME      | Y      | DATE                 |               |
+| EVENT_ID                  | Y      | NUMBER (4)           |               |
+| EVENT_DIRECTION           | Y      | CHAR (1 Byte)        |               |
+| EVENT_CHRG_TP             | Y      | CHAR (1 Byte)        |               |
+| ERR_SEVERITY              | Y      | NUMBER (2)           |               |
+| ERR_SEQ_NUM               | N      | NUMBER (9)           |               |
+| ERR_CD_4                  | Y      | CHAR (4 Byte)        |               |
+| ERR_CD_3                  | Y      | CHAR (4 Byte)        |               |
+| ERR_CD_2                  | Y      | CHAR (4 Byte)        |               |
+| ELMNT_CD                  | Y      | CHAR (8 Byte)        |               |
+| ELMNT_CAT_ID              | Y      | NUMBER (2)           |               |
+| ELIGIBLE_VALUES           | Y      | VARCHAR2 (4000 Byte) |               |
+| EDR_ID                    | Y      | NUMBER (11)          |               |
+| DUP_PASS_IND              | Y      | CHAR (1 Byte)        |               |
+| DOMINANT_ERR_CD           | Y      | CHAR (4 Byte)        |               |
+| DL_UPDATE_STAMP           | Y      | NUMBER (4)           |               |
+| DL_SERVICE_CODE           | N      | CHAR (5 Byte)        |               |
+| DESTINATION_CD            | Y      | CHAR (5 Byte)        |               |
+| DAILY_IND                 | Y      | CHAR (1 Byte)        |               |
+| CORE_RESERVED_3           | Y      | VARCHAR2 (20 Byte)   |               |
+| CORE_RESERVED_2           | Y      | VARCHAR2 (20 Byte)   |               |
+| CORE_RESERVED_1           | Y      | CHAR (1 Byte)        |               |
+| CONTENT_GRP_CD            | Y      | VARCHAR2 (20 Byte)   |               |
+| COMMSN_SEQUENCES          | Y      | VARCHAR2 (4000 Byte) |               |
+| CHRG_PARAM_3_VAL          | Y      | NUMBER (18,5)        |               |
+| CHRG_PARAM_2_VAL          | Y      | NUMBER (18,5)        |               |
+| CHRG_PARAM_1_VAL          | Y      | NUMBER (18,5)        |               |
+| CHRG_DIRECTION            | Y      | CHAR (1 Byte)        |               |
+| CARRIER_CD                | Y      | VARCHAR2 (20 Byte)   |               |
+| CALC_USAGE_CHRG           | Y      | NUMBER (18,5)        |               |
+| CALC_ACCES_CHRG           | Y      | NUMBER (18,5)        |               |
+| BUSINESS_UNIT_CD          | Y      | VARCHAR2 (20 Byte)   |               |
+| BILLING_PCT               | Y      | NUMBER (5,2)         |               |
+| BILL_IN_ADVANCE           | Y      | CHAR (1 Byte)        |               |
+| AU_ID_3                   | Y      | NUMBER (9)           |               |
+| AU_ID_2                   | Y      | NUMBER (9)           |               |
+| AU_ID_1                   | Y      | NUMBER (9)           |               |
+| APPLICATION_ID            | Y      | CHAR (6 Byte)        |               |
+| AGREEMENT_ID              | Y      | NUMBER (6)           |               |
+| ADU                       | Y      | VARCHAR2 (4000 Byte) |               |
+| ACCOUNTABLE_VALUES        | Y      | VARCHAR2 (4000 Byte) |               |
+| ACCOUNT_TYPE_CD           | Y      | VARCHAR2 (20 Byte)   |               |
+| ACCOUNT_START_DATE        | Y      | DATE                 |               |
+| ACCOUNT_END_DATE          | Y      | DATE                 |               |
+| ACCOUNT_CD                | Y      | VARCHAR2 (20 Byte)   |               |
+| ACCES_CHRG_3              | Y      | NUMBER (18,5)        |               |
+| ACCES_CHRG_2              | Y      | NUMBER (18,5)        |               |
+| ACCES_CHRG_1              | Y      | NUMBER (18,5)        |               |
+| AC_RATE_CD_SEQ_3          | Y      | NUMBER (9)           |               |
+| AC_RATE_CD_SEQ_2          | Y      | NUMBER (9)           |               |
+| AC_RATE_CD_SEQ_1          | Y      | NUMBER (9)           |               |
+|---------------------------+--------+----------------------+---------------|
+
+
+
+   - *Table/Field Name: prm_rom_incol_events*
+   - *Purpose of File/Table:* *APRM* incollect events table used by TAP services (LTE, GSM and VOLTE).
+   - *Type of Change:* /create new or modify existing/
+   - *Description of Change:* /or reason for adding/
+   - *Primary Keys and Indices:*  EDR_ID, GENERATED_REC, RERATE_CNT, EVENT_START_DATE_TIME.
+   - *Estimated Rows and Growth Rate:* None
+|---------------------------+------+---------------------+-------------|
+| ColumnName                | Null | DataType            | Description |
+|---------------------------+------+---------------------+-------------|
+| VALIDATION_STS            | Y    | CHAR (1 Byte)       |             |
+| UOM                       | Y    | CHAR (2 Byte)       |             |
+| TRANSCUT_TS_OFFST         | Y    | CHAR (5 Byte)       |             |
+| TRANSCUT_TS               | Y    | CHAR (14 Byte)      |             |
+| TENANT_CD                 | Y    | VARCHAR2 (20 Byte)  |             |
+| TELESERVICECODE           | Y    | CHAR (2 Byte)       |             |
+| TAX_TYPE                  | Y    | CHAR (2 Byte)       |             |
+| TAP_IN_FILE_SEQ_NUMBER    | Y    | NUMBER (5)          |             |
+| TAP_IN_FILE_NAME          | Y    | VARCHAR2 (20 Byte)  |             |
+| TADIG_FILE_TYPE           | Y    | CHAR (2 Byte)       |             |
+| SYS_UPDATE_DATE           | Y    | DATE                |             |
+| SYS_CREATION_DATE         | N    | DATE                |             |
+| SUPP_SERV_CD              | Y    | CHAR (2 Byte)       |             |
+| SIM_TOOLKIT_IND           | Y    | CHAR (1 Byte)       |             |
+| SERVING_BID               | Y    | CHAR (5 Byte)       |             |
+| SERVICE_TYPE              | Y    | CHAR (1 Byte)       |             |
+| RERATE_CNT                | N    | NUMBER (3)          |             |
+| RECORD_TYPE               | Y    | CHAR (1 Byte)       |             |
+| RECORD_POSITION           | Y    | VARCHAR2 (6 Byte)   |             |
+| RATING_CURR               | Y    | CHAR (3 Byte)       |             |
+| RAP_FILE_SEQUENCE         | Y    | VARCHAR2 (20 Byte)  |             |
+| PROCESS_DATE              | Y    | DATE                |             |
+| ORIG_BROK_FILENAME        | Y    | VARCHAR2 (24 Byte)  |             |
+| OPERATOR_ID               | Y    | NUMBER (9)          |             |
+| NORMALIZED_CALLING_NUMBER | Y    | CHAR (20 Byte)      |             |
+| NORMALIZED_CALLED_NUMBER  | Y    | CHAR (20 Byte)      |             |
+| NON_CHRG_PARTY_NUM        | Y    | CHAR (17 Byte)      |             |
+| NON_CHR_PRT_PUB_USER_ID   | Y    | CHAR (64 Byte)      |             |
+| NETWORK_ELEMENT_TYPE      | Y    | CHAR (1 Byte)       |             |
+| NETWORK_ELEMENT_ID        | Y    | CHAR (50 Byte)      |             |
+| MOBILE_SESSION_SERVICE    | Y    | CHAR (17 Byte)      |             |
+| MESSAGE_EVENT_SERVICE     | Y    | CHAR (17 Byte)      |             |
+| LOCAL_CURRENCY            | Y    | CHAR (3 Byte)       |             |
+| GENERATED_REC             | N    | NUMBER (4)          |             |
+| FUTURE_BUFF               | Y    | VARCHAR2 (443 Byte) |             |
+| FILE_AVAIL_TS_OFFST       | Y    | CHAR (5 Byte)       |             |
+| FILE_AVAIL_TS             | Y    | CHAR (14 Byte)      |             |
+| EXCHANGE_RATE             | Y    | NUMBER (18,5)       |             |
+| EVENT_START_DATE_TIME     | N    | DATE                |             |
+| EVENT_REFERENCE           | Y    | CHAR (64 Byte)      |             |
+| EDR_ID                    | N    | NUMBER (11)         |             |
+| DL_UPDATE_STAMP           | Y    | NUMBER (4)          |             |
+| DL_SERVICE_CODE           | N    | CHAR (5 Byte)       |             |
+| CURRENCY_CODE             | Y    | CHAR (3 Byte)       |             |
+| COUNTRY_CODE              | Y    | CHAR (3 Byte)       |             |
+| CHR_PRT_PUB_USER_ID       | Y    | CHAR (64 Byte)      |             |
+| CHARGE_TYPE               | Y    | CHAR (1 Byte)       |             |
+| CHARGE_PARAMETER          | Y    | NUMBER (18,5)       |             |
+| CHARGE_AMOUNT_SDR         | Y    | NUMBER (18,5)       |             |
+| CHARGE_AMOUNT_RC          | Y    | NUMBER (18,5)       |             |
+| CHARGE_AMOUNT             | Y    | NUMBER (18,5)       |             |
+| CARRIER_CD                | Y    | VARCHAR2 (20 Byte)  |             |
+| CALL_TYPE_LEVEL_3         | Y    | VARCHAR2 (11 Byte)  |             |
+| CALL_TYPE_LEVEL_2         | Y    | CHAR (2 Byte)       |             |
+| CALL_TYPE_LEVEL_1         | Y    | CHAR (3 Byte)       |             |
+| CALL_DIRECTION            | Y    | CHAR (1 Byte)       |             |
+| BP_START_DATE             | Y    | DATE                |             |
+| BP_END_DATE               | Y    | DATE                |             |
+| AU_ID                     | Y    | NUMBER (9)          |             |
+| APRM_EDR_ID               | Y    | NUMBER (20)         |             |
+| APPLICATION_ID            | Y    | CHAR (6 Byte)       |             |
+|---------------------------+------+---------------------+-------------|
+
+
+
+   - *Table/Field Name: prm_rom_outcol_events*
+   - *Purpose of File/Table:* *APRM* outcollect events table used by TAP services (LTE, GSM and VOLTE).
+   - *Primary Keys and Indices:*  EDR_ID, GENERATED_REC, EVENT_START_DATE_TIME.
+   - *Estimated Rows and Growth Rate:* None
+|-------------------------+------+---------------------+-------------|
+| ColumnName              | Null | DataType            | Description |
+|-------------------------+------+---------------------+-------------|
+| UTC_OFFSET              | Y    | CHAR (5 Byte)       |             |
+| USG_NET_CHARGE_SDR      | Y    | NUMBER (18,5)       |             |
+| USG_NET_CHARGE_RC       | Y    | NUMBER (18,5)       |             |
+| USG_NET_CHARGE_LC       | Y    | NUMBER (18,5)       |             |
+| UOM                     | Y    | CHAR (2 Byte)       |             |
+| TOT_TAX_AMOUNT_SDR      | Y    | NUMBER (18,5)       |             |
+| TOT_TAX_AMOUNT_RC       | Y    | NUMBER (18,5)       |             |
+| TOT_TAX_AMOUNT_LC1      | Y    | NUMBER (18,5)       |             |
+| TOT_TAX_AMOUNT_LC       | Y    | NUMBER (18,5)       |             |
+| TOT_NET_CHARGE_SDR      | Y    | NUMBER (18,5)       |             |
+| TOT_NET_CHARGE_RC       | Y    | NUMBER (18,5)       |             |
+| TOT_NET_CHARGE_LC1      | Y    | NUMBER (18,5)       |             |
+| TOT_NET_CHARGE_LC       | Y    | NUMBER (18,5)       |             |
+| TOT_GROSS_AMT_SDR       | Y    | NUMBER (18,5)       |             |
+| TOT_GROSS_AMT_RC        | Y    | NUMBER (18,5)       |             |
+| TOT_GROSS_AMT_LC1       | Y    | NUMBER (18,5)       |             |
+| TOT_GROSS_AMT_LC        | Y    | NUMBER (18,5)       |             |
+| TERMINATION_CAUSE       | Y    | VARCHAR2 (8 Byte)   |             |
+| TERM_PROVINCE           | Y    | CHAR (2 Byte)       |             |
+| TENANT_CD               | Y    | VARCHAR2 (20 Byte)  |             |
+| TELE_SERV_CODE          | Y    | CHAR (2 Byte)       |             |
+| TAXABLE_AMOUNT4         | Y    | NUMBER (18,5)       |             |
+| TAXABLE_AMOUNT3         | Y    | NUMBER (18,5)       |             |
+| TAXABLE_AMOUNT2         | Y    | NUMBER (18,5)       |             |
+| TAXABLE_AMOUNT1         | Y    | NUMBER (18,5)       |             |
+| TAX_TP_4                | Y    | CHAR (2 Byte)       |             |
+| TAX_TP_3                | Y    | CHAR (2 Byte)       |             |
+| TAX_TP_2                | Y    | CHAR (2 Byte)       |             |
+| TAX_TP_1                | Y    | CHAR (2 Byte)       |             |
+| TAX_SET_CD              | Y    | CHAR (2 Byte)       |             |
+| TAX_RATE_4              | Y    | NUMBER (6,3)        |             |
+| TAX_RATE_3              | Y    | NUMBER (6,3)        |             |
+| TAX_RATE_2              | Y    | NUMBER (6,3)        |             |
+| TAX_RATE_1              | Y    | NUMBER (6,3)        |             |
+| TAX_JURISDICTION        | Y    | CHAR (2 Byte)       |             |
+| TAX_CODE_4              | Y    | CHAR (2 Byte)       |             |
+| TAX_CODE_3              | Y    | CHAR (2 Byte)       |             |
+| TAX_CODE_2              | Y    | CHAR (2 Byte)       |             |
+| TAX_CODE_1              | Y    | CHAR (2 Byte)       |             |
+| TAX_AMOUNT_4_RC         | Y    | NUMBER (18,5)       |             |
+| TAX_AMOUNT_4            | Y    | NUMBER (18,5)       |             |
+| TAX_AMOUNT_3_RC         | Y    | NUMBER (18,5)       |             |
+| TAX_AMOUNT_3            | Y    | NUMBER (18,5)       |             |
+| TAX_AMOUNT_2_RC         | Y    | NUMBER (18,5)       |             |
+| TAX_AMOUNT_2            | Y    | NUMBER (18,5)       |             |
+| TAX_AMOUNT_1_RC         | Y    | NUMBER (18,5)       |             |
+| TAX_AMOUNT_1            | Y    | NUMBER (18,5)       |             |
+| TAP_TRX_CURR            | Y    | CHAR (3 Byte)       |             |
+| TAP_OUT_FILE_NAME       | Y    | VARCHAR2 (20 Byte)  |             |
+| TAP_FILE_SEQ            | Y    | NUMBER (5)          |             |
+| SYS_UPDATE_DATE         | Y    | DATE                |             |
+| SYS_CREATION_DATE       | N    | DATE                |             |
+| SUPP_SERVICE            | Y    | CHAR (2 Byte)       |             |
+| SRC_NUMBER              | Y    | CHAR (20 Byte)      |             |
+| SIM_TOOLKIT_IND         | Y    | CHAR (1 Byte)       |             |
+| SERVICE_TYPE            | Y    | CHAR (1 Byte)       |             |
+| REC_ENTITY_TP           | Y    | CHAR (1 Byte)       |             |
+| RATING_CURR             | Y    | CHAR (3 Byte)       |             |
+| RAP_FILE_SEQ            | Y    | NUMBER (5)          |             |
+| PROCESSED_IND           | Y    | CHAR (1 Byte)       |             |
+| PROCESS_DATE            | Y    | DATE                |             |
+| PDP_ADDRESS             | Y    | VARCHAR2 (50 Byte)  |             |
+| PARTIAL_TYPE_IND        | Y    | CHAR (1 Byte)       |             |
+| ORIG_PROVINCE           | Y    | CHAR (2 Byte)       |             |
+| OPERATOR_ID             | Y    | NUMBER (9)          |             |
+| NORM_SRC_NUMBER         | Y    | CHAR (20 Byte)      |             |
+| NORM_DEST_NUMBER        | Y    | CHAR (20 Byte)      |             |
+| NON_CHR_PRT_PUB_USER_ID | Y    | CHAR (64 Byte)      |             |
+| NETWORK_ELEMENT_TYPE    | Y    | CHAR (1 Byte)       |             |
+| NETWORK_ELEMENT_ID      | Y    | CHAR (50 Byte)      |             |
+| NET_SGSNID              | Y    | VARCHAR2 (50 Byte)  |             |
+| NET_REC_ENTITY_ID       | Y    | VARCHAR2 (50 Byte)  |             |
+| NET_LOC_AREA_CODE       | Y    | VARCHAR2 (20 Byte)  |             |
+| MSISDN                  | Y    | VARCHAR2 (20 Byte)  |             |
+| MESSAGE_EVENT_SERVICE   | Y    | CHAR (17 Byte)      |             |
+| IMSI                    | Y    | VARCHAR2 (15 Byte)  |             |
+| HOME_PROVINCE           | Y    | CHAR (2 Byte)       |             |
+| HOME_BID                | Y    | CHAR (5 Byte)       |             |
+| GPRS_DEST_APN_OI        | Y    | VARCHAR2 (38 Byte)  |             |
+| GPRS_DEST_APN_NI        | Y    | VARCHAR2 (64 Byte)  |             |
+| GLOBALREFNUMBER         | Y    | VARCHAR2 (42 Byte)  |             |
+| GGSN_ADDRESS            | Y    | VARCHAR2 (50 Byte)  |             |
+| GEO_SERV_LOC_DESC       | Y    | VARCHAR2 (30 Byte)  |             |
+| GEO_SERV_BID            | Y    | CHAR (5 Byte)       |             |
+| GENERATED_REC           | N    | NUMBER (4)          |             |
+| FUTURE                  | Y    | VARCHAR2 (100 Byte) |             |
+| FILE_IDENTIFIER         | Y    | NUMBER (9)          |             |
+| EXTRACT_DATE            | Y    | DATE                |             |
+| EXT_FILE_ID             | Y    | NUMBER (9)          |             |
+| EVENT_START_DATETIME    | N    | DATE                |             |
+| EVENT_REFERENCE         | Y    | CHAR (64 Byte)      |             |
+| EVENT_END_DATETIME      | Y    | DATE                |             |
+| EQUIPMENT_ID            | Y    | VARCHAR2 (20 Byte)  |             |
+| EDR_ID                  | N    | NUMBER (11)         |             |
+| DL_UPDATE_STAMP         | Y    | NUMBER (4)          |             |
+| DL_SERVICE_CODE         | N    | CHAR (5 Byte)       |             |
+| DISP_FILE_SEQ           | Y    | NUMBER (9)          |             |
+| DEST_NUMBER             | Y    | CHAR (20 Byte)      |             |
+| DATA_VOL_OUTGOING       | Y    | VARCHAR2 (12 Byte)  |             |
+| DATA_VOL_INCOMING       | Y    | VARCHAR2 (12 Byte)  |             |
+| CROSS_RATE              | Y    | NUMBER (11,6)       |             |
+| COUNTRY_CODE            | Y    | CHAR (3 Byte)       |             |
+| CHRG_ID                 | Y    | VARCHAR2 (10 Byte)  |             |
+| CHR_PRT_PUB_USER_ID     | Y    | CHAR (64 Byte)      |             |
+| CHARGING_PARAM          | Y    | NUMBER (18,5)       |             |
+| CHARGE_UNITS            | Y    | NUMBER (18,5)       |             |
+| CELL_ID                 | Y    | VARCHAR2 (10 Byte)  |             |
+| CARRIER_CD              | N    | VARCHAR2 (20 Byte)  |             |
+| CAMEL_SERV_LEVEL        | Y    | CHAR (2 Byte)       |             |
+| CAMEL_SERV_KEY          | Y    | VARCHAR2 (10 Byte)  |             |
+| CAMEL_INVOC_FEE         | Y    | NUMBER (18,5)       |             |
+| CAMEL_DFLT_HNDL         | Y    | CHAR (2 Byte)       |             |
+| CAMEL_DEST_NUM          | Y    | CHAR (20 Byte)      |             |
+| CAMEL_CSE_INFO          | Y    | CHAR (40 Byte)      |             |
+| CALL_TP_LEVEL_3         | Y    | CHAR (4 Byte)       |             |
+| CALL_TP_LEVEL_2         | Y    | CHAR (2 Byte)       |             |
+| CALL_TP_LEVEL_1         | Y    | CHAR (2 Byte)       |             |
+| CALL_DIRECTION          | Y    | CHAR (1 Byte)       |             |
+| BP_START_DATE           | N    | DATE                |             |
+| BP_END_DATE             | N    | DATE                |             |
+| BEARER_SERV_CODE        | Y    | CHAR (2 Byte)       |             |
+| AU_ID                   | Y    | NUMBER (9)          |             |
+| APPLICATION_ID          | Y    | CHAR (6 Byte)       |             |
+| AIR_TOLL_IND            | Y    | CHAR (1 Byte)       |             |
+| ACC_NET_CHARGE_SDR      | Y    | NUMBER (18,5)       |             |
+| ACC_NET_CHARGE_RC       | Y    | NUMBER (18,5)       |             |
+| ACC_NET_CHARGE_LC       | Y    | NUMBER (18,5)       |             |
+|-------------------------+------+---------------------+-------------|
+
+
+   - *Table/Field Name: DATA_OUTCOLLECT*
+   - *Purpose of File/Table:* CDMA data outcollect usage table.
+   - *Primary Keys and Indices:*  None
+   - *Estimated Rows and Growth Rate:* None
+|---------------------------+------+--------------------+-------------|
+| ColumnName                | Null | DataType           | Description |
+|---------------------------+------+--------------------+-------------|
+| SETTLEMENT_DATE           | N    | DATE               |             |
+| PROCESS_DATE              | N    | DATE               |             |
+| PARTNER                   | N    | VARCHAR2 (40 Byte) |             |
+| MESSAGE_ACCOUNTING_DIGITS | Y    | NUMBER             |             |
+| HOME_SID                  | Y    | CHAR (5 Byte)      |             |
+| HOME_CARRIER              | N    | VARCHAR2 (40 Byte) |             |
+| BSID                      | N    | CHAR (12 Byte)     |             |
+| AMOUNT                    | N    | NUMBER (9,2)       |             |
+| ACTUAL_USAGE_VOLUME       | Y    | NUMBER             |             |
+| ACTUAL_DATA_VOLUME        | Y    | NUMBER             |             |
+|---------------------------+------+--------------------+-------------|
+
+   - *Table/Field Name: Roaming Partner*
+   - *Purpose of File/Table:* Table with the names of our roaming partners and the Clearinghouse which they are associated.
+   - *Primary Keys and Indices:*  None
+   - *Estimated Rows and Growth Rate:* None
+|---------------+--------+--------------------+---------------|
+| *ColumnName*  | *Null* | *DataType*         | *Description* |
+|---------------+--------+--------------------+---------------|
+| ROAMING_TYPE  | N      | CHAR (1 Byte)      |               |
+| PARTNER       | N      | VARCHAR2 (40 Byte) |               |
+| CLEARINGHOUSE | N      | VARCHAR2 (40 Byte) |               |
+| BSID_TYPE     | Y      | CHAR (5 Byte)      |               |
+|---------------+--------+--------------------+---------------|
+
+
+   - *Table/Field Name: SMM1_COLLECT_FILES_HIST*
+   - *Purpose of File/Table:* Contains the history of all the files processed by *ARCM*.
+   - *Primary Keys and Indices:*  None
+   - *Estimated Rows and Growth Rate:* None
+|-------------------+---------------------+---------------|
+| *Columns*         | *Data Type*         | *Description* |
+|-------------------+---------------------+---------------|
+| SYS_UPDATE_DATE   | DATE                |               |
+| SYS_CREATION_DATE | DATE                |               |
+| SOURCE_TYPE       | VARCHAR2 (10 Byte)  |               |
+| SOURCE_ID         | NUMBER (22)         |               |
+| REJECT_REASON     | VARCHAR2 (512 Byte) |               |
+| PHYSICAL_DATE     | DATE                |               |
+| PERIOD_KEY        | NUMBER (4)          |               |
+| OPERATOR_ID       | NUMBER (9)          |               |
+| IS_INSTANCE_ID    | NUMBER (11)         |               |
+| FILE_STATUS       | VARCHAR2 (2 Byte)   |               |
+| FILE_SIZE         | NUMBER (15)         |               |
+| FILE_PATH         | VARCHAR2 (512 Byte) |               |
+| FILE_NAME         | VARCHAR2 (200 Byte) |               |
+| FILE_IDENTIFIER   | NUMBER (22)         |               |
+| FILE_FORMAT       | VARCHAR2 (10 Byte)  |               |
+| DL_UPDATE_STAMP   | NUMBER (4)          |               |
+| DL_SERVICE_CODE   | CHAR (5 Byte)       |               |
+| APPLICATION_ID    | CHAR (6 Byte)       |               |
+|-------------------+---------------------+---------------|
+
+   - *Table/Field Name: SMM1_ARCM_FILE_REPOSITORY*
+   - *Purpose of File/Table:* File information  *ARCM*.
+   - *Primary Keys and Indices:*  None
+   - *Estimated Rows and Growth Rate:* None
+|--------------------------+---------------------+-------------|
+| ColumnName               | DataType            | Description |
+|--------------------------+---------------------+-------------|
+| ODS_SOURCE_CD            | NUMBER              |             |
+| FILE_NAME                | VARCHAR2 (20 Byte)  |             |
+| FILE_DIR                 | VARCHAR2 (100 Byte) |             |
+| FILE_STATUS              | VARCHAR2 (20 Byte)  |             |
+| FILE_TYPE                | VARCHAR2 (5 Byte)   |             |
+| SENDER                   | VARCHAR2 (5 Byte)   |             |
+| RECIPIENT                | VARCHAR2 (5 Byte)   |             |
+| SEQUENCE_NUM             | NUMBER (11)         |             |
+| LAST_MODIFIED_TIMESTAMP  | NUMBER (22)         |             |
+| FILE_AVAILABLE_TIMESTAMP | NUMBER (22)         |             |
+| FILE_CONTENT             | VARCHAR2 (50 Byte)  |             |
+| CORRESPONDING_FILE_NAME  | VARCHAR2 (20 Byte)  |             |
+| CLEARING_HOUSE           | VARCHAR2 (50 Byte)  |             |
+| EVENTS_COUNT             | NUMBER (11)         |             |
+| TOTAL_VALUE              | VARCHAR2 (20 Byte)  |             |
+| CURRENCY                 | VARCHAR2 (5 Byte)   |             |
+| FILE_ACK_STATUS          | VARCHAR2 (20 Byte)  |             |
+| MODULE_ID                | NUMBER (11)         |             |
+| SYS_CREATION_DATE        | DATE                |             |
+| SYS_UPDATE_DATE          | DATE                |             |
+| OPERATOR_ID              | NUMBER (9)          |             |
+| APPLICATION_ID           | CHAR (6 Byte)       |             |
+| DL_SERVICE_CODE          | CHAR (5 Byte)       |             |
+| DL_UPDATE_STAMP          | NUMBER (4)          |             |
+| ODS_INSERT_DATE          | DATE                |             |
+| ODS_LAST_UPDATE_DATE     | DATE                |             |
+|--------------------------+---------------------+-------------|
+
+** Infrastructure Considerations
+** Testing Approach
+** Implementation Considerations
+* Schedule/Time Management
   - Build Date
     DEADLINE: <2016-12-18 Sun>   
   - Planned Implimentation Date
     DEADLINE: <2017-02-12 Sun>
-** Infrastructure Considerations
-** Testing Approach
-** Implementation Considerations
 * Communications Management
    /[Insert the project's communication management plan or provide a reference to where it is stored.]/
 ** Communication Matrix

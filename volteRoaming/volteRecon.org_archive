@@ -107,3 +107,143 @@ Archived entries from file /home/dbalchen/workspace/volteRoaming/volteRecon.org
   :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/Development
   :ARCHIVE_CATEGORY: volteRecon
   :END:
+
+* ARCM Tables
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2016-12-02 Fri 16:35
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/Analysis [%]/System Flow/ARCM
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
+
+       - SMM1_COLLECT_FILES_HIST
+|-------------------+---------------------+------------|
+| *Columns*         | *Data Type*         | *Comments* |
+|-------------------+---------------------+------------|
+| SYS_UPDATE_DATE   | DATE                |            |
+| SYS_CREATION_DATE | DATE                |            |
+| SOURCE_TYPE       | VARCHAR2 (10 Byte)  |            |
+| SOURCE_ID         | NUMBER (22)         |            |
+| REJECT_REASON     | VARCHAR2 (512 Byte) |            |
+| PHYSICAL_DATE     | DATE                |            |
+| PERIOD_KEY        | NUMBER (4)          |            |
+| OPERATOR_ID       | NUMBER (9)          |            |
+| IS_INSTANCE_ID    | NUMBER (11)         |            |
+| FILE_STATUS       | VARCHAR2 (2 Byte)   |            |
+| FILE_SIZE         | NUMBER (15)         |            |
+| FILE_PATH         | VARCHAR2 (512 Byte) |            |
+| FILE_NAME         | VARCHAR2 (200 Byte) |            |
+| FILE_IDENTIFIER   | NUMBER (22)         |            |
+| FILE_FORMAT       | VARCHAR2 (10 Byte)  |            |
+| DL_UPDATE_STAMP   | NUMBER (4)          |            |
+| DL_SERVICE_CODE   | CHAR (5 Byte)       |            |
+| APPLICATION_ID    | CHAR (6 Byte)       |            |
+|-------------------+---------------------+------------|
+
+      :PROPERTIES:
+      :effort:   2d
+      :END:
+
+* Analysis [%]
+  :PROPERTIES:
+  :blocker:  start
+  :ordered:  t
+  :ARCHIVE_TIME: 2016-12-02 Fri 16:56
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
+** Usage Types (Incollects) [80%]
+   :PROPERTIES:
+   :effort:   1.5d
+   :END:
+   - [X] CDMA Voice
+     - *Directory:* //pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/
+     - *Machine:* kpr02batch
+     - *Record Type:* CIBER
+   - [X] CDMA Data
+     - *Directory:* //pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/
+     - *Machine:* kpr02batch
+     - *Record Type:* CIBER
+   - [ ] Volte
+     - *Directory:* //m01/switchb/tas/
+     - *Machine:* kpr02batch
+     - *Record Type:* TAP
+   - [X] LTE
+     - *Directory*: 
+     - *Machine:* kp02batch
+     - *Record Type:* TAP
+   - [X] GSM
+     - *Directory*: /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/GSMI (data)
+       - ../GSMI/gsmv/ (voice)
+       - ../GSMI/gsms/ (SMS)
+       - ../GSMI/gsmt/ (PMG)
+     - *Machine:* kpr02batch
+     - *Record Type:* TAP
+
+* TODO Process Decomposition [75%] 
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2016-12-02 Fri 16:57
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation
+  :ARCHIVE_CATEGORY: volteRecon
+  :ARCHIVE_TODO: TODO
+  :END:
+  - [X] OutCollects [100%]
+    - [X] Read Craigs Doc
+    - [X] Is there anything for voice or is it just data?
+    - [X] I believe 
+  - [ ] How do we plan to compare to Syniverse [0%]
+    - [ ] Will there be a job that reads the file then adds the information to the database.
+  - [X] Where does all the ARCM come in 
+    Used for LTE and Volte
+  - [X] Where does VOLTE and LTE in collects come into play.
+
+* Daily Report
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2016-12-02 Fri 16:57
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/User Requirements
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
+      [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
+#+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
+#+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
+
+* DONE Analyse Mediations Outcollect Process
+  :PROPERTIES:
+  :effort:   3d
+  :ARCHIVE_TIME: 2016-12-02 Fri 17:10
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/Process Decomposition
+  :ARCHIVE_CATEGORY: volteRecon
+  :ARCHIVE_TODO: DONE
+  :END:
+
+* Create table
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2016-12-02 Fri 17:11
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation/Development
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
+  Create the table using the spreadsheet as a reference.
+  [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
+
+  : CREATE TABLE table_name
+  : ( 
+  :  column1 datatype [ NULL | NOT NULL ],
+  :  column2 datatype [ NULL | NOT NULL ],
+  :  column_n datatype [ NULL | NOT NULL ]
+  : );
+
+
+* Development
+  :PROPERTIES:
+  :ordered:  t
+  :blocker:  previous-sibling
+  :ARCHIVE_TIME: 2016-12-02 Fri 17:12
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/volteRecon.org
+  :ARCHIVE_OLPATH: Data Roaming Reconciliation Documentation
+  :ARCHIVE_CATEGORY: volteRecon
+  :END:
