@@ -6,10 +6,10 @@ use DBI;
 #$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000064260_20161026_023328.ASC.done";
 
 # For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 
 my $hh = "wc -l < $ARGV[0]";
@@ -21,9 +21,10 @@ my $disp_file_seq = (split('_',$filename))[2];
 
 $disp_file_seq =~ s/^0+//g;
 
-my $dbconn = getAPRM();
 
-my $sql = "select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_incoming)  from prdappc.prm_rom_outcol_events where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME";
+my $dbconn = getBODSPRD();
+
+my $sql = "select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_incoming)  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -47,11 +48,11 @@ $dbconn->disconnect();
 exit(0);
 
 
-sub getAPRM {
+sub getBODSPRD {
 
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:PRDAPRM", "md1dbal1", "500#Reptar" );
+  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "500#Reptar" );
   unless ( defined $dbods ) {
     sendErr();
   }

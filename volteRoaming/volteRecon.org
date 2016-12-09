@@ -75,13 +75,69 @@
    There will be a Daily and monthly report sent for each roaming type.
 *** Daily Report
       [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
-** Process Decomposition
-***** ARCM
-     #+ATTR_LaTeX: width=13cm
-      [[file:docs/ARCM_Incollect.png]]
-      :PROPERTIES:
-      :effort:   4d
-      :END:
+** Program Data Flow
+:PICTURE:
+
+digraph BI {
+	graph [splines=true nodesep=0.8 overlap=false decorate=true style=bold concentrate=true];
+	
+	subgraph cluster_2 {
+	color="#FFFFFF";
+	"roamingReconcilation.pl" -> "getFileInfo.pl";
+	"roamingReconcilation.pl" -> "getFileInfoData.pl";
+	"roamingReconcilation.pl" -> "getFileInfoOutcollects.pl";
+	"roamingReconcilation.pl" -> "getFileInfoOutcollectsData.pl";
+	"roamingReconcilation.pl" -> "getFileInfoLTE.pl";
+	"roamingReconcilation.pl" -> "getFileInfoLTEOut.pl";
+	"roamingReconcilation.pl" -> "getFileInfoAprm.pl";
+	"roamingReconcilation.pl" -> "getFileInfoAprmLTE.pl";
+
+}
+
+subgraph cluster_3 {
+	color="#FFFFFF";
+	1 [shape=point]
+	"listLTE.pl"  -> "1"[arrowhead="none"];
+	"CMDA Voice" ->  "1"[arrowhead="none"];
+	"CMDA DATA" ->  "1"[arrowhead="none"];
+	"CDMA Voice Outcollect" -> "1"[arrowhead="none"];
+	"CDMA Data Outcollect" -> "1"[arrowhead="none"];
+	"1"  -> "roamingReconcilation.pl" ;	
+}
+
+subgraph cluster_4 {
+	color="#FFFFFF";
+        2 [shape=point]
+
+	"2" -> "File Summary";
+	"2" -> "File Reject Summary";
+	
+	3 [shape=point]
+	"3" ->  "roamingReconcilation.pl";
+	
+	"File Summary"  -> "3"[arrowhead="none"];
+	"File Reject Summary" -> "3"[arrowhead="none"];
+	"APRM Output"  -> "3"[arrowhead="none"];
+}
+
+subgraph cluster_4 {
+	color="#FFFFFF";
+        4 [shape=point]
+	"4" -> "Recon DB";
+	"4" -> "Report Repository";
+	"roamingReconcilation.pl" -> "4" [arrowhead="none"];
+	
+}
+
+	"getFileInfoAprmLTE.pl" -> "APRM Output";
+	"getFileInfoAprm.pl" -> "APRM Output";
+	"getFileInfo.pl" -> "2"[arrowhead="none"];
+	"getFileInfoData.pl" -> "2"[arrowhead="none"];
+	"getFileInfoOutcollects.pl" -> "2"[arrowhead="none"];
+	"getFileInfoLTE.pl" -> "2"[arrowhead="none"];
+	"getFileInfoLTEOut.pl" -> "2"[arrowhead="none"];
+}
+:END:
 ** Executable
 **** *runRecon.pl*
     - *Language:* Perl
@@ -194,8 +250,109 @@
     - *Description:* \\
       Utility program to sum multiple tab delimited columns 
 
-
 ** Data Decomposition
+*** Usage Data files
+    - *CDMA Voice Incollect*
+      - *Directory* /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI
+      - *Record Type* CIBER
+    - *CDMA Data Incollect*
+      - *Directory* /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR
+      - *Record Type* CIBER
+    - *CDMA Voice Outcollect*
+      - *Directory* /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output
+      - *Record Type* CIBER
+    - *LTE/VOLTE Incollects*
+      - *Directory* /pkgbl08/inf/aimsys/prdwrk8/var/usc/projs/smm/DATA/HPMN_REPOSITORY/
+      - *Record Type* TAP
+    - *GSM Incollects*
+      - *Directory*  /pkgbl08/inf/aimsys/prdwrk8/var/usc/projs/smm/DATA/HPMN_REPOSITORY/
+      - *Record Type* TAP
+
+*** New Table Definitions
+    The following tables will be used to capture the results for all the roaming types.
+
+   - *Table/Field Name: FILE_SUMMARY*
+   - *Purpose of File/Table:* Contains the summary information the file summary information for all roaming types.
+   - *Type of Change:* New
+   - *Description of Change:* Needed to hold the file summary information
+   - *Primary Keys and Indices:*  ID
+   - *Estimated Rows and Growth Rate:* 100 rows per day.
+
+|----------------------+---------+----------------------+---------------|
+| *Column Name         | *NULL?* | *Data Type*          | *Description* |
+|----------------------+---------+----------------------+---------------|
+| ID                   | Y       | INTEGER  PRIMARY KEY |               |
+| FILE_NAME            | Y       | VARCHAR(255)         |               |
+| IDENTIFIER           | N       | NUMERIC(255)         |               |
+| FILE_TYPE            | Y       | VARCHAR(255)         |               |
+| USAGE_TYPE           | Y       | VARCHAR(255)         |               |
+| SENDER               | Y       | VARCHAR(255)         |               |
+| RECEIVER             | Y       | VARCHAR(255)         |               |
+| TOTAL RECORDS DCH    | N       | NUMERIC(10)          |               |
+| TOTAL_VOLUME_DCH     | N       | NUMERIC(10)          |               |
+| TOTAL_CHARGES_DCH    | N       | NUMERIC(255)         |               |
+| TOTAL_RECORDS        | Y       | NUMERIC(10)          |               |
+| TOTAL_VOLUME         | Y       | VARCHAR(255)         |               |
+| TOTAL_CHARGES        | N       | NUMERIC(255)         |               |
+| DROPPED_RECORDS      | N       | NUMERIC(10)          |               |
+| DUPLICATES           | N       | NUMERIC(10)          |               |
+| TC_SEND              | N       | NUMERIC(10)          |               |
+| DROPPED_TC           | N       | NUMERIC(10)          |               |
+| REJECTED_COUNT       | Y       | NUMERIC(10)          |               |
+| REJECTED_CHARGES     | Y       | NUMERIC(255)         |               |
+| DROPPED_APRM         | Y       | NUMERIC(10)          |               |
+| DROPPED_APRM_CHARGES | Y       | NUMERIC(255)         |               |
+| APRM_DIFFERENCE      | Y       | NUMERIC(10)          |               |
+| APRM_TOTAL_RECORDS   | Y       | NUMERIC(10)          |               |
+| APRM_TOTAL_CHARGES   | Y       | NUMERIC(255)         |               |
+| PROCESS DATE         | Y       | DATE                 |               |
+|----------------------+---------+----------------------+---------------|
+
+
+
+   - *Table/Field Name: APRM*
+   - *Purpose of File/Table:* Contains the APRM information for a given day for all roaming types.
+   - *Type of Change:* New
+   - *Description of Change:* Needed to hold the APRM summary information
+   - *Primary Keys and Indices:*  ID
+   - *Estimated Rows and Growth Rate:* 10000 rows per day for 3 months
+
+|----------------+---------+---------------------+---------------|
+| *Column Name   | *NULL?* | *Data Type*         | *Description* |
+|----------------+---------+---------------------+---------------|
+| ID             | Y       | INTEGER PRIMARY KEY |               |
+| CARRIER_CODE   | N       | VARCHAR(255)        |               |
+| MARKET_CODE    | Y       | VARCHAR(255)        |               |
+| FILE_TYPE      | Y       | VARCHAR(255)        |               |
+| BP_START_DATE  | Y       | DATE                |               |
+| DATE_PROCESSED | Y       | DATE                |               |
+| CLEARINGHOUSE  | Y       | VARCHAR(255)        |               |
+| RECORD_COUNT   | Y       | NUMERIC(255)        |               |
+| TOTAL_VOLUME   | Y       | NUMERIC(10)         |               |
+| TOTAL_CHARGES  | Y       | NUMERIC(255))       |               |
+|----------------+---------+---------------------+---------------|
+
+
+   - *Table/Field Name: REJECTED_RECORDS*
+   - *Purpose of File/Table:* Contains the APRM information for a given day for all roaming types.
+   - *Type of Change:* New
+   - *Description of Change:* Needed to holds all rejected records for a given day and type.
+   - *Primary Keys and Indices:*  ID
+   - *Estimated Rows and Growth Rate:* 1000 rows per day for 3 months
+
+|-------------------+---------+---------------------+---------------|
+| *Column Name      | *NULL?* | *Data Type*         | *Description* |
+|-------------------+---------+---------------------+---------------|
+| ID                | Y       | INTEGER PRIMARY KEY |               |
+| FILE_NAME         | Y       | VARCHAR(255)        |               |
+| ERROR_CODE        | N       | NUMERIC(255)        |               |
+| ERROR_TYPE        | Y       | NUMERIC(255)        |               |
+| ERROR_DESCRIPTION | Y       | VARCHAR(255)        |               |
+| TOTAL_CHARGE      | Y       | NUMERIC(255))       |               |
+|-------------------+---------+---------------------+---------------|
+
+*** Existing Tables
+    The following is a list of already existing tables that are used to gather the information for the reports.
    - *Table/Field Name: AC1_CONTROL_HIST*
    - *Purpose of File/Table:* Contains all of a CDMA files statistics (Drops, Rejects Duplicates).
    - *Type of Change:* /create new or modify existing/

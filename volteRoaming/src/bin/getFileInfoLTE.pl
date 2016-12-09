@@ -6,10 +6,10 @@ use DBI;
 # $ARGV[0] = "20161003";
 
 # For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my @argv = split(/,/,@ARGV[0]);
 
@@ -20,7 +20,7 @@ if(index($argv[0],"NLDLT") >= 0)
     $prefix = "NLDLT";
 }
 
-my $dbconn = getBRMPRD();
+my $dbconn = getBODSPRD();
 
 my $sql = "select s_444, error_code, error_desc,cast(S_402 as decimal(19,9)) from em1_record where stream_name='INC' and record_status<>55 and s_444='$argv[0]'";
 
@@ -37,17 +37,15 @@ while (my @rows = $sth->fetchrow_array() ) {
 
 close(ERR);
 
-$dbconn->disconnect();
 
 $report = $prefix.'_'.$argv[0].'_'.$argv[7].'.rpt'.'.csv';
 
 open( RPT, ">$report" ) || errorExit("Could not open error file.... Fail!!!!");
 
-my $dbconn = getAPRM();
 
-my $sql = "select /*+ PARALLEL(t1,12) */  count(*), sum(charge_amount),sum(charge_parameter)  from  prdappc.prm_rom_incol_events t1 where tap_in_file_name = '$argv[0]'";
+$sql = "select /*+ PARALLEL(t1,12) */  count(*), sum(charge_amount),sum(charge_parameter)  from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]'";
 
-my $sth = $dbconn->prepare($sql);
+$sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 @rows = $sth->fetchrow_array();
 
@@ -64,7 +62,7 @@ $dbconn->disconnect();
 
 exit(0);
 
-sub getBRMPRD {
+sub getBODSPRD {
 
     #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
     #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
@@ -75,14 +73,4 @@ sub getBRMPRD {
     return $dbods;
 }
 
-sub getAPRM {
-
-    #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-    #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-    my $dbods = DBI->connect( "dbi:Oracle:PRDAPRM", "md1dbal1", "500#Reptar" );
-    unless ( defined $dbods ) {
-	sendErr();
-    }
-    return $dbods;
-}
 

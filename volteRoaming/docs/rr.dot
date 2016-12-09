@@ -1,0 +1,78 @@
+
+digraph BI {
+	graph [splines=true nodesep=0.8 overlap=false decorate=true style=bold concentrate=true];
+
+	subgraph cluster_2 {
+		color="#FFFFFF";
+			rankdir=LR;	
+	"roamingReconcilation.pl" -> "getFileInfo.pl";
+	"roamingReconcilation.pl" -> "getFileInfoData.pl";
+	"roamingReconcilation.pl" -> "getFileInfoOutcollects.pl";
+	"roamingReconcilation.pl" -> "getFileInfoOutcollectsData.pl";
+	"roamingReconcilation.pl" -> "getFileInfoLTE.pl";
+	"roamingReconcilation.pl" -> "getFileInfoLTEOut.pl";
+	"roamingReconcilation.pl" -> "getFileInfoAprm.pl";
+	"roamingReconcilation.pl" -> "getFileInfoAprmLTE.pl";
+
+}
+
+
+
+
+subgraph cluster_3 {
+	color="#FFFFFF";
+	1 [shape=point]
+	"listLTE.pl"  -> "1"[arrowhead="none"];
+	"CMDA Voice" ->  "1"[arrowhead="none"];
+	"CMDA DATA" ->  "1"[arrowhead="none"];
+	"CDMA Voice Outcollect" -> "1"[arrowhead="none"];
+	"CDMA Data Outcollect" -> "1"[arrowhead="none"];
+	"1"  -> "roamingReconcilation.pl" ;
+	        4 [shape=point]
+	5 [shape=point]
+	"roamingReconcilation.pl" -> "4"[arrowhead="none"];
+	"4" -> "Recon DB";
+	"4" -> "Report Repository";	
+	"Operational DB" -> "5"
+	
+}
+
+subgraph cluster_4 {
+	color="#FFFFFF";
+        2 [shape=point]
+
+	"2" -> "File Summary";
+	"2" -> "File Reject Summary";
+	
+	3 [shape=point]
+	"3" ->  "roamingReconcilation.pl";
+	"File Summary"  -> "3"[arrowhead="none"];
+	"File Reject Summary" -> "3"[arrowhead="none"];
+	"APRM Output"  -> "3"[arrowhead="none"];
+
+
+}
+
+/*
+subgraph cluster_4 {
+	color="#FFFFFF";
+        4 [shape=point]
+	5 [shape=point]
+	"roamingReconcilation.pl" -> "4"[arrowhead="none"];
+	"4" -> "Recon DB";
+	"4" -> "Report Repository";	
+	"Operational DB" -> "5"
+	
+}
+*/
+        4 [shape=point]
+	"getFileInfoAprmLTE.pl" -> "APRM Output";
+	"getFileInfoAprm.pl" -> "APRM Output";
+	"getFileInfo.pl" -> "2"[arrowhead="none"];
+	"getFileInfoData.pl" -> "2"[arrowhead="none"];
+	"getFileInfoOutcollects.pl" -> "2"[arrowhead="none"];
+	"getFileInfoLTE.pl" -> "2"[arrowhead="none"];
+	"getFileInfoLTEOut.pl" -> "2"[arrowhead="none"];
+	"getFileInfoOutcollectsData.pl" -> "2"[arrowhead="none"];
+
+}

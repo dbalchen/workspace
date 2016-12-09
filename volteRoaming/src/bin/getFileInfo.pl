@@ -6,8 +6,8 @@ use DBI;
 #$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001225_T20161110182199.DAT";
 
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 
 # For test only....
@@ -159,12 +159,7 @@ while (my @rows3 = $sth->fetchrow_array() ) {
 
 close(ERR);
 
-$dbconn->disconnect();
-
-
-my $dbconn = getAPRM();
-
-$sql = "select file_tp, usage_chrg_1 from prdappc.prm_dat_err_mngr where prod_id = 2 and event_id = 2 and substr(adu,instr(adu,'SDIRI_FCIBER_ID'),46) = '$fileId[1]'";
+$sql = "select file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and substr(adu,instr(adu,'SDIRI_FCIBER_ID'),46) = '$fileId[1]'";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -209,13 +204,3 @@ sub getBODSPRD {
   return $dbods;
 }
 
-sub getAPRM {
-
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:PRDAPRM", "md1dbal1", "500#Reptar" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
-}

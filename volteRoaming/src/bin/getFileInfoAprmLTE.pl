@@ -4,21 +4,21 @@ use DBI;
 
 #Test parameters remove when going to production. 
 # For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my %sqls = {};
 
-$sqls{'LTE'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter) from prdappc.prm_rom_incol_events t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
+$sqls{'LTE'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
 
-$sqls{'NLDLT'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter) from prdappc.prm_rom_incol_events t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date";
+$sqls{'NLDLT'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date";
 
-$sqls{'DISP_RM'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prdappc.prm_rom_outcol_events t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
+$sqls{'DISP_RM'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
 
-my $dbconn = getAPRM();
+my $dbconn = getBODSPRD();
 
 my $sql = $sqls{$ARGV[0]};
 my $sth = $dbconn->prepare($sql);
@@ -39,14 +39,13 @@ $dbconn->disconnect();
 
 exit(0);
 
-sub getAPRM {
+sub getBODSPRD {
 
-    #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-    #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-    my $dbods = DBI->connect( "dbi:Oracle:PRDAPRM", "md1dbal1", "500#Reptar" );
-    unless ( defined $dbods ) {
-	sendErr();
-    }
-    return $dbods;
+  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "500#Reptar" );
+  unless ( defined $dbods ) {
+    sendErr();
+  }
+  return $dbods;
 }
-
