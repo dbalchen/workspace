@@ -43,7 +43,7 @@ o.memSize = 2097152;
 
 ~startup.value;
 ~startTimer.value(120);
-
+(
 ~mixer1.set(\bal,1);
 ~mixer2.set(\bal,1);
 ~circleExt4.set(\gate,0);
@@ -66,27 +66,27 @@ o.memSize = 2097152;
 ~string1_firmus.envelope.decay = 1.2;
 ~string1_firmus.envelope.sustain = 0.50;
 ~string1_firmus.envelope.release = 0.4;
-~string1_firmus.filter.cutoff = 1400.00;
-~string1_firmus.filter.gain = 0.45;
+~string1_firmus.filter.cutoff = 930.00;
+~string1_firmus.filter.gain = 0.75;
 ~string1_firmus.filter.attack = 1.5;
 ~string1_firmus.filter.release = 0.8;
 
-~string2_firmus.envelope.attack = 0.75;
-~string2_firmus.envelope.decay = 0.75;
+~string2_firmus.envelope.attack = 0.95;
+~string2_firmus.envelope.decay = 0.95;
 ~string2_firmus.envelope.sustain = 0.6;
 ~string2_firmus.envelope.release = 0.3;
-~string2_firmus.filter.cutoff = 3400.00;
+~string2_firmus.filter.cutoff = 2800.00;
 ~string2_firmus.filter.gain = 0.5;
 ~string2_firmus.filter.attack = 0.25;
 ~string2_firmus.filter.release = 0.65;
 
-~string1_firmus.envelope.attack = 0.75;
-~string1_firmus.envelope.decay = 0.75;
-~string1_firmus.filter.attack = 0.25;
-~string1_firmus.filter.release = 0.65;
-~string1_firmus.envelope.release = 0.3;
-~string1_firmus.filter.release = 0.65;
-
+~string3_firmus.envelope.attack = 0.75;
+~string3_firmus.envelope.decay = 0.75;
+~string3_firmus.filter.attack = 0.25;
+~string3_firmus.filter.release = 0.65;
+~string3_firmus.envelope.release = 0.3;
+~string3_firmus.filter.release = 0.65;
+)
 ~noiseSweep.value(1,-0.25,((16*4)/2), ((4*4)/2), 0.25);
 ~noiseSweep2.value(1,-1,((16*4)/2),((8*4)/2), 0.75);
 
