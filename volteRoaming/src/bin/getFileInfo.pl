@@ -6,8 +6,8 @@ use DBI;
 #$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001225_T20161110182199.DAT";
 
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 
 # For test only....

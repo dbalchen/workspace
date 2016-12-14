@@ -1,78 +1,81 @@
 
 digraph BI {
 	graph [splines=true nodesep=0.8 overlap=false decorate=true style=bold concentrate=true];
-
-	subgraph cluster_2 {
+	rankdir=LR;
+	
+	node [shape=house];"Operational DB";"Recon DB";
+	node [shape=folder];"CMDA Voice";"CMDA DATA";"CDMA Voice\nOutcollect";"CDMA Data\nOutcollect";"DCH Info";
+	
+	node [shape=tripleoctagon];"roamingReconcilation.pl";
+	node [shape=note];"APRM Output";
+	node [shape=note];"File Summary"; "File Reject Summary";"APRM Output";"Exceptions Email";
+	node [shape=ellipse];"listLTE.pl";
+	
+	subgraph cluster_1 {
 		color="#FFFFFF";
-			rankdir=LR;	
-	"roamingReconcilation.pl" -> "getFileInfo.pl";
-	"roamingReconcilation.pl" -> "getFileInfoData.pl";
-	"roamingReconcilation.pl" -> "getFileInfoOutcollects.pl";
-	"roamingReconcilation.pl" -> "getFileInfoOutcollectsData.pl";
-	"roamingReconcilation.pl" -> "getFileInfoLTE.pl";
-	"roamingReconcilation.pl" -> "getFileInfoLTEOut.pl";
-	"roamingReconcilation.pl" -> "getFileInfoAprm.pl";
-	"roamingReconcilation.pl" -> "getFileInfoAprmLTE.pl";
-
-}
-
-
-
-
-subgraph cluster_3 {
-	color="#FFFFFF";
-	1 [shape=point]
-	"listLTE.pl"  -> "1"[arrowhead="none"];
-	"CMDA Voice" ->  "1"[arrowhead="none"];
-	"CMDA DATA" ->  "1"[arrowhead="none"];
-	"CDMA Voice Outcollect" -> "1"[arrowhead="none"];
-	"CDMA Data Outcollect" -> "1"[arrowhead="none"];
-	"1"  -> "roamingReconcilation.pl" ;
-	        4 [shape=point]
-	5 [shape=point]
-	"roamingReconcilation.pl" -> "4"[arrowhead="none"];
-	"4" -> "Recon DB";
-	"4" -> "Report Repository";	
-	"Operational DB" -> "5"
+		
+		4 [shape=point]
+		5 [shape=Mcircle]
+		
+		"4" -> "Recon DB";
+		"4" -> "Report Repository";
+		"roamingReconcilation.pl" -> "Exceptions Email" [label ="Exception Report data"];
+		"Operational DB" -> "5"  [label ="File Data"];
+		
+	}
 	
-}
-
-subgraph cluster_4 {
-	color="#FFFFFF";
-        2 [shape=point]
-
-	"2" -> "File Summary";
-	"2" -> "File Reject Summary";
+	subgraph cluster_2 {
+	 	color="#FFFFFF";
+		1 [shape=point]
+		
+		
+		"CMDA Voice" ->  "1"[arrowhead="none" label = "(a)"];
+		"CMDA DATA" ->  "1"[arrowhead="none"  label = "(b)"];
+		"CDMA Voice\nOutcollect" -> "1"[arrowhead="none"  label = "(c)"];
+		"CDMA Data\nOutcollect" -> "1"[arrowhead="none"  label = "(d)"];
+		"listLTE.pl"  -> "1"[arrowhead="none"  label = "(e)"] ;
+		"DCH Info" ->  "1"[arrowhead="none" label = "(f)" ];
+		"1"  -> "roamingReconcilation.pl" [label = "file list"] ;		
+	}
 	
-	3 [shape=point]
-	"3" ->  "roamingReconcilation.pl";
-	"File Summary"  -> "3"[arrowhead="none"];
-	"File Reject Summary" -> "3"[arrowhead="none"];
-	"APRM Output"  -> "3"[arrowhead="none"];
-
-
-}
-
-/*
-subgraph cluster_4 {
-	color="#FFFFFF";
-        4 [shape=point]
-	5 [shape=point]
-	"roamingReconcilation.pl" -> "4"[arrowhead="none"];
-	"4" -> "Recon DB";
-	"4" -> "Report Repository";	
-	"Operational DB" -> "5"
 	
-}
-*/
-        4 [shape=point]
-	"getFileInfoAprmLTE.pl" -> "APRM Output";
-	"getFileInfoAprm.pl" -> "APRM Output";
-	"getFileInfo.pl" -> "2"[arrowhead="none"];
-	"getFileInfoData.pl" -> "2"[arrowhead="none"];
-	"getFileInfoOutcollects.pl" -> "2"[arrowhead="none"];
-	"getFileInfoLTE.pl" -> "2"[arrowhead="none"];
-	"getFileInfoLTEOut.pl" -> "2"[arrowhead="none"];
-	"getFileInfoOutcollectsData.pl" -> "2"[arrowhead="none"];
-
+	subgraph cluster_3 {
+		color="#FFFFFF";
+		"roamingReconcilation.pl" -> "4"[arrowhead="none" label="Result Data"] ;
+		"roamingReconcilation.pl" -> "getFileInfo.pl" [label = "(a)"];
+		"roamingReconcilation.pl" -> "getFileInfoData.pl"  [label = "(b)"];
+		"roamingReconcilation.pl" -> "getFileInfoOutcollects.pl" [label = "(c)"];
+		"roamingReconcilation.pl" -> "getFileInfoOutcollectsData.pl" [label = "(d)"];
+		"roamingReconcilation.pl" -> "getFileInfoLTE.pl"  [label = "(e)"];
+		"roamingReconcilation.pl" -> "getFileInfoLTEOut.pl"  [label ="(e)"];
+		"roamingReconcilation.pl" -> "getFileInfoAprm.pl"  [label ="Data Type"];
+		"roamingReconcilation.pl" -> "getFileInfoAprmLTE.pl"  [label ="Data Type"];
+		"getFileInfoAprmLTE.pl" -> "APRM Output";
+		"getFileInfoAprm.pl" -> "APRM Output";
+		"getFileInfo.pl" -> "2"[arrowhead="none"];
+		"getFileInfoData.pl" -> "2"[arrowhead="none"];
+		"getFileInfoOutcollects.pl" -> "2"[arrowhead="none"];
+		"getFileInfoLTE.pl" -> "2"[arrowhead="none"];
+		"getFileInfoLTEOut.pl" -> "2"[arrowhead="none"];
+		"getFileInfoOutcollectsData.pl" -> "2"[arrowhead="none"];
+		
+	}
+	
+	subgraph cluster_4 {
+		color="#FFFFFF";
+		2 [shape=point]	
+		"2" -> "File Summary";
+		"2" -> "File Reject Summary";
+		
+		3 [shape=point]
+		"3" ->  "roamingReconcilation.pl" [label="file Type information"];
+		"File Summary"  -> "3"[arrowhead="none"];
+		"File Reject Summary" -> "3"[arrowhead="none"];
+		"APRM Output"  -> "3"[arrowhead="none"];
+		
+		
+	}
+	
+	
+	
 }

@@ -53,82 +53,77 @@
 :END:
 * Daily Roaming Reconciliation
 ** Project Scope
-    Create a daily reconciliation report for all roaming data types to reconcile both usage and revenue.
-*** Work Breakdown Structure
-    /[Insert the project's work breakdown structure or provide a reference to where it is stored.]/
+    Create a daily reconciliation report for all roaming data types to reconcile both usage and revenue. Results will be kept in a Database and in addition a spreadsheet that will be delivered to a Share directory for access. 
 *** Deployment Plan
-    /[Example: The project involves deploying an application to state health partners. This section would discuss the approach for rolling out the application to the end users, including conducting environment assessments, developing memorandums of understandings, hardware/software installation, data conversion.]/
+    The programs will be deployed on the *kpr02batch* server under the\\
+    */pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon* directory.
 *** Change Control Management
-    /[Example of Change Control: If a development server for your project is administered by another organization that is responsible for installing machine upgrades and there are scheduled outages that will impact your project schedule. Changes to the project will need to be made to deal with the potential impact of the scheduled outage.]/
+    All of the created software artifacts (programs, scripts and initialization information will be kept in a Clear Case *VOB*.
+    - *Server: mdr01bld01*
+    - *Directory /vobs/web_tools/MpsMonitors/src/roaminRecon*
 ** Assumptions
-** Quality Management
-   /[Example: For an information system, controlling the consistency of screen layouts would include reviewing all screens to make sure they match the standards. Quality measures may be no bugs or defects for certain critical requirements, consistent screen layouts, or correctly calculating variables. Quality may be ensured through inspections, audits, formal testing and documentation of defects in a defect tracking system to ensure defects are fixed, retested and closed. Some projects may choose to use a traceability matrix to determine if critical requirements have been met.]/
-** Communications Management
-   /[Insert the project's communication management plan or provide a reference to where it is stored.]/
-*** Communication Matrix
-|-------------+----------+----------+-----------+---------------+---------------------|
-| Stakeholder | Messages | Vehicles | Frequency | Communicators | Feedback Mechanisms |
-|-------------+----------+----------+-----------+---------------+---------------------|
-|             |          |          |           |               |                     |
-|-------------+----------+----------+-----------+---------------+---------------------|
 ** User Requirements
-   There will be a Daily and monthly report sent for each roaming type.
+   A daily report for all roaming types will be created each day that will reconcile the previous days roaming usage. The results from the job will be placed in a spreadsheet that will be delivered to a shared folder as well as to a database where the tables are defined in ODS.
+  If anomalies are discovered, described in *exception parameter file* another email is created with a description of the error(s) and delivered to both the business and operation groups so it can be investigated.
 *** Daily Report
-      [[file:docs/Settlement-416-515.xlsx][May CDMA Incollect Settlement Report]]
-** Program Data Flow
+    The daily report will have the following format:
+    [[file:docs/Daily%20Recon%20Report%20-%20Mock-Up.xls][Report Mock-Up]]
+** Program Flow
 :PICTURE:
-
 digraph BI {
 	graph [splines=true nodesep=0.8 overlap=false decorate=true style=bold concentrate=true];
 	
+	subgraph cluster_1 {
+		color="#FFFFFF";
+		4 [shape=point]
+		5 [shape=point]
+		
+		"4" -> "Recon DB";
+		"4" -> "Report Repository";	
+		"Operational DB" -> "5"		
+	}
+	
 	subgraph cluster_2 {
-	color="#FFFFFF";
-	"roamingReconcilation.pl" -> "getFileInfo.pl";
-	"roamingReconcilation.pl" -> "getFileInfoData.pl";
-	"roamingReconcilation.pl" -> "getFileInfoOutcollects.pl";
-	"roamingReconcilation.pl" -> "getFileInfoOutcollectsData.pl";
-	"roamingReconcilation.pl" -> "getFileInfoLTE.pl";
-	"roamingReconcilation.pl" -> "getFileInfoLTEOut.pl";
-	"roamingReconcilation.pl" -> "getFileInfoAprm.pl";
-	"roamingReconcilation.pl" -> "getFileInfoAprmLTE.pl";
-
-}
-
-subgraph cluster_3 {
-	color="#FFFFFF";
-	1 [shape=point]
-	"listLTE.pl"  -> "1"[arrowhead="none"];
-	"CMDA Voice" ->  "1"[arrowhead="none"];
-	"CMDA DATA" ->  "1"[arrowhead="none"];
-	"CDMA Voice Outcollect" -> "1"[arrowhead="none"];
-	"CDMA Data Outcollect" -> "1"[arrowhead="none"];
-	"1"  -> "roamingReconcilation.pl" ;	
-}
-
-subgraph cluster_4 {
-	color="#FFFFFF";
-        2 [shape=point]
-
-	"2" -> "File Summary";
-	"2" -> "File Reject Summary";
+		color="#FFFFFF";
+		1 [shape=point]
+		node [shape=folder];"CMDA Voice";"CMDA DATA";"CDMA Voice\nOutcollect";"CDMA Data\nOutcollect";"DCH Info";
+		node [shape=tripleoctagon];"roamingReconcilation.pl";
+		node [shape=ellipse];"listLTE.pl";
+		"CMDA Voice" ->  "1"[arrowhead="none" label = "(a)"];
+		"CMDA DATA" ->  "1"[arrowhead="none"  label = "(b)"];
+		"CDMA Voice\nOutcollect" -> "1"[arrowhead="none"  label = "(c)"];
+		"CDMA Data\nOutcollect" -> "1"[arrowhead="none"  label = "(d)"];
+		"listLTE.pl"  -> "1"[arrowhead="none"  label = "(e)"] ;
+		"DCH Info" ->  "1"[arrowhead="none" label = "(f)" ];
+		"1"  -> "roamingReconcilation.pl" [label = "file list"] ;		
+	}
 	
-	3 [shape=point]
-	"3" ->  "roamingReconcilation.pl";
+	subgraph cluster_3 {
+		color="#FFFFFF";
+		"roamingReconcilation.pl" -> "4"[arrowhead="none" label="Result Data"] ;
+		"roamingReconcilation.pl" -> "getFileInfo.pl" [label = "(a)"];
+		"roamingReconcilation.pl" -> "getFileInfoData.pl"  [label = "(b)"];
+		"roamingReconcilation.pl" -> "getFileInfoOutcollects.pl" [label = "(c)"];
+		"roamingReconcilation.pl" -> "getFileInfoOutcollectsData.pl" [label = "(d)"];
+		"roamingReconcilation.pl" -> "getFileInfoLTE.pl"  [label = "(e)"];
+		"roamingReconcilation.pl" -> "getFileInfoLTEOut.pl"  [label ="(e)"];
+		"roamingReconcilation.pl" -> "getFileInfoAprm.pl"  [label ="Data Type"];
+		"roamingReconcilation.pl" -> "getFileInfoAprmLTE.pl"  [label ="Data Type"];		
+	}
 	
-	"File Summary"  -> "3"[arrowhead="none"];
-	"File Reject Summary" -> "3"[arrowhead="none"];
-	"APRM Output"  -> "3"[arrowhead="none"];
-}
-
-subgraph cluster_4 {
-	color="#FFFFFF";
-        4 [shape=point]
-	"4" -> "Recon DB";
-	"4" -> "Report Repository";
-	"roamingReconcilation.pl" -> "4" [arrowhead="none"];
+	subgraph cluster_4 {
+		color="#FFFFFF";
+		2 [shape=point]		
+		"2" -> "File Summary";
+		"2" -> "File Reject Summary";
+		
+		3 [shape=point]
+		"3" ->  "roamingReconcilation.pl";
+		"File Summary"  -> "3"[arrowhead="none"];
+		"File Reject Summary" -> "3"[arrowhead="none"];
+		"APRM Output"  -> "3"[arrowhead="none"];				
+	}
 	
-}
-
 	"getFileInfoAprmLTE.pl" -> "APRM Output";
 	"getFileInfoAprm.pl" -> "APRM Output";
 	"getFileInfo.pl" -> "2"[arrowhead="none"];
@@ -136,96 +131,108 @@ subgraph cluster_4 {
 	"getFileInfoOutcollects.pl" -> "2"[arrowhead="none"];
 	"getFileInfoLTE.pl" -> "2"[arrowhead="none"];
 	"getFileInfoLTEOut.pl" -> "2"[arrowhead="none"];
+	"getFileInfoOutcollectsData.pl" -> "2"[arrowhead="none"];
+	
 }
 :END:
+ - At 12:00 noon each day the *roamingReconciliation.pl* job is started with the parameters {roaming Type /see table below/} {date /previous days date/}
+   1. Read in the exception parameters file.
+   2. Process each file type until complete.
+      1. Find all files of that type for a given day.
+      2. Pass the file name and DCH information for that file to a sub-process that process that type /(see table below)/. Do each file until all files for the given type is complete.
+	 1. Count the records and query the operational database to collate the information for that file.
+	 2. Each file evaluated will produce two temp files {file name}.summary.csv and {file name}.rejected.csv.
+      3. Kick off the APRM job that correlates to the given roaming type, an *aprm*.csv will be created.
+      4. Gather the temp files, create and update the Excel spreadsheet then update the ROAMRECON database from with the information gathered.
+      5. Move to the next roaming type.
+   3. Move the Excel to the shared directory.
+   4. Read the newly created rows in the database to find any entry’s that violate any rules in the exception parameters file. If exceptions are found create an email detailing the errors then send it to both the Business and IS Operations.
+   5. Process complete.
 ** Executable
 **** *runRecon.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:* /none/
     - *Description:* \\
-      Perl CRON script that fires off the reconciliation process at given given time. Once the process is complte it whats until the next scheduled run. Eventually this process will be modified to run within the EPS monitors.
+      Perl CRON script that fires off the reconciliation process at given time. Once the process is complete it waits until the next scheduled run.
+      Eventually this process will be modified to run within the EPS monitors, thus not shown in the *program flow* diagram.
 
 **** *roamingReconciliation.pl*
     - *Language:* Perl
-    - *Source Code Location:*
-    - *Parameters:* List of reports to run and the date to run them on.
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
+    - *Parameters:* The Roam Type list and the date to reconcile.   
     - *Description:* \\
-      The main process which tracks all the sub processes for each roaming type. Summerizes the output and creates a spreadsheet and populates the roaming reconciliation table (ROAMRECON) with the results.
+      This process keeps track of all the sub-processes of each roaming type. Once all roaming types are complete it summarizes the data creates a spreadsheet and populates the roaming reconciliation tables (ROAMRECON) with the results.
 
 **** *getFileInfo.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:* 
-      - *Input* The name of the file do perform the reconciliation.
-      - *Output* The query results for the file as well as list of all the rejected and dropped records .
+      - *Input* The name of the file to perform the reconciliation.
+      - *Output* The query results for the file as well as list of all the rejected and dropped records.
     - *Description:* \\
-      Whenever *roamingReconciliation.pl* finds a *CDMA Voice Incollect* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 3 reports:
-      - Database summation from input file to APRM.
+      Whenever *roamingReconciliation.pl* finds a *CDMA Voice InCollects* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 2 reports:
       - List of rejected records.
-      - List of dropped records.
+      - File Summary.
 
 **** *getFileInfoData.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:* 
       - *Input* The name of the file do perform the reconciliation.
-      - *Output* The query results for the file as well as list of all the rejected and dropped records .
+      - *Output* The query results for the file as well as list of all the rejected and dropped records.
     - *Description:* \\
-      Whenever *roamingReconciliation.pl* finds a *CDMA Data Incollect* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 3 reports:
-      - Database summation from input file to APRM.
+      Whenever *roamingReconciliation.pl* finds a *CDMA Data InCollects* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 2 reports:
       - List of rejected records.
-      - List of dropped records.
+      - File Summary.
 
 **** *getFileInfoOutcollects.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:*
       - *Input* The name of the file do perform the reconciliation.
       - *Output* The query results for the file.
     - *Description:* \\
-      Whenever *roamingReconciliation.pl* finds a *CDMA Voice Outcollect* file that needs to be reconcilied it will kick off this job. The job then will produce a file with the results of the file query.
+      Whenever *roamingReconciliation.pl* finds a *CDMA Voice OutCollect* file that needs to be reconciled it will kick off this job. The job then will produce a file with the results of the file query.
 
 **** *getFileInfoOutcollectsData.pl*
     - *Language:* Perl
     - *Source Code Location:*
-    - *Parameters:* Date of reconcliation.
+    - *Parameters:* Date of reconciliation.
     - *Description:* \\
-      This jobs reconciles whole days for *Data Outcollects* and produces two reports one by clearinghose the other by business partner. 
+      This jobs reconciles whole days for *Data OutCollect* and produces two reports one by clearinghouse the other by business partner. 
 
 **** *getFileInfoLTE.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:* 
       - *Input* The name of the file, plus other information, to perform the reconciliation.
       - *Output* The query results for the file as well as list of all the rejected and dropped records .
     - *Description:* \\
-      Whenever *roamingReconciliation.pl* finds a *LTE Incollect or GSM* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 3 reports:
+      Whenever *roamingReconciliation.pl* finds a *LTE InCollects or GSM* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 2 reports:
       - Database summation from input file to APRM.
       - List of rejected records.
-      - List of dropped records.
-
 **** *getFileInfoLTEOut.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:*
       - *Input* The name of the file, plus other information, to perform the reconciliation.
       - *Output* The query results for the file.
     - *Description:* \\
-      Whenever *roamingReconciliation.pl* finds a *LTE Outcollect* file that needs to be reconciled it will kick off this job.The job then will produce a file with the results of the file query.
+      Whenever *roamingReconciliation.pl* finds a *LTE OutCollect* file that needs to be reconciled it will kick off this job. The job then will produce a file with the results of the file query.
 
 **** *getFileInfoAprm.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:*
       - *Input* Date of reconciliation
-      - *Output* APRM dump by carrier code for a given day.
+      - *Output* APRM dump by carrier code for the given day.
     - *Description:* \\
-      Used to create a report for all CDMA data to show APRM data by carrier code for a given day.
+      Used to create a report for all CDMA roaming types to show APRM data by carrier code.
 
 **** *getFileInfoAprmLTE.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:*
       - *Input* Date of reconciliation
       - *Output* APRM dump by carrier code for a given day.
@@ -234,16 +241,16 @@ subgraph cluster_4 {
 
 **** *listLTE.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:*
       - *Input* Date of reconciliation
       - *Output* List of LTE files
     - *Description:* \\
-      Used to list files for both GSM and LTE incollect.
+      Used to list files for both GSM and LTE InCollects.
 
 **** *addMultiUp.pl*
     - *Language:* Perl
-    - *Source Code Location:*
+    - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:*
       - *Input* tab delimited record
       - *Output* Sum for each column
@@ -252,19 +259,19 @@ subgraph cluster_4 {
 
 ** Data Decomposition
 *** Usage Data files
-    - *CDMA Voice Incollect*
+    - *CDMA Voice InCollects*
       - *Directory* /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI
       - *Record Type* CIBER
-    - *CDMA Data Incollect*
+    - *CDMA Data InCollects*
       - *Directory* /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR
       - *Record Type* CIBER
-    - *CDMA Voice Outcollect*
+    - *CDMA Voice OutCollect*
       - *Directory* /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output
       - *Record Type* CIBER
-    - *LTE/VOLTE Incollects*
+    - *LTE/VOLTE InCollects*
       - *Directory* /pkgbl08/inf/aimsys/prdwrk8/var/usc/projs/smm/DATA/HPMN_REPOSITORY/
       - *Record Type* TAP
-    - *GSM Incollects*
+    - *GSM InCollects*
       - *Directory*  /pkgbl08/inf/aimsys/prdwrk8/var/usc/projs/smm/DATA/HPMN_REPOSITORY/
       - *Record Type* TAP
 
@@ -277,7 +284,10 @@ subgraph cluster_4 {
    - *Description of Change:* Needed to hold the file summary information
    - *Primary Keys and Indices:*  ID
    - *Estimated Rows and Growth Rate:* 100 rows per day.
-
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |----------------------+---------+----------------------+---------------|
 | *Column Name         | *NULL?* | *Data Type*          | *Description* |
 |----------------------+---------+----------------------+---------------|
@@ -307,8 +317,9 @@ subgraph cluster_4 {
 | APRM_TOTAL_CHARGES   | Y       | NUMERIC(255)         |               |
 | PROCESS DATE         | Y       | DATE                 |               |
 |----------------------+---------+----------------------+---------------|
-
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 
    - *Table/Field Name: APRM*
    - *Purpose of File/Table:* Contains the APRM information for a given day for all roaming types.
@@ -316,7 +327,10 @@ subgraph cluster_4 {
    - *Description of Change:* Needed to hold the APRM summary information
    - *Primary Keys and Indices:*  ID
    - *Estimated Rows and Growth Rate:* 10000 rows per day for 3 months
-
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |----------------+---------+---------------------+---------------|
 | *Column Name   | *NULL?* | *Data Type*         | *Description* |
 |----------------+---------+---------------------+---------------|
@@ -331,7 +345,9 @@ subgraph cluster_4 {
 | TOTAL_VOLUME   | Y       | NUMERIC(10)         |               |
 | TOTAL_CHARGES  | Y       | NUMERIC(255))       |               |
 |----------------+---------+---------------------+---------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 
    - *Table/Field Name: REJECTED_RECORDS*
    - *Purpose of File/Table:* Contains the APRM information for a given day for all roaming types.
@@ -339,7 +355,10 @@ subgraph cluster_4 {
    - *Description of Change:* Needed to holds all rejected records for a given day and type.
    - *Primary Keys and Indices:*  ID
    - *Estimated Rows and Growth Rate:* 1000 rows per day for 3 months
-
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |-------------------+---------+---------------------+---------------|
 | *Column Name      | *NULL?* | *Data Type*         | *Description* |
 |-------------------+---------+---------------------+---------------|
@@ -350,7 +369,9 @@ subgraph cluster_4 {
 | ERROR_DESCRIPTION | Y       | VARCHAR(255)        |               |
 | TOTAL_CHARGE      | Y       | NUMERIC(255))       |               |
 |-------------------+---------+---------------------+---------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 *** Existing Tables
     The following is a list of already existing tables that are used to gather the information for the reports.
    - *Table/Field Name: AC1_CONTROL_HIST*
@@ -359,8 +380,12 @@ subgraph cluster_4 {
    - *Description of Change:* /or reason for adding/
    - *Primary Keys and Indices:*  IDENTIFIER and IMP_PERIOD
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |-------------------------+--------+---------------------+---------------|
-| *ColumnName*            | *Null* | *DataType*          | *Description* |
+| *Column Name*            | *Null* | *Data Type*          | *Description* |
 |-------------------------+--------+---------------------+---------------|
 | WR_VOLUME_QUANTITY      | Y      | NUMBER (15,2)       |               |
 | WR_TIME_QUANTITY        | Y      | NUMBER (13,2)       |               |
@@ -453,7 +478,9 @@ subgraph cluster_4 {
 | ADDITIONAL_ATTR         | Y      | VARCHAR2 (300 Byte) |               |
 | ABP_VAR                 | Y      | VARCHAR2 (512 Byte) |               |
 |-------------------------+--------+---------------------+---------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 
    - *Table/Field Name: usc_roam_evnts*
    - *Purpose of File/Table:* *APRM* rated events table.
@@ -461,8 +488,12 @@ subgraph cluster_4 {
    - *Description of Change:* /or reason for adding/
    - *Primary Keys and Indices:*  EDR_ID,  GENERATED_REC, EVENT_DATE and AU_ID.
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |----------------------+--------+--------------------+---------------|
-| *ColumnName*         | *Null* | *DataType*         | *Description* |
+| *Column Name*        | *Null* | *Data Type*        | *Description* |
 |----------------------+--------+--------------------+---------------|
 | VOLUME_TYPE          | Y      | CHAR (2 Byte)      |               |
 | VISIT_IND            | Y      | CHAR (1 Byte)      |               |
@@ -508,15 +539,21 @@ subgraph cluster_4 {
 | APPLICATION_ID       | Y      | CHAR (6 Byte)      |               |
 | AIR_CHRG_AMT         | Y      | NUMBER (18,5)      |               |
 |----------------------+--------+--------------------+---------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
    - *Table/Field Name: prm_dat_err_mngr*
    - *Purpose of File/Table:* *APRM* rejected events table.
    - *Type of Change:* /create new or modify existing/
    - *Description of Change:* /or reason for adding/
    - *Primary Keys and Indices:*  ERR_SEQ_NUM.
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |---------------------------+--------+----------------------+---------------|
-| *ColumnName*              | *Null* | *DataType*           | *Description* |
+| *Column Name*              | *Null* | *Data Type*           | *Description* |
 |---------------------------+--------+----------------------+---------------|
 | USAGE_CHRG_3              | Y      | NUMBER (18,5)        |               |
 | USAGE_CHRG_2              | Y      | NUMBER (18,5)        |               |
@@ -670,17 +707,21 @@ subgraph cluster_4 {
 | AC_RATE_CD_SEQ_2          | Y      | NUMBER (9)           |               |
 | AC_RATE_CD_SEQ_1          | Y      | NUMBER (9)           |               |
 |---------------------------+--------+----------------------+---------------|
-
-
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
    - *Table/Field Name: prm_rom_incol_events*
-   - *Purpose of File/Table:* *APRM* incollect events table used by TAP services (LTE, GSM and VOLTE).
+   - *Purpose of File/Table:* *APRM* InCollects events table used by TAP services (LTE, GSM and VOLTE).
    - *Type of Change:* /create new or modify existing/
    - *Description of Change:* /or reason for adding/
    - *Primary Keys and Indices:*  EDR_ID, GENERATED_REC, RERATE_CNT, EVENT_START_DATE_TIME.
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |---------------------------+------+---------------------+-------------|
-| ColumnName                | Null | DataType            | Description |
+| Column Name               | Null | Data Type           | Description |
 |---------------------------+------+---------------------+-------------|
 | VALIDATION_STS            | Y    | CHAR (1 Byte)       |             |
 | UOM                       | Y    | CHAR (2 Byte)       |             |
@@ -744,15 +785,19 @@ subgraph cluster_4 {
 | APRM_EDR_ID               | Y    | NUMBER (20)         |             |
 | APPLICATION_ID            | Y    | CHAR (6 Byte)       |             |
 |---------------------------+------+---------------------+-------------|
-
-
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
    - *Table/Field Name: prm_rom_outcol_events*
-   - *Purpose of File/Table:* *APRM* outcollect events table used by TAP services (LTE, GSM and VOLTE).
+   - *Purpose of File/Table:* *APRM* OutCollect events table used by TAP services (LTE, GSM and VOLTE).
    - *Primary Keys and Indices:*  EDR_ID, GENERATED_REC, EVENT_START_DATE_TIME.
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |-------------------------+------+---------------------+-------------|
-| ColumnName              | Null | DataType            | Description |
+| Column Name             | Null | Data Type           | Description |
 |-------------------------+------+---------------------+-------------|
 | UTC_OFFSET              | Y    | CHAR (5 Byte)       |             |
 | USG_NET_CHARGE_SDR      | Y    | NUMBER (18,5)       |             |
@@ -882,14 +927,20 @@ subgraph cluster_4 {
 | ACC_NET_CHARGE_RC       | Y    | NUMBER (18,5)       |             |
 | ACC_NET_CHARGE_LC       | Y    | NUMBER (18,5)       |             |
 |-------------------------+------+---------------------+-------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 
    - *Table/Field Name: DATA_OUTCOLLECT*
-   - *Purpose of File/Table:* CDMA data outcollect usage table.
+   - *Purpose of File/Table:* CDMA data OutCollect usage table.
    - *Primary Keys and Indices:*  None
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |---------------------------+------+--------------------+-------------|
-| ColumnName                | Null | DataType           | Description |
+| Column Name                | Null | Data Type           | Description |
 |---------------------------+------+--------------------+-------------|
 | SETTLEMENT_DATE           | N    | DATE               |             |
 | PROCESS_DATE              | N    | DATE               |             |
@@ -902,25 +953,37 @@ subgraph cluster_4 {
 | ACTUAL_USAGE_VOLUME       | Y    | NUMBER             |             |
 | ACTUAL_DATA_VOLUME        | Y    | NUMBER             |             |
 |---------------------------+------+--------------------+-------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
    - *Table/Field Name: Roaming Partner*
    - *Purpose of File/Table:* Table with the names of our roaming partners and the Clearinghouse which they are associated.
    - *Primary Keys and Indices:*  None
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |---------------+--------+--------------------+---------------|
-| *ColumnName*  | *Null* | *DataType*         | *Description* |
+| *Column Name*  | *Null* | *Data Type*         | *Description* |
 |---------------+--------+--------------------+---------------|
 | ROAMING_TYPE  | N      | CHAR (1 Byte)      |               |
 | PARTNER       | N      | VARCHAR2 (40 Byte) |               |
 | CLEARINGHOUSE | N      | VARCHAR2 (40 Byte) |               |
 | BSID_TYPE     | Y      | CHAR (5 Byte)      |               |
 |---------------+--------+--------------------+---------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 
    - *Table/Field Name: SMM1_COLLECT_FILES_HIST*
    - *Purpose of File/Table:* Contains the history of all the files processed by *ARCM*.
    - *Primary Keys and Indices:*  None
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |-------------------+---------------------+---------------|
 | *Columns*         | *Data Type*         | *Description* |
 |-------------------+---------------------+---------------|
@@ -943,13 +1006,19 @@ subgraph cluster_4 {
 | DL_SERVICE_CODE   | CHAR (5 Byte)       |               |
 | APPLICATION_ID    | CHAR (6 Byte)       |               |
 |-------------------+---------------------+---------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
    - *Table/Field Name: SMM1_ARCM_FILE_REPOSITORY*
    - *Purpose of File/Table:* File information  *ARCM*.
    - *Primary Keys and Indices:*  None
    - *Estimated Rows and Growth Rate:* None
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |--------------------------+---------------------+-------------|
-| ColumnName               | DataType            | Description |
+| *Column Name*               | *Data Type*            | *Description* |
 |--------------------------+---------------------+-------------|
 | ODS_SOURCE_CD            | NUMBER              |             |
 | FILE_NAME                | VARCHAR2 (20 Byte)  |             |
@@ -978,15 +1047,17 @@ subgraph cluster_4 {
 | ODS_INSERT_DATE          | DATE                |             |
 | ODS_LAST_UPDATE_DATE     | DATE                |             |
 |--------------------------+---------------------+-------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Infrastructure Considerations
 ** Testing Approach
+   The project will follow a iterative process where each week the stakeholders will review the produced report and recommend changes or ask for further clarification. This will continue until all stakeholders are satisfied.
 ** Implementation Considerations
+   All tables that are being read or written to will be in the ODS and optimized for read access. 
 * Schedule/Time Management
-  - Build Date
-    DEADLINE: <2016-12-18 Sun>   
-  - Planned Implimentation Date
-    DEADLINE: <2017-02-12 Sun>
+  - Planned Implementation Date
+    DEADLINE: *March 11th 2017*
 * Communications Management
    /[Insert the project's communication management plan or provide a reference to where it is stored.]/
 ** Communication Matrix
