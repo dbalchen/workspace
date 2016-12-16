@@ -62,13 +62,29 @@
     - *Server: mdr01bld01*
     - *Directory /vobs/web_tools/MpsMonitors/src/roaminRecon*
 ** Assumptions
+   1. All DCH information will be readily asscessable.
+   2. No issues or delays setting up the tables in ODS.
+   3. All of the 3rd party's, internal/external, do not experience delays in implementing their solutions.
+   4. The business does not demand multiple changes.
 ** User Requirements
    A daily report for all roaming types will be created each day that will reconcile the previous days roaming usage. The results from the job will be placed in a spreadsheet that will be delivered to a shared folder as well as to a database where the tables are defined in ODS.
-  If anomalies are discovered, described in *exception parameter file* another email is created with a description of the error(s) and delivered to both the business and operation groups so it can be investigated.
+   If anomalies are discovered, described in *exception parameter file* another email is created with a description of the error(s) and delivered to both the business and operation groups so it can be investigated.
+*** Change requests
+    All Change requests will be done via Remedy and handled by The *IS Billing Technical OPS team".
 *** Daily Report
     The daily report will have the following format:
     [[file:docs/Daily%20Recon%20Report%20-%20Mock-Up.xls][Report Mock-Up]]
-** Program Flow
+
+#+BEGIN_LaTeX
+\newpage 
+\begin{landscape}  
+#+END_LaTeX
+#+ATTR_LaTeX: width=20cm
+ [[file:docs/ProgramFlow.png]]
+#+BEGIN_LaTeX
+\end{landscape} 
+\newpage
+#+END_LaTeX
 :PICTURE:
 digraph BI {
 	graph [splines=true nodesep=0.8 overlap=false decorate=true style=bold concentrate=true];
@@ -135,6 +151,7 @@ digraph BI {
 	
 }
 :END:
+** Program Flow
  - At 12:00 noon each day the *roamingReconciliation.pl* job is started with the parameters {roaming Type /see table below/} {date /previous days date/}
    1. Read in the exception parameters file.
    2. Process each file type until complete.
@@ -142,7 +159,7 @@ digraph BI {
       2. Pass the file name and DCH information for that file to a sub-process that process that type /(see table below)/. Do each file until all files for the given type is complete.
 	 1. Count the records and query the operational database to collate the information for that file.
 	 2. Each file evaluated will produce two temp files {file name}.summary.csv and {file name}.rejected.csv.
-      3. Kick off the APRM job that correlates to the given roaming type, an *aprm*.csv will be created.
+      3. Kick off the *APRM* job that correlates to the given roaming type, an *aprm*.csv will be created.
       4. Gather the temp files, create and update the Excel spreadsheet then update the ROAMRECON database from with the information gathered.
       5. Move to the next roaming type.
    3. Move the Excel to the shared directory.
@@ -210,7 +227,7 @@ digraph BI {
       - *Output* The query results for the file as well as list of all the rejected and dropped records .
     - *Description:* \\
       Whenever *roamingReconciliation.pl* finds a *LTE InCollects or GSM* file that needs to be reconciled it will kick off this job. The job then will query the file and produce 2 reports:
-      - Database summation from input file to APRM.
+      - Database summation from input file to *APRM*.
       - List of rejected records.
 **** *getFileInfoLTEOut.pl*
     - *Language:* Perl
@@ -226,18 +243,18 @@ digraph BI {
     - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:*
       - *Input* Date of reconciliation
-      - *Output* APRM dump by carrier code for the given day.
+      - *Output* *APRM* dump by carrier code for the given day.
     - *Description:* \\
-      Used to create a report for all CDMA roaming types to show APRM data by carrier code.
+      Used to create a report for all CDMA roaming types to show *APRM* data by carrier code.
 
 **** *getFileInfoAprmLTE.pl*
     - *Language:* Perl
     - *Source Code Location: /vobs/web_tools/MpsMonitors/src/roaminRecon*
     - *Parameters:*
       - *Input* Date of reconciliation
-      - *Output* APRM dump by carrier code for a given day.
+      - *Output* *APRM* dump by carrier code for a given day.
     - *Description:* \\
-      Used to create a report for all LTE data (LTE, GSM and VOLTE) to show APRM data by carrier code for a given day.
+      Used to create a report for all *LTE data (LTE, GSM and VOLTE)* to show *APRM* data by carrier code for a given day.
 
 **** *listLTE.pl*
     - *Language:* Perl
@@ -246,7 +263,7 @@ digraph BI {
       - *Input* Date of reconciliation
       - *Output* List of LTE files
     - *Description:* \\
-      Used to list files for both GSM and LTE InCollects.
+      Used to list files for both GSM and LTE InCollects and Outcollects.
 
 **** *addMultiUp.pl*
     - *Language:* Perl
@@ -322,9 +339,9 @@ digraph BI {
 #+END_LaTeX
 
    - *Table/Field Name: APRM*
-   - *Purpose of File/Table:* Contains the APRM information for a given day for all roaming types.
+   - *Purpose of File/Table:* Contains the *APRM* information for a given day for all roaming types.
    - *Type of Change:* New
-   - *Description of Change:* Needed to hold the APRM summary information
+   - *Description of Change:* Needed to hold the *APRM* summary information
    - *Primary Keys and Indices:*  ID
    - *Estimated Rows and Growth Rate:* 10000 rows per day for 3 months
 #+BEGIN_LaTeX
@@ -350,7 +367,7 @@ digraph BI {
 #+END_LaTeX
 
    - *Table/Field Name: REJECTED_RECORDS*
-   - *Purpose of File/Table:* Contains the APRM information for a given day for all roaming types.
+   - *Purpose of File/Table:* Contains the *APRM* information for a given day for all roaming types.
    - *Type of Change:* New
    - *Description of Change:* Needed to holds all rejected records for a given day and type.
    - *Primary Keys and Indices:*  ID
@@ -789,8 +806,9 @@ digraph BI {
 \normalsize
 #+END_LaTeX
    - *Table/Field Name: prm_rom_outcol_events*
-   - *Purpose of File/Table:* *APRM* OutCollect events table used by TAP services (LTE, GSM and VOLTE).
-   - *Primary Keys and Indices:*  EDR_ID, GENERATED_REC, EVENT_START_DATE_TIME.
+   - *Purpose of File/Table:* *APRM
+* OutCollect events table used by TAP services (LTE, GSM and VOLTE).
+   - *Primary Keys and Indices:*  Edr_Id, Generated_Rec, Event_Start_Date_Time.
    - *Estimated Rows and Growth Rate:* None
 #+BEGIN_LaTeX
 \scriptsize
@@ -1051,6 +1069,7 @@ digraph BI {
 \normalsize
 #+END_LaTeX
 ** Infrastructure Considerations
+   /None/
 ** Testing Approach
    The project will follow a iterative process where each week the stakeholders will review the produced report and recommend changes or ask for further clarification. This will continue until all stakeholders are satisfied.
 ** Implementation Considerations
@@ -1058,15 +1077,6 @@ digraph BI {
 * Schedule/Time Management
   - Planned Implementation Date
     DEADLINE: *March 11th 2017*
-* Communications Management
-   /[Insert the project's communication management plan or provide a reference to where it is stored.]/
-** Communication Matrix
-|-------------+----------+----------+-----------+---------------+---------------------|
-| Stakeholder | Messages | Vehicles | Frequency | Communicators | Feedback Mechanisms |
-|-------------+----------+----------+-----------+---------------+---------------------|
-|             |          |          |           |               |                     |
-|-------------+----------+----------+-----------+---------------+---------------------|
-
 * Issue Management
    /[Insert the project's issue management plan or provide a reference to where it is stored.]/
 ** Issue Log
@@ -1079,6 +1089,7 @@ digraph BI {
 \begin{landscape} 
 #+END_LaTeX
 * TEST CONDITIONS
+  Will be filled in once testing starts
 |--------------+---------------+------------------+-----------------------------------+------------------+----------------+-----------|
 | Test Cond Id | Module Tested | Condition Tested | Test Data - Specify Modifications | Expected Results | Actual Results | Revw'd By |
 |--------------+---------------+------------------+-----------------------------------+------------------+----------------+-----------|

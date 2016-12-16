@@ -1,0 +1,1315 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   id="svg5354"
+   viewBox="0 0 990 765"
+   height="8.5in"
+   width="11in">
+  <defs
+     id="defs5356">
+    <marker
+       style="overflow:visible;"
+       id="Arrow1Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.8) rotate(180) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path4700" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="marker13790"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#ffffff;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+         id="path13792" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(1.1) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#ffffff;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+         id="path4715" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(0.8) translate(12.5,0)"
+         style="fill-rule:evenodd;stroke:#ffffff;stroke-width:1pt;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         id="path4697" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="marker12180"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         id="path12182" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="marker8640"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         id="path8642" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="marker7086"
+       refX="0.0"
+       refY="0.0"
+       orient="auto">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="fill-rule:evenodd;stroke-width:0.625;stroke-linejoin:round;stroke:#000000;stroke-opacity:1;fill:#000000;fill-opacity:1"
+         id="path7088" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lend"
+       refX="0"
+       refY="0"
+       orient="auto">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path4718" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker4973"
+       refX="0"
+       refY="0"
+       orient="auto">
+      <path
+         transform="matrix(-1.1,0,0,-1.1,-1.1,0)"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         id="path4975" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata5359">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-287.3622)"
+     id="layer1">
+    <polygon
+       style="fill:#ffffff;stroke:none"
+       transform="matrix(0.61321231,0,0,0.69094639,5.6671015,1049.3118)"
+       id="polygon7"
+       points="1604.11,-1100 1604.11,4 -4,4 -4,4 -4,-1100 " />
+    <g
+       class="cluster"
+       id="clust1"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title10">cluster_1</title>
+      <polygon
+         id="polygon12"
+         points="1380.51,-798 557.487,-798 557.487,-798 557.487,-1043 1380.51,-1043 "
+         style="fill:none;stroke:#ffffff;stroke-width:2" />
+    </g>
+    <g
+       class="cluster"
+       id="clust2"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title15">cluster_2</title>
+      <polygon
+         id="polygon17"
+         points="498.487,-562 8,-562 8,-562 8,-1088 498.487,-1088 "
+         style="fill:none;stroke:#ffffff;stroke-width:2" />
+    </g>
+    <g
+       class="cluster"
+       id="clust3"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title20">cluster_3</title>
+      <polygon
+         id="polygon22"
+         points="1353.62,-80 945.349,-80 945.349,-80 945.349,-790 1353.62,-790 "
+         style="fill:none;stroke:#ffffff;stroke-width:2;marker-end:url(#marker13790)" />
+    </g>
+    <g
+       class="cluster"
+       id="clust4"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title25">cluster_4</title>
+      <polygon
+         id="polygon27"
+         points="1592.11,-280 1401.51,-280 1401.51,-280 1401.51,-426 1592.11,-426 "
+         style="fill:none;stroke:#ffffff;stroke-width:2" />
+    </g>
+    <g
+       class="node"
+       id="node1"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1042.7309)">
+      <title
+         id="title30">Operational DB</title>
+      <polygon
+         id="polygon32"
+         points="597.5,-1002.44 763.336,-1002.44 763.413,-1022.56 763.413,-1022.56 680.418,-1035 597.422,-1022.56 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text34"
+         font-size="14.00"
+         y="-1013.3"
+         x="680.41803"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Operational DB</text>
+    </g>
+    <g
+       class="node"
+       id="node15"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title37">5</title>
+      <circle
+         id="ellipse39"
+         cy="-1017"
+         cx="1069.04"
+         r="0"
+         style="fill:none;stroke:#000000" />
+      <polyline
+         id="polyline41"
+         points="1080.94,-1030.5 1057.13,-1030.5 "
+         style="fill:none;stroke:#000000" />
+      <polyline
+         id="polyline43"
+         points="1080.94,-1003.5 1057.13,-1003.5 "
+         style="fill:none;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge4"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title48">Operational DB-&gt;5</title>
+      <path
+         id="path50"
+         d="m 765.74473,-1017 c 87.252,0 220.4,0 277.29997,0"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon52"
+         points="1040.73,-1020.5 1050.73,-1017 1040.73,-1013.5 1040.73,-1020.5 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text54"
+         font-size="14.00"
+         y="-1020.8"
+         x="874.349"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">File Data</text>
+    </g>
+    <g
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1035.9666)"
+       class="node"
+       id="node2">
+      <title
+         id="title57">Recon DB</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         id="polygon59"
+         points="1237.78,-830.438 1356.47,-830.438 1356.52,-850.562 1356.52,-850.562 1297.12,-863 1237.72,-850.562 " />
+      <text
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle"
+         id="text61"
+         font-size="14.00"
+         y="-841.29999"
+         x="1297.12">Recon DB</text>
+    </g>
+    <g
+       class="node"
+       id="node3"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title64">CMDA Voice</title>
+      <polygon
+         id="polygon66"
+         points="338.387,-1080 338.387,-1044 432.387,-1044 432.387,-1080 432.387,-1080 429.387,-1084 408.387,-1084 405.387,-1080 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text68"
+         font-size="14.00"
+         y="-1058.3"
+         x="385.38699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">CMDA Voice</text>
+    </g>
+    <g
+       class="node"
+       id="node17"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title71">1</title>
+      <circle
+         id="ellipse73"
+         cy="-832"
+         cx="488.68701"
+         r="0"
+         style="fill:#000000;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge5"
+       transform="matrix(0.44899597,0,0,0.64298761,78.968583,1038.7239)">
+      <title
+         id="title76">CMDA Voice-&gt;1</title>
+      <path
+         id="path78"
+         d="m 409.223,-1043.6 c 8.901,8.06 18.631,18.07 25.664,28.6 43.706,65.447 51.782,167.374 52.702,181.384"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text80"
+         font-size="14.00"
+         y="-982.79999"
+         x="460.88699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(a)</text>
+    </g>
+    <g
+       class="node"
+       id="node4"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title83">CMDA DATA</title>
+      <polygon
+         id="polygon85"
+         points="335.887,-986 335.887,-950 434.887,-950 434.887,-986 434.887,-986 431.887,-990 410.887,-990 407.887,-986 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text87"
+         font-size="14.00"
+         y="-964.29999"
+         x="385.38699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">CMDA DATA</text>
+    </g>
+    <g
+       class="edge"
+       id="edge6"
+       transform="matrix(0.41849176,0,0,0.63791173,93.772254,1034.5054)">
+      <title
+         id="title90">CMDA DATA-&gt;1</title>
+      <path
+         id="path92"
+         d="m 406.475,-949.945 c 9.03,8.465 19.61,18.885 28.412,28.945 16.741,19.133 21.272,23.993 34,46 8.974,15.517 16.408,36.121 18.322,41.609"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text94"
+         font-size="14.00"
+         y="-903.79999"
+         x="460.88699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(b)</text>
+    </g>
+    <g
+       class="node"
+       id="node5"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title97">CDMA Voice\nOutcollect</title>
+      <polygon
+         id="polygon99"
+         points="338.387,-892 338.387,-854 432.387,-854 432.387,-892 432.387,-892 429.387,-896 408.387,-896 405.387,-892 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text101"
+         font-size="14.00"
+         y="-876.79999"
+         x="385.38699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">CDMA Voice</text>
+      <text
+         id="text103"
+         font-size="14.00"
+         y="-861.79999"
+         x="385.38699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Outcollect</text>
+    </g>
+    <g
+       class="edge"
+       id="edge7"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title106">CDMA Voice\nOutcollect-&gt;1</title>
+      <path
+         id="path108"
+         d="m 432.59,-854.3 c 23.378,9.462 48.028,19.439 53.825,21.785"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text110"
+         font-size="14.00"
+         y="-849.79999"
+         x="460.88699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(c)</text>
+    </g>
+    <g
+       class="node"
+       id="node6"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title113">CDMA Data\nOutcollect</title>
+      <polygon
+         id="polygon115"
+         points="341.887,-796 341.887,-758 428.887,-758 428.887,-796 428.887,-796 425.887,-800 404.887,-800 401.887,-796 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text117"
+         font-size="14.00"
+         y="-780.79999"
+         x="385.38699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">CDMA Data</text>
+      <text
+         id="text119"
+         font-size="14.00"
+         y="-765.79999"
+         x="385.38699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Outcollect</text>
+    </g>
+    <g
+       class="edge"
+       id="edge8"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title122">CDMA Data\nOutcollect-&gt;1</title>
+      <path
+         id="path124"
+         d="m 428.98,-790.342 c 13.435,-5.284 27.893,-12.158 39.907,-20.658 8.628,-6.105 16.08,-16.858 18.198,-20.069"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text126"
+         font-size="14.00"
+         y="-814.79999"
+         x="460.88699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(d)</text>
+    </g>
+    <g
+       class="node"
+       id="node7"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title129">DCH Info</title>
+      <polygon
+         id="polygon131"
+         points="349.887,-700 349.887,-664 420.887,-664 420.887,-700 420.887,-700 417.887,-704 396.887,-704 393.887,-700 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text133"
+         font-size="14.00"
+         y="-678.29999"
+         x="385.38699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">DCH Info</text>
+    </g>
+    <g
+       class="edge"
+       id="edge14"
+       transform="matrix(0.54940753,0,0,0.62778993,29.961188,1026.0884)">
+      <title
+         id="title136">DCH Info-&gt;1</title>
+      <path
+         id="path138"
+         d="m 407.972,-700.222 c 18.897,-17.136 45.651,-44.477 60.915,-73.778 10.954,-21.029 17.132,-49.663 18.506,-56.494"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text140"
+         font-size="14.00"
+         y="-777.79999"
+         x="460.88699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(f)</text>
+    </g>
+    <g
+       class="node"
+       id="node8"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title143">roamingReconcilation.pl</title>
+      <polygon
+         id="polygon145"
+         points="573.551,-824.544 636.152,-814 724.683,-814 787.284,-824.544 787.284,-824.544 787.284,-839.456 724.683,-850 636.152,-850 573.551,-839.456 "
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon147"
+         points="569.554,-821.161 635.818,-810 725.018,-810 791.282,-821.161 791.282,-821.161 791.282,-842.839 725.018,-854 635.818,-854 569.554,-842.839 "
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon149"
+         points="565.556,-817.778 635.484,-806 725.352,-806 795.28,-817.778 795.28,-817.778 795.28,-846.222 725.352,-858 635.484,-858 565.556,-846.222 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text151"
+         font-size="14.00"
+         y="-828.29999"
+         x="680.41803"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">roamingReconcilation.pl</text>
+    </g>
+    <g
+       class="node"
+       id="node12"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title154">Exceptions Email</title>
+      <polygon
+         id="polygon156"
+         points="1012.54,-843 1125.54,-843 1125.54,-873 1119.54,-879 1119.54,-879 1012.54,-879 "
+         style="fill:none;stroke:#000000" />
+      <polyline
+         id="polyline158"
+         points="1119.54,-879 1119.54,-873 "
+         style="fill:none;stroke:#000000" />
+      <polyline
+         id="polyline160"
+         points="1125.54,-873 1119.54,-873 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text162"
+         font-size="14.00"
+         y="-857.29999"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Exceptions Email</text>
+    </g>
+    <g
+       class="edge"
+       id="edge3"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title165">roamingReconcilation.pl-&gt;Exceptions Email</title>
+      <path
+         id="path167"
+         d="m 795.326,-840.544 c 67.31,-5.049 150.166,-11.264 206.774,-15.51"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon169"
+         points="1002.12,-859.565 1012.35,-856.823 1002.64,-852.585 1002.12,-859.565 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text171"
+         font-size="14.00"
+         y="-854.79999"
+         x="874.349"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Exception Report data</text>
+    </g>
+    <g
+       class="node"
+       id="node14"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title174">4</title>
+      <circle
+         id="ellipse176"
+         cy="-939"
+         cx="1069.04"
+         r="0"
+         style="fill:#000000;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge16"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title179">roamingReconcilation.pl-&gt;4</title>
+      <path
+         id="path181"
+         d="m 741,-855.416 c 22.475,-8.371 48.397,-17.481 72.349,-24.584 106.176,-31.487 241.321,-56.55 253.761,-58.831"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text183"
+         font-size="14.00"
+         y="-914.79999"
+         x="874.349"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Result Data</text>
+    </g>
+    <g
+       class="node"
+       id="node21"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title186">getFileInfo.pl</title>
+      <ellipse
+         id="ellipse188"
+         ry="18"
+         rx="59.289902"
+         cy="-764"
+         cx="1069.04"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text190"
+         font-size="14.00"
+         y="-760.29999"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">getFileInfo.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge17"
+       transform="matrix(0.54761931,0,0,0.8107437,60.27274,1173.4394)">
+      <title
+         id="title193">roamingReconcilation.pl-&gt;getFileInfo.pl</title>
+      <path
+         id="path195"
+         d="m 778.479,-814.929 c 71.935,12.653 167.744,29.504 229.051,40.287"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon197"
+         points="1006.99,-771.184 1008.2,-778.079 1008.2,-778.079 1017.44,-772.899 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text199"
+         font-size="14.00"
+         y="-812.79999"
+         x="874.349"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(a)</text>
+    </g>
+    <g
+       class="node"
+       id="node22"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title202">getFileInfoData.pl</title>
+      <ellipse
+         id="ellipse204"
+         ry="18"
+         rx="75.286797"
+         cy="-670"
+         cx="1069.04"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text206"
+         font-size="14.00"
+         y="-666.29999"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">getFileInfoData.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge18"
+       transform="matrix(0.49409887,0,0,0.74033645,103.02465,1114.0962)">
+      <title
+         id="title209">roamingReconcilation.pl-&gt;getFileInfoData.pl</title>
+      <path
+         id="path211"
+         d="m 724.149,-805.939 c 25.375,14.86 58.496,33.199 89.2,46.939 66.07,29.568 145.185,55.87 197.521,72.075"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon213"
+         points="1012.11,-690.204 1020.64,-683.92 1010.05,-683.513 1012.11,-690.204 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text215"
+         font-size="14.00"
+         y="-762.31757"
+         x="880.85437"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(b)</text>
+    </g>
+    <g
+       class="node"
+       id="node23"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title218">getFileInfoOutcollects.pl</title>
+      <ellipse
+         id="ellipse220"
+         ry="18"
+         rx="98.582901"
+         cy="-576"
+         cx="1069.04"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text222"
+         font-size="14.00"
+         y="-572.29999"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">getFileInfoOutcollects.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge19"
+       transform="matrix(0.44094361,0,0,0.70145688,145.50375,1084.1589)">
+      <title
+         id="title225">roamingReconcilation.pl-&gt;getFileInfoOutcollects.pl</title>
+      <path
+         id="path227"
+         d="m 699.624,-805.993 c 23.356,31.858 66.526,85.907 113.725,120.993 58.322,43.355 136.521,73.503 190.821,90.931"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon229"
+         points="1005.53,-597.308 1014.02,-590.962 1003.43,-590.632 1005.53,-597.308 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text231"
+         font-size="14.00"
+         y="-688.79999"
+         x="895.51105"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(c)</text>
+    </g>
+    <g
+       class="node"
+       id="node24"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title234">getFileInfoOutcollectsData.pl</title>
+      <ellipse
+         id="ellipse236"
+         ry="18"
+         rx="115.88"
+         cy="-482"
+         cx="1069.04"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text238"
+         font-size="14.00"
+         y="-478.29999"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">getFileInfoOutcollectsData.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge20"
+       transform="matrix(0.44369427,0,0,0.67640408,137.24993,1065.3937)">
+      <title
+         id="title241">roamingReconcilation.pl-&gt;getFileInfoOutcollectsData.pl</title>
+      <path
+         id="path243"
+         d="m 689.715,-805.876 c 16.449,48.078 57.431,151.363 123.634,213.876 50.297,47.494 124.325,76.32 179.623,92.476"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon245"
+         points="994.061,-502.853 994.061,-502.853 1002.72,-496.75 992.145,-496.121 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text247"
+         font-size="14.00"
+         y="-586.80792"
+         x="917.22821"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(d)</text>
+    </g>
+    <g
+       class="node"
+       id="node25"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title250">getFileInfoLTE.pl</title>
+      <ellipse
+         id="ellipse252"
+         ry="18"
+         rx="75.286797"
+         cy="-388"
+         cx="1069.04"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text254"
+         font-size="14.00"
+         y="-384.29999"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">getFileInfoLTE.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge21"
+       transform="matrix(0.55885139,0,0,0.66446924,50.426311,1055.0979)">
+      <title
+         id="title257">roamingReconcilation.pl-&gt;getFileInfoLTE.pl</title>
+      <path
+         id="path259"
+         d="m 684.579,-805.644 c 8.843,62.684 39.346,222.305 128.77,314.644 49.143,50.745 126.671,77.249 183.292,90.576"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon261"
+         points="997.625,-403.789 997.625,-403.789 1006.6,-398.163 996.076,-396.963 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text263"
+         font-size="14.00"
+         y="-478.85461"
+         x="893.02679"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(e)</text>
+    </g>
+    <g
+       class="node"
+       id="node26"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title266">getFileInfoLTEOut.pl</title>
+      <ellipse
+         id="ellipse268"
+         ry="18"
+         rx="88.284401"
+         cy="-294"
+         cx="1069.04"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text270"
+         font-size="14.00"
+         y="-290.29999"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">getFileInfoLTEOut.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge22"
+       transform="matrix(0.57670427,0,0,0.6630699,24.175303,1054.333)">
+      <title
+         id="title273">roamingReconcilation.pl-&gt;getFileInfoLTEOut.pl</title>
+      <path
+         id="path275"
+         d="m 681.614,-805.774 c 9.26908,76.36081 61.39967,301.00011 131.735,414.774 33.55228,54.27392 127.02969,75.89845 182.81969,88.17845"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon277"
+         points="995.171,-303.954 984.664,-302.593 986.109,-309.443 986.109,-309.443 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text279"
+         font-size="14.00"
+         y="-394.79999"
+         x="874.349"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(e)</text>
+    </g>
+    <g
+       class="node"
+       id="node27"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title282">getFileInfoAprm.pl</title>
+      <ellipse
+         id="ellipse284"
+         ry="18"
+         rx="79.885902"
+         cy="-200"
+         cx="1069.04"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text286"
+         font-size="14.00"
+         y="-196.3"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">getFileInfoAprm.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge23"
+       transform="matrix(0.64151925,0,0,0.65784324,-36.149847,1050.5001)">
+      <title
+         id="title289">roamingReconcilation.pl-&gt;getFileInfoAprm.pl</title>
+      <path
+         id="path291"
+         d="m 684.546,-805.682 c 12.05,97.319 58.343,435.248 128.803,513.682 44.161,49.159 116.609,72.071 172.968,82.738"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon293"
+         points="987.062,-212.684 996.285,-207.47 985.824,-205.795 987.062,-212.684 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text295"
+         font-size="14.00"
+         y="-295.79999"
+         x="874.349"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Data Type</text>
+    </g>
+    <g
+       class="node"
+       id="node28"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title298">getFileInfoAprmLTE.pl</title>
+      <ellipse
+         id="ellipse300"
+         ry="18"
+         rx="96.383301"
+         cy="-106"
+         cx="1069.04"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text302"
+         font-size="14.00"
+         y="-102.3"
+         x="1069.04"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">getFileInfoAprmLTE.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge24"
+       transform="matrix(0.65927598,0,0,0.65825573,-55.391572,1050.482)">
+      <title
+         id="title305">roamingReconcilation.pl-&gt;getFileInfoAprmLTE.pl</title>
+      <path
+         id="path307"
+         d="m 683.44,-805.903 c 8.839,107.746 47.396,516.715 129.909,610.903 40.242,45.937 105.56,68.168 159.971,78.924"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon309"
+         points="983.344,-114.198 972.871,-112.599 974.16,-119.479 974.16,-119.479 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text311"
+         font-size="14.00"
+         y="-198.8"
+         x="874.349"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Data Type</text>
+    </g>
+    <g
+       class="node"
+       id="node9"
+       transform="matrix(0.65583224,0,0,0.63225741,20.355664,1038.0865)">
+      <title
+         id="title314">APRM Output</title>
+      <polygon
+         transform="translate(0.58368142,6.04825)"
+         id="polygon316"
+         points="1339.62,-218 1248.62,-218 1248.62,-182 1345.62,-182 1345.62,-212 1339.62,-218 "
+         style="fill:none;stroke:#000000" />
+      <polyline
+         id="polyline318"
+         points="1339.62,-218 1339.62,-212 "
+         style="fill:none;stroke:#000000" />
+      <polyline
+         id="polyline320"
+         points="1345.62,-212 1339.62,-212 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text322"
+         font-size="14.00"
+         y="-191.35144"
+         x="1297.12"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">APRM Output</text>
+    </g>
+    <g
+       class="node"
+       id="node30"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title325">3</title>
+      <circle
+         id="ellipse327"
+         cy="-290"
+         cx="1582.3101"
+         r="0"
+         style="fill:#000000;stroke:#000000" />
+    </g>
+    <g
+       transform="matrix(0.61187978,0,0,0.64953853,-34.933486,925.62486)"
+       class="node"
+       id="node10">
+      <title
+         id="title337">File Summary</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         id="polygon339"
+         points="1524.01,-412 1518.01,-418 1518.01,-418 1429.01,-418 1429.01,-382 1524.01,-382 " />
+      <polyline
+         style="fill:none;stroke:#000000"
+         id="polyline341"
+         points="1518.01,-418 1518.01,-412 " />
+      <polyline
+         style="fill:none;stroke:#000000"
+         id="polyline343"
+         points="1524.01,-412 1518.01,-412 " />
+      <text
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle"
+         id="text345"
+         font-size="14.00"
+         y="-396.29999"
+         x="1476.51">File Summary</text>
+    </g>
+    <g
+       transform="matrix(0.61187978,0,0,0.64953853,-21.500426,954.14425)"
+       class="node"
+       id="node11">
+      <title
+         id="title353">File Reject Summary</title>
+      <polygon
+         style="fill:none;stroke:#000000"
+         id="polygon355"
+         points="1543.51,-288 1543.51,-318 1537.51,-324 1537.51,-324 1409.51,-324 1409.51,-288 " />
+      <polyline
+         style="fill:none;stroke:#000000"
+         id="polyline357"
+         points="1537.51,-324 1537.51,-318 " />
+      <polyline
+         style="fill:none;stroke:#000000"
+         id="polyline359"
+         points="1543.51,-318 1537.51,-318 " />
+      <text
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle"
+         id="text361"
+         font-size="14.00"
+         y="-302.29999"
+         x="1476.51">File Reject Summary</text>
+    </g>
+    <g
+       class="node"
+       id="node13"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title369">listLTE.pl</title>
+      <ellipse
+         id="ellipse371"
+         ry="18"
+         rx="46.592602"
+         cy="-588"
+         cx="385.38699"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text373"
+         font-size="14.00"
+         y="-584.29999"
+         x="385.38699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">listLTE.pl</text>
+    </g>
+    <g
+       class="edge"
+       id="edge13"
+       transform="matrix(0.43623967,0,0,0.68137328,85.196578,1070.5579)">
+      <title
+         id="title376">listLTE.pl-&gt;1</title>
+      <path
+         id="path378"
+         d="m 406.814,-604.192 c 9.533,-8.385 20.434,-19.272 28.073,-30.808 46.528,-70.263 52.179,-180.152 52.744,-195.257"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text380"
+         font-size="14.00"
+         y="-714.79999"
+         x="460.88699"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(e)</text>
+    </g>
+    <g
+       class="node"
+       id="node16"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title392">Report Repository</title>
+      <ellipse
+         id="ellipse394"
+         ry="18"
+         rx="75.286797"
+         cy="-939"
+         cx="1297.12"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text396"
+         font-size="14.00"
+         y="-935.29999"
+         x="1297.12"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Report Repository</text>
+    </g>
+    <g
+       class="edge"
+       id="edge15"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title406">1-&gt;roamingReconcilation.pl</title>
+      <path
+         id="path408"
+         d="m 490.533,-832 c 5.075,0 32.36,0 64.684,0"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon410"
+         points="555.391,-835.5 565.391,-832 555.391,-828.5 555.391,-835.5 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text412"
+         font-size="14.00"
+         y="-835.79999"
+         x="527.987"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">file list</text>
+    </g>
+    <g
+       class="node"
+       id="node18"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title415">Tap File</title>
+      <polygon
+         id="polygon417"
+         points="16,-606 16,-570 78,-570 78,-606 78,-606 75,-610 54,-610 51,-606 "
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text419"
+         font-size="14.00"
+         y="-584.29999"
+         x="47"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">Tap File</text>
+    </g>
+    <g
+       class="node"
+       id="node19"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title422">ARCM</title>
+      <ellipse
+         id="ellipse424"
+         ry="18"
+         rx="37.093498"
+         cy="-588"
+         cx="152.047"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text426"
+         font-size="14.00"
+         y="-584.29999"
+         x="152.047"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">ARCM</text>
+    </g>
+    <g
+       class="edge"
+       id="edge9"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title429">Tap File-&gt;ARCM</title>
+      <path
+         id="path431"
+         d="m 78.0824,-588 c 8.3734,0 17.6663,0 26.7376,0"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon433"
+         points="104.908,-591.5 114.908,-588 104.908,-584.5 104.908,-591.5 "
+         style="fill:#000000;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge11"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title436">ARCM-&gt;listLTE.pl</title>
+      <path
+         id="path438"
+         d="m 188.697,-584.934 c 6.233,-0.326 12.58,-1.23 18.396,-3.066"
+         style="fill:none;stroke:#000000" />
+      <path
+         id="path440"
+         d="m 208.093,-588 c 46.11,-14.557 62.685,-14.557 108.794,0"
+         style="fill:none;stroke:#000000" />
+      <path
+         id="path442"
+         d="m 317.887,-588 c 3.76,1.297 7.713,2.245 11.738,2.915"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon444"
+         points="330.163,-588.547 339.711,-583.955 329.383,-581.59 330.163,-588.547 "
+         style="fill:#000000;stroke:#000000" />
+    </g>
+    <g
+       class="node"
+       id="node20"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title447">APRM</title>
+      <ellipse
+         id="ellipse449"
+         ry="18"
+         rx="36.2938"
+         cy="-665"
+         cx="262.48999"
+         style="fill:none;stroke:#000000" />
+      <text
+         id="text451"
+         font-size="14.00"
+         y="-661.29999"
+         x="262.48999"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">APRM</text>
+    </g>
+    <g
+       class="edge"
+       id="edge10"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title454">ARCM-&gt;APRM</title>
+      <path
+         id="path456"
+         d="m 208.093,-588 c 11.689,-3.69 28.12,-29.719 39.659,-50.507"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon458"
+         points="244.678,-640.181 252.523,-647.302 250.832,-636.843 244.678,-640.181 "
+         style="fill:#000000;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge12"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title461">APRM-&gt;listLTE.pl</title>
+      <path
+         id="path463"
+         d="m 272.458,-647.302 c 11.342,21.391 31.01,55.066 44.429,59.302"
+         style="fill:none;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge27"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title471">getFileInfo.pl-&gt;2</title>
+      <path
+         id="path473"
+         d="m 1121.19,-755.441 c 23.07,6.574 48.47,18.14 63.54,38.441 25.02,33.697 -22.06,175.487 18,188"
+         style="fill:none;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge28"
+       transform="matrix(0.3408419,0,0,0.67487974,315.06628,1053.8498)">
+      <title
+         id="title476">getFileInfoData.pl-&gt;2</title>
+      <path
+         id="path478"
+         d="m 1127.45,-658.588 c 20.9,6.944 42.91,18.015 57.28,35.588 26.93,32.927 -22.6,81.317 18,94"
+         style="fill:none;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge29"
+       transform="matrix(0.61187978,0,0,0.64953853,-0.51136571,1044.1595)">
+      <title
+         id="title481">getFileInfoOutcollects.pl-&gt;2</title>
+      <path
+         id="path483"
+         d="m 1113.09,-559.825 c 25.83,9.472 59.43,21.389 89.64,30.825"
+         style="fill:none;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge32"
+       transform="matrix(0.55659566,0,0,0.68464821,60.862222,1061.6742)">
+      <title
+         id="title486">getFileInfoOutcollectsData.pl-&gt;2</title>
+      <path
+         id="path488"
+         d="m 1110.11,-498.933 c 35.63,-14.602 83.46,-32.927 92.62,-30.067"
+         style="fill:none;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge30"
+       transform="matrix(0.59762576,0,0,0.65004873,15.559142,1043.9864)">
+      <title
+         id="title491">getFileInfoLTE.pl-&gt;2</title>
+      <path
+         id="path493"
+         d="m 1127.45,-399.412 c 20.9,-6.944 42.91,-18.015 57.28,-35.588 26.93,-32.927 -22.6,-106.683 18,-94"
+         style="fill:none;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge25"
+       transform="matrix(1.0631766,0,0,0.71320923,-488.62832,1060.7441)">
+      <title
+         id="title508">getFileInfoAprmLTE.pl-&gt;APRM Output</title>
+      <path
+         id="path510"
+         d="m 1129.44,-120.049 c 19.67,-7.127 40.32,-17.637 55.29,-32.951 15.63,-15.999 -2.2685,-43.25 19.7815,-47"
+         style="fill:none;stroke:#000000" />
+      <path
+         id="path512"
+         d="m 1203.73,-200 c 11.02,-1.874 22.88,-2.727 34.31,-2.978"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         id="polygon514"
+         points="1238.36,-206.48 1248.39,-203.05 1238.41,-199.48 1238.36,-206.48 "
+         style="fill:#000000;stroke:#000000" />
+    </g>
+    <g
+       class="edge"
+       id="edge35"
+       transform="matrix(0.61187978,0,0,0.64953853,-13.011366,1044.5166)">
+      <title
+         id="title533">3-&gt;roamingReconcilation.pl</title>
+      <path
+         id="path535"
+         d="m 1489.4951,-577.97123 c 104.9019,-1.88564 122.2749,418.23773 99.2261,516.200372 C 1566.2196,33.866179 1186.3273,-6.5523687 988.65933,-1.0996818 920.79063,0.77248098 873.42101,-26.246359 811.86234,-72.59449 761.14481,-110.78022 742.29949,-141.30007 723.23895,-193.00994 679.13038,-312.67333 656.19275,-660.74527 649.80648,-795.699"
+         style="fill:none;stroke:#000000" />
+      <polygon
+         transform="translate(-32.686159,0)"
+         id="polygon537"
+         points="680.15,-795.745 680.15,-795.745 682.988,-805.953 687.135,-796.203 "
+         style="fill:#000000;stroke:#000000" />
+      <text
+         id="text539"
+         font-size="14.00"
+         y="-3.8"
+         x="1297.12"
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">file Type information</text>
+      <path
+         id="path17038"
+         d="m 1530.1875,-439.70247 42.3225,0.32209"
+         style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.79311192;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <text
+       transform="scale(0.97057842,1.0303134)"
+       id="text3873"
+       y="375.00803"
+       x="671.23065"
+       style="font-style:normal;font-weight:normal;font-size:10.08753967px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         y="375.00803"
+         x="671.23065"
+         id="tspan3875">ii</tspan></text>
+    <path
+       id="path3885"
+       d="m 652.44399,434.22826 c 33.37105,-6.69813 63.60316,-3.97949 93.20493,0.63022"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.50437671px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow2Lend)" />
+    <path
+       id="path3891"
+       d="m 654.81864,434.85848 c 59.20282,47.17564 72.74127,47.42817 100.08769,55.66821"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.50437671px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#marker4973)" />
+    <path
+       id="path5001"
+       d="m 735.57589,700.54642 c 32.88449,-11.44314 14.01893,-41.34183 98.65345,-34.32941 l 3.54576,-0.0297"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.51164079;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#marker7086)" />
+    <path
+       id="path16964"
+       d="m 735.26052,700.56728 c 56.03137,53.37578 8.15002,52.86255 56.03137,53.37578 47.88135,0.51323 47.88135,0.51323 47.88135,0.51323 l 0,0"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.5061599;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+    <path
+       id="path17040"
+       d="m 702.08737,914.31068 c 20.43577,0.5142 47.89995,4.8615 72.0681,8.92139 l 5.9184,1.29505"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.60267651;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path17042"
+       d="m 707.61413,853.36267 c 30.02719,3.49791 28.03068,-26.362 26.34394,-55.89926 l -1.46355,-98.07778 -2.92711,0"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.49290496;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path17338"
+       d="m 903.21429,915.57649 c 15.52118,0.26716 29.70899,3.20106 41.42857,11.07142 10.33073,8.90588 22.48147,17.03176 20,31.42858 l -0.71429,-4.64286"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

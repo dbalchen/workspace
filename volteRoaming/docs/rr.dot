@@ -1,6 +1,6 @@
 
 digraph BI {
-	graph [splines=true nodesep=0.8 overlap=false decorate=true style=bold concentrate=true];
+	graph [splines=true nodesep=0.8 overlap=false decorate=true style=bold concentrate=true orientation="1L"];
 	rankdir=LR;
 	
 	node [shape=house];"Operational DB";"Recon DB";
@@ -27,12 +27,16 @@ digraph BI {
 	subgraph cluster_2 {
 	 	color="#FFFFFF";
 		1 [shape=point]
-		
+		"Tap File" [shape=folder];
 		
 		"CMDA Voice" ->  "1"[arrowhead="none" label = "(a)"];
 		"CMDA DATA" ->  "1"[arrowhead="none"  label = "(b)"];
 		"CDMA Voice\nOutcollect" -> "1"[arrowhead="none"  label = "(c)"];
 		"CDMA Data\nOutcollect" -> "1"[arrowhead="none"  label = "(d)"];
+		"Tap File" -> "ARCM";
+		"ARCM" -> "APRM"
+		"ARCM" -> "listLTE.pl";
+		"APRM" -> "listLTE.pl";
 		"listLTE.pl"  -> "1"[arrowhead="none"  label = "(e)"] ;
 		"DCH Info" ->  "1"[arrowhead="none" label = "(f)" ];
 		"1"  -> "roamingReconcilation.pl" [label = "file list"] ;		
