@@ -1023,11 +1023,16 @@ subgraph cluster_3 {
       session before you can use it.\\ For example for usage 1 type
       : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
 
-** Production Database Tables
+** SQL Join Reference
+      [[file:Pictures/Sql_Joins.png]]
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+* Database Tables
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
-
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------+-------------+----------------------|
 | *Table Name*              | *Database*  | *Description*        |
@@ -1058,7 +1063,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+** Usage Tables
 *** CM1_AGREEMENT_PARAM
     In the PRDCUST database used for data cap and overage
     protection investigations.
@@ -1741,7 +1746,6 @@ subgraph cluster_3 {
          : select * from ape1_rerate_population 
          :  where cycle_code=2 and cycle_instance=5 
          :   and cycle_year=2014 and activity_source='R3'
-
 
 *** MF1_CIBER_BATCH_SEQ
          The table used to keep the CIBER Outcollect sequences in sync
@@ -3049,13 +3053,6 @@ needs to be in
 | Line_Order       | Number             |                |
 |------------------+--------------------+----------------|
 
-** SQL Join Reference
-      [[file:Pictures/Sql_Joins.png]]
-
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-
 * TOPS Operations
 ** Acquisition and Formating (A&F)
       *A&F* is to the new system what *MAF and RBMS* was to the old.
@@ -3399,6 +3396,149 @@ needs to be in
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+** Accounts Receivable
+      Handles Finance, Payments and credits as well Collections.
+
+*** AR Basics
+    -  *Root Directory* - $ABP\_AR\_ROOT on kpr01batch
+    -  *Collection Interface* -
+       /pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/cl/interfaces
+
+***  AR Jobs and Deamons
+     - AR1JRNLEXT
+       The Journal Extract process extracts to an output file all
+            financial activities that occurred since the last run of
+            this process.
+            -  *LOG FILE* - AR1JRNLEXT.<SYS\_DATE>.log
+            -  *Output File* -
+            -  *Script Name* - ar1\_JrnlExtract\_Sh
+
+      - AR1PYMRCT
+      - AR1DDREQCRE
+      - AR3GWLSTR
+      - AR1PYMPOST
+      - AR1DDFEDBCK
+      - AR1INVRCT
+***  End of Month
+     : [[docs/AR%20EOM.sql][AR End Of Month - SQL]]
+     -  Email List for Revenue Accounting
+     -  Revenue Not confirmed for cycles 24,26 and 28
+     -  Null GeoCodes
+     -  Query for the EOM
+
+*** Payment File
+         Once in a while payment files break due to either bad sequence
+         numbers or format issues. For the most part you should tell
+         Amdocs to put the file in CN status and have *Payment Control*
+         to resend. If the file is also out of sequence have payment
+         control send it with a new sequence number. If the whole file
+         fails, not just records, then have Payment Control send a new
+         file with a new sequence number.
+
+         #+BEGIN_EXAMPLE
+             PaymentControl-ImportPaymentFiles@uscellular.com>
+         #+END_EXAMPLE
+*** AR Reports
+    -  *LockBox*
+       -  /File Location/ :
+          $ABP\_AR\_ROOT/interfaces/input/lockbox/MELL\_PYM.*.csv
+    -  *AGTCASH*
+       -  /File Location/ :
+            $ABP\_AR\_ROOT/interfaces/input/lockbox/ACP\_PYM*.csv
+    -  *IMPCOL*
+       -  /File Location/ :
+            $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPCOL.PAY*.csv
+    -  *IMPEFT*
+        -  /File Location/ :
+               $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPEFT.PAY.*csv
+    -  *IMPPAY*
+        -  /File Location/ :
+               $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPPAY.PAY.*.csv
+    -  *Autopay Reports* \\ Both of these reports are derived after
+            the above files have been processed.
+        -  *Autopay\_PostPaid*
+           - Run both the expected and actual *SQL*
+        -  *Autopay\_PrePaid*
+           -  Run prepaid expected *SQL*
+    -  *ACH extract file* \\Check to see if the output report and
+            *SQL* match.
+        - /File Location/ :
+            $ABP\_AR\_ROOT/interfaces/output/ACH.ar.DD\_OUT*\\
+*** Credit Cards  
+    - AR9\_CC\_AUTH\_LOG
+      Credit card transactions from the *TOPS* side.
+    - CTLOG
+      Database from the microtelecom side.
+
+*** GL Extracts
+         These are created via *APRM*.
+
+    - SAP Extracts
+       -  Business owner (3/15/2013): Sangeeta Khedeker
+       -  Transfer target:
+               svc\_mft\_ops@babble.tds.local:~bosstven/glinty3t
+
+    - General Ledger - Incollect - USCSAPEXTRGL SAPIN
+       -  Job name: USCSAPEXTRGL SAPIN
+       -  Schedule: EOD
+       -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+       -  Transfer Date: 22nd of each month @ 12:00 am
+       -  SLA: 2 days
+       -  File name convention: GLINCY3YYYYMMDDHHMMSS
+       -  File location: ~aprmoper/var/usc/SAPGLEXTR/IN/
+
+    - General Ledger - Outcollect - USCSAPEXTRGL SAPOUT
+      -  Job name: USCSAPEXTRGL SAPOUT
+      -  Schedule: EOD
+      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_OUTCOLGENLEDGER
+      -  Transfer Date: 22nd of each month @ 12:00 am
+      -  SLA: 2 days
+      -  File name convention: GLOUTY3YYYYMMDDHHMMSS
+      -  File location: ~aprmoper/var/usc/SAPGLEXTR/RO/
+
+    - Accrual EOM - Incollect - USCSAPEXTRGL ACCIN
+      -  Job name: USCSAPEXTRGL ACCIN
+      -  Schedule: EOD
+      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  Transfer Date: 1st of each month @ 12:00 am
+      -  SLA: End of day
+      -  File name convention: GLINCY4YYYYMMDDHHMMSS
+      -  File location: ~aprmoper/var/usc/SAPGLEXTR/IN/
+         -  Ex: /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IN/GLINCY420130401005834
+
+    - Accrual EOM - Outcollect - USCSAPEXTRGL ACCOUT
+      -  Job name: USCSAPEXTRGL ACCOUT
+      -  Schedule: EOD
+      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  Transfer Date: 1st of each month @ 12:00 am
+      -  SLA: End of day
+      -  File name convention: GLOUTY4YYYYMMDDHHMMSS
+      -  File location: ~aprmoper/var/usc/SAPGLEXTR/RO/
+         -  Ex:  /inf\_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/RO/GLOUTY420130401005834
+
+    - Intra-Company Roaming - USCSAPEXTRGL SAPIR
+      -  Job name: USCSAPEXTRGL SAPIR
+      -  Schedule: EOD
+      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  Transfer Date: 1st of each month @ 12:00 am
+      -  SLA: End of day
+      -  File name convention: GLINTY3YYYYMMDDHHMMSS
+      -  File location: ~aprmoper/var/usc/SAPGLEXTR/IR/
+         -  Ex:  /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IR/GLINTY320130401005834
+
+*** Operational SQL
+         All of these scripts would be good monitor scripts.
+     :    [[docs/AR%20Operational.sql][AR Operational SQL]]
+
+      -  Checks to see if all payment files have been
+            processed.(*PRDCUST*)
+      -  Gateway Listener (*PRDCUST*)
+      -  More General stuff (*PRDCUST*)
+      -  Query for Batch Payments
+
+    -   APRM Queries
+    :  [[docs/APRM%20Queries][AprmQuery.sql]]
+
 ** TC Oncall Daily Duties
 *** Check the Web Monitors
     -   Batch Tab
@@ -3408,43 +3548,6 @@ needs to be in
         -  Open Remedy against Amdocs - Tier 2 Billing to restart
                the script when any of these scripts are red indicating
                they are down.\\
-
-| *Batch 1 APPS* |
-
-|------------------------------+----+-------|
-| Aged_reject_to_close_prdcust | Up | Jul23 |
-| AnFReport                    | Up | Jul23 |
-| BillingTasks                 | Up | Jul26 |
-| cpni_auto                    | Up | Jul23 |
-| ovpDmiRejectsWA              | Up | Jul26 |
-| ovpMonitorAuto               | Up | Jul24 |
-|------------------------------+----+-------|
-
-| *Batch 2 APPS* |
-
-|---------------------------+----+-------|
-| af_fixer                  | Up | Jul27 |
-| auto_error_handle_PRDUSG1 | Up | Jul27 |
-| auto_error_handle_PRDUSG2 | Up | Jul27 |
-| auto_error_handle_PRDUSG3 | Up | Jul27 |
-| auto_error_handle_PRDUSG4 | Up | Jul27 |
-| large_charge              | Up | Jul27 |
-| Log_Monitoring            | Up | 14:19 |
-| pseudoCron                | Up | Jul27 |
-| pseudoCron1day            | Up | Jul27 |
-|---------------------------+----+-------|
-
-| *Batch 2 Filesystem* |
-
-|----------+--------+--------+-------------+--------|
-| *Folder* | *Size* | *Used* | *Available* | *Used* |
-|----------+--------+--------+-------------+--------|
-| /var     | 1.9G   | 267M   | 1.6G        |    15% |
-| /tmp     | 5.7G   | 1.8G   | 3.6G        |    34% |
-| /af      | 9.4T   | 2.1T   | 7.4T        |    23% |
-| /JP_FS   | 5.9T   | 2.8T   | 3.2T        |    47% |
-|----------+--------+--------+-------------+--------|
-
     -  Event Tab
        -  Open Remedy against Amdocs - Tier 2 Billing to restart
                the scripts when any of the Event1 through Event6 columns
@@ -3585,104 +3688,82 @@ needs to be in
                 from num_of_rerate_tries=3 to 1
             #+END_EXAMPLE
 
-      -  + -
-
-         Check Large Charge monitor.
-
-         -  Go to the MPS mailbox and look for the Large Charge email.
-         -  When the subject line is other than Large Charge Not
+    - Check Large Charge monitor.
+      -  Go to the MPS mailbox and look for the Large Charge email.
+      -  When the subject line is other than Large Charge Not
             Detected - No Action Required open a sev 3 Remedy against
             Amdocs.
-
-            -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
+      -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
                217-766-1979.
-            -  Email applicable teams the ticket number and description.
+      -  Email applicable teams the ticket number and description.
 
             #+BEGIN_EXAMPLE
                 To:  GSSUSCCTier25RA@amdocs.com
                 Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
             #+END_EXAMPLE
 
-         -  
+    - High Dollar Amount Recovery Procedure
+      *IMPORTANT : High Dollar amounts must be reversed on the same day they are created.*
 
-            High Dollar Amount Recovery Procedure
+      1. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com receives an
+         internal alert indicating there is a high dollar amount
+         issue.
+      2. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com calls the USC
+         Billing On-Call Person from the daily Billing Priorities
+         Email as soon as the alert is received.
+      3. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com sends an email to
+         the USCDLISOps-BillingandAROperations@uscellular.com
+         email distribution list within 1 hour of the initial
+          internal alert. This email contains:
+          -  FA/BAR
+          -  transaction_id
+          -  amount (e.g. charges_amount)
+          -  tax_amount
+          -  debit_id
+          -  l9_geo_cod
+          -  operator_id (associate id)
+          -  first_name
+          -  last_name
+          -  e_mail
+          -  employee_no
+          -  work_group
 
-            *IMPORTANT : High Dollar amounts must be reversed on the
-            same day they are created.*
+      4. USC forwards the Amdocs communication email to the
+         following Financial Services email addresses within 1
+         hour of receiving the email communication from Amdocs:
+         -  NFSC-TulsaResolutions@uscellular.com
+         -  NFSCMADFSHelpDesk@uscellular.com
+         -  Lane.Dohl@uscellular.com
 
-            1. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com receives an
-               internal alert indicating there is a high dollar amount
-               issue.
-            2. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com calls the USC
-               Billing On-Call Person from the daily Billing Priorities
-               Email as soon as the alert is received.
-            3. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com sends an email to
-               the USCDLISOps-BillingandAROperations@uscellular.com
-               email distribution list within 1 hour of the initial
-               internal alert. This email contains:
+      5. Financial Services reverses any incorrect transactions
+         and replies to the email distribution list for USC and
+         Amdocs. If the process is successful, no further action
+         is required. If there are any other issues, further
+         escalation is needed using our standard processes. This
+         escalation requires a Sev-3 ticket created and routed to
+         the Amdocs Tier 2 Billing queue.
 
-               -  FA/BAR
-               -  transaction_id
-               -  amount (e.g. charges_amount)
-               -  tax_amount
-               -  debit_id
-               -  l9_geo_cod
-               -  operator_id (associate id)
-               -  first_name
-               -  last_name
-               -  e_mail
-               -  employee_no
-               -  work_group
-
-            4. USC forwards the Amdocs communication email to the
-               following Financial Services email addresses within 1
-               hour of receiving the email communication from Amdocs:
-
-               -  NFSC-TulsaResolutions@uscellular.com
-               -  NFSCMADFSHelpDesk@uscellular.com
-               -  Lane.Dohl@uscellular.com
-
-            5. Financial Services reverses any incorrect transactions
-               and replies to the email distribution list for USC and
-               Amdocs. If the process is successful, no further action
-               is required. If there are any other issues, further
-               escalation is needed using our standard processes. This
-               escalation requires a Sev-3 ticket created and routed to
-               the Amdocs Tier 2 Billing queue.
-
-      -  
-
-         Check out of sequence CIBER records monitor.
-
-         -  Go to the MPS mailbox and look for the out of sequence CIBER
+    -  Check out of sequence CIBER records monitor.
+       -  Go to the MPS mailbox and look for the out of sequence CIBER
             records email.
-         -  When the subject line is other than No out of sequence CIBER
+       -  When the subject line is other than No out of sequence CIBER
             records for <YYYYMMDD> open a sev 4 Remedy against Amdocs.
-
-            -  Email applicable teams the ticket number and description.
+       -  Email applicable teams the ticket number and description.
 
          #+BEGIN_EXAMPLE
              To:  GSSUSCCTier25RA@amdocs.com
              Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
          #+END_EXAMPLE
 
-      -  
-
-         Check Late Usage Processing
-
+    -   Check Late Usage Processing
          Follow the link below to see a query to find late usage for a
          given cycle.
-         [[file:///home/dbalchen/workspace/CommonPlace/docs/LateUsage.sql][Late
-         Usage SQL]]
+         [[file:///home/dbalchen/workspace/CommonPlace/docs/LateUsage.sql][Late Usage SQL]]
 
-      -  
-
-         When Notified Nonfictions.
-
+    -   When Notified Nonfictions.
          -  kpr01ebiap maintenance.
-
-            -  Login to the EBI server with your LAN ID and password.
-            -  Check if AEM and KPI scripts are running.
+         -  Login to the EBI server with your LAN ID and password.
+         -  Check if AEM and KPI scripts are running.
 
          #+BEGIN_EXAMPLE
              [md1dsmi1@kpr01ebiap eps]$ ps -ef | grep perl | grep md1dsmi1 | grep -v grep
@@ -3707,24 +3788,63 @@ needs to be in
              md1dsmi1 2188571       1  0 Jul28 ?        00:00:00 daily_counts MainLoop - next:
          #+END_EXAMPLE
 
-      -  
+    -  Restart AEM and KPI scripts.
+       -  Login to the EBI server with your LAN ID and password.
+       -  cd to /home/common/eps/das
+       -  Run from the command line nohup ./StartAllErrorAndKPI.sh &
 
-         Restart AEM and KPI scripts.
-
-         -  Login to the EBI server with your LAN ID and password.
-         -  cd to /home/common/eps/das
-         -  Run from the command line nohup ./StartAllErrorAndKPI.sh &
-
-      -  
-
-         Restart Business Report scripts.
-
-         -  Login to the EBI server with your LAN ID and password.
-         -  cd to /home/common/eps/reports
-         -  Run from the command line nohup ./StartAllReportCron.sh &
-
+    - Restart Business Report scripts.
+      -  Login to the EBI server with your LAN ID and password.
+      -  cd to /home/common/eps/reports
+      -  Run from the command line nohup ./StartAllReportCron.sh &
          Note all scripts use Dave Smith's LAN ID password and when the
          failure is due to the password being expired please notify him
          immediately and if he is out of the office wait until he
          returns to the office to reset his password and update the
          scripts.
+
+* CallDump
+** Data Directories
+      -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
+      -  */m06/switch/MMS* - Picture Messaging
+      -  */m06/switch/MMSText* - Picture Messaging Text only.
+      -  */m06/switch/sms\_nsn* - SMS Motorola
+      -  */m06/switchb/sms\_alu* - SMS ALU
+      -  */m04/switch/lte* - *(aaa3)* P-Gateway 4G usage
+      -  */m04/switchb/valista* - Premium SMS
+      -  */m05/switch/brew* - Brew and Brew data *(aaa2)*
+      -  */m01/switchb/tas* - Volte
+
+** WEDO (Switch to bill)
+      The *WEDO* process pulls usage files tar's them up and places them
+      into a directory so that *MFT* can pick them up. The operational
+      jobs are as follows:
+
+      1. Job PR-BOD-S2B_TO_WEDO is running this script:
+         /m01/switch/to_wedo.sh
+      2. Job PR-BOD-S2B_CREATE_WEDO_ARCH is running this script:
+         /m01/switch/wedo/create_wedo_archive.sh
+
+* Telephone Numbers
+|-----------------+--------------|
+| *Name*          |       *Cell* |
+|-----------------+--------------|
+| Vanessa         | 608-441-7106 |
+| Alex            | 608-219-7641 |
+| Dexter          | 608-219-5832 |
+| Dr. Smith       | 608-263-7500 |
+| CVS             | 608-836-6630 |
+| Chuck           | 630-710-5201 |
+| Cindy           | 608-516-4539 |
+| Deb             | 312-810-1111 |
+| DC Operations   | 865-777-8771 |
+| Escalate Ticket | 217-766-1979 |
+| Steve           | 608-222-5222 |
+| Ron W           | 651-734-8230 |
+| Paul Volpe      | 773-216-5606 |
+| Aunt Patty      | 256-772-7512 |
+| Help Desk:      | 608-828-5889 |
+| Soly            | 630-285-8386 |
+|-----------------+--------------|
+
+

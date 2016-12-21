@@ -806,8 +806,7 @@ digraph BI {
 \normalsize
 #+END_LaTeX
    - *Table/Field Name: prm_rom_outcol_events*
-   - *Purpose of File/Table:* *APRM
-* OutCollect events table used by TAP services (LTE, GSM and VOLTE).
+   - *Purpose of File/Table:* *APRM* OutCollect events table used by TAP services (LTE, GSM and VOLTE).
    - *Primary Keys and Indices:*  Edr_Id, Generated_Rec, Event_Start_Date_Time.
    - *Estimated Rows and Growth Rate:* None
 #+BEGIN_LaTeX
