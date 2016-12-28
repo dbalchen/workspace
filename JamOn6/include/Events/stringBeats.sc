@@ -3,19 +3,25 @@
 ~string1_firmus = ~cf_clock.deepCopy;
 ~string1_firmus.filter = 1;
 ~string1_firmus.envelope = 1;
-~string1_firmus.freqs = ~string1_firmus.freqs - 12;
+~string1_firmus.waits = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,6.0,2.0,6.0,2.0,4.0,2.0,2.0,4.0,4.0,4.0,2.0,2.0];
+~string1_firmus.freqs = [53,54,53,48,53,51,46,48,51,53,54,53,48,53,51,48,53,48,51];
+~string1_firmus.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+~string1_firmus.durations = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,6.0,2.0,6.0,2.0,4.0,2.0,2.0,4.0,4.0,4.0,2.0,2.0];
 ~string1_firmus.init;
-~string1_firmus.envelope.attack = 1.5;
-~string1_firmus.envelope.decay = 3.8;
-~string1_firmus.envelope.sustain = 0.7;
-~string1_firmus.envelope.release = 0.5;
+~string1_firmus.amp = 9.5;
+~string1_firmus.envelope.attack = 1.0;
+~string1_firmus.envelope.attacks = [6.0,0.5,6.0,0.5,4.0,0.5,0.5,6.0,0.5,6.0,0.5,4.0,0.5,0.5,4.0,4.0,4.0,0.5,0.5]* 0.5;
+~string1_firmus.envelope.decay = 1.0;
+~string1_firmus.envelope.sustain = 0.250;
+~string1_firmus.envelope.release = 0.6;
 ~string1_firmus.envelope.init;
+~string1_firmus.filter.cutoff = 980.00;
+~string1_firmus.filter.gain = 0.70;
+~string1_firmus.filter.attack = 1.25;
+~string1_firmus.filter.aoc = 0.7;
+~string1_firmus.filter.attacks = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+~string1_firmus.filter.release = 0.9;
 ~string1_firmus.filter.init;
-~string1_firmus.filter.cutoff = 2800.00;
-~string1_firmus.filter.gain = 1.5;
-~string1_firmus.filter.attack = 0.25;
-~string1_firmus.filter.release = 1.0;
-
 ~midistring1_firmus = {Pbind(\type, \midi,
 	\midiout, ~synth2,
 	\midicmd, \noteOn,
@@ -26,50 +32,34 @@
 	\dur, Pfunc.new({~string1_firmus.wait.next})
 ).play};
 
+~string1_firmusB = ~string1_firmus.deepCopy;
+~string1_firmusB.filter.cutoff = 8800.00;
+~string1_firmusB.filter.aoc = 0;
+~string1_firmusB.amp = 0.0;
+
+~string1_firmusB.envelope.sustain = 1.0;
 
 ~string2_firmus = ~cf_clock.deepCopy;
 ~string2_firmus.filter = 1;
 ~string2_firmus.envelope = 1;
-~p0 = Prand(([5,2,0,10] + 60),inf).asStream.next;
-~p1 = Prand(([3,0,10,8] + 60),inf).asStream.next;
-~p2 = Prand(([7,4,2.0] + 60),inf).asStream.next;
-~p3 = Prand(([5,2,0,10] + 60),inf).asStream.next;
-~p4 = Prand(([3,0,10,8] + 60),inf).asStream.next;
-~p5 = Prand(([0,9,7,5] + 60),inf).asStream.next;
-
-~string2_firmus.freqs = [~p0,~p1,~p2,~p3,~p4,~p5];
-
-~string2_firmus.freqs = [65,68,72,65,68,63];
-
-~string2_firmus.freqs = [53,51,55,53,51,48];
-~string2_firmus.freqs = [62,60,64,62,60,57];
-~string2_firmus.freqs = [72,70,74,72,70,67];
-~string2_firmus.freqs = [82,80,84,82,80,77] -12;
-/*
-~string2_firmus.freqs =  [ 70, 63, 62, 65, 60, 65 ];
-~string2_firmus.freqs =  [ 62, 63, 67, 70, 68, 65 ];
-~string2_firmus.freqs = [ 65, 63, 64, 65, 63, 60 ];
-
-~string2_firmus.freqs =  [ 65, 70, 67, 65, 63, 67];
-~string2_firmus.freqs = [ 65, 63, 67, 65, 63, 60 ];
-~string2_firmus.freqs = [ 65, 66, 70, 60, 63, 60 ];
-~string2_firmus.freqs = [ 68, 66, 70, 68, 66, 67 ];
-~string2_firmus.freqs = [ 68, 70, 67, 68, 66, 67 ];
-~string2_firmus.freqs = [ 70, 68, 67, 68, 68, 67 ];
-~string2_firmus.freqs = [ 60, 63, 67, 60, 63, 60 ];
-*/
-
+~string2_firmus.waits = [6.0,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0,4.0,2.0,2.0,6.0,1.0,1.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,6.0,2.0]; 
+~string2_firmus.freqs = [65,63,58,60,63,62,60,63,56,58,62,60,65,63,58,60,63,65,67,63,60,63,65,63];
+~string2_firmus.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+~string2_firmus.durations = [6.0,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0,4.0,2.0,2.0,6.0,1.0,1.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,6.0,2.0];
+~string2_firmus.amp = 1.70;
 ~string2_firmus.init;
-~string2_firmus.envelope.attack = 1.5;
-~string2_firmus.envelope.decay = 2.0;
+~string2_firmus.envelope.attack = 0.95;
+~string2_firmus.envelope.attacks = [6.0,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0,4.0,2.0,2.0,6.0,1.0,1.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,6.0,2.0] * 0.50;
+~string2_firmus.envelope.decay = 0.95;
+~string2_firmus.envelope.decays = [6.0,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0,4.0,2.0,2.0,6.0,1.0,1.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,6.0,2.0] * 0.50;
 ~string2_firmus.envelope.sustain = 0.6;
-~string2_firmus.envelope.release = 0.4;
+~string2_firmus.envelope.release = 0.6;
 ~string2_firmus.envelope.init;
 ~string2_firmus.filter.init;
-~string2_firmus.filter.cutoff = 3400.00;
-~string2_firmus.filter.gain = 1.5;
+~string2_firmus.filter.cutoff = 3000.00;
+~string2_firmus.filter.gain = 0.5;
 ~string2_firmus.filter.attack = 0.25;
-~string2_firmus.filter.release = 1.0;
+~string2_firmus.filter.release = 0.65;
 
 ~midistring2_firmus = {Pbind(\type, \midi,
 	\midiout, ~synth2,
@@ -81,21 +71,32 @@
 	\dur, Pfunc.new({~string2_firmus.wait.next})
 ).play};
 
+~string2_firmusB = ~string2_firmus.deepCopy;
+~string2_firmusB.filter.cutoff = 10800.00;
+~string2_firmusB.amp = 0.3;
+~string2_firmusB.envelope.sustain = 1.0;
+
 
 ~string3_firmus = ~cf_clock.deepCopy;
+~string3_firmus.amp = 1.4;
 ~string3_firmus.filter = 1;
 ~string3_firmus.envelope = 1;
+~string3_firmus.waits = [24.0,4.0,2.0,2.0,6.0,2.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,4.0,2.0,1.0,1.0]; 
+~string3_firmus.freqs = [0,70,74,72,69,70,72,75,77,79,75,72,75,72,72,70,72];
+~string3_firmus.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+~string3_firmus.durations = [1.0,4.0,2.0,2.0,6.0,2.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,4.0,2.0,1.0,1.0];
 ~string3_firmus.init;
-~string3_firmus.envelope.attack = 0.75;
+~string3_firmus.envelope.attack = 1.0;
 ~string3_firmus.envelope.decay = 0.75;
-~string3_firmus.envelope.sustain = 0.6;
-~string3_firmus.envelope.release = 0.4;
+~string3_firmus.envelope.release = 0.3;
 ~string3_firmus.envelope.init;
 ~string3_firmus.filter.init;
-~string3_firmus.filter.cutoff = 3800.00;
+~string1_firmus.filter.aoc = 0.5;
+~string3_firmus.filter.cutoff = 6200.00;
 ~string3_firmus.filter.gain = 0.5;
-~string3_firmus.filter.attack = 0.25;
-~string3_firmus.filter.release = 0.650;
+~string3_firmus.filter.attack = 0.025;
+//~string3_firmus.filter.sustain = 1.00;
+~string3_firmus.filter.release = 0.9;
 
 ~midistring3_firmus = {Pbind(\type, \midi,
 	\midiout, ~synth2,
@@ -107,18 +108,8 @@
 	\dur, Pfunc.new({~string3_firmus.wait.next})
 ).play};
 
-
-
-~pad_firmus = ~cf_clock.deepCopy;
-~pad_firmus.freqs = ~pad_firmus.freqs + 12;
-~pad_firmus.init;
-
-~midipad_firmus = {Pbind(\type, \midi,
-	\midiout, ~synth2,
-	\midicmd, \noteOn,
-	\note,  Pfunc.new({~pad_firmus.freq.next}- 60),
-	\amp, ~pad_firmus.amp,
-	\chan, 0,
-	\sustain, Pfunc.new({~pad_firmus.duration.next}),
-	\dur, Pfunc.new({~pad_firmus.wait.next})
-).play};
+~string3_firmusB = ~string3_firmus.deepCopy;
+~string3_firmusB.filter.cutoff = 8800.00;
+~string3_firmusB.amp = 0.25;
+~string3_firmusB.envelope.sustain = 1.0;
+~string3_firmusB.envelope.release = 0.6;

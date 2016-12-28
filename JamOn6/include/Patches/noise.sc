@@ -175,6 +175,8 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~sineAmp.value(0.45, 0.0,((4*4)/2), ((2*4)/2), 1.0);
 
 
+~noise.set(\amp,0);
+
 
 
 
@@ -223,7 +225,7 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~string1_firmus.filter.gui;
 ~string1_firmus.envelope.gui;
 
-~string1_firmus.amp = 1.53;
+~string1_firmus.amp = 9.00;
 ~string2_firmus.amp = 1.35;
 
 ~vca1.set(\amp,0.0);
@@ -455,3 +457,4 @@ t.schedAbs(timeNow + (32*4),{ // 00 = Time in beats
 
 
 );};); // End of t.schedAbs
+

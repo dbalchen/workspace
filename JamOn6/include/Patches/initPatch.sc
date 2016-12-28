@@ -107,9 +107,9 @@
 ~noise.set(\spread,1);
 ~noise.set(\amp,3.25);
 
-~pad_firmusOut = Bus.audio(s,2);
-~pad_firmus.amp = 0.2;
-~pad_firmus.out = ~pad_firmusOut;
+// ~pad_firmusOut = Bus.audio(s,2);
+// ~pad_firmus.amp = 0.2;
+// ~pad_firmus.out = ~pad_firmusOut;
 
 ~string1_firmusOut = Bus.audio(s,2);
 ~string1_firmus.out = ~string1_firmusOut;

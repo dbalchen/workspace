@@ -11,6 +11,54 @@ SynthDef(\cfClock, {arg num = 60,gate = 0;
 	SendReply.kr(trig, '/cfClock', num);
 }).add;
 
+
+SynthDef(\stringMid, {arg num = 60,gate = 0;
+	var env = Env.asr(0,1,0);
+	var trig = EnvGen.kr(env, gate,doneAction:2);
+	SendReply.kr(trig, '/stringMid', num);
+}).add;
+
+OSCdef(\stringMid, { |m|
+
+	var num = m[3].asInteger;
+	~ret10 = ~midiStrings.value(~string2_firmus,num,2);
+	~ret11 = ~eSampler.value(~string2_firmusB,~violinsounds,~violinTemplate,num);
+
+}, '/stringMid');
+
+
+SynthDef(\stringHi, {arg num = 60,gate = 0;
+	var env = Env.asr(0,1,0);
+	var trig = EnvGen.kr(env, gate,doneAction:2);
+	SendReply.kr(trig, '/stringHi', num);
+}).add;
+
+OSCdef(\stringHi, { |m|
+
+	var num = m[3].asInteger;
+	~ret12 = ~mididStrings.value(~string3_firmus,num,3);
+	~ret13 = ~eSampler.value(~string3_firmusB,~violinsounds,~violinTemplate,num);
+
+}, '/stringHi');
+
+
+SynthDef(\stringLow, {arg num = 60,gate = 0;
+	var env = Env.asr(0,1,0);
+	var trig = EnvGen.kr(env, gate,doneAction:2);
+	SendReply.kr(trig, '/stringLow', num);
+}).add;
+
+OSCdef(\stringLow, { |m|
+
+	var num = m[3].asInteger;
+	~ret14.set(\gate,0);
+	~ret14 = ~midicStrings.value(~string1_firmus,num,1);
+	~ret15.set(\gate,0);
+	~ret15 = ~eSampler.value(~string1_firmusB,~cellosounds,~celloTemplate,num);
+
+}, '/stringLow');
+
+
 OSCdef(\cfClock, { |m|
 	m[3].postln;
 	//var num = m[3];
@@ -81,23 +129,40 @@ OSCdef(\mainClock, { |m|
 
 ~channel1 = {arg num, vel = 1;
 	var ret;
-	ret = ~midiStrings.value(~string1_firmus,num,1);
+	ret = ~midicStrings.value(~string1_firmus,num,1);
 	ret;
 };
 
 ~channel2 = {arg num, vel = 1;
 	var ret;
-	ret = ~midiStrings.value(~string2_firmus,num,2);
+
+	ret = Synth(\stringMid);
+	ret.set(\num,num);
+	ret.set(\gate,1);
+	ret;
+};
+
+~channel2off = {arg num, vel = 1;
+	var ret = nil;
+	~ret10.set(\gate,0);
+	~ret11.set(\gate,0);
 	ret;
 };
 
 ~channel3 = {arg num, vel = 1;
 	var ret;
-	ret = ~midiStrings.value(~string3_firmus,num,3);
+	ret = Synth(\stringHi);
+	ret.set(\num,num);
+	ret.set(\gate,1);
 	ret;
 };
 
-
+~channel3off = {arg num, vel = 1;
+	var ret = nil;
+	~ret12.set(\gate,0);
+	~ret13.set(\gate,0);
+	ret;
+};
 
 ~channel9 = {arg num, vel = 1;
 	var ret;
