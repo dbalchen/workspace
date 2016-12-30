@@ -1,0 +1,98 @@
+CREATE CACHED TABLE "FILE_SUMMARY"("FILE_NAME" VARCHAR(255) NOT NULL,"IDENTIFIER" NUMERIC(38) NOT NULL,"FILE_TYPE" VARCHAR(255),"USAGE_TYPE" VARCHAR(255),"SENDER" VARCHAR(255),"RECEIVER" VARCHAR(255),"TOTAL_RECORDS_DCH" NUMERIC(10),"TOTAL_VOLUME_DCH" NUMERIC(10),"TOTAL_CHARGES_DCH" NUMERIC(38,2),"TOTAL_RECORDS" NUMERIC(10),"TOTAL_VOLUME" NUMERIC(38),"TOTAL_CHARGES" NUMERIC(38,2),"DROPPED_RECORDS" NUMERIC(10),"DUPLICATES" NUMERIC(10),"TC_SEND" NUMERIC(10),"DROPPED_TC" NUMERIC(10),"REJECTED_COUNT" NUMERIC(10),"REJECTED_CHARGES" NUMERIC(38,2),"DROPPED_APRM" NUMERIC(10),"DROPPED_APRM_CHARGES" NUMERIC(38,2),"APRM_DIFFERENCE" NUMERIC(10),"APRM_TOTAL_RECORDS" NUMERIC(10),"APRM_TOTAL_CHARGES" NUMERIC(38,2),"PROCESS_DATE" DATE,"FILE_NAME_DCH" VARCHAR(100))
+CREATE CACHED TABLE "APRM"("CARRIER_CODE" VARCHAR(255),"MARKET_CODE" VARCHAR(255),"FILE_TYPE" VARCHAR(255),"BP_START_DATE" DATE NOT NULL,"DATE_PROCESSED" DATE,"CLEARINGHOUSE" VARCHAR(255),"RECORD_COUNT" NUMERIC(38),"TOTAL_VOLUME" NUMERIC(10),"TOTAL_CHARGES" NUMERIC(38,2))
+CREATE CACHED TABLE "REJECTED_RECORDS"("FILE_NAME" VARCHAR(255),"ERROR_CODE" NUMERIC(38),"ERROR_TYPE" VARCHAR(255),"ERROR_DESCRIPTION" VARCHAR(255),"TOTAL_CHARGE" NUMERIC(38,2))
+
+
+INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
+   TOTAL_CHARGES, TC_SEND, SENDER, REJECTED_COUNT, REJECTED_CHARGES, RECEIVER, PROCESS_DATE, IDENTIFIER, FILE_TYPE, FILE_NAME_DCH, FILE_NAME, DUPLICATES, 
+   DROPPED_TC, DROPPED_RECORDS, DROPPED_APRM_CHARGES, DROPPED_APRM, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, APRM_DIFFERENCE) 
+VALUES ( 
+ /* USAGE_TYPE */,
+ /* TOTAL_VOLUME_DCH */,
+ /* TOTAL_VOLUME */,
+ /* TOTAL_RECORDS_DCH */,
+ /* TOTAL_RECORDS */,
+ /* TOTAL_CHARGES_DCH */,
+ /* TOTAL_CHARGES */,
+ /* TC_SEND */,
+ /* SENDER */,
+ /* REJECTED_COUNT */,
+ /* REJECTED_CHARGES */,
+ /* RECEIVER */,
+ /* PROCESS_DATE */,
+ /* IDENTIFIER */,
+ /* FILE_TYPE */,
+ /* FILE_NAME_DCH */
+ /* FILE_NAME */,
+ /* DUPLICATES */,
+ /* DROPPED_TC */,
+ /* DROPPED_RECORDS */,
+ /* DROPPED_APRM_CHARGES */,
+ /* DROPPED_APRM */,
+ /* APRM_TOTAL_RECORDS */,
+ /* APRM_TOTAL_CHARGES */,
+ /* APRM_DIFFERENCE */ 
+);
+
+
+INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+   TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, ERROR_DESCRIPTION, ERROR_CODE) 
+VALUES ( 
+ /* TOTAL_CHARGE */,
+ /* FILE_NAME */,
+ /* ERROR_TYPE */,
+ /* ERROR_DESCRIPTION */,
+ /* ERROR_CODE */ 
+);
+
+
+CDMA Voice Incollect 
+
+File Summary
+
+INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
+   TOTAL_CHARGES, TC_SEND, SENDER, REJECTED_COUNT, REJECTED_CHARGES, RECEIVER, PROCESS_DATE, IDENTIFIER, FILE_TYPE, FILE_NAME_DCH, FILE_NAME, DUPLICATES, 
+   DROPPED_TC, DROPPED_RECORDS, DROPPED_APRM_CHARGES, DROPPED_APRM, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, APRM_DIFFERENCE) 
+VALUES ( 
+ 'CDMA Voice',                                    # /* USAGE_TYPE */,
+ 0,                                               # /* TOTAL_VOLUME_DCH */,
+ $usage,                                          # /* TOTAL_VOLUME */,
+ 0,                                               # /* TOTAL_RECORDS_DCH */,
+ $reportVariable{'IN_REC_QUANTITY'},              # /* TOTAL_RECORDS */,
+ 0,                                               # /* TOTAL_CHARGES_DCH */,
+ $filesum,                                        # /* TOTAL_CHARGES */,
+ $reportVariable{'SenttoTC'},                     # /* TC_SEND */,
+ 'Syniverse',                                     # /* SENDER */,
+ $reportVariable{'Rejected'},                     # /* REJECTED_COUNT */,
+ $rejectSum,                                      # /* REJECTED_CHARGES */,
+ 'USCC',                                          # /* RECEIVER */,
+ '29-DEC-2016',                                   # /* PROCESS_DATE */,
+ $fileId[1],                                      # /* IDENTIFIER */,
+ 'CIBER',                                         # /* FILE_TYPE */,
+ '$fileId[0]',                                    # /* FILE_NAME_DCH */
+ '$fileId[0]',                                    # /* FILE_NAME */,
+ $reportVariable{'Duplicates'},                   # /* DUPLICATES */,
+ $reportVariable{'DupTC'},                        # /* DROPPED_TC */,
+ $reportVariable{'Dropped'},                      # /* DROPPED_RECORDS */,
+ $dropSum,                                        # /* DROPPED_APRM_CHARGES */,
+ $aprmdiff,                                       # /* DROPPED_APRM */,
+ $aprm[1],                                        # /* APRM_TOTAL_RECORDS */,
+ $aprm[2],                                        # /* APRM_TOTAL_CHARGES */,
+ $tcaprDif                                        # /* APRM_DIFFERENCE */ 
+)
+
+
+INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+   TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
+   ERROR_DESCRIPTION, ERROR_CODE) 
+VALUES ( 
+ $rows3[3],     -- /* TOTAL_CHARGE */,
+ '$rows3[0]',   -- /* FILE_NAME */,
+ 'ERROR',       -- /* ERROR_TYPE */,
+ '$rows3[2]',   -- /* ERROR_DESCRIPTION */,
+ $rows3[1]      -- /* ERROR_CODE */ 
+)
+
+
+
+

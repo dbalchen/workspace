@@ -1,4 +1,4 @@
-#+STARTUP: overview
+﻿#+STARTUP: overview
 #+OPTIONS: d:nil
 #+OPTIONS: toc:nil
 #+TAGS: Presentation(p) noexport(n) taskjuggler_project(t) taskjuggler_resource(r) 
@@ -54,7 +54,7 @@
 * Statement of Principals						  
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
-   - /A Powerpoint presentation is like smoking a cigar, only the
+   - /A PowerPoint presentation is like smoking a cigar, only the
      person doing it likes it./
    - /Probability from a point./
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
@@ -71,7 +71,7 @@
       voice record format and since an NTI record contains both the
       /originating and terminating features/ certain call types may
       result in a record being generated.
-   3. *GSM Roaming* - Voice and data recotrds from our customers who are
+   3. *GSM Roaming* - Voice and data records from our customers who are
       roaming in Europe and other *GSM* countries.
    4. *CIBER* - For /InCollect and OutCollect/ processing.\\
 
@@ -339,7 +339,7 @@ subgraph cluster_3 {
 |         |                         | madi, scha etc.) (Data values can include aaa1, vali etc.         |
 |       8 | Start Date              | Start date for this event {YYYYMMDD}                              |
 |       9 | Start Time              | Start Time for this event {HHMMSSss}                              |
-|      10 | Start TimeZone          | Offset in seconds from *GMT*                                      |
+|      10 | Start Time Zone          | Offset in seconds from *GMT*                                      |
 |      11 | Home Sid                | Home Switch ID                                                    |
 |      12 | Serve SID               | Serving Switch ID                                                 |
 |      13 | Originating Cell Trunk  | Initial cell trunk                                                |

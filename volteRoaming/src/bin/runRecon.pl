@@ -15,7 +15,7 @@ my $pid = "ROAMRECON.pid";
 scheduledTask();
 
 my $cron = new Schedule::Cron(\&scheduledTask,processprefix=>"ROAMRECON");
-my $time = "00 7 * * *";
+my $time = "00 11 * * *";
 $cron->add_entry($time);
 $cron->run(detach=>1,pid_file=>"/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/$pid");
 

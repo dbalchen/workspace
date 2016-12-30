@@ -25,7 +25,7 @@ use MIME::Lite;
 $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # Setup Initial variables
-my $max_process = 5;
+my $max_process = 10;
 
 # Setup switch types and their directory location
 my %dirs = {};
@@ -68,7 +68,7 @@ $tab{'NLDLT'} = 'GSM (Incollect)';
 my @switches = split(',', $ARGV[0]);
 
 my $timeStamp =  $ARGV[1];
-#my $timeStamp = '20161116';
+#my $timeStamp = '20161227';
 
 my $excel_file = "RORC_".$timeStamp.'.xls';
 $workbook = Spreadsheet::WriteExcel->new($excel_file);
