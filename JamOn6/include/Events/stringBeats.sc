@@ -42,7 +42,7 @@
 ~string2_firmus = ~cf_clock.deepCopy;
 ~string2_firmus.filter = 1;
 ~string2_firmus.envelope = 1;
-~string2_firmus.waits = [6.0,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0,4.0,2.0,2.0,6.0,1.0,1.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,6.0,2.0]; 
+~string2_firmus.waits = [6.0,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0,4.0,2.0,2.0,6.0,1.0,1.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,6.0,2.0];
 ~string2_firmus.freqs = [65,63,58,60,63,62,60,63,56,58,62,60,65,63,58,60,63,65,67,63,60,63,65,63];
 ~string2_firmus.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 ~string2_firmus.durations = [6.0,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0,4.0,2.0,2.0,6.0,1.0,1.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,6.0,2.0];
@@ -81,7 +81,7 @@
 ~string3_firmus.amp = 1.4;
 ~string3_firmus.filter = 1;
 ~string3_firmus.envelope = 1;
-~string3_firmus.waits = [24.0,4.0,2.0,2.0,6.0,2.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,4.0,2.0,1.0,1.0]; 
+~string3_firmus.waits = [24.0,4.0,2.0,2.0,6.0,2.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,4.0,2.0,1.0,1.0];
 ~string3_firmus.freqs = [0,70,74,72,69,70,72,75,77,79,75,72,75,72,72,70,72];
 ~string3_firmus.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 ~string3_firmus.durations = [1.0,4.0,2.0,2.0,6.0,2.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,4.0,2.0,1.0,1.0];
@@ -110,6 +110,6 @@
 
 ~string3_firmusB = ~string3_firmus.deepCopy;
 ~string3_firmusB.filter.cutoff = 8800.00;
-~string3_firmusB.amp = 0.25;
+~string3_firmusB.amp = 0.15;
 ~string3_firmusB.envelope.sustain = 1.0;
 ~string3_firmusB.envelope.release = 0.6;
