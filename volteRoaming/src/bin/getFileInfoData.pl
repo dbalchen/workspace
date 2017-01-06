@@ -3,17 +3,17 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID024193_T20161113230300.DAT";
+$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID024193_T20161113230300.DAT";
 
-# For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#For test only.....
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my $hh = "cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
 my $ttemp = ""; $ttemp = `$hh`; chomp($ttemp);
@@ -21,9 +21,22 @@ my ($total,$filesum,$usage) = split("\t",$ttemp);
 
 my $filename = (split('/',$ARGV[0]))[-1];
 
+my $dateTime = substr($filename,index($filename,"T2")+1,8);
+
 my $dbconn = getBODSPRD();
 
-my $sql = "select file_name, identifier from ac1_control_hist where file_name like ?";
+my $dbconnb = getSNDPRD();
+
+my $sql = "delete from file_summary where FILE_NAME = '$filename'";
+my $sthb = $dbconnb->prepare($sql);
+$sthb->execute() or sendErr();
+
+$sql = "delete from rejected_records where FILE_NAME = '$filename'";
+$sthb = $dbconnb->prepare($sql);
+$sthb->execute() or sendErr();
+
+
+$sql = "select file_name, identifier from ac1_control_hist where file_name like ?";
 
 my $sth = $dbconn->prepare($sql);
 
@@ -33,14 +46,15 @@ $sth->execute() or sendErr();
 my @fileId = $sth->fetchrow_array();
 
 if ($fileId[1] eq "") {
-  my $reportFile = $filename.'.rpt.csv';
-  open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
-  print RPT $filename."\t"."File still processing\n";
-  close(RPT);
-  $reportFile = $filename.'.err.csv';
-  open( ERR, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
-  print ERR $filename."\t"."File still processing\n";
-  close(ERR);
+  # my $reportFile = $filename.'.rpt.csv';
+  # open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
+  # print RPT $filename."\t"."File still processing\n";
+  # close(RPT);
+  # $reportFile = $filename.'.err.csv';
+  # open( ERR, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
+  # print ERR $filename."\t"."File still processing\n";
+  # close(ERR);
+  $dbconnb->disconnect();
   $dbconn->disconnect();exit(0);
 }
 
@@ -141,8 +155,8 @@ group by  original_event_id, l9_channel, error_id,error_desc";
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-my $errorRpt = $filename.'.err'.'.csv';
-open( ERR, ">$errorRpt" ) || errorExit("Could not open error file.... Fail!!!!");
+#my $errorRpt = $filename.'.err'.'.csv';
+#open( ERR, ">$errorRpt" ) || errorExit("Could not open error file.... Fail!!!!");
 my $rejectSum = 0;
 
 while (my @rows3 = $sth->fetchrow_array() ) {
@@ -150,19 +164,32 @@ while (my @rows3 = $sth->fetchrow_array() ) {
 
   $rows3[2] = (split('<',$rows3[2]))[0];
   
-  print ERR $rows3[0]."\t".$rows3[1]."\t".$rows3[2]."\t".$rows3[3]."\n";
+#  print ERR $rows3[0]."\t".$rows3[1]."\t".$rows3[2]."\t".$rows3[3]."\n";
+  $sql = "
+INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+   TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
+   ERROR_DESCRIPTION, ERROR_CODE) 
+    VALUES ( 
+     $rows3[3],
+    '$rows3[0]',
+    'ERROR',
+    '$rows3[2]',
+     $rows3[1]
+ )";
 
+    $sthb = $dbconnb->prepare($sql);
+  $sthb->execute() or sendErr();
 }
 
-close(ERR);
+#close(ERR);
 
-$sql = "select file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and substr(adu,instr(adu,'SDATACBR_FDATACBR_ID'),46) = '$fileId[1]'";
+$sql = "select dominant_err_cd, file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and substr(adu,instr(adu,'SDATACBR_FDATACBR_ID'),46) = '$fileId[1]'";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-my $aprm_dropRpt = $filename.'.adrop'.'.csv';
-open( DRP, ">$aprm_dropRpt" ) || errorExit("Could not open drop file.... Fail!!!!");
+# my $aprm_dropRpt = $filename.'.adrop'.'.csv';
+# open( DRP, ">$aprm_dropRpt" ) || errorExit("Could not open drop file.... Fail!!!!");
 
 my $aprmdiff = 0;
 my $dropSum = 0;
@@ -170,23 +197,77 @@ while (my @rows4 = $sth->fetchrow_array() ) {
   $dropSum = $drop + $rows4[1];
   $aprmdiff = $aprmdiff + 1;
 
-  print DRP $fileId[0]."\t".$row4[0]."\t".$row4[1]."\n";
-
+#  print DRP $fileId[0]."\t".$rows4[0]."\t".$rows4[1]."\n";
+  $sql = "
+INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+   TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
+   ERROR_DESCRIPTION, ERROR_CODE) 
+    VALUES ( 
+     $rows4[2],
+    '$fileId[0]',
+    'DROP',
+    '$rows4[1]',
+     $rows4[0]
+ )";
+  $sthb = $dbconnb->prepare($sql);
+  $sthb->execute() or sendErr();
 }
 
-close(DRP);
+#close(DRP);
 
-my $reportFile = $filename.'.rpt.csv';
+#my $reportFile = $filename.'.rpt.csv';
 
 my $tcaprDif = ($reportVariable{'SenttoTC'} - ($reportVariable{'Rejected'} + $reportVariable{'DupTC'} + $aprmdiff)) - $aprm[1];
 
-open( RPT, ">$reportFile" ) || errorExit("Could not open report file.... roamRecon Failed!!!!");
+# DCH Variables
 
-print RPT $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$usage."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DupTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprmdiff."\t".$dropSum."\t".$tcaprDif."\t".$aprm[1]."\t".$aprm[2]."\n";
+my $usage_dch = $usage;
+my $total_recs_dch = $reportVariable{'IN_REC_QUANTITY'};
+my $file_sum_dch = $filesum;
+my $file_name_dch =  $fileId[0];
+my $dch_rec_dif = ( $total_recs_dch -  $reportVariable{'IN_REC_QUANTITY'});
+my $dch_sum_dif = ($file_sum_dch - $filesum);
 
+# open( RPT, ">$reportFile" ) || errorExit("Could not open report file.... roamRecon Failed!!!!");
 
-close(RPT);
+# print RPT $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$usage."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DupTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprmdiff."\t".$dropSum."\t".$tcaprDif."\t".$aprm[1]."\t".$aprm[2]."\n";
+# close(RPT);
 
+$sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
+   TOTAL_CHARGES, TC_SEND, SENDER, REJECTED_COUNT, REJECTED_CHARGES, RECEIVER, PROCESS_DATE, IDENTIFIER, FILE_TYPE, FILE_NAME_DCH, FILE_NAME, DUPLICATES, 
+   DROPPED_TC, DROPPED_RECORDS, DROPPED_APRM_CHARGES, DROPPED_APRM, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, APRM_DIFFERENCE) 
+VALUES ( 
+ 'SDATACBR_FDATACBR',
+ $usage_dch,
+ $usage,
+ $total_recs_dch,
+ $reportVariable{'IN_REC_QUANTITY'},
+ $file_sum_dch,
+ $filesum,
+ $reportVariable{'SenttoTC'},
+ 'Syniverse',
+ $reportVariable{'Rejected'},
+ $rejectSum,
+ 'USCC',
+ to_date($dateTime,'YYYYMMDD'),
+ $fileId[1],
+ 'CIBER',
+ '$file_name_dch',
+ '$fileId[0]',
+ $reportVariable{'Duplicates'},
+ $reportVariable{'DupTC'},
+ $reportVariable{'Dropped'},
+ $dropSum,
+ $aprmdiff,
+ $aprm[1],
+ $aprm[2],
+ $tcaprDif
+)";
+
+  $sthb = $dbconnb->prepare($sql);
+  $sthb->execute() or sendErr();
+
+$dbconnb->disconnect();
 $dbconn->disconnect();
 exit(0);
 
@@ -200,3 +281,15 @@ sub getBODSPRD {
   }
   return $dbods;
 }
+
+sub getSNDPRD {
+
+  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+  unless ( defined $dbods ) {
+    sendErr();
+  }
+  return $dbods;
+}
+

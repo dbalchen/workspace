@@ -5,10 +5,8 @@ use DBI;
 #Test parameters remove when going to production.
 $ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001225_T20161110182199.DAT";
 
-
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # For test only....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -29,9 +27,21 @@ $total = $total + $ttot; $filesum = $filesum + $tsum;
 
 my $filename = (split('/',$ARGV[0]))[-1];
 
+my $dateTime = substr($filename,index($filename,"T2")+1,8);
+
 my $dbconn = getBODSPRD();
 
-my $sql =
+my $dbconnb = getSNDPRD();
+
+my $sql = "delete from file_summary where FILE_NAME = '$filename'";
+my $sthb = $dbconnb->prepare($sql);
+$sthb->execute() or sendErr();
+
+$sql = "delete from rejected_records where FILE_NAME = '$filename'";
+$sthb = $dbconnb->prepare($sql);
+$sthb->execute() or sendErr();
+
+$sql =
   "select file_name, identifier from ac1_control_hist where file_name like ?";
 
 my $sth = $dbconn->prepare($sql);
@@ -42,19 +52,18 @@ $sth->execute() or sendErr();
 my @fileId = $sth->fetchrow_array();
 
 if ($fileId[1] eq "") {
-  my $reportFile = $filename.'.rpt.csv';
-  open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
-  print RPT $filename."--"."File still processing\n";
-  close(RPT);
+  # my $reportFile = $filename.'.rpt.csv';
+  # open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
+  # print RPT $filename."--"."File still processing\n";
+  # close(RPT);
 
-  $reportFile = $filename.'.err.csv';
-  open( ERR, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
-  print ERR $filename."--"."File still processing\n";
-  close(ERR);
+  # $reportFile = $filename.'.err.csv';
+  # open( ERR, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
+  # print ERR $filename."--"."File still processing\n";
+    # close(ERR);
+  $dbconnb->disconnect();
   $dbconn->disconnect();exit(0);
 }
-
-
 
 $sql = "select 'IN_REC_QUANTITY',sum(in_rec_quantity) 
     from ac1_control_hist 
@@ -113,7 +122,6 @@ while (my @rows2 = $sth->fetchrow_array() ) {
   if (length($rows2[1]) == 0) {
     $rows2[1] = 0;
   }
-  
   $reportVariable{$rows2[0]} = $rows2[1];
 }
 
@@ -133,8 +141,6 @@ $sth->execute() or sendErr();
 
 my @aprm = $sth->fetchrow_array();
 
-$dbconnb = getSNDPRD();
-
 $sql = "select l9_channel, error_id, error_desc, max(l9_original_air_time_chg_amt)  
          from ape1_rejected_event 
          where original_event_id in (select unique(original_event_id) 
@@ -145,8 +151,9 @@ $sql = "select l9_channel, error_id, error_desc, max(l9_original_air_time_chg_am
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-my $errorRpt = $filename.'.err'.'.csv';
-open( ERR, ">$errorRpt" ) || errorExit("Could not open error file.... Fail!!!!");
+# my $errorRpt = $filename.'.err'.'.csv';
+# open( ERR, ">$errorRpt" ) || errorExit("Could not open error file.... Fail!!!!");
+
 my $rejectSum = 0;
 
 while (my @rows3 = $sth->fetchrow_array() ) {
@@ -154,7 +161,7 @@ while (my @rows3 = $sth->fetchrow_array() ) {
 
   $rows3[2] = (split('<',$rows3[2]))[0];
   
-  print ERR $rows3[0]."\t".$rows3[1]."\t".$rows3[2]."\t".$rows3[3]."\n";
+#  print ERR $rows3[0]."\t".'ERROR'."\t".$rows3[1]."\t".$rows3[2]."\t".$rows3[3]."\n";
 
   $sql = "
 INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
@@ -167,61 +174,88 @@ INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
     '$rows3[2]',
      $rows3[1]
  )";
+
+  $sthb = $dbconnb->prepare($sql);
+  $sthb->execute() or sendErr();
 }
 
-$sql = "select file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and substr(adu,instr(adu,'SDIRI_FCIBER_ID'),46) = '$fileId[1]'";
+$sql = "select dominant_err_cd, file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and substr(adu,instr(adu,'SDIRI_FCIBER_ID'),46) = '$fileId[1]'";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-my $aprm_dropRpt = $filename.'.adrop'.'.csv';
-#open( DRP, ">$aprm_dropRpt" ) || errorExit("Could not open drop file.... Fail!!!!");
 
 my $aprmdiff = 0;
 my $dropSum = 0;
 
 while (my @rows4 = $sth->fetchrow_array() ) {
-  $dropSum = $drop + $rows4[1];
+  $dropSum = $drop + $rows4[2];
   $aprmdiff = $aprmdiff + 1;
 
-  print ERR $fileId[0]."\t".$row4[0]."\t".$row4[1]."\n";
+#  print ERR $fileId[0]."\t".$rows4[0]."\t".'DROP'."\t".$rows4[1]."\t".$rows4[2]."\n";
 
+  $sql = "
+INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+   TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
+   ERROR_DESCRIPTION, ERROR_CODE) 
+    VALUES ( 
+     $rows4[2],
+    '$fileId[0]',
+    'DROP',
+    '$rows4[1]',
+     $rows4[0]
+ )";
+
+  $sthb = $dbconnb->prepare($sql);
+  $sthb->execute() or sendErr();
 }
 
 
-close(ERR);
+#close(ERR);
 
-my $reportFile = $filename.'.rpt.csv';
+#my $reportFile = $filename.'.rpt.csv';
 
-open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... CallDump Failed!!!!");
+#open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... CallDump Failed!!!!");
 
 my $tcaprDif = ($reportVariable{'SenttoTC'} - ($reportVariable{'Rejected'} + $reportVariable{'DupTC'} + $aprmdiff)) - $aprm[1];
 
-print RPT $fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$usage."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DupTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprmdiff."\t".$dropSum."\t".$tcaprDif."\t".$aprm[1]."\t".$aprm[2]."\n";
 
-close(RPT);
+# DCH Variables
+
+my $usage_dch = $usage;
+my $total_recs_dch = $reportVariable{'IN_REC_QUANTITY'};
+my $file_sum_dch = $filesum;
+my $file_name_dch =  $fileId[0];
+my $dch_rec_dif = ( $total_recs_dch -  $reportVariable{'IN_REC_QUANTITY'});
+my $dch_sum_dif = ($file_sum_dch - $filesum);
+
+# print RPT $file_name_dch,"\t",$fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$usage."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DupTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprmdiff."\t".$dropSum."\t".$tcaprDif."\t".$aprm[1]."\t".$aprm[2].$total_recs_dch."\t".$usage_dch."\t".$file_sum_dch."\t".$dch_rec_dif."\t".$dch_sum_dif."\n";
+
+# close(RPT);
+
 $dbconn->disconnect();
+
 
 $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
    TOTAL_CHARGES, TC_SEND, SENDER, REJECTED_COUNT, REJECTED_CHARGES, RECEIVER, PROCESS_DATE, IDENTIFIER, FILE_TYPE, FILE_NAME_DCH, FILE_NAME, DUPLICATES, 
    DROPPED_TC, DROPPED_RECORDS, DROPPED_APRM_CHARGES, DROPPED_APRM, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, APRM_DIFFERENCE) 
 VALUES ( 
- 'CDMA Incollect Voice',
- 0,
+ 'SDIRI_FCIBER',
+ $usage_dch,
  $usage,
- 0,
+ $total_recs_dch,
  $reportVariable{'IN_REC_QUANTITY'},
- 0,
+ $file_sum_dch,
  $filesum,
  $reportVariable{'SenttoTC'},
  'Syniverse',
  $reportVariable{'Rejected'},
  $rejectSum,
  'USCC',
- '29-DEC-2016',
+ to_date($dateTime,'YYYYMMDD'),
  $fileId[1],
  'CIBER',
- '$fileId[0]',
+ '$file_name_dch',
  '$fileId[0]',
  $reportVariable{'Duplicates'},
  $reportVariable{'DupTC'},
