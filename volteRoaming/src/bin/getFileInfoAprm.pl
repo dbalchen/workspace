@@ -37,31 +37,6 @@ while (my @rows = $sth->fetchrow_array() ) {
 
 #  print RPT "$rows[0]\t$rows[1]\t$rows[2]\t$rows[3]\t$rows[4]\t$rows[5]\n";
 
-  $sql = "
-INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
-   USAGE_TYPE, 
-TOTAL_VOLUME, 
-TOTAL_CHARGES, 
-   RECORD_COUNT, 
-MARKET_CODE, 
-FILE_TYPE, 
-   DATE_PROCESSED, 
-CLEARINGHOUSE, 
-CARRIER_CODE, 
-   BP_START_DATE) 
-VALUES ( 
- '$ARGV[0]', 
- $rows[4],  
- $rows[5],
- $rows[3],
- '$rows[1]',
- 'CIBER',
- to_date($ARGV[1],'YYYYMMDD'),
- 'SYNIVERSE',
- '$rows[0]',
- '$rows[2]'
-)";
-
 
 #  DCH #
 
@@ -71,11 +46,21 @@ VALUES (
 
   $sql = "
   INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
-   USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, 
-   TOTAL_CHARGES_DCH, TOTAL_CHARGES, SERVE_BID, 
-   RECORD_COUNT_DCH, RECORD_COUNT, MARKET_CODE, 
-   FILE_TYPE, DATE_PROCESSED, CLEARINGHOUSE, 
-   CARRIER_CODE, BP_START_DATE) 
+   USAGE_TYPE, 
+   TOTAL_VOLUME_DCH, 
+   TOTAL_VOLUME, 
+   TOTAL_CHARGES_DCH, 
+   TOTAL_CHARGES, 
+   SERVE_BID, 
+   RECORD_COUNT_DCH, 
+   RECORD_COUNT, 
+   MARKET_CODE, 
+   FILE_TYPE, 
+   DATE_PROCESSED, 
+   CLEARINGHOUSE, 
+   CARRIER_CODE, 
+   BP_START_DATE
+) 
 VALUES ( 
   '$ARGV[0]',
    $total_volume_dch,

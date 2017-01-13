@@ -45,7 +45,7 @@ while (my @rows = $sth->fetchrow_array() ) {
     
   print '"'."$rows[0],$rows[2],$rows[1],$rows[3],$rows[4],$rows2[0],$rows2[1],$ARGV[0]".'"'."\n";
 }
-
+q
 $dbconn->disconnect();
 
 exit(0);
