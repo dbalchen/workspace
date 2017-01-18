@@ -129,7 +129,17 @@ OSCdef(\mainClock, { |m|
 
 ~channel1 = {arg num, vel = 1;
 	var ret;
-	ret = ~midicStrings.value(~string1_firmus,num,1);
+//	ret = ~midicStrings.value(~string1_firmus,num,1);
+	ret = Synth(\stringLow);
+	ret.set(\num,num);
+	ret.set(\gate,1);
+	ret;
+};
+
+~channel1off = {arg num, vel = 1;
+	var ret = nil;
+	~ret14.set(\gate,0);
+	~ret15.set(\gate,0);
 	ret;
 };
 

@@ -175,7 +175,7 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~sineAmp.value(0.45, 0.0,((4*4)/2), ((2*4)/2), 1.0);
 
 
-~noise.set(\amp,0);
+
 
 
 
