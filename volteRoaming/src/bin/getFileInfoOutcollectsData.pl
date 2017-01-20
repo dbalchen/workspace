@@ -3,46 +3,43 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "20170112";
+#$ARGV[0] = "20170112";
 
 # For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-
-my $dbconn = getBRMPRD();
+my $dbconn  = getBRMPRD();
 my $dbconnb = getSNDPRD();
 
-my $sql = "delete from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date($ARGV[0],'YYYYMMDD')";
+my $sql =
+"delete from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date($ARGV[0],'YYYYMMDD')";
 
 my $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
-$sql = "delete from aprm where usage_type = 'DATA_CIBER' and date_processed = to_date($ARGV[0],'YYYYMMDD')";
+$sql =
+"delete from aprm where usage_type = 'DATA_CIBER' and date_processed = to_date($ARGV[0],'YYYYMMDD')";
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
-$sql = "select count(*), t2.clearinghouse, sum(t1.amount) as REVENUE, sum(message_accounting_digits) as DATA_VOLUME 
+$sql =
+"select count(*), t2.clearinghouse, sum(t1.amount) as REVENUE, sum(message_accounting_digits) as DATA_VOLUME 
          from data_outcollect t1, roaming_partner t2 where TRIM(REGEXP_REPLACE(t1.PARTNER,',')) = TRIM(REGEXP_REPLACE(t2.PARTNER,',')) 
          and t1.process_date = to_date($ARGV[0],'YYYYMMDD') group by t2.clearinghouse";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-# my $filename = 'DATA_CIBER_'.$ARGV[0];
-# my $reportFile = $filename.'.rpt.csv';
-#open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... OutCollect!!!!");
+while ( my @rows = $sth->fetchrow_array() ) {
 
-while (my @rows = $sth->fetchrow_array() ) {
+	my $total_volume_dch  = $rows[3];
+	my $total_records_dch = $rows[0];
+	my $total_charges_dch = $rows[2];
 
-  my $total_volume_dch = $rows[3];
-  my $total_records_dch =  $rows[0];
-  my $total_charges_dch = $rows[2];
-  
-#  print RPT $rows[1]."\t".$rows[0]."\t".$rows[2]."\t".$rows[3]."\n";
-$sql = "
+	$sql = "
 INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
 USAGE_TYPE, 
 TOTAL_VOLUME_DCH, 
@@ -98,30 +95,24 @@ VALUES (
  0
 )";
 
-  $sthb = $dbconnb->prepare($sql);
-  $sthb->execute() or sendErr();
+	$sthb = $dbconnb->prepare($sql);
+	$sthb->execute() or sendErr();
 }
-#close(RPT);
 
-
-$sql = "select TRIM(REGEXP_REPLACE(t1.PARTNER,',')) as PARTNER, ADD_MONTHS(t1.settlement_date+1,-1),t2.clearinghouse, sum(t1.amount) as REVENUE, sum(message_accounting_digits) as DATA_VOLUME, count(*) 
+$sql =
+"select TRIM(REGEXP_REPLACE(t1.PARTNER,',')) as PARTNER, ADD_MONTHS(t1.settlement_date+1,-1),t2.clearinghouse, sum(t1.amount) as REVENUE, sum(message_accounting_digits) as DATA_VOLUME, count(*) 
          from data_outcollect t1, roaming_partner t2 where TRIM(REGEXP_REPLACE(t1.PARTNER,',')) = TRIM(REGEXP_REPLACE(t2.PARTNER,',')) 
          and t1.process_date = to_date('$ARGV[0]','YYYYMMDD') group by TRIM(REGEXP_REPLACE(t1.PARTNER,',')),t2.clearinghouse, t1.settlement_date order by 1,2";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-# my $reportFile = $filename.'.partner.csv';
-# open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... OutCollect!!!!");
+while ( my @rows = $sth->fetchrow_array() ) {
+	my $total_volume_dch  = $rows[4];
+	my $total_charges_dch = $rows[3];
+	my $record_count_dch  = $rows[5];
 
-while (my @rows = $sth->fetchrow_array() ) {
-  
-#  print RPT $rows[0]."\t".$rows[1]."\t".$rows[2]."\t".$rows[3]."\t".$rows[4]."\n";
-  my $total_volume_dch = $rows[4];
-  my $total_charges_dch = $rows[3];
-  my $record_count_dch = $rows[5];
-
-  $sql = "
+	$sql = "
   INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
    USAGE_TYPE, 
    TOTAL_VOLUME_DCH, 
@@ -155,36 +146,33 @@ VALUES (
   '$rows[1]'
 )";
 
-  $sthb = $dbconnb->prepare($sql);
-  $sthb->execute() or sendErr();
+	$sthb = $dbconnb->prepare($sql);
+	$sthb->execute() or sendErr();
 }
-
-#close(RPT);
 
 $dbconnb->disconnect();
 $dbconn->disconnect();
-
 
 exit(0);
 
 sub getBRMPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooG00900#" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooG00900#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }
 
 sub getSNDPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }

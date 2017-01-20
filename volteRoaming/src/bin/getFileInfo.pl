@@ -3,41 +3,48 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001225_T20161110182199.DAT";
+# $ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001225_T20161110182199.DAT";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# my $ORACLE_SID  = "bodsprd";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-my $hh = "cat $ARGV[0] | grep '^22' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
-my $ttemp = ""; $ttemp = `$hh`; chomp($ttemp);
-my ($total,$filesum,$usage) = split("\t",$ttemp);
+my $hh =
+"cat $ARGV[0] | grep '^22' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
+my $ttemp = "";
+$ttemp = `$hh`;
+chomp($ttemp);
+my ( $total, $filesum, $usage ) = split( "\t", $ttemp );
 
-$hh = "cat $ARGV[0] | grep '^52' | sort -u | cut -b 72-81 | $ENV{'REC_HOME'}/addMultiUp.pl";
-$ttemp = ""; $ttemp = `$hh`; chomp($ttemp);
-my($ttot,$tsum) = split("\t",$ttemp);
+$hh =
+"cat $ARGV[0] | grep '^52' | sort -u | cut -b 72-81 | $ENV{'REC_HOME'}/addMultiUp.pl";
+$ttemp = "";
+$ttemp = `$hh`;
+chomp($ttemp);
+my ( $ttot, $tsum ) = split( "\t", $ttemp );
 
-$total = $total + $ttot; $filesum = $filesum + $tsum;
+$total   = $total + $ttot;
+$filesum = $filesum + $tsum;
 
-my $filename = (split('/',$ARGV[0]))[-1];
+my $filename = ( split( '/', $ARGV[0] ) )[-1];
 
-my $dateTime = substr($filename,index($filename,"T2")+1,8);
+my $dateTime = substr( $filename, index( $filename, "T2" ) + 1, 8 );
 
 my $dbconn = getBODSPRD();
 
 my $dbconnb = getSNDPRD();
 
-my $sql = "delete from file_summary where FILE_NAME = '$filename'";
+my $sql  = "delete from file_summary where FILE_NAME = '$filename'";
 my $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
-$sql = "delete from rejected_records where FILE_NAME = '$filename'";
+$sql  = "delete from rejected_records where FILE_NAME = '$filename'";
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
@@ -51,18 +58,15 @@ $sth->execute() or sendErr();
 
 my @fileId = $sth->fetchrow_array();
 
-if ($fileId[1] eq "") {
-  # my $reportFile = $filename.'.rpt.csv';
-  # open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
-  # print RPT $filename."--"."File still processing\n";
-  # close(RPT);
-
-  # $reportFile = $filename.'.err.csv';
-  # open( ERR, ">$reportFile" ) || errorExit("Could not open log file.... Recon Failed!!!!");
-  # print ERR $filename."--"."File still processing\n";
-    # close(ERR);
-  $dbconnb->disconnect();
-  $dbconn->disconnect();exit(0);
+if ( $fileId[1] eq "" ) {
+	my $reportFile = $filename . '.rpt.csv';
+	open( RPT, ">$reportFile" )
+	  || errorExit("Could not open log file.... Recon Failed!!!!");
+	print RPT $filename . "--" . "File still processing\n";
+	close(RPT);
+	$dbconnb->disconnect();
+	$dbconn->disconnect();
+	exit(0);
 }
 
 $sql = "select 'IN_REC_QUANTITY',sum(in_rec_quantity) 
@@ -115,22 +119,23 @@ $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
 my %reportVariable = {};
-while (my @rows2 = $sth->fetchrow_array() ) {
+while ( my @rows2 = $sth->fetchrow_array() ) {
 
-  $rows2[1] =~ s/\s+//g;
+	$rows2[1] =~ s/\s+//g;
 
-  if (length($rows2[1]) == 0) {
-    $rows2[1] = 0;
-  }
-  $reportVariable{$rows2[0]} = $rows2[1];
+	if ( length( $rows2[1] ) == 0 ) {
+		$rows2[1] = 0;
+	}
+	$reportVariable{ $rows2[0] } = $rows2[1];
 }
 
-
-if ($reportVariable{'IN_REC_QUANTITY'} == 0) {
-  $dbconn->disconnect();exit(0);
+if ( $reportVariable{'IN_REC_QUANTITY'} == 0 ) {
+	$dbconn->disconnect();
+	exit(0);
 }
 
-$sql = "select /*+ PARALLEL(t1,12) */ 'APRM_SUCCESS', count(*), cast(sum(TOTAL_CHRG_AMOUNT) as decimal (18,2))
+$sql =
+"select /*+ PARALLEL(t1,12) */ 'APRM_SUCCESS', count(*), cast(sum(TOTAL_CHRG_AMOUNT) as decimal (18,2))
          from usc_roam_evnts t1
           where prod_id = 2 and event_id <> 2
          and 
@@ -141,7 +146,8 @@ $sth->execute() or sendErr();
 
 my @aprm = $sth->fetchrow_array();
 
-$sql = "select l9_channel, error_id, error_desc, max(l9_original_air_time_chg_amt)  
+$sql =
+  "select l9_channel, error_id, error_desc, max(l9_original_air_time_chg_amt)  
          from ape1_rejected_event 
          where original_event_id in (select unique(original_event_id) 
         from ape1_rejected_event 
@@ -151,50 +157,44 @@ $sql = "select l9_channel, error_id, error_desc, max(l9_original_air_time_chg_am
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-# my $errorRpt = $filename.'.err'.'.csv';
-# open( ERR, ">$errorRpt" ) || errorExit("Could not open error file.... Fail!!!!");
-
 my $rejectSum = 0;
 
-while (my @rows3 = $sth->fetchrow_array() ) {
-  $rejectSum = $rejectSum + $rows3[3];
+while ( my @rows3 = $sth->fetchrow_array() ) {
+	$rejectSum = $rejectSum + $rows3[3];
 
-  $rows3[2] = (split('<',$rows3[2]))[0];
-  
-#  print ERR $rows3[0]."\t".'ERROR'."\t".$rows3[1]."\t".$rows3[2]."\t".$rows3[3]."\n";
+	$rows3[2] = ( split( '<', $rows3[2] ) )[0];
 
-  $sql = "
+	$sql = "
 INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
    ERROR_DESCRIPTION, ERROR_CODE) 
     VALUES ( 
      $rows3[3],
     '$rows3[0]',
-    'ERROR',
+    'REJECTED',
     '$rows3[2]',
-     $rows3[1]
+     '$rows3[1]'
  )";
 
-  $sthb = $dbconnb->prepare($sql);
-  $sthb->execute() or sendErr();
+	$sthb = $dbconnb->prepare($sql);
+	$sthb->execute() or sendErr();
 }
 
-$sql = "select dominant_err_cd, file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and substr(adu,instr(adu,'SDIRI_FCIBER_ID'),46) = '$fileId[1]'";
+$sql =
+"select dominant_err_cd, file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and adu like '".'%'.$fileId[1].'%'."'";
+
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-
 my $aprmdiff = 0;
-my $dropSum = 0;
+my $dropSum  = 0;
 
-while (my @rows4 = $sth->fetchrow_array() ) {
-  $dropSum = $drop + $rows4[2];
-  $aprmdiff = $aprmdiff + 1;
+while ( my @rows4 = $sth->fetchrow_array() ) {
+	$dropSum  = $drop + $rows4[2];
+	$aprmdiff = $aprmdiff + 1;
 
-#  print ERR $fileId[0]."\t".$rows4[0]."\t".'DROP'."\t".$rows4[1]."\t".$rows4[2]."\n";
-
-  $sql = "
+	$sql = "
 INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
    ERROR_DESCRIPTION, ERROR_CODE) 
@@ -203,40 +203,31 @@ INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
     '$fileId[0]',
     'DROP',
     '$rows4[1]',
-     $rows4[0]
+     '$rows4[0]'
  )";
 
-  $sthb = $dbconnb->prepare($sql);
-  $sthb->execute() or sendErr();
+	$sthb = $dbconnb->prepare($sql);
+	$sthb->execute() or sendErr();
 }
 
-
-#close(ERR);
-
-#my $reportFile = $filename.'.rpt.csv';
-
-#open( RPT, ">$reportFile" ) || errorExit("Could not open log file.... CallDump Failed!!!!");
-
-my $tcaprDif = ($reportVariable{'SenttoTC'} - ($reportVariable{'Rejected'} + $reportVariable{'DupTC'} + $aprmdiff)) - $aprm[1];
-
+my $tcaprDif =
+  ( $reportVariable{'SenttoTC'} -
+	  ( $reportVariable{'Rejected'} + $reportVariable{'DupTC'} + $aprmdiff ) )
+  - $aprm[1];
 
 # DCH Variables
 
-my $usage_dch = $usage;
+my $usage_dch      = $usage;
 my $total_recs_dch = $reportVariable{'IN_REC_QUANTITY'};
-my $file_sum_dch = $filesum;
-my $file_name_dch =  $fileId[0];
-my $dch_rec_dif = ( $total_recs_dch -  $reportVariable{'IN_REC_QUANTITY'});
-my $dch_sum_dif = ($file_sum_dch - $filesum);
-
-# print RPT $file_name_dch,"\t",$fileId[0]."\t".$fileId[1]."\t".$reportVariable{'IN_REC_QUANTITY'}."\t".$usage."\t".$filesum."\t".$reportVariable{'Dropped'}."\t".$reportVariable{'Duplicates'}."\t".$reportVariable{'SenttoTC'}."\t".$reportVariable{'DupTC'}."\t".$reportVariable{'Rejected'}."\t".$rejectSum."\t".$aprmdiff."\t".$dropSum."\t".$tcaprDif."\t".$aprm[1]."\t".$aprm[2].$total_recs_dch."\t".$usage_dch."\t".$file_sum_dch."\t".$dch_rec_dif."\t".$dch_sum_dif."\n";
-
-# close(RPT);
+my $file_sum_dch   = $filesum;
+my $file_name_dch  = $fileId[0];
+my $dch_rec_dif    = ( $total_recs_dch - $reportVariable{'IN_REC_QUANTITY'} );
+my $dch_sum_dif    = ( $file_sum_dch - $filesum );
 
 $dbconn->disconnect();
 
-
-$sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
+$sql =
+"INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
    TOTAL_CHARGES, TC_SEND, SENDER, REJECTED_COUNT, REJECTED_CHARGES, RECEIVER, PROCESS_DATE, IDENTIFIER, FILE_TYPE, FILE_NAME_DCH, FILE_NAME, DUPLICATES, 
    DROPPED_TC, DROPPED_RECORDS, DROPPED_APRM_CHARGES, DROPPED_APRM, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, APRM_DIFFERENCE) 
 VALUES ( 
@@ -270,30 +261,28 @@ VALUES (
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
-
 $dbconnb->disconnect();
 
 exit(0);
 
 sub getBODSPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }
-
 
 sub getSNDPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }
