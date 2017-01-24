@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000064260_20161026_023328.ASC.done";
+#$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000076022_20170122_235420.ASC.done";
 
 # For test only.....
 # my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -13,25 +13,27 @@ use DBI;
 
 my $hh = "wc -l < $ARGV[0]";
 
-my $totalRecs = `$hh`;
-chomp($totalRecs);
-my $filename = ( split( '/', $ARGV[0] ) )[-1];
+my $totalRecs = `$hh`;chomp($totalRecs);
+my $filename = (split('/',$ARGV[0]))[-1];
 
-my $disp_file_seq = ( split( '_', $filename ) )[2];
+my $disp_file_seq = (split('_',$filename))[2];
 
 $disp_file_seq =~ s/^0+//g;
 
-my $process_date = ( split( '_', $filename ) )[3];
+my $process_date = (split('_',$filename))[3];
 
-my $dbconn  = getBODSPRD();
+my $dbconn = getBODSPRD();
 my $dbconnb = getSNDPRD();
 
-my $sql  = "delete from file_summary where IDENTIFIER = $disp_file_seq";
+my $sql = "delete from file_summary where IDENTIFIER = $disp_file_seq";
 my $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
-my $file_name_dch     = $filename;
+my $file_name_dch = $filename;
 my $total_records_dch = $totalRecs;
+
+
+#print("File Name = $filename\n");
 
 $sql = "
 INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
@@ -91,20 +93,22 @@ VALUES (
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
-$sql =
-"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_incoming),sum(TOT_NET_CHARGE_RC), carrier_cd  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME, carrier_cd";
+$sql = "select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_incoming),sum(TOT_NET_CHARGE_RC), carrier_cd  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME, carrier_cd";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-while ( my @rows = $sth->fetchrow_array() ) {
+while (my @rows = $sth->fetchrow_array() ) {
 
-	my $file_name_dch     = $rows[0];
-	my $total_volume_dch  = $rows[2];
-	my $total_charges_dch = $rows[3];
-	my $total_records_dch = $rows[1];
+if(!$rows[0])
+{$rows[0] = ' UNDEFIND';}
+  my $file_name_dch = $rows[0];
+  my $total_volume_dch = $rows[2];
+  my $total_charges_dch = $rows[3];
+  my $total_records_dch =  $rows[1];
 
-	$sql = "
+    
+  $sql = "
 INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
 USAGE_TYPE, 
 TOTAL_VOLUME_DCH, 
@@ -160,8 +164,8 @@ VALUES (
  0
 )";
 
-	$sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
+  $sthb = $dbconnb->prepare($sql);
+  $sthb->execute() or sendErr();  
 }
 
 $dbconnb->disconnect();
@@ -169,25 +173,27 @@ $dbconn->disconnect();
 
 exit(0);
 
+
 sub getBODSPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
-	unless ( defined $dbods ) {
-		sendErr();
-	}
-	return $dbods;
+  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
+  unless ( defined $dbods ) {
+    sendErr();
+  }
+  return $dbods;
 }
+
 
 sub getSNDPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
-	unless ( defined $dbods ) {
-		sendErr();
-	}
-	return $dbods;
+  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+  unless ( defined $dbods ) {
+    sendErr();
+  }
+  return $dbods;
 }
 

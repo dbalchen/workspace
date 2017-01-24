@@ -181,7 +181,7 @@ INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
 }
 
 $sql =
-"select dominant_err_cd, file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and adu like '".'%'.$fileId[1].'%'."'";
+"select dominant_err_cd, file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and adu like '".'%'.$fileId[0].'%'."'";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();

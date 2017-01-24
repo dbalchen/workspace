@@ -11,11 +11,12 @@ use DBI;
 #$ENV{ORACLE_SID}  = $ORACLE_SID;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-my $gsm = " and t1.file_name not like '" . '%NLDLT%' . "' ";
+my $gsm = " and t1.file_name not like '".'%NLDLT%'."' ";
 
-if ( $ARGV[1] eq "NLDLT" ) {
-	$gsm = " and t1.file_name like '" . '%NLDLT%' . "' ";
-}
+if ($ARGV[1] eq "NLDLT")
+  {
+    $gsm = " and t1.file_name like '".'%NLDLT%'."' ";
+  }
 
 my $dbconn = getBRMPRD();
 
@@ -31,21 +32,18 @@ my $sql = "select t1.file_name,
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
-while ( my @rows = $sth->fetchrow_array() ) {
+while (my @rows = $sth->fetchrow_array() ) {
 
-	$sql =
-"select count(S_402),sum(S_402) from em1_record where record_status <> 55 and stream_name = 'INC' and S_444 = '$rows[0]'";
-	my $sth2 = $dbconn->prepare($sql);
-	$sth2->execute() or sendErr();
-	my @rows2 = $sth2->fetchrow_array();
+  $sql = "select count(S_402),sum(S_402) from em1_record where record_status <> 55 and stream_name = 'INC' and S_444 = '$rows[0]'";
+  my  $sth2 = $dbconn->prepare($sql);
+  $sth2->execute() or sendErr();   
+  my @rows2 = $sth2->fetchrow_array();
 
-	if ( $rows2[1] eq "" ) {
-		$rows2[1] = 0;
-	}
-
-	print '"'
-	  . "$rows[0],$rows[2],$rows[1],$rows[3],$rows[4],$rows2[0],$rows2[1],$ARGV[0]"
-	  . '"' . "\n";
+  if ($rows2[1] eq "") {
+    $rows2[1] = 0;
+  }
+    
+  print '"'."$rows[0],$rows[2],$rows[1],$rows[3],$rows[4],$rows2[0],$rows2[1],$ARGV[0]".'"'."\n";
 }
 $dbconn->disconnect();
 
@@ -53,12 +51,12 @@ exit(0);
 
 sub getBRMPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "BooG00900#" );
-	unless ( defined $dbods ) {
-		sendErr();
-	}
-	return $dbods;
+  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+  my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "BooG00900#" );
+  unless ( defined $dbods ) {
+    sendErr();
+  }
+  return $dbods;
 }
 
