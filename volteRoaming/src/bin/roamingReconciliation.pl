@@ -20,7 +20,7 @@ use MIME::Lite;
 
 #Test parameters remove when going to production.
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
-#,LTE,DISP_RM,NLDLT";
+
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR";
 #$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
@@ -36,7 +36,7 @@ $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 # Setup Initial variables
 my $max_process = 10;
 my $timeStamp =  $ARGV[1];
-#my $timeStamp = '20170115';
+#my $timeStamp = '20170125';
 
 # Setup switch types and their directory location
 my %dirs = {};
@@ -103,7 +103,7 @@ $sqls{'DATA_CIBER'} = "select  RECEIVER, TOTAL_RECORDS, TOTAL_CHARGES, TOTAL_VOL
 
 $sqls{'LTE'} = "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS,TOTAL_VOLUME,ceil(TOTAL_VOLUME/1040),ceil((TOTAL_VOLUME/1040)/1040), TOTAL_CHARGES, REJECTED_COUNT, REJECTED_CHARGES, (TOTAL_RECORDS-APRM_TOTAL_RECORDS), DROPPED_APRM, DROPPED_APRM_CHARGES,APRM_TOTAL_RECORDS,APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, ceil(TOTAL_VOLUME_DCH/1040),ceil((TOTAL_VOLUME_DCH/1040)/1040),TOTAL_CHARGES_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH) from file_summary where usage_type like 'LTE%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'NLDLT'} = "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS, TOTAL_CHARGES, TOTAL_VOLUME,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES,
+$sqls{'NLDLT'} = "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_VOLUME,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES,
 APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, TOTAL_CHARGES_DCH, (TOTAL_RECORDS - TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH)
     from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
@@ -222,6 +222,14 @@ foreach my $switch (@switches) {
       $heading = ['Company Code','BP Start Date','Record Count','Total Bytes','Total KB','Total MB','Total Charges ($)','Record Count DCH','Total Bytes DCH','Total KB DCH','Total MB DCH','Total Charges DCH ($)'];
       $rejectTab = $tab{$switch}." APRM";
       createExcel($sql,$heading,$rejectTab,$switch);
+    } elsif ($switch eq 'CIBER_CIBER') {
+
+      my $sql = "select CARRIER_CODE,MARKET_CODE, BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES),sum(RECORD_COUNT_DCH),sum(TOTAL_VOLUME_DCH),sum(TOTAL_CHARGES_DCH)
+       from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,MARKET_CODE, BP_START_DATE order by CARRIER_CODE";
+
+      $heading = ['Company Code','Market Code','BP Start Date','Record Count','Total Minutes','Total Charges ($)','Record Count DCH','Total Minutes DCH','Total Charges DCH ($)'];
+      $rejectTab = $tab{$switch}." APRM";
+      createExcel($sql,$heading,$rejectTab,$switch);
     } else {
       my $sql = "select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES),sum(RECORD_COUNT_DCH),sum(TOTAL_VOLUME_DCH),sum(TOTAL_CHARGES_DCH)
        from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE";
@@ -236,10 +244,10 @@ foreach my $switch (@switches) {
 $workbook->close;
 
 my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
-#my @email = ('david.balchen@uscellular.com');
+my @email = ('david.balchen@uscellular.com');
 
 foreach my $too (@email) {
-  sendMsg($too);
+    sendMsg($too);
 }
 
 exit(0);

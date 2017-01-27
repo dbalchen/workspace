@@ -67,7 +67,7 @@ for (my $i = 0; $i < @rows; $i = $i + 1) {
 my $dropped = ($argv[3] - $argv[5]);
 my $file_name_dch = $argv[0];
 my $total_volume_dch = $rows[2];
-my $total_charges_dch = $rows[1];
+my $total_charges_dch =  $argv[4];
 my $total_records_dch =  $rows[0];;
 my $usage_type = $prefix.'-'.$rows[3];
 
