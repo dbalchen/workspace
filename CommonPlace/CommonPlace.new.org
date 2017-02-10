@@ -1,9 +1,10 @@
 ﻿#+STARTUP: overview
 #+OPTIONS: d:nil
 #+OPTIONS: toc:nil
-#+TAGS: Presentation(p) noexport(n) taskjuggler_project(t) taskjuggler_resource(r) 
+#+TAGS: Presentation(p) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
 #+DRAWERS: PICTURE CLOSET 
 #+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
 #+STARTUP: hidestars hideblocks 
 #+LaTeX_CLASS_OPTIONS: [12pt,twoside]
 #+LATEX_HEADER: \usepackage{lscape} 
@@ -15,8 +16,6 @@
 #+END_LaTeX 
 #+TITLE: Notes
 #+BEGIN_LaTeX
-\newpage
-\clearpage
 \addtolength{\oddsidemargin}{-.25in}
 %\addtolength{\oddsidemargin}{-.5in}
 \addtolength{\evensidemargin}{-01.25in}
@@ -32,25 +31,20 @@
 \fancyhf[ROF,LEF]{\bf\thepage}
 \fancyhf[C]{}
 #+END_LaTeX
-#+TOC: headlines 2
-#+BEGIN_LaTeX
-\newpage
-\pagenumbering{arabic}
-#+END_LaTeX
 :CLOSET:
-  : Hours #+PROPERTY: Effort_ALL 1 2 3 4 5 6 7 8
-  : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
-  : weeks #+PROPERTY: Effort_ALL 5d 10d 15d 20d 25d 30d 35d 40d 45d
-  : #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d 10d 15d
-  : #+COLUMNS: %30ITEM(Task) %6effort %13allocate %19blocker %9ordered
-
+ : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+ : Days  #+PROPERTY: Effort_ALL 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00
+ : weeks #+PROPERTY: Effort_ALL 5.00 10.00 15.00 20.00 25.00 30.00 35.00 40.00 45.00
  : Add a Picture
  :   #+ATTR_LaTeX: width=13cm
  :   [[file:example_picture.png]]
-
  : New Page
  : \newpage
 :END:
+#+TOC: headlines 2
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX 
 * Statement of Principals						  
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
