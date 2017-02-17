@@ -4,7 +4,7 @@ BEGIN {
   push(@INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5');
 }
 
-use Schedule::Cron;
+#use Schedule::Cron;
 use FileHandle;
 
 # Tell perl to flush the buffer to stdout after every command.

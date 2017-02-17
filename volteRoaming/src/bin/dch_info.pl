@@ -1,11 +1,11 @@
 #! /usr/bin/perl
 
 #### Test Only
-#$ARGV[0] = 'CIBER_CIBER_20170115144213_3036793_0002.dat.done';
-
+$ARGV[0] = '/home/dbalchen/Desktop/CIBER_CIBER_20170211122643_3637360_0024.dat.done';
+$ARGV[1] = '/home/dbalchen/Desktop/OutcollectDCH_voice.2csv';
 my $file       = $ARGV[0];
 my $dch_file   = $ARGV[1];
-my $date       = substr( $file, index( $file, "_T2" ) + 1, 8 );
+my $date       = substr( $file, index( $file, "2017" ), 8 );
 my $short_date = substr( $date, 2 );
 
 my $process_date =
@@ -57,7 +57,7 @@ while ( my $buff = <PIPE> ) {
         if ( @sniffsniff >= 1 ) {
 
             print OUT "Charge Difference -- USCC: " . "\t" . $mygrep . "\n";
-            print OUT "Charge Difference -- Syniverse: " . $sniffsniff[0];
+            print OUT "Charge Difference -- Syniverse: " . "\t".$sniffsniff[0];
 
         }
         elsif ( @sniffsniff == 0 ) {
@@ -74,13 +74,13 @@ while ( my $buff = <PIPE> ) {
 
                 print OUT "Record Difference - Rejects -- USCC: " . "\t"
                   . $mygrep . "\n";
-                print OUT "Record Difference - Rejects -- Syniverse: "
+                print OUT "Record Difference - Rejects -- Syniverse: "."\t"
                   . $sniffsniffsniff[0];
 
             }
             else {
 
-                print OUT "Block Rejected: " . $mygrep . "\n";
+                print OUT "Block Rejected: " . "\t".$mygrep . "\n";
 
             }
         }
