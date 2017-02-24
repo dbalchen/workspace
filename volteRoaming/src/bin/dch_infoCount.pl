@@ -44,6 +44,6 @@ print "$total_records\n";
 print "$total_charges\n";
 print "$total_volume\n";
 
-close(OUT);
+close(PIPE);
 
 exit(0);
