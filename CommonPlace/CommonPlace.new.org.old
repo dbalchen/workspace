@@ -1,0 +1,44 @@
+﻿#+STARTUP: overview
+#+OPTIONS: d:nil
+#+OPTIONS: toc:nil
+#+TAGS: Presentation(p) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET 
+#+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+#+TITLE: Notes
+#+BEGIN_LaTeX
+\addtolength{\oddsidemargin}{-.25in}
+%\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+\newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{2}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+#+END_LaTeX
+:CLOSET:
+ : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+ : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
+ : weeks #+PROPERTY: Effort_ALL 1w 2w 3w 4w 5w 6w 7w 8w 9w
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+ : New Page
+ : \newpage
+:END:
+#+TOC: headlines 2
