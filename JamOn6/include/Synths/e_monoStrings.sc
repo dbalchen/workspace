@@ -1,69 +1,58 @@
-SynthDef("osc_monoStrings",
-{
-	arg out = 0, freq = 110, lagLev = 2.50, amp = 0.5;
-
-	var sig;
-
-	freq = Lag.kr(freq, lagLev);
-
-	freq = {freq * LFNoise2.kr(2.5,0.01,1)}!16;
-
-	sig = (LFSaw.ar(freq,0,0.1));
-
-	Out.ar(out,sig);
-}).add;
-
-
-
 SynthDef("e_monoStrings",
-	{
-		arg out = 0, in = 0, gate = 0, amp = 0.5, da = 2,
-		attack = 4, decay = 4, sustain = 0, release = 0.5, fattack = 0.0, fsustain = 1,
-		frelease = 0.05, aoc = 0, gain = 1, cutoff = 10000.00, bend = 0;
+	{arg out = 0,freq = 55.00, lagLev = 0, fin = 998, aocIn = 998, cutoff = 998, gain = 1, mul = 1, amp = 1, aoc = 1;
 
-		var sig, env, fenv;
+		var sig,env;
 
-		env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+		freq = Lag.kr(freq, lagLev);
 
-		fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
-		fenv = EnvGen.kr(fenv, gate);
+		freq = {freq * LFNoise2.kr(2.5,0.01,1)}!5;
 
-		sig = In.ar(in,16);
+		sig = (LFSaw.ar(freq,0,0.1));
 
-		sig = sig*EnvGen.kr(env, gate: gate,doneAction:da);
-		sig = MoogFF.ar
-		(
-			sig,
-			cutoff*fenv,
-			gain
-		);
+		cutoff = (aoc*(In.ar(fin) - 1) + 1)*cutoff;
+		sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
+
+		env = In.ar(aocIn);
+		sig = sig * env;
 
 		sig = Splay.ar(sig);
 
-		Out.ar(out,amp*sig);
+		OffsetOut.ar(out, sig*amp);
+
 
 }).send(s);
 
 
-~midiMonoStrings = {arg myevents,num,chan, in;
-	var flt, env,amp,tt;
+~midiMonoStrings = {arg myevents,num, monoString, env1,env2;
+	var flt, env,amp;
 	amp = myevents.amp;
 	flt = myevents.filter;
 	env = myevents.envelope;
 
 	if(num.isMemberOf(Integer),
 		{
-			tt = Synth("e_monoStrings",addAction: \addToTail);
-			tt.set(\gate,0);
-			flt.setFilter(tt);
-			env.setEnvelope(tt);
-			tt.set(\freq,num.midicps);
-			tt.set(\da,2);
-			tt.set(\amp,amp);
-			tt.set(\in,in);
-	//		tt.set(\out,myevents.out);
-			tt.set(\gate,1);
+			flt.setaFilter(env1,monoString);
+			env.setEnvelope(env2);
+			monoString.set(\freq,num.midicps);
+			monoString.set(\amp,amp);
+			monoString.set(\out,myevents.out);
+
 	}, {["rest"].post}); // false action
 
-	tt;
+	env2;
 };
+
+/*
+~celloStrings = Synth("e_monoStrings",addAction: \addToTail);
+~envAsr = Bus.control(s,1);
+~envAdsr = Bus.control(s,1);
+~celloStrings.set(\fin,~envAsr);
+~celloStrings.set(\aocIn,~envAdsr);
+
+	~ret14 = Synth("myASRk",addAction: \addToHead);
+	~ret14b = Synth("myADSRk",addAction: \addToHead);
+	~ret14.set(\out,~envAsr);
+	~ret14b.set(\out,~envAdsr);
+			~ret14.set(\gate,1);
+			~ret14b.set(\gate,1);
+*/

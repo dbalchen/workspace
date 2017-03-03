@@ -20,3 +20,7 @@ SynthDef(\bdSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spread 
 
 	OffsetOut.ar(out, sig*amp);
 }).add;
+
+
+
+

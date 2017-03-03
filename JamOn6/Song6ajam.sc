@@ -30,10 +30,13 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/JamOn6/include/Events/violaBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/violinBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/bellBeats.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/Synths/e_monoStrings.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/eStrings.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/strings.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/initPatch.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/patchFunctions.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/BassDrum/Noise/noise.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/BassDrum/303/303.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/midiDefs.sc".load;
 		/*
 		~noise.set(\out,2);
@@ -93,21 +96,19 @@ o.memSize = 2097152;
 ~rp = {~violin4.value();~midistring3_firmus.value();};
 ~violin4.value();
 
+~rp = {0.2.wait;~midicf_clock.value();~midiClock.value();};
+(~clock = nil; ~cf_clock = nil;)
 
-~rp = {~cello1.value;~midistring1_firmus.value();~viola1.value();~midistring2_firmus.value();~violin1.value();~midistring3_firmus.value();};
+~string1_firmus.probs= ~string1_firmus.probs * 0;
+~string2_firmus.probs= ~string2_firmus.probs * 0;
+~string3_firmus.probs= ~string3_firmus.probs * 0;
 
-~rp = {~cello2.value;~midistring1_firmus.value();~viola2.value();~midistring2_firmus.value();~violin2.value();~midistring3_firmus.value();};
+~cello0.value();~viola0.value();~string3_firmus.probs= ~string3_firmus.probs * 0;~cf_clock0.value();
 
-~rp = {~cello3.value;~midistring1_firmus.value();~viola3.value();~midistring2_firmus.value();~violin3.value();~midistring3_firmus.value();};
-
-~rp = {~cello4.value;~midistring1_firmus.value();~viola4.value();~midistring2_firmus.value();~violin4.value();~midistring3_firmus.value();};
-
-
-~cello0.value();~viola0.value();~cf_clock0.value();~string3_firmus.probs= ~string3_firmus.probs * 0;
-~cello0.value();~viola1.value();~violin1.value();~cf_clock3.value();
-~cello2.value();~violin2.value();~viola2.value();~cf_clock2.value();
-~cello3.value();~violin3.value();~viola3.value();~cf_clock3.value();
-~cello4.value();~violin4.value();~viola4.value();~cf_clock4.value();
+~cello1.value();~viola1.value();~violin1.value();~cf_clock1.value();
+~cello2.value();~viola2.value();~violin2.value();~cf_clock2.value();
+~cello3.value();~viola3.value();~violin3.value();~cf_clock3.value();
+~cello4.value();~viola4.value();~violin4.value();~cf_clock4.value();
 
 ~noiseSweep.value(1,-0.25,((8*4)/2), ((4*4)/2), 0.25);
 ~noiseSweep2.value(1,-1,((8*4)/2),((2*4)/2), 0.75);
@@ -115,8 +116,11 @@ o.memSize = 2097152;
 ~noiseSweep.value(-0.25,1,((16*4)./2), ((4*4)/2), 0.25);
 ~noiseSweep2.value(-1,1,((16*4)/2),((4*4)/2), 0.75);
 
-~pulseSweep.value(0.85,-1,((16*4)/2),((4*4)/2), 1.0);
-~pulseSweep.value(-1,0.85,((16*4)/2),((2*4)/2), 0.95);
+~pulseSweep.value(0.85,-1,((8*4)/2),((4*4)/2), 0.50);
+~pulseSweep.value(-1,0.85,((8*4)/2),((4*4)/2), 0.5);
+
+~noise.set(\amp,0);
+~vca1.set(\amp,0.0);
 
 
 TempoClock.default.tempo = 120 / 60;
@@ -131,12 +135,9 @@ TempoClock.default.tempo = 120 / 60;
 	Routine.run({
 		s.sync;
 		timeNow = TempoClock.default.beats;
-
-		~mixer1.set(\bal,1);
-		~mixer2.set(\bal,1);
 		~circleExt4.set(\gate,0);
 		~pulse1.set(\bamp,998);
-		~pulse1.set(\amp,1.2);
+		~pulse1.set(\amp,1.5);
 		~circleExt5.set(\gate,0);
 		~vca1.set(\bamp,998);
 		~vca1.set(\amp,0.4);
@@ -194,17 +195,21 @@ TempoClock.default.tempo = 120 / 60;
 
 		);};); // End of t.schedAbs
 
-		t.schedAbs(timeNow + ((56*4)),{ // 00 = Time in beats
+
+		t.schedAbs(timeNow + ((72*4)-1),{ // 00 = Time in beats
 			(
-				//	~pulseSweep.value(0.85,-1,((16*4)/2),((2*4)/2), 0.95);
-
-				t.schedAbs(timeNow + ((72*4)-1),{ // 00 = Time in beats
-					(
-						~cello4.value();~viola4.value();~violin4.value();~cf_clock4.value();
-
-				);};); // End of t.schedAbs
+				~cello4.value();~viola4.value();~violin4.value();~cf_clock4.value();
 
 		);};); // End of t.schedAbs
+
+
+		t.schedAbs(timeNow + ((87*4)-1),{ // 00 = Time in beats
+			(
+				~celloE.value();~violaE.value();~violinE.value();~cf_clockE.value();
+
+		);};); // End of t.schedAbs
+
+
 
 	}); // End of Routine
 

@@ -53,7 +53,6 @@ OSCdef(\stringLow, { |m|
 	var num = m[3].asInteger;
 	~ret14.set(\gate,0);
 	~ret14 = ~midicStrings.value(~string1_firmus,num,1);
-	~ret15.set(\gate,0);
 	~ret15 = ~eSampler.value(~string1_firmusB,~cellosounds,~celloTemplate,num);
 
 }, '/stringLow');
@@ -77,33 +76,27 @@ OSCdef(\cfClock, { |m|
 
 OSCdef(\mainClock, { |m|
 	m.postln;
-	~ret0.set(\gate,0);
 	~ret0  = Synth("env0",addAction: \addToHead);
 	~ret0.set(\out,~envout);
 	~ret0.set(\gate,1);
 
-	~ret1.set(\gate,0);
 	~ret1  = Synth("env1",addAction: \addToHead);
 	~ret1.set(\out,~envout1);
 	~ret1.set(\gate,1);
 
-	~ret2.set(\gate,0);
 	~ret2  = Synth("env0",addAction: \addToHead);
 	~ret2.set(\out,~env2out);
 	~ret2.set(\gate,1);
 
-	~ret3.set(\gate,0);
 	~ret3  = Synth("env1",addAction: \addToHead);
 	~ret3.set(\out,~env2out1);
 	~ret3.set(\gate,1);
 
-	~ret4.set(\gate,0);
 	~ret4 = Synth("Sine",addAction: \addToHead);
 	~ret4.set(\out,~sine1Out);
 	~ret4.set(\amp,0.5);
 	~ret4.set(\gate,1);
 
-	~ret5.set(\gate,0);
 	~ret5  = Synth("myADSR",addAction: \addToHead);
 	~ret5.set(\out,~adsr2Out);
 	~myadsr2.setADSR(~ret5);
@@ -130,7 +123,7 @@ OSCdef(\mainClock, { |m|
 ~channel1 = {arg num, vel = 1;
 	var ret;
 //	ret = ~midicStrings.value(~string1_firmus,num,1);
-	ret = Synth(\stringLow);
+	ret = Synth(\stringLow,addAction: \addToTail);
 	ret.set(\num,num);
 	ret.set(\gate,1);
 	ret;
@@ -139,6 +132,7 @@ OSCdef(\mainClock, { |m|
 ~channel1off = {arg num, vel = 1;
 	var ret = nil;
 	~ret14.set(\gate,0);
+	~ret14b.set(\gate,0);
 	~ret15.set(\gate,0);
 	ret;
 };
@@ -185,6 +179,19 @@ OSCdef(\mainClock, { |m|
 
 };
 
+~channel9off = {arg num, vel = 1;
+	var ret = nil;
+
+		~ret0.set(\gate,0);
+	~ret1.set(\gate,0);
+	~ret2.set(\gate,0);
+	~ret3.set(\gate,0);
+	~ret4.set(\gate,0);
+	~ret5.set(\gate,0);
+
+};
+
+
 ~channel10 = {arg num, vel = 1;
 	var ret = nil;
 
@@ -192,5 +199,11 @@ OSCdef(\mainClock, { |m|
 	ret.set(\num,num);
 	ret.set(\gate,1);
 
+	ret;
+};
+
+~channel10off = {arg num, vel = 1;
+	var ret = nil;
+	~ret6.set(\gate,0);
 	ret;
 };
