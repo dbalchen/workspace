@@ -84,6 +84,9 @@ o.memSize = 2097152;
 ~viola4.value();
 
 
+
+
+
 ~rp = {~violin1.value();~midistring3_firmus.value();};
 ~violin1.value();
 
@@ -105,10 +108,13 @@ o.memSize = 2097152;
 
 ~cello0.value();~viola0.value();~string3_firmus.probs= ~string3_firmus.probs * 0;~cf_clock0.value();
 
-~cello1.value();~viola1.value();~violin1.value();~cf_clock1.value();
+~cf_clock0.value();
+
+~cello0.value();~viola1.value();~violin1.value();~cf_clock0.value();
 ~cello2.value();~viola2.value();~violin2.value();~cf_clock2.value();
 ~cello3.value();~viola3.value();~violin3.value();~cf_clock3.value();
 ~cello4.value();~viola4.value();~violin4.value();~cf_clock4.value();
+~celloE.value();~violaE.value();~violinE.value();~cf_clockE.value();
 
 ~noiseSweep.value(1,-0.25,((8*4)/2), ((4*4)/2), 0.25);
 ~noiseSweep2.value(1,-1,((8*4)/2),((2*4)/2), 0.75);
@@ -116,8 +122,8 @@ o.memSize = 2097152;
 ~noiseSweep.value(-0.25,1,((16*4)./2), ((4*4)/2), 0.25);
 ~noiseSweep2.value(-1,1,((16*4)/2),((4*4)/2), 0.75);
 
-~pulseSweep.value(0.85,-1,((8*4)/2),((4*4)/2), 0.50);
-~pulseSweep.value(-1,0.85,((8*4)/2),((4*4)/2), 0.5);
+~pulseSweep.value(0.75,0.55,((16*4)/2),((4*4)/2), 0.60);
+~pulseSweep.value(0,0.75,((32*4)/2),((4*4)/2), 0.9);
 
 ~noise.set(\amp,0);
 ~vca1.set(\amp,0.0);
@@ -137,11 +143,11 @@ TempoClock.default.tempo = 120 / 60;
 		timeNow = TempoClock.default.beats;
 		~circleExt4.set(\gate,0);
 		~pulse1.set(\bamp,998);
-		~pulse1.set(\amp,1.5);
+//		~pulse1.set(\amp,1.5);
 		~circleExt5.set(\gate,0);
 		~vca1.set(\bamp,998);
 		~vca1.set(\amp,0.4);
-		~mixer3.set(\bal,0.85);
+		~mixer3.set(\bal,0.75);
 		~mixer4.set(\bal,1);
 		~cello0.value();
 		~viola0.value();

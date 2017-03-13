@@ -5,8 +5,8 @@ SynthDef(\Pulse, {arg out = 0, freq = 110, width = 0.5, lagLev = 0.0, bamp = 998
 	var sig,amp;
 
 	freq = Lag.kr(freq, lagLev);
-	freq = freq * LFDNoise3.ar(0.3,0.0156,1);
-
+//	freq = freq * LFDNoise3.ar(0.3,0.0156,1);
+//    sig = DPW4Saw.ar(freq, width).softclip;
 	sig = LFPulse.ar(freq, 0, width, 1, -0.5);
 	Out.ar(out, sig);
 
@@ -14,7 +14,7 @@ SynthDef(\Pulse, {arg out = 0, freq = 110, width = 0.5, lagLev = 0.0, bamp = 998
 
 
 SynthDef(\pulseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spread = 0, center = 0,// VCA Controls
-	clip = 1, overd = 1, cutoff = 5000, gain = 0, mgain = 0, mul = 1, maoc = 1;
+	clip = 1, overd = 1, cutoff = 5000, gain = 0, mgain = 0, mul = 1, maoc = 1, dist = 0;
 	// Clip and Low Pass Filter
 
 	var sig;
@@ -22,15 +22,10 @@ SynthDef(\pulseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 	sig = In.ar(oscIn,1);
 	gain = In.ar(gain) + mgain;
 	cutoff = In.ar(cutoff);
-//	dist - In.ar(dist) + mdist;
-
 	mul = maoc*(In.ar(mul) - 1) + 1;
 
-	//sig = RLPFD.ar(sig,ffreq:cutoff,res: gain, dist: dist,mul:mul);
+	sig = RLPFD.ar(sig,ffreq:cutoff,res: gain, dist:dist,mul:mul);
 
-	sig = MoogFF.ar(sig, freq:cutoff, gain: gain,mul:mul);
-//	sig = LeakDC.ar(sig, 0.995);
-//	sig = sig + (HPF.ar(sig,400,10).softclip * 0.04);
 	aoc = aoc*(In.ar(aocIn) - 1) + 1;
 	sig = sig * aoc;
 
@@ -60,13 +55,13 @@ SynthDef(\pulseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~mixer3.set(\in0,~env2out1);
 ~mixer3.set(\in1,~asrOut);
 ~mixer3.set(\out,~mix3out);
-~mixer3.set(\bal,0.80);
+~mixer3.set(\bal,0.70);
 
 ~pulse1 =  Synth("Pulse",target: ~oGroup,addAction: \addToTail);
 ~pulse1.set(\out,~pulse1Out);
 ~pulse1.set(\bamp,~circleExt4Out);
-~pulse1.set(\amp,1);
-~pulse1.set(\width,0.7);
+~pulse1.set(\amp,1.0);
+~pulse1.set(\width,0.65);
 
 
 ~pulse =  Synth("pulseSound",target: ~oGroup,addAction: \addToTail);
@@ -81,7 +76,7 @@ SynthDef(\pulseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~pulse.set(\mgain,0.7);
 ~pulse.set(\maoc,0.98);
 ~pulse.set(\dist,0);
-~pulse.set(\amp,0.75);
+~pulse.set(\amp,2.0);
 
 ~mixergui3 = SimpleMix.new;
 ~mixergui3.mixer = ~mixer3;

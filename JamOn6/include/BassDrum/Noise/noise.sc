@@ -102,6 +102,7 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~noiseSweepOff = {
 
 	~circleExt2.set(\gate,0);
+	~circleExt2 = nil;	~circleExt2.set(\gate,0);
 	~circleExt2 = nil;
 	~mixer2.set(\bmod,999);
 	~mixer2.set(\bal,0.80);

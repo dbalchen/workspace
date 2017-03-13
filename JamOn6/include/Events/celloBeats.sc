@@ -1,4 +1,7 @@
-"/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
+// "/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
+~string1_firmus = nil;
+~string1_firmus = nil;
+~midistring1_firmus = nil;
 
 ~string1_firmusBOut = 0;
 

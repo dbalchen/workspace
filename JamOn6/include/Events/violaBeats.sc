@@ -1,4 +1,9 @@
-"/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
+/// "/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
+~string2_firmus = nil;
+~string2_firmusB = nil;
+~midistring2_firmus = nil;
+
+
 ~string2_firmusBOut = 0;
 ~string2_firmus = ~cf_clock.deepCopy;
 ~string2_firmus.filter = 1;
