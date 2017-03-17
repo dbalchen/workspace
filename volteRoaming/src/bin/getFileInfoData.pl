@@ -3,18 +3,17 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID024193_T20161113230300.DAT";
+$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID025826_T20170311003300.DAT";
 
 #For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+ my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+ my $ORACLE_SID  = "bodsprd";
+ $ENV{ORACLE_HOME} = $ORACLE_HOME;
+ $ENV{ORACLE_SID}  = $ORACLE_SID;
+ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-# $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my $hh =
 "cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
@@ -189,7 +188,7 @@ $sth->execute() or sendErr();
 my $aprmdiff = 0;
 my $dropSum  = 0;
 while ( my @rows4 = $sth->fetchrow_array() ) {
-	$dropSum  = $drop + $rows4[1];
+	$dropSum  = $dropSum + $rows4[1];
 	$aprmdiff = $aprmdiff + 1;
 
 	$sql = "
@@ -213,10 +212,12 @@ my $tcaprDif =
   - $aprm[1];
 
 # DCH Variables
-
-my $usage_dch      = $usage;
+$hh = "$ENV{'REC_HOME'}/dch_infoCount.pl $ARGV[0] $ENV{'REC_HOME'}/IncollectDCH_data.csv";
+my @dchValues = `$hh`;chomp(@dchValues);
+my $usage_dch      = $dchValues[2];
+$usage = $dchValues[2];
 my $total_recs_dch = $reportVariable{'IN_REC_QUANTITY'};
-my $file_sum_dch   = $filesum;
+my $file_sum_dch   = $dchValues[1];
 my $file_name_dch  = $fileId[0];
 my $dch_rec_dif    = ( $total_recs_dch - $reportVariable{'IN_REC_QUANTITY'} );
 my $dch_sum_dif    = ( $file_sum_dch - $filesum );
@@ -252,6 +253,8 @@ VALUES (
  $aprm[2],
  $tcaprDif
 )";
+
+#print $sql."\n";
 
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();

@@ -3,20 +3,20 @@
 use DBI;
 
 #Test parameters remove when going to production.
-# $ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20161113002356_383238_0027.dat.done";
+$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20170311122648_3637360_0074.dat.done";
 
-# $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+ my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+ my $ORACLE_SID  = "bodsprd";
+ $ENV{ORACLE_HOME} = $ORACLE_HOME;
+ $ENV{ORACLE_SID}  = $ORACLE_SID;
+ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 
-my $hh = "cat $ARGV[0] | grep '^22' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
+my $hh = "cat $ARGV[0] | grep '^22' | sort -u | cut -b 72-81,225-230,336-341 | $ENV{'REC_HOME'}/addMultiUp.pl";
 my $ttemp = ""; $ttemp = `$hh`; chomp($ttemp);
 my ($fileTotal,$filesum,$usage) = split("\t",$ttemp);
 
@@ -32,7 +32,7 @@ my $dateTime = substr($filename,index($filename,"R_2")+2,8);
 
 my $sql = "delete from file_summary where FILE_NAME = '$filename2'";
 my $sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
+ $sthb->execute() or sendErr();
 
 $sql =
   "select file_name, identifier from ac1_control_hist where file_name like ?";
@@ -52,10 +52,13 @@ $sth->execute() or sendErr();
 
 my @aprm = $sth->fetchrow_array();
 
-my $total_volume_dch = $usage;
-my $total_records_dch = $fileTotal;
-my $total_charges_dch = $filesum;
-my $file_name_dch = $filename;
+$hh = "$ENV{'REC_HOME'}/dch_infoCount.pl $ARGV[0] $ENV{'REC_HOME'}/OutcollectDCH_voice.csv";
+my @dchValues = `$hh`;chomp(@dchValues);
+my $total_volume_dch      = $dchValues[2];
+my $total_records_dch = $dchValues[0];
+my $total_charges_dch   = $dchValues[1];
+
+my $file_name_dch = $filename2;
 
 $sql = "
 INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
@@ -78,7 +81,7 @@ VALUES (
  $fileId[1],
  'CIBER',
  '$file_name_dch',
- '$filename',
+ '$filename2',
  0,
  0,
  0,
@@ -89,6 +92,7 @@ VALUES (
  0
 )";
 
+#print $sql."\n";
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 $dbconnb->disconnect();

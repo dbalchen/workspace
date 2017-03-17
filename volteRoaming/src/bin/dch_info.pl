@@ -1,8 +1,8 @@
 #! /usr/bin/perl
 
 #### Test Only
-$ARGV[0] = '/home/dbalchen/Desktop/CIBER_CIBER_20170211122643_3637360_0024.dat.done';
-$ARGV[1] = '/home/dbalchen/Desktop/OutcollectDCH_voice.2csv';
+$ARGV[0] = '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20170311122648_3637360_0074.dat.done';
+$ARGV[1] = '/home/dbalchen/workspace/volteRoaming/src/bin/OutcollectDCH_voice.2csv';
 my $file       = $ARGV[0];
 my $dch_file   = $ARGV[1];
 my $date       = substr( $file, index( $file, "2017" ), 8 );

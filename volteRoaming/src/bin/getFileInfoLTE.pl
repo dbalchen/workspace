@@ -3,15 +3,18 @@
 use DBI;
 
 #Test parameters remove when going to production.
-# $ARGV[0] = "20161003";
+ $ARGV[0] = "CDNLDLTIWB5101254,1254,Vodafone Netherland (NLDLT),1404,800.2267,0,0,20170311";
 
 # For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+ my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+ $ENV{ORACLE_HOME} = $ORACLE_HOME;
+ $ENV{ORACLE_SID}  = $ORACLE_SID;
+ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-my @argv = split(/,/,@ARGV[0]);
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+# $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+
+my @argv = split(/,/,$ARGV[0]);
 
 my $prefix = "LTE";
 
@@ -63,13 +66,59 @@ for (my $i = 0; $i < @rows; $i = $i + 1) {
   }
 }
 
-
 my $dropped = ($argv[3] - $argv[5]);
-my $file_name_dch = $argv[0];
-my $total_volume_dch = $rows[2];
-my $total_charges_dch =  $argv[4];
-my $total_records_dch =  $rows[0];;
+
 my $usage_type = $prefix.'-'.$rows[3];
+my $file_name_dch = substr($argv[0],2);
+my $total_charges_dch =  "";
+my $total_records_dch =  "";
+my $total_volume_dch = "";
+
+my $grep = " grep $file_name_dch | ";
+
+if ($prefix eq "NLDLT") {
+	
+	if(index($usage_type,"-C") >= 0)
+	{
+		$grep = $grep." grep SMS";
+	}
+	elsif(index($usage_type,"-V") >= 0)
+	{
+		$grep = $grep." grep GPRS";
+	}
+	else {
+			$grep = $grep." grep Voice";
+	}
+
+ my $hh = "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv | $grep | cut -f 9,10,11,12 ";
+ my $output = `$hh`;chomp($output);
+ 
+ my @dchValues = split("\t",$output);chomp(@dchValues);
+ 
+ 
+ $total_charges_dch =  $dchValues[2];
+ $total_records_dch =  $dchValues[3];
+ 
+ if (index($usage_type,"-C")>= 0) {
+ $total_volume_dch = $rows[2];
+ }
+ elsif (index($usage_type,"-V") >= 0){
+ 	 $total_volume_dch = $dchValues[1] * 1024;
+ }
+ else {
+ 		 $total_volume_dch = $dchValues[0]*60;
+ }
+ 
+}
+else {
+
+$total_volume_dch = $rows[2];
+
+$total_charges_dch =  $argv[4];
+$total_records_dch =  $rows[0];
+
+}
+
 
 $sql = "
 INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
@@ -106,7 +155,7 @@ VALUES (
  $total_records_dch,
  $rows[0],
  $total_charges_dch,
-  $argv[4],
+  $rows[1],
  $rows[0],
  '$argv[2]',
  $argv[5],
@@ -126,6 +175,8 @@ VALUES (
  $rows[1],
  $dropped
 )";
+
+#print $sql."\n";
 
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
