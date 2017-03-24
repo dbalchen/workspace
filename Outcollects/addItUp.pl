@@ -8,6 +8,6 @@ while ($buff = <STDIN>) {
   $total = $total + $buff;
       }
 
-      print "Total = $total\n";
+      print "$total\n";
 
 exit(0);

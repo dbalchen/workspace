@@ -6,8 +6,7 @@ while ($buff = <LOAD>) {
   chomp($buff);
 
   @loadAry = split("\t",$buff);
-    
-  $key = $loadAry[2].$loadAry[3].checkWidth($loadAry[6],3);
+  $key = $loadAry[1].$loadAry[2].checkWidth($loadAry[3],3);
     
   $lookup{$key} = $buff;
 }
@@ -17,7 +16,7 @@ close(LOAD);
 @loadAry = [];
 $buff = ''; 
 
-#open( STDIN, $ARGV[1] ) || die "cannot open $ARGV[1]\n\n";
+open( STDIN, $ARGV[1] ) || die "cannot open $ARGV[1]\n\n";
 
  while ($buff = <STDIN>) {
 
@@ -30,16 +29,18 @@ $buff = '';
   $key = substr($buff,11,5).substr($buff,16,5).substr($buff,8,3);
 
   if (exists $lookup{$key}) {
-    my $total = (split("\t",$lookup{$key}))[7];
+    my $total = (split("\t",$lookup{$key}))[4];
 
-    my $other_total = substr($buff,49,4);
+    my $other_total = substr($buff,21,4);
 
     my $one_lookup = $lookup{$key};
 
     if ($total == $other_total) {
 
-      my $money = (split("\t",$one_lookup))[8];
+      my $money = (split("\t",$one_lookup))[5];
+      $money = sprintf("%.2f",$money);
       $money =~ s/\.//g;
+
       my $o_money = substr($buff,25,12);
       if($money == $o_money)
       {

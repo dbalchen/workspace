@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000076022_20170122_235420.ASC.done";
+$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000084151_20170318_174027.ASC.done";
 
 # For test only.....
 # my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";

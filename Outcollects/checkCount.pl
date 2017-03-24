@@ -26,6 +26,7 @@ while ($buff = <STDIN>) {
   chomp($buff);
 
   $key = substr($buff,0,10); 
+  $key = (split("\t",$buff))[0,1];
 
   if (exists $lookup{$key}) {
 
@@ -37,7 +38,7 @@ while ($buff = <STDIN>) {
     }
 
 
-    my $incount = substr($buff,10,4);
+    my $incount = (split("\t",$buff))[2];
 
     @findAll = (split("\t",$lookup{$key}))[3];
 
@@ -50,7 +51,7 @@ while ($buff = <STDIN>) {
 
     $money =~ s/\.//g;
 
-    my $inmoney = substr($buff,14);
+    my $inmoney = (split("\t",$buff))[3];
 
     if ($count != $incount) {
 

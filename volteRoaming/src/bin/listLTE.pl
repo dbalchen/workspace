@@ -3,8 +3,8 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "20170311";
-$ARGV[1] = "NLDLT";
+$ARGV[0] = "20170319";
+$ARGV[1] = "";
 # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 $ENV{ORACLE_HOME} = $ORACLE_HOME;
@@ -53,7 +53,7 @@ sub getBRMPRD {
 
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "BooG00900#" );
+  my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "GooB00900#" );
   unless ( defined $dbods ) {
     sendErr();
   }

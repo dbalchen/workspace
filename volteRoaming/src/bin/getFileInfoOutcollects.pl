@@ -103,7 +103,7 @@ sub getBODSPRD {
 
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
+  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
   unless ( defined $dbods ) {
     sendErr();
   }
@@ -114,7 +114,7 @@ sub getSNDPRD {
 
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
   unless ( defined $dbods ) {
     sendErr();
   }
