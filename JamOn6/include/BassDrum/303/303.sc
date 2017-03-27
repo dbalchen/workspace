@@ -5,8 +5,6 @@ SynthDef(\Pulse, {arg out = 0, freq = 110, width = 0.5, lagLev = 0.0, bamp = 998
 	var sig,amp;
 
 	freq = Lag.kr(freq, lagLev);
-//	freq = freq * LFDNoise3.ar(0.3,0.0156,1);
-//    sig = DPW4Saw.ar(freq, width).softclip;
 	sig = LFPulse.ar(freq, 0, width, 1, -0.5);
 	Out.ar(out, sig);
 
@@ -80,6 +78,22 @@ SynthDef(\pulseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 
 ~mixergui3 = SimpleMix.new;
 ~mixergui3.mixer = ~mixer3;
+
+~pulseSweep = {arg start = 0.9, end = -1, time = ((32*4)/2), time2 = ((8*4)/2), mult = 0.5;
+
+	~circleExtOut = Bus.control(s,1);
+	~circleExt = ~modCircle.value(~circleExtOut,start,end,time,time2,mult);
+	~mixer3.set(\bmod,~circleExtOut);
+	~mixer3.set(\bal,0);
+	~circleExt.set(\gate,1); };
+
+~pulseSweepOff = {arg fb = 0.7;
+
+	~circleExt.set(\gate,0);
+	~circleExt = nil;
+	~mixer3.set(\bmod,998);
+	~mixer3.set(\bal,fb);
+};
 
 /*
 

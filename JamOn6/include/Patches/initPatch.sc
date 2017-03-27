@@ -10,22 +10,22 @@
 // ~myadsr.release = 0.0;
 
 
-~sine1Out = Bus.audio(s,1);
-~vca1 =  Synth("vca",addAction: \addToTail);
-~vca1.set(\in,~sine1Out);
-~vca1.set(\bamp,~circleExt5Out);
-~vca1.set(\amp,0.0);
+// ~sine1Out = Bus.audio(s,1);
+// ~vca1 =  Synth("vca",addAction: \addToTail);
+// ~vca1.set(\in,~sine1Out);
+// ~vca1.set(\bamp,~circleExt5Out);
+// ~vca1.set(\amp,0.0);
 
-~bellOut = Bus.audio(s,1);
-~vca2 =  Synth("vca",addAction: \addToTail);
-~vca2.set(\in,~bellOut);
-
-~dcs = 2.0;
-~fscale = 1.0;
-~release = 1.5;
-~attack = 3.00;
-~amp = 0.03;
-~pitch = 87.3070578583/2;
+// ~bellOut = Bus.audio(s,1);
+// ~vca2 =  Synth("vca",addAction: \addToTail);
+// ~vca2.set(\in,~bellOut);
+//
+// ~dcs = 2.0;
+// ~fscale = 1.0;
+// ~release = 1.5;
+// ~attack = 3.00;
+// ~amp = 0.03;
+// ~pitch = 87.3070578583/2;
 
 // ~env2out = Bus.audio(s,1);
 // ~env2out1 = Bus.audio(s,1);
@@ -111,12 +111,12 @@
 // ~pad_firmus.amp = 0.2;
 // ~pad_firmus.out = ~pad_firmusOut;
 
-~string1_firmusOut = Bus.audio(s,2);
-~string1_firmus.out = ~string1_firmusOut;
+// ~string1_firmusOut = Bus.audio(s,2);
+// ~string1_firmus.out = ~string1_firmusOut;
 
-~mixer4 = Synth("two2two",target: ~nGroup,addAction: \addToTail);
-~mixer4.set(\in1,~pad_firmusOut);
-~mixer4.set(\in0,~string1_firmusOut);
+// ~mixer4 = Synth("two2two",target: ~nGroup,addAction: \addToTail);
+// ~mixer4.set(\in1,~pad_firmusOut);
+// ~mixer4.set(\in0,~string1_firmusOut);
 
 // ~mixergui1 = SimpleMix.new;
 // ~mixergui1.mixer = ~mixer1;
@@ -127,13 +127,13 @@
 // ~mixergui3 = SimpleMix.new;
 // ~mixergui3.mixer = ~mixer3;
 
-~mixergui4 = SimpleMix.new;
-~mixergui4.mixer = ~mixer4;
+// ~mixergui4 = SimpleMix.new;
+// ~mixergui4.mixer = ~mixer4;
 
 
-~celloStrings = Synth("e_monoStrings",addAction: \addToTail);
-~envAsr = Bus.audio(s,1);
-~envAdsr = Bus.audio(s,1);
-~celloStrings.set(\fin,~envAsr);
-~celloStrings.set(\aocIn,~envAdsr);
-~celloStrings.set(\lagLev,0.5);
+// ~celloStrings = Synth("e_monoStrings",addAction: \addToTail);
+// ~envAsr = Bus.audio(s,1);
+// ~envAdsr = Bus.audio(s,1);
+// ~celloStrings.set(\fin,~envAsr);
+// ~celloStrings.set(\aocIn,~envAdsr);
+// ~celloStrings.set(\lagLev,0.5);

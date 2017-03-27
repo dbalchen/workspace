@@ -99,13 +99,16 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 	~mixer2.set(\bal,0);
 	~circleExt2.set(\gate,1); };
 
-~noiseSweepOff = {
+~noiseSweepOff = {arg ba1 = -0.25, ba2 = -1.0;
 
 	~circleExt2.set(\gate,0);
-	~circleExt2 = nil;	~circleExt2.set(\gate,0);
 	~circleExt2 = nil;
 	~mixer2.set(\bmod,999);
-	~mixer2.set(\bal,0.80);
+	~mixer2.set(\bal,ba2);
+	~circleExt3.set(\gate,0);
+	~circleExt3 = nil;
+	~mixer1.set(\bmod,999);
+	~mixer1.set(\bal,ba1);
 };
 
 ~noiseSweep2 = {arg start = 1, end = 0.0, time = ((24*4)/2), time2 = ((8*4)/2), mult = 0.05;
@@ -116,13 +119,7 @@ SynthDef(\noiseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 	~mixer1.set(\bal,0);
 	~circleExt3.set(\gate,1); };
 
-~noiseSweep2Off = {
 
-	~circleExt3.set(\gate,0);
-	~circleExt3 = nil;
-	~mixer1.set(\bmod,999);
-	~mixer1.set(\bal,0.80);
-};
 
 ~mixergui1 = SimpleMix.new;
 ~mixergui1.mixer = ~mixer1;

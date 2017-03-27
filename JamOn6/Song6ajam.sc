@@ -21,22 +21,17 @@ o.memSize = 2097152;
 ~startup = {
 
 	(
-		"/home/dbalchen/Music/JamOn6/include/Synths/bdSynth.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Synths/oscillator.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Synths/bell.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/celloBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/violaBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/violinBeats.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Events/bellBeats.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Synths/e_monoStrings.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/eStrings.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Synths/strings.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Patches/initPatch.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/patchFunctions.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/BassDrum/Noise/noise.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/BassDrum/303/303.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/BassDrum/Sine/sine.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Patches/midiDefs.sc".load;
 		/*
 		~noise.set(\out,2);
@@ -119,11 +114,19 @@ o.memSize = 2097152;
 ~noiseSweep.value(1,-0.25,((8*4)/2), ((4*4)/2), 0.25);
 ~noiseSweep2.value(1,-1,((8*4)/2),((2*4)/2), 0.75);
 
+~noiseSweepOff.value(-1,-1);
+
 ~noiseSweep.value(-0.25,1,((16*4)./2), ((4*4)/2), 0.25);
 ~noiseSweep2.value(-1,1,((16*4)/2),((4*4)/2), 0.75);
 
-~pulseSweep.value(0.75,0.55,((16*4)/2),((4*4)/2), 0.60);
-~pulseSweep.value(0,0.75,((32*4)/2),((4*4)/2), 0.9);
+~noiseSweepOff.value(1,1);
+
+~pulseSweep.value(0.6,0.55,((16*4)/2),((4*4)/2), 0.60);
+
+~pulseSweepOff.value(0.55);
+
+~pulseSweep.value(0.55,0.7,((16*4)/2),((4*4)/2), 0.6);
+~pulseSweepOff.value(0.7);
 
 ~noise.set(\amp,0);
 ~vca1.set(\amp,0.0);
@@ -145,10 +148,10 @@ TempoClock.default.tempo = 120 / 60;
 		~pulse1.set(\bamp,998);
 //		~pulse1.set(\amp,1.5);
 		~circleExt5.set(\gate,0);
-		~vca1.set(\bamp,998);
-		~vca1.set(\amp,0.4);
+//		~vca1.set(\bamp,998);
+//		~vca1.set(\amp,0.4);
 		~mixer3.set(\bal,0.75);
-		~mixer4.set(\bal,1);
+//		~mixer4.set(\bal,1);
 		~cello0.value();
 		~viola0.value();
 		~violin1.value();
