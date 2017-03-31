@@ -3,17 +3,17 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "CDUSASGUSAUD53847,53847,Sprint (USASG),25000,1229.62417,0,0,20170319";
+#$ARGV[0] = "CDUSAW6USAUD03657,3657,T-Mobile (USAW6),100000,5725.11000,3,.13,20170326";
 
 # For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-
-# $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my @argv = split( /,/, $ARGV[0] );
 
@@ -43,16 +43,14 @@ my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
 while ( my @rows = $sth->fetchrow_array() ) {
-	$sql = "
-INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+	$sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, ERROR_DESCRIPTION, ERROR_CODE) 
 VALUES ( 
   $rows[3],
  '$rows[0]',
  'REJECTED',
  '$rows[2]',
- '$rows[1]'
-)";
+ '$rows[1]')";
 
 	$sthb = $dbconnb->prepare($sql);
 	$sthb->execute() or sendErr();
@@ -104,17 +102,17 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		my @dchValues = split( "\t", $output );
 		chomp(@dchValues);
 
-		$total_charges_dch = $dchValues[2];
-		$total_records_dch = $dchValues[3];
+		$total_charges_dch = $dchValues[3];
+		$total_records_dch = $dchValues[0];
 
 		if ( index( $usage_type, "-C" ) >= 0 ) {
 			$total_volume_dch = $rows[2];
 		}
 		elsif ( index( $usage_type, "-V" ) >= 0 ) {
-			$total_volume_dch = $dchValues[1] * 1024;
+			$total_volume_dch = $dchValues[2] * 1024;
 		}
 		else {
-			$total_volume_dch = $dchValues[0] * 60;
+			$total_volume_dch = $dchValues[1] * 60;
 		}
 
 	}
@@ -126,7 +124,8 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 		my $output = `$hh`;
 		chomp($output);
-		$output =~ s/"//g;$output =~ s/,//g;
+		$output =~ s/"//g;
+		$output =~ s/,//g;
 
 		my @dchValues = split( "\t", $output );
 		chomp(@dchValues);
@@ -193,7 +192,7 @@ VALUES (
  $dropped
 )";
 
-	print $sql. "\n";
+	#	print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);
 	$sthb->execute() or sendErr();

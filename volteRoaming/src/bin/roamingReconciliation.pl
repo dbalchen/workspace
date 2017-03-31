@@ -3,8 +3,8 @@
 use DBI;
 
 BEGIN {
-  #push(@INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5');
-  push(@INC, '/home/dbalchen/workspace/perl_lib/lib/perl5');
+	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+	# push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -17,10 +17,9 @@ use MIME::Lite;
 # $ENV{ORACLE_SID}  = $ORACLE_SID;
 # $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-
 #Test parameters remove when going to production.
-#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
-
+#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER";
+#,LTE,NLDLT,DISP_RM";
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR";
 #$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
@@ -31,303 +30,532 @@ use MIME::Lite;
 #$ARGV[0] = "NLDLT";
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # Setup Initial variables
 my $max_process = 10;
-my $timeStamp =  $ARGV[1];
-#my $timeStamp = '20170125';
+my $timeStamp   = $ARGV[1];
+
+#$timeStamp = '20170325';
 
 # Setup switch types and their directory location
-my %dirs = {};
-my %jobs = {};
+my %dirs     = {};
+my %jobs     = {};
 my %headings = {};
-my %tab = {};
-my %sqls = {};
-my %aprmsql = {};
+my %tab      = {};
+my %sqls     = {};
+my %aprmsql  = {};
 
-$dirs{'SDIRI_FCIBER'} = '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI';
-$dirs{'SDATACBR_FDATACBR'} = '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR';
-$dirs{'CIBER_CIBER'} = '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output';
+$dirs{'SDIRI_FCIBER'} =
+  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI';
+$dirs{'SDATACBR_FDATACBR'} =
+  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR';
+$dirs{'CIBER_CIBER'} =
+  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output';
 $dirs{'DISP_RM'} = '/inf_nas/apm1/prod/aprmoper/var/usc/DISP';
 
-$jobs{'SDIRI_FCIBER'} = 'getFileInfo.pl';
+$jobs{'SDIRI_FCIBER'}      = 'getFileInfo.pl';
 $jobs{'SDATACBR_FDATACBR'} = 'getFileInfoData.pl';
-$jobs{'CIBER_CIBER'} = 'getFileInfoOutcollects.pl';
-$jobs{'DATA_CIBER'} = 'getFileInfoOutcollectsData.pl';
-$jobs{'LTE'} = 'getFileInfoLTE.pl';
-$jobs{'DISP_RM'} = 'getFileInfoLTEOut.pl';
-$jobs{'NLDLT'} = 'getFileInfoLTE.pl';
+$jobs{'CIBER_CIBER'}       = 'getFileInfoOutcollects.pl';
+$jobs{'DATA_CIBER'}        = 'getFileInfoOutcollectsData.pl';
+$jobs{'LTE'}               = 'getFileInfoLTE.pl';
+$jobs{'DISP_RM'}           = 'getFileInfoLTEOut.pl';
+$jobs{'NLDLT'}             = 'getFileInfoLTE.pl';
 
-$headings{'SDIRI_FCIBER'} = ['Converted File Name','File Name','Identifier','Total Records','Total Minutes','Total Charges ($)','Dropped Records','Duplicate Records','Records Sent To TC','Records Dropped to TC','Rejected Records','Rejected Total','Dropped APRM Records ','Dropped APRM Charges ($)','TC to APRM Record Difference','APRM Records','APRM Total Charges ($)','DCH Total Records','DCH Total Minutes','DCH Total Charges ($)','Record Count Variance Usage File vs. DCH','Total Charge Variance Usage File vs. DCH ($)'];
+$headings{'SDIRI_FCIBER'} = [
+	'Converted File Name',
+	'File Name',
+	'Identifier',
+	'Total Records',
+	'Total Minutes',
+	'Total Charges ($)',
+	'Dropped Records',
+	'Duplicate Records',
+	'Records Sent To TC',
+	'Records Dropped to TC',
+	'Rejected Records',
+	'Rejected Total',
+	'Dropped APRM Records ',
+	'Dropped APRM Charges ($)',
+	'TC to APRM Record Difference',
+	'APRM Records',
+	'APRM Total Charges ($)',
+	'DCH Total Records',
+	'DCH Total Minutes',
+	'DCH Total Charges ($)',
+	'Record Count Variance Usage File vs. DCH',
+	'Total Charge Variance Usage File vs. DCH ($)'
+];
 
-$headings{'SDATACBR_FDATACBR'} = ['Converted File Name','File Name','Identifier','Total Records','Total Bytes','Total KB','Total MB','Total Charges ($)','Dropped Records','Duplicate Records','Records sent to TC','Records Dropped to TC','Rejected Records','Rejected Total','Dropped APRM Records','Dropped APRM Charges ($)','TC to APRM Record Difference','APRM Records','APRM Total Charges ($)','DCH Total Records','DCH Total Bytes','DCH Total KB','DCH Total MB','DCH Total Charges ($)','Record Count Variance Usage File vs. DCH','Total Charge Variance Usage File vs. DCH ($)'];
+$headings{'SDATACBR_FDATACBR'} = [
+	'Converted File Name',
+	'File Name',
+	'Identifier',
+	'Total Records',
+	'Total Bytes',
+	'Total KB',
+	'Total MB',
+	'Total Charges ($)',
+	'Dropped Records',
+	'Duplicate Records',
+	'Records sent to TC',
+	'Records Dropped to TC',
+	'Rejected Records',
+	'Rejected Total',
+	'Dropped APRM Records',
+	'Dropped APRM Charges ($)',
+	'TC to APRM Record Difference',
+	'APRM Records',
+	'APRM Total Charges ($)',
+	'DCH Total Records',
+	'DCH Total Bytes',
+	'DCH Total KB',
+	'DCH Total MB',
+	'DCH Total Charges ($)',
+	'Record Count Variance Usage File vs. DCH',
+	'Total Charge Variance Usage File vs. DCH ($)'
+];
 
-$headings{'CIBER_CIBER'} = ['Converted FileName','File Name','Identifier','Total Records','Total Minutes','Total Charges ($)','Total Record Difference (APRM vs. Usage File)','APRM Records','APRM Total Charges ($)','DCH Total Records',' DCH Total Minutes','DCH Total Charges ($)','Record Count Variance Usage File vs. DCH',' Total Charge Variance Usage File vs. DCH ($)'];
-$headings{'DATA_CIBER'} = ['Clearinghouse','Total Records','Revenue ($)','Data Volume','USCC - Total Records','USCC - Data Volume','Variance of Total Records','Variance of Data Volume','% Data Volume Variance'];
+$headings{'CIBER_CIBER'} = [
+	'Converted FileName',
+	'File Name',
+	'Identifier',
+	'Total Records',
+	'Total Minutes',
+	'Total Charges ($)',
+	'Total Record Difference (APRM vs. Usage File)',
+	'APRM Records',
+	'APRM Total Charges ($)',
+	'DCH Total Records',
+	' DCH Total Minutes',
+	'DCH Total Charges ($)',
+	'Record Count Variance Usage File vs. DCH',
+	' Total Charge Variance Usage File vs. DCH ($)'
+];
+$headings{'DATA_CIBER'} = [
+	'Clearinghouse',
+	'Total Records',
+	'Revenue ($)',
+	'Data Volume',
+	'USCC - Total Records',
+	'USCC - Data Volume',
+	'Variance of Total Records',
+	'Variance of Data Volume',
+	'% Data Volume Variance'
+];
 
-$headings{'LTE'} = ['Converted File Name','File Name','Identifier','Usage Type','Sender','Total Records','Total Bytes','Total KB','Total MB','Total Charges ($)','Rejected Records','Rejected Charges ($)','ARCM to APRM Record Difference','Dropped APRM Records','Dropped APRM Total Charges ($)','APRM Records','APRM Charges ($)','DCH Total Records','DCH Total Bytes','DCH Total KB','DCH Total MB','DCH Total Charges ($)','Record Count Variance Usage File vs. DCH','Total Charge Variance Usage File vs. DCH ($)'];
+$headings{'LTE'} = [
+	'Converted File Name',
+	'File Name',
+	'Identifier',
+	'Usage Type',
+	'Sender',
+	'Total Records',
+	'Total Bytes',
+	'Total KB',
+	'Total MB',
+	'Total Charges ($)',
+	'Rejected Records',
+	'Rejected Charges ($)',
+	'ARCM to APRM Record Difference',
+	'Dropped APRM Records',
+	'Dropped APRM Total Charges ($)',
+	'APRM Records',
+	'APRM Charges ($)',
+	'DCH Total Records',
+	'DCH Total Bytes',
+	'DCH Total KB',
+	'DCH Total MB',
+	'DCH Total Charges ($)',
+	'Record Count Variance Usage File vs. DCH',
+	'Total Charge Variance Usage File vs. DCH ($)'
+];
 
-$headings{'DISP_RM'} = ['Converted File Name','File Name','Identifier','Usage Type ','Total Outcollect Records','Total Records (TAP)','Total Charges ($)','APRM Records','APRM Total Bytes','DCH Records','DCH Total Charges ($)','Record Count Variance Usage File vs. DCH','Total Charge Variance Usage File vs. DCH ($)'];
+$headings{'DISP_RM'} = [
+	'Converted File Name',
+	'File Name',
+	'Total Outcollect Records',
+	'Total Charges ($)',
+	'APRM Records',
+	'APRM Total Bytes',
+	'DCH Records',
+	'DCH Total Charges ($)',
+	'Record Count Variance Usage File vs. DCH',
+	'Total Charge Variance Usage File vs. DCH ($)'
+];
 
-$headings{'NLDLT'} = ['Converted File Name','File Name','Identifier','Usage Type','Sender','Total Records','Total Charges ($)','Total Usage','Rejected Records','Rejected Charges ($)','Dropped APRM Records','Dropped APRM Total Charges ($)','APRM Records','APRM Charges ($)','DCH Total Records','DCH Total Volume','DCH Total Charges ($)','Record Count Variance Usage File vs. DCH',' Total Charge Variance Usage File vs. DCH ($)'];
+$headings{'NLDLT'} = [
+	'Converted File Name',
+	'File Name',
+	'Identifier',
+	'Usage Type',
+	'Sender',
+	'Total Records',
+	'Total Charges ($)',
+	'Total Usage',
+	'Rejected Records',
+	'Rejected Charges ($)',
+	'Dropped APRM Records',
+	'Dropped APRM Total Charges ($)',
+	'APRM Records',
+	'APRM Charges ($)',
+	'DCH Total Records',
+	'DCH Total Volume',
+	'DCH Total Charges ($)',
+	'Record Count Variance Usage File vs. DCH',
+	' Total Charge Variance Usage File vs. DCH ($)'
+];
 
-   
-$tab{'SDIRI_FCIBER'} = "CDMA Voice Incollect";
+$tab{'SDIRI_FCIBER'}      = "CDMA Voice Incollect";
 $tab{'SDATACBR_FDATACBR'} = "CDMA Data Incollect";
-$tab{'CIBER_CIBER'} = 'CDMA Voice Outcollect';
-$tab{'DATA_CIBER'} = 'Data Outcollect';
-$tab{'LTE'} = 'LTE Incollect';
-$tab{'DISP_RM'} = 'LTE Outcollect';
-$tab{'NLDLT'} = 'GSM (Incollect)';
+$tab{'CIBER_CIBER'}       = 'CDMA Voice Outcollect';
+$tab{'DATA_CIBER'}        = 'Data Outcollect';
+$tab{'LTE'}               = 'LTE Incollect';
+$tab{'DISP_RM'}           = 'LTE Outcollect';
+$tab{'NLDLT'}             = 'GSM (Incollect)';
 
-$sqls{'SDIRI_FCIBER'} = "select FILE_NAME_DCH, file_name, identifier, Total_Records, total_volume, total_charges, dropped_records, duplicates, TC_SEND, dropped_tc, rejected_count, 
+$sqls{'SDIRI_FCIBER'} =
+"select FILE_NAME_DCH, file_name, identifier, Total_Records, total_volume, total_charges, dropped_records, duplicates, TC_SEND, dropped_tc, rejected_count, 
 rejected_charges, dropped_aprm,dropped_aprm_charges, aprm_difference, aprm_total_records, aprm_total_charges,
 total_records_dch, total_volume_dch, total_charges_dch, (Total_Records - total_records_dch), (total_charges - total_charges_dch)
  from file_summary where usage_type = 'SDIRI_FCIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'SDATACBR_FDATACBR'} = "select FILE_NAME_DCH,FILE_NAME,IDENTIFIER, TOTAL_RECORDS,TOTAL_VOLUME, ceil(TOTAL_VOLUME/1024),
+$sqls{'SDATACBR_FDATACBR'} =
+"select FILE_NAME_DCH,FILE_NAME,IDENTIFIER, TOTAL_RECORDS,TOTAL_VOLUME, ceil(TOTAL_VOLUME/1024),
  ceil((TOTAL_VOLUME/1024)/1024),TOTAL_CHARGES,DROPPED_RECORDS, DUPLICATES,TC_SEND,
 DROPPED_TC,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES, APRM_DIFFERENCE, APRM_TOTAL_RECORDS,
 APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH,ceil(TOTAL_VOLUME_DCH/1024), ceil((TOTAL_VOLUME_DCH/1024)/1024), 
 TOTAL_CHARGES_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), (TOTAL_CHARGES-TOTAL_CHARGES_DCH)  
 from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'CIBER_CIBER'} = "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, TOTAL_RECORDS, TOTAL_VOLUME, TOTAL_CHARGES, APRM_DIFFERENCE, 
+$sqls{'CIBER_CIBER'} =
+"select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, TOTAL_RECORDS, TOTAL_VOLUME, TOTAL_CHARGES, APRM_DIFFERENCE, 
 APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH,
 TOTAL_VOLUME_DCH, TOTAL_CHARGES_DCH, (TOTAL_RECORDS - TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH)
  from file_summary where usage_type = 'CIBER_CIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'DATA_CIBER'} = "select  RECEIVER, TOTAL_RECORDS, TOTAL_CHARGES, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), 
+$sqls{'DATA_CIBER'} =
+"select  RECEIVER, TOTAL_RECORDS, TOTAL_CHARGES, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), 
 (TOTAL_VOLUME-TOTAL_VOLUME_DCH),( (TOTAL_VOLUME-TOTAL_VOLUME_DCH)/TOTAL_VOLUME)  from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'LTE'} = "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS,TOTAL_VOLUME,ceil(TOTAL_VOLUME/1040),ceil((TOTAL_VOLUME/1040)/1040), TOTAL_CHARGES, REJECTED_COUNT, REJECTED_CHARGES, (TOTAL_RECORDS-APRM_TOTAL_RECORDS), DROPPED_APRM, DROPPED_APRM_CHARGES,APRM_TOTAL_RECORDS,APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, ceil(TOTAL_VOLUME_DCH/1040),ceil((TOTAL_VOLUME_DCH/1040)/1040),TOTAL_CHARGES_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH) from file_summary where usage_type like 'LTE%' and process_date = to_date($timeStamp,'YYYYMMDD')";
+$sqls{'LTE'} =
+"select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS,TOTAL_VOLUME,ceil(TOTAL_VOLUME/1040),ceil((TOTAL_VOLUME/1040)/1040), TOTAL_CHARGES, REJECTED_COUNT, REJECTED_CHARGES, (TOTAL_RECORDS-APRM_TOTAL_RECORDS), DROPPED_APRM, DROPPED_APRM_CHARGES,APRM_TOTAL_RECORDS,APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, ceil(TOTAL_VOLUME_DCH/1040),ceil((TOTAL_VOLUME_DCH/1040)/1040),TOTAL_CHARGES_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH) from file_summary where usage_type like 'LTE%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'NLDLT'} = "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_VOLUME,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES,
+$sqls{'NLDLT'} =
+"select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_VOLUME,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES,
 APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, TOTAL_CHARGES_DCH, (TOTAL_RECORDS - TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH)
     from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'DISP_RM'} = "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, TOTAL_RECORDS,TOTAL_RECORDS, TOTAL_CHARGES, APRM_TOTAL_RECORDS,TOTAL_VOLUME , TOTAL_RECORDS_DCH,
-TOTAL_CHARGES_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), (TOTAL_CHARGES-TOTAL_CHARGES_DCH)
- from file_summary where usage_type = 'DISP_RM'  and process_date = to_date ($timeStamp,'YYYYMMDD')  order by identifier,file_name desc";
+$sqls{'DISP_RM'} =
+"select  FILE_NAME_DCH, file_name,  sum(total_records), sum(total_charges), sum(APRM_TOTAL_RECORDS),sum(total_volume), TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH, 
+	sum(TOTAL_RECORDS)-TOTAL_RECORDS_DCH, sum(TOTAL_CHARGES)-TOTAL_CHARGES_DCH
+ from file_summary where usage_type = 'DISP_RM' and file_type = 'TAP'  and process_date = to_date ($timeStamp,'YYYYMMDD') group by  FILE_NAME_DCH,file_name,TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH  order by file_name desc";
 
 # Get Roaming switches to check
-my @switches = split(',', $ARGV[0]);
+my @switches = split( ',', $ARGV[0] );
 
-my $excel_file = "RORC_".$timeStamp.'.xls';
+my $excel_file = "RORC_" . $timeStamp . '.xls';
 $workbook = Spreadsheet::WriteExcel->new($excel_file);
 
 $dbconnb = getSNDPRD();
 
 # Get Roaming files
 foreach my $switch (@switches) {
-  my $hh = "";
-  my $maxRecs = 1;
-  if ($switch ne "DATA_CIBER") {
+	my $hh      = "";
+	my $maxRecs = 1;
+	if ( $switch ne "DATA_CIBER" ) {
 
-    if ($switch eq "LTE") {
-      $hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp |";
-    } elsif ($switch eq "NLDLT") {
-      $hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp NLDLT|";
-    } else {
-      $hh = 'find '.$dirs{$switch}.' -name "' . $switch . '*' . $timeStamp . '*" -print |';
-    }
+		if ( $switch eq "LTE" ) {
+			$hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp |";
+		}
+		elsif ( $switch eq "NLDLT" ) {
+			$hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp NLDLT|";
+		}
+		else {
+			$hh = 'find '
+			  . $dirs{$switch}
+			  . ' -name "'
+			  . $switch . '*'
+			  . $timeStamp
+			  . '*" -print |';
+		}
 
-    if ( !open( FINDLIST, "$hh" ) ) {
-      errorExit("Cannot create FINDLIST: $!\n");
-    }
+		if ( !open( FINDLIST, "$hh" ) ) {
+			errorExit("Cannot create FINDLIST: $!\n");
+		}
 
-    while ( my $filename = <FINDLIST> ) {
-      chomp($filename);
+		while ( my $filename = <FINDLIST> ) {
+			chomp($filename);
 
-      $hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
+			$hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
 
-      # For testing...
-      if ($maxRecs < 50000000) {
-    	system($hh);
-    	$maxRecs = $maxRecs + 1;
-      }
+			# For testing...
+			if ( $maxRecs < 50000000 ) {
+				system($hh);
+				$maxRecs = $maxRecs + 1;
+			}
 
-      my $tproc = getTotalProc();
-      while ($tproc > $max_process ) {
-    	sleep 10;
-    	$tproc = getTotalProc()
-      }
-    }
+			my $tproc = getTotalProc();
+			while ( $tproc > $max_process ) {
+				sleep 10;
+				$tproc = getTotalProc();
+			}
+		}
 
-    if ($maxRecs > 0) {
-      if ($switch eq 'LTE' || $switch eq 'DISP_RM' || $switch eq 'NLDLT') {
-    	$hh = "$ENV{'REC_HOME'}/getFileInfoAprmLTE.pl $switch $timeStamp &";
-      } else {	
-    	$hh = "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $timeStamp &";
-      }
-      system($hh);
-    }
+		if ( $maxRecs > 0 ) {
+			if (   $switch eq 'LTE'
+				|| $switch eq 'DISP_RM'
+				|| $switch eq 'NLDLT' )
+			{
+				$hh =
+				  "$ENV{'REC_HOME'}/getFileInfoAprmLTE.pl $switch $timeStamp &";
+			}
+			else {
+				$hh =
+				  "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $timeStamp &";
+			}
+			system($hh);
+		}
 
-  } else {
+	}
+	else {
 
-    $hh = "$ENV{'REC_HOME'}/$jobs{$switch} $timeStamp &";
-    system($hh);
-  }
+		$hh = "$ENV{'REC_HOME'}/$jobs{$switch} $timeStamp &";
+		system($hh);
+	}
 
-  sleep 10;
-  $tproc = getTotalProc();
+	sleep 10;
+	$tproc = getTotalProc();
 
-  while ($tproc > 0) {
-    sleep 10; $tproc = getTotalProc();
-  }
+	while ( $tproc > 0 ) {
+		sleep 10;
+		$tproc = getTotalProc();
+	}
 
+	if ( $maxRecs > 0 || $switch eq "DATA_CIBER" ) {
+		createExcel( $sqls{$switch}, $headings{$switch}, $tab{$switch},
+			$switch );
 
-  if ($maxRecs > 0 || $switch eq "DATA_CIBER") {
-    createExcel($sqls{$switch},$headings{$switch},$tab{$switch},$switch);
-    
-    if (($switch ne "CIBER_CIBER") && ($switch ne "DATA_CIBER") && ($switch ne "DISP_RM")) {
-      my $heading = ['File Name','Error Code','Error Type','Error Description','Airtime Charge'];
-      my $sql = "select t1.* from rejected_records t1, file_summary t2 where t1.file_name = t2.file_name and usage_type like '$switch%'  and process_date = to_date($timeStamp,'YYYYMMDD')";
+		if (   ( $switch ne "CIBER_CIBER" )
+			&& ( $switch ne "DATA_CIBER" )
+			&& ( $switch ne "DISP_RM" ) )
+		{
+			my $heading = [
+				'File Name',
+				'Error Code',
+				'Error Type',
+				'Error Description',
+				'Airtime Charge'
+			];
+			my $sql =
+"select t1.* from rejected_records t1, file_summary t2 where t1.file_name = t2.file_name and usage_type like '$switch%'  and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-      my $rejectTab = "Rejected ".$tab{$switch};
-      createExcel($sql,$heading,$rejectTab,$switch);
-    }
+			my $rejectTab = "Rejected " . $tab{$switch};
+			createExcel( $sql, $heading, $rejectTab, $switch );
+		}
 
-    # Work Here
-    if ($switch eq "DISP_RM" ||  $switch eq "LTE") {
-      my $sql = "select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME, RECORD_COUNT_DCH, TOTAL_CHARGES_DCH, TOTAL_VOLUME_DCH from aprm  where usage_type like '$switch%' and date_processed = to_date($timeStamp,'YYYYMMDD')";
+		# Work Here
+		if ( $switch eq "DISP_RM" || $switch eq "LTE" ) {
+			my $sql =
+"select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME, RECORD_COUNT_DCH, TOTAL_CHARGES_DCH, TOTAL_VOLUME_DCH from aprm  where usage_type like '$switch%' and date_processed = to_date($timeStamp,'YYYYMMDD')";
 
-      $heading = ['Carrier Code','BP Start Date','Usage Type','Record Count','APRM Charges ($)','Data Volume (Bytes) ','DCH Record Count','DCH Total Charges ($) ','DCH Data Volume'];
-      $rejectTab = $tab{$switch}." APRM";
-      createExcel($sql,$heading,$rejectTab,$switch);
-    
-    } elsif ($switch eq "NLDLT") {
-      my $sql = "select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME, RECORD_COUNT_DCH, TOTAL_CHARGES_DCH, TOTAL_VOLUME_DCH from aprm  where usage_type like '$switch%' and date_processed = to_date($timeStamp,'YYYYMMDD')";
+			$heading = [
+				'Carrier Code',
+				'BP Start Date',
+				'Usage Type',
+				'Record Count',
+				'APRM Charges ($)',
+				'Data Volume (Bytes) ',
+				'DCH Record Count',
+				'DCH Total Charges ($) ',
+				'DCH Data Volume'
+			];
+			$rejectTab = $tab{$switch} . " APRM";
+			createExcel( $sql, $heading, $rejectTab, $switch );
 
-      $heading = ['Carrier Code','BP Start Date','Usage Type','Record Count','APRM Charges ($)','Data Volume','DCH Record Count','DCH Total Charges ($) ','DCH Data Volume'];
-      $rejectTab = $tab{$switch}." APRM";
-      createExcel($sql,$heading,$rejectTab,$switch);
-    
+		}
+		elsif ( $switch eq "NLDLT" ) {
+			my $sql =
+"select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME, RECORD_COUNT_DCH, TOTAL_CHARGES_DCH, TOTAL_VOLUME_DCH from aprm  where usage_type like '$switch%' and date_processed = to_date($timeStamp,'YYYYMMDD')";
 
-    } elsif ($switch eq "DATA_CIBER") {
+			$heading = [
+				'Carrier Code',
+				'BP Start Date',
+				'Usage Type',
+				'Record Count',
+				'APRM Charges ($)',
+				'Data Volume',
+				'DCH Record Count',
+				'DCH Total Charges ($) ',
+				'DCH Data Volume'
+			];
+			$rejectTab = $tab{$switch} . " APRM";
+			createExcel( $sql, $heading, $rejectTab, $switch );
 
-      my $sql = "select CARRIER_CODE, BP_START_DATE, CLEARINGHOUSE, TOTAL_CHARGES, TOTAL_VOLUME,CEIL(TOTAL_VOLUME/1024), CEIL((TOTAL_VOLUME/1024)/1024)  from APRM where usage_type = 'DATA_CIBER' and date_processed = to_date($timeStamp,'YYYYMMDD')";
+		}
+		elsif ( $switch eq "DATA_CIBER" ) {
 
-      $heading = ['Carrier','BP Date','Clearinghouse','Revenue ($)','Total Bytes','Total KB','Total MB'];
-      $rejectTab = $tab{$switch}." by Partner";
-      createExcel($sql,$heading,$rejectTab,$switch);
+			my $sql =
+"select CARRIER_CODE, BP_START_DATE, CLEARINGHOUSE, TOTAL_CHARGES, TOTAL_VOLUME,CEIL(TOTAL_VOLUME/1024), CEIL((TOTAL_VOLUME/1024)/1024)  from APRM where usage_type = 'DATA_CIBER' and date_processed = to_date($timeStamp,'YYYYMMDD')";
 
-    } elsif ($switch eq 'SDATACBR_FDATACBR') {
-      my $sql = "select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT),sum(TOTAL_VOLUME), sum(ceil(TOTAL_VOLUME/1024)),
+			$heading = [
+				'Carrier',
+				'BP Date',
+				'Clearinghouse',
+				'Revenue ($)',
+				'Total Bytes',
+				'Total KB',
+				'Total MB'
+			];
+			$rejectTab = $tab{$switch} . " by Partner";
+			createExcel( $sql, $heading, $rejectTab, $switch );
+
+		}
+		elsif ( $switch eq 'SDATACBR_FDATACBR' ) {
+			my $sql =
+"select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT),sum(TOTAL_VOLUME), sum(ceil(TOTAL_VOLUME/1024)),
                  sum(ceil((TOTAL_VOLUME/1024)/1024)),sum(TOTAL_CHARGES),sum(RECORD_COUNT_DCH),sum(TOTAL_VOLUME_DCH),sum(ceil(TOTAL_VOLUME_DCH/1024)),
                  sum(ceil((TOTAL_VOLUME_DCH/1024)/1024)),sum(TOTAL_CHARGES_DCH)
          from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE";
 
-      $heading = ['Company Code','BP Start Date','Record Count','Total Bytes','Total KB','Total MB','Total Charges ($)','Record Count DCH','Total Bytes DCH','Total KB DCH','Total MB DCH','Total Charges DCH ($)'];
-      $rejectTab = $tab{$switch}." APRM";
-      createExcel($sql,$heading,$rejectTab,$switch);
-    } elsif ($switch eq 'CIBER_CIBER') {
+			$heading = [
+				'Company Code',
+				'BP Start Date',
+				'Record Count',
+				'Total Bytes',
+				'Total KB',
+				'Total MB',
+				'Total Charges ($)',
+				'Record Count DCH',
+				'Total Bytes DCH',
+				'Total KB DCH',
+				'Total MB DCH',
+				'Total Charges DCH ($)'
+			];
+			$rejectTab = $tab{$switch} . " APRM";
+			createExcel( $sql, $heading, $rejectTab, $switch );
+		}
+		elsif ( $switch eq 'CIBER_CIBER' ) {
 
-      my $sql = "select CARRIER_CODE,MARKET_CODE, BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES),sum(RECORD_COUNT_DCH),sum(TOTAL_VOLUME_DCH),sum(TOTAL_CHARGES_DCH)
+			my $sql =
+"select CARRIER_CODE,MARKET_CODE, BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES),sum(RECORD_COUNT_DCH),sum(TOTAL_VOLUME_DCH),sum(TOTAL_CHARGES_DCH)
        from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,MARKET_CODE, BP_START_DATE order by CARRIER_CODE";
 
-      $heading = ['Company Code','Market Code','BP Start Date','Record Count','Total Minutes','Total Charges ($)','Record Count DCH','Total Minutes DCH','Total Charges DCH ($)'];
-      $rejectTab = $tab{$switch}." APRM";
-      createExcel($sql,$heading,$rejectTab,$switch);
-    } else {
-      my $sql = "select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES),sum(RECORD_COUNT_DCH),sum(TOTAL_VOLUME_DCH),sum(TOTAL_CHARGES_DCH)
+			$heading = [
+				'Company Code',
+				'Market Code',
+				'BP Start Date',
+				'Record Count',
+				'Total Minutes',
+				'Total Charges ($)',
+				'Record Count DCH',
+				'Total Minutes DCH',
+				'Total Charges DCH ($)'
+			];
+			$rejectTab = $tab{$switch} . " APRM";
+			createExcel( $sql, $heading, $rejectTab, $switch );
+		}
+		else {
+			my $sql =
+"select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES),sum(RECORD_COUNT_DCH),sum(TOTAL_VOLUME_DCH),sum(TOTAL_CHARGES_DCH)
        from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE";
 
-      $heading = ['Company Code','BP Start Date','Record Count','Total Minutes','Total Charges ($)','Record Count DCH','Total Minutes DCH','Total Charges DCH ($)'];
-      $rejectTab = $tab{$switch}." APRM";
-      createExcel($sql,$heading,$rejectTab,$switch);
-    }
-  }
+			$heading = [
+				'Company Code',
+				'BP Start Date',
+				'Record Count',
+				'Total Minutes',
+				'Total Charges ($)',
+				'Record Count DCH',
+				'Total Minutes DCH',
+				'Total Charges DCH ($)'
+			];
+			$rejectTab = $tab{$switch} . " APRM";
+			createExcel( $sql, $heading, $rejectTab, $switch );
+		}
+	}
 }
 
 $workbook->close;
 
-my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
+#my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
 my @email = ('david.balchen@uscellular.com');
 
 foreach my $too (@email) {
-    sendMsg($too);
+
+	 sendMsg($too);
 }
 
 exit(0);
 
 sub createExcel {
-  my($sql,$headings,$sheetname,$switch) = @_;
+	my ( $sql, $headings, $sheetname, $switch ) = @_;
 
-  my $worksheet = $workbook->add_worksheet($sheetname);
-  my $bold      = $workbook->add_format(bold => 1);
-  $worksheet->write('A1', $headings, $bold);
+	my $worksheet = $workbook->add_worksheet($sheetname);
+	my $bold = $workbook->add_format( bold => 1 );
+	$worksheet->write( 'A1', $headings, $bold );
 
-  $sthb = $dbconnb->prepare($sql);
-  $sthb->execute() or sendErr();
+	$sthb = $dbconnb->prepare($sql);
+	$sthb->execute() or sendErr();
 
-  my $cntrow = 1;
-  while (my @rows = $sthb->fetchrow_array() ) {
+	my $cntrow = 1;
+	while ( my @rows = $sthb->fetchrow_array() ) {
 
-    if (($switch eq 'DISP_RM') && (index($sheetname,"APRM") == -1)) {
-      if (index($rows[0],"DISP") >= 0) {
-	$rows[0] = "";
-	@rows[5..12] = "";
-		
-
-      } else {
-
-	$rows[4] = "";
-      }
-
-    }
-    my @fix_cols = grep(s/\s*$//g, @rows);
-    $worksheet->write_row($cntrow,0,\@fix_cols);
-    $cntrow++;
-  }
+		my @fix_cols = grep( s/\s*$//g, @rows );
+		$worksheet->write_row( $cntrow, 0, \@fix_cols );
+		$cntrow++;
+	}
 
 }
 
 sub getTotalProc {
 
-  my $shh = "ps aux | grep getFileInfo | grep -v 'grep' | wc -l";
-  my $total_proc = `$shh`;
-  chomp $total_proc;
-  return $total_proc;
+	my $shh        = "ps aux | grep getFileInfo | grep -v 'grep' | wc -l";
+	my $total_proc = `$shh`;
+	chomp $total_proc;
+	return $total_proc;
 }
 
+sub sendMsg() {
 
-sub sendMsg(){
+	my ($to)      = @_;
+	my $mime_type = 'multipart/mixed';
+	my $from      = "david.balchen\@uscellular.com";
+	my $subject   = "Roaming Reconciliation Report for $timeStamp";
+	my $message   = "You'll find the report attached to this email";
+	my $cc = '';
 
-  my($to) = @_;
-  my $mime_type = 'multipart/mixed';
-  my $from = "david.balchen\@uscellular.com"; 
-  my $subject = "Roaming Reconciliation Report for $timeStamp";
-  my $message = "You'll find the report attached to this email";
+	my $msg = MIME::Lite->new(
+		From    => $from,
+		To      => $to,
+		Cc      => $cc,
+		Subject => $subject,
+		Type    => $mime_type
+	) or die "Error creating " . "MIME body: $!\n";
 
-  my $msg = MIME::Lite->new(
-			    From => $from,
-			    To => $to,
-			    Cc => $cc,
-			    Subject => $subject,
-			    Type=>$mime_type) or die "Error creating " .  "MIME body: $!\n";
+	$msg->attach(
+		Type => 'TEXT',
+		Data => $message
+	) or die "Error adding text message: $!\n";
 
-  $msg->attach(Type=>'TEXT',
-	       Data=>$message) or die "Error adding text message: $!\n";
+	$msg->attach(
+		Type     => 'application/octet-stream',
+		Encoding => 'base64',
+		Path     => $ENV{'REC_HOME'} . $excel_file,
+		Filename => $excel_file
+	) or die "Error attaching file: $!\n";
 
-  $msg->attach(Type=>'application/octet-stream',
-	       Encoding=>'base64',
-	       Path=>$ENV{'REC_HOME'}.$excel_file,
-	       Filename=>$excel_file) or die "Error attaching file: $!\n";
-        
-  $msg->send();
+	$msg->send();
 }
 
 sub getSNDPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }
-
 

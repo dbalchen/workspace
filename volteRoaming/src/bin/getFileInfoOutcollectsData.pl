@@ -77,7 +77,7 @@ VALUES (
  'USCC',
  0,
  0,
- '@rows[1]',
+ '$rows[1]',
  to_date($ARGV[0],'YYYYMMDD'),
  0,
  'DATA',
@@ -157,7 +157,7 @@ sub getBRMPRD {
 
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooG00900#" );
+  my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "GooB00900#" );
   unless ( defined $dbods ) {
     sendErr();
   }
@@ -168,7 +168,7 @@ sub getSNDPRD {
 
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
   unless ( defined $dbods ) {
     sendErr();
   }

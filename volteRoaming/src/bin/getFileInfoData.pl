@@ -3,17 +3,17 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID025826_T20170311003300.DAT";
+#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID026040_T20170325173301.DAT";
 
 #For test only.....
- my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
- my $ORACLE_SID  = "bodsprd";
- $ENV{ORACLE_HOME} = $ORACLE_HOME;
- $ENV{ORACLE_SID}  = $ORACLE_SID;
- $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
- $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# my $ORACLE_SID  = "bodsprd";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $hh =
 "cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
@@ -267,7 +267,7 @@ sub getBODSPRD {
 
 	#  my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#  my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -278,7 +278,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

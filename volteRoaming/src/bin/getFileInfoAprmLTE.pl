@@ -2,8 +2,8 @@
 
 use DBI;
 
-#Test parameters remove when going to production. 
-# For test only.....
+#Test parameters remove when going to production.
+#For test only.....
 # my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 # my $ORACLE_SID  = "bodsprd";
 # $ENV{ORACLE_HOME} = $ORACLE_HOME;
@@ -12,31 +12,36 @@ use DBI;
 
 my %sqls = {};
 
-$sqls{'LTE'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
+$sqls{'LTE'} =
+"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
 
-$sqls{'NLDLT'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
+$sqls{'NLDLT'} =
+"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
 
-$sqls{'DISP_RM'} = "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
+$sqls{'DISP_RM'} =
+"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
 
-my $dbconn = getBODSPRD();
+my $dbconn  = getBODSPRD();
 my $dbconnb = getSNDPRD();
 
-my $sqlT = "delete from APRM where usage_type like '$ARGV[0]".'%'."' and DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') ";
+my $sqlT = "delete from APRM where usage_type like '$ARGV[0]" . '%'
+  . "' and DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') ";
 $sthb = $dbconnb->prepare($sqlT);
 $sthb->execute() or sendErr();
 
-my $sql = $sqls{$ARGV[0]};
+my $sql = $sqls{ $ARGV[0] };
 my $sth = $dbconn->prepare($sql);
 
 $sth->execute() or sendErr();
 
-while (my @rows = $sth->fetchrow_array() ) {
+while ( my @rows = $sth->fetchrow_array() ) {
 
-  my $total_volume_dch = $rows[4];
-  my $total_charges_dch = $rows[3];
-  my $record_count_dch = $rows[2];
-  my $usage_type = $ARGV[0]."-".$rows[5];
-  $sql = "
+	my $total_volume_dch  = $rows[4];
+	my $total_charges_dch = $rows[3];
+	my $record_count_dch  = $rows[2];
+	my $usage_type        = $ARGV[0] . "-" . $rows[5];
+
+	$sql = "
   INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
    USAGE_TYPE,
    TOTAL_VOLUME_DCH,
@@ -70,8 +75,8 @@ VALUES (
   '$rows[1]'
 )";
 
-  $sthb = $dbconnb->prepare($sql);
-  $sthb->execute() or sendErr();
+	$sthb = $dbconnb->prepare($sql);
+	$sthb->execute() or sendErr();
 }
 
 # close(RPT);
@@ -83,22 +88,22 @@ exit(0);
 
 sub getBODSPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }
 
 sub getSNDPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }

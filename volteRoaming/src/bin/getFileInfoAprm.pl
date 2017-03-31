@@ -3,14 +3,14 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "SDIRI_FCIBER";
-$ARGV[1] = '20170210';
+#$ARGV[0] = "SDIRI_FCIBER";
+#$ARGV[1] = '20170210';
 # # For test only.....
- my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
- my $ORACLE_SID  = "bodsprd";
- $ENV{ORACLE_HOME} = $ORACLE_HOME;
- $ENV{ORACLE_SID}  = $ORACLE_SID;
- $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# my $ORACLE_SID  = "bodsprd";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $filetype = $ARGV[0] . '%' . $ARGV[1] . '%';
 
@@ -89,7 +89,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -100,7 +100,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
