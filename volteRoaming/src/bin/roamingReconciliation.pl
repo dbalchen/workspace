@@ -4,7 +4,7 @@ use DBI;
 
 BEGIN {
 	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
-	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -26,7 +26,7 @@ use MIME::Lite;
 #$ARGV[0] = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
 #$ARGV[0] = "LTE";
-#$ARGV[0] = "DISP_RM";
+$ARGV[0] = "DISP_RM";
 #$ARGV[0] = "NLDLT";
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
@@ -36,7 +36,7 @@ $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-#$timeStamp = '20170325';
+$timeStamp = '20170401';
 
 # Setup switch types and their directory location
 my %dirs     = {};
@@ -247,9 +247,9 @@ APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, TOT
     from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 $sqls{'DISP_RM'} =
-"select  FILE_NAME_DCH, file_name,  sum(total_records), sum(total_charges), sum(APRM_TOTAL_RECORDS),sum(total_volume), TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH, 
-	sum(TOTAL_RECORDS)-TOTAL_RECORDS_DCH, sum(TOTAL_CHARGES)-TOTAL_CHARGES_DCH
- from file_summary where usage_type = 'DISP_RM' and file_type = 'TAP'  and process_date = to_date ($timeStamp,'YYYYMMDD') group by  FILE_NAME_DCH,file_name,TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH  order by file_name desc";
+"select  FILE_NAME_DCH, file_name,  total_records, total_charges, APRM_TOTAL_RECORDS,total_volume, TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH, 
+    TOTAL_RECORDS-TOTAL_RECORDS_DCH, TOTAL_CHARGES-TOTAL_CHARGES_DCH
+ from file_summary where usage_type = 'DISP_RM' and file_type = 'TAP'  and process_date = to_date($timeStamp,'YYYYMMDD') ";
 
 # Get Roaming switches to check
 my @switches = split( ',', $ARGV[0] );

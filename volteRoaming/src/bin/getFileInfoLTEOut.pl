@@ -4,20 +4,16 @@ use DBI;
 
 #Test parameters remove when going to production.
 #$ARGV[0] =
-#"/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000084151_20170318_174027.ASC.done";
+#"/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000085991_20170401_000043.ASC.done";
 
 #For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
-# $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
 $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
-my $hh = "wc -l < $ARGV[0]";
-
-my $totalRecs = `$hh`;
-chomp($totalRecs);
 my $filename = ( split( '/', $ARGV[0] ) )[-1];
 
 my $disp_file_seq = ( split( '_', $filename ) )[2];
@@ -29,75 +25,10 @@ my $process_date = ( split( '_', $filename ) )[3];
 my $dbconn  = getBODSPRD();
 my $dbconnb = getSNDPRD();
 
-my $sql  = "delete from file_summary where IDENTIFIER = $disp_file_seq";
-my $sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
-
-my $file_name_dch     = $filename;
-my $total_records_dch = $totalRecs;
-
-#print("File Name = $filename\n");
-
-$sql = "
-INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
-USAGE_TYPE, 
-TOTAL_VOLUME_DCH, 
-TOTAL_VOLUME, 
-TOTAL_RECORDS_DCH, 
-TOTAL_RECORDS, 
-TOTAL_CHARGES_DCH, 
-TOTAL_CHARGES,
-TC_SEND, 
-SENDER, 
-REJECTED_COUNT, 
-REJECTED_CHARGES, 
-RECEIVER, 
-PROCESS_DATE, 
-IDENTIFIER, 
-FILE_TYPE, 
-FILE_NAME_DCH, 
-FILE_NAME, 
-DUPLICATES, 
-DROPPED_TC, 
-DROPPED_RECORDS, 
-DROPPED_APRM_CHARGES, 
-DROPPED_APRM, 
-APRM_TOTAL_RECORDS, 
-APRM_TOTAL_CHARGES, 
-APRM_DIFFERENCE
-) 
-VALUES ( 
- 'DISP_RM',
-  0,
-  0,
- $total_records_dch,
- $totalRecs,
- 0,
- 0,
- 0,
- 'USCC',
- 0,
- 0,
- '',
- to_date($process_date,'YYYYMMDD'),
- $disp_file_seq,
- 'DISP_RM',
- '$file_name_dch',
- '$filename',
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0,
- 0
-)";
-$sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
-
-$sql =
-"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME, carrier_cd";
+my $sql =
+"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd  from prm_rom_outcol_events_ap
+ where  tap_out_file_name in (select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME  from prm_rom_outcol_events_ap where disp_file_seq = 85991 group by TAP_OUT_FILE_NAME )
+  group by TAP_OUT_FILE_NAME, carrier_cd ";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -108,14 +39,16 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $total_records_dch = '';
 
 	if ( !$rows[0] ) {
-
-		$rows[0]           = ' UNDEFIND';
-		$total_charges_dch = $rows[3];
-		$total_records_dch = $rows[1];
-
+		next;
 	}
 
 	else {
+
+		$sql =
+"delete from file_summary where FILE_NAME = '$rows[0]' and PROCESS_DATE = to_date($process_date,'YYYYMMDD')";
+		$sthb = $dbconnb->prepare($sql);
+		$sthb->execute() or sendErr();
+
 		my $grep = " grep $rows[0] ";
 
 		my $hh =

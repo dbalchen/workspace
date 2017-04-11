@@ -10,6 +10,7 @@ use DBI;
 # $ENV{ORACLE_SID}  = $ORACLE_SID;
 # $ENV{PATH}  = "$ENV{PATH}:$ORACLE_HOME/bin";
 
+my $clearinghouse = 'TNS';
 my %sqls = {};
 
 $sqls{'LTE'} =
@@ -20,6 +21,11 @@ $sqls{'NLDLT'} =
 
 $sqls{'DISP_RM'} =
 "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
+
+if($ARGV[0] = "NLDLT")
+{
+ $clearinghouse = 'Syniverse';
+}
 
 my $dbconn  = getBODSPRD();
 my $dbconnb = getSNDPRD();
@@ -70,7 +76,7 @@ VALUES (
    '$rows[0]',
    'TAP',
  to_date($ARGV[1],'YYYYMMDD'),
- 'TNS',
+ $clearinghouse,
   '$rows[0]',
   '$rows[1]'
 )";
