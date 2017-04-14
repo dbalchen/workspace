@@ -1099,3 +1099,48 @@ digraph BI {
 \newpage
 #+END_LaTeX
 * TEST EXECUTION RESULTS
+#+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
+#+PROPERTY: Effort_ALL 1w 2w 3w 4w 5w 6w 7w 8w 9w
+* Task List						:taskjuggler_project:
+** Monthly Report
+   :PROPERTIES:
+   :ORDERED:  t
+   :BLOCKER:  start
+   :END:
+*** Productionalize load_staging.pl
+    :PROPERTIES:
+    :Effort:   2w
+    :END:
+*** Testing and modifications 
+    :PROPERTIES:
+    :Effort:   3d
+    :END:
+** Operational Readiness
+   :PROPERTIES:
+   :BLOCKER:  previous-sibling
+   :END:
+*** DCH Information
+   :PROPERTIES:
+   :Effort:   3d
+   :END:
+*** Bug Fixes and Report layout Changes
+   :PROPERTIES:
+   :Effort:   1w
+   :END:
+** Monthly Sub Report
+   :PROPERTIES:
+   :ORDERED:  t
+   :BLOCKER:  previous-sibling
+   :END:
+*** Analysis
+    :PROPERTIES:
+    :Effort:   1w
+    :END:
+*** Development
+    :PROPERTIES:
+    :Effort:   1w
+    :END:
+*** Test
+    :PROPERTIES:
+    :Effort:   1w
+    :END:

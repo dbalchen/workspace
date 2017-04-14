@@ -11,7 +11,7 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20170201';
+$ARGV[0] = '20170401';
 
 my $date = $ARGV[0];
 my $sdate = substr( $date, 0, 6 );
@@ -107,7 +107,6 @@ $sqls{'CDMA_S_OUT_DATA'} =
   . "15', 'YYYYMMDD'))
          group by TRIM(REGEXP_REPLACE(t1.PARTNER,',')),t1.settlement_date order by 1,2";
 
-
 # Need to add BRMPRD
 
 $sqls{'CDMA_A_OUT_DATA'} =
@@ -159,7 +158,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooG00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -170,7 +169,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooG00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -189,7 +188,7 @@ sub loadAprm {
 
 		while ( my @rows = $sth->fetchrow_array() ) {
 
-			my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM_STAGING (
+    my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM_STAGING (
    USAGE_TYPE, TECHNOLOGY, ROAMING, 
    PERIOD, MONTH_TYPE, COMPANY_CODE, 
    BID, AMOUNT_USD, AMOUNT_EUR) 
