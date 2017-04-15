@@ -1,4 +1,4 @@
-"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
+//"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
 
 
 SynthDef(\Pulse, {arg out = 0, freq = 110, width = 0.5, lagLev = 0.0, bamp = 998;

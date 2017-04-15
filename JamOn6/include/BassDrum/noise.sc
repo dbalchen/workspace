@@ -1,4 +1,4 @@
-"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
+//"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
 
 SynthDef(\Noise, {arg out = 0, freq = 550, rq = 0.5, lagLev = 0.0, amp = 2;
 	var sig;

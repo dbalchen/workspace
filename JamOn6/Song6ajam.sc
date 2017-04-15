@@ -14,6 +14,11 @@ o = Server.local.options;
 o.numOutputBusChannels = 24; // The next time it boots, this will take effect
 o.memSize = 2097152;
 )
+a= Pbjorklund(3, 8, 1).asStream;
+9.do{a.
+	next.postln};
+
+
 
 "/home/dbalchen/Music/setup.sc".load;
 
@@ -21,18 +26,18 @@ o.memSize = 2097152;
 ~startup = {
 
 	(
-		"/home/dbalchen/Music/JamOn6/include/Synths/envelopes.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/envelopes.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/BassDrum/modCircle.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/beats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/celloBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/violaBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/violinBeats.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Synths/eStrings.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Synths/strings.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Patches/patchFunctions.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/BassDrum/Noise/noise.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/BassDrum/303/303.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/BassDrum/Sine/sine.sc".load;
-		"/home/dbalchen/Music/JamOn6/include/Patches/midiDefs.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/Strings/eStrings.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/Strings/strings.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/BassDrum/noise.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/BassDrum/303.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/BassDrum/sine.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/midiDefs.sc".load;
 		/*
 		~noise.set(\out,2);
 		~vca1.set(\out,6);
@@ -78,10 +83,6 @@ o.memSize = 2097152;
 ~rp = {~viola4.value();~midistring2_firmus.value();};
 ~viola4.value();
 
-
-
-
-
 ~rp = {~violin1.value();~midistring3_firmus.value();};
 ~violin1.value();
 
@@ -114,6 +115,7 @@ o.memSize = 2097152;
 ~noiseSweep.value(1,-0.25,((8*4)/2), ((4*4)/2), 0.25);
 ~noiseSweep2.value(1,-1,((8*4)/2),((2*4)/2), 0.75);
 
+~noiseSweepOff.value(-0.25,-1);
 ~noiseSweepOff.value(-1,-1);
 
 ~noiseSweep.value(-0.25,1,((16*4)./2), ((4*4)/2), 0.25);
@@ -123,9 +125,11 @@ o.memSize = 2097152;
 
 ~pulseSweep.value(0.6,0.55,((16*4)/2),((4*4)/2), 0.60);
 
-~pulseSweepOff.value(0.55);
+~pulseSweepOff.value(0.45);
+~pulseSweepOff.value(0.85);
 
-~pulseSweep.value(0.55,0.7,((16*4)/2),((4*4)/2), 0.6);
+~pulseSweep.value(0.55,0.65,((16*4)/2),((4*4)/2), 0.6);
+~pulseSweepOff.value(0.75);
 ~pulseSweepOff.value(0.7);
 
 ~noise.set(\amp,0);
