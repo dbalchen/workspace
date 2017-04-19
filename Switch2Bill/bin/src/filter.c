@@ -17,6 +17,7 @@
 #define WRKLEN 6144
 
 void processUFF(char *);
+void processCIBER(char *);
 int checkTrailer(char *, char *, int);
 int isValid(char *);
 char * getUFFcol(char *, int);
@@ -31,13 +32,12 @@ int main(int argc, char *argv[]) {
 
 	char inRec[FILEIN];
 	char workRec[WRKLEN];
-
 	struct stat st;
 
 	workRec[0] = 0;
 
-	if (argc == 0) {
-		printf("No file given\n");
+	if (argc < 2) {
+		printf("Not enough parameters\n");
 		exit(0);
 	}
 
@@ -60,17 +60,66 @@ int main(int argc, char *argv[]) {
 	while (fread(inRec, FILEIN, 1, IN_FILE)) {
 		strncat(workRec, inRec, FILEIN);
 
-		processUFF(workRec);
+		if(strstr(argv[2],"UFF"))processUFF(workRec);
+		else processCIBER(workRec);
 
-		inRec[0] = 0;
+		memset(inRec, 0, FILEIN);
 	}
 
-	strncat(workRec, inRec, FILEIN);
+	strncat(workRec, inRec, strlen(inRec));
 
-	processUFF(workRec);
+	if(strstr(argv[2],"UFF"))processUFF(workRec);
+	else processCIBER(workRec);;
 
 	fclose(IN_FILE);
 	return EXIT_SUCCESS;
+}
+
+void processCIBER(char *workrec) {
+	char ch, *ptr, *bptr;
+	char *oMSID,*tMSID;
+	char check[3];
+
+	bptr = workrec;
+
+	while ((ptr = strstr((bptr), "\n")))
+	{
+		ch = *ptr;
+		*ptr = '\0';
+
+		check[0] = 0;
+
+		strncpy(check, workrec, 2);
+
+		if(strstr(check,"01"))
+		{
+			printf("%s\n", bptr);
+		}
+		if(strstr(check,"22"))
+		{
+			printf("%s\n", bptr);
+		}
+		if(strstr(check,"98"))
+		{
+			printf("%s\n", bptr);
+		}
+		if(strstr(check,"32"))
+		{
+			printf("%s\n", bptr);
+		}
+		if(strstr(check,"52"))
+		{
+			printf("%s\n", bptr);
+		}
+		*ptr = ch;
+		bptr = ptr + 1;
+
+		workrec[0] = 0;
+		strncat(workrec, bptr, strlen(bptr));
+
+		bptr = workrec;
+	}
+
 }
 
 void processUFF(char *workrec) {
@@ -88,12 +137,12 @@ void processUFF(char *workrec) {
 			ch = *ptr;
 			*ptr = '\0';
 
-//			if(strstr(bptr,"DR|APLX|1756|20170403172305662421|0|0|morg|20170403|17051700|18000|26132|26132|0061|1615"))
-//			{
-//			printf("The last record is %s\n",bptr);
-//			}
+			//			if(strstr(bptr,"DR|APLX|1756|20170403172305662421|0|0|morg|20170403|17051700|18000|26132|26132|0061|1615"))
+			//			{
+			//			printf("The last record is %s\n",bptr);
+			//			}
 			if (checkTrailer(bptr, "TR", 1))
-				return;
+				exit(0);
 
 			if (strstr(bptr, "DR|")) {
 
@@ -102,8 +151,6 @@ void processUFF(char *workrec) {
 				dd = getUFFcol(bptr, 25);
 				tMDN = getUFFcol(bptr, 24);
 				tMSID = getUFFcol(bptr, 23);
-
-
 
 				if (isValid(oMSID) && isValid(tMSID) && isValid(oMDN)
 						&& isValid(tMDN) && isValid(dd))
@@ -125,18 +172,18 @@ void processUFF(char *workrec) {
 
 			workrec[0] = 0;
 			strncat(workrec, bptr, strlen(bptr));
-
 			bptr = workrec;
 		}
 
+
 	}
 
-		if (checkTrailer(workrec, "TR", 0))
+	if (checkTrailer(workrec, "TR", 0))
 		return;
 }
 
 int checkTrailer(char *record, char *look, int pass) {
-	char check[2];
+	char check[3];
 	char *find;
 
 	check[0] = 0;
@@ -152,7 +199,7 @@ int checkTrailer(char *record, char *look, int pass) {
 
 		if (pass) {
 			printf("%s\n", record);
-			exit(0);
+			return 1;
 		}
 
 	}
@@ -250,6 +297,25 @@ char * getUFFcol(char *record, int colnum) {
 	*ptr = ch;
 
 	bptr = record;
+	return rptr;
+}
+
+char * getCiberCol (char *record, int start, int end)
+{
+	char *bptr, *ptr, ch, *rptr;
+
+	bptr = record + start;
+	ptr = record + end + 1;
+	ch = *ptr;
+	*ptr = '\0';
+
+	rptr = malloc((strlen(bptr)+1) * sizeof(char));
+
+	strcpy(rptr, bptr);
+	*ptr = ch;
+
+	bptr = record;
+
 	return rptr;
 }
 

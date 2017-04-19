@@ -1,20 +1,17 @@
 // =====================================================================
-// MyEvents Class
+// MyNotes Class
 // =====================================================================
 
 
-MyEvents {
-    <>out = 0,         <>amp = 0.2,  
+MyNotes {
+  var  <>freqs = nil,     <>freq = nil,
+    <>probs = nil,     <>prob = nil,
+    <>waits = nil,     <>wait = nil,
     <>lag = 0.0,       <>lags = nil,
     <>vel = 1,         <>vels = nil;
+    <>durations = nil, <>duration = nil;
 
   init {
-
-    if(filter != nil,
-     {filter = MyFilter.new;});
-
-    if(envelope != nil,
-     {envelope = MyEnv.new;});
 
     if(freqs == nil,
       {freqs = [60,60,60,60]; });
@@ -25,20 +22,23 @@ MyEvents {
     if(waits == nil,
       {waits = Array.newClear(freqs.size).fill(1); });
 
+    if(durations == nil,
+      {durations = waits.deepCopy; });
+
     if(vels == nil,
       {vels = Array.newClear(freqs.size).fill(1); });
 
     if(lags == nil,
-      {lags = Array.newClear(freqs.size).fill(1); });
+      {lags = Array.newClear(freqs.size).fill(0); });
 
-    if(durations == nil,
-      {durations = waits.deepCopy; }); 
 
     this.calcFreq.value;
     this.calcDur.value;
     this.calcWait.value;
     this.calcLag.value;
     this.calcVel.value;
+
+
   }
   calcFreq {
     var lazy;
@@ -110,35 +110,6 @@ MyEvents {
     vel =Pn(lazy,inf).asStream;
     
   }
-
-  mute {
-    twaits = waits;
-    tfreqs = freqs;
-    tprobs = probs;
-    tdurations = durations;
-    tvels = vels;
-
-    waits = [4.0];
-    freqs = [0];
-    probs = [0];
-    durations = [4.0];
-    vels = [1];
-
-	  //   envelope.mute;
-	  // filter.mute;
-  }
-
-  unmute {
-    waits = twaits;
-    freqs = tfreqs;
-    probs = tprobs;
-    durations = tdurations;
-    vels = tvels;
-
-	  //    envelope.unmute;
-	  //filter.unmute;
-  }
-
 
 
 }
