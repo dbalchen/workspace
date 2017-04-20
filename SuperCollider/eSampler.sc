@@ -1,18 +1,20 @@
 SynthDef(\Esampler, {arg bufnum = 0, out = 0, amp = 0.5, da = 0, gate = 0, rate = 1.0, midi = 60, basef = 60,
       attack = 0, decay = 0, sustain = 1, release = 0.5, fattack = 0.0, fsustain = 1, frelease = 0.0, aoc = 0, gain = 2, cutoff = 10000.00;
-  
+
     var sig, env, fenv,i;
 
-    i = midi.midicps/basef.midicps;
-
+//    i = midi.midicps/basef.midicps;
+	i = midi.midicps/basef.midicps;
     env  = Env.adsr(attack,decay,sustain,release);
     env = EnvGen.kr(env, gate: gate, doneAction:da);
     fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
     fenv = EnvGen.kr(fenv, gate,doneAction:da);
     fenv = aoc*(fenv - 1) + 1;
-    sig = PlayBuf.ar(2, bufnum, BufRateScale.kr(bufnum)*rate*i,gate,0,0, doneAction:da)*amp;
+//    sig = PlayBuf.ar(2, bufnum, BufRateScale.kr(bufnum)*rate*i,gate,0,0, doneAction:da)*amp;
+	sig = {PlayBuf.ar(2, bufnum, BufRateScale.kr(bufnum)*rate*i*LFNoise2.kr(2.5,0.01,1),gate,0,0, doneAction:da)}!1;
+	sig = sig * (amp/5);
     sig = sig * env;
-	
+
     sig = MoogFF.ar
       (
        sig,
@@ -20,9 +22,9 @@ SynthDef(\Esampler, {arg bufnum = 0, out = 0, amp = 0.5, da = 0, gate = 0, rate 
        gain
        );
     sig = Splay.ar(sig);
-	
+
     Out.ar(out,sig);
-	 
+
   }).store;
 
 
@@ -31,19 +33,19 @@ SynthDef(\Esampler, {arg bufnum = 0, out = 0, amp = 0.5, da = 0, gate = 0, rate 
 
 		myTask = Task({
 		    var num,dur,amp,synths,si = 0;
-			
+
 		    synths = Array.newClear(poly);
 		    for(0, synths.size - 1,
-		      { arg i; 
+		      { arg i;
 			var tt;
 			tt = Synth("Esampler");
 			tt.set(\gate,0);
 			tt.set(\da,0);
-			synths.put(i,tt); 
+			synths.put(i,tt);
 		      }
 		      );
-			
-		    inf.do({ 
+
+		    inf.do({
 			num = myevents.freq.next;
 			dur = myevents.duration.next;
 			amp = myevents.amp;
@@ -51,7 +53,7 @@ SynthDef(\Esampler, {arg bufnum = 0, out = 0, amp = 0.5, da = 0, gate = 0, rate 
 			env = myevents.envelope;
 
 			if(num.isMemberOf(Integer),
-			  { 
+			  {
 			    {
 			      var tt = synths[si % poly];
 			      si = si + 1;
@@ -70,7 +72,7 @@ SynthDef(\Esampler, {arg bufnum = 0, out = 0, amp = 0.5, da = 0, gate = 0, rate 
 
 			  }, {["rest"].post}); // false action
 			myevents.wait.next.wait;
-		      }); 
+		      });
 		  }).start};
 
 
@@ -81,7 +83,7 @@ SynthDef(\Esampler, {arg bufnum = 0, out = 0, amp = 0.5, da = 0, gate = 0, rate 
 	     env = myevents.envelope;
 
 	     if(num.isMemberOf(Integer),
-	       { 
+	       {
 		 tt = Synth("Esampler");
 		 tt.set(\gate,0);
 		 flt.setFilter(tt);

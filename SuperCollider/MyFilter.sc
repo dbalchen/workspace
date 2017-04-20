@@ -3,9 +3,9 @@ MyFilter {
   var <>in, <>out,<>name = "filter",
     <>attacks = nil,   <>attack = 0.5,
     <>releases = nil,  <>release = 0.5, <>lrelease = 0.5,
-    <>att = 1.0, <>rel = 1.0, 
+    <>att = 1.0, <>rel = 1.0,
     <>cutoff = 5000.00, <>gain = 2.0,
-    <>sustain = 1.0, <>aoc = 1.0, 
+    <>sustain = 1.0, <>aoc = 1.0,
     <>flter = nil,  <>doneAction = 2;
 
   setFilter
@@ -19,6 +19,20 @@ MyFilter {
 	  lrelease = rel.next * release;
       filt.set(\frelease,lrelease);
     }
+
+  setaFilter
+    {arg filt,osc;
+
+      osc.set(\cutoff,cutoff);
+      osc.set(\gain,gain);
+      osc.set(\aoc,aoc);
+      filt.set(\attack,att.next * attack);
+      filt.set(\sustain,sustain);
+	  lrelease = rel.next * release;
+      filt.set(\release,lrelease);
+    }
+
+
   init {
 
     if(attacks == nil,
@@ -81,7 +95,7 @@ MyFilter {
 	  });
 
       nb2.action_({
-	   
+
 	  sl2.value_(nb2.value/4);
 	  gain = sl2.value;
 	});
@@ -89,7 +103,7 @@ MyFilter {
       StaticText( fltWin, Rect(4, 56, 50, 25 )).align_( \left ).string_( "Aoc:" );
       nb3 = NumberBox(fltWin, Rect(240, 56, 53, 25)).value_(aoc);
 
-      sl3 = Slider(fltWin, Rect(35, 61, 200, 15))     
+      sl3 = Slider(fltWin, Rect(35, 61, 200, 15))
 	.value_(nb3.value/10)
 	.action_({
 	    nb3.value_(sl3.value * 10);
