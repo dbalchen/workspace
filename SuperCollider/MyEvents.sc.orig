@@ -1,20 +1,36 @@
 // =====================================================================
-// MyNotes Class
+// MyEvents Class
 // =====================================================================
 
 
-MyNotes {
-	var <>freqs = nil,     <>freq = nil,
+MyEvents {
+<<<<<<< HEAD
+	var  <>freqs = nil,     <>freq = nil,
 	<>probs = nil,     <>prob = nil,
 	<>waits = nil,     <>wait = nil,
-	<>lag = 0.0,       <>lags = nil,
+	<>durations = nil, <>duration = nil,
+	<>out = 0,         <>amp = 0.2,
+	<>filter = nil,    <>envelope = nil,
+	<>lag = 0.0,       <>lags = nil, <>lagt = 0.0,
 	<>vel = 1,         <>vels = nil,
-	<>durations = nil, <>duration = nil;
+
+	tfreqs, tprobs, twaits, tlags, tvels, tdurations;
+=======
+    <>out = 0,         <>amp = 0.2,  
+    <>lag = 0.0,       <>lags = nil,
+    <>vel = 1,         <>vels = nil;
+>>>>>>> eb75bb5218f7efc64bb80f9306321638fb7746ba
 
 	init {
 
+		if(filter != nil,
+			{filter = MyFilter.new;});
+
+		if(envelope != nil,
+			{envelope = MyEnv.new;});
+
 		if(freqs == nil,
-			{freqs = [60,60,60,60]; });
+			{freqs = Array.newClear(waits.size).fill(35);});
 
 		if(probs == nil,
 			{probs = freqs.deepCopy.collect{|x| if(x == 0,{x = 0;},{x = 1;})}});
@@ -22,23 +38,20 @@ MyNotes {
 		if(waits == nil,
 			{waits = Array.newClear(freqs.size).fill(1); });
 
-		if(durations == nil,
-			{durations = waits.deepCopy; });
-
 		if(vels == nil,
 			{vels = Array.newClear(freqs.size).fill(1); });
 
 		if(lags == nil,
-			{lags = Array.newClear(freqs.size).fill(0); });
+			{lags = Array.newClear(freqs.size).fill(1); });
 
+		if(durations == nil,
+			{durations = waits.deepCopy; });
 
 		this.calcFreq.value;
 		this.calcDur.value;
 		this.calcWait.value;
 		this.calcLag.value;
 		this.calcVel.value;
-
-
 	}
 	calcFreq {
 		var lazy;
@@ -110,6 +123,35 @@ MyNotes {
 		vel =Pn(lazy,inf).asStream;
 
 	}
+
+	mute {
+		twaits = waits;
+		tfreqs = freqs;
+		tprobs = probs;
+		tdurations = durations;
+		tvels = vels;
+
+		waits = [4.0];
+		freqs = [0];
+		probs = [0];
+		durations = [4.0];
+		vels = [1];
+
+		//   envelope.mute;
+		// filter.mute;
+	}
+
+	unmute {
+		waits = twaits;
+		freqs = tfreqs;
+		probs = tprobs;
+		durations = tdurations;
+		vels = tvels;
+
+		//    envelope.unmute;
+		//filter.unmute;
+	}
+
 
 
 }
