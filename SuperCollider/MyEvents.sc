@@ -4,6 +4,7 @@
 
 
 MyEvents {
+<<<<<<< HEAD
 	var  <>freqs = nil,     <>freq = nil,
 	<>probs = nil,     <>prob = nil,
 	<>waits = nil,     <>wait = nil,
@@ -14,6 +15,11 @@ MyEvents {
 	<>vel = 1,         <>vels = nil,
 
 	tfreqs, tprobs, twaits, tlags, tvels, tdurations;
+=======
+    <>out = 0,         <>amp = 0.2,  
+    <>lag = 0.0,       <>lags = nil,
+    <>vel = 1,         <>vels = nil;
+>>>>>>> eb75bb5218f7efc64bb80f9306321638fb7746ba
 
 	init {
 
