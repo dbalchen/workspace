@@ -13,7 +13,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#define FILEIN 5128
+#define FILEIN 5120
 #define WRKLEN 6144
 
 void processUFF(char *);
@@ -43,12 +43,12 @@ int main(int argc, char *argv[]) {
 
 	stat(argv[1], &st);
 
-	lookup = malloc((st.st_size + 128) * sizeof(char));
-
 	if ((LOOKUP = fopen(argv[1], "rb")) == NULL) {
 		printf("ERROR ----> Can Not Open Lookup Input File \n");
 		exit(12);
 	}
+
+	lookup = malloc((st.st_size + 128) * sizeof(char));
 
 	fread(lookup, st.st_size, 1, LOOKUP);
 

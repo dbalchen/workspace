@@ -26,7 +26,7 @@ use MIME::Lite;
 #$ARGV[0] = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
 #$ARGV[0] = "LTE";
-$ARGV[0] = "DISP_RM";
+#$ARGV[0] = "DISP_RM";
 #$ARGV[0] = "NLDLT";
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
