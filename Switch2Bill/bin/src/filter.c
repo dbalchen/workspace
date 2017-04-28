@@ -18,9 +18,9 @@
 
 void processUFF(char *);
 void processCIBER(char *);
-int checkTrailer(char *, char *, int);
 int isValid(char *);
 char * getUFFcol(char *, int);
+char * getCiberCol(char *, int,int);
 char * pad(char *, int);
 
 static char *lookup;
@@ -57,19 +57,26 @@ int main(int argc, char *argv[]) {
 		exit(12);
 	}
 
+	memset(inRec, 0, FILEIN);
+
 	while (fread(inRec, FILEIN, 1, IN_FILE)) {
 		strncat(workRec, inRec, FILEIN);
 
-		if(strstr(argv[2],"UFF"))processUFF(workRec);
-		else processCIBER(workRec);
+		if (strstr(argv[2], "UFF"))
+			processUFF(workRec);
+		else
+			processCIBER(workRec);
 
 		memset(inRec, 0, FILEIN);
 	}
 
 	strncat(workRec, inRec, strlen(inRec));
 
-	if(strstr(argv[2],"UFF"))processUFF(workRec);
-	else processCIBER(workRec);;
+	if (strstr(argv[2], "UFF"))
+		processUFF(workRec);
+	else
+		processCIBER(workRec);
+	;
 
 	fclose(IN_FILE);
 	return EXIT_SUCCESS;
@@ -77,13 +84,13 @@ int main(int argc, char *argv[]) {
 
 void processCIBER(char *workrec) {
 	char ch, *ptr, *bptr;
-	char *oMSID,*tMSID;
+	char *oMSID, *oMDN, *tMSID, *tMDN;
+	long long int total;
 	char check[3];
 
 	bptr = workrec;
 
-	while ((ptr = strstr((bptr), "\n")))
-	{
+	while ((ptr = strstr((bptr), "\n"))) {
 		ch = *ptr;
 		*ptr = '\0';
 
@@ -91,25 +98,37 @@ void processCIBER(char *workrec) {
 
 		strncpy(check, workrec, 2);
 
-		if(strstr(check,"01"))
-		{
+		if (strstr(check, "01")) {
 			printf("%s\n", bptr);
+			total = 1;
 		}
-		if(strstr(check,"22"))
-		{
-			printf("%s\n", bptr);
+		if (strstr(check, "22")) {
+
+			oMSID = getCiberCol(bptr, 14,28);
+			oMDN = getCiberCol(bptr, 32,46);
+			tMDN = getCiberCol(bptr, 133,147);
+
+			if (isValid(oMSID) && isValid(oMDN)
+					&& isValid(tMDN)) {
+				printf("%s\n", bptr);
+				total = 1 + total;
+			}
+
+			free(oMSID);
+			free(tMDN);
+			free(oMDN);
 		}
-		if(strstr(check,"98"))
-		{
+		if (strstr(check, "98")) {
 			printf("%s\n", bptr);
+			total = total + 1;
 		}
-		if(strstr(check,"32"))
-		{
+		if (strstr(check, "32")) {
 			printf("%s\n", bptr);
+			total = total + 1;
 		}
-		if(strstr(check,"52"))
-		{
+		if (strstr(check, "52")) {
 			printf("%s\n", bptr);
+			total = total + 1;
 		}
 		*ptr = ch;
 		bptr = ptr + 1;
@@ -124,86 +143,59 @@ void processCIBER(char *workrec) {
 
 void processUFF(char *workrec) {
 	char ch, *ptr, *bptr;
-	char *oMSID, *oMDN, *tMSID, *tMDN, *dd;
+	char *oMSID, *oMDN, *tMSID, *tMDN;
+	long long int total;
+	char check[3];
 
+	bptr = workrec;
 
-	if (checkTrailer(workrec, "TR", 0))
-		return;
+	while ((ptr = strstr((bptr), "\n"))) {
+		ch = *ptr;
+		*ptr = '\0';
 
-	if ((bptr = strstr(workrec, "HR")) || (bptr = strstr(workrec, "DR"))
-			|| (bptr = strstr(workrec, "TR"))) {
+		check[0] = 0;
 
-		while ((ptr = strstr((bptr), "\n"))) {
-			ch = *ptr;
-			*ptr = '\0';
+		strncpy(check, workrec, 2);
 
-			//			if(strstr(bptr,"DR|APLX|1756|20170403172305662421|0|0|morg|20170403|17051700|18000|26132|26132|0061|1615"))
-			//			{
-			//			printf("The last record is %s\n",bptr);
-			//			}
-			if (checkTrailer(bptr, "TR", 1))
-				exit(0);
+		if (strstr(check, "HR"))
+			total = 0;
 
-			if (strstr(bptr, "DR|")) {
+		if (strstr(check, "DR")) {
 
-				oMSID = getUFFcol(bptr, 19);
-				oMDN = getUFFcol(bptr, 21);
-				dd = getUFFcol(bptr, 25);
-				tMDN = getUFFcol(bptr, 24);
-				tMSID = getUFFcol(bptr, 23);
+			oMSID = getUFFcol(bptr, 19);
+			oMDN = getUFFcol(bptr, 21);
+			tMDN = getUFFcol(bptr, 24);
+			tMSID = getUFFcol(bptr, 23);
 
-				if (isValid(oMSID) && isValid(tMSID) && isValid(oMDN)
-						&& isValid(tMDN) && isValid(dd))
-					printf("%s\n", bptr);
-
-				free(oMSID);
-				free(dd);
-				free(tMDN);
-				free(oMDN);
-				free(tMSID);
-
-
-			} else {
+			if (isValid(oMSID) && isValid(tMSID) && isValid(oMDN)
+					&& isValid(tMDN)) {
 				printf("%s\n", bptr);
+				total = 1 + total;
 			}
 
-			*ptr = ch;
-			bptr = ptr + 1;
+			free(oMSID);
+			free(tMDN);
+			free(oMDN);
+			free(tMSID);
 
-			workrec[0] = 0;
-			strncat(workrec, bptr, strlen(bptr));
-			bptr = workrec;
+		} else {
+			printf("%s\n", bptr);
+			total = 1 + total;
 		}
 
+		if (strstr(check, "TR")) {
 
+			exit(0);
+		}
+
+		*ptr = ch;
+		bptr = ptr + 1;
+
+		workrec[0] = 0;
+		strncat(workrec, bptr, strlen(bptr));
+		bptr = workrec;
 	}
 
-	if (checkTrailer(workrec, "TR", 0))
-		return;
-}
-
-int checkTrailer(char *record, char *look, int pass) {
-	char check[3];
-	char *find;
-
-	check[0] = 0;
-
-	strncpy(check, record, 2);
-
-	if (strstr(check, look)) {
-
-		if ((find = strstr((record), "\n"))) {
-			*find = '\0';
-			pass = 1;
-		}
-
-		if (pass) {
-			printf("%s\n", record);
-			return 1;
-		}
-
-	}
-	return 0;
 }
 
 int isValid(char *number) {
@@ -215,61 +207,59 @@ int isValid(char *number) {
 
 	long long int before = 0, compare = 0, after = 0;
 
-	if((length=strlen(number)) >= 10)
-	{
+	if ((length = strlen(number)) >= 10) {
 		wholeNumber[0] = 0;
 
-		bptr = number + (length-10);
+		bptr = number + (length - 10);
 
-		strncat(wholeNumber,bptr, strlen(number));
+		strncat(wholeNumber, bptr, strlen(number));
 
 		ptr = bptr + 6;
 		ch = *ptr;
 		*ptr = '\0';
 
 		prefix[0] = 0;
-		strncat(prefix,bptr,strlen(bptr));
+		strncat(prefix, bptr, strlen(bptr));
 
 		*ptr = ch;
 
-		if(((bptr = strstr(lookup,prefix)) != 0))
-		{
+		if (((bptr = strstr(lookup, prefix)) != 0)) {
 			compare = atoll(wholeNumber);
 
 			check[0] = 0;
-			strncpy(check, bptr-1,2);
+			strncpy(check, bptr - 1, 2);
 
-			if (((bptr == lookup) || (strstr(check,"\n"))))
-			{
+			if (((bptr == lookup) || (strstr(check, "\n")))) {
 				holder[0] = 0;
-				strncat(holder,prefix, strlen(prefix));
+				strncat(holder, prefix, strlen(prefix));
 
-				bptr = (strstr(bptr,"\t") + 1);
-				ptr = (strstr(bptr,"\t"));
+				bptr = (strstr(bptr, "\t") + 1);
+				ptr = (strstr(bptr, "\t"));
 				ch = *ptr;
 				*ptr = '\0';
-				suffix = pad(bptr,4);
+				suffix = pad(bptr, 4);
 
-				strncat(holder,suffix,strlen(suffix));
+				strncat(holder, suffix, strlen(suffix));
 
 				before = atoll(holder);
 				free(suffix);
 				*ptr = ch;
 
 				holder[0] = 0;
-				strncat(holder,prefix, strlen(prefix));
+				strncat(holder, prefix, strlen(prefix));
 
 				bptr = ptr + 1;
-				ptr = (strstr(bptr,"\n"));
+				ptr = (strstr(bptr, "\n"));
 				ch = *ptr;
 				*ptr = '\0';
-				suffix = pad(bptr,4);
-				strncat(holder,suffix,strlen(suffix));
+				suffix = pad(bptr, 4);
+				strncat(holder, suffix, strlen(suffix));
 				after = atoll(holder);
 				free(suffix);
 				*ptr = ch;
 
-				if((compare >= before) && (compare <= after)) return 0;
+				if ((compare >= before) && (compare <= after))
+					return 0;
 			}
 
 		}
@@ -291,7 +281,7 @@ char * getUFFcol(char *record, int colnum) {
 	ch = *ptr;
 	*ptr = '\0';
 
-	rptr = malloc((strlen(bptr)+1) * sizeof(char));
+	rptr = malloc((strlen(bptr) + 1) * sizeof(char));
 
 	strcpy(rptr, bptr);
 	*ptr = ch;
@@ -300,39 +290,33 @@ char * getUFFcol(char *record, int colnum) {
 	return rptr;
 }
 
-char * getCiberCol (char *record, int start, int end)
-{
+char * getCiberCol(char *record, int start, int end) {
 	char *bptr, *ptr, ch, *rptr;
 
 	bptr = record + start;
-	ptr = record + end + 1;
+	ptr = bptr + 10;
 	ch = *ptr;
 	*ptr = '\0';
 
-	rptr = malloc((strlen(bptr)+1) * sizeof(char));
+	rptr = malloc((strlen(bptr) + 1) * sizeof(char));
 
 	strcpy(rptr, bptr);
 	*ptr = ch;
 
-	bptr = record;
-
 	return rptr;
 }
 
-char * pad(char *what, int size)
-{
+char * pad(char *what, int size) {
 	char *rptr;
 
 	rptr = malloc(size * sizeof(char));
 	rptr[0] = 0;
 
-	while(strlen(rptr) < (size - strlen(what)))
-	{
-		strncat(rptr,"0",1);
+	while (strlen(rptr) < (size - strlen(what))) {
+		strncat(rptr, "0", 1);
 	}
 
-
-	strncat(rptr,what,strlen(what));
+	strncat(rptr, what, strlen(what));
 
 	return rptr;
 }
