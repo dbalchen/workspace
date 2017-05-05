@@ -13,7 +13,7 @@ use DBI;
 # $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 # $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my $hh =
 "cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
@@ -58,6 +58,9 @@ if ( $fileId[1] eq "" ) {
 	$dbconn->disconnect();
 	exit(0);
 }
+
+$hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
+system($hh);
 
 $sql = "select 'IN_REC_QUANTITY', sum(in_rec_quantity) 
      from ac1_control_hist 

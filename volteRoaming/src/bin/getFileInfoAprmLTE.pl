@@ -22,7 +22,7 @@ $sqls{'NLDLT'} =
 $sqls{'DISP_RM'} =
 "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
 
-if($ARGV[0] = "NLDLT")
+if($ARGV[0] eq "NLDLT")
 {
  $clearinghouse = 'Syniverse';
 }
@@ -76,7 +76,7 @@ VALUES (
    '$rows[0]',
    'TAP',
  to_date($ARGV[1],'YYYYMMDD'),
- $clearinghouse,
+ '$clearinghouse',
   '$rows[0]',
   '$rows[1]'
 )";

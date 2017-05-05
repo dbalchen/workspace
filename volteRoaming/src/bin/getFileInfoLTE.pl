@@ -13,7 +13,7 @@ use DBI;
 #
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my @argv = split( /,/, $ARGV[0] );
 

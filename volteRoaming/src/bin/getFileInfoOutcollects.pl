@@ -6,7 +6,7 @@ use DBI;
 #$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20170325004507_2406876_0012.dat.done";
 
  #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # For test only.....
 # my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -27,6 +27,9 @@ $filename2 =~ s/.done//;
 my $dbconn = getBODSPRD();
 
 my $dbconnb = getSNDPRD();
+
+$hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
+system($hh);
 
 my $dateTime = substr($filename,index($filename,"R_2")+2,8);
 

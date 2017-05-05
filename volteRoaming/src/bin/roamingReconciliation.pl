@@ -3,8 +3,8 @@
 use DBI;
 
 BEGIN {
-	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -18,8 +18,7 @@ use MIME::Lite;
 # $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER";
-#,LTE,NLDLT,DISP_RM";
+$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR";
 #$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
@@ -30,13 +29,13 @@ use MIME::Lite;
 #$ARGV[0] = "NLDLT";
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # Setup Initial variables
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-$timeStamp = '20170401';
+$timeStamp = '20170502';
 
 # Setup switch types and their directory location
 my %dirs     = {};
@@ -290,7 +289,7 @@ foreach my $switch (@switches) {
 			$hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
 
 			# For testing...
-			if ( $maxRecs < 50000000 ) {
+			if ( $maxRecs < 50000000000000 ) {
 				system($hh);
 				$maxRecs = $maxRecs + 1;
 			}

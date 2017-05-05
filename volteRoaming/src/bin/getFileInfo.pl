@@ -8,7 +8,7 @@ use DBI;
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # For test only....
 #my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -16,6 +16,7 @@ $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 #$ENV{ORACLE_HOME} = $ORACLE_HOME;
 #$ENV{ORACLE_SID}  = $ORACLE_SID;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# fire off DCH Job
 
 my $hh =
 "cat $ARGV[0] | grep '^22' | sort -u | cut -b 72-81,225-230,336-341 | $ENV{'REC_HOME'}/addMultiUp.pl";
@@ -70,6 +71,10 @@ if ( $fileId[1] eq "" ) {
 	$dbconn->disconnect();
 	exit(0);
 }
+
+$hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
+system($hh);
+
 
 $sql = "select 'IN_REC_QUANTITY',sum(in_rec_quantity) 
     from ac1_control_hist 

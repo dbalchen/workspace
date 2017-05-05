@@ -11,8 +11,8 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20170401';
-$ARGV[1] = "APRM";
+$ARGV[0] = '20170501';
+$ARGV[1] = "DCH";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -163,22 +163,17 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
-		'LTE',            
-		'DISP_RM',
-		'NLDLT',          
-		'CDMA_A_IN_VOICE',
-		'CDMA_A_IN_DATA', 
-		'CDMA_A_OUT_VOICE',
+		'LTE',            'DISP_RM',
+		'NLDLT',          'CDMA_A_IN_VOICE',
+		'CDMA_A_IN_DATA', 'CDMA_A_OUT_VOICE',
 		'CDMA_A_OUT_DATA'
 	);
 
 }
 else {
 	@aprmArray = (
-		'CDMA_S_IN_VOICE',  
-		'CDMA_S_IN_DATA',
-		'CDMA_S_OUT_VOICE', 
-		'CDMA_S_OUT_DATA'
+		'CDMA_S_IN_VOICE',  'CDMA_S_IN_DATA',
+		'CDMA_S_OUT_VOICE', 'CDMA_S_OUT_DATA'
 	);
 }
 
@@ -191,7 +186,7 @@ foreach my $report (@reports) {
 		loadSAP($dbconnb);
 	}
 	elsif ( $report eq "DCH" ) {
-		loadDCH();
+		loadDCH($date,$dbconnb);
 	}
 }
 
@@ -246,9 +241,9 @@ sub loadAprm {
 		$conn2->execute() or sendErr();
 
 		my $sql = $sqls{$wsql};
-		
+
 		print "$sql\n";
-		
+
 		if ( ( $wsql eq 'CDMA_A_OUT_DATA' ) || ( $wsql eq 'CDMA_S_OUT_DATA' ) )
 		{
 			$sth = $conn3->prepare($sql);
@@ -275,7 +270,7 @@ VALUES (
  $rows[5]     /* AMOUNT_USD */,
  $rows[5]    /* AMOUNT_EUR */ )";
 
-						#print "$sql\n";
+			#print "$sql\n";
 			$conn2 = $dbconnb->prepare($sql);
 			$conn2->execute() or sendErr();
 		}
@@ -285,6 +280,48 @@ VALUES (
 }
 
 sub loadDCH {
+
+	my ( $date, $conn ) = @_;
+
+	my @results = [];
+
+	my $sql = "select 
+decode(usage_type,'LTE-V', 'Data','NLDLT-V', 'Data','NLDLT-C', 'Data', 'NLDLT-O', 'Voice', 'DISP_RM','Data'),
+'4G',
+ decode(usage_type,'LTE-V', 'Incollect','NLDLT-V', 'Incollect', 'NLDLT-C', 'Incollect', 'NLDLT-O', 'Incollect', 'DISP_RM','Outcollect'),                      
+to_date('$date','YYYYMMDD'),
+'Settlement',
+receiver,
+sender,
+sum(total_charges_dch),
+sum(total_charges_dch)
+from file_summary where file_type = 'TAP'
+and process_date >=add_months(to_date('$date','YYYYMMDD'),-1) and process_date <= to_date('$date','YYYYMMDD')
+group by usage_type,sender, receiver";
+
+	my $sth = $conn->prepare($sql);
+	$sth->execute() or sendErr();
+
+	while ( my @rows = $sth->fetchrow_array() ) {
+		my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM_STAGING (
+   USAGE_TYPE, TECHNOLOGY, ROAMING, 
+   PERIOD, MONTH_TYPE, COMPANY_CODE, 
+   BID, AMOUNT_USD, AMOUNT_EUR) 
+VALUES ( 
+ '$rows[0]'      /* USAGE_TYPE */,
+ '$rows[1]' 	   /* TECHNOLOGY */,
+ '$rows[2]'      /* ROAMING */,
+ '$rows[3]'      /* PERIOD */,
+ '$rows[4]'      /* MONTH_TYPE */,
+ '$rows[5]'      /* COMPANY_CODE */,
+ '$rows[6]'      /* BID */,
+ $rows[7]     /* AMOUNT_USD */,
+ $rows[7]    /* AMOUNT_EUR */ )";
+ 
+ 	my $sthb = $conn->prepare($sql);
+	$sthb->execute() or sendErr();
+
+	}
 
 }
 

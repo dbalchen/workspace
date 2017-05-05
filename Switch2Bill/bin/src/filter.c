@@ -233,7 +233,7 @@ int isValid(char *number) {
 				holder[0] = 0;
 				strncat(holder, prefix, strlen(prefix));
 
-				bptr = (strstr(bptr, "\t") + 1);
+				bptr = (strstr(bptr, ",") + 1);
 				ptr = (strstr(bptr, "\t"));
 				ch = *ptr;
 				*ptr = '\0';
