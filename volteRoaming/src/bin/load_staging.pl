@@ -5,22 +5,33 @@ use Time::Piece;
 use Time::Seconds;
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20170501';
-$ARGV[1] = "DCH";
+$ARGV[0] = '20170516';
+$ARGV[1] = "APRM";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
-my $sdate = substr( $date, 0, 6 );
 
-my $ldate = Time::Piece->strptime( $sdate, "%Y%m" );
+my $sdate = 0;
+my $ldate = 0;
+
+if ( substr( $date, 6, 2 ) eq '01' ) {
+$ldate = Time::Piece->strptime( $date, "%Y%m%d" );	
+$ldate += ONE_WEEK;
 $ldate -= ONE_MONTH;
 $ldate = $ldate->strftime("%Y%m");
+$sdate = substr( $date, 0, 6 );
+}
+else {
+	$sdate = substr( $date, 0, 6 );
+	$ldate = substr( $date, 0, 6 );
+}
+
 
 %sqls = {};
 
@@ -59,14 +70,7 @@ $sqls{'CDMA_A_IN_VOICEDEL'} =
 
 $sqls{'CDMA_S_IN_DATA'} =
 "select  /*+ PARALLEL(h1,12) */  'Settlement', serve_sid,'CDMA','Incollect','Data',sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS 
-where (REGEXP_LIKE (ciber_file_name_1, 'SDATACBR_FDATACBR_ID(.*)_T"
-  . $ldate
-  . "1[6,7,8,9](.*)') or ciber_file_name_1 like 'SDATACBR_FDATACBR_ID%T"
-  . $ldate
-  . "2%' or  ciber_file_name_1 
-like 'SDATACBR_FDATACBR_ID%T"
-  . $ldate
-  . "3%' or ciber_file_name_1 like 'SDATACBR_FDATACBR_ID%T"
+where (ciber_file_name_1 like 'SDATACBR_FDATACBR_ID%T"
   . $sdate . "0%' 
 or REGEXP_LIKE (ciber_file_name_1, 'SDATACBR_FDATACBR_ID(.*)_T" . $sdate
   . "1[0,1,2,3,4,5](.*)')) and generated_rec < 2  group by serve_sid,carrier_cd, bp_start_date";
@@ -76,11 +80,7 @@ $sqls{'CDMA_S_IN_DATADEL'} =
 
 $sqls{'CDMA_S_IN_VOICE'} =
 "select  /*+ PARALLEL(h1,12) */  'Settlement', serve_sid,'CDMA','Incollect','Voice',sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS where
-(REGEXP_LIKE (ciber_file_name_1, 'SDIRI_FCIBER_ID(.*)_T" . $ldate
-  . "1[6,7,8,9](.*)')
-	     or ciber_file_name_1 like 'SDIRI_FCIBER_ID%T" . $ldate . "2%'
-	     or  ciber_file_name_1 like 'SDIRI_FCIBER_ID%T" . $ldate . "3%'
-	     or ciber_file_name_1 like 'SDIRI_FCIBER_ID%T" . $sdate . "0%'
+( ciber_file_name_1 like 'SDIRI_FCIBER_ID%T" . $sdate . "0%'
 	     or REGEXP_LIKE (ciber_file_name_1, 'SDIRI_FCIBER_ID(.*)_T" . $sdate
   . "1[0,1,2,3,4,5](.*)'))
  and generated_rec < 2 
@@ -103,10 +103,7 @@ $sqls{'CDMA_A_IN_DATADEL'} =
 
 $sqls{'CDMA_S_OUT_VOICE'} =
 "select  /*+ PARALLEL(h1,12) */  'Settlement', serve_sid,'CDMA','Outcollect','Voice',sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS where
-(REGEXP_LIKE (ciber_file_name_1, 'CIBER_CIBER(.*)_" . $ldate . "1[6,7,8,9](.*)')
-	     or ciber_file_name_1 like 'CIBER_CIBER%" . $ldate . "2%'
-	     or  ciber_file_name_1 like 'CIBER_CIBER%" . $ldate . "3%'
-	     or ciber_file_name_1 like 'CIBER_CIBER%" . $sdate . "0%'
+( ciber_file_name_1 like 'CIBER_CIBER%" . $sdate . "0%'
 	     or REGEXP_LIKE (ciber_file_name_1, 'CIBER_CIBER(.*)_" . $sdate
   . "1[0,1,2,3,4,5](.*)'))
  and generated_rec < 2 
@@ -130,8 +127,8 @@ $sqls{'CDMA_S_OUT_DATA'} =
 "select  /*+ PARALLEL(h1,12) */ 'Settlement','','CDMA','Outcollect','Data',  sum(t1.amount), TRIM(REGEXP_REPLACE(t1.PARTNER,',')) as PARTNER, ADD_MONTHS(t1.settlement_date+1,-1)
          from data_outcollect t1, roaming_partner t2 where TRIM(REGEXP_REPLACE(t1.PARTNER,',')) = TRIM(REGEXP_REPLACE(t2.PARTNER,',')) 
          and (t1.process_date >= to_date('"
-  . $ldate
-  . "16', 'YYYYMMDD') and t1.process_date <= to_date('"
+  . $sdate
+  . "01', 'YYYYMMDD') and t1.process_date <= to_date('"
   . $sdate
   . "15', 'YYYYMMDD'))
          group by TRIM(REGEXP_REPLACE(t1.PARTNER,',')),t1.settlement_date order by 1,2";
@@ -172,8 +169,10 @@ if ( substr( $date, 6, 2 ) eq '01' ) {
 }
 else {
 	@aprmArray = (
-		'CDMA_S_IN_VOICE',  'CDMA_S_IN_DATA',
-		'CDMA_S_OUT_VOICE', 'CDMA_S_OUT_DATA'
+		'CDMA_S_IN_VOICE',  
+		'CDMA_S_IN_DATA',
+		'CDMA_S_OUT_VOICE', 
+		'CDMA_S_OUT_DATA'
 	);
 }
 
@@ -283,6 +282,8 @@ sub loadDCH {
 
 	my ( $date, $conn ) = @_;
 
+	$date = substr( $date, 0, 6 )."01";
+	
 	my @results = [];
 
 	my $sql = "select 
@@ -296,14 +297,14 @@ sender,
 sum(total_charges_dch),
 sum(total_charges_dch)
 from file_summary where file_type = 'TAP'
-and process_date >=add_months(to_date('$date','YYYYMMDD'),-1) and process_date <= to_date('$date','YYYYMMDD')
+and process_date <=add_months(to_date('$date','YYYYMMDD'),1) and process_date >= to_date('$date','YYYYMMDD')
 group by usage_type,sender, receiver";
 
 	my $sth = $conn->prepare($sql);
 	$sth->execute() or sendErr();
 
 	while ( my @rows = $sth->fetchrow_array() ) {
-		my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM_STAGING (
+		my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.DCH_STAGING (
    USAGE_TYPE, TECHNOLOGY, ROAMING, 
    PERIOD, MONTH_TYPE, COMPANY_CODE, 
    BID, AMOUNT_USD, AMOUNT_EUR) 
@@ -318,8 +319,8 @@ VALUES (
  $rows[7]     /* AMOUNT_USD */,
  $rows[7]    /* AMOUNT_EUR */ )";
  
- 	my $sthb = $conn->prepare($sql);
-	$sthb->execute() or sendErr();
+ 	my $sth = $conn->prepare($sql);
+	$sth->execute() or sendErr();
 
 	}
 

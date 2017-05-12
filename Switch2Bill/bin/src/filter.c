@@ -23,16 +23,18 @@ char * getUFFcol(char *, int);
 char * getCiberCol(char *, int,int);
 char * pad(char *, int);
 
-static char *lookup;
+static char *lookup, *lookupMIN;
 
 int main(int argc, char *argv[]) {
 
 	FILE *IN_FILE;
 	FILE *LOOKUP;
+	FILE *LOOKUPMIN;
 
 	char inRec[FILEIN];
 	char workRec[WRKLEN];
 	struct stat st;
+	int msid = 0;
 
 	workRec[0] = 0;
 
@@ -52,6 +54,17 @@ int main(int argc, char *argv[]) {
 
 	fread(lookup, st.st_size, 1, LOOKUP);
 
+	stat(argv[2], &st);
+
+	if ((LOOKUPMIN = fopen(argv[1], "rb")) == NULL) {
+		printf("ERROR ----> Can Not Open Lookup Input File \n");
+		exit(12);
+	}
+
+	lookupMIN = malloc((st.st_size + 128) * sizeof(char));
+
+	fread(lookupMIN, st.st_size, 1, LOOKUPMIN);
+
 	if ((IN_FILE = fopen(argv[2], "rb")) == NULL) {
 		printf("ERROR ----> Can Not Open Input Filter File \n");
 		exit(12);
@@ -59,10 +72,12 @@ int main(int argc, char *argv[]) {
 
 	memset(inRec, 0, FILEIN);
 
+////	if(strstr()) msid = 0;
+
 	while (fread(inRec, FILEIN, 1, IN_FILE)) {
 		strncat(workRec, inRec, FILEIN);
 
-		if (strstr(argv[2], "UFF"))
+		if (strstr(argv[3], "UFF"))
 			processUFF(workRec);
 		else
 			processCIBER(workRec);
@@ -76,7 +91,6 @@ int main(int argc, char *argv[]) {
 		processUFF(workRec);
 	else
 		processCIBER(workRec);
-	;
 
 	fclose(IN_FILE);
 	return EXIT_SUCCESS;
@@ -84,7 +98,7 @@ int main(int argc, char *argv[]) {
 
 void processCIBER(char *workrec) {
 	char ch, *ptr, *bptr;
-	char *oMSID, *oMDN, *tMSID, *tMDN;
+	char *oMSID, *oMDN, *tMDN;
 	long long int total;
 	char check[3];
 
@@ -203,7 +217,7 @@ int isValid(char *number) {
 	int length;
 	char *bptr, *ptr, ch, *suffix;
 
-	char wholeNumber[11], prefix[7], holder[11], check[2];
+	char wholeNumber[11], prefix[11], holder[11];
 
 	long long int before = 0, compare = 0, after = 0;
 
@@ -219,50 +233,46 @@ int isValid(char *number) {
 		*ptr = '\0';
 
 		prefix[0] = 0;
-		strncat(prefix, bptr, strlen(bptr));
+		strncat(prefix, wholeNumber, strlen(wholeNumber));
 
 		*ptr = ch;
 
-		if (((bptr = strstr(lookup, prefix)) != 0)) {
+		while(((bptr = strstr(lookup, prefix)) == 0) && strlen(prefix) > 5)
+		{
+			ptr = prefix + (strlen(prefix) -1);
+			*ptr = '\0';
+		}
+
+		if(bptr && strlen(prefix) >= 6)
+		{
+			while(*bptr != '\n') bptr--;
+			bptr++;
+
+			ptr = strstr(bptr,"\n");
+			ch = *ptr;
+			*ptr = '\0';
+
+			suffix = strstr(bptr,",");
+
+			memset(holder, 0, 11);
+			strncpy(holder,bptr,suffix-bptr);
+
+			before = atoll(holder);
+
 			compare = atoll(wholeNumber);
 
-			check[0] = 0;
-			strncpy(check, bptr - 1, 2);
+			suffix++;
+			memset(holder, 0, 11);
+			strncpy(holder,suffix,10);
 
-			if (((bptr == lookup) || (strstr(check, "\n")))) {
-				holder[0] = 0;
-				strncat(holder, prefix, strlen(prefix));
+			after = atoll(holder);
 
-				bptr = (strstr(bptr, ",") + 1);
-				ptr = (strstr(bptr, "\t"));
-				ch = *ptr;
-				*ptr = '\0';
-				suffix = pad(bptr, 4);
+			*ptr = ch;
 
-				strncat(holder, suffix, strlen(suffix));
-
-				before = atoll(holder);
-				free(suffix);
-				*ptr = ch;
-
-				holder[0] = 0;
-				strncat(holder, prefix, strlen(prefix));
-
-				bptr = ptr + 1;
-				ptr = (strstr(bptr, "\n"));
-				ch = *ptr;
-				*ptr = '\0';
-				suffix = pad(bptr, 4);
-				strncat(holder, suffix, strlen(suffix));
-				after = atoll(holder);
-				free(suffix);
-				*ptr = ch;
-
-				if ((compare >= before) && (compare <= after))
-					return 0;
-			}
-
+			if ((compare >= before) && (compare <= after))
+				return 0;
 		}
+
 	}
 	return 1;
 }

@@ -218,9 +218,17 @@ my $tcaprDif =
 $hh = "$ENV{'REC_HOME'}/dch_infoCount.pl $ARGV[0] $ENV{'REC_HOME'}/IncollectDCH_data.csv";
 my @dchValues = `$hh`;chomp(@dchValues);
 my $usage_dch      = $dchValues[2];
-$usage = $dchValues[2];
+if($usage_dch == 0 || $usage_dch eq "")
+{
+	$usage_dch = $usage;
+}
+
 my $total_recs_dch = $reportVariable{'IN_REC_QUANTITY'};
 my $file_sum_dch   = $dchValues[1];
+if($file_sum_dch  == 0 || $file_sum_dch  eq "")
+{
+	$file_sum_dch  = $filesum;
+}
 my $file_name_dch  = $fileId[0];
 my $dch_rec_dif    = ( $total_recs_dch - $reportVariable{'IN_REC_QUANTITY'} );
 my $dch_sum_dif    = ( $file_sum_dch - $filesum );
