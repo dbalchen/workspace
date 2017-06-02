@@ -26,6 +26,7 @@ char * putUFFcol(char *, int, long long int);
 char * putCiberCol(char *,long long int, long long int);
 
 static char *lookup, *lookupMIN;
+static long long int total = 0, charge = 0;
 
 int main(int argc, char *argv[]) {
 
@@ -37,7 +38,7 @@ int main(int argc, char *argv[]) {
 	char workRec[WRKLEN];
 	struct stat st;
 
-	workRec[0] = 0;
+	memset(workRec, 0, WRKLEN);
 
 	if (argc < 2) {
 		printf("Not enough parameters\n");
@@ -96,11 +97,13 @@ int main(int argc, char *argv[]) {
 }
 
 void processCIBER(char *workrec, char * filename) {
-	char ch, *ptr, *bptr, *rptr;
-	char *orig;
-	long long int total, charge;
-	int which;
+	char ch, *ptr = NULL, *bptr = NULL, *rptr = NULL;
+	char *orig = NULL;
+	int which = 0;
 	char check[3];
+	char hold[640];
+
+	memset(hold,0,640);
 
 	bptr = workrec;
 
@@ -108,9 +111,9 @@ void processCIBER(char *workrec, char * filename) {
 		ch = *ptr;
 		*ptr = '\0';
 
-		check[0] = 0;
+		memset(check, 0, 3);
 
-		strncpy(check, workrec, 2);
+		strncpy(check, bptr, 2);
 
 		if(!strstr(check,"01") && !strstr(check,"98"))
 		{
@@ -127,7 +130,7 @@ void processCIBER(char *workrec, char * filename) {
 
 		if (strstr(check, "01")) {
 			printf("%s\n", bptr);
-			total = 1;
+			total = 0;
 			charge = 0;
 		}
 
@@ -135,7 +138,7 @@ void processCIBER(char *workrec, char * filename) {
 
 			if (isValid(orig, which)) {
 				printf("%s\n", bptr);
-				total = 1 + total;
+				total = total + 1;
 				rptr = getCiberCol(bptr,71,80);
 				charge = charge + atoll(rptr);
 				free(rptr);
@@ -144,21 +147,22 @@ void processCIBER(char *workrec, char * filename) {
 				fprintf(stderr,"%s\n", bptr);
 			}
 
-			free(orig);
+			free(orig); orig = NULL;
 		}
 
 		if (strstr(check, "98")) {
+			//total = total + 1;
 
-			total = total + 1;
 			bptr = putCiberCol(bptr,total,charge);
 			printf("%s\n", bptr);
-
+			total = 0;
+			charge = 0;
 		}
 
 		if (strstr(check, "32")) {
 			if (isValid(orig, which)) {
 				printf("%s\n", bptr);
-				total = 1 + total;
+				total = total + 1;
 				rptr = getCiberCol(bptr,71,80);
 				charge = charge + atoll(rptr);
 				free(rptr);
@@ -167,13 +171,13 @@ void processCIBER(char *workrec, char * filename) {
 				fprintf(stderr,"%s\n", bptr);
 			}
 
-			free(orig);
+			free(orig); orig = NULL;
 		}
 
 		if (strstr(check, "52")) {
 			if (isValid(orig, which)) {
 				printf("%s\n", bptr);
-				total = 1 + total;
+				total = total + 1;
 				rptr = getCiberCol(bptr,71,80);
 				charge = charge + atoll(rptr);
 				free(rptr);
@@ -182,35 +186,43 @@ void processCIBER(char *workrec, char * filename) {
 				fprintf(stderr,"%s\n", bptr);
 			}
 
-			free(orig);
+			free(orig); orig = NULL;
 		}
 
 		*ptr = ch;
 		bptr = ptr + 1;
-
-		workrec[0] = 0;
-		strncat(workrec, bptr, strlen(bptr));
-
-		bptr = workrec;
 	}
+
+	strncpy(hold,bptr,strlen(bptr));
+	memset(workrec, 0, WRKLEN);
+	strncpy(workrec,hold,strlen(hold));
 
 }
 
 void processUFF(char *workrec, char * filename) {
-	char ch, *ptr, *bptr;
-	char *orig, *term;
-	long long int total;
+	char ch, *ptr = NULL, *bptr = NULL;
+	char *orig = NULL, *term = NULL;
 	char check[3];
-	int which;
+	int which = 0;
+	char hold[512];
+
+	memset(hold,0,512);
+
 	bptr = workrec;
 
 	while ((ptr = strstr((bptr), "\n"))) {
 		ch = *ptr;
 		*ptr = '\0';
 
-		check[0] = 0;
+		memset(check, 0, 3);
+		strncpy(check, bptr, 2);
 
-		strncpy(check, workrec, 2);
+		if (strstr(check, "HR"))
+		{
+			total = 1;
+			printf("%s\n", bptr);
+		}
+
 
 		if(strstr(check,"DR"))
 		{
@@ -226,28 +238,17 @@ void processUFF(char *workrec, char * filename) {
 				which = 0;
 			}
 
-		}
-
-		if (strstr(check, "HR"))
-		{
-			total = 1;
-			printf("%s\n", bptr);
-		}
-
-		if (strstr(check, "DR")) {
-
 			if (isValid(orig, which) && isValid(term, which)) {
 				printf("%s\n", bptr);
-				total = 1 + total;
+				total = total + 1;
 			}
 			else {
 				fprintf(stderr,"%s\n", bptr);
 			}
 
-			free(orig);
-			free(term);
+			if(orig != NULL) {free(orig); orig = NULL;}
+			if(term != NULL) {free(term); term = NULL;}
 
-			total = 1 + total;
 		}
 
 		if (strstr(check, "TR")) {
@@ -260,10 +261,11 @@ void processUFF(char *workrec, char * filename) {
 		*ptr = ch;
 		bptr = ptr + 1;
 
-		workrec[0] = 0;
-		strncat(workrec, bptr, strlen(bptr));
-		bptr = workrec;
 	}
+
+	strncpy(hold,bptr,strlen(bptr));
+	memset(workrec, 0, WRKLEN);
+	strncpy(workrec,hold,strlen(hold));
 
 }
 
@@ -335,7 +337,6 @@ char * putUFFcol(char *record, int colnum, long long int total) {
 
 	unsigned int a;
 	char *bptr, *ptr, *rptr;
-	char ch;
 	char sTotal[32];
 
 	colnum--;
@@ -348,7 +349,6 @@ char * putUFFcol(char *record, int colnum, long long int total) {
 		ptr = strstr(ptr, "|") + 1;
 	}
 
-	ch = *ptr;
 	*ptr = '\0';
 
 	rptr = malloc((strlen(bptr)+strlen(sTotal) + 1) * sizeof(char));
@@ -367,6 +367,8 @@ char * putCiberCol(char *record,long long int total, long long int charge)
 	char sTotal[32], *ptr, *bptr;
 	unsigned int a;
 
+	memset(sTotal, 0, 32);
+
 	sprintf(sTotal,"%lli",total);
 
 	ptr = pad(sTotal,4);
@@ -380,6 +382,7 @@ char * putCiberCol(char *record,long long int total, long long int charge)
 
 	free(ptr);
 
+	memset(sTotal, 0, 32);
 	sprintf(sTotal,"%lli",charge);
 
 	ptr = pad(sTotal,12);

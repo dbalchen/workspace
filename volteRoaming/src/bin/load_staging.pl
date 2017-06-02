@@ -5,14 +5,14 @@ use Time::Piece;
 use Time::Seconds;
 
 # For test only....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#my $ORACLE_SID  = "bodsprd";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20170516';
-$ARGV[1] = "APRM";
+$ARGV[0] = '20170601';
+$ARGV[1] = "SAP";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -333,7 +333,7 @@ sub loadSAP {
 	my @results = [];
 
 	my $hh =
-"cat /home/dbalchen/workspace/volteRoaming/src/bin/SAP_StagingTable.csv | cut -f 10,3,5,8 | sort -u |";
+"cat /home/dbalchen/workspace/volteRoaming/src/bin/SAP_StagingTable.csv | cut -f 7,2,4,6 | sort -u |";
 	if ( !open( SAPLIST, "$hh" ) ) {
 		errorExit("Cannot create SAPLIST: $!\n");
 	}
@@ -342,7 +342,7 @@ sub loadSAP {
 		chomp($buff);
 		my ( $gl, $cocd, $docdate, $header ) = split( "\t", $buff );
 		$hh =
-"cat SAP_StagingTable.csv | grep $gl | grep $cocd | grep $docdate | grep $header | cut -f 4";
+"cat SAP_StagingTable.csv | grep $gl | grep $cocd | grep $docdate | grep $header | cut -f 3";
 		@results = `$hh`;
 		chomp(@results);
 
@@ -486,8 +486,10 @@ sub loadSAP {
  					$total /* AMOUNT */ 
  			)";
 
-		$conn2 = $dbconnb->prepare($sql);
-		$conn2->execute() or sendErr();
+print "$sql\n";
+
+#		$conn2 = $dbconnb->prepare($sql);
+#		$conn2->execute() or sendErr();
 	}
 
 }

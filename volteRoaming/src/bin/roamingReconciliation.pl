@@ -11,11 +11,11 @@ use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
- my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
- my $ORACLE_SID  = "bodsprd";
- $ENV{ORACLE_HOME} = $ORACLE_HOME;
- $ENV{ORACLE_SID}  = $ORACLE_SID;
- $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# my $ORACLE_SID  = "bodsprd";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
 $ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
@@ -35,7 +35,7 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-$timeStamp = '20170510';
+$timeStamp = '20170520';
 
 # Setup switch types and their directory location
 my %dirs     = {};

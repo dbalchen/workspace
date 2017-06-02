@@ -28,12 +28,12 @@ FROM                                                                     /*Gets 
                                  agreement_resource ar
                     WHERE
                                  tc.customer_id = TO_CHAR(s.customer_id)
-                             --    AND tc.x_is_cdp = 1   --CDP indicator
+                                 AND tc.x_is_cdp = 1   --CDP indicator
                                  AND ar.agreement_no = s.subscriber_no
                                  AND ar.resource_type = 'MIN'
                                  AND ar.expiration_date IS NULL)
 WHERE
-               row_id = 1 and rownum < 1000)";
+               row_id = 1)";
                
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();

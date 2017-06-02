@@ -1,9 +1,13 @@
 #!/usr/bin/ksh
+
+set -x
+
 MISSING_DIRECTORY="1"
 MISSING_FILE="2"
 MISSING_VARIABLE="3"
 CANNOT_WRITE="4"
 PROCESS_RUNNING="5"
+CANNOT_FILTER="666"
 
 function error_handler
 {
@@ -31,7 +35,8 @@ date >> /m01/switch/run.log
 dt=`date --date='1 days ago' +%Y%m%d`
 dt="${dt}0000"
 
-targets="m01-switchb m01-switch m02-switch m03-switch m04-switch m05-switch m04-switchb"
+# targets="m01-switchb m01-switch m02-switch m03-switch m03-switchb m04-switch m05-switch m04-switchb"
+  targets="m01-switch m03-switchb"
 
 for target in $targets
 do
@@ -129,6 +134,13 @@ do
                then
                   error_handler ${CANNOT_WRITE} ${STAGE_DIR};
                fi
+            echo "Filtering: $basefile"
+            /m01/switch/wedo/bin/runFilter.pl ${file}
+               rc=$?
+               if [ "$rc" -ne "0" ]
+               then
+                error_handler ${CANNOT_FILTER} ${STAGE_DIR};
+               fi
 #TEMP
 #               cp ${file} /m01/switch/wedo_test
 #TEMP
@@ -140,7 +152,8 @@ do
       fi
    done
    rm -f ${indicator_file}
-done
 
+done
+   find /m01/switch/wedo/rejected -name '*' -size 0c -print0 | xargs -0 rm
 exit
 
