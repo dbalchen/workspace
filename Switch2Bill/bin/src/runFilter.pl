@@ -1,4 +1,4 @@
-#! /usr/local/bin/perl
+#! /usr/bin/perl
 
 my $filename = $ARGV[0];
 

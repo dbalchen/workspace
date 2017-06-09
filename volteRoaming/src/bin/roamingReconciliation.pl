@@ -26,16 +26,17 @@ $ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP
 #$ARGV[0] = "DATA_CIBER";
 #$ARGV[0] = "LTE,DISP_RM,NLDLT";
 #$ARGV[0] = "DISP_RM";
+#$ARGV[0] = "LTE";
 #$ARGV[0] = "NLDLT";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # Setup Initial variables
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-$timeStamp = '20170520';
+$timeStamp = '20170602';
 
 # Setup switch types and their directory location
 my %dirs     = {};
@@ -237,12 +238,19 @@ $sqls{'DATA_CIBER'} =
 (TOTAL_VOLUME-TOTAL_VOLUME_DCH),( (TOTAL_VOLUME-TOTAL_VOLUME_DCH)/TOTAL_VOLUME)  from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 $sqls{'LTE'} =
-"select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS,TOTAL_VOLUME,ceil(TOTAL_VOLUME/1040),ceil((TOTAL_VOLUME/1040)/1040), TOTAL_CHARGES, REJECTED_COUNT, REJECTED_CHARGES, (TOTAL_RECORDS-APRM_TOTAL_RECORDS), DROPPED_APRM, DROPPED_APRM_CHARGES,APRM_TOTAL_RECORDS,APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, ceil(TOTAL_VOLUME_DCH/1040),ceil((TOTAL_VOLUME_DCH/1040)/1040),TOTAL_CHARGES_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH) from file_summary where usage_type like 'LTE%' and process_date = to_date($timeStamp,'YYYYMMDD')";
+"select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, (TOTAL_RECORDS + REJECTED_COUNT),
+TOTAL_VOLUME,ceil(TOTAL_VOLUME/1040),ceil((TOTAL_VOLUME/1040)/1040),  TOTAL_CHARGES, REJECTED_COUNT, 
+REJECTED_CHARGES, (TOTAL_RECORDS-APRM_TOTAL_RECORDS), DROPPED_APRM, DROPPED_APRM_CHARGES,APRM_TOTAL_RECORDS,
+APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH,TOTAL_VOLUME_DCH, ceil(TOTAL_VOLUME_DCH/1040),ceil((TOTAL_VOLUME_DCH/1040)/1040),
+TOTAL_CHARGES_DCH, ((TOTAL_RECORDS + REJECTED_COUNT)-TOTAL_RECORDS_DCH), ((TOTAL_CHARGES + REJECTED_CHARGES) - TOTAL_CHARGES_DCH)  
+from file_summary where usage_type like 'LTE%' and process_date = to_date($timeStamp,'YYYYMMDD')";
+
 
 $sqls{'NLDLT'} =
 "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_VOLUME,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES,
 APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, TOTAL_CHARGES_DCH, (TOTAL_RECORDS - TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH)
-    from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
+ from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
+
 
 $sqls{'DISP_RM'} =
 "select  file_name,  total_records, total_charges, APRM_TOTAL_RECORDS,total_volume, TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH, 
@@ -355,7 +363,7 @@ foreach my $switch (@switches) {
 		# Work Here
 		if ( $switch eq "DISP_RM" || $switch eq "LTE" ) {
 			my $sql =
-"select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME, RECORD_COUNT_DCH, TOTAL_CHARGES_DCH, TOTAL_VOLUME_DCH from aprm  where usage_type like '$switch%' and date_processed = to_date($timeStamp,'YYYYMMDD')";
+"select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like '$switch%' and date_processed = to_date($timeStamp,'YYYYMMDD')";
 
 			$heading = [
 				'Carrier Code',
@@ -363,10 +371,7 @@ foreach my $switch (@switches) {
 				'Usage Type',
 				'Record Count',
 				'APRM Charges ($)',
-				'Data Volume (Bytes) ',
-				'DCH Record Count',
-				'DCH Total Charges ($) ',
-				'DCH Data Volume'
+				'Data Volume (Bytes) '
 			];
 			$rejectTab = $tab{$switch} . " APRM";
 			createExcel( $sql, $heading, $rejectTab, $switch );
@@ -374,7 +379,7 @@ foreach my $switch (@switches) {
 		}
 		elsif ( $switch eq "NLDLT" ) {
 			my $sql =
-"select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME, RECORD_COUNT_DCH, TOTAL_CHARGES_DCH, TOTAL_VOLUME_DCH from aprm  where usage_type like '$switch%' and date_processed = to_date($timeStamp,'YYYYMMDD')";
+"select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like '$switch%' and date_processed = to_date($timeStamp,'YYYYMMDD')";
 
 			$heading = [
 				'Carrier Code',
@@ -382,10 +387,7 @@ foreach my $switch (@switches) {
 				'Usage Type',
 				'Record Count',
 				'APRM Charges ($)',
-				'Data Volume',
-				'DCH Record Count',
-				'DCH Total Charges ($) ',
-				'DCH Data Volume'
+				'Data Volume'
 			];
 			$rejectTab = $tab{$switch} . " APRM";
 			createExcel( $sql, $heading, $rejectTab, $switch );

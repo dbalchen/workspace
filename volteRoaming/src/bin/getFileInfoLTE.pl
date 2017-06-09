@@ -3,17 +3,17 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "CDUSAW6USAUD03657,3657,T-Mobile (USAW6),100000,5725.11000,3,.13,20170326";
+$ARGV[0] = "CDNLDLTIWB5101341,1341,Vodafone Netherland (NLDLT),1854,2025.3820,0,0,20170605";
 
 # For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
-#
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my @argv = split( /,/, $ARGV[0] );
 
@@ -96,6 +96,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 		my $hh =
 "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv | $grep | cut -f 9,10,11,12 ";
+
 		my $output = `$hh`;
 		chomp($output);
 
@@ -107,6 +108,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 		if ( index( $usage_type, "-C" ) >= 0 ) {
 			$total_volume_dch = $rows[2];
+			$total_records_dch = $rows[0];
 		}
 		elsif ( index( $usage_type, "-V" ) >= 0 ) {
 			$total_volume_dch = $dchValues[2] * 1024;
@@ -192,10 +194,10 @@ VALUES (
  $dropped
 )";
 
-	#	print $sql. "\n";
+		print $sql. "\n";
 
-	$sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
+#	$sthb = $dbconnb->prepare($sql);
+#	$sthb->execute() or sendErr();
 }
 
 $dbconnb->disconnect();

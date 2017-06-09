@@ -152,7 +152,6 @@ void processCIBER(char *workrec, char * filename) {
 
 		if (strstr(check, "98")) {
 			//total = total + 1;
-
 			bptr = putCiberCol(bptr,total,charge);
 			printf("%s\n", bptr);
 			total = 0;
