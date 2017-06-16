@@ -94,6 +94,7 @@ int main(int argc, char *argv[]) {
 	    bptr = ptr;
 
 	  }
+
 	workrec[0] = '\0';
 
 	strncat(workrec,bptr,strlen(bptr));
