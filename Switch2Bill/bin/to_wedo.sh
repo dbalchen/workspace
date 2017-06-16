@@ -34,7 +34,7 @@ date >> /m01/switch/run.log
 dt=`date --date='1 days ago' +%Y%m%d`
 dt="${dt}0000"
 
- targets="m01-switchb m01-switch m02-switch m03-switch m03-switchb m04-switch m05-switch m04-switchb"
+ targets="m01-switchb m03-switchb "
 #  targets="m01-switch m03-switchb"
 
 for target in $targets

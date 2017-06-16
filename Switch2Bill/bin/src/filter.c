@@ -99,7 +99,7 @@ int main(int argc, char *argv[]) {
 void processCIBER(char *workrec, char * filename) {
 	char ch, *ptr = NULL, *bptr = NULL, *rptr = NULL;
 	char *orig = NULL;
-	int which = 0;
+	int which = 0,flag = 0;
 	char check[3];
 	char hold[640];
 
@@ -129,13 +129,14 @@ void processCIBER(char *workrec, char * filename) {
 		}
 
 		if (strstr(check, "01")) {
+			flag = 0;
 			printf("%s\n", bptr);
 			total = 0;
 			charge = 0;
 		}
 
 		if (strstr(check, "22")) {
-
+			flag = 1;
 			if (isValid(orig, which)) {
 				printf("%s\n", bptr);
 				total = total + 1;
@@ -152,13 +153,16 @@ void processCIBER(char *workrec, char * filename) {
 
 		if (strstr(check, "98")) {
 			//total = total + 1;
+			if(flag)
 			bptr = putCiberCol(bptr,total,charge);
 			printf("%s\n", bptr);
 			total = 0;
 			charge = 0;
+			flag = 0;
 		}
 
 		if (strstr(check, "32")) {
+			flag = 1;
 			if (isValid(orig, which)) {
 				printf("%s\n", bptr);
 				total = total + 1;
@@ -174,6 +178,7 @@ void processCIBER(char *workrec, char * filename) {
 		}
 
 		if (strstr(check, "52")) {
+			flag = 1;
 			if (isValid(orig, which)) {
 				printf("%s\n", bptr);
 				total = total + 1;

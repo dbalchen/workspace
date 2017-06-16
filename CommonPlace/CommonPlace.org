@@ -3845,9 +3845,8 @@ needs to be in
 |-----------------+--------------|
 
 * Task List						:taskjuggler_project:
-** Roaming Recon
-** WEDO - M2M
 ** Roaming Reconciliation
+*** Clean up 
 ** Machine to Machine
 ** CallDump
    - Sector information

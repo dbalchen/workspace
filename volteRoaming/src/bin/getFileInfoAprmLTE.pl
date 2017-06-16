@@ -28,7 +28,9 @@ if($ARGV[0] eq "NLDLT")
 }
 
 my $dbconn  = getBODSPRD();
-my $dbconnb = getSNDPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
+
 
 my $sqlT = "delete from APRM where usage_type like '$ARGV[0]" . '%'
   . "' and DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') ";
@@ -48,7 +50,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $usage_type        = $ARGV[0] . "-" . $rows[5];
 
 	$sql = "
-  INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
+  INSERT INTO APP_SHARE.APRM (
    USAGE_TYPE,
    TOTAL_VOLUME_DCH,
    TOTAL_VOLUME,
@@ -88,7 +90,7 @@ VALUES (
 # close(RPT);
 
 $dbconn->disconnect();
-$dbconnb->disconnect();
+#$dbconnb->disconnect();
 
 exit(0);
 

@@ -9,18 +9,36 @@ use DBI;
 #$ENV{ORACLE_SID}  = $ORACLE_SID;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+
 $dbconn  = getBODSPRD();
 $dbconnb = getSNDPRD();
+
+#$dbconnb = $dbconn;
 
 my $file = $ARGV[0];
 
 #$file =
-#"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20170430003237_223050_0004.dat.done";
+#"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20170609003028_195474_0026.dat.done";
+
+
+my $filename = (split("/",$file))[-1];
 
 my $fileDate = "";
 my ( $month_type, $tech, $roaming, $usage_type );
 
-my $dch      = "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/OutcollectDCH_voice.csv";
+
+my $sql =
+"delete from DCH_STAGING where FILENAME = '$filename'";
+$sthb = $dbconnb->prepare($sql);
+$sthb->execute() or sendErr();
+
+
+
+my $dch ="$ENV{'REC_HOME'}/OutcollectDCH_voice.csv";
+
+my %dchHash = {};
 
 if (   ( index( $file, "SDATACBR" ) > 0 )
 	|| ( index( $file, "SDIRI_FCIBER" ) > 0 ) )
@@ -33,7 +51,6 @@ else {
 
 }
 
-
 if ( ( substr( $fileDate, 6, 2 ) >= 1 ) && ( substr( $fileDate, 6, 2 ) <= 15 ) )
 {
 	$month_type = "Settlement";
@@ -43,8 +60,10 @@ else {
 	$month_type = "Accrual";
 }
 
+$sql = "";
 
-my $sql = "";
+my $hh = "$ENV{'REC_HOME'}/dchList.pl $fileDate";
+system("$hh");
 
 if (   ( index( $file, "SDATACBR" ) > 0 )
 	|| ( index( $file, "SDIRI_FCIBER" ) > 0 ) )
@@ -66,6 +85,21 @@ if (   ( index( $file, "SDATACBR" ) > 0 )
 
 }
 else {
+	
+	my $hh = "cat $dch | cut -f 1,2,3,5,7 |";
+	
+	open(DCH,"$hh") || exit(1);
+	while(my $buff = <DCH>)
+	{
+		chomp($buff);
+		my @dchInfo = split(/\t/,$buff);
+		
+		my $key2 = $dchInfo[0].$dchInfo[1].$dchInfo[2];
+		
+		$dchHash{$key2} = "$dchInfo[3]\t$dchInfo[4]";
+		
+	}
+	
 	$sql =
 "select sids,'0'||setlmnt_contract_cd  from pc9_sid where expiration_date > to_date('$fileDate','YYYYMMDD') 
 	and to_date('$fileDate','YYYYMMDD') >= effective_date and originating_category = 'NUSCC'";
@@ -73,6 +107,9 @@ else {
 	$usage_type = "Voice";
 	$tech       = "CDMA";
 	$roaming    = "Outcollect";
+	
+	
+	
 }
 
 my %companyCode = {};
@@ -125,10 +162,13 @@ while ( my $buff = <FILE> ) {
 			my $seq = substr( $buff, 8, 3 );
 			$period = "20" . substr( $buff, 37, 6 );
 
-			my $hh =
-"cat $dch | cut -f 1,2,3,5,7 | grep  '^$serve_sid'  | grep  $home_sid | grep $seq";
-			my $res = `$hh`;
-			$cost         = ( split( "\t", $res ) )[-2];
+#			my $hh =
+#"cat $dch | cut -f 1,2,3,5,7 | grep  '^$serve_sid'  | grep  $home_sid | grep $seq";
+#			my $res = `$hh`;
+	
+			my $key2 = $serve_sid.$home_sid.'0'.$seq;
+			
+			$cost         = ( split( "\t", $dchHash{$key2}) )[-2];
 			$company_code = $companyCode{$serve_sid};
 			$key          = $home_sid . $company_code . $period;
 
@@ -158,7 +198,7 @@ for my $key ( keys %loadArry ) {
 		$cost         = $loadArry{$key};
 
 		#		print "Key = $key\n";
-		check_addDB( $month_type, $serve_sid, $tech, $roaming, $usage_type,
+		check_addDB( $filename, $month_type, $serve_sid, $tech, $roaming, $usage_type,
 			$cost, $company_code, $period );
 	}
 
@@ -167,28 +207,16 @@ for my $key ( keys %loadArry ) {
 exit(0);
 
 sub check_addDB {
-	my ( $month_type, $serve_sid, $tech, $roaming, $usage_type, $cost,
+	my ( $filename, $month_type, $serve_sid, $tech, $roaming, $usage_type, $cost,
 		$company_code, $period )
 	  = @_;
 
-	my $sql =
-"select amount_usd from DCH_STAGING where month_type = '$month_type' and bid = '$serve_sid' 
-	and technology = '$tech' and roaming = '$roaming' and usage_type = '$usage_type' and company_code = '$company_code'
-	and period = to_date('$period','YYYYMMDD')";
-
-	# print "$sql\n";
-	my $sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
-
-	my @results = $sthb->fetchrow_array();
-
-	if ( @results == 0 ) {
-
-		$sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.DCH_STAGING (
-   USAGE_TYPE, TECHNOLOGY, ROAMING, 
+	my $sql = "INSERT INTO DCH_STAGING (
+   FILENAME,USAGE_TYPE, TECHNOLOGY, ROAMING, 
    PERIOD, MONTH_TYPE, COMPANY_CODE, 
    BID, AMOUNT_USD, AMOUNT_EUR) 
 VALUES ( 
+ '$filename'       /* File Name */,
  '$usage_type'     /* USAGE_TYPE */,
  '$tech'           /* TECHNOLOGY */,
  '$roaming'        /* ROAMING */,
@@ -198,18 +226,6 @@ VALUES (
  '$serve_sid'      /* BID */,
  $cost           /* AMOUNT_USD */,
  $cost           /* AMOUNT_EUR */ )";
-
-	}
-	else {
-
-		$cost = $results[0] + $cost;
-
-		$sql = "UPDATE ENTERPRISE_GEN_SANDBOX.DCH_STAGING
-SET AMOUNT_USD   = $cost, AMOUNT_EUR   = $cost
-    where month_type = '$month_type' and bid = '$serve_sid' 
-	and technology = '$tech' and roaming = '$roaming' and usage_type = '$usage_type'
-	and company_code = '$company_code' and period = to_date('$period','YYYYMMDD')";
-	}
 
 	# print "$sql\n";
 
@@ -222,7 +238,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -233,7 +249,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
