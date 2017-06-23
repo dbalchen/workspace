@@ -1,7 +1,8 @@
 #! /usr/local/bin/perl
 
 use DBI;
-
+use Time::Piece;
+use Time::Seconds;
 # For test only....
 #my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 #my $ORACLE_SID  = "bodsprd";
@@ -63,7 +64,7 @@ else {
 $sql = "";
 
 my $hh = "$ENV{'REC_HOME'}/dchList.pl $fileDate";
-system("$hh");
+ystem("$hh");
 
 if (   ( index( $file, "SDATACBR" ) > 0 )
 	|| ( index( $file, "SDIRI_FCIBER" ) > 0 ) )

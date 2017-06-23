@@ -13,6 +13,7 @@ my $today = Time::Piece->strptime("$date", "%Y%m%d");
 my $yesterday = $today - ONE_DAY;
 my $tomorrow = $today + ONE_DAY;
 my $dayafter = $tomorrow + ONE_DAY;
+my $dayafterthat = $dayafter + ONE_DAY;
 
 my $yesMon = $yesterday->monname;
 $yesterday = $yesterday->year."-".pad($yesterday->mon,'0', 2)."-".pad($yesterday->mday,'0', 2);
@@ -25,6 +26,9 @@ $tomorrow = $tomorrow->year."-".pad($tomorrow->mon,'0', 2)."-".pad($tomorrow->md
 
 my $dayMon = $dayafter->monname;
 $dayafter = $dayafter->year."-".pad($dayafter->mon,'0', 2)."-".pad($dayafter->mday,'0', 2);
+
+my $dayafMon = $dayafterthat->monname;
+$dayafterthat = $dayafterthat->year."-".pad($dayafterthat->mon,'0', 2)."-".pad($dayafterthat->mday,'0', 2);
 
 
 my $inGrep = "egrep '^$yesterday|^$today|^$tomorrow|^$dayafter' ";
@@ -63,7 +67,7 @@ while(my $buff = <IN>)
 	chomp($buff);
 	my @arry = split(/\t/,$buff);
 	
-	if(($arry[5] eq $today) || ($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter))
+	if(($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter) || ($arry[5] eq $dayafterthat))
 	{
 		print OUT "$buff\n";
 	}
@@ -83,6 +87,9 @@ $tomorrow = ($arry[2]-0)."-$tomMon-".($arry[0]-2000);
 
 @arry = split("-", $dayafter);
 $dayafter = ($arry[2]-0)."-$dayMon-".($arry[0]-2000);
+
+@arry = split("-", $dayafterthat);
+$dayafterthat = ($arry[2]-0)."-$dayMon-".($arry[0]-2000);
 
 
 open(IN,"<$ENV{'REC_HOME'}/tnsIncollect.csv.all") || exit(1);
