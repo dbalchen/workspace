@@ -1,7 +1,0 @@
-digraph BI {
-	rankdir=LR;
-        "TC" -> "CM" [label = "Data Cap\n Exceeded"];
-        "CM" -> "OMS";
-        "OMS" -> "AAM";
-        "AAM" -> "NetDO";
-}
