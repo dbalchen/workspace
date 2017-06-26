@@ -5,17 +5,33 @@
 
 MyTrack {
 	var <>notes = nil,     <>synth = nil,
-	<>chan = 0,        <>out = 0,
-	<>amp = 1.0,        <>transport;
+	<>chan = 0,       <>amp = 1.0,        <>transport;
 
-	init {
-		notes = MyNotes.new;
-		notes.init;
-		this.play;
+	*new {arg syn,chn = 0, nts = nil;
+		^super.new.init(syn,chn,nts);
+	}
+
+	init {arg syn,chn,nts;
+
+		chan = chn;
+
+		if(nts == nil,
+			{
+				notes = MyNotes.new;
+				notes.init;
+		});
+
+		synth = syn;
+
+		this.setup();
 	}
 
 
-	play {
+	setup {
+
+		if(transport != nil,
+			{transport.stop;transport = nil; });
+
 		transport = Pbind(\type, \midi,
 			\midiout, synth,
 			\midicmd, \noteOn,
@@ -24,7 +40,9 @@ MyTrack {
 			\chan, chan,
 			\sustain, Pfunc.new({notes.duration.next}),
 			\dur, Pfunc.new({notes.wait.next})
-		);
+		).play;
+
+		transport.stop;
 	}
 
 }

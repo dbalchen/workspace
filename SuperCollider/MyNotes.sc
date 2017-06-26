@@ -14,7 +14,7 @@ MyNotes {
 	init {
 
 		if(freqs == nil,
-			{freqs = [60,60,60,60]; });
+			{freqs = [60]; });
 
 		if(probs == nil,
 			{probs = freqs.deepCopy.collect{|x| if(x == 0,{x = 0;},{x = 1;})}});
@@ -38,23 +38,22 @@ MyNotes {
 		this.calcLag.value;
 		this.calcVel.value;
 
-
 	}
+	
 	calcFreq {
 		var lazy;
 
 		lazy = Plazy({
 			var ary,flip,fre;
 
-			if(freqs.size >= probs.size,{ary = Array.newClear(freqs.size);},{ary = Array.newClear(probs.size);});
-
-			probs.do({ arg item, i;
+		if(freqs.size >= probs.size,{ary = Array.newClear(freqs.size);},{ary = Array.newClear(probs.size);});
+			
+			ary.do({ arg item, i;
 				flip =  rrand(0.0, 1.0);
-				if(item >= flip,{ary.put(i,1);},{ary.put(i,0);})
+				if(probs.at(i%probs.size) >= flip,{ary.put(i,1);},{ary.put(i,0);})
 			});
-
+			
 			fre = freqs*ary;
-
 
 			fre.do({ arg item, i;
 				if(item.isKindOf(Array),{

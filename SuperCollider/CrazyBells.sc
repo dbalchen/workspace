@@ -73,4 +73,6 @@ loop {
 };
 
 
+~crazyBells.value;
 
+~crazyPipe.value;

@@ -33,7 +33,7 @@ o.memSize = 65536;
 
 
 
-//~xtraD.value;
+~xtraD.value;
 
 
 (

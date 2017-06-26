@@ -3,57 +3,36 @@
 // =====================================================================
 
 SynthDef("eStrings",
-	 {
-	   arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,bassamt = 0.09,
-	     attack = 4, decay = 4, sustain = 0, release = 1, fattack = 0.0, fsustain = 1, 
-	     frelease = 0.05, aoc = 0, gain = 1, cutoff = 10000.00, bend = 0;
+	{
+		arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,hpf = 120,
+		attack = 0.5, decay = 2.0, sustain = 0.6, release = 0.6, fattack = 0.5, fsustain = 0.8,
+		frelease = 0.6, aoc = 0.6, gain = 0.7, cutoff = 4200.00, bend = 0;
 
-	   var sig, env, fenv, freq2;
+		var sig, env, fenv, env2;
 
-	   env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
-
-       freq2 = freq * bend.midiratio;
-	   freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
-
-	   fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
-	   fenv = EnvGen.kr(fenv, gate,doneAction:da);
-
-	   sig = (LFSaw.ar(freq,0,0.1));
-
-	   sig = Splay.ar(sig);
-	   sig = (sig + (bassamt*LFSaw.ar(freq2/2,0,0.1)))*EnvGen.kr(env, gate: gate,doneAction:da);
-	   sig = MoogFF.ar
-	     (
-	      sig,
-	      cutoff*fenv,
-	      gain
-	      );
+		env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
 
 
-	   Out.ar(out,amp*sig);
+		//		env2  = Env.adsr(0.5,0.25,0.6,release,curve: 'welch');
+		//		env2 = EnvGen.kr(env2, gate);
+		freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
 
-	 }).send(s);
+		fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
+		fenv = EnvGen.kr(fenv, gate);
+		fenv = aoc*(fenv - 1) + 1;
+		sig = (Saw.ar(freq,0.1));//*env2;
 
+		sig = sig*EnvGen.kr(env, gate: gate,doneAction:da);
+		sig = MoogFF.ar
+		(
+			sig,
+			cutoff*fenv,
+			gain
+		);
 
-~midiStrings = {arg myevents,num,chan;
-	     var flt, env,amp,tt;
-	     amp = myevents.amp;
-	     flt = myevents.filter;
-	     env = myevents.envelope;
+		sig = HPF.ar(sig,hpf);
+		sig = Splay.ar(sig);
 
-	     if(num.isMemberOf(Integer),
-	       { 
-		 tt = Synth("eStrings");
-		 tt.set(\gate,0);
-		 flt.setFilter(tt);
-		 env.setEnvelope(tt);
-		 tt.set(\freq,num.midicps);
-		 tt.set(\da,2);
-		 tt.set(\amp,amp);
-		 tt.set(\gate,1);
-		 tt.set(\out,myevents.out);
-         tt.set(\bend, ~bend[chan]);
-	       }, {["rest"].post}); // false action
+		Out.ar(out,amp*sig);
 
-             tt;
-};
+}).send(s);

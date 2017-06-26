@@ -2,7 +2,7 @@
 // Cavern
 // =====================================================================
 
- SynthDef(\Cavern, {arg out = 2, freq =13.75, gate = 1,amp = 1.0, da = 2, attack = 1.0, sus = 2,sustain = 4.0, release = 0.5;
+ SynthDef(\Cavern, {arg out = 0, freq =13.75, gate = 1,amp = 1.0, da = 2, attack = 1.0, sus = 2,sustain = 4.0, release = 0.5;
      var z,env, partials,base;
 
      partials = 12;

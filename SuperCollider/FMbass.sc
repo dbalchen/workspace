@@ -45,7 +45,7 @@ JFreqScope.new( 400, 200, 0 );
 
 (
  x = Synth("FMbass");
- a = [60].choose;
+ a = [45].choose;
  x.set(\freq,a.midicps);
  x.set(\gate,1);
  //x.set(\gate,0);
