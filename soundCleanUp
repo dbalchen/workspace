@@ -1,0 +1,2 @@
+ps aux | egrep 'jack|fluid|java' | grep -v 'gconf-helper' | sed 's/  */ /g' | cut -d" " -f2 | xargs -i kill -9 {}
+#rm -fr /tmp/*
