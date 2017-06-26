@@ -15,7 +15,8 @@ use DBI;
 my $filetype = $ARGV[0] . '%' . $ARGV[1] . '%';
 
 my $dbconn  = getBODSPRD();
-my $dbconnb = getSNDPRD();
+# my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 
 # clean up Database
 
@@ -42,7 +43,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $record_count_dch  = $rows[3];
 
 	$sql = "
-  INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
+  INSERT INTO APP_SHARE.APRM (
    USAGE_TYPE, 
    TOTAL_VOLUME_DCH, 
    TOTAL_VOLUME, 
@@ -81,7 +82,7 @@ VALUES (
 }
 
 $dbconn->disconnect();
-$dbconnb->disconnect();
+#$dbconnb->disconnect();
 
 exit(0);
 

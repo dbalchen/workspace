@@ -13,7 +13,7 @@ use DBI;
 # $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 # $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my $hh =
 "cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
@@ -28,7 +28,8 @@ my $dateTime = substr( $filename, index( $filename, "T2" ) + 1, 8 );
 
 my $dbconn = getBODSPRD();
 
-my $dbconnb = getSNDPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 
 my $sql  = "delete from file_summary where FILE_NAME = '$filename'";
 my $sthb = $dbconnb->prepare($sql);
@@ -58,6 +59,9 @@ if ( $fileId[1] eq "" ) {
 	$dbconn->disconnect();
 	exit(0);
 }
+
+$hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
+#system($hh);
 
 $sql = "select 'IN_REC_QUANTITY', sum(in_rec_quantity) 
      from ac1_control_hist 
@@ -164,7 +168,7 @@ while ( my @rows3 = $sth->fetchrow_array() ) {
 	$rows3[2] = ( split( '<', $rows3[2] ) )[0];
 
 	$sql = "
-INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+INSERT INTO APP_SHARE.REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
    ERROR_DESCRIPTION, ERROR_CODE) 
     VALUES ( 
@@ -192,7 +196,7 @@ while ( my @rows4 = $sth->fetchrow_array() ) {
 	$aprmdiff = $aprmdiff + 1;
 
 	$sql = "
-INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+INSERT INTO APP_SHARE.REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
    ERROR_DESCRIPTION, ERROR_CODE) 
     VALUES ( 
@@ -215,15 +219,23 @@ my $tcaprDif =
 $hh = "$ENV{'REC_HOME'}/dch_infoCount.pl $ARGV[0] $ENV{'REC_HOME'}/IncollectDCH_data.csv";
 my @dchValues = `$hh`;chomp(@dchValues);
 my $usage_dch      = $dchValues[2];
-$usage = $dchValues[2];
+if($usage_dch == 0 || $usage_dch eq "")
+{
+	$usage_dch = $usage;
+}
+
 my $total_recs_dch = $reportVariable{'IN_REC_QUANTITY'};
 my $file_sum_dch   = $dchValues[1];
+if($file_sum_dch  == 0 || $file_sum_dch  eq "")
+{
+	$file_sum_dch  = $filesum;
+}
 my $file_name_dch  = $fileId[0];
 my $dch_rec_dif    = ( $total_recs_dch - $reportVariable{'IN_REC_QUANTITY'} );
 my $dch_sum_dif    = ( $file_sum_dch - $filesum );
 
 $sql =
-"INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
+"INSERT INTO APP_SHARE.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
    TOTAL_CHARGES, TC_SEND, SENDER, REJECTED_COUNT, REJECTED_CHARGES, RECEIVER, PROCESS_DATE, IDENTIFIER, FILE_TYPE, FILE_NAME_DCH, FILE_NAME, DUPLICATES, 
    DROPPED_TC, DROPPED_RECORDS, DROPPED_APRM_CHARGES, DROPPED_APRM, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, APRM_DIFFERENCE) 
 VALUES ( 
@@ -259,7 +271,7 @@ VALUES (
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
-$dbconnb->disconnect();
+#$dbconnb->disconnect();
 $dbconn->disconnect();
 exit(0);
 

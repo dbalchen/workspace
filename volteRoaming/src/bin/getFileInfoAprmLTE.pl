@@ -22,13 +22,15 @@ $sqls{'NLDLT'} =
 $sqls{'DISP_RM'} =
 "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
 
-if($ARGV[0] = "NLDLT")
+if($ARGV[0] eq "NLDLT")
 {
  $clearinghouse = 'Syniverse';
 }
 
 my $dbconn  = getBODSPRD();
-my $dbconnb = getSNDPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
+
 
 my $sqlT = "delete from APRM where usage_type like '$ARGV[0]" . '%'
   . "' and DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') ";
@@ -48,7 +50,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $usage_type        = $ARGV[0] . "-" . $rows[5];
 
 	$sql = "
-  INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
+  INSERT INTO APP_SHARE.APRM (
    USAGE_TYPE,
    TOTAL_VOLUME_DCH,
    TOTAL_VOLUME,
@@ -76,7 +78,7 @@ VALUES (
    '$rows[0]',
    'TAP',
  to_date($ARGV[1],'YYYYMMDD'),
- $clearinghouse,
+ '$clearinghouse',
   '$rows[0]',
   '$rows[1]'
 )";
@@ -88,7 +90,7 @@ VALUES (
 # close(RPT);
 
 $dbconn->disconnect();
-$dbconnb->disconnect();
+#$dbconnb->disconnect();
 
 exit(0);
 

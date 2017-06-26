@@ -1,29 +1,20 @@
 // =====================================================================
-// MyEvents Class
+// MyNotes Class
 // =====================================================================
 
 
-MyEvents {
-	var	<>freqs = nil,     <>freq = nil,
+MyNotes {
+	var <>freqs = nil,     <>freq = nil,
 	<>probs = nil,     <>prob = nil,
 	<>waits = nil,     <>wait = nil,
-	<>durations = nil, <>duration = nil,
-	<>out = 0,         <>amp = 0.2,
-	<>filter = nil,    <>envelope = nil,
-	<>lag = 0.0,       <>lags = nil, <>lagt = 0.0,
+	<>lag = 0.0,       <>lags = nil,
 	<>vel = 1,         <>vels = nil,
+	<>durations = nil, <>duration = nil;
 
-	tfreqs, tprobs, twaits, tlags, tvels, tdurations;
 	init {
 
-		if(filter != nil,
-			{filter = MyFilter.new;});
-
-		if(envelope != nil,
-			{envelope = MyEnv.new;});
-
 		if(freqs == nil,
-			{freqs = Array.newClear(waits.size).fill(35);});
+			{freqs = [60]; });
 
 		if(probs == nil,
 			{probs = freqs.deepCopy.collect{|x| if(x == 0,{x = 0;},{x = 1;})}});
@@ -31,36 +22,38 @@ MyEvents {
 		if(waits == nil,
 			{waits = Array.newClear(freqs.size).fill(1); });
 
+		if(durations == nil,
+			{durations = waits.deepCopy; });
+
 		if(vels == nil,
 			{vels = Array.newClear(freqs.size).fill(1); });
 
 		if(lags == nil,
-			{lags = Array.newClear(freqs.size).fill(1); });
+			{lags = Array.newClear(freqs.size).fill(0); });
 
-		if(durations == nil,
-			{durations = waits.deepCopy; });
 
 		this.calcFreq.value;
 		this.calcDur.value;
 		this.calcWait.value;
 		this.calcLag.value;
 		this.calcVel.value;
+
 	}
+	
 	calcFreq {
 		var lazy;
 
 		lazy = Plazy({
 			var ary,flip,fre;
 
-			if(freqs.size >= probs.size,{ary = Array.newClear(freqs.size);},{ary = Array.newClear(probs.size);});
-
-			probs.do({ arg item, i;
+		if(freqs.size >= probs.size,{ary = Array.newClear(freqs.size);},{ary = Array.newClear(probs.size);});
+			
+			ary.do({ arg item, i;
 				flip =  rrand(0.0, 1.0);
-				if(item >= flip,{ary.put(i,1);},{ary.put(i,0);})
+				if(probs.at(i%probs.size) >= flip,{ary.put(i,1);},{ary.put(i,0);})
 			});
-
+			
 			fre = freqs*ary;
-
 
 			fre.do({ arg item, i;
 				if(item.isKindOf(Array),{
@@ -116,35 +109,6 @@ MyEvents {
 		vel =Pn(lazy,inf).asStream;
 
 	}
-
-	mute {
-		twaits = waits;
-		tfreqs = freqs;
-		tprobs = probs;
-		tdurations = durations;
-		tvels = vels;
-
-		waits = [4.0];
-		freqs = [0];
-		probs = [0];
-		durations = [4.0];
-		vels = [1];
-
-		//   envelope.mute;
-		// filter.mute;
-	}
-
-	unmute {
-		waits = twaits;
-		freqs = tfreqs;
-		probs = tprobs;
-		durations = tdurations;
-		vels = tvels;
-
-		//    envelope.unmute;
-		//filter.unmute;
-	}
-
 
 
 }
