@@ -1,134 +1,78 @@
 <?xml version="1.0"?>
 
+<!-- Revision : PR270997 Description : Modified for APRM Author : David A 
+	Smith Date : Mon Jun 3 12:24:21 CDT 2013 -->
+
 <!-- The MONITOR configuration file. -->
 <monitor>
-	<!-- 
-		GENFERAL SETTINGS 
-		Settings applicable to the overall environment of this Monitor instance.
-	-->
+	<!-- GENFERAL SETTINGS Settings applicable to the overall environment of 
+		this Monitor instance. -->
 	<general>
-		<!--
-			ASSOCIATE ONCALL SCHEDULE
-			Value contains oncall start date and end date in format YYYMMDD.
-		-->
+		<!-- ASSOCIATE ONCALL SCHEDULE Value contains oncall start date and end 
+			date in format YYYMMDD. -->
 		<schedule>
-
 			<period>
-				<start_oncall>20080101</start_oncall>
+				<start_oncall>20130101</start_oncall>
 				<end_oncall>20501231</end_oncall>
-				<victim>DaveSmith</victim>
+				<victim>JoeMps</victim>
 			</period>
 		</schedule>
 
-
-		<!--
-			ASSOCIATE INFORMATION
-			SMTP pager and email addresses.
-		-->
+		<!-- ASSOCIATE INFORMATION SMTP pager and email addresses. -->
 		<associate>
-			<name>DaveSmith</name>
-			<pager>6084447106@uscellular.com</pager>
-			<email>david.balchen@uscellular.com</email>
+			<name>JoeMps</name>
+			<!--pager>6086575663@archwireless.net</pager -->
+			<!--email>MPS@uscellular.com</email -->
+			<!--email>david.smith@uscellular.com</email -->
 		</associate>
 
-		<!--
-			ROOT PATH
-			Physical address of the root project directory.
-			This is where all the check executables are located.
-		-->
+		<!-- ROOT PATH Physical address of the root project directory. This is 
+			where all the check executables are located. -->
 		<SERVLET>
 			<TEMPLATE file="ini/Mps_Monitor.html" key="default" />
 			<TEMPLATE file="ini/ACPA2.html" key="ACPA2" />
-			<TEMPLATE file="ini/ACPA3.html" key="ACPA3" />
-			<TEMPLATE file="ini/OncallM01.html" key="ONCALLM01" />
-			<TEMPLATE file="ini/OncallM02.html" key="ONCALLM02" />
-			<TEMPLATE file="ini/OncallM03.html" key="ONCALLM03" />
-			<TEMPLATE file="ini/OncallM04.html" key="ONCALLM04" />
-			<TEMPLATE file="ini/OncallM05.html" key="ONCALLM05" />
-			<TEMPLATE file="ini/OncallM06.html" key="ONCALLM06" />
-			<TEMPLATE file="ini/Oncall3M01.html" key="ONCALL3M01" />
-			<TEMPLATE file="ini/Oncall3M02.html" key="ONCALL3M02" />
-			<TEMPLATE file="ini/Oncall3M03.html" key="ONCALL3M03" />
-			<TEMPLATE file="ini/Oncall3M04.html" key="ONCALL3M04" />
-			<TEMPLATE file="ini/Oncall3M05.html" key="ONCALL3M05" />
-			<TEMPLATE file="ini/Oncall3M06.html" key="ONCALL3M06" />
+			<TEMPLATE file="ini/KPRL1BATCH.html" key="KPRL1BATCH" />
+			<TEMPLATE file="ini/KPRL2BATCH.html" key="KPRL2BATCH" />
+			<TEMPLATE file="ini/KPRL3BATCH.html" key="KPRL3BATCH" />
+			<TEMPLATE file="ini/APRM.html" key="APRM" />
+			<TEMPLATE file="ini/AEM.html" key="AEM" />
+			<TEMPLATE file="ini/dash.html" key="Dash" />
+			<TEMPLATE file="ini/dash_test.html" key="Dash_Test" />
 		</SERVLET>
 	</general>
 
-	<!--
-		MARKET
-		Settings specific to each market.            
-	-->
+	<!-- MARKET Settings specific to each market. -->
 	<MARKET>
-		<!--
-			These sections contain input parameters for each individual
-			monitor check.
-			To turn off any of the checks, set its 'disable' flag to 'Yes', 'y', 
-			or any other case variation thereof.
-		-->
-		<M01 hostname="m01usg1.uscc.com" port="8999" StartHour="7">
+		<!-- These sections contain input parameters for each individual monitor 
+			check. To turn off any of the checks, set its 'disable' flag to 'Yes', 'y', 
+			or any other case variation thereof. -->
 
-			<WebAcpa2>
+		<KPRL3BATCH hostname="kprl3batch" port="8999" StartHour="7">
+
+
+			<AEMErrorCount>
 				<disable>no</disable>
-				<usehours>yes</usehours>
-				<!--
-					The following 5 tags tell the monitor when it should run the
-					check.  The method is similar to the Unix CRON.  
-					Thus, for instance the setting:
-					"   <minutes>5,23</minutes>
-					<hours>3,5,19</hours> 
-					<days>1-25</days>
-					<dayofweek>*</dayofweek>
-					<month>*</month>           "
-					results in the check being performed every day of the month,
-					on any day of the week, but only on days of month 1st through
-					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
-					7:23 PM.
-				-->
-				<minutes>
-					2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-				<executable>/home/dbalchen/workspace/helloWorld.pl</executable>
-				<params title="ACPA2:M01" />
-				<repage>1</repage>
-			</WebAcpa2>
-
-			<WebAcpa3>
-				<disable>yes</disable>
-				<usehours>yes</usehours>
-				<!--
-					The following 5 tags tell the monitor when it should run the
-					check.  The method is similar to the Unix CRON.  
-					Thus, for instance the setting:
-					"   <minutes>5,23</minutes>
-					<hours>3,5,19</hours> 
-					<days>1-25</days>
-					<dayofweek>*</dayofweek>
-					<month>*</month>           "
-					results in the check being performed every day of the month,
-					on any day of the week, but only on days of month 1st through
-					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
-					7:23 PM.
-				-->
-				<minutes>
-					2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59
-				</minutes>
+				<!-- The following 5 tags tell the monitor when it should run the check. 
+					The method is similar to the Unix CRON. Thus, for instance the setting: " 
+					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
+					<month>*</month> " results in the check being performed every day of the 
+					month, on any day of the week, but only on days of month 1st through the 
+					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and 7:23 PM. -->
+				<minutes>*</minutes>
 				<hours>*</hours>
 				<days>*</days>
 				<dayofweek>*</dayofweek>
 				<month>*</month>
 
-				<executable>/home/dbalchen/workspace/helloWorld.pl</executable>
-				<params title="ACPA3:M01" />
+				<executable>Monitor/AEMErrorCount.pl</executable>
+				<params market="BATCH3" sql_query="aemerrorcount.sql" MpsLib=""
+					ignore_list="" SqlLib="sql/" Log="log/" title="AEM:ErrorCount" />
 				<repage>1</repage>
-			</WebAcpa3>
+			</AEMErrorCount>
 
 
-		</M01>
-		
+
+		</KPRL3BATCH>
+
 	</MARKET>
 </monitor>

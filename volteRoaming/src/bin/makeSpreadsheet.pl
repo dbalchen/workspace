@@ -4,21 +4,21 @@ use DBI;
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+#	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+ my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+ my $ORACLE_SID  = "bodsprd";
+ $ENV{ORACLE_HOME} = $ORACLE_HOME;
+ $ENV{ORACLE_SID}  = $ORACLE_SID;
+ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
 #$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
@@ -29,8 +29,8 @@ use MIME::Lite;
 #$ARGV[0] = "LTE";
 #$ARGV[0] = "NLDLT";
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # Setup Initial variables
 my $max_process = 10;
@@ -267,80 +267,8 @@ $workbook = Spreadsheet::WriteExcel->new($excel_file);
 $dbconnb = getODSPRD();
 
 
-# Get Roaming files
-foreach my $switch (@switches) {
-	my $hh      = "";
-	my $maxRecs = 1;
-	if ( $switch ne "DATA_CIBER" ) {
 
-		if ( $switch eq "LTE" ) {
-			$hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp |";
-		}
-		elsif ( $switch eq "NLDLT" ) {
-			$hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp NLDLT|";
-		}
-		else {
-			$hh = 'find '
-			  . $dirs{$switch}
-			  . ' -name "'
-			  . $switch . '*'
-			  . $timeStamp
-			  . '*" -print |';
-		}
-
-		if ( !open( FINDLIST, "$hh" ) ) {
-			errorExit("Cannot create FINDLIST: $!\n");
-		}
-
-		while ( my $filename = <FINDLIST> ) {
-			chomp($filename);
-
-			$hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
-
-			# For testing...
-			if ( $maxRecs < 50000000000000 ) {
-				system($hh);
-				$maxRecs = $maxRecs + 1;
-			}
-
-			my $tproc = getTotalProc();
-			while ( $tproc > $max_process ) {
-				sleep 10;
-				$tproc = getTotalProc();
-			}
-		}
-
-		if ( $maxRecs > 0 ) {
-			if (   $switch eq 'LTE'
-				|| $switch eq 'DISP_RM'
-				|| $switch eq 'NLDLT' )
-			{
-				$hh =
-				  "$ENV{'REC_HOME'}/getFileInfoAprmLTE.pl $switch $timeStamp &";
-			}
-			else {
-				$hh =
-				  "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $timeStamp &";
-			}
-			system($hh);
-		}
-
-	}
-	else {
-
-		$hh = "$ENV{'REC_HOME'}/$jobs{$switch} $timeStamp &";
-		system($hh);
-	}
-
-	sleep 10;
-	$tproc = getTotalProc();
-
-	while ( $tproc > 0 ) {
-		sleep 10;
-		$tproc = getTotalProc();
-	}
-
-	if ( $maxRecs > 0 || $switch eq "DATA_CIBER" ) {
+	if ( $switch eq "DATA_CIBER" ) {
 		createExcel( $sqls{$switch}, $headings{$switch}, $tab{$switch},
 			$switch );
 
@@ -464,7 +392,7 @@ foreach my $switch (@switches) {
 			createExcel( $sql, $heading, $rejectTab, $switch );
 		}
 	}
-}
+
 
 $workbook->close;
 

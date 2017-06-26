@@ -14,7 +14,7 @@ public class TestMpsMonitor extends TestCase {
   protected void setUp() throws Exception {
     super.setUp();
     String name = "unit/monitor.xml";
-    String tag = "M01";
+    String tag = "KPRL3BATCH";
     mpsMonitor = new MpsMonitor(tag, name);
 
   }
@@ -26,7 +26,7 @@ public class TestMpsMonitor extends TestCase {
 
   public void testMarketInformation() throws Exception {
     String name = "unit/monitor.xml";
-    String tag = "M01";
+    String tag = "KPRL3BATCH";
     mpsMonitor = new MpsMonitor(tag,name);
 
     /**@todo fill in the test code*/
