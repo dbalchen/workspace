@@ -42,6 +42,11 @@ system($hh);
 $hh = "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_GSM.csv";
 system($hh);
 
+$inGrep = "egrep '^$tomorrow|^$dayafter|^$dayafterthat' ";
+
+$hh = "cat $ENV{'REC_HOME'}/OutcollectDCH_voice.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/OutcollectDCH_voice.csv";
+system($hh);
+
 open(IN,"<$ENV{'REC_HOME'}/IncollectDCH_GSM.csv.all") || exit(1);
 open(OUT,">$ENV{'REC_HOME'}/IncollectDCH_GSM.csv") || exit(1);
 
@@ -59,22 +64,22 @@ while(my $buff = <IN>)
 close(IN);
 close(OUT);
 
-open(IN,"<$ENV{'REC_HOME'}/OutcollectDCH_voice.csv.all") || exit(1);
-open(OUT,">$ENV{'REC_HOME'}/OutcollectDCH_voice.csv") || exit(1);
-
-while(my $buff = <IN>)
-{
-	chomp($buff);
-	my @arry = split(/\t/,$buff);
-	
-	if(($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter) || ($arry[5] eq $dayafterthat))
-	{
-		print OUT "$buff\n";
-	}
-}
-
-close(IN);
-close(OUT);
+#open(IN,"<$ENV{'REC_HOME'}/OutcollectDCH_voice.csv.all") || exit(1);
+#open(OUT,">$ENV{'REC_HOME'}/OutcollectDCH_voice.csv") || exit(1);
+#
+#while(my $buff = <IN>)
+#{
+#	chomp($buff);
+#	my @arry = split(/\t/,$buff);
+#	
+#	if(($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter) || ($arry[5] eq $dayafterthat))
+#	{
+#		print OUT "$buff\n";
+#	}
+#}
+#
+#close(IN);
+#close(OUT);
 
 my @arry = split("-", $yesterday);
 $yesterday = ($arry[2]-0)."-$yesMon-".($arry[0]-2000);

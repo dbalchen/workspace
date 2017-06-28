@@ -3,6 +3,7 @@
 use DBI;
 use Time::Piece;
 use Time::Seconds;
+
 # For test only....
 #my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 #my $ORACLE_SID  = "bodsprd";
@@ -10,8 +11,9 @@ use Time::Seconds;
 #$ENV{ORACLE_SID}  = $ORACLE_SID;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 $dbconn  = getBODSPRD();
 $dbconnb = getSNDPRD();
@@ -21,23 +23,19 @@ $dbconnb = getSNDPRD();
 my $file = $ARGV[0];
 
 #$file =
-#"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20170609003028_195474_0026.dat.done";
+#"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20170622121615_3155473_0021.dat.done";
 
-
-my $filename = (split("/",$file))[-1];
+my $filename = ( split( "/", $file ) )[-1];
 
 my $fileDate = "";
 my ( $month_type, $tech, $roaming, $usage_type );
 
-
-my $sql =
-"delete from DCH_STAGING where FILENAME = '$filename'";
+my $sql = "delete from DCH_STAGING where FILENAME = '$filename'";
 $sthb = $dbconnb->prepare($sql);
+
 $sthb->execute() or sendErr();
 
-
-
-my $dch ="$ENV{'REC_HOME'}/OutcollectDCH_voice.csv";
+my $dch = "$ENV{'REC_HOME'}/OutcollectDCH_voice.csv";
 
 my %dchHash = {};
 
@@ -64,7 +62,8 @@ else {
 $sql = "";
 
 my $hh = "$ENV{'REC_HOME'}/dchList.pl $fileDate";
-ystem("$hh");
+
+#system("$hh");
 
 if (   ( index( $file, "SDATACBR" ) > 0 )
 	|| ( index( $file, "SDIRI_FCIBER" ) > 0 ) )
@@ -86,21 +85,20 @@ if (   ( index( $file, "SDATACBR" ) > 0 )
 
 }
 else {
-	
-	my $hh = "cat $dch | cut -f 1,2,3,5,7 |";
-	
-	open(DCH,"$hh") || exit(1);
-	while(my $buff = <DCH>)
-	{
+
+	my $hh = "cat $dch | cut -f 2,3,4,5,8 |";
+
+	open( DCH, "$hh" ) || exit(1);
+	while ( my $buff = <DCH> ) {
 		chomp($buff);
-		my @dchInfo = split(/\t/,$buff);
-		
-		my $key2 = $dchInfo[0].$dchInfo[1].$dchInfo[2];
-		
-		$dchHash{$key2} = "$dchInfo[3]\t$dchInfo[4]";
-		
+		my @dchInfo = split( /\t/, $buff );
+
+		my $key2 = $dchInfo[1] . $dchInfo[2] . $dchInfo[3];
+
+		$dchHash{$key2} = "$dchInfo[4]\t$dchInfo[0]";
+
 	}
-	
+
 	$sql =
 "select sids,'0'||setlmnt_contract_cd  from pc9_sid where expiration_date > to_date('$fileDate','YYYYMMDD') 
 	and to_date('$fileDate','YYYYMMDD') >= effective_date and originating_category = 'NUSCC'";
@@ -108,9 +106,7 @@ else {
 	$usage_type = "Voice";
 	$tech       = "CDMA";
 	$roaming    = "Outcollect";
-	
-	
-	
+
 }
 
 my %companyCode = {};
@@ -166,10 +162,10 @@ while ( my $buff = <FILE> ) {
 #			my $hh =
 #"cat $dch | cut -f 1,2,3,5,7 | grep  '^$serve_sid'  | grep  $home_sid | grep $seq";
 #			my $res = `$hh`;
-	
-			my $key2 = $serve_sid.$home_sid.'0'.$seq;
-			
-			$cost         = ( split( "\t", $dchHash{$key2}) )[-2];
+
+			my $key2 = $serve_sid . $home_sid . '0' . $seq;
+
+			$cost         = ( split( "\t", $dchHash{$key2} ) )[-2];
 			$company_code = $companyCode{$serve_sid};
 			$key          = $home_sid . $company_code . $period;
 
@@ -199,8 +195,11 @@ for my $key ( keys %loadArry ) {
 		$cost         = $loadArry{$key};
 
 		#		print "Key = $key\n";
-		check_addDB( $filename, $month_type, $serve_sid, $tech, $roaming, $usage_type,
-			$cost, $company_code, $period );
+		check_addDB(
+			$filename, $month_type,   $serve_sid,
+			$tech,     $roaming,      $usage_type,
+			$cost,     $company_code, $period
+		);
 	}
 
 }
@@ -208,9 +207,17 @@ for my $key ( keys %loadArry ) {
 exit(0);
 
 sub check_addDB {
-	my ( $filename, $month_type, $serve_sid, $tech, $roaming, $usage_type, $cost,
-		$company_code, $period )
-	  = @_;
+	my (
+		$filename,   $month_type, $serve_sid,    $tech, $roaming,
+		$usage_type, $cost,       $company_code, $period
+	) = @_;
+
+	my $today = Time::Piece->strptime( "$period", "%Y%m%d" );
+	$today = ( $today - ONE_MONTH );
+	$period =
+	    $today->year 
+	  . pad( $today->mon,  '0', 2 ) 
+	  . "16";
 
 	my $sql = "INSERT INTO DCH_STAGING (
    FILENAME,USAGE_TYPE, TECHNOLOGY, ROAMING, 
@@ -231,6 +238,7 @@ VALUES (
 	# print "$sql\n";
 
 	$sthb = $dbconnb->prepare($sql);
+
 	$sthb->execute() or sendErr();
 
 }
@@ -257,3 +265,14 @@ sub getSNDPRD {
 	return $dbods;
 }
 
+sub pad {
+
+	my ( $padString, $padwith, $length ) = @_;
+
+	while ( length($padString) < $length ) {
+		$padString = $padwith . $padString;
+	}
+
+	return $padString;
+
+}

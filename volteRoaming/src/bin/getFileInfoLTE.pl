@@ -3,14 +3,14 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "CDNLDLTIWB5101341,1341,Vodafone Netherland (NLDLT),1854,2025.3820,0,0,20170605";
+$ARGV[0] = "CDNLDLTIWB5101359,1359,Vodafone Netherland (NLDLT),2659,2672.2632,0,0,20170622";
 
 # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
-
+#
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
@@ -24,8 +24,7 @@ if ( index( $argv[0], "NLDLT" ) >= 0 ) {
 }
 
 my $dbconn  = getBODSPRD();
-#my $dbconnb = getSNDPRD();
-$dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
 
 my $sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
 
@@ -44,7 +43,7 @@ my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
 while ( my @rows = $sth->fetchrow_array() ) {
-	$sql = "APP_SHARE.REJECTED_RECORDS (
+	$sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, ERROR_DESCRIPTION, ERROR_CODE) 
 VALUES ( 
   $rows[3],
@@ -97,25 +96,23 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 		my $hh =
 "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv | $grep | cut -f 9,10,11,12 ";
-
 		my $output = `$hh`;
 		chomp($output);
 
 		my @dchValues = split( "\t", $output );
 		chomp(@dchValues);
 
-		$total_charges_dch = $dchValues[3];
-		$total_records_dch = $dchValues[0];
+		$total_charges_dch = $dchValues[2];
+		$total_records_dch = $dchValues[3];
 
 		if ( index( $usage_type, "-C" ) >= 0 ) {
 			$total_volume_dch = $rows[2];
-			$total_records_dch = $rows[0];
 		}
 		elsif ( index( $usage_type, "-V" ) >= 0 ) {
-			$total_volume_dch = $dchValues[2] * 1024;
+			$total_volume_dch = $dchValues[1] * 1024;
 		}
 		else {
-			$total_volume_dch = $dchValues[1] * 60;
+			$total_volume_dch = $dchValues[0] * 60;
 		}
 
 	}
@@ -140,7 +137,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	}
 
 	$sql = "
-INSERT INTO APP_SHARE.FILE_SUMMARY (
+INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
 USAGE_TYPE, 
 TOTAL_VOLUME_DCH, 
 TOTAL_VOLUME, 
@@ -195,13 +192,13 @@ VALUES (
  $dropped
 )";
 
-#		print $sql. "\n";
+	print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);
 	$sthb->execute() or sendErr();
 }
 
-# $dbconnb->disconnect();
+$dbconnb->disconnect();
 $dbconn->disconnect();
 
 exit(0);
@@ -210,7 +207,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -221,7 +218,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
