@@ -1,0 +1,8 @@
+#! /usr/bin/ruby
+#1.9.1
+
+require_relative 'Root.rb'
+require_relative 'Notes.rb'
+require_relative 'Pitch.rb'
+require_relative 'Composition.rb'
+require_relative 'Track.rb'
