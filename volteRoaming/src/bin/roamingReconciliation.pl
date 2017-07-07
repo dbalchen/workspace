@@ -28,15 +28,21 @@ use MIME::Lite;
 #$ARGV[0] = "DISP_RM";
 #$ARGV[0] = "LTE";
 #$ARGV[0] = "NLDLT";
+#$ARGV[0] = "NLDLT,CIBER_CIBER";
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # Setup Initial variables
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-$timeStamp = '20170602';
+#$timeStamp = '20170630';
+
+my $hh = "$ENV{'REC_HOME'}/dchList.pl $timeStamp";
+
+system("$hh");
 
 # Setup switch types and their directory location
 my %dirs     = {};
@@ -263,9 +269,7 @@ my @switches = split( ',', $ARGV[0] );
 my $excel_file = "RORC_" . $timeStamp . '.xls';
 $workbook = Spreadsheet::WriteExcel->new($excel_file);
 
-#$dbconnb = getSNDPRD();
-$dbconnb = getODSPRD();
-
+$dbconnb = getSNDPRD();
 
 # Get Roaming files
 foreach my $switch (@switches) {
@@ -472,8 +476,7 @@ $workbook->close;
 my @email = ('david.balchen@uscellular.com');
 
 foreach my $too (@email) {
-
-#	 sendMsg($too);
+	 sendMsg($too);
 }
 
 exit(0);
@@ -538,23 +541,11 @@ sub sendMsg() {
 	$msg->send();
 }
 
-sub getBODSPRD {
-
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
-	unless ( defined $dbods ) {
-		sendErr();
-	}
-	return $dbods;
-}
-
-
 sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

@@ -1,12 +1,10 @@
 #! /usr/local/bin/perl
 
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 chdir("$ENV{'REC_HOME'}");
-
-
 
 my $hh = "cat IncollectDCH_data* | tr -d '".'\0'."'| grep '^[0-9]' | sort -u | dos2unix > IncollectDCH_data.csv.all.tmp";
 system("$hh");

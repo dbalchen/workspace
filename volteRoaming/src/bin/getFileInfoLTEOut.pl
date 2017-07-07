@@ -12,6 +12,7 @@ use DBI;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 #$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $filename = ( split( '/', $ARGV[0] ) )[-1];
@@ -64,6 +65,17 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 		$total_charges_dch = $dchValues[2];
 		$total_records_dch = $dchValues[1];
+
+		if($total_charges_dch eq "")
+		{
+		 $total_charges_dch = 0;
+		}	
+
+                if($total_records_dch eq "")
+                {
+                 $total_records_dch = 0;
+                }
+
 	}
 	my $file_name_dch    = $rows[0];
 	my $total_volume_dch = $rows[2];
@@ -139,7 +151,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -150,7 +162,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

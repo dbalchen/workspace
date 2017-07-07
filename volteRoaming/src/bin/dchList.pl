@@ -4,16 +4,21 @@ use Time::Piece;
 use Time::Seconds;
 
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my $date  = $ARGV[0];
 
 my $today = Time::Piece->strptime("$date", "%Y%m%d");
 my $yesterday = $today - ONE_DAY;
+my $daybefore = $yesterday - ONE_DAY;
 my $tomorrow = $today + ONE_DAY;
 my $dayafter = $tomorrow + ONE_DAY;
 my $dayafterthat = $dayafter + ONE_DAY;
+
+my $dayMon = $daybefore->monname;
+$daybefore = $daybefore->year."-".pad($daybefore->mon,'0', 2)."-".pad($daybefore->mday,'0', 2);
 
 my $yesMon = $yesterday->monname;
 $yesterday = $yesterday->year."-".pad($yesterday->mon,'0', 2)."-".pad($yesterday->mday,'0', 2);
@@ -31,7 +36,7 @@ my $dayafMon = $dayafterthat->monname;
 $dayafterthat = $dayafterthat->year."-".pad($dayafterthat->mon,'0', 2)."-".pad($dayafterthat->mday,'0', 2);
 
 
-my $inGrep = "egrep '^$yesterday|^$today|^$tomorrow|^$dayafter' ";
+my $inGrep = "egrep '^$daybefore|^$yesterday|^$today|^$tomorrow' ";
 
 my $hh = "cat $ENV{'REC_HOME'}/IncollectDCH_data.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_data.csv";
 system($hh);

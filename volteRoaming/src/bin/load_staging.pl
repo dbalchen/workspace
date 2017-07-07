@@ -5,13 +5,13 @@ use Time::Piece;
 use Time::Seconds;
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20170716';
+$ARGV[0] = '20170516';
 $ARGV[1] = "APRM";
 my @reports = split( ',', $ARGV[1] );
 
@@ -19,7 +19,6 @@ my $date = $ARGV[0];
 
 my $sdate = 0;
 my $ldate = 0;
-my $tdate = '20170616';
 
 if ( substr( $date, 6, 2 ) eq '01' ) {
 $ldate = Time::Piece->strptime( $date, "%Y%m%d" );	
@@ -39,19 +38,19 @@ else {
 $sqls{'LTE'} =
 "select /*+ PARALLEL(t1,12) */ 'Settlement',serving_bid, 'LTE', 'Incollect','Data',sum(charge_amount), carrier_cd, bp_start_date 
 from prm_rom_incol_events_ap t1 
-where   (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$tdate', 'YYYYMMDD'))and carrier_cd != 'NLDLT' group by serving_bid,carrier_cd, bp_start_date";
+where   (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date', 'YYYYMMDD'))and carrier_cd != 'NLDLT' group by serving_bid,carrier_cd, bp_start_date";
 
 $sqls{'LTEDEL'} =
   "delete from APRM_STAGING where TECHNOLOGY = 'LTE' and roaming = 'Incollect'";
 
 $sqls{'DISP_RM'} =
-"select /*+ PARALLEL(t1,12) */ 'Settlement', home_bid, 'LTE','Outcollect','Data', sum(tot_net_charge_lc),carrier_cd, bp_start_date from prm_rom_outcol_events_ap t1 where (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$tdate', 'YYYYMMDD')) and carrier_cd != 'NLDLT' group by  home_bid,carrier_cd, bp_start_date";
+"select /*+ PARALLEL(t1,12) */ 'Settlement', home_bid, 'LTE','Outcollect','Data', sum(tot_net_charge_lc),carrier_cd, bp_start_date from prm_rom_outcol_events_ap t1 where (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date', 'YYYYMMDD')) and carrier_cd != 'NLDLT' group by  home_bid,carrier_cd, bp_start_date";
 
 $sqls{'DISP_RMDEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'LTE' and roaming = 'Outcollect'";
 
 $sqls{'NLDLT'} =
-"select /*+ PARALLEL(t1,12) */ 'Settlement',serving_bid, 'GSM', 'Incollect',charge_type,sum(charge_amount), carrier_cd, bp_start_date from prm_rom_incol_events_ap t1  where (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$tdate', 'YYYYMMDD')) and carrier_cd = 'NLDLT' group by serving_bid,carrier_cd, bp_start_date, charge_type";
+"select /*+ PARALLEL(t1,12) */ 'Settlement',serving_bid, 'GSM', 'Incollect',charge_type,sum(charge_amount), carrier_cd, bp_start_date from prm_rom_incol_events_ap t1  where (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date', 'YYYYMMDD')) and carrier_cd = 'NLDLT' group by serving_bid,carrier_cd, bp_start_date, charge_type";
 
 $sqls{'NLDLTDEL'} =
   "delete from APRM_STAGING where TECHNOLOGY = 'GSM' and roaming = 'Incollect'";
@@ -162,23 +161,18 @@ if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
 		'LTE',            'DISP_RM',
-		'NLDLT'  
-#		'CDMA_A_IN_VOICE',
-#		'CDMA_A_IN_DATA', 'CDMA_A_OUT_VOICE',
-#		'CDMA_A_OUT_DATA'
-
+		'NLDLT',          'CDMA_A_IN_VOICE',
+		'CDMA_A_IN_DATA', 'CDMA_A_OUT_VOICE',
+		'CDMA_A_OUT_DATA'
 	);
 
 }
 else {
 	@aprmArray = (
-#		'CDMA_S_IN_VOICE'  
-#		'CDMA_S_IN_DATA',
+		'CDMA_S_IN_VOICE',  
+		'CDMA_S_IN_DATA',
 		'CDMA_S_OUT_VOICE', 
-#		'CDMA_S_OUT_DATA',
-#		'LTE',           
-#		'DISP_RM',
-#		'NLDLT'
+		'CDMA_S_OUT_DATA'
 	);
 }
 
@@ -188,7 +182,7 @@ foreach my $report (@reports) {
 		loadAprm( \@aprmArray, $dbconn, $dbconnb, $dbconnc );
 	}
 	elsif ( $report eq "SAP" ) {
-		#loadSAP($dbconnb);
+		loadSAP($dbconnb);
 	}
 	elsif ( $report eq "DCH" ) {
 		loadDCH($date,$dbconnb);
@@ -243,7 +237,7 @@ sub loadAprm {
 		my $sqldel = $wsql . "DEL";
 		$sqldel = $sqls{$sqldel};
 		$conn2  = $dbconnb->prepare($sqldel);
-#		$conn2->execute() or sendErr();
+		$conn2->execute() or sendErr();
 
 		my $sql = $sqls{$wsql};
 
@@ -291,9 +285,8 @@ sub loadDCH {
 	$date = substr( $date, 0, 6 )."01";
 	
 	my @results = [];
-	
 
-	$sql = "select 
+	my $sql = "select 
 decode(usage_type,'LTE-V', 'Data','NLDLT-V', 'Data','NLDLT-C', 'Data', 'NLDLT-O', 'Voice', 'DISP_RM','Data'),
 '4G',
  decode(usage_type,'LTE-V', 'Incollect','NLDLT-V', 'Incollect', 'NLDLT-C', 'Incollect', 'NLDLT-O', 'Incollect', 'DISP_RM','Outcollect'),                      
@@ -302,14 +295,10 @@ to_date('$date','YYYYMMDD'),
 receiver,
 sender,
 sum(total_charges_dch),
-sum(total_charges_dch),
-file_name
+sum(total_charges_dch)
 from file_summary where file_type = 'TAP'
 and process_date <=add_months(to_date('$date','YYYYMMDD'),1) and process_date >= to_date('$date','YYYYMMDD')
-group by file_name,usage_type,sender, receiver";
-
-
-#print "$sql\n";
+group by usage_type,sender, receiver";
 
 	my $sth = $conn->prepare($sql);
 	$sth->execute() or sendErr();
@@ -318,7 +307,7 @@ group by file_name,usage_type,sender, receiver";
 		my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.DCH_STAGING (
    USAGE_TYPE, TECHNOLOGY, ROAMING, 
    PERIOD, MONTH_TYPE, COMPANY_CODE, 
-   BID, AMOUNT_USD, AMOUNT_EUR,FILENAME) 
+   BID, AMOUNT_USD, AMOUNT_EUR) 
 VALUES ( 
  '$rows[0]'      /* USAGE_TYPE */,
  '$rows[1]' 	   /* TECHNOLOGY */,
@@ -328,10 +317,7 @@ VALUES (
  '$rows[5]'      /* COMPANY_CODE */,
  '$rows[6]'      /* BID */,
  $rows[7]     /* AMOUNT_USD */,
- $rows[7]    /* AMOUNT_EUR */,
- '$rows[9]'    /* FILENAME */ )";
- 
- # print "$sql\n";
+ $rows[7]    /* AMOUNT_EUR */ )";
  
  	my $sth = $conn->prepare($sql);
 	$sth->execute() or sendErr();
@@ -347,7 +333,7 @@ sub loadSAP {
 	my @results = [];
 
 	my $hh =
-"cat /home/dbalchen/workspace/volteRoaming/src/bin/SAP_StagingTable.csv | cut -f 7,2,4,6 | sort -u |";
+"cat /home/dbalchen/workspace/volteRoaming/src/bin/SAP_StagingTable.csv | cut -f 10,3,5,8 | sort -u |";
 	if ( !open( SAPLIST, "$hh" ) ) {
 		errorExit("Cannot create SAPLIST: $!\n");
 	}
@@ -356,7 +342,7 @@ sub loadSAP {
 		chomp($buff);
 		my ( $gl, $cocd, $docdate, $header ) = split( "\t", $buff );
 		$hh =
-"cat SAP_StagingTable.csv | grep $gl | grep $cocd | grep $docdate | grep $header | cut -f 3";
+"cat SAP_StagingTable.csv | grep $gl | grep $cocd | grep $docdate | grep $header | cut -f 4";
 		@results = `$hh`;
 		chomp(@results);
 
@@ -500,10 +486,8 @@ sub loadSAP {
  					$total /* AMOUNT */ 
  			)";
 
-print "$sql\n";
-
-#		$conn2 = $dbconnb->prepare($sql);
-#		$conn2->execute() or sendErr();
+		$conn2 = $dbconnb->prepare($sql);
+		$conn2->execute() or sendErr();
 	}
 
 }

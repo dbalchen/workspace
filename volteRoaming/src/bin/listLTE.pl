@@ -56,7 +56,7 @@ sub getBRMPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

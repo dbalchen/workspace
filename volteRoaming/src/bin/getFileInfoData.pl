@@ -14,6 +14,7 @@ use DBI;
 # $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
 $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $hh =
 "cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
@@ -28,8 +29,7 @@ my $dateTime = substr( $filename, index( $filename, "T2" ) + 1, 8 );
 
 my $dbconn = getBODSPRD();
 
-#my $dbconnb = getSNDPRD();
-my $dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
 
 my $sql  = "delete from file_summary where FILE_NAME = '$filename'";
 my $sthb = $dbconnb->prepare($sql);
@@ -61,7 +61,7 @@ if ( $fileId[1] eq "" ) {
 }
 
 $hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
-#system($hh);
+system($hh);
 
 $sql = "select 'IN_REC_QUANTITY', sum(in_rec_quantity) 
      from ac1_control_hist 
@@ -168,7 +168,7 @@ while ( my @rows3 = $sth->fetchrow_array() ) {
 	$rows3[2] = ( split( '<', $rows3[2] ) )[0];
 
 	$sql = "
-INSERT INTO APP_SHARE.REJECTED_RECORDS (
+INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
    ERROR_DESCRIPTION, ERROR_CODE) 
     VALUES ( 
@@ -196,7 +196,7 @@ while ( my @rows4 = $sth->fetchrow_array() ) {
 	$aprmdiff = $aprmdiff + 1;
 
 	$sql = "
-INSERT INTO APP_SHARE.REJECTED_RECORDS (
+INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, 
    ERROR_DESCRIPTION, ERROR_CODE) 
     VALUES ( 
@@ -235,7 +235,7 @@ my $dch_rec_dif    = ( $total_recs_dch - $reportVariable{'IN_REC_QUANTITY'} );
 my $dch_sum_dif    = ( $file_sum_dch - $filesum );
 
 $sql =
-"INSERT INTO APP_SHARE.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
+"INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 
    TOTAL_CHARGES, TC_SEND, SENDER, REJECTED_COUNT, REJECTED_CHARGES, RECEIVER, PROCESS_DATE, IDENTIFIER, FILE_TYPE, FILE_NAME_DCH, FILE_NAME, DUPLICATES, 
    DROPPED_TC, DROPPED_RECORDS, DROPPED_APRM_CHARGES, DROPPED_APRM, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, APRM_DIFFERENCE) 
 VALUES ( 
@@ -271,7 +271,7 @@ VALUES (
 $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
 
-#$dbconnb->disconnect();
+$dbconnb->disconnect();
 $dbconn->disconnect();
 exit(0);
 
@@ -279,7 +279,7 @@ sub getBODSPRD {
 
 	#  my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#  my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -290,7 +290,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

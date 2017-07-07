@@ -15,8 +15,7 @@ use DBI;
 my $filetype = $ARGV[0] . '%' . $ARGV[1] . '%';
 
 my $dbconn  = getBODSPRD();
-# my $dbconnb = getSNDPRD();
-my $dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
 
 # clean up Database
 
@@ -43,7 +42,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $record_count_dch  = $rows[3];
 
 	$sql = "
-  INSERT INTO APP_SHARE.APRM (
+  INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
    USAGE_TYPE, 
    TOTAL_VOLUME_DCH, 
    TOTAL_VOLUME, 
@@ -82,7 +81,7 @@ VALUES (
 }
 
 $dbconn->disconnect();
-#$dbconnb->disconnect();
+$dbconnb->disconnect();
 
 exit(0);
 
@@ -90,7 +89,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -101,7 +100,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "GooB00900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

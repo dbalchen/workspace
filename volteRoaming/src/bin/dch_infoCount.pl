@@ -23,8 +23,8 @@ while ( my $buff = <DCH> ) {
 		$serSidSeq{$key} = $vec[6] . "\t" . $vec[7] . "\t" . $vec[8];
 	}
 	else {
-		my $key = pad( $vec[2], 5 ) . pad( $vec[4], 5 ) . pad( $vec[7], 4 );
-		$serSidSeq{$key} = $vec[5] . "\t" . $vec[6] . "\t" . $vec[8];
+		my $key = pad( $vec[3], 5 ) . pad( $vec[2], 5 ) . pad( $vec[4], 4 );
+		$serSidSeq{$key} = $vec[6] . "\t" . $vec[7] . "\t" . $vec[8];
 	}
 }
 
