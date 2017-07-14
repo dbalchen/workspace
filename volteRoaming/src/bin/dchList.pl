@@ -4,8 +4,8 @@ use Time::Piece;
 use Time::Seconds;
 
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my $date  = $ARGV[0];
@@ -29,7 +29,7 @@ $today = $today->year."-".pad($today->mon,'0', 2)."-".pad($today->mday,'0', 2);
 my $tomMon =  $tomorrow->monname;
 $tomorrow = $tomorrow->year."-".pad($tomorrow->mon,'0', 2)."-".pad($tomorrow->mday,'0', 2);
 
-my $dayMon = $dayafter->monname;
+my $dayaMon = $dayafter->monname;
 $dayafter = $dayafter->year."-".pad($dayafter->mon,'0', 2)."-".pad($dayafter->mday,'0', 2);
 
 my $dayafMon = $dayafterthat->monname;
@@ -96,10 +96,10 @@ $today = ($arry[2]-0)."-$todMon-".($arry[0]-2000);
 $tomorrow = ($arry[2]-0)."-$tomMon-".($arry[0]-2000);
 
 @arry = split("-", $dayafter);
-$dayafter = ($arry[2]-0)."-$dayMon-".($arry[0]-2000);
+$dayafter = ($arry[2]-0)."-$dayaMon-".($arry[0]-2000);
 
 @arry = split("-", $dayafterthat);
-$dayafterthat = ($arry[2]-0)."-$dayMon-".($arry[0]-2000);
+$dayafterthat = ($arry[2]-0)."-$dayafMon-".($arry[0]-2000);
 
 
 open(IN,"<$ENV{'REC_HOME'}/tnsIncollect.csv.all") || exit(1);

@@ -4,7 +4,7 @@ use DBI;
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+#	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -269,7 +269,8 @@ my @switches = split( ',', $ARGV[0] );
 my $excel_file = "RORC_" . $timeStamp . '.xls';
 $workbook = Spreadsheet::WriteExcel->new($excel_file);
 
-$dbconnb = getSNDPRD();
+#$dbconnb = getSNDPRD();
+$dbconnb = getBODSPRD();
 
 # Get Roaming files
 foreach my $switch (@switches) {
@@ -476,7 +477,7 @@ $workbook->close;
 my @email = ('david.balchen@uscellular.com');
 
 foreach my $too (@email) {
-	 sendMsg($too);
+#	 sendMsg($too);
 }
 
 exit(0);
@@ -539,6 +540,17 @@ sub sendMsg() {
 	) or die "Error attaching file: $!\n";
 
 	$msg->send();
+}
+
+sub getBODSPRD {
+
+	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }
 
 sub getSNDPRD {

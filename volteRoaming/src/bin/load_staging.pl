@@ -5,11 +5,11 @@ use Time::Piece;
 use Time::Seconds;
 
 # For test only....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#my $ORACLE_SID  = "bodsprd";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 $ARGV[0] = '20170516';
 $ARGV[1] = "APRM";
@@ -152,7 +152,8 @@ $sqls{'CDMA_A_OUT_DATADEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Outcollect' and month_type = 'Accrual' and usage_type = 'Data'";
 
 my $dbconn  = getBODSPRD();
-my $dbconnb = getSNDPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 my $dbconnc = getBRMPRD();
 
 my @aprmArray = ();
@@ -191,6 +192,7 @@ foreach my $report (@reports) {
 
 $dbconn->disconnect();
 $dbconnb->disconnect();
+$dbconnc->disconnect();
 
 exit(0);
 
@@ -254,7 +256,7 @@ sub loadAprm {
 		$sth->execute() or sendErr();
 		while ( my @rows = $sth->fetchrow_array() ) {
 
-			my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM_STAGING (
+			my $sql = "INSERT INTO APRM_STAGING (
    USAGE_TYPE, TECHNOLOGY, ROAMING, 
    PERIOD, MONTH_TYPE, COMPANY_CODE, 
    BID, AMOUNT_USD, AMOUNT_EUR) 
@@ -304,7 +306,7 @@ group by usage_type,sender, receiver";
 	$sth->execute() or sendErr();
 
 	while ( my @rows = $sth->fetchrow_array() ) {
-		my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.DCH_STAGING (
+		my $sql = "INSERT INTO DCH_STAGING (
    USAGE_TYPE, TECHNOLOGY, ROAMING, 
    PERIOD, MONTH_TYPE, COMPANY_CODE, 
    BID, AMOUNT_USD, AMOUNT_EUR) 
@@ -466,7 +468,7 @@ sub loadSAP {
 			$data_type  = "Data";
 		}
 
-		my $sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.SAP_STAGING (
+		my $sql = "INSERT INTO SAP_STAGING (
    				USAGE_TYPE, 
    				TECHNOLOGY, 
    				ROAMING, 

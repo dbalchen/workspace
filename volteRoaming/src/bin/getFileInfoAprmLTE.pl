@@ -4,20 +4,23 @@ use DBI;
 
 #Test parameters remove when going to production.
 #For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}  = "$ENV{PATH}:$ORACLE_HOME/bin";
+ my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+ my $ORACLE_SID  = "bodsprd";
+ $ENV{ORACLE_HOME} = $ORACLE_HOME;
+ $ENV{ORACLE_SID}  = $ORACLE_SID;
+ $ENV{PATH}  = "$ENV{PATH}:$ORACLE_HOME/bin";
+ 
+$ARGV[0] = 'NLDLT';
+$ARGV[1] = '20170707';
 
 my $clearinghouse = 'TNS';
 my %sqls = {};
 
 $sqls{'LTE'} =
-"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
+"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type,max(exchange_rate) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
 
 $sqls{'NLDLT'} =
-"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
+"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type, max(exchange_rate) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
 
 $sqls{'DISP_RM'} =
 "select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
@@ -28,7 +31,8 @@ if($ARGV[0] eq "NLDLT")
 }
 
 my $dbconn  = getBODSPRD();
-my $dbconnb = getSNDPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 
 my $sqlT = "delete from APRM where usage_type like '$ARGV[0]" . '%'
   . "' and DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') ";
@@ -47,8 +51,14 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $record_count_dch  = $rows[2];
 	my $usage_type        = $ARGV[0] . "-" . $rows[5];
 
+	my $exrate = 1;
+	if($ARGV[0] ne 'DISP_RM')
+	{
+		$exrate = $rows[6];
+	}
+	
 	$sql = "
-  INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
+  INSERT INTO APRM (
    USAGE_TYPE,
    TOTAL_VOLUME_DCH,
    TOTAL_VOLUME,
@@ -69,7 +79,7 @@ VALUES (
    $total_volume_dch,
    $rows[4],
    $total_charges_dch,
-   $rows[3],
+   $rows[3]/$exrate,
    '00000',
    $record_count_dch,
    $rows[2],

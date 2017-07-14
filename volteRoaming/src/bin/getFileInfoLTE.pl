@@ -6,29 +6,34 @@ use DBI;
 #$ARGV[0] = "CDUSAW6USAUD03657,3657,T-Mobile (USAW6),100000,5725.11000,3,.13,20170326";
 
 # For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 #
 
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 
 my @argv = split( /,/, $ARGV[0] );
 
+my $dbconn  = getBODSPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
+
+my $sql = '';
 my $prefix = "LTE";
+
+my $exrate = 1;
 
 if ( index( $argv[0], "NLDLT" ) >= 0 ) {
 	$prefix = "NLDLT";
 }
 
-my $dbconn  = getBODSPRD();
-my $dbconnb = getSNDPRD();
 
-my $sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
+$sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
 
 my $sthb = $dbconnb->prepare($sql);
 $sthb->execute() or sendErr();
@@ -45,7 +50,7 @@ my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
 while ( my @rows = $sth->fetchrow_array() ) {
-	$sql = "INSERT INTO ENTERPRISE_GEN_SANDBOX.REJECTED_RECORDS (
+	$sql = "REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, ERROR_DESCRIPTION, ERROR_CODE) 
 VALUES ( 
   $rows[3],
@@ -139,7 +144,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	}
 
 	$sql = "
-INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
+INSERT INTO FILE_SUMMARY (
 USAGE_TYPE, 
 TOTAL_VOLUME_DCH, 
 TOTAL_VOLUME, 
