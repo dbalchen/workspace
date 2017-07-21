@@ -24,11 +24,12 @@ $disp_file_seq =~ s/^0+//g;
 my $process_date = ( split( '_', $filename ) )[3];
 
 my $dbconn  = getBODSPRD();
-my $dbconnb = getSNDPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 
 my $sql =
 "select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd  from prm_rom_outcol_events_ap
- where  tap_out_file_name in (select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME  from prm_rom_outcol_events_ap where disp_file_seq = 85991 group by TAP_OUT_FILE_NAME )
+ where  tap_out_file_name in (select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME )
   group by TAP_OUT_FILE_NAME, carrier_cd ";
 
 my $sth = $dbconn->prepare($sql);
@@ -66,12 +67,12 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		$total_charges_dch = $dchValues[2];
 		$total_records_dch = $dchValues[1];
 
-		if($total_charges_dch eq "")
+		if($total_charges_dch eq "" || $total_charges_dch eq "-")
 		{
 		 $total_charges_dch = 0;
 		}	
 
-                if($total_records_dch eq "")
+                if($total_records_dch eq "" || $total_records_dch eq "-")
                 {
                  $total_records_dch = 0;
                 }
@@ -80,8 +81,9 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $file_name_dch    = $rows[0];
 	my $total_volume_dch = $rows[2];
 
+
 	$sql = "
-INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
+INSERT INTO FILE_SUMMARY (
 USAGE_TYPE, 
 TOTAL_VOLUME_DCH, 
 TOTAL_VOLUME, 

@@ -13,7 +13,8 @@ use DBI;
 
 
 my $dbconn = getBRMPRD();
-my $dbconnb = getSNDPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = getBODSPRD();
 
 my $sql = "delete from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date($ARGV[0],'YYYYMMDD')";
 
@@ -38,7 +39,7 @@ while (my @rows = $sth->fetchrow_array() ) {
   my $total_charges_dch = $rows[2];
 
   $sql = "
-INSERT INTO ENTERPRISE_GEN_SANDBOX.FILE_SUMMARY (
+INSERT INTO FILE_SUMMARY (
 USAGE_TYPE, 
 TOTAL_VOLUME_DCH, 
 TOTAL_VOLUME, 
@@ -110,7 +111,7 @@ while (my @rows = $sth->fetchrow_array() ) {
   my $record_count_dch = $rows[5];
 
   $sql = "
-  INSERT INTO ENTERPRISE_GEN_SANDBOX.APRM (
+  INSERT INTO APRM (
    USAGE_TYPE, 
    TOTAL_VOLUME_DCH, 
    TOTAL_VOLUME, 
@@ -169,6 +170,17 @@ sub getSNDPRD {
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
   my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
+  unless ( defined $dbods ) {
+    sendErr();
+  }
+  return $dbods;
+}
+
+sub getBODSPRD {
+
+  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
   unless ( defined $dbods ) {
     sendErr();
   }

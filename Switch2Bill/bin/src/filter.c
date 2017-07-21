@@ -4,7 +4,7 @@
  Author      : David Balchen
  Version     :
  Copyright   : 
- Description : Hello World in C, Ansi-style
+ Description : Filter for WEDO
  ============================================================================
  */
 

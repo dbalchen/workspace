@@ -1,8 +1,8 @@
 #+STARTUP: overview
 #+OPTIONS: d:nil
 #+OPTIONS: toc:nil
-#+TAGS: Presentation(p) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
-#+DRAWERS: PICTURE CLOSET 
+#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET x
 #+PROPERTY: allocate_ALL dev doc test
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 #+STARTUP: hidestars hideblocks 
@@ -1704,19 +1704,21 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l|l
-|------------+------------+---------------+-----------------------|
-| *USERNAME* | *PASSWORD* | *DB_INSTANCE* | *Description*         |
-|------------+------------+---------------+-----------------------|
-| PRDAFC     | con8af8    | PRDAF         | Reference Tables      |
-| PRDCUSTC   | con8cst8   | PRDCUST       | Customer              |
-| PRDRPLC    | con8rpl8   | PRDRPL        | Replenishment Manager |
-| PRDOPRC    | con8opr8   | PRDCUST       | Operations            |
-| PRDUSG1C   | con8usg18  | PRDUSG1       | Usage                 |
-| PRDUSG2C   | con8usg28  | PRDUSG2       | Usage                 |
-| PRDUSG3C   | con8usg38  | PRDUSG3       | Usage                 |
-| PRDUSG4C   | con8usg48  | PRDUSG4       | Usage                 |
-| prdappc    | Con5app5   | PRDAPRM       | Aprm                  |
-|------------+------------+---------------+-----------------------|
+|------------+-------------+---------------+-----------------------|
+| *USERNAME* | *PASSWORD*  | *DB_INSTANCE* | *Description*         |
+|------------+-------------+---------------+-----------------------|
+| /{Lan ID}/ | /{Lan PWD}/ | BODSPRD       | ODS/Datawarehouse     |
+| PRDAFC     | con8af8     | PRDAF         | Reference Tables      |
+| PRDCUSTC   | con8cst8    | PRDCUST       | Customer              |
+| PRDRPLC    | con8rpl8    | PRDRPL        | Replenishment Manager |
+| PRDOPRC    | con8opr8    | PRDCUST       | Operations            |
+| PRDUSG1C   | con8usg18   | PRDUSG1       | Usage                 |
+| PRDUSG2C   | con8usg28   | PRDUSG2       | Usage                 |
+| PRDUSG3C   | con8usg38   | PRDUSG3       | Usage                 |
+| PRDUSG4C   | con8usg48   | PRDUSG4       | Usage                 |
+| prdappc    | Con5app5    | PRDAPRM       | Aprm                  |
+| prdaem     | prdaem      | PTE2AEM       | AEM Database          |
+|------------+-------------+---------------+-----------------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -1727,18 +1729,19 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l|l
-|------------+------------+----------------+-----------------------|
-| *USERNAME* | *PASSWORD* | *DB_INSTANCE*  | *Description*         |
-|------------+------------+----------------+-----------------------|
-| PRDAFC     | PRDAFC     | SUPAF          | Reference Tables      |
-| PRDCUSTC   | PRDCUSTC   | SUPCUST        | Customer              |
-| PRDRPLC    | PRDRPLC    | SUPRPL         | Replenishment Manager |
-| PRDUSG1C   | PRDUSG1C   | SUPUSG1        | Usage                 |
-| PRDUSG2C   | PRDUSG2C   | SUPUSG2        | Usage                 |
-| PRDUSG3C   | PRDUSG3C   | SUPUSG3        | Usage                 |
-| PRDUSG4C   | PRDUSG4C   | SUPUSG4        | Usage                 |
-| PRDSELC    | PRDSELC    | SUPAPRM        | APRM                  |
-|------------+------------+----------------+-----------------------|
+|------------+-------------+---------------+-----------------------|
+| *USERNAME* | *PASSWORD*  | *DB_INSTANCE* | *Description*         |
+|------------+-------------+---------------+-----------------------|
+| /{Lan ID}/ | /{Lan PWD}/ | BODSDEV       | ODS/Datawarehouse     |
+| PRDAFC     | PRDAFC      | SUPAF         | Reference Tables      |
+| PRDCUSTC   | PRDCUSTC    | SUPCUST       | Customer              |
+| PRDRPLC    | PRDRPLC     | SUPRPL        | Replenishment Manager |
+| PRDUSG1C   | PRDUSG1C    | SUPUSG1       | Usage                 |
+| PRDUSG2C   | PRDUSG2C    | SUPUSG2       | Usage                 |
+| PRDUSG3C   | PRDUSG3C    | SUPUSG3       | Usage                 |
+| PRDUSG4C   | PRDUSG4C    | SUPUSG4       | Usage                 |
+| PRDSELC    | PRDSELC     | SUPAPRM       | APRM                  |
+|------------+-------------+---------------+-----------------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -1814,6 +1817,9 @@ subgraph cluster_3 {
 | SUBSCRIBER                | PRDCUST     |                      |
 | *CM1_AGREEMENT_PARAM*     | PRDCUST     | Used for data        |
 |                           |             | cap issues.          |
+| *AGREEMENT_RESOURCE*      | PRDCUST     | Customer Information |
+| *AR9_ACCOUNT_STATE*       | PRDCUST     | /Here we can get/    |
+|                           |             | /the company code/   |
 | *APE1_RATED_EVENT*        | PRDUSG(1-4) |                      |
 | APE1_REJECTED_EVENT       | PRDUSG(1-4) |                      |
 | *APE1_ACCUMULATORS*       | PRDUSG(1-4) |                      |
@@ -1834,9 +1840,49 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 ** Usage Tables
+*** AGREEMENT_RESOURCE
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------+---------------------+---------------|
+| *Column Name*     | *Data Type*         | *Description* |
+|-------------------+---------------------+---------------|
+| TRX_ID            | NUMBER (10)         |               |
+| TO_RESOURCE_VAL   | VARCHAR2 (200 Byte) |               |
+| SYS_UPDATE_DATE   | DATE                |               |
+| SYS_CREATION_DATE | DATE                |               |
+| RESRC_SEQ_NO      | NUMBER (10)         |               |
+| RESOURCE_VALUE    | VARCHAR2 (200 Byte) |               |
+| RESOURCE_TYPE     | VARCHAR2 (4 Byte)   |               |
+| RESOURCE_STATE    | CHAR (1 Byte)       |               |
+| RESOURCE_SCOPE_ID | VARCHAR2 (15 Byte)  |               |
+| RESOURCE_PRM_CD   | VARCHAR2 (255 Byte) |               |
+| RESOURCE_CATEGORY | CHAR (1 Byte)       |               |
+| RANGE_IND         | CHAR (1 Byte)       |               |
+| OPERATOR_ID       | NUMBER (9)          |               |
+| OFFER_INSTANCE_ID | NUMBER (10)         |               |
+| INS_TRX_ID        | NUMBER (10)         |               |
+| FROM_RESOURCE_VAL | VARCHAR2 (200 Byte) |               |
+| EXPIRATION_DATE   | DATE                |               |
+| EXP_ISSUE_DATE    | DATE                |               |
+| EFFECTIVE_DATE    | DATE                |               |
+| EFF_ISSUE_DATE    | DATE                |               |
+| DL_UPDATE_STAMP   | NUMBER (4)          |               |
+| DL_SERVICE_CODE   | CHAR (5 Byte)       |               |
+| CONV_RUN_NO       | NUMBER (3)          |               |
+| BASE_PARAM_NAME   | VARCHAR2 (255 Byte) |               |
+| APPLICATION_ID    | CHAR (6 Byte)       |               |
+| AGREEMENT_NO      | NUMBER (10)         |               |
+| AGREEMENT_KEY     | NUMBER (9)          |               |
+|-------------------+---------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 *** CM1_AGREEMENT_PARAM
-    In the PRDCUST database used for data cap and overage
-    protection investigations.
+    In the PRDCUST database. 
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2549,12 +2595,8 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 *** EM1_RECORD
-
-         The EM1 record database is the database used by *AEM* and it
-         has so many columns that you cannot use a /select */ to query.
-         Instead click on the link provided below and use that as a
-         template.
-
+    The EM1 record database is the database used by *AEM*, To see the columns within the EM1_RECORD look at the *EM1_STREAM_STREAM_MAP@PTE2AEM* table.
+    Click on the link provided below to see an example on how to query this table.
 	 [[file:///home/dbalchen/workspace/CommonPlace/docs/em1_example.sql][EM1_RECORD Example]]
 
 ** AR Tables
@@ -3844,10 +3886,18 @@ needs to be in
 | Soly            | 630-285-8386 |
 |-----------------+--------------|
 
-* Task List						:taskjuggler_project:
+* Task List 				       :noexport:taskjuggler_project:
 ** Roaming Reconciliation
-*** Clean up 
+*** TODO Fill Out DB Form
+*** TODO Redo load staging
+*** TODO Add Euro Info to GSM
+*** TODO Figure out what's wrong with GSM
+*** TODO How to explain TNS data.. Sub report anyone
+*** TODO Load the data to the ODS for SANDS
+*** TODO Switch DB code to ODS.
+*** TODO Fix cdmaDCH
 ** Machine to Machine
 ** CallDump
    - Sector information
    - Distance Information
+   - Merge M2M calls

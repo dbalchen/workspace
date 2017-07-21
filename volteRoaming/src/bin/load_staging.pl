@@ -11,8 +11,8 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20170516';
-$ARGV[1] = "APRM";
+$ARGV[0] = '20170701';
+$ARGV[1] = "DCH";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -152,8 +152,8 @@ $sqls{'CDMA_A_OUT_DATADEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Outcollect' and month_type = 'Accrual' and usage_type = 'Data'";
 
 my $dbconn  = getBODSPRD();
-#my $dbconnb = getSNDPRD();
-my $dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
+#my $dbconnb = $dbconn;
 my $dbconnc = getBRMPRD();
 
 my @aprmArray = ();
@@ -307,10 +307,11 @@ group by usage_type,sender, receiver";
 
 	while ( my @rows = $sth->fetchrow_array() ) {
 		my $sql = "INSERT INTO DCH_STAGING (
-   USAGE_TYPE, TECHNOLOGY, ROAMING, 
+   FILENAME, USAGE_TYPE, TECHNOLOGY, ROAMING, 
    PERIOD, MONTH_TYPE, COMPANY_CODE, 
    BID, AMOUNT_USD, AMOUNT_EUR) 
 VALUES ( 
+ 'All Data',
  '$rows[0]'      /* USAGE_TYPE */,
  '$rows[1]' 	   /* TECHNOLOGY */,
  '$rows[2]'      /* ROAMING */,
