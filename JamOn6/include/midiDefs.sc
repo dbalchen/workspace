@@ -107,22 +107,14 @@ OSCdef(\mainClock, { |m|
 
 ~channel0 = {arg num, vel = 1;
 	var ret;
-
-	ret = Synth("tbell",addAction: \addToHead);
-	ret.set(\freq,num.midicps);
-	ret.set(\decayscale,~dcs);
-	ret.set(\fscale,~fscale);
-	ret.set(\release,~release);
-	ret.set(\attack,~attack);
-	ret.set(\amp,~amp);
-	ret.set(\out,~bellOut);
-	ret.set(\gate,1);
+	num.postln;
+	ret = ~eSampler.value(~string4_firmus,~basssounds,~bassTemplate,num);
 	ret;
 };
 
 ~channel1 = {arg num, vel = 1;
 	var ret;
-//	ret = ~midicStrings.value(~string1_firmus,num,1);
+	//	ret = ~midicStrings.value(~string1_firmus,num,1);
 	ret = Synth(\stringLow,addAction: \addToTail);
 	ret.set(\num,num);
 	ret.set(\gate,1);
@@ -182,7 +174,7 @@ OSCdef(\mainClock, { |m|
 ~channel9off = {arg num, vel = 1;
 	var ret = nil;
 
-		~ret0.set(\gate,0);
+	~ret0.set(\gate,0);
 	~ret1.set(\gate,0);
 	~ret2.set(\gate,0);
 	~ret3.set(\gate,0);

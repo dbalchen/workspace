@@ -1,2 +1,3 @@
-ps aux | egrep 'jack|fluid|java' | grep -v 'gconf-helper' | sed 's/  */ /g' | cut -d" " -f2 | xargs -i kill -9 {}
+ps aux | egrep 'jack|java' | grep -v 'gconf-helper' | sed 's/  */ /g' | cut -d" " -f2 | xargs -i kill -9 {}
+sudo killall -9 jackdbus
 #rm -fr /tmp/*

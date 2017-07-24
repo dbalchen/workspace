@@ -32,6 +32,7 @@ a= Pbjorklund(3, 8, 1).asStream;
 		"/home/dbalchen/Music/JamOn6/include/Events/celloBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/violaBeats.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Events/violinBeats.sc".load;
+		"/home/dbalchen/Music/JamOn6/include/Events/bassBeats.sc".load;		
 		"/home/dbalchen/Music/JamOn6/include/Strings/eStrings.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/Strings/strings.sc".load;
 		"/home/dbalchen/Music/JamOn6/include/BassDrum/noise.sc".load;
@@ -130,7 +131,7 @@ a= Pbjorklund(3, 8, 1).asStream;
 
 ~pulseSweep.value(0.55,0.65,((16*4)/2),((4*4)/2), 0.6);
 ~pulseSweepOff.value(0.75);
-~pulseSweepOff.value(0.7);
+~pulseSweepOff.value(0.9);
 
 ~noise.set(\amp,0);
 ~vca1.set(\amp,0.0);

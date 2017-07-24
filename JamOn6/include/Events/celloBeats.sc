@@ -24,9 +24,10 @@
 
 ~string1_firmusB = ~string1_firmus.deepCopy;
 ~string1_firmusB.filter.cutoff = 9800.00;
-~string1_firmusB.filter.aoc = 0.85;
-~string1_firmusB.amp = 0.75;
+//~string1_firmusB.filter.aoc = 0.0;
+~string1_firmusB.amp = 1.75;
 ~string1_firmusB.envelope.sustain = 1.0;
+~string1_firmusB.filter.attack = 1.25;
 ~string1_firmusB.out = ~string1_firmusBOut;
 
 ~midistring1_firmus = {Pbind(\type, \midi,

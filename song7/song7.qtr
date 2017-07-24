@@ -18,7 +18,7 @@
  <files>
   <audio-list/>
   <midi-list>
-   <file name="song7-Track_2-1.mid">song7-Track_2-1.mid</file>
+   <file name="song7-Track_2-2.mid">song7-Track_2-2.mid</file>
   </midi-list>
  </files>
  <devices>
@@ -40,7 +40,16 @@
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects/>
+    <output-connects>
+     <connect index="0">
+      <client>system</client>
+      <port>playback_1</port>
+     </connect>
+     <connect index="1">
+      <client>system</client>
+      <port>playback_2</port>
+     </connect>
+    </output-connects>
    </audio-bus>
   </audio-engine>
   <midi-engine>
@@ -203,7 +212,7 @@
     <input-bus>Master</input-bus>
     <output-bus>fluidOut</output-bus>
     <midi-omni>0</midi-omni>
-    <midi-channel>0</midi-channel>
+    <midi-channel>10</midi-channel>
     <midi-bank-sel-method>0</midi-bank-sel-method>
    </properties>
    <state>
@@ -221,18 +230,18 @@
    </view>
    <controllers/>
    <clips>
-    <clip name="Track_2-1">
+    <clip name="Track_2-2">
      <properties>
-      <name>Track_2-1</name>
+      <name>Track_2-2</name>
       <start>0</start>
       <offset>0</offset>
-      <length>5279751</length>
+      <length>60409852</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
      </properties>
      <midi-clip>
-      <filename>song7-Track_2-1.mid</filename>
+      <filename>song7-Track_2-2.mid</filename>
       <track-channel>1</track-channel>
       <revision>0</revision>
       <editor-pos>0,0</editor-pos>
@@ -241,101 +250,40 @@
    </clips>
    <plugins>
     <plugin type="LV2">
-     <filename>http://calf.sourceforge.net/plugins/Wavetable</filename>
+     <filename>http://calf.sourceforge.net/plugins/Fluidsynth</filename>
      <index>0</index>
-     <label>Calf_Wavetable</label>
+     <label>Calf_Fluidsynth</label>
      <preset></preset>
      <direct-access-param>-1</direct-access-param>
-     <activate-subject-index>34</activate-subject-index>
-     <activated>0</activated>
+     <activate-subject-index>6</activate-subject-index>
+     <activated>1</activated>
      <configs>
-      <config key="urn:calf:mod_matrix:9,0">None</config>
-      <config key="urn:calf:mod_matrix:9,1">0..1</config>
-      <config key="urn:calf:mod_matrix:9,2">None</config>
-      <config key="urn:calf:mod_matrix:9,3">1</config>
-      <config key="urn:calf:mod_matrix:9,4">None</config>
-      <config key="urn:calf:mod_matrix:5,0">None</config>
-      <config key="urn:calf:mod_matrix:5,1">0..1</config>
-      <config key="urn:calf:mod_matrix:5,2">None</config>
-      <config key="urn:calf:mod_matrix:8,0">None</config>
-      <config key="urn:calf:mod_matrix:5,3">1</config>
-      <config key="urn:calf:mod_matrix:8,1">0..1</config>
-      <config key="urn:calf:mod_matrix:5,4">None</config>
-      <config key="urn:calf:mod_matrix:8,2">None</config>
-      <config key="urn:calf:mod_matrix:8,3">1</config>
-      <config key="urn:calf:mod_matrix:8,4">None</config>
-      <config key="urn:calf:mod_matrix:4,0">None</config>
-      <config key="urn:calf:mod_matrix:4,1">0..1</config>
-      <config key="urn:calf:mod_matrix:4,2">None</config>
-      <config key="urn:calf:mod_matrix:7,0">None</config>
-      <config key="urn:calf:mod_matrix:7,1">0..1</config>
-      <config key="urn:calf:mod_matrix:4,3">1</config>
-      <config key="urn:calf:mod_matrix:7,2">None</config>
-      <config key="urn:calf:mod_matrix:4,4">None</config>
-      <config key="urn:calf:mod_matrix:7,3">1</config>
-      <config key="urn:calf:mod_matrix:7,4">None</config>
-      <config key="urn:calf:mod_matrix:1,0">LFO 2</config>
-      <config key="urn:calf:mod_matrix:1,1">0..1</config>
-      <config key="urn:calf:mod_matrix:1,2">None</config>
-      <config key="urn:calf:mod_matrix:1,3">10</config>
-      <config key="urn:calf:mod_matrix:1,4">O1: Shift (%)</config>
-      <config key="urn:calf:mod_matrix:3,0">None</config>
-      <config key="urn:calf:mod_matrix:3,1">0..1</config>
-      <config key="urn:calf:mod_matrix:3,2">None</config>
-      <config key="urn:calf:mod_matrix:6,0">None</config>
-      <config key="urn:calf:mod_matrix:3,3">1</config>
-      <config key="urn:calf:mod_matrix:6,1">0..1</config>
-      <config key="urn:calf:mod_matrix:3,4">None</config>
-      <config key="urn:calf:mod_matrix:6,2">None</config>
-      <config key="urn:calf:mod_matrix:6,3">1</config>
-      <config key="urn:calf:mod_matrix:6,4">None</config>
-      <config key="urn:calf:mod_matrix:0,0">Env 1</config>
-      <config key="urn:calf:mod_matrix:0,1">0..1</config>
-      <config key="urn:calf:mod_matrix:0,2">None</config>
-      <config key="urn:calf:mod_matrix:0,3">50</config>
-      <config key="urn:calf:mod_matrix:0,4">O1: Shift (%)</config>
-      <config key="urn:calf:mod_matrix:2,0">None</config>
-      <config key="urn:calf:mod_matrix:2,1">0..1</config>
-      <config key="urn:calf:mod_matrix:2,2">None</config>
-      <config key="urn:calf:mod_matrix:2,3">1</config>
-      <config key="urn:calf:mod_matrix:2,4">None</config>
+      <config key="urn:calf:soundfont">/home/dbalchen/Music/Samples/SoundFonts/Titanic_200_GMGS_1.2.sf2</config>
+      <config key="urn:calf:preset_key_set10">16384</config>
+      <config key="urn:calf:preset_key_set11">68</config>
+      <config key="urn:calf:preset_key_set2">0</config>
+      <config key="urn:calf:preset_key_set12">0</config>
+      <config key="urn:calf:preset_key_set3">0</config>
+      <config key="urn:calf:preset_key_set13">0</config>
+      <config key="urn:calf:preset_key_set4">0</config>
+      <config key="urn:calf:preset_key_set14">0</config>
+      <config key="urn:calf:preset_key_set5">0</config>
+      <config key="urn:calf:preset_key_set15">0</config>
+      <config key="urn:calf:preset_key_set6">0</config>
+      <config key="urn:calf:preset_key_set16">0</config>
+      <config key="urn:calf:preset_key_set7">0</config>
+      <config key="urn:calf:preset_key_set">0</config>
+      <config key="urn:calf:preset_key_set8">0</config>
+      <config key="urn:calf:preset_key_set9">0</config>
      </configs>
      <params>
-      <param index="2" name="Osc1 Wave">12</param>
-      <param index="3" name="Osc1 Ctl">0.2</param>
-      <param index="4" name="Osc1 Transpose">0</param>
-      <param index="5" name="Osc1 Detune">6</param>
-      <param index="6" name="Osc1 Level">0.184284</param>
-      <param index="7" name="Osc2 Wave">13</param>
-      <param index="8" name="Osc2 Ctl">0</param>
-      <param index="9" name="Osc2 Transpose">0</param>
-      <param index="10" name="Osc2 Detune">0</param>
-      <param index="11" name="Osc2 Level">1</param>
-      <param index="12" name="EG1 Attack">1</param>
-      <param index="13" name="EG1 Decay">350</param>
-      <param index="14" name="EG1 Sustain">0.5</param>
-      <param index="15" name="EG1 Fade">0</param>
-      <param index="16" name="EG1 Release">608.612</param>
-      <param index="17" name="EG1 VelMod">1</param>
-      <param index="18" name="EG2 Attack">1</param>
-      <param index="19" name="EG2 Decay">350</param>
-      <param index="20" name="EG2 Sustain">0.5</param>
-      <param index="21" name="EG2 Fade">0</param>
-      <param index="22" name="EG2 Release">50</param>
-      <param index="23" name="EG2 VelMod">1</param>
-      <param index="24" name="EG3 Attack">1</param>
-      <param index="25" name="EG3 Decay">350</param>
-      <param index="26" name="EG3 Sustain">0.5</param>
-      <param index="27" name="EG3 Fade">0</param>
-      <param index="28" name="EG3 Release">20000</param>
-      <param index="29" name="EG3 VelMod">0</param>
-      <param index="30" name="PBend Range">200</param>
-      <param index="31" name="EG1->Amp">1</param>
-      <param index="32" name="LFO1 Rate">20</param>
-      <param index="33" name="LFO2 Rate">0.01</param>
+      <param index="2" name="Volume">0.5</param>
+      <param index="3" name="Interpolation">2</param>
+      <param index="4" name="Reverb">1</param>
+      <param index="5" name="Chorus">1</param>
      </params>
      <controllers/>
-     <editor-pos>183,211</editor-pos>
+     <editor-pos>563,141</editor-pos>
      <form-pos>0,0</form-pos>
     </plugin>
     <audio-output-bus-name></audio-output-bus-name>
@@ -479,7 +427,7 @@
     <midi-bank-sel-method>0</midi-bank-sel-method>
    </properties>
    <state>
-    <mute>1</mute>
+    <mute>0</mute>
     <solo>0</solo>
     <record>0</record>
     <monitor>1</monitor>

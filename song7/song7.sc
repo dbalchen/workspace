@@ -63,11 +63,11 @@ o.memSize = 2097152;
 
 		~clock = MyTrack.new(~synth2,0);
 
-		~clock.notes.waits = [ 1, 1, 1, 1, 1, 1, 1, 1 ] * 0.5;// 0.250;
-		~clock.notes.probs = ~probs.at(6);
+		~clock.notes.waits = [ 1, 1, 1, 1, 1, 1, 1, 1 ] * 0.250;
+		~clock.notes.probs = ~probs.at(0);
 		~clock.notes.freqs =  (~mels.choose ++ ~mels.choose);
-		~clock.notes.freqs =  ~mels.at(7) - 24;
-		~clock.notes.durations = [0.5];
+		~clock.notes.freqs =  ~mels.at(7);
+		~clock.notes.durations = [0.25];
 
 
 		~clock2 = MyTrack.new(~synth1,1);
@@ -77,7 +77,7 @@ o.memSize = 2097152;
 
 		~clock3 = MyTrack.new(~synth2,2);
 		~clock3.notes.waits =  [ 1, 1, 1, 1, 1, 1, 1, 1 ];
-		~clock3.notes.freqs =  [57,0,0,0,0,0,0,0,59,0,0,0,0,0,0,0,57,0,0,0,0,0,0,0,59,0,0,0,0,0,0,0,57,0,0,0,0,0,0,0,59,0,0,0,0,0,0,0,61,0,0,0,0,0,0,0,64,0,0,0,0,0,0,0,62,0,0,0,0,0,0,0,64,0,0,0,0,0,0,0,61,0,0,0,0,0,0,0,57,0,0,0,0,0,0,0];
+		~clock3.notes.freqs =  [57,0,0,0,0,0,0,0,59,0,0,0,0,0,0,0,57,0,0,0,0,0,0,0,59,0,0,0,0,0,0,0,57,0,0,0,0,0,0,0,59,0,0,0,0,0,0,0,61,0,0,0,0,0,0,0,64,0,0,0,0,0,0,0,62,0,0,0,0,0,0,0,64,0,0,0,0,0,0,0,61,0,0,0,0,0,0,0,57,0,0,0,0,0,0,0] -12;
 		~clock3.notes.durations = [8];
 
 
@@ -104,6 +104,33 @@ o.memSize = 2097152;
 		~clock9 = MyTrack.new(~synth1,9);
 		~clock9.notes.freqs = [35,38,35,38,35,38,35,38];
 		~clock9.notes.freqs = [35,35,35,35,35,35,35,35];
+
+
+		~clock10 = MyTrack.new(~synth1,10);
+		~clock10.notes.waits = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] * 1.0;
+		~clock10.notes.probs  = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+
+		~clock10.notes.freqs = ~clock10.notes.probs.collect({ arg item, i; item; item*(~mels.at(7);).choose});
+
+		~clock10.notes.freqs =  (~mels.choose ++ ~mels.choose ++ ~mels.choose ++ ~mels.choose);
+		~clock10.notes.freqs =  (~mels.choose ++ ~mels.choose);
+		~clock10.notes.freqs = ~mels.choose;
+		
+
+		
+		~clock10.notes.probs = [1.00,0.29,0.14,0.71,0.86,0.14,0.14,0.14,1.00,0.29,0.14,0.57,0.57,0.14,0.14,0.14];
+		~clock10.notes.probs = [1.00,0.29,0.14,1,1,0.14,0.14,0.14,1.00,0.29,0.14,0.57,0.57,0.14,0.14,0.14];
+		~clock10.notes.probs = [1.00,0.29,0.14,1,1,0.14,0.14,0.14,1.00,0.29,0.14,1,1,0.14,0.14,0.14];
+		~clock10.notes.probs = [1.00,1,0.14,1,1,0.14,0.14,0.14,1.00,1,0.14,1,1,0.14,0.14,0.14];
+
+		~clock10.notes.probs = [1.00,0,0,1,1,0,0,0,1.00,0,0,0,0,0,0,0];
+
+		~clock10.notes.probs = [1.00,0,0,1,1,0,0,0,1.00,0,0,1,1,0,0,0];
+
+		~clock10.notes.probs = [1.00,1,0,1,1,0,0,0,1.00,1,0,1,1,0,0,0];
+
+
+		~clock10.notes.durations = [1.0];
 
 
 		~kc = Bus.control(s, 1);
@@ -249,7 +276,6 @@ o.memSize = 2097152;
 			ret.set(\attack,2);
 			ret;
 		};
-
 	)
 
 };
@@ -272,11 +298,18 @@ o.memSize = 2097152;
 ~rp = {~clock.transport.stop;~clock2.transport.stop;~clock3.transport.stop;~clock4.transport.stop;~clock5.transport.stop;~clock6.transport.stop;~clock9.transport.stop;};
 
 ~rp = {~clock.transport.play;};
+
 ~rp = {~clock9.transport.play;};
 ~rp = {~clock3.transport.play;};
 ~rp = {~clock4.transport.play;};
 ~rp = {~clock5.transport.play;};
 ~rp = {~clock6.transport.play;};
+
+~rp = {~clock10.transport.play;};
+
+
+~rp =  {~clock10.transport.play;~clock9.transport.play;~clock.transport.play;};
+
 
 ~rp = {~clock3.transport.play;~clock4.transport.play;~clock5.transport.play;};
 
