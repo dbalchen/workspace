@@ -6,117 +6,117 @@
 
 var scale,fund;
 
- 
+
 
 scale = [0,3,7];
 
- 
+
 
 fork{
 
-                loop{
+	loop{
 
-                                var t = [16,32].choose;
+		var t = [16,32].choose;
 
-                                fund = 26+[0,3,7,10,14].choose;
+		fund = 26+[0,3,7,10,14].choose;
 
-                                fund.postln;
+		fund.postln;
 
-                                t.wait;
+		t.wait;
 
-                };
+	};
 
 };
 
- 
 
-fork{                                     
 
-                loop{
+fork{
 
-                                var t = 1/2;
+	loop{
 
-                                var a,d,s,r,fa,fd,fs,fr,ratio,dtune,freq,
+		var t = 1/2;
 
-                                                ffreq,vibrate,vibdepth,cutoff,amp;
+		var a,d,s,r,fa,fd,fs,fr,ratio,dtune,freq,
 
-                               freq = (scale.choose+fund+(12*(0..3).choose)).midicps;
+		ffreq,vibrate,vibdepth,cutoff,amp;
 
-                               vibrate = t/(1..10).choose;
+		freq = (scale.choose+fund+(12*(0..3).choose)).midicps;
 
-                               vibdepth = (90..500).choose.reciprocal;
+		vibrate = t/(1..10).choose;
 
-                                dtune = 1e-3; LFNoise0.kr(t,0.02,1);
+		vibdepth = (90..500).choose.reciprocal;
 
-                                cutoff = freq * (1.1,1.2..4).choose;
+		dtune = 1e-3; LFNoise0.kr(t,0.02,1);
 
-                               ratio = (0.99,0.991..1.01).choose;             
+		cutoff = freq * (1.1,1.2..4).choose;
 
-                               amp = 1/3;
+		ratio = (0.99,0.991..1.01).choose;
 
-                               
+		amp = 1/3;
 
-                               a = 3.0.rand/t;                  
 
-                               s = 3.0.rand/t;
 
-                               r = 3.0.rand/t;
+		a = 3.0.rand/t;
 
-                               fa = 3.0.rand/t;
+		s = 3.0.rand/t;
 
-                               fs = 3.0.rand/t;
+		r = 3.0.rand/t;
 
-                               fr = 3.0.rand/t;
+		fa = 3.0.rand/t;
 
-                               
+		fs = 3.0.rand/t;
 
-                                play{
+		fr = 3.0.rand/t;
 
-                                                var env, fenv, sig, gate, vib;
 
-                                                gate = Line.kr(1,0,t);
 
-                                                env = EnvGen.kr(Env.linen(a,s,r),doneAction:2);
+		play{
 
-                                                fenv = EnvGen.kr(Env.linen(fa,fs,fr));
+			var env, fenv, sig, gate, vib;
 
-                                                freq = Line.kr(freq,freq*ratio,t);
+			gate = Line.kr(1,0,t);
 
-                                                vib = SinOsc.kr(vibrate).range(vibdepth.neg,vibdepth)+1;
+			env = EnvGen.kr(Env.linen(a,s,r),doneAction:2);
 
-                                                freq = vib*freq;                                               
+			fenv = EnvGen.kr(Env.linen(fa,fs,fr));
 
-                                                //freq = freq.lag(t);
+			freq = Line.kr(freq,freq*ratio,t);
 
-                                                sig = Select.ar(2.rand,[
+			vib = SinOsc.kr(vibrate).range(vibdepth.neg,vibdepth)+1;
 
-                                                                Pulse.ar([freq,freq*(1+dtune),freq*(1-dtune)],
+			freq = vib*freq;
 
-                                                                                LFNoise2.kr(t,0.5,0.5), 0.1).sum,
+			//freq = freq.lag(t);
 
-                                                                Saw.ar([freq,freq*(1+dtune),freq*(1-dtune)]).sum
+			sig = Select.ar(2.rand,[
 
-                                                ]);
+				Pulse.ar([freq,freq*(1+dtune),freq*(1-dtune)],
 
-                                                sig = sig.tanh * env;
+					LFNoise2.kr(t,0.5,0.5), 0.1).sum,
 
-                                                ffreq = max(fenv*freq*12,cutoff)+100;
+				Saw.ar([freq,freq*(1+dtune),freq*(1-dtune)]).sum
 
-                                                sig = MoogFF.ar(sig,ffreq,LFNoise2.kr(1/t,1.4,1.5)).tanh;
+			]);
 
-                                                sig = RLPF.ar(sig,1e4,0.9).tanh;
+			sig = sig.tanh * env;
 
-                                                Pan2.ar(sig*amp,LFNoise2.kr(t.rand));
+			ffreq = max(fenv*freq*12,cutoff)+100;
 
-                                                };
+			sig = MoogFF.ar(sig,ffreq,LFNoise2.kr(1/t,1.4,1.5)).tanh;
 
-                                t.wait;
+			sig = RLPF.ar(sig,1e4,0.9).tanh;
 
-                                };
+			Pan2.ar(sig*amp,LFNoise2.kr(t.rand));
 
-                };
+		};
 
- 
+		t.wait;
+
+	};
+
+};
+
+
 
 // this was inspired by http://sccode.org/1-4EG
 
@@ -126,17 +126,17 @@ fork{
 
 {
 
-                var in = In.ar(0,2);
+	var in = In.ar(0,2);
 
-                in = in * 0.25;
+	in = in * 0.25;
 
-                in = Compander.ar(in,in,0.75,1,0.75,0.1,0.4);
+	in = Compander.ar(in,in,0.75,1,0.75,0.1,0.4);
 
-                in = (in*0.2) + GVerb.ar(HPF.ar(in,100), 20, 20, mul:0.6).tanh;
+	in = (in*0.2) + GVerb.ar(HPF.ar(in,100), 20, 20, mul:0.6).tanh;
 
-                in = Limiter.ar(LeakDC.ar(in));                   
+	in = Limiter.ar(LeakDC.ar(in));
 
-                ReplaceOut.ar(0, in)
+	ReplaceOut.ar(0, in)
 
 }.play(addAction:\addToTail);
 

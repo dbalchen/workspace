@@ -13,3 +13,19 @@
 		});
 		Out.ar(out, Pan2.ar(src, pan));
 	}).store;
+
+
+(
+Routine({
+	var a= Synth(\risset);
+	20.do{
+		var dur= 0.2.exprand(3.0);
+		var fre= 60.0.exprand(5000.0);
+		("dur:"+dur+"fre:"+fre).postln;
+		a.set(\t_trig, 1, \freq, fre, \dur, dur);
+		dur.wait;
+	};
+	a.free;
+	"done".postln;
+}).play;
+)

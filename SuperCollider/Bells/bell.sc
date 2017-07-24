@@ -37,7 +37,11 @@ JFreqScope.new( 400, 200, 0 );
  op6 = 0.85*SinOscFB.ar((freq*2)/(2**(7/1200)),0.70,
 	 EnvGen.kr(env6, gate: gate,  timeScale: sustain, levelScale: 0.50,doneAction:da););
 
- op5 = SinOsc.ar(323.6,op6,
+
+
+
+
+	 op5 = SinOsc.ar(323.6*4,op6,
 	 EnvGen.kr(env5, gate: gate,  timeScale: sustain, levelScale: 0.50,doneAction:da););
 
 	 x = amp*((0.12*op3) + (0.10*op1) + (0.10*op5));
@@ -64,12 +68,12 @@ JFreqScope.new( 400, 200, 0 );
 
  ~flip = 0.05;
  ~density = ~flip;
- ~win = JSCWindow.new;
+ ~win = Window.new;
  ~win.front;
 
  //////// adding a two-state button
  
-  ~playButton = JSCButton( ~win, Rect( 4, 4, 40, 56 ));
+  ~playButton = Button( ~win, Rect( 4, 4, 40, 56 ));
   ~playButton.states = [[ "Play", Color.white, Color.green( 0.4 )],
 			[ "Stop", Color.white, Color.red ]];
   ~playButton.action = { arg view; "New value is %\n".postf( view.value )};
@@ -84,11 +88,10 @@ JFreqScope.new( 400, 200, 0 );
       };
 
   ~win.setInnerExtent( 360, 72 );  // more suitable dimensions for the window
-  ~win.resizable = false;
 
-  JSCStaticText( ~win, Rect( 56, 4, 50, 25 )).align_( \right ).string_( "Density:" );
+  StaticText( ~win, Rect( 56, 4, 50, 25 )).align_( \right ).string_( "Density:" );
 
-  ~density = JSCSlider( ~win, Rect( 110, 4, 200, 25 ))
+  ~density = Slider( ~win, Rect( 110, 4, 200, 25 ))
   .value_( ~density ) // initial slider position
   .action_({ arg view;
       ~density = view.value;
@@ -108,7 +111,7 @@ z.free;
        inf.do({ arg count;
 	   var midi, oct, density;
 		   //	   midi = [38,40,45,48,50,52,57,60,62,64,69,72,74,76].choose;
-       midi = [50,52,57,60,62,65,69,72,76].choose;
+       midi = ([50,52,57,60,62,65,69,72,76] + 36).choose;
 
 	   if(~flip.coin, 
 	     { 
