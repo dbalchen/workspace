@@ -4,8 +4,9 @@
 
 
 MyTrack {
-	var <>notes = nil,     <>synth = nil,
-	<>chan = 0,       <>amp = 1.0,        <>transport;
+	var <>notes = nil,     <>synth = nil, <>out = 0,
+	<>chan = 0,  <>balance = 0, <>spread = 0,
+	<>amp = 1.0, <>transport = nil;
 
 	*new {arg syn,chn = 0, nts = nil;
 		^super.new.init(syn,chn,nts);
