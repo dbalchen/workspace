@@ -1,0 +1,70 @@
+COPY FROM md1dbal1/Reptar5000#@SNDPRD to md1dbal1/Reptar5000#@BODSPRD INSERT FILE_SUMMARY USING (SELECT * FROM FILE_SUMMARY);
+COPY FROM md1dbal1/Reptar5000#@SNDPRD to md1dbal1/Reptar5000#@BODSPRD INSERT APRM_STAGING USING (SELECT * FROM APRM_STAGING);
+COPY FROM md1dbal1/Reptar5000#@SNDPRD to md1dbal1/Reptar5000#@BODSPRD INSERT  USING (SELECT * FROM APRM_STAGING);
+COPY FROM md1dbal1/Reptar5000#@SNDPRD to md1dbal1/Reptar5000#@BODSPRD INSERT APRM USING (SELECT * FROM APRM);
+COPY FROM md1dbal1/Reptar5000#@SNDPRD to md1dbal1/Reptar5000#@BODSPRD INSERT rejected_records USING (SELECT * FROM APRM);
+
+COPY FROM md1dbal1/Reptar5000#@SNDPRD to md1dbal1/Reptar5000#@BODSPRD INSERT dch_staging USING (select MONTH_TYPE, BID, TECHNOLOGY,ROAMING,USAGE_TYPE,sum(AMOUNT_EUR) "AMOUNT_EUR",sum(AMOUNT_USD) "AMOUNT_USD",COMPANY_CODE,PERIOD from dch_staging group by month_type, bid, technology,roaming,usage_type,company_code,period);
+
+CDMA Incollect voice and data.
+
+I ran this query on the DCH table.
+
+select BID,usage_type, company_code,period, 'D',sum(amount_usd) from dch_staging
+where Month_type = 'Settlement' and roaming = 'Incollect' and technology = 'CDMA'  and period = '16-MAY-2017' group by BID,usage_type, company_code,period order by bid,company_code, period
+
+Then this on the APRM  table
+
+select BID,usage_type, company_code,period, 'A',sum(amount_usd) from aprm_staging
+where Month_type = 'Settlement' and roaming = 'Incollect' and company_code != '0175' and technology = 'CDMA' and period = '16-MAY-2017' group by BID,usage_type, company_code,period order by bid,company_code, period
+
+This way you can now compare them side by side…
+
+What you’ll find if there is going to be a large discrepancy it will be favoring the DCH side. This because we tend to reject and drop records before they reach APRM.. You’ll also find instances where we drop whole blocks resulting in DCH info only.
+
+
+CDMA Outcollects voice.
+
+To prepare this comparison I ran this query on the DCH table.
+
+select BID,usage_type,'00000',period, 'D',sum(amount_usd) from dch_staging
+where Month_type = 'Settlement' and roaming = 'Outcollect' and technology = 'CDMA'  and period = '16-MAY-2017' and usage_type = ‘Voice’ group by BID,usage_type,period order by bid,period
+
+And on the APRM side this:
+
+select BID,usage_type,company_code,period, 'A',sum(amount_usd) from aprm_staging
+where Month_type = 'Settlement' and roaming = 'Outcollect' and technology = 'CDMA'  and company_code != '0175'  and period = '16-MAY-2017' and usage_type = ‘Voice’ group by BID,usage_type,company_code, period order by bid,company_code,period
+
+One of the first things you notice is that there is no company code for DCH, instead everything is rolled up to the carrier code also the charges are almost always lower in then APRM. This is because Syniverse re-rates all of our International usage to a much lower rate.
+
+I hope this helps and although it will be hard to tell if something is wrong, if you have any doubts do not hesitate to bring to my attention.
+
+Dave
+
+
+LTE
+select /*+ PARALLEL(t1,12) */  'Settlement',serving_bid, 'LTE', 'Incollect','Data',sum(charge_amount),sum(charge_amount),carrier_cd, bp_start_date
+from prm_rom_incol_events_ap t1 
+where  carrier_cd != 'NLDLT' and generated_rec <  2 and TAP_IN_FILE_NAME in (
+select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type = 'LTE-V'and process_date >=add_months(to_date('20170701', 'YYYYMMDD'),-1) and process_date < to_date('20170701','YYYYMMDD') ) group by serving_bid, carrier_cd,bp_start_date
+
+select  file_name,'Data','4G','Incollect', to_date('20170601','YYYYMMDD'),'Settlement', receiver, sender, sum(total_charges_dch),sum(total_charges_dch) from file_summary 
+where file_type = 'TAP' and usage_type = 'LTE-V'and process_date >=add_months(to_date('20170701', 'YYYYMMDD'),-1) and process_date < to_date('20170701','YYYYMMDD') 
+group by file_name,sender,receiver 
+
+NLDLT APRM
+select /*+ PARALLEL(t1,12) */ 'Settlement',serving_bid, 'GSM', 'Incollect',charge_type,sum(charge_amount), sum(charge_amount * exchange_rate), carrier_cd, bp_start_date from prm_rom_incol_events_ap t1  where  generated_rec <  2  and carrier_cd = 'NLDLT'  and TAP_IN_FILE_NAME in  (select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' and process_date >= add_months(to_date('20170701', 'YYYYMMDD'),-1)and process_date < to_date('20170701','YYYYMMDD')  ) group by serving_bid, carrier_cd, charge_type, bp_start_date
+
+select file_name, 'GSM',decode(usage_type,'NLDLT-V', 'V','NLDLT-C', 'C', 'NLDLT-O', 'O'), 'Incollect', to_date('20170601','YYYYMMDD'),'Settlement' ,receiver, sender,sum(TOTAL_CHARGES_DCH),sum(TOTAL_CHARGES_DCH )
+  from file_summary  where file_type = 'TAP' and usage_type != 'LTE-V' and sender like '%NLDLT%'and process_date >= add_months(to_date('20170701', 'YYYYMMDD'),-1) and process_date < to_date('20170701','YYYYMMDD') group by  file_name,sender,receiver,usage_type
+
+DISP_RM
+
+select /*+ PARALLEL(t1,12) */
+ 'Settlement','USAUD', 'LTE','Outcollect','Data', sum(tot_net_charge_lc),sum(tot_net_charge_lc), carrier_cd, bp_start_date
+ from prm_rom_outcol_events_ap t1 where carrier_cd != 'NLDLT' and generated_rec < 2 and 
+ tap_out_file_name in  (select  unique(file_name)  from file_summary where file_type = 'TAP' and usage_type = 'DISP_RM' and process_date >=add_months(to_date('20170701', 'YYYYMMDD'),-1) and process_date < to_date('20170701','YYYYMMDD'))
+ group by carrier_cd, bp_start_date 
+ 
+select file_name,'Data','4G','Outcollect', to_date('20170601','YYYYMMDD'),'Settlement', receiver, sender, sum(total_charges_dch),sum(total_charges_dch) from file_summary 
+where file_type = 'TAP' and usage_type = 'DISP_RM' and process_date >=add_months(to_date('20170701', 'YYYYMMDD'),-1) and process_date < to_date('20170701','YYYYMMDD') group by file_name,sender,receiver

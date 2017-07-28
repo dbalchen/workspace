@@ -1,5 +1,4 @@
 #! /usr/local/bin/perl
-
 use DBI;
 use Time::Piece;
 use Time::Seconds;
@@ -21,39 +20,55 @@ my $sdate = 0;
 my $ldate = 0;
 
 if ( substr( $date, 6, 2 ) eq '01' ) {
-$ldate = Time::Piece->strptime( $date, "%Y%m%d" );	
-$ldate += ONE_WEEK;
-$ldate -= ONE_MONTH;
-$ldate = $ldate->strftime("%Y%m");
-$sdate = substr( $date, 0, 6 );
+	$ldate = Time::Piece->strptime( $date, "%Y%m%d" );
+	$ldate += ONE_WEEK;
+	$ldate -= ONE_MONTH;
+	$ldate = $ldate->strftime("%Y%m");
+	$sdate = substr( $date, 0, 6 );
 }
 else {
 	$sdate = substr( $date, 0, 6 );
 	$ldate = substr( $date, 0, 6 );
 }
 
-
 %sqls = {};
 
 $sqls{'LTE'} =
-"select /*+ PARALLEL(t1,12) */ 'Settlement',serving_bid, 'LTE', 'Incollect','Data',sum(charge_amount), carrier_cd, bp_start_date 
-from prm_rom_incol_events_ap t1 
-where   (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date', 'YYYYMMDD'))and carrier_cd != 'NLDLT' group by serving_bid,carrier_cd, bp_start_date";
+"select /*+ PARALLEL(t1,12) */  'Settlement',serving_bid, 'LTE', 'Incollect','Data',sum(charge_amount),sum(charge_amount),carrier_cd, bp_start_date
+from prm_rom_incol_events_ap t1 where  carrier_cd != 'NLDLT' and generated_rec <  2 and TAP_IN_FILE_NAME in (
+select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type = 'LTE-V'and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1)
+ and process_date < to_date('20170701','YYYYMMDD') ) group by serving_bid, carrier_cd,bp_start_date";
 
 $sqls{'LTEDEL'} =
   "delete from APRM_STAGING where TECHNOLOGY = 'LTE' and roaming = 'Incollect'";
 
+$sqls{'LTEDCH'} =
+"select  file_name,'Data','LTE','Incollect', add_months(to_date('$date', 'YYYYMMDD'),-1),'Settlement', receiver, sender, sum(total_charges_dch),sum(total_charges_dch) from file_summary 
+where file_type = 'TAP' and usage_type = 'LTE-V'and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD') 
+group by file_name,sender,receiver ";
+
 $sqls{'DISP_RM'} =
-"select /*+ PARALLEL(t1,12) */ 'Settlement', home_bid, 'LTE','Outcollect','Data', sum(tot_net_charge_lc),carrier_cd, bp_start_date from prm_rom_outcol_events_ap t1 where (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date', 'YYYYMMDD')) and carrier_cd != 'NLDLT' group by  home_bid,carrier_cd, bp_start_date";
+"select /*+ PARALLEL(t1,12) */ 'Settlement','USAUD', 'LTE','Outcollect','Data', sum(tot_net_charge_lc),sum(tot_net_charge_lc), carrier_cd, bp_start_date
+ from prm_rom_outcol_events_ap t1 where carrier_cd != 'NLDLT' and generated_rec < 2 and tap_out_file_name in  (select  unique(file_name)  from file_summary where file_type = 'TAP' and usage_type = 'DISP_RM' 
+ and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD')) group by carrier_cd, bp_start_date";
 
 $sqls{'DISP_RMDEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'LTE' and roaming = 'Outcollect'";
 
+$sqls{'DISP_RMDCH'} =
+"select file_name,'Data','LTE','Outcollect', add_months(to_date('$date', 'YYYYMMDD'),-1),'Settlement', receiver, sender, sum(total_charges_dch),sum(total_charges_dch) from file_summary 
+where file_type = 'TAP' and usage_type = 'DISP_RM' and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD') group by file_name,sender,receiver";
+
 $sqls{'NLDLT'} =
-"select /*+ PARALLEL(t1,12) */ 'Settlement',serving_bid, 'GSM', 'Incollect',charge_type,sum(charge_amount), carrier_cd, bp_start_date from prm_rom_incol_events_ap t1  where (process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date', 'YYYYMMDD')) and carrier_cd = 'NLDLT' group by serving_bid,carrier_cd, bp_start_date, charge_type";
+"select /*+ PARALLEL(t1,12) */ 'Settlement',serving_bid, 'GSM', 'Incollect',charge_type,sum(charge_amount), sum(charge_amount * exchange_rate), carrier_cd, bp_start_date 
+from prm_rom_incol_events_ap t1  where  generated_rec <  2  and carrier_cd = 'NLDLT'  and TAP_IN_FILE_NAME in  (select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' and process_date >= add_months(to_date('20170701', 'YYYYMMDD'),-1)and process_date < to_date('20170701','YYYYMMDD')  ) group by serving_bid, carrier_cd, charge_type, bp_start_date";
 
 $sqls{'NLDLTDEL'} =
   "delete from APRM_STAGING where TECHNOLOGY = 'GSM' and roaming = 'Incollect'";
+
+$sqls{'NLDLTDCH'} =
+  "select file_name, decode(usage_type,'NLDLT-V', 'V','NLDLT-C', 'C', 'NLDLT-O', 'O'),'GSM', 'Incollect', add_months(to_date('$date', 'YYYYMMDD'),-1),'Settlement' ,receiver, sender,sum(TOTAL_CHARGES_DCH),sum(TOTAL_CHARGES_DCH )
+  from file_summary  where file_type = 'TAP' and usage_type != 'LTE-V' and sender like '%NLDLT%'and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD') group by  file_name,sender,receiver,usage_type";
 
 $sqls{'CDMA_A_IN_VOICE'} =
 "select  /*+ PARALLEL(h1,12) */  'Accural', serve_sid,'CDMA','Incollect','Voice',sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS 
@@ -153,6 +168,7 @@ $sqls{'CDMA_A_OUT_DATADEL'} =
 
 my $dbconn  = getBODSPRD();
 my $dbconnb = getSNDPRD();
+
 #my $dbconnb = $dbconn;
 my $dbconnc = getBRMPRD();
 
@@ -161,21 +177,22 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
-		'LTE',            'DISP_RM',
-		'NLDLT',          'CDMA_A_IN_VOICE',
-		'CDMA_A_IN_DATA', 'CDMA_A_OUT_VOICE',
-		'CDMA_A_OUT_DATA'
+		'LTE', 'DISP_RM',
+		'NLDLT'    #,          'CDMA_A_IN_VOICE',
+
+		  #		'CDMA_A_IN_DATA', 'CDMA_A_OUT_VOICE',
+		  #		'CDMA_A_OUT_DATA'
 	);
 
 }
 else {
 	@aprmArray = (
-		'CDMA_S_IN_VOICE',  
-		'CDMA_S_IN_DATA',
-		'CDMA_S_OUT_VOICE', 
-		'CDMA_S_OUT_DATA'
+		'CDMA_S_IN_VOICE',  'CDMA_S_IN_DATA',
+		'CDMA_S_OUT_VOICE', 'CDMA_S_OUT_DATA'
 	);
 }
+
+my @dchArray = ( 'LTE', 'NLDLT', 'DISP_RM' );
 
 foreach my $report (@reports) {
 
@@ -186,7 +203,7 @@ foreach my $report (@reports) {
 		loadSAP($dbconnb);
 	}
 	elsif ( $report eq "DCH" ) {
-		loadDCH($date,$dbconnb);
+		loadDCH( \@dchArray, $date, $dbconnb, $ldate );
 	}
 }
 
@@ -264,12 +281,12 @@ VALUES (
  '$rows[4]'      /* USAGE_TYPE */,
  '$rows[2]' 	   /* TECHNOLOGY */,
  '$rows[3]'      /* ROAMING */,
- '$rows[7]'      /* PERIOD */,
+ '$rows[8]'      /* PERIOD */,
  '$rows[0]'      /* MONTH_TYPE */,
- '$rows[6]'      /* COMPANY_CODE */,
+ '$rows[7]'      /* COMPANY_CODE */,
  '$rows[1]'      /* BID */,
  $rows[5]     /* AMOUNT_USD */,
- $rows[5]    /* AMOUNT_EUR */ )";
+ $rows[6]    /* AMOUNT_EUR */ )";
 
 			#print "$sql\n";
 			$conn2 = $dbconnb->prepare($sql);
@@ -282,51 +299,53 @@ VALUES (
 
 sub loadDCH {
 
-	my ( $date, $conn ) = @_;
+	my ( $sqlList, $date, $conn, $ldate ) = @_;
 
-	$date = substr( $date, 0, 6 )."01";
-	
+	$date  = substr( $date,  0, 6 ) . "01";
+	$ldate = substr( $ldate, 0, 6 ) . "01";
+
 	my @results = [];
 
-	my $sql = "select 
-decode(usage_type,'LTE-V', 'Data','NLDLT-V', 'Data','NLDLT-C', 'Data', 'NLDLT-O', 'Voice', 'DISP_RM','Data'),
-'4G',
- decode(usage_type,'LTE-V', 'Incollect','NLDLT-V', 'Incollect', 'NLDLT-C', 'Incollect', 'NLDLT-O', 'Incollect', 'DISP_RM','Outcollect'),                      
-to_date('$date','YYYYMMDD'),
-'Settlement',
-receiver,
-sender,
-sum(total_charges_dch),
-sum(total_charges_dch)
-from file_summary where file_type = 'TAP'
-and process_date <=add_months(to_date('$date','YYYYMMDD'),1) and process_date >= to_date('$date','YYYYMMDD')
-group by usage_type,sender, receiver";
-
+	my $sql =
+"delete from DCH_STAGING where technology != 'CDMA' and PERIOD = to_date('$ldate','YYYYMMDD')";
 	my $sth = $conn->prepare($sql);
-	$sth->execute() or sendErr();
+#	print "$sql\n";
+	
+    $sth->execute() or sendErr();
 
-	while ( my @rows = $sth->fetchrow_array() ) {
-		my $sql = "INSERT INTO DCH_STAGING (
+	foreach my $wsql ( @{$sqlList} ) {
+
+		my $sth    = '';
+		my $sqldch = $wsql . "DCH";
+		$sqldch = $sqls{$sqldch};
+
+		$sth = $conn->prepare($sqldch);
+		$sth->execute() or sendErr();
+# print "$sqldch\n";
+
+		while ( my @rows = $sth->fetchrow_array() ) {
+			my $sql = "INSERT INTO DCH_STAGING (
    FILENAME, USAGE_TYPE, TECHNOLOGY, ROAMING, 
    PERIOD, MONTH_TYPE, COMPANY_CODE, 
    BID, AMOUNT_USD, AMOUNT_EUR) 
 VALUES ( 
- 'All Data',
- '$rows[0]'      /* USAGE_TYPE */,
- '$rows[1]' 	   /* TECHNOLOGY */,
- '$rows[2]'      /* ROAMING */,
- '$rows[3]'      /* PERIOD */,
- '$rows[4]'      /* MONTH_TYPE */,
- '$rows[5]'      /* COMPANY_CODE */,
- '$rows[6]'      /* BID */,
- $rows[7]     /* AMOUNT_USD */,
- $rows[7]    /* AMOUNT_EUR */ )";
- 
- 	my $sth = $conn->prepare($sql);
-	$sth->execute() or sendErr();
+ '$rows[0]',
+ '$rows[1]'      /* USAGE_TYPE */,
+ '$rows[2]' 	   /* TECHNOLOGY */,
+ '$rows[3]'      /* ROAMING */,
+ '$rows[4]'      /* PERIOD */,
+ '$rows[5]'      /* MONTH_TYPE */,
+ '$rows[6]'      /* COMPANY_CODE */,
+ '$rows[7]'      /* BID */,
+ $rows[8]     /* AMOUNT_USD */,
+ $rows[9]    /* AMOUNT_EUR */ )";
 
+#			print "$sql\n";
+			my $sth = $conn->prepare($sql);
+			$sth->execute() or sendErr();
+
+		}
 	}
-
 }
 
 sub loadSAP {
