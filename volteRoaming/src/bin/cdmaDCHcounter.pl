@@ -18,14 +18,14 @@ $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 $dbconn  = getBODSPRD();
-$dbconnb = getSNDPRD();
+#$dbconnb = getSNDPRD();
 
-#$dbconnb = $dbconn;
+$dbconnb = $dbconn;
 
 my $file = $ARGV[0];
 
-$file =
-"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID000063_T20170707185641.DAT";
+#$file =
+#"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID000063_T20170707185641.DAT";
 
 my $filename = ( split( "/", $file ) )[-1];
 

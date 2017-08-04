@@ -6,16 +6,16 @@ use DBI;
 $ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID027801_T20170707010301.DAT";
 
 #For test only.....
- my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
- my $ORACLE_SID  = "bodsprd";
- $ENV{ORACLE_HOME} = $ORACLE_HOME;
- $ENV{ORACLE_SID}  = $ORACLE_SID;
- $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# my $ORACLE_SID  = "bodsprd";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $hh =
 "cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";

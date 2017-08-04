@@ -1063,6 +1063,7 @@ subgraph cluster_3 {
          1. *RRP_EOC1056*
          2. *RRP_EOC1068*
          3. *RRP_EOC1192*
+
 ** OutCollect Operational Jobs (CIBER Processing)
       *CIBER* files are a collection of roaming records, these can be
       either a foreign carrier on our network or one of our customers on
@@ -1790,17 +1791,17 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
 ** DB Preparation
       For each DB instance, except ODS and SIT, You need to alter the
       session before you can use it.\\ For example for usage 1 type
       : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
-
-** SQL Join Reference
-      [[file:Pictures/Sql_Joins.png]]
-
 #+BEGIN_LaTeX
-\normalsize
+\begin{landscape}  
+#+END_LaTeX
+** SQL Join Reference
+      [[file:Pictures/Sql_Joins2.png]]
+#+BEGIN_LaTeX
+\end{landscape} 
 #+END_LaTeX
 * Database Tables
 #+BEGIN_LaTeX
@@ -3888,12 +3889,8 @@ needs to be in
 
 * Task List 				       :noexport:taskjuggler_project:
 ** Roaming Reconciliation
-*** TODO Fill Out DB Form
-*** TODO Redo load staging
-*** TODO Add Euro Info to GSM
 *** TODO Figure out what's wrong with GSM
 *** TODO How to explain TNS data.. Sub report anyone
-*** TODO Load the data to the ODS for SANDS
 *** TODO Switch DB code to ODS.
 *** TODO Fix cdmaDCH
 ** Machine to Machine

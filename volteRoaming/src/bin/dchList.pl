@@ -4,8 +4,8 @@ use Time::Piece;
 use Time::Seconds;
 
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my $date  = $ARGV[0];
@@ -68,23 +68,6 @@ while(my $buff = <IN>)
 
 close(IN);
 close(OUT);
-
-#open(IN,"<$ENV{'REC_HOME'}/OutcollectDCH_voice.csv.all") || exit(1);
-#open(OUT,">$ENV{'REC_HOME'}/OutcollectDCH_voice.csv") || exit(1);
-#
-#while(my $buff = <IN>)
-#{
-#	chomp($buff);
-#	my @arry = split(/\t/,$buff);
-#	
-#	if(($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter) || ($arry[5] eq $dayafterthat))
-#	{
-#		print OUT "$buff\n";
-#	}
-#}
-#
-#close(IN);
-#close(OUT);
 
 my @arry = split("-", $yesterday);
 $yesterday = ($arry[2]-0)."-$yesMon-".($arry[0]-2000);

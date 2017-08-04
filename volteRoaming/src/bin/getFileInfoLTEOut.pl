@@ -12,7 +12,7 @@ use DBI;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 #$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $filename = ( split( '/', $ARGV[0] ) )[-1];
