@@ -3,7 +3,7 @@ Tbell (Tibetian Prayer Bell)
 ****************************************/
 
 (
-SynthDef(\tbell, {arg out = 0, gate = 0,freq = 2434, amp = 0.5,
+SynthDef(\tbell, {arg out = 0, gate = 0,freq = 2434, amp = 0.25,
 	attack=0, decay = 10, sustain = 0, release = 1,
 	lag = 10, da  = 2, scale = 2434,sing_switch = 1, hit = 10000;
 
@@ -70,7 +70,7 @@ SynthDef(\tbell, {arg out = 0, gate = 0,freq = 2434, amp = 0.5,
 			0.4,
 			0.5,
 			0.4,
-			0.6`
+			0.6
 		]
 		* freqscale.reciprocal.pow(0.5)
 	], sig, freqscale, 0, decayscale);
@@ -85,33 +85,33 @@ SynthDef(\tbell, {arg out = 0, gate = 0,freq = 2434, amp = 0.5,
 
 
 //
-// ~bell.set(\gate,0);
-// ~bell = Synth(\tbell);
-// ~bell.set(\freq,880);
-// ~bell.set(\lag,32);
-// ~bell.set(\sing_switch,1);
-// ~bell.set(\sustain,0.8);
-// ~bell.set(\attack,8);
-// ~bell.set(\hit,10000);
-// ~bell.set(\decay,8);
-// ~bell.set(\gate,1);
-// ~bell = Synth(\tbell);
-// ~bell.set(\freq,440);
-// ~bell.set(\lag,32);
-// ~bell.set(\sing_switch,1);
-// ~bell.set(\sustain,0.4);
-// ~bell.set(\attack,0);
-// ~bell.set(\hit,10000);
-// ~bell.set(\decay,8);
-// ~bell.set(\gate,1);
-//
-// //~bell.set(\gate,0);
-// ~bell = Synth(\tbell);
-// ~bell.set(\freq,55);
-// ~bell.set(\lag,32);
-// ~bell.set(\sing_switch,1);
-// ~bell.set(\sustain,0.3);
-// ~bell.set(\attack,8);
-// ~bell.set(\hit,1000);
-// ~bell.set(\decay,8);
-// ~bell.set(\gate,1);
+~bell.set(\gate,0);
+~bell = Synth(\tbell);
+~bell.set(\freq,880);
+~bell.set(\lag,32);
+~bell.set(\sing_switch,1);
+~bell.set(\sustain,0.8);
+~bell.set(\attack,8);
+~bell.set(\hit,10000);
+~bell.set(\decay,8);
+~bell.set(\gate,1);
+~bell = Synth(\tbell);
+~bell.set(\freq,440);
+~bell.set(\lag,32);
+~bell.set(\sing_switch,1);
+~bell.set(\sustain,0.2);
+~bell.set(\attack,0);
+~bell.set(\hit,10000);
+~bell.set(\decay,8);
+~bell.set(\gate,1);
+
+//~bell.set(\gate,0);
+~bell = Synth(\tbell);
+~bell.set(\freq,110);
+~bell.set(\lag,32);
+~bell.set(\sing_switch,1);
+~bell.set(\sustain,0.1);
+~bell.set(\attack,8);
+~bell.set(\hit,1000);
+~bell.set(\decay,8);
+~bell.set(\gate,1);
