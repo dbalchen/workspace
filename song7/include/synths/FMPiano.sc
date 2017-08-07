@@ -2,7 +2,7 @@
 // FM Piano
 // =====================================================================
 
-SynthDef(\FMPiano, {arg out = 0, freq = 440, gate = 1, duration = 2, da = 2, amp = 1.0;
+SynthDef(\FMPiano, {arg out = 0, freq = 440, gate = 1, duration = 2, da = 2, amp = 1.0, spread = 1, balance = 0;
 	var op1,op2,op3,op4,op5,op6,env,env1,env2,env3,env4,env5,env6,sig;
 
 	env1 = Env.adsr(0.0008,1.0,0,0);
@@ -27,8 +27,8 @@ SynthDef(\FMPiano, {arg out = 0, freq = 440, gate = 1, duration = 2, da = 2, amp
 	op5 = SinOsc.ar(freq*(2**(7/1200)),op6,
 		EnvGen.kr(env2, gate: gate,  timeScale: duration, levelScale: 0.50,doneAction:da););
 
-	//	sig = ((0.10*op5) + (0.12*op3) + (0.10*op1)) * amp;
-	sig = ((0.10*op5) + (0.10*op3) + (0.12*op1)) * amp;
-	sig = Splay.ar(sig);
+	sig = ((0.10*op5) + (0.12*op3) + (0.10*op1)) * amp;
+
+	sig = Splay.ar(sig,spread,center:balance);
 
 	Out.ar(out,sig)}).store;

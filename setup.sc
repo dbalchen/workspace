@@ -300,7 +300,6 @@ MIDIIn.polytouch = { arg src, chan, num, vel;
 
 MIDIIn.control = { arg src, chan, num, val;
 
-
 };
 
 MIDIIn.program = { arg src, chan, prog;
@@ -308,4 +307,5 @@ MIDIIn.program = { arg src, chan, prog;
 
 };
 
-
+~displayCC.free;
+~displayCC = MIDIdef.cc(\displayCC, {arg ...args; args.postln}); // display CC

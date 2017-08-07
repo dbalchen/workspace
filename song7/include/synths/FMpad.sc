@@ -2,7 +2,7 @@
 // FM Dark Pad
 // =====================================================================
 
-SynthDef("FMdarkpad", {arg freq = 58.6, gate = 0, cutoff = 5000, gain = 0.35,amp = 0.5;
+SynthDef("FMdarkpad", {arg freq = 58.6, gate = 0, cutoff = 5000, gain = 0.35,spread = 1, balance = 0,amp = 0.25;
 
 	var op1,op2,op3,op4,op5,op6,
 	env1,env2,env3,env4,env5,env6,
@@ -59,8 +59,7 @@ SynthDef("FMdarkpad", {arg freq = 58.6, gate = 0, cutoff = 5000, gain = 0.35,amp
 
 	sig = op6 + op5 + op4 + op3 + op2 + op1 + (0.69 *sig);
 
-	sig = Splay.ar(amp*0.075*sig);
-
+	sig = Splay.ar(amp*0.075*sig,spread,center:balance);
 
 	Out.ar(0,sig)
 }).store;
