@@ -3864,7 +3864,86 @@ needs to be in
 | Tax_Jur_Cd       | Char (15 Byte)     |                |
 | Line_Order       | Number             |                |
 |------------------+--------------------+----------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 
+*** prm_rom_incol_events_ap
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------------------+---------------------+---------------|
+| *Column Name*             | *Data Type*         | *Description* |
+|---------------------------+---------------------+---------------|
+| VALIDATION_STS            | CHAR (1 Byte)       |               |
+| UOM                       | CHAR (2 Byte)       |               |
+| TRANSCUT_TS_OFFST         | CHAR (5 Byte)       |               |
+| TRANSCUT_TS               | CHAR (14 Byte)      |               |
+| TENANT_CD                 | VARCHAR2 (20 Byte)  |               |
+| TELESERVICECODE           | CHAR (2 Byte)       |               |
+| TAX_TYPE                  | CHAR (2 Byte)       |               |
+| TAP_IN_FILE_SEQ_NUMBER    | NUMBER (5)          |               |
+| TAP_IN_FILE_NAME          | VARCHAR2 (20 Byte)  |               |
+| TADIG_FILE_TYPE           | CHAR (2 Byte)       |               |
+| SYS_UPDATE_DATE           | DATE                |               |
+| SYS_CREATION_DATE         | DATE                |               |
+| SUPP_SERV_CD              | CHAR (2 Byte)       |               |
+| SIM_TOOLKIT_IND           | CHAR (1 Byte)       |               |
+| SERVING_BID               | CHAR (5 Byte)       |               |
+| SERVICE_TYPE              | CHAR (1 Byte)       |               |
+| RERATE_CNT                | NUMBER (3)          |               |
+| RECORD_TYPE               | CHAR (1 Byte)       |               |
+| RECORD_POSITION           | VARCHAR2 (6 Byte)   |               |
+| RATING_CURR               | CHAR (3 Byte)       |               |
+| RAP_FILE_SEQUENCE         | VARCHAR2 (20 Byte)  |               |
+| PROCESS_DATE              | DATE                |               |
+| ORIG_BROK_FILENAME        | VARCHAR2 (24 Byte)  |               |
+| OPERATOR_ID               | NUMBER (9)          |               |
+| ODS_LAST_UPDATE_DATE      | DATE                |               |
+| ODS_INSERT_DATE           | DATE                |               |
+| NORMALIZED_CALLING_NUMBER | CHAR (20 Byte)      |               |
+| NORMALIZED_CALLED_NUMBER  | CHAR (20 Byte)      |               |
+| NON_CHRG_PARTY_NUM        | CHAR (17 Byte)      |               |
+| NON_CHR_PRT_PUB_USER_ID   | CHAR (64 Byte)      |               |
+| NETWORK_ELEMENT_TYPE      | CHAR (1 Byte)       |               |
+| NETWORK_ELEMENT_ID        | CHAR (50 Byte)      |               |
+| MOBILE_SESSION_SERVICE    | CHAR (17 Byte)      |               |
+| MESSAGE_EVENT_SERVICE     | CHAR (17 Byte)      |               |
+| LOCAL_CURRENCY            | CHAR (3 Byte)       |               |
+| GENERATED_REC             | NUMBER (4)          |               |
+| FUTURE_BUFF               | VARCHAR2 (443 Byte) |               |
+| FILE_AVAIL_TS_OFFST       | CHAR (5 Byte)       |               |
+| FILE_AVAIL_TS             | CHAR (14 Byte)      |               |
+| EXCHANGE_RATE             | NUMBER (18,5)       |               |
+| EVENT_START_DATE_TIME     | DATE                |               |
+| EVENT_REFERENCE           | CHAR (64 Byte)      |               |
+| EDR_ID                    | NUMBER (11)         |               |
+| DL_UPDATE_STAMP           | NUMBER (4)          |               |
+| DL_SERVICE_CODE           | CHAR (5 Byte)       |               |
+| CURRENCY_CODE             | CHAR (3 Byte)       |               |
+| COUNTRY_CODE              | CHAR (3 Byte)       |               |
+| CHR_PRT_PUB_USER_ID       | CHAR (64 Byte)      |               |
+| CHARGE_TYPE               | CHAR (1 Byte)       |               |
+| CHARGE_PARAMETER          | NUMBER (18,5)       |               |
+| CHARGE_AMOUNT_SDR         | NUMBER (18,5)       |               |
+| CHARGE_AMOUNT_RC          | NUMBER (18,5)       |               |
+| CHARGE_AMOUNT             | NUMBER (18,5)       |               |
+| CARRIER_CD                | VARCHAR2 (20 Byte)  |               |
+| CALL_TYPE_LEVEL_3         | VARCHAR2 (11 Byte)  |               |
+| CALL_TYPE_LEVEL_2         | CHAR (2 Byte)       |               |
+| CALL_TYPE_LEVEL_1         | CHAR (3 Byte)       |               |
+| CALL_DIRECTION            | CHAR (1 Byte)       |               |
+| BP_START_DATE             | DATE                |               |
+| BP_END_DATE               | DATE                |               |
+| AU_ID                     | NUMBER (9)          |               |
+| APRM_EDR_ID               | NUMBER (20)         |               |
+| APPLICATION_ID            | CHAR (6 Byte)       |               |
+|---------------------------+---------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 * Telephone Numbers
 |-----------------+--------------|
 | *Name*          |       *Cell* |
