@@ -198,7 +198,6 @@ VALUES (
  $rows[1],
  $dropped
 )";
-
 	print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);

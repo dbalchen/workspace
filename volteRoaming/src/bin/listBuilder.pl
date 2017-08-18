@@ -1,12 +1,14 @@
 #! /usr/local/bin/perl
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 chdir("$ENV{'REC_HOME'}");
 
-#my $hh = "cat IncollectDCH_data* | tr -d '".'\0'."'| grep '^[0-9]' | dos2unix | sort -u > IncollectDCH_data.csv.all.tmp";
+my $hh = "";
+
+# $hh = "cat IncollectDCH_data* | tr -d '".'\0'."'| grep '^[0-9]' | dos2unix | sort -u > IncollectDCH_data.csv.all.tmp";
 #system("$hh");
 #
 #$hh = "cat IncollectDCH_voice* | tr -d '".'\0'."' | grep '^[0-9]' | dos2unix | sort -u  > IncollectDCH_voice.csv.all.tmp";
@@ -44,14 +46,15 @@ $month{'10'} = 'Oct';
 $month{'11'} = 'Nov';
 $month{'12'} = 'Dec';
 
-$hh = "cat *4G_Outcollect*csv | cut -f1 | sort -u";
+$hh = "cat *4G_Incollect*tsv | cut -f1 | sort -u";
 my @files = `$hh`;
+chomp(@files);
 
 open(TNS, "> tnsOutcollect.csv.tmp") || errorExit("could not open tnsOutcollect file\n");
 
 foreach my $file (@files)
 {
-	$hh = "grep '^".$file."' *4G_Outcollect*csv | cut -f 2,5,8,9";
+	$hh = "grep '^".$file."' *4G_Incollect*tsv | cut -f 2,5,8,9";
 	
 	my @info = `$hh`;
 	
@@ -60,6 +63,7 @@ foreach my $file (@files)
 	for(my $a = 0; $a < @info; $a = $a +1)
 	{
 		my @subinfo = split(/\t/,$info[$a]);
+		chomp(@subinfo);
 		
 		$total = $total + $subinfo[0];
 		$bytes = $bytes + $subinfo[1];
@@ -70,7 +74,9 @@ foreach my $file (@files)
 	my @fixdate = split(/\//,$date);
 	$date = $fixdate[0].'-'.$month{$fixdate[1]}.'-'.$fixdate[2];
 	
-	print TNS "$file\t\t\t\t$date\t\t\t$bytes\t$total\t\t\t\t$cost\t\t\t\t\n"
+	my $printOut = "$file\t\t\t\t\t$date\t\t\t$bytes\t$total\t\t\t\t\t\t\t\t\t\t\t\t\t\t$cost\n";
+	
+	print TNS $printOut;
 	
 }
 

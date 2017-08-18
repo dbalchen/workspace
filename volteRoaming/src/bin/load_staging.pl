@@ -11,7 +11,7 @@ $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 $ARGV[0] = '20170801';
-$ARGV[1] = "DCH";
+$ARGV[1] = "APRM";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -71,7 +71,8 @@ where file_type = 'TAP' and usage_type = 'DISP_RM' and process_date >=add_months
 
 $sqls{'NLDLT'} =
 "select /*+ PARALLEL(t1,12) */ 'Settlement',serving_bid, 'GSM', 'Incollect',charge_type,sum(charge_amount), sum(charge_amount * exchange_rate), carrier_cd, bp_start_date 
-from prm_rom_incol_events_ap t1  where  generated_rec <  2  and carrier_cd = 'NLDLT'  and TAP_IN_FILE_NAME in  (select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' and process_date >= add_months(to_date('20170701', 'YYYYMMDD'),-1)and process_date < to_date('20170701','YYYYMMDD')  ) group by serving_bid, carrier_cd, charge_type, bp_start_date";
+from prm_rom_incol_events_ap t1  where  generated_rec <  2  and carrier_cd = 'NLDLT'  and TAP_IN_FILE_NAME in  (select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' 
+and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1)and process_date < to_date('$date','YYYYMMDD')  ) group by serving_bid, carrier_cd, charge_type, bp_start_date";
 
 $sqls{'NLDLTDEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'GSM' and roaming = 'Incollect' and period = to_date('$period"
@@ -82,7 +83,7 @@ $sqls{'NLDLTDCH'} =
   from file_summary  where file_type = 'TAP' and usage_type != 'LTE-V' and sender like '%NLDLT%'and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD') group by  file_name,sender,receiver,usage_type";
 
 $sqls{'CDMA_A_IN_VOICE'} =
-"select  /*+ PARALLEL(h1,12) */  'Accural', serve_sid,'CDMA','Incollect','Voice',sum(TOTAL_CHRG_AMOUNT),sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS 
+"select  /*+ PARALLEL(h1,12) */  'Accrual', serve_sid,'CDMA','Incollect','Voice',sum(TOTAL_CHRG_AMOUNT),sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS 
 where (REGEXP_LIKE (ciber_file_name_1, 'SDIRI_FCIBER_ID(.*)_T"
   . $ldate
   . "1[6,7,8,9](.*)') or ciber_file_name_1 like 'SDIRI_FCIBER_ID%T"
@@ -92,7 +93,7 @@ where (REGEXP_LIKE (ciber_file_name_1, 'SDIRI_FCIBER_ID(.*)_T"
   . "3%') and generated_rec < 2  group by serve_sid,carrier_cd, bp_start_date";
 
 $sqls{'CDMA_A_IN_VOICEDEL'} =
-"delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Incollect' and month_type = 'Accural' and usage_type = 'Voice' and period = to_date('$period"
+"delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Incollect' and month_type = 'Accrual' and usage_type = 'Voice' and period = to_date('$period"
   . "16','YYYYMMDD')";
 
 $sqls{'CDMA_S_IN_DATA'} =
@@ -119,7 +120,7 @@ $sqls{'CDMA_S_IN_VOICEDEL'} =
   . "16','YYYYMMDD')";
 
 $sqls{'CDMA_A_IN_DATA'} =
-"select  /*+ PARALLEL(h1,12) */  'Accural', serve_sid,'CDMA','Incollect','Data',sum(TOTAL_CHRG_AMOUNT),sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS where
+"select  /*+ PARALLEL(h1,12) */  'Accrual', serve_sid,'CDMA','Incollect','Data',sum(TOTAL_CHRG_AMOUNT),sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS where
 (REGEXP_LIKE (ciber_file_name_1, 'SDATACBR_FDATACBR_ID(.*)_T" . $ldate
   . "1[6,7,8,9](.*)')
 	     or ciber_file_name_1 like 'SDATACBR_FDATACBR_ID%T" . $ldate . "2%'
@@ -144,7 +145,7 @@ $sqls{'CDMA_S_OUT_VOICEDEL'} =
   . "16','YYYYMMDD')";
 
 $sqls{'CDMA_A_OUT_VOICE'} =
-"select  /*+ PARALLEL(h1,12) */  'Accural', serve_sid,'CDMA','Outcollect','Voice',sum(TOTAL_CHRG_AMOUNT),sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS where
+"select  /*+ PARALLEL(h1,12) */  'Accrual', serve_sid,'CDMA','Outcollect','Voice',sum(TOTAL_CHRG_AMOUNT),sum(TOTAL_CHRG_AMOUNT),carrier_cd, bp_start_date from USC_ROAM_EVNTS where
 (REGEXP_LIKE (ciber_file_name_1, 'CIBER_CIBER(.*)_" . $ldate . "1[6,7,8,9](.*)')
 	     or ciber_file_name_1 like 'CIBER_CIBER%" . $ldate . "2%'
 	     or  ciber_file_name_1 like 'CIBER_CIBER%" . $ldate . "3%')
@@ -152,7 +153,7 @@ $sqls{'CDMA_A_OUT_VOICE'} =
  group by serve_sid,carrier_cd, bp_start_date";
 
 $sqls{'CDMA_A_OUT_VOICEDEL'} =
-"delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Outcollect' and month_type = 'Accural' and usage_type = 'Voice' and period = to_date('$period"
+"delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Outcollect' and month_type = 'Accrual' and usage_type = 'Voice' and period = to_date('$period"
   . "16','YYYYMMDD')";
 
 $sqls{'CDMA_S_OUT_DATA'} =
@@ -187,9 +188,9 @@ $sqls{'CDMA_A_OUT_DATADEL'} =
 
 my $dbconn = getBODSPRD();
 
-my $dbconnb = getSNDPRD();
+#my $dbconnb = getSNDPRD();
 
-#my $dbconnb = $dbconn;
+my $dbconnb = $dbconn;
 my $dbconnc = getBRMPRD();
 
 my @aprmArray = ();
@@ -198,9 +199,9 @@ if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
 #		'LTE',            'DISP_RM',
-#		'NLDLT',          'CDMA_A_IN_VOICE',
+#		'NLDLT' #,          'CDMA_A_IN_VOICE',
 #		'CDMA_A_IN_DATA', 'CDMA_A_OUT_VOICE',
-		'CDMA_A_OUT_DATA'
+#		'CDMA_A_OUT_DATA'
 	);
 
 }
