@@ -3,27 +3,27 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "CDUSAW6USAUD03657,3657,T-Mobile (USAW6),100000,5725.11000,3,.13,20170326";
-
-# For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#$ARGV[0] = "CDUSASGUSAUD75208,75208,Sprint (USASG),25000,781.36496,0,0,20170818";
 #
+## For test only.....
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
-
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my @argv = split( /,/, $ARGV[0] );
 
-my $dbconn  = getBODSPRD();
+my $dbconn = getBODSPRD();
+
 #my $dbconnb = getSNDPRD();
 my $dbconnb = $dbconn;
 
-my $sql = '';
+my $sql    = '';
 my $prefix = "LTE";
 
 my $exrate = 1;
@@ -31,7 +31,6 @@ my $exrate = 1;
 if ( index( $argv[0], "NLDLT" ) >= 0 ) {
 	$prefix = "NLDLT";
 }
-
 
 $sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
 
@@ -50,7 +49,7 @@ my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
 while ( my @rows = $sth->fetchrow_array() ) {
-	$sql = "REJECTED_RECORDS (
+	$sql = "Insert into REJECTED_RECORDS (
    TOTAL_CHARGE, FILE_NAME, ERROR_TYPE, ERROR_DESCRIPTION, ERROR_CODE) 
 VALUES ( 
   $rows[3],
@@ -127,14 +126,18 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		$file_name_dch = $argv[0];
 		$grep          = " grep $file_name_dch ";
 		my $hh =
-		  "cat $ENV{'REC_HOME'}/tnsIncollect.csv | $grep | cut -f 9,10,16";
+		  "cat $ENV{'REC_HOME'}/tnsIncollect.csv | $grep | cut -f 9,10,24";
 
-		my $output = `$hh`;
-		chomp($output);
-		$output =~ s/"//g;
-		$output =~ s/,//g;
+		my @output = `$hh`;
+		if ( @output > 1 ) {
+			$output[0] = $output[1];
+		}
 
-		my @dchValues = split( "\t", $output );
+		chomp(@output);
+		$output[0] =~ s/"//g;
+		$output[0] =~ s/,//g;
+
+		my @dchValues = split( "\t", $output[0] );
 		chomp(@dchValues);
 
 		$total_volume_dch  = $rows[2];
@@ -143,8 +146,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 	}
 
-	$sql = "
-INSERT INTO FILE_SUMMARY (
+	$sql = " INSERT INTO FILE_SUMMARY (
 USAGE_TYPE, 
 TOTAL_VOLUME_DCH, 
 TOTAL_VOLUME, 
@@ -198,7 +200,8 @@ VALUES (
  $rows[1],
  $dropped
 )";
-	print $sql. "\n";
+
+	#print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);
 	$sthb->execute() or sendErr();

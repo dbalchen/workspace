@@ -6,15 +6,16 @@ use DBI;
 #$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[1] = '20170210';
 # # For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $filetype = $ARGV[0] . '%' . $ARGV[1] . '%';
 
-my $dbconn  = getBODSPRD();
+my $dbconn = getBODSPRD();
+
 #my $dbconnb = getSNDPRD();
 my $dbconnb = $dbconn;
 

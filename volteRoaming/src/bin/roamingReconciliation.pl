@@ -4,18 +4,19 @@ use DBI;
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+
+   #push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
@@ -24,21 +25,22 @@ use MIME::Lite;
 #$ARGV[0] = "SDATACBR_FDATACBR";
 #$ARGV[0] = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
-#$ARGV[0] = "LTE,DISP_RM,NLDLT";
+#$ARGV[0] = "LTE,DISP_RM";
 #$ARGV[0] = "DISP_RM";
 #$ARGV[0] = "LTE";
 #$ARGV[0] = "NLDLT";
 #$ARGV[0] = "NLDLT,CIBER_CIBER";
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # Setup Initial variables
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-#$timeStamp = '20170630';
+#$timeStamp = '20170816';
 
 my $hh = "$ENV{'REC_HOME'}/dchList.pl $timeStamp";
 
@@ -217,15 +219,15 @@ $tab{'DISP_RM'}           = 'LTE Outcollect';
 $tab{'NLDLT'}             = 'GSM (Incollect)';
 
 $sqls{'SDIRI_FCIBER'} =
-"select ". 
-" file_name, identifier, Total_Records, total_volume, total_charges, dropped_records, duplicates, TC_SEND, dropped_tc, rejected_count, 
+    "select "
+  . " file_name, identifier, Total_Records, total_volume, total_charges, dropped_records, duplicates, TC_SEND, dropped_tc, rejected_count, 
 rejected_charges, dropped_aprm,dropped_aprm_charges, aprm_difference, aprm_total_records, aprm_total_charges,
 total_records_dch, total_volume_dch, total_charges_dch, (Total_Records - total_records_dch), (total_charges - total_charges_dch)
  from file_summary where usage_type = 'SDIRI_FCIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 $sqls{'SDATACBR_FDATACBR'} =
-"select ".
- " FILE_NAME,IDENTIFIER, TOTAL_RECORDS,TOTAL_VOLUME, ceil(TOTAL_VOLUME/1024),
+    "select "
+  . " FILE_NAME,IDENTIFIER, TOTAL_RECORDS,TOTAL_VOLUME, ceil(TOTAL_VOLUME/1024),
  ceil((TOTAL_VOLUME/1024)/1024),TOTAL_CHARGES,DROPPED_RECORDS, DUPLICATES,TC_SEND,
 DROPPED_TC,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES, APRM_DIFFERENCE, APRM_TOTAL_RECORDS,
 APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH,ceil(TOTAL_VOLUME_DCH/1024), ceil((TOTAL_VOLUME_DCH/1024)/1024), 
@@ -233,8 +235,8 @@ TOTAL_CHARGES_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), (TOTAL_CHARGES-TOTAL_CHARG
 from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 $sqls{'CIBER_CIBER'} =
-"select ". 
-" FILE_NAME, IDENTIFIER, TOTAL_RECORDS, TOTAL_VOLUME, TOTAL_CHARGES, APRM_DIFFERENCE, 
+    "select "
+  . " FILE_NAME, IDENTIFIER, TOTAL_RECORDS, TOTAL_VOLUME, TOTAL_CHARGES, APRM_DIFFERENCE, 
 APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH,
 TOTAL_VOLUME_DCH, TOTAL_CHARGES_DCH, (TOTAL_RECORDS - TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH)
  from file_summary where usage_type = 'CIBER_CIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
@@ -251,12 +253,10 @@ APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH,TOTAL_VOLUME_DCH, ceil(TOTAL_VOLUME_DCH/10
 TOTAL_CHARGES_DCH, ((TOTAL_RECORDS + REJECTED_COUNT)-TOTAL_RECORDS_DCH), ((TOTAL_CHARGES + REJECTED_CHARGES) - TOTAL_CHARGES_DCH)  
 from file_summary where usage_type like 'LTE%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-
 $sqls{'NLDLT'} =
 "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_VOLUME,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES,
 APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, TOTAL_CHARGES_DCH, (TOTAL_RECORDS - TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH)
  from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
-
 
 $sqls{'DISP_RM'} =
 "select  file_name,  total_records, total_charges, APRM_TOTAL_RECORDS,total_volume, TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH, 
@@ -303,7 +303,7 @@ foreach my $switch (@switches) {
 			$hh = "$ENV{'REC_HOME'}/$jobs{$switch} $filename &";
 
 			# For testing...
-			if ( $maxRecs < 50000000000000 ) {
+			if ( $maxRecs < 5000000000000000000000 ) {
 				system($hh);
 				$maxRecs = $maxRecs + 1;
 			}
@@ -421,8 +421,8 @@ foreach my $switch (@switches) {
 		elsif ( $switch eq 'SDATACBR_FDATACBR' ) {
 			my $sql =
 "select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT),sum(TOTAL_VOLUME), sum(ceil(TOTAL_VOLUME/1024)),
-                 sum(ceil((TOTAL_VOLUME/1024)/1024)),sum(TOTAL_CHARGES)".
-  "       from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE";
+                 sum(ceil((TOTAL_VOLUME/1024)/1024)),sum(TOTAL_CHARGES)"
+			  . "       from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE";
 
 			$heading = [
 				'Company Code',
@@ -439,8 +439,8 @@ foreach my $switch (@switches) {
 		elsif ( $switch eq 'CIBER_CIBER' ) {
 
 			my $sql =
-"select CARRIER_CODE,MARKET_CODE, BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES)".
-" from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,MARKET_CODE, BP_START_DATE order by CARRIER_CODE";
+"select CARRIER_CODE,MARKET_CODE, BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES)"
+			  . " from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,MARKET_CODE, BP_START_DATE order by CARRIER_CODE";
 
 			$heading = [
 				'Carrier Code',
@@ -455,8 +455,8 @@ foreach my $switch (@switches) {
 		}
 		else {
 			my $sql =
-"select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES)".
-     "  from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE";
+"select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES)"
+			  . "  from aprm where usage_type = '$switch' and date_processed = to_date($timeStamp,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE";
 
 			$heading = [
 				'Company Code',
@@ -474,10 +474,10 @@ foreach my $switch (@switches) {
 $workbook->close;
 
 #my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
-my @email = ('david.balchen@uscellular.com');
-
+#my @email = ('david.balchen@uscellular.com');
+my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
 foreach my $too (@email) {
-	 sendMsg($too);
+	sendMsg($too);
 }
 
 exit(0);
@@ -517,7 +517,7 @@ sub sendMsg() {
 	my $from      = "david.balchen\@uscellular.com";
 	my $subject   = "Roaming Reconciliation Report for $timeStamp";
 	my $message   = "You'll find the report attached to this email";
-	my $cc = '';
+	my $cc        = '';
 
 	my $msg = MIME::Lite->new(
 		From    => $from,

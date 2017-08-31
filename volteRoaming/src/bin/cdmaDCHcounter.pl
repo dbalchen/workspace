@@ -5,27 +5,26 @@ use Time::Piece;
 use Time::Seconds;
 
 # For test only....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#my $ORACLE_SID  = "bodsprd";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-my $maxrecs = 0;
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 $dbconn  = getBODSPRD();
-#$dbconnb = getSNDPRD();
+$dbconnb = getSNDPRD();
 
-$dbconnb = $dbconn;
+#$dbconnb = $dbconn;
 
 my $file = $ARGV[0];
 
 #$file =
-#"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID000063_T20170707185641.DAT";
+#"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output/CIBER_CIBER_20170622121615_3155473_0021.dat.done";
 
 my $filename = ( split( "/", $file ) )[-1];
 
@@ -65,17 +64,14 @@ $sql = "";
 
 my $hh = "$ENV{'REC_HOME'}/dchList.pl $fileDate";
 
-system("$hh");
+#system("$hh");
 
 if (   ( index( $file, "SDATACBR" ) > 0 )
 	|| ( index( $file, "SDIRI_FCIBER" ) > 0 ) )
 {
-	
-#	$sql =
-#"select a.SIDs, B.COMPANY from PC9_SID a, AR9_ACCOUNT_STATE b where SUBSTR(a.GEO_CODE,1,5) = b.geo_code and a.geo_code is not null 
-# and a.expiration_date > to_date('$fileDate','YYYYMMDD') and to_date('$fileDate','YYYYMMDD') >= effective_date";
-
-$sql = "select geo_code,company from AR9_ACCOUNT_STATE";
+	$sql =
+"select a.SIDs, B.COMPANY from PC9_SID a, AR9_ACCOUNT_STATE b where SUBSTR(a.GEO_CODE,1,5) = b.geo_code and a.geo_code is not null 
+ and a.expiration_date > to_date('$fileDate','YYYYMMDD') and to_date('$fileDate','YYYYMMDD') >= effective_date";
 
 	$tech    = "CDMA";
 	$roaming = "Incollect";
@@ -135,15 +131,9 @@ my $period = "";
 
 my %loadArry = {};
 
-my ( $min_mdn, $serve_sid, $home_sid, $cost, $company_code, $resourceType);
+my ( $serve_sid, $home_sid, $cost, $company_code );
 
 while ( my $buff = <FILE> ) {
-#	if($maxrecs > 100)
-#	{
-#		last;
-#	}
-#	else {$maxrecs = $maxrecs +1;}
-	
 	chomp($buff);
 
 	if ( substr( $buff, 0, 2 ) eq '01' ) {
@@ -155,32 +145,9 @@ while ( my $buff = <FILE> ) {
 		&& ( substr( $buff, 0, 2 ) ne '98' ) )
 	{
 		$serve_sid = substr( $buff, 66, 5 );
-		
-		if(index($filename,"SDIRI_FCIBER") >= 0)
-		{
-		  $min_mdn = substr( $buff, 31, 10 );
-		  $resourceType = 'MDN';
-		}
-		else
-		{
-		 $min_mdn = substr( $buff, 14, 10 );
-		 $resourceType = 'MIN';
-		}
-		
+		$home_sid  = substr( $buff, 8,  5 );
 		$cost      = substr( $buff, 71, 10 ) / 100;
-		
-		$sql = "select substr(param_values,0,5)  from cm1_agreement_param where param_name = 'Geocode' 
-		and effective_date <= to_date('$fileDate','YYYYMMDD')  and (expiration_date is null or expiration_date > to_date('$fileDate','YYYYMMDD') ) 
-		and agreement_no = (select agreement_no from agreement_resource where resource_value = '$min_mdn' 
-		and  resource_type = '$resourceType' and effective_date <= to_date('$fileDate','YYYYMMDD')  and (expiration_date is null or expiration_date > to_date('$fileDate','YYYYMMDD')))";
-
-		my $sth = $dbconn->prepare($sql);
-		$sth->execute() or sendErr();
-		
-		my @results = $sth->fetchrow_array();
-		
-		$company_code = $companyCode{$results[0]};
-		
+		$company_code = $companyCode{$home_sid};
 		$key          = $serve_sid . $company_code . $period;
 
 		#print "$serve_sid, $home_sid, $cost, $company_code\n";
@@ -192,6 +159,10 @@ while ( my $buff = <FILE> ) {
 			$serve_sid = substr( $buff, 16, 5 );
 			my $seq = substr( $buff, 8, 3 );
 			$period = "20" . substr( $buff, 37, 6 );
+
+#			my $hh =
+#"cat $dch | cut -f 1,2,3,5,7 | grep  '^$serve_sid'  | grep  $home_sid | grep $seq";
+#			my $res = `$hh`;
 
 			my $key2 = $serve_sid . $home_sid . '0' . $seq;
 
@@ -244,10 +215,7 @@ sub check_addDB {
 
 	my $today = Time::Piece->strptime( "$period", "%Y%m%d" );
 	$today = ( $today - ONE_MONTH );
-	$period =
-	    $today->year 
-	  . pad( $today->mon,  '0', 2 ) 
-	  . "16";
+	$period = $today->year . pad( $today->mon, '0', 2 ) . "16";
 
 	my $sql = "INSERT INTO DCH_STAGING (
    FILENAME,USAGE_TYPE, TECHNOLOGY, ROAMING, 
@@ -265,7 +233,7 @@ VALUES (
  $cost           /* AMOUNT_USD */,
  $cost           /* AMOUNT_EUR */ )";
 
- #print "$sql\n";
+	# print "$sql\n";
 
 	$sthb = $dbconnb->prepare($sql);
 

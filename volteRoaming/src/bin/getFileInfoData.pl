@@ -3,19 +3,19 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID027801_T20170707010301.DAT";
+#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR/SDATACBR_FDATACBR_ID027801_T20170707010301.DAT";
 
 #For test only.....
-# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-# my $ORACLE_SID  = "bodsprd";
-# $ENV{ORACLE_HOME} = $ORACLE_HOME;
-# $ENV{ORACLE_SID}  = $ORACLE_SID;
-# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $hh =
 "cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
@@ -29,6 +29,7 @@ my $filename = ( split( '/', $ARGV[0] ) )[-1];
 my $dateTime = substr( $filename, index( $filename, "T2" ) + 1, 8 );
 
 my $dbconn = getBODSPRD();
+
 #my $dbconnb = getSNDPRD();
 my $dbconnb = $dbconn;
 
@@ -62,6 +63,7 @@ if ( $fileId[1] eq "" ) {
 }
 
 $hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
+
 #system($hh);
 
 $sql = "select 'IN_REC_QUANTITY', sum(in_rec_quantity) 
@@ -185,7 +187,9 @@ INSERT INTO REJECTED_RECORDS (
 }
 
 $sql =
-"select dominant_err_cd, file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and adu like '".'%'.$fileId[0].'%'."'";
+"select dominant_err_cd, file_tp, usage_chrg_1 from prm_dat_err_mngr_ap where prod_id = 2 and event_id = 2 and adu like '"
+  . '%'
+  . $fileId[0] . '%' . "'";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -217,23 +221,23 @@ my $tcaprDif =
   - $aprm[1];
 
 # DCH Variables
-$hh = "$ENV{'REC_HOME'}/dch_infoCount.pl $ARGV[0] $ENV{'REC_HOME'}/IncollectDCH_data.csv";
-my @dchValues = `$hh`;chomp(@dchValues);
-my $usage_dch      = $dchValues[2];
-if($usage_dch == 0 || $usage_dch eq "")
-{
+$hh =
+"$ENV{'REC_HOME'}/dch_infoCount.pl $ARGV[0] $ENV{'REC_HOME'}/IncollectDCH_data.csv";
+my @dchValues = `$hh`;
+chomp(@dchValues);
+my $usage_dch = $dchValues[2];
+if ( $usage_dch == 0 || $usage_dch eq "" ) {
 	$usage_dch = $usage;
 }
 
 my $total_recs_dch = $reportVariable{'IN_REC_QUANTITY'};
 my $file_sum_dch   = $dchValues[1];
-if($file_sum_dch  == 0 || $file_sum_dch  eq "")
-{
-	$file_sum_dch  = $filesum;
+if ( $file_sum_dch == 0 || $file_sum_dch eq "" ) {
+	$file_sum_dch = $filesum;
 }
-my $file_name_dch  = $fileId[0];
-my $dch_rec_dif    = ( $total_recs_dch - $reportVariable{'IN_REC_QUANTITY'} );
-my $dch_sum_dif    = ( $file_sum_dch - $filesum );
+my $file_name_dch = $fileId[0];
+my $dch_rec_dif   = ( $total_recs_dch - $reportVariable{'IN_REC_QUANTITY'} );
+my $dch_sum_dif   = ( $file_sum_dch - $filesum );
 
 $sql =
 "INSERT INTO FILE_SUMMARY (USAGE_TYPE, TOTAL_VOLUME_DCH, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_RECORDS, TOTAL_CHARGES_DCH, 

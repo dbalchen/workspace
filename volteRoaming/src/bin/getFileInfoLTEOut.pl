@@ -7,13 +7,13 @@ use DBI;
 #"/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000085991_20170401_000043.ASC.done";
 
 #For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
-#$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $filename = ( split( '/', $ARGV[0] ) )[-1];
 
@@ -23,7 +23,8 @@ $disp_file_seq =~ s/^0+//g;
 
 my $process_date = ( split( '_', $filename ) )[3];
 
-my $dbconn  = getBODSPRD();
+my $dbconn = getBODSPRD();
+
 #my $dbconnb = getSNDPRD();
 my $dbconnb = $dbconn;
 
@@ -39,6 +40,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 	my $total_charges_dch = '';
 	my $total_records_dch = '';
+	my $total_volume_dch  = '';
 
 	if ( !$rows[0] ) {
 		next;
@@ -54,7 +56,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		my $grep = " grep $rows[0] ";
 
 		my $hh =
-		  "cat $ENV{'REC_HOME'}/tnsOutcollect.csv | $grep | cut -f 9,10,16";
+		  "cat $ENV{'REC_HOME'}/tnsOutcollect.csv | $grep | cut -f 9,10,24";
 
 		my $output = `$hh`;
 		chomp($output);
@@ -64,23 +66,21 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		my @dchValues = split( "\t", $output );
 		chomp(@dchValues);
 
+		$total_volume_dch = $dchValues[0];
+
 		$total_charges_dch = $dchValues[2];
 		$total_records_dch = $dchValues[1];
 
-		if($total_charges_dch eq "" || $total_charges_dch eq "-")
-		{
-		 $total_charges_dch = 0;
-		}	
+		if ( $total_charges_dch eq "" || $total_charges_dch eq "-" ) {
+			$total_charges_dch = 0;
+		}
 
-                if($total_records_dch eq "" || $total_records_dch eq "-")
-                {
-                 $total_records_dch = 0;
-                }
+		if ( $total_records_dch eq "" || $total_records_dch eq "-" ) {
+			$total_records_dch = 0;
+		}
 
 	}
-	my $file_name_dch    = $rows[0];
-	my $total_volume_dch = $rows[2];
-
+	my $file_name_dch = $rows[0];
 
 	$sql = "
 INSERT INTO FILE_SUMMARY (
