@@ -1,5 +1,7 @@
 #!/usr/bin/ksh
 
+set -x 
+
 MISSING_DIRECTORY="1"
 MISSING_FILE="2"
 MISSING_VARIABLE="3"
@@ -30,6 +32,8 @@ function error_handler
 }
 
 dt=`date +%Y%m%d%H%M%S`
+dt1=`date +%Y%m%d`
+dt2=`date +%H%M%S`
 
 stage_dir="/m01/switch/wedo"
 mft_dir="/m01/switch/mft_to_stage"
@@ -53,8 +57,8 @@ then
 fi
 
 
-pairs="pgw-PGW ecs-AAA tas-TAS gsmv-GSMV gsmd-GSMD voice-UFF cibervoice-DIRI ciberdata-DATACBR"
-
+pairs="pgw-PGW ecs-AAA tas-TAS gsmv-GSMV gsmd-GSMD voice-UFF SDIRI_FCIBER-DIRI ciberdata-DATACBR"
+#pairs="SDIRI_FCIBER-DIRI"
 cd ${stage_dir}
 
 for file in `ls -1 *.gz`
@@ -68,7 +72,7 @@ do
     tarname=`echo $pair | cut -d'-' -f1`
     filespec=`echo $pair | cut -d'-' -f2`
 
-    archive="${tarname}_${dt}.tar"
+    archive="${tarname}_${dt}.tar"	
     files=`ls -1 *${filespec}*`
     for file in $files
     do  
@@ -91,8 +95,13 @@ do
        else 
           type="DROP"
        fi
-       archive="${type}_${tarname}_${dt}.tar"
-
+       archive="${type}_${tarname}_${dt}.tar"	
+    
+    	if [[ $tarname = SDIRI_FCIBER* ]]
+    	then
+    	archive="${tarname}_${dt1}_${dt2}.tar"	
+		fi
+		
        gzip ${basefile}
        rc=$?
        if [ "$rc" -ne "0" ]

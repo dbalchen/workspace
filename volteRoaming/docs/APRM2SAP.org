@@ -1,0 +1,298 @@
+#+STARTUP: overview
+#+OPTIONS: d:nil
+#+OPTIONS: toc:nil
+#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET x
+#+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+#+TITLE: APRM to SAP
+#+BEGIN_LaTeX
+\clearpage
+\addtolength{\oddsidemargin}{-.25in}
+%\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+\newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{2}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+
+#+END_LaTeX
+:CLOSET:
+ : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+ : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
+ : weeks #+PROPERTY: Effort_ALL 1w 2w 3w 4w 5w 6w 7w 8w 9w
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+ : New Page
+ : \newpage
+:END:
+#+TOC: headlines 2
+#+BEGIN_LaTeX
+ \newpage
+\pagenumbering{arabic}
+#+END_LaTeX 
+
+* LTE Incollect 
+** APRM_STAGING
+:  select * from APRM_STAGING where roaming = 'Incollect' and technology like '%LTE%'  and period = '01-JUL-2017' 
+
+** APRM
+: select /*+ PARALLEL(t1,12) */  'Settlement',serving_bid, 'LTE', 'Incollect','Data',sum(charge_amount),sum(charge_amount),carrier_cd, bp_start_date
+: from prm_rom_incol_events_ap t1 where  carrier_cd != 'NLDLT' and generated_rec <  2 and BP_START_DATE = '01-JUL-2017' and TAP_IN_FILE_NAME in (
+:  select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type like 'LTE%'and process_date >=add_months(to_date('20170801', 'YYYYMMDD'),-1)
+:   and process_date < to_date('20170801','YYYYMMDD') ) group by serving_bid, carrier_cd,bp_start_date
+
+** SAP 1
+ : select carrier_cd, sum(tot_net_usage_chrg)  from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = '01-JUL-2017'  and core_reserved_2 in (
+ : select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type like 'LTE%'and process_date >=add_months(to_date('20170801', 'YYYYMMDD'),-1)
+ : and process_date < to_date('20170801','YYYYMMDD') ) group by carrier_cd
+
+** SAP2
+ : select other_partner, GL_ACCOUNT, sum(au_charge) from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'IS' and AU_BP_START_DATE = TO_DATE ('20170701', 'YYYYMMDD') and gl_account != 6008001 and AU_ID in (
+ : select unique(au_id)  from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = '01-JUL-2017'  and core_reserved_2 in (
+ : select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type like 'LTE%'and process_date >=add_months(to_date('20170801', 'YYYYMMDD'),-1)
+ : and process_date < to_date('20170801','YYYYMMDD') ) ) group by  other_partner, GL_ACCOUNT
+
+** SAP Staging
+ : select * from SAP_STAGING where roaming = 'Incollect' and technology like '%LTE%' and period = '04-AUG-2017'
+
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+|  5994516.12 | APRM_STAGING |
+|  5994530.98 | APRM         |
+|  5994530.98 | SAP          |
+| 13748058.78 | SAP Staging  |
+|-------------+--------------|
+
+* LTE Outcollect
+** APRM_STAGING
+:  select * from APRM_STAGING where roaming = 'Outcollect' and technology like '%LTE%'  and period = '01-JUL-2017' 
+
+** APRM
+: select /*+ PARALLEL(t1,12) */  'Settlement',serving_bid, 'LTE', 'Incollect','Data',sum(charge_amount),sum(charge_amount),carrier_cd, bp_start_date
+: from prm_rom_incol_events_ap t1 where  carrier_cd != 'NLDLT' and generated_rec <  2 and BP_START_DATE = '01-JUL-2017' and TAP_IN_FILE_NAME in (
+:  select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type like 'LTE%'and process_date >=add_months(to_date('20170801', 'YYYYMMDD'),-1)
+:   and process_date < to_date('20170801','YYYYMMDD') ) group by serving_bid, carrier_cd,bp_start_date
+
+** SAP
+:  select other_partner, GL_ACCOUNT, sum(au_charge) from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'OS' and AU_BP_START_DATE = TO_DATE ('20170701', 'YYYYMMDD')  and gl_account != 1190601 and AU_ID in (
+:   select unique(au_id)  from IC_ACCUMULATED_USAGE  where prod_cat_id = 'OS' and BP_START_DATE = '01-JUL-2017'  and core_reserved_2 in (
+:    select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type like 'DISP_RM%'and process_date >=add_months(to_date('20170801', 'YYYYMMDD'),-1)
+:     and process_date < to_date('20170801','YYYYMMDD') ) ) group by  other_partner, GL_ACCOUNT
+
+** SAP Staging
+ : select * from SAP_STAGING where roaming = 'Outcollect' and technology like '%LTE%' and period = '04-AUG-2017'
+
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+|  1345463.12 | APRM_STAGING |
+|  1345463.12 | APRM         |
+|  1345804.99 | SAP          |
+|  2724506.59 | SAP Staging  |
+|-------------+--------------|
+
+* GSM Incollect
+** APRM_STAGING
+ : select *  from APRM_STAGING where roaming = 'Incollect' and technology like '%GSM%'  and period = '01-JUL-2017' group by month_type
+
+** APRM
+ : select /*+ PARALLEL(t1,12) */ 'Settlement','GSM', 'Incollect',charge_type,sum(charge_amount), sum(charge_amount * exchange_rate), carrier_cd, bp_start_date 
+ : from prm_rom_incol_events_ap t1  where  generated_rec <  2  and carrier_cd = 'NLDLT'  and BP_START_DATE = '01-JUL-2017' and TAP_IN_FILE_NAME in 
+ :  (select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' and
+ :  process_date >= add_months(to_date('20170801', 'YYYYMMDD'),-1)and process_date < to_date('20170801','YYYYMMDD')  ) group by carrier_cd, charge_type, bp_start_date
+
+** SAP
+ : select other_partner, GL_ACCOUNT, sum(au_charge) from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'II' and AU_BP_START_DATE = TO_DATE ('20170701', 'YYYYMMDD')  and gl_account != 4010325 and AU_ID in (
+ :  select unique(au_id)  from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-JUL-2017'  and core_reserved_2 in (
+ :   select  unique(file_name) from file_summary where file_type = 'TAP' and sender like '%NLDLT%'and process_date >=add_months(to_date('20170801', 'YYYYMMDD'),-1)
+ :    and process_date < to_date('20170801','YYYYMMDD') ) ) group by  other_partner, GL_ACCOUNT
+
+
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+|   121684.96 | APRM_STAGING |
+|   121685.13 | APRM         |
+|    98560.39 | SAP          |
+|    141795.7 | SAP Staging  |
+|-------------+--------------|
+
+* CDMA Voice Incollect
+Need to rerun...
+** APRM_STAGING
+   : select * from aprm_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Incollect' and technology = 'CDMA';
+** APRM
+   : select  /*+ PARALLEL(h1,12) */  sum(TOTAL_CHRG_AMOUNT) from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+   :  (select unique(file_name)  from file_summary where usage_type = 'SDIRI_FCIBER' and process_date > '15-JUL-2017' and process_date < '16-AUG-2017') 
+   :   and generated_rec < 2  and BP_START_DATE =  '16-JUL-2017'
+
+** SAP
+   :  select sum(AU_CHARGE)  from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'IN' and AU_BP_START_DATE = TO_DATE ('20170716', 'YYYYMMDD') and GL_ACCOUNT = 6002201 and AU_ID in
+   :   (select unique(au_id)  from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+   :   (select unique(file_name) 
+   :    from file_summary where usage_type = 'SDIRI_FCIBER' and process_date > '15-JUL-2017' and process_date < '16-AUG-2017') and generated_rec < 2  and BP_START_DATE =  '16-JUL-2017')
+
+** SAP STAGING
+   : select sum(amount) from SAP_STAGING where period = '22-AUG-2017' and  usage_type = 'Voice' and roaming = 'Incollect' and technology = 'CDMA'
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+|  3974805.13 | APRM_STAGING |
+|  3974805.13 | APRM         |
+|  3979811.81 | SAP          |
+|  4001025.89 | SAP_STAGING  |
+|-------------+--------------|
+
+* CDMA DATA Incollect
+** APRM_STAGING
+   : select * from aprm_staging where period = '16-JUL-2017' and usage_type = 'Data' and roaming = 'Incollect' and technology = 'CDMA';
+** APRM
+   : select  /*+ PARALLEL(h1,12) */  sum(TOTAL_CHRG_AMOUNT) from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+   :  (select unique(file_name)  from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date > '15-JUL-2017' 
+   :   and process_date < '16-AUG-2017') and generated_rec < 2  and BP_START_DATE =  '16-JUL-2017'
+** SAP
+   : select sum(AU_CHARGE)  from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'IN' and AU_BP_START_DATE = TO_DATE ('20170716', 'YYYYMMDD') and GL_ACCOUNT = 6008001 and AU_ID in
+   :  (select unique(au_id)  from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+   :   (select unique(file_name) 
+   :    from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date > '15-JUL-2017' and process_date < '16-AUG-2017') and generated_rec < 2  and BP_START_DATE =  '16-JUL-2017')
+
+** SAP STAGING
+   : select * from SAP_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Incollect' and usage_type = 'Data' and period = to_date('20170822','YYYYMMDD')
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+| 44708266.12 | APRM_STAGING |
+| 44708266.12 | APRM         |
+| 44708266.12 | SAP          |
+| 48422605.25 | SAP_STAGING  |
+|-------------+--------------|
+
+/Discrepecy in SAP_STAGING due to extra data that came in after 16th of August/
+
+* CDMA Voice Outcollect
+** APRM_STAGING
+   : select * from aprm_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Outcollect' and technology = 'CDMA';
+
+** APRM
+   : select  /*+ PARALLEL(h1,12) */  sum(TOTAL_CHRG_AMOUNT)
+   :  from USC_ROAM_EVNTS where  ciber_file_name_1||ciber_file_name_2 in
+   :   (select unique(file_name)  from file_summary where usage_type = 'CIBER_CIBER' and process_date >= to_date('20170716','YYYYMMDD')  
+   :    and process_date < to_date('20170816','YYYYMMDD')) and generated_rec < 2  and BP_START_DATE = to_date('20170716','YYYYMMDD')
+   :    and generated_rec < 2 
+** SAP STAGING
+   : select sum(amount) from SAP_STAGING where roaming = 'Outcollect' and technology = 'CDMA' and period = '22-AUG-2017' and usage_type = 'Voice'
+
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+|  3372098.48 | APRM_STAGING |
+|  3372098.48 | APRM         |
+|  3372098.48 | SAP_STAGING  |
+|-------------+--------------|
+
+* CDMA Data Outcollect
+** APRM_STAGING
+   : select sum(amount_usd)  from APRM_STAGING where technology = 'CDMA' and roaming = 'Outcollect' and usage_type = 'Data' and period = '16-JUL-2017'
+** APRM
+   : select  /*+ PARALLEL(h1,12) */  sum(t1.amount)  from data_outcollect t1, roaming_partner t2 where TRIM(REGEXP_REPLACE(t1.PARTNER,',')) = TRIM(REGEXP_REPLACE(t2.PARTNER,',')) 
+         and (t1.process_date >= to_date('20170716', 'YYYYMMDD') and t1.process_date <= to_date('20170815', 'YYYYMMDD')) and ADD_MONTHS(t1.settlement_date+1,-1) = '16-JUL-2017'
+** SAP_STAGING
+   
+
+25266913.83|APRM_STAGING
+25266913.83|APRM
+
+
+* DCH_STAGING (Test Results)
+** Install Script
+   : ALTER TABLE APP_SHARE.DCH_STAGING
+   :  ADD FILENAME varchar2(128);
+
+*** Before
+|--------------+--------------------|
+| *ColumnName* | *DataType*         |
+|--------------+--------------------|
+| USAGE_TYPE   | VARCHAR2 (32 Byte) |
+| TECHNOLOGY   | VARCHAR2 (32 Byte) |
+| ROAMING      | VARCHAR2 (32 Byte) |
+| PERIOD       | DATE               |
+| MONTH_TYPE   | VARCHAR2 (32 Byte) |
+| COMPANY_CODE | VARCHAR2 (12 Byte) |
+| BID          | VARCHAR2 (32 Byte) |
+| AMOUNT_USD   | NUMBER (16,2)      |
+| AMOUNT_EUR   | NUMBER (16,2)      |
+|--------------+--------------------|
+
+
+*** After
+|---------------+-----------------------|
+| *Column Name* | *DataType*            |
+|---------------+-----------------------|
+| USAGE_TYPE    | VARCHAR2 (32 Byte)    |
+| TECHNOLOGY    | VARCHAR2 (32 Byte)    |
+| ROAMING       | VARCHAR2 (32 Byte)    |
+| PERIOD        | DATE                  |
+| MONTH_TYPE    | VARCHAR2 (32 Byte)    |
+| *FILENAME*    | *VARCHAR2 (128 Byte)* |
+| COMPANY_CODE  | VARCHAR2 (12 Byte)    |
+| BID           | VARCHAR2 (32 Byte)    |
+| AMOUNT_USD    | NUMBER (16,2)         |
+| AMOUNT_EUR    | NUMBER (16,2)         |
+|---------------+-----------------------|
+
+** Backout Script
+   : ALTER TABLE APP_SHARE.DCH_STAGING
+   :  DROP FILENAME;
+
+*** Before
+|---------------+-----------------------|
+| *Column Name* | *DataType*            |
+|---------------+-----------------------|
+| USAGE_TYPE    | VARCHAR2 (32 Byte)    |
+| TECHNOLOGY    | VARCHAR2 (32 Byte)    |
+| ROAMING       | VARCHAR2 (32 Byte)    |
+| PERIOD        | DATE                  |
+| MONTH_TYPE    | VARCHAR2 (32 Byte)    |
+| *FILENAME*    | *VARCHAR2 (128 Byte)* |
+| COMPANY_CODE  | VARCHAR2 (12 Byte)    |
+| BID           | VARCHAR2 (32 Byte)    |
+| AMOUNT_USD    | NUMBER (16,2)         |
+| AMOUNT_EUR    | NUMBER (16,2)         |
+|---------------+-----------------------|
+
+*** After
+|--------------+--------------------|
+| *ColumnName* | *DataType*         |
+|--------------+--------------------|
+| USAGE_TYPE   | VARCHAR2 (32 Byte) |
+| TECHNOLOGY   | VARCHAR2 (32 Byte) |
+| ROAMING      | VARCHAR2 (32 Byte) |
+| PERIOD       | DATE               |
+| MONTH_TYPE   | VARCHAR2 (32 Byte) |
+| COMPANY_CODE | VARCHAR2 (12 Byte) |
+| BID          | VARCHAR2 (32 Byte) |
+| AMOUNT_USD   | NUMBER (16,2)      |
+| AMOUNT_EUR   | NUMBER (16,2)      |
+|--------------+--------------------|
+
+** Verify Script
+   : DESC DCH_STAGING

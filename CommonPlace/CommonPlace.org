@@ -862,8 +862,9 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 
-** Interfaces
-*** Roamex/Fraudex
+:CLOSET:
+: ** Interfaces
+: *** Roamex/Fraudex
 #+ATTR_LaTeX: width=20cm
    [[file:Pictures/NDC.png]]
 
@@ -890,7 +891,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX 
-*** OutCollects
+: *** OutCollects
      [[file:Pictures/outcoll.png]]
     -  *Business Process -* Mediation
        -  *Type -* Batch
@@ -923,7 +924,7 @@ subgraph cluster_3 {
 
 
       : <\\chil-data1\Share\Common\TOPS\outcollects>
-
+:END:
 \newpage
 * TOPS Operations
 ** Acquisition and Formating (A&F)
@@ -1698,6 +1699,7 @@ subgraph cluster_3 {
       2. Job PR-BOD-S2B_CREATE_WEDO_ARCH is running this script:
          /m01/switch/wedo/create_wedo_archive.sh
 
+\newpage
 * Databases
 ** Production Database - Login/Password
 #+BEGIN_LaTeX
@@ -2602,6 +2604,7 @@ subgraph cluster_3 {
 
 ** AR Tables
 *** AR1_ACCOUNT
+:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2651,7 +2654,9 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+:END:
 *** AR1_INVOICE
+:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2701,12 +2706,13 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1_CHARGE_CODE
 
 *** AR1_CHARGE_GROUP
 
 *** AR1_CUSTOMER_CREDIT
+:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2772,10 +2778,11 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1_TAX_ITEM
 
 *** AR1_REFUND_REQUEST
+:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2826,8 +2833,9 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1_DEPOSIT_REQUEST
+:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2875,8 +2883,9 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1_PAYMENT
+:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2915,8 +2924,9 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1_PAYMENT_DETAILS
+:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2986,7 +2996,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+:END:
 *** AR1_PAYMENT_ACTIVITY
          Used in the *Paid and Prepaid* reports.
 #+BEGIN_LaTeX
@@ -3970,7 +3980,6 @@ needs to be in
 ** Roaming Reconciliation
 *** TODO Figure out what's wrong with GSM
 *** TODO How to explain TNS data.. Sub report anyone
-*** TODO Switch DB code to ODS.
 *** TODO Fix cdmaDCH
 ** Machine to Machine
 ** CallDump
