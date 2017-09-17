@@ -13,9 +13,16 @@
 ~midiSetup.value;
 
 ~synth1 = MIDIOut(0);
+~synth1.latency = 0;
+
 ~synth2 = MIDIOut(1);
+~synth2.latency = 0;
+
 ~synth3 = MIDIOut(2);
+~synth3.latency = 0;
+
 ~synth4 = MIDIOut(3);
+~synth4.latency = 0;
 
 // Timer code
 

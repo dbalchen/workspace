@@ -6,7 +6,8 @@ s.plotTree;
 s.meter;
 s.quit;
 
-FreqScope.new(400, 200, 0, server: s);
+Stethoscope.new(s);
+FreqScope.new(800, 400, 0, server: s);
 Server.default.makeGui
 
 

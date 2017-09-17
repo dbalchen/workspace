@@ -6,9 +6,9 @@ s.plotTree;
 s.meter;
 s.quit;
 
-FreqScope.new(400, 200, 0, server: s);
 Server.default.makeGui
-
+Stethoscope.new(s);
+FreqScope.new(800, 400, 0, server: s);
 
 (
 o = Server.local.options;
@@ -31,12 +31,12 @@ o.memSize = 2097152;
 		"/home/dbalchen/Music/song7/include/synths/Tbell.sc".load;
 		"/home/dbalchen/Music/song7/include/synths/strings.sc".load;
 		"/home/dbalchen/Music/song7/include/synths/eSampler.sc".load;
-
+		"/home/dbalchen/Music/song7/include/synths/Brass.sc".load;
 		// Bells
 		~track0 = MyTrack.new(~synth2,0);
 
-		// Bass
-		~track1 = MyTrack.new(~synth1,1);
+		// trumpet
+		~track1 = MyTrack.new(~synth2,1);
 
 		// Low Strings
 		~track2 = MyTrack.new(~synth2,2);
@@ -77,7 +77,10 @@ o.memSize = 2097152;
 ~string_low_vca_envelope.gui;
 ~string_low_vcf_envelope.gui;
 
-~belladsr.gui;
+~belladsr6.gui;
+
+~brassadsr.gui;
+~brassadsrf.gui;
 
 
 ~rp = {}; // Example

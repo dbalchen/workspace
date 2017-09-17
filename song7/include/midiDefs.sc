@@ -26,9 +26,36 @@
 ~belladsr = MyADSR.new;
 ~belladsr.init;
 ~belladsr.attack = 0;
-~belladsr.decay = 1.0;
+~belladsr.decay = 0.25;
 ~belladsr.sustain = 0.5;
 ~belladsr.release = 0.5;
+
+~belladsr6 = MyADSR.new;
+~belladsr6.init;
+~belladsr6.attack = 0;
+~belladsr6.decay = 0.25;
+~belladsr6.sustain = 0.5;
+~belladsr6.release = 0.5;
+
+~brassadsr = MyADSR.new;
+~brassadsr.attack = 0.20;
+~brassadsr.decay = 1.0;
+~brassadsr.sustain = 0.5;
+~brassadsr.release = 0.1;
+
+~brassadsrf = MyADSR.new;
+~brassadsrf.attack = 0.10;
+~brassadsrf.decay =  1.0;
+~brassadsrf.sustain = 0.5;
+~brassadsrf.release = 0.1;
+
+
+~wavetables.free;
+~wavetables = ~fileList.value("/home/dbalchen/Desktop/TrumpetSC");
+~windex = ~wavetables.size;
+~wavebuff = ~loadWaveTables.value(~wavetables);
+
+
 
 SynthDef(\stringLow, {arg num = 60,gate = 1;
 	var env = Env.asr(0,1,0);
@@ -75,9 +102,13 @@ OSCdef(\stringLow, { |m|
 ~channel1 = {arg num, vel = 1;
 	var ret;
 	num.postln;
-	ret = Synth("vangelis");
+	ret = Synth("brass");
+	//	ret.set(\ss,~wavebuff);
+	//ret.set(\windex, ~windex);
 	ret.set(\freq,num.midicps);
-
+	~brassadsr.setADSR(ret);
+	~brassadsrf.setfADSR(ret);
+	ret.set(\cutoff,3200);
 	ret.set(\amp,~track1.amp);
 	ret.set(\balance,~track1.balance);
 	ret.set(\gate,1);
@@ -145,6 +176,22 @@ OSCdef(\stringLow, { |m|
 	ret.set(\attack,2);
 	ret.set(\gate,1);
 	ret;
+};
+
+
+~channel6 = {arg num, vel = 1;
+	var ret;
+	num.postln;
+	ret = Synth("Tbell");
+	ret.set(\freq,num.midicps);
+	ret.set(\amp,~track6.amp);
+	ret.set(\balance,~track6.balance);
+	ret.set(\out,~track6.out);
+	ret.set(\sing,1);
+	~belladsr6.setADSR(ret);
+	ret.set(\gate,1);
+	ret;
+
 };
 
 ~turndown1 = {
