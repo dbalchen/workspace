@@ -40,7 +40,7 @@ $period = $period->strftime("%Y%m");
 
 $sqls{'LTE'} =
 "select /*+ PARALLEL(t1,12) */  'Settlement',serving_bid, 'LTE', 'Incollect','Data',sum(charge_amount),sum(charge_amount),carrier_cd, bp_start_date
-from prm_rom_incol_events_ap t1 where  carrier_cd != 'NLDLT' and generated_rec <  2 and TAP_IN_FILE_NAME in (
+from prm_rom_incol_events_ap t1 where  carrier_cd != 'NLDLT' and BP_START_DATE= to_date('$period','YYYYMMDD') and generated_rec <  2 and TAP_IN_FILE_NAME in (
 select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type like 'LTE%'and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1)
  and process_date < to_date('$date','YYYYMMDD') )
  group by serving_bid, carrier_cd,bp_start_date";
@@ -60,7 +60,7 @@ group by file_name,sender,receiver ";
 
 $sqls{'DISP_RM'} =
 "select /*+ PARALLEL(t1,12) */ 'Settlement','USAUD', 'LTE','Outcollect','Data', sum(tot_net_charge_lc),sum(tot_net_charge_lc), carrier_cd, bp_start_date
- from prm_rom_outcol_events_ap t1 where carrier_cd != 'NLDLT' and generated_rec < 2 and tap_out_file_name in  (select  unique(file_name)  from file_summary where file_type = 'TAP' 
+ from prm_rom_outcol_events_ap t1 where carrier_cd != 'NLDLT' and BP_START_DATE= to_date('$period','YYYYMMDD') and generated_rec < 2 and tap_out_file_name in  (select  unique(file_name)  from file_summary where file_type = 'TAP' 
  and usage_type = 'DISP_RM'  and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD')) 
  group by carrier_cd, bp_start_date";
 
@@ -76,12 +76,12 @@ and file_name in (select unique(tap_out_file_name) from prm_rom_outcol_events_ap
 group by file_name,sender,receiver";
 
 $sqls{'NLDLT'} = "
-select /*+ PARALLEL(t1,12) */ 'Settlement',t1.serving_bid, 'GSM', 'Incollect',t1.charge_type,
+select /*+ PARALLEL(t1,12) */ 'Settlement',t1.serving_bid, 'GSM', 'Incollect',decode(t1.charge_type,'V', 'Data','C', 'SMS', 'O', 'Voice'),
 sum((t1.charge_amount * t1.exchange_rate)/t2.from_to_cross_rate), sum(t1.charge_amount * t1.exchange_rate), 'NLDLT', t1.bp_start_date 
 from prm_rom_incol_events_ap t1, ICG_CROSS_RATE t2
 where t1.bp_start_date = t2.bp_start_date and t2.from_crncy_cd = 'EUR'
  and to_crncy_cd = 'USD' and T2.CARRIER_CD = 'NLDLT' 
-and t1.generated_rec <  2  and t1.carrier_cd = 'NLDLT' and t1.TAP_IN_FILE_NAME in  
+and t1.generated_rec <  2  and t1.carrier_cd = 'NLDLT'  and t1.BP_START_DATE= to_date('$period"."01"."','YYYYMMDD') and t1.TAP_IN_FILE_NAME in  
 (select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) 
 and process_date < to_date('$date','YYYYMMDD')  ) group by t1.serving_bid, t1.carrier_cd, t1.charge_type, t1.bp_start_date";
 
@@ -92,7 +92,7 @@ $sqls{'NLDLTDEL'} =
 $sqls{'NLDLTDCH'} =
 "select file_name, decode(usage_type,'NLDLT-V', 'Data','NLDLT-C', 'SMS', 'NLDLT-O', 'Voice'),'GSM', 'Incollect', add_months(to_date('$date', 'YYYYMMDD'),-1),'Settlement' 
 ,receiver, 'NLDLT',sum(TOTAL_CHARGES_DCH),sum(TOTAL_CHARGES_DCH )
-  from file_summary  where file_type = 'TAP' and usage_type != 'LTE-V' and sender like '%NLDLT%'
+  from file_summary  where file_type = 'TAP' and sender like '%NLDLT%'
   and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD') 
   and file_name in (select unique(tap_in_file_name) from prm_rom_incol_events_ap  where carrier_cd = 'NLDLT' and generated_rec <  2 and bp_start_date = to_date('$period"
   . "01','YYYYMMDD'))
@@ -179,29 +179,88 @@ $sqls{'CDMA_S_OUT_VOICEDEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Outcollect' and month_type = 'Settlement' and usage_type = 'Voice' and period = to_date('$period"
   . "16','YYYYMMDD')";
 
-$sqls{'CDMA_A_OUT_DATA'} =
-"select  /*+ PARALLEL(h1,12) */ 'Accrual','','CDMA','Outcollect','Data',  sum(t1.amount), sum(t1.amount), TRIM(REGEXP_REPLACE(t1.PARTNER,',')) as PARTNER, ADD_MONTHS(t1.settlement_date+1,-1)
-         from data_outcollect t1, roaming_partner t2 where TRIM(REGEXP_REPLACE(t1.PARTNER,',')) = TRIM(REGEXP_REPLACE(t2.PARTNER,',')) 
-         and (t1.process_date >= to_date('"
-  . $ldate
-  . "16', 'YYYYMMDD') and t1.process_date < to_date('"
-  . $sdate
-  . "01', 'YYYYMMDD'))
-         group by TRIM(REGEXP_REPLACE(t1.PARTNER,',')),t1.settlement_date order by 1,2";
+$sqls{'CDMA_A_OUT_DATA'} = "
+SELECT 
+          SUBSTR(T2.SITENUM,1,3),
+          TRIM(REGEXP_REPLACE(T1.PARTNER,',')),
+          COUNT(*),
+          SUM(AMOUNT),
+          SUM(MESSAGE_ACCOUNTING_DIGITS),
+          SUM(ACTUAL_USAGE_VOLUME),
+          SUM(ACTUAL_DATA_VOLUME)
+     FROM DATA_OUTCOLLECT T1, BSID_TO_SERVE_SID T2
+    WHERE TO_CHAR(T1.SETTLEMENT_DATE, 'YYYYMMDD') = TO_CHAR(to_date('$sdate"
+  . "15','YYYYMMDD'), 'YYYYMMDD')
+      AND TO_CHAR(T1.PROCESS_DATE, 'YYYYMM') = TO_CHAR(ADD_MONTHS(to_date('$sdate','YYYYMM'),-1),'YYYYMM')
+      AND TRIM(REGEXP_REPLACE(T1.PARTNER,',')) IN (SELECT DISTINCT TRIM(PARTNER) FROM ROAMING_PARTNER WHERE BSID_TYPE = '835-B' AND UPPER(CLEARINGHOUSE) = 'SYNIVERSE' )
+      AND SUBSTR(T1.BSID,1,11) = TRIM(T2.BSID)
+   GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','))
+   UNION 
+   SELECT SUBSTR(T2.SITENUM,1,3),
+          TRIM(REGEXP_REPLACE(T1.PARTNER,',')),
+          COUNT(*),
+          SUM(AMOUNT),
+          SUM(MESSAGE_ACCOUNTING_DIGITS),
+          SUM(ACTUAL_USAGE_VOLUME),
+          SUM(ACTUAL_DATA_VOLUME)  
+     FROM DATA_OUTCOLLECT T1, BSID_TO_SERVE_SID T2
+    WHERE TO_CHAR(T1.SETTLEMENT_DATE, 'YYYYMMDD') = TO_CHAR(to_date('$sdate"
+  . "15','YYYYMMDD'), 'YYYYMMDD')
+      AND TO_CHAR(T1.PROCESS_DATE, 'YYYYMM') = TO_CHAR(ADD_MONTHS(to_date('$sdate','YYYYMM'),-1),'YYYYMM')
+      AND TRIM(REGEXP_REPLACE(T1.PARTNER,',')) IN (SELECT DISTINCT TRIM(PARTNER) FROM ROAMING_PARTNER WHERE BSID_TYPE = '835-A')
+      AND SUBSTR(T1.BSID,1,8) || SUBSTR(T1.BSID,10,3) = TRIM(T2.BSID)
+   GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','))
+   UNION
+   SELECT SUBSTR(T2.SITENUM,1,3),
+          TRIM(REGEXP_REPLACE(T1.PARTNER,',')),
+          COUNT(*),
+          SUM(AMOUNT),
+          SUM(MESSAGE_ACCOUNTING_DIGITS),
+          SUM(ACTUAL_USAGE_VOLUME),
+          SUM(ACTUAL_DATA_VOLUME)  
+     FROM DATA_OUTCOLLECT T1, BSID_TO_SERVE_SID T2
+    WHERE TO_CHAR(T1.SETTLEMENT_DATE, 'YYYYMMDD') = TO_CHAR(to_date('$sdate"
+  . "15','YYYYMMDD'), 'YYYYMMDD')
+      AND T1.PROCESS_DATE < to_date('$sdate" . "02','YYYYMMDD')
+      AND TRIM(REGEXP_REPLACE(T1.PARTNER,',')) IN (SELECT DISTINCT TRIM(PARTNER) FROM ROAMING_PARTNER WHERE BSID_TYPE = '835-B' AND UPPER(CLEARINGHOUSE) = 'TNS' )
+      AND SUBSTR(T1.BSID,1,11) = TRIM(T2.BSID)
+   GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','))";
 
 $sqls{'CDMA_A_OUT_DATADEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Outcollect' and month_type = 'Accrual' and usage_type = 'Data' and period = to_date('$period"
   . "16','YYYYMMDD')";
 
-$sqls{'CDMA_S_OUT_DATA'} =
-"select  /*+ PARALLEL(h1,12) */ 'Settlement','','CDMA','Outcollect','Data',  sum(t1.amount),sum(t1.amount), TRIM(REGEXP_REPLACE(t1.PARTNER,',')) as PARTNER, ADD_MONTHS(t1.settlement_date+1,-1)
-         from data_outcollect t1, roaming_partner t2 where TRIM(REGEXP_REPLACE(t1.PARTNER,',')) = TRIM(REGEXP_REPLACE(t2.PARTNER,',')) 
-         and (t1.process_date >= to_date('"
-  . $sdate
-  . "01', 'YYYYMMDD') and t1.process_date <= to_date('"
-  . $sdate
-  . "15', 'YYYYMMDD'))
-         group by TRIM(REGEXP_REPLACE(t1.PARTNER,',')),t1.settlement_date order by 1,2";
+$sqls{'CDMA_S_OUT_DATA'} = "
+SELECT SUBSTR(T2.SITENUM,1,3),
+          TRIM(REGEXP_REPLACE(T1.PARTNER,',')),
+          COUNT(*),
+          SUM(AMOUNT),
+          SUM(MESSAGE_ACCOUNTING_DIGITS),
+          SUM(ACTUAL_USAGE_VOLUME),
+          SUM(ACTUAL_DATA_VOLUME)
+     FROM DATA_OUTCOLLECT T1, BSID_TO_SERVE_SID T2
+    WHERE TO_CHAR(T1.SETTLEMENT_DATE, 'YYYYMMDD') = TO_CHAR(to_date('$sdate"
+  . "15','YYYYMMDD'), 'YYYYMMDD')
+     AND TO_CHAR(T1.PROCESS_DATE, 'YYYYMM') = TO_CHAR(to_date('$sdate','YYYYMM'),'YYYYMM')
+      AND TRIM(REGEXP_REPLACE(T1.PARTNER,',')) IN (SELECT DISTINCT TRIM(PARTNER) FROM ROAMING_PARTNER WHERE BSID_TYPE = '835-B')
+      AND SUBSTR(T1.BSID,1,11) = TRIM(T2.BSID)
+   GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','))
+   UNION 
+   SELECT SUBSTR(T2.SITENUM,1,3),
+          TRIM(REGEXP_REPLACE(T1.PARTNER,',')),
+          COUNT(*),
+          SUM(AMOUNT),
+          SUM(MESSAGE_ACCOUNTING_DIGITS),
+          SUM(ACTUAL_USAGE_VOLUME),
+          SUM(ACTUAL_DATA_VOLUME)  
+     FROM DATA_OUTCOLLECT T1, BSID_TO_SERVE_SID T2
+       WHERE TO_CHAR(T1.SETTLEMENT_DATE, 'YYYYMMDD') = TO_CHAR(to_date('$sdate"
+  . "15','YYYYMMDD'), 'YYYYMMDD')
+     AND TO_CHAR(T1.PROCESS_DATE, 'YYYYMM') = TO_CHAR(to_date('$sdate','YYYYMM'),'YYYYMM')
+      AND TRIM(REGEXP_REPLACE(T1.PARTNER,',')) IN (SELECT DISTINCT TRIM(PARTNER) FROM ROAMING_PARTNER WHERE BSID_TYPE = '835-A')
+      AND SUBSTR(T1.BSID,1,8) || SUBSTR(T1.BSID,10,3) = TRIM(T2.BSID)
+   GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','))
+";
 
 $sqls{'CDMA_S_OUT_DATADEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Outcollect' and month_type = 'Settlement' and usage_type = 'Data' and period = to_date('$period"
@@ -212,6 +271,7 @@ my $dbconn = getBODSPRD();
 my $dbconnb = $dbconn;
 
 # my $dbconnb = getSNDPRD();
+
 my $dbconnc = getBRMPRD();
 
 my @aprmArray = ();
@@ -222,25 +282,29 @@ if ( substr( $date, 6, 2 ) eq '01' ) {
 
 		#		'LTE',
 		#		'DISP_RM',
-		'NLDLT'    #,
-
-		  #		'CDMA_A_IN_VOICE',
-		  #		'CDMA_A_IN_DATA',
-		  #		'CDMA_A_OUT_VOICE'    #,
-		  #		'CDMA_A_OUT_DATA'
+				'NLDLT'    #,
+		#		'CDMA_A_IN_VOICE',
+		#		'CDMA_A_IN_DATA',
+		#		'CDMA_A_OUT_VOICE'    #,
+		# 		'CDMA_A_OUT_DATA'
 	);
 
 }
 else {
 	@aprmArray = (
 
-		#		'CDMA_S_IN_VOICE',  'CDMA_S_IN_DATA',
+		#		'CDMA_S_IN_VOICE',
+		#  		'CDMA_S_IN_DATA',
 		#		'CDMA_S_OUT_VOICE',
 		'CDMA_S_OUT_DATA'
 	);
 }
 
-my @dchArray = ( 'LTE', 'NLDLT', 'DISP_RM' );
+my @dchArray = ( 
+#'LTE', 
+'NLDLT'#, 
+#'DISP_RM' 
+);
 
 foreach my $report (@reports) {
 
@@ -313,42 +377,129 @@ sub loadAprm {
 
 		print "$sql\n";
 
-		if ( ( $wsql eq 'CDMA_A_OUT_DATA' ) || ( $wsql eq 'CDMA_S_OUT_DATA' ) )
+		if (   ( $wsql eq 'CDMA_A_OUT_DATA' )
+			|| ( $wsql eq 'CDMA_S_OUT_DATA' ) )
 		{
 			$sth = $conn3->prepare($sql);
+			$sth->execute() or sendErr();
+
+			my %sumData = {};
+
+			while ( my @rows = $sth->fetchrow_array() ) {
+
+				if ( defined $sumData{ $rows[0] } ) {
+					$sumData{ $rows[0] } = $sumData{ $rows[0] } + $rows[3];
+				}
+				else {
+					$sumData{ $rows[0] } = $rows[3];
+				}
+			}
+
+			for my $key ( keys %sumData ) {
+
+				my @rows = [];
+
+				if ( $wsql eq 'CDMA_A_OUT_DATA' ) {
+					$rows[0] = "Accrual";
+				}
+				else {
+					$rows[0] = "Settlement";
+				}
+
+				$rows[2] = "CDMA";
+				$rows[3] = "Outcollect";
+				$rows[4] = "Data";
+				$rows[5] = $sumData{$key};
+				$rows[6] = $sumData{$key};
+				$rows[7] = "0" . $key;
+				$rows[8] = $ldate . "16";
+
+				if ( $sumData{$key} eq '' ) {
+					next;
+				}
+
+				my $sql = "INSERT INTO APRM_STAGING (
+   							USAGE_TYPE, TECHNOLOGY, ROAMING, 
+   							PERIOD, MONTH_TYPE, COMPANY_CODE, 
+   							BID, AMOUNT_USD, AMOUNT_EUR) 
+							VALUES ( 
+							 '$rows[4]'      /* USAGE_TYPE */,
+							 '$rows[2]' 	   /* TECHNOLOGY */,
+							 '$rows[3]'      /* ROAMING */,
+							  to_date('$rows[8]','YYYYMMDD'),
+							 '$rows[0]'      /* MONTH_TYPE */,
+							 '$rows[7]'      /* COMPANY_CODE */,
+							 '$rows[1]'      /* BID */,
+ 							  $rows[5]     /* AMOUNT_USD */,
+ 							  $rows[6]    /* AMOUNT_EUR */ )";
+
+				# print "$sql\n";
+				$conn2 = $dbconnb->prepare($sql);
+				$conn2->execute() or sendErr();
+
+			}
+
 		}
 		else {
+
 			$sth = $conn->prepare($sql);
-		}
+			$sth->execute() or sendErr();
 
-		$sth->execute() or sendErr();
-		while ( my @rows = $sth->fetchrow_array() ) {
+			while ( my @rows = $sth->fetchrow_array() ) {
 
-			if ( $rows[5] eq '' ) {
-				next;
+				if ( $rows[5] eq '' ) {
+					next;
+				}
+				my $sql = "INSERT INTO APRM_STAGING (
+   						USAGE_TYPE, TECHNOLOGY, ROAMING, 
+   						PERIOD, MONTH_TYPE, COMPANY_CODE, 
+   						BID, AMOUNT_USD, AMOUNT_EUR) 
+						VALUES ( 
+						 '$rows[4]'      /* USAGE_TYPE */,
+ 						 '$rows[2]' 	   /* TECHNOLOGY */,
+ 						 '$rows[3]'      /* ROAMING */,
+						 '$rows[8]'      /* PERIOD */,
+ 						 '$rows[0]'      /* MONTH_TYPE */,
+ 						 '$rows[7]'      /* COMPANY_CODE */,
+ 						 '$rows[1]'      /* BID */,
+ 						  $rows[5]     /* AMOUNT_USD */,
+ 						  $rows[6]    /* AMOUNT_EUR */ )";
+
+				# print "$sql\n";
+				$conn2 = $dbconnb->prepare($sql);
+				$conn2->execute() or sendErr();
+
 			}
-			my $sql = "INSERT INTO APRM_STAGING (
-   USAGE_TYPE, TECHNOLOGY, ROAMING, 
-   PERIOD, MONTH_TYPE, COMPANY_CODE, 
-   BID, AMOUNT_USD, AMOUNT_EUR) 
-VALUES ( 
- '$rows[4]'      /* USAGE_TYPE */,
- '$rows[2]' 	   /* TECHNOLOGY */,
- '$rows[3]'      /* ROAMING */,
- '$rows[8]'      /* PERIOD */,
- '$rows[0]'      /* MONTH_TYPE */,
- '$rows[7]'      /* COMPANY_CODE */,
- '$rows[1]'      /* BID */,
- $rows[5]     /* AMOUNT_USD */,
- $rows[6]    /* AMOUNT_EUR */ )";
 
-			$conn2 = $dbconnb->prepare($sql);
-			$conn2->execute() or sendErr();
 		}
 
 	}
 
 }
+
+#sub updateAPRM {
+#	my ( $dbconnb, $ref ) = @_;
+#
+#	my @rows = @{$ref};
+#
+#	my $sql = "INSERT INTO APRM_STAGING (
+#   USAGE_TYPE, TECHNOLOGY, ROAMING, 
+#   PERIOD, MONTH_TYPE, COMPANY_CODE, 
+#   BID, AMOUNT_USD, AMOUNT_EUR) 
+#VALUES ( 
+# '$rows[4]'      /* USAGE_TYPE */,
+# '$rows[2]' 	   /* TECHNOLOGY */,
+# '$rows[3]'      /* ROAMING */,
+# '$rows[8]'      /* PERIOD */,
+# '$rows[0]'      /* MONTH_TYPE */,
+# '$rows[7]'      /* COMPANY_CODE */,
+# '$rows[1]'      /* BID */,
+# $rows[5]     /* AMOUNT_USD */,
+# $rows[6]    /* AMOUNT_EUR */ )";
+#
+#	my $conn2 = $dbconnb->prepare($sql);
+#	$conn2->execute() or sendErr();
+#}
 
 sub loadDCH {
 
@@ -365,7 +516,7 @@ sub loadDCH {
 
 	print "$sql\n";
 
-	$sth->execute() or sendErr();
+	# $sth->execute() or sendErr();
 
 	foreach my $wsql ( @{$sqlList} ) {
 
@@ -380,22 +531,21 @@ sub loadDCH {
 
 		while ( my @rows = $sth->fetchrow_array() ) {
 			my $sql = "INSERT INTO DCH_STAGING (
-   FILENAME, USAGE_TYPE, TECHNOLOGY, ROAMING, 
-   PERIOD, MONTH_TYPE, COMPANY_CODE, 
-   BID, AMOUNT_USD, AMOUNT_EUR) 
-VALUES ( 
- '$rows[0]',
- '$rows[1]'      /* USAGE_TYPE */,
- '$rows[2]' 	   /* TECHNOLOGY */,
- '$rows[3]'      /* ROAMING */,
- '$rows[4]'      /* PERIOD */,
- '$rows[5]'      /* MONTH_TYPE */,
- '$rows[6]'      /* COMPANY_CODE */,
- '$rows[7]'      /* BID */,
- $rows[8]     /* AMOUNT_USD */,
- $rows[9]    /* AMOUNT_EUR */ )";
+   						FILENAME, USAGE_TYPE, TECHNOLOGY, ROAMING, 
+   						PERIOD, MONTH_TYPE, COMPANY_CODE, 
+   						BID, AMOUNT_USD, AMOUNT_EUR) 
+							VALUES ( 
+ 								'$rows[0]',
+ 								'$rows[1]'      /* USAGE_TYPE */,
+ 								'$rows[2]' 	   /* TECHNOLOGY */,
+ 								'$rows[3]'      /* ROAMING */,
+ 								'$rows[4]'      /* PERIOD */,
+ 								'$rows[5]'      /* MONTH_TYPE */,
+ 								'$rows[6]'      /* COMPANY_CODE */,
+ 								'$rows[7]'      /* BID */,
+ 								 $rows[8]     /* AMOUNT_USD */,
+								 $rows[9]    /* AMOUNT_EUR */ )";
 
-			#			print "$sql\n";
 			my $sth = $connb->prepare($sql);
 			$sth->execute() or sendErr();
 
@@ -428,8 +578,8 @@ sub loadSAP {
 		chomp($buff);
 
 		my ( $gl, $cocd, $docdate, $header ) = split( "\t", $buff );
-		$hh =
-"cat $sapfile | grep $gl | grep $cocd | grep $docdate | grep '$header' | cut -f 3";
+		
+		$hh = "cat $sapfile | grep $gl | grep $cocd | grep $docdate | grep '$header' | cut -f 3";
 
 		# print "$hh\n";
 		my $month_type = "Settlement";

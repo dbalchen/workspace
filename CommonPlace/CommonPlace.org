@@ -1270,6 +1270,25 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+*** EBI Server
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l
+    |------------+-------------------------|
+    | *SERVER*   | *LOGIN*                 |
+    |------------+-------------------------|
+    | kpr01ebiap | sudo /bin/su - p_arapp1 |
+    | kpr01ebiap | sudo /bin/su - p_colap1 |
+    | kpr01ebiap | sudo /bin/su - p_comap1 |
+    | kpr01ebiap | sudo /bin/su - p_invap1 |
+    | kpr01ebiap | sudo /bin/su - p_mabel1 |
+    | kpr01ebiap | sudo /bin/su - p_usacq1 |
+    |------------+-------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Accounts Receivable
       Handles Finance, Payments and credits as well Collections.
 
@@ -1575,6 +1594,7 @@ subgraph cluster_3 {
                 To:  GSSUSCCTier25RA@amdocs.com
                 Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
             #+END_EXAMPLE
+
 
     - High Dollar Amount Recovery Procedure
       *IMPORTANT : High Dollar amounts must be reversed on the same day they are created.*

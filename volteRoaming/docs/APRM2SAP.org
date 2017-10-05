@@ -32,7 +32,7 @@
 \fancyhf[ROF,LEF]{\bf\thepage}
 \fancyhf[C]{}
 
-#+END_LaTeX
+#+END_LaTeX-
 :CLOSET:
  : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
  : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
@@ -65,7 +65,7 @@
  : and process_date < to_date('20170801','YYYYMMDD') ) group by carrier_cd
 
 ** SAP2
- : select other_partner, GL_ACCOUNT, sum(au_charge) from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'IS' and AU_BP_START_DATE = TO_DATE ('20170701', 'YYYYMMDD') and gl_account != 6008001 and AU_ID in (
+ : select other_partner, GL_ACCOUNT, sum(au_charge) from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'IS' and AU_BP_START_DATE = TO_DATE ('20170701', 'YYYYMMDD') and gl_account = 6008001 and AU_ID in (
  : select unique(au_id)  from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = '01-JUL-2017'  and core_reserved_2 in (
  : select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type like 'LTE%'and process_date >=add_months(to_date('20170801', 'YYYYMMDD'),-1)
  : and process_date < to_date('20170801','YYYYMMDD') ) ) group by  other_partner, GL_ACCOUNT
@@ -137,7 +137,7 @@
 |-------------+--------------|
 
 * CDMA Voice Incollect
-Need to rerun...
+  *Settlement Report* with a period of /July 16th 2017/ for *DCH* and *APRM* staging /August 22nd 2017/ on *SAP_STAGING*.  
 ** APRM_STAGING
    : select * from aprm_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Incollect' and technology = 'CDMA';
 ** APRM
@@ -156,6 +156,7 @@ Need to rerun...
 |-------------+--------------|
 | *Sum Total* | *Query*      |
 |-------------+--------------|
+|  3998130.59 | DCH_STAGING  |
 |  3974805.13 | APRM_STAGING |
 |  3974805.13 | APRM         |
 |  3979811.81 | SAP          |
@@ -163,6 +164,7 @@ Need to rerun...
 |-------------+--------------|
 
 * CDMA DATA Incollect
+ *Settlement Report* with a period of /July 16th 2017/ for *DCH* and *APRM* staging /August 22nd 2017/ on *SAP_STAGING*.  
 ** APRM_STAGING
    : select * from aprm_staging where period = '16-JUL-2017' and usage_type = 'Data' and roaming = 'Incollect' and technology = 'CDMA';
 ** APRM
@@ -180,6 +182,7 @@ Need to rerun...
 |-------------+--------------|
 | *Sum Total* | *Query*      |
 |-------------+--------------|
+| 45967601.69 | DCH_STAGING  |
 | 44708266.12 | APRM_STAGING |
 | 44708266.12 | APRM         |
 | 44708266.12 | SAP          |
@@ -188,9 +191,12 @@ Need to rerun...
 
 /Discrepecy in SAP_STAGING due to extra data that came in after 16th of August/
 
-* CDMA Voice Outcollect
+* CDMA Voice Outcollect 
+  *Settlement Report* with a period of /July 16th 2017/ for *DCH* and *APRM* staging /August 22nd 2017/ on *SAP_STAGING*.  
+** DCH STAGING
+   : select sum(amount_usd) from dch_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Outcollect' and technology = 'CDMA';
 ** APRM_STAGING
-   : select * from aprm_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Outcollect' and technology = 'CDMA';
+   : select sum(amount_usd) from aprm_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Outcollect' and technology = 'CDMA';
 
 ** APRM
    : select  /*+ PARALLEL(h1,12) */  sum(TOTAL_CHRG_AMOUNT)
@@ -204,6 +210,7 @@ Need to rerun...
 |-------------+--------------|
 | *Sum Total* | *Query*      |
 |-------------+--------------|
+|  3148463.26 | DCH_STAGING  |
 |  3372098.48 | APRM_STAGING |
 |  3372098.48 | APRM         |
 |  3372098.48 | SAP_STAGING  |
@@ -213,16 +220,55 @@ Need to rerun...
 ** APRM_STAGING
    : select sum(amount_usd)  from APRM_STAGING where technology = 'CDMA' and roaming = 'Outcollect' and usage_type = 'Data' and period = '16-JUL-2017'
 ** APRM
-   : select  /*+ PARALLEL(h1,12) */  sum(t1.amount)  from data_outcollect t1, roaming_partner t2 where TRIM(REGEXP_REPLACE(t1.PARTNER,',')) = TRIM(REGEXP_REPLACE(t2.PARTNER,',')) 
-         and (t1.process_date >= to_date('20170716', 'YYYYMMDD') and t1.process_date <= to_date('20170815', 'YYYYMMDD')) and ADD_MONTHS(t1.settlement_date+1,-1) = '16-JUL-2017'
+  :  SELECT 
+  :            SUBSTR(T2.SITENUM,1,3),
+  :            TRIM(REGEXP_REPLACE(T1.PARTNER,',')),
+  :            COUNT(*),
+  :            SUM(AMOUNT),
+  :            SUM(MESSAGE_ACCOUNTING_DIGITS),
+  :            SUM(ACTUAL_USAGE_VOLUME),
+  :            SUM(ACTUAL_DATA_VOLUME)
+  :       FROM DATA_OUTCOLLECT T1, BSID_TO_SERVE_SID T2
+  :      WHERE TO_CHAR(T1.SETTLEMENT_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMM') || '15'
+  :        AND TO_CHAR(T1.PROCESS_DATE, 'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,-1),'YYYYMM')
+  :        AND TRIM(REGEXP_REPLACE(T1.PARTNER,',')) IN (SELECT DISTINCT TRIM(PARTNER) FROM ROAMING_PARTNER WHERE BSID_TYPE = '835-B' AND UPPER(CLEARINGHOUSE) = 'SYNIVERSE' )
+  :        AND SUBSTR(T1.BSID,1,11) = TRIM(T2.BSID)
+  :     GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','))
+  :     UNION 
+  :     SELECT SUBSTR(T2.SITENUM,1,3),
+  :            TRIM(REGEXP_REPLACE(T1.PARTNER,',')),
+  :            COUNT(*),
+  :            SUM(AMOUNT),
+  :            SUM(MESSAGE_ACCOUNTING_DIGITS),
+  :            SUM(ACTUAL_USAGE_VOLUME),
+  :            SUM(ACTUAL_DATA_VOLUME)  
+  :       FROM DATA_OUTCOLLECT T1, BSID_TO_SERVE_SID T2
+  :      WHERE TO_CHAR(T1.SETTLEMENT_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMM') || '15'
+  :        AND TO_CHAR(T1.PROCESS_DATE, 'YYYYMM') = TO_CHAR(ADD_MONTHS(SYSDATE,-1),'YYYYMM')
+  :        AND TRIM(REGEXP_REPLACE(T1.PARTNER,',')) IN (SELECT DISTINCT TRIM(PARTNER) FROM ROAMING_PARTNER WHERE BSID_TYPE = '835-A')
+  :        AND SUBSTR(T1.BSID,1,8) || SUBSTR(T1.BSID,10,3) = TRIM(T2.BSID)
+  :     GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','))
+  :     UNION
+  :     SELECT SUBSTR(T2.SITENUM,1,3),
+  :            TRIM(REGEXP_REPLACE(T1.PARTNER,',')),
+  :            COUNT(*),
+  :            SUM(AMOUNT),
+  :            SUM(MESSAGE_ACCOUNTING_DIGITS),
+  :            SUM(ACTUAL_USAGE_VOLUME),
+  :            SUM(ACTUAL_DATA_VOLUME)  
+  :       FROM DATA_OUTCOLLECT T1, BSID_TO_SERVE_SID T2
+  :      WHERE TO_CHAR(T1.SETTLEMENT_DATE, 'YYYYMMDD') = TO_CHAR(SYSDATE,'YYYYMM') || '15'
+  :        AND T1.PROCESS_DATE < to_date(to_char(sysdate,'YYYYMM')||'02','YYYYMMDD')
+  :        AND TRIM(REGEXP_REPLACE(T1.PARTNER,',')) IN (SELECT DISTINCT TRIM(PARTNER) FROM ROAMING_PARTNER WHERE BSID_TYPE = '835-B' AND UPPER(CLEARINGHOUSE) = 'TNS' )
+  :        AND SUBSTR(T1.BSID,1,11) = TRIM(T2.BSID)
+  :     GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','));
 ** SAP_STAGING
    
 
 25266913.83|APRM_STAGING
 25266913.83|APRM
 
-
-* DCH_STAGING (Test Results)
+* Column DCH_STAGING (Test Results)
 ** Install Script
    : ALTER TABLE APP_SHARE.DCH_STAGING
    :  ADD FILENAME varchar2(128);
@@ -296,3 +342,40 @@ Need to rerun...
 
 ** Verify Script
    : DESC DCH_STAGING
+
+* DCH File Comparison
+** CDMA Voice Incollect
+   :
+
+select unique(ciber_file_name_1||ciber_file_name_2)  from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 like '%SDIRI_FCIBER%'  and BP_START_DATE = '16-JUL-2017'
+
+SDATACBR_FDATACBR
+
+select unique(ciber_file_name_1||ciber_file_name_2)  from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 like '%CIBER_CIBER%'  and BP_START_DATE = '16-JUL-2017' order by ciber_file_name_1||ciber_file_name_2
+
+
+select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_type = 'Voice' and period = '16-JUL-2017'
+ 
+ 
+ delete from DCH_STAGING where filename in ('SDIRI_FCIBER_ID001967_T20170803185109.DAT', 'SDIRI_FCIBER_ID001978_T20170807182109.DAT', 'SDIRI_FCIBER_ID001980_T20170808192109.DAT', 'SDIRI_FCIBER_ID001998_T20170814192109.DAT','
+ SDIRI_FCIBER_ID002001_T20170815185109.DAT')
+ 
+ 
+ commit;
+ 
+ 
+  select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_type = 'Data' and period = '16-JUL-2017' order by filename
+ 
+ select unique(filename) from DCH_staging where roaming = 'Outcollect' and usage_type = 'Voice' and period = '16-JUL-2017' order by filename
+  
+* Fix Euro on NLDLT
+* Monthly Cleanup
+** clean CDMA Voice
+*** File Summary
+  : select unique(file_name) from file_summary where process_date > '15-AUG-2017'  and process_date < '23-SEP-2017' and file_type = 'CIBER' and usage_type = 'SDIRI_FCIBER' order by file_name
+*** APRM_STAGING
+  : select unique(ciber_file_name_1||ciber_file_name_2)  from USC_ROAM_EVNTS where BP_START_DATE = '16-AUG-2017' and ciber_file_name_1||ciber_file_name_2 like 'SDIRI_FCIBER%' order by ciber_file_name_1||ciber_file_name_2;
+*** DCH_STAGING
+** Clean CDMA Data
+*** APRM_STAGING   
+    : 

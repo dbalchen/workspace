@@ -2,11 +2,10 @@
   : select trunc(start_time), L3_PAYMENT_CATEGORY, L9_NT_ROAMING_IND, L9_NETWORK_FLAG, count(*) as RECORDS, 
   :  SUM(L3_VOLUME) as VOLUME, SUM(L9_DOWNLINK_VOLUME) as DL_VOLUME, SUM(L9_UPLINK_VOLUME) as UL_VOLUME
   : From ape1_rated_event 
-  : where --L3_PAYMENT_CATEGORY = 'PRE' and 
+  : where L3_PAYMENT_CATEGORY = 'PRE' and 
   : l3_call_source in ('L','D') and start_time > sysdate - 45
   : group by trunc(start_time), L3_PAYMENT_CATEGORY, L9_NT_ROAMING_IND,L9_NETWORK_FLAG
   : order by 1,2
-
 
 ** Over 5 days
 |-------------------+---------------------+-------------------+-----------------+----------+-----------------+----------------+-----------------|
@@ -39,4 +38,12 @@
 |-------------------+---------------------+-------------------+-----------------+----------+-----------------+----------------+-----------------|
 
 
-* 
+* By IP
+
+ select trunc(start_time), l9_ip_address,L9_NT_ROAMING_IND,  count(*) as RECORDS, 
+  SUM(L3_VOLUME) as VOLUME, SUM(L9_DOWNLINK_VOLUME) as DL_VOLUME, SUM(L9_UPLINK_VOLUME) as UL_VOLUME
+  From ape1_rated_event 
+  where L3_PAYMENT_CATEGORY = 'PRE' and 
+   l3_call_source in ('L','D') and start_time > sysdate - 7 and l9_IP_ADDRESS = '10.100.23.103'
+  group by trunc(start_time), l9_ip_address,L9_NT_ROAMING_IND
+   order by 1,2,3
