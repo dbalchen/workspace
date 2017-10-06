@@ -4,7 +4,7 @@
 
 SynthDef("vangelis", {
 	arg freq=880, amp=0.5, att=0.75, decay=0.5, sus=0.8, rel=1.0, fatt=0.75, fdecay=0.5, fsus=0.8, frel=1.0,
-	cutoff=200, pan=0, dtune=0.002, vibrate=4, vibdepth=0.015, gate=1.0, ratio=1,out=0,cbus=1;
+	cutoff=200, pan=0, dtune=0.002, vibrate=4, vibdepth=0.015, gate=1.0,spread = 1, balance = 0, ratio=1,out=0,cbus=1;
 
 	var env,fenv,vib,ffreq,sig;
 
@@ -22,10 +22,7 @@ SynthDef("vangelis", {
 	ffreq=max(fenv*freq*12,cutoff)+100;
 	sig=LPF.ar(sig,ffreq);
 
-	sig = Splay.ar(sig);
-
-//	Out.ar(out, Pan2.ar(sig,pan) );
-
+	sig = Splay.ar(sig*env*amp,spread,center:balance);
 	Out.ar(out,sig);
 
 }).add;
