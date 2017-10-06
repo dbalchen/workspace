@@ -6,7 +6,7 @@ SynthDef("eStrings",
 	{
 		arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,hpf = 120,
 		attack = 0.5, decay = 2.0, sustain = 0.6, release = 0.6, fattack = 0.5, fsustain = 0.8,
-		frelease = 0.6, aoc = 0.6, gain = 0.7, cutoff = 4200.00, bend = 0, spread = 1, balance = 0;
+		frelease = 0.6, aoc = 0.6, cutoff = 5200.00, bend = 0, spread = 1, balance = 0;
 
 		var sig, env, fenv, env2;
 
@@ -17,18 +17,20 @@ SynthDef("eStrings",
 		fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
 		fenv = EnvGen.kr(fenv, gate);
 		fenv = aoc*(fenv - 1) + 1;
-		sig = (LFSaw.ar(freq,0.1));
+		sig = (Saw.ar(freq));
 
 		sig = sig*EnvGen.kr(env, gate: gate,doneAction:da);
 
-		sig = MoogFF.ar
+		sig = LPF.ar
 		(
 			sig,
 			cutoff*fenv,
-			gain
 		);
 
 		sig = HPF.ar(sig,hpf);
+
+		sig = LeakDC.ar(sig);
+
 		sig = Splay.ar(sig,spread,center:balance);
 
 		Out.ar(out,amp*sig);
@@ -36,27 +38,26 @@ SynthDef("eStrings",
 }).send(s);
 
 
-SynthDef(\mono_eStrings, {arg freq = 110, out = 0, amp = 0.5, aoc = 1.0,fenvIn = 999, vcaIn = 999,cutoff = 4200, gain = 0.7, bend =0,hpf = 120, mul = 1,lagtime =0, spread = 1, balance = 0;
+SynthDef(\mono_eStrings, {arg freq = 110, out = 0, amp = 0.5, aoc = 1.0,fenvIn = 999, vcaIn = 999,cutoff = 7200, gain = 0.7, bend =0,hpf = 120, mul = 1,lagtime =0, spread = 1, balance = 0;
 
 	var sig,fenv;
 
 	freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
-	sig = (LFSaw.ar(Lag.kr(freq,lagtime),0.1));
+	sig = (Saw.ar(Lag.kr(freq,lagtime)));
 
 	fenv = In.kr(fenvIn);
 	fenv = aoc*((fenv - 1) + 1);
 
-	sig = MoogFF.ar
+	sig = LPF.ar
 	(
 		sig,
 		cutoff*fenv,
-		gain,
-		mul:mul
 	);
 
 	sig = HPF.ar(sig,hpf);
 	sig = sig*((In.kr(vcaIn) - 1) + 1);
 
+	sig = LeakDC.ar(sig);
 	sig = Splay.ar(sig,spread,center:balance);
 	Out.ar(out,amp*sig);
 

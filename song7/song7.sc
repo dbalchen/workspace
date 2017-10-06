@@ -23,19 +23,18 @@ o.memSize = 2097152;
 
 	(
 		// Put stuff here...........
-		"/home/dbalchen/Music/song7/include/synths/FMPiano.sc".load;
 		"/home/dbalchen/Music/song7/include/synths/eStrings.sc".load;
-		"/home/dbalchen/Music/song7/include/synths/vangelis.sc".load;
 		"/home/dbalchen/Music/song7/include/synths/FMpad.sc".load;
 		"/home/dbalchen/Music/song7/include/synths/basicControlEnv.sc".load;
 		"/home/dbalchen/Music/song7/include/synths/Tbell.sc".load;
 		"/home/dbalchen/Music/song7/include/synths/strings.sc".load;
 		"/home/dbalchen/Music/song7/include/synths/eSampler.sc".load;
-		"/home/dbalchen/Music/song7/include/synths/Brass.sc".load;
+		"/home/dbalchen/Music/song7/include/synths/Sax.sc".load;
+
 		// Bells
 		~track0 = MyTrack.new(~synth2,0);
 
-		// trumpet
+		// Sax
 		~track1 = MyTrack.new(~synth2,1);
 
 		// Low Strings
@@ -50,23 +49,46 @@ o.memSize = 2097152;
 		// Dark Pad
 		~track5 = MyTrack.new(~synth2,5);
 
-		// Open
+		// Piano
 		~track6 = MyTrack.new(~synth2,6);
 
 		// Drums
-		~track9 = MyTrack.new(~synth1,9);
 
-		// Trumpet
-		~track10 = MyTrack.new(~synth1,10);
+		~allTimeswaits = [0.25,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25];
+		~allTimesdurations = [0.25,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.5,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25,0.25];
+
+		~track9 = MyTrack.new(~synth1,9);
+		~track9.notes.freqs = [36,0,0,38,0,36,0,0,0,36,0,38,0,36,0,36,0,0,38,0,36,0,0,0,36,0,38,0,36,0];
+		~track9.notes.waits	= ~allTimeswaits.deepCopy;
+		~track9.notes.durations = ~allTimesdurations.deepCopy;
+		~track9.notes.probs =  [1,0,0,1,0,1,0,0,0,1,0,1,0,1,0,1,0,0,1,0,1,0,0,0,1,0,1,0,1,0];
+
+
+		~track9Toms = MyTrack.new(~synth1,9);
+		~track9Toms.notes.freqs = [41,45,43,0,45,41,41,43,45,45,43,41,41,43,45,41,45,43,0,45,41,41,43,45,45,43,41,41,43,45];
+		~track9Toms.notes.waits	= ~allTimeswaits.deepCopy;
+		~track9Toms.notes.durations = ~allTimesdurations.deepCopy;
+
+		~track9Toms.notes.probs = [1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0];
+		~track9Toms.notes.probs = [1,0,0,0,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0,0,1,0,0,0,1,0,1,0,1,0] * 1;
+
+		// favorite so far
+		~track9Toms.notes.probs = [0.75,0.2,0.2,0,0.6,0.75,0.4,0.6,0.2,0,0.2,0.75,0.2,0,0.2,0.75,0.2,0.2,0,0.6,0.75,0.4,0.6,0.2,0,0.2,0.75,0.2,0,0.2] * 1;
+
+
+		~track9Toms.notes.probs = [0.75,0.2,0.2,0,0.6,0.75,0.4,0.6,0.2,0.8,0.2,0.75,0.2,0.8,0.2,0.75,0.2,0.2,0,0.6,0.75,0.4,0.6,0.2,0.8,0.2,0.75,0.2,0.8,0.2] * 1;
+
+
+		~track9Toms.notes.probs = [1,0.2,0.2,0,0.6,1,0.4,0.6,0.2,0.8,0.2,1,0.2,0.8,0.2,1,0.2,0.2,0,0.6,1,0.4,0.6,0.2,0.8,0.2,1,0.2,0.8,0.2] * 0.50;
+
 
 		"/home/dbalchen/Music/song7/include/midiDefs.sc".load;
 
 
 	)
-
 };
 )
-
+//
 
 
 ~startup.value;
@@ -77,13 +99,18 @@ o.memSize = 2097152;
 ~string_low_vca_envelope.gui;
 ~string_low_vcf_envelope.gui;
 
+~belladsr.gui;
 ~belladsr6.gui;
 
-~brassadsr.gui;
-~brassadsrf.gui;
+~saxadsr.gui;
+~saxadsrf.gui;
 
 
 ~rp = {}; // Example
+
+~rp = {~track9.transport.start}; // Example
+~rp = {~track9Toms.transport.start};
+~rp = {~track9Toms.transport.stop};
 
 (
 ~start = {

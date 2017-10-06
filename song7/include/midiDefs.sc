@@ -37,17 +37,17 @@
 ~belladsr6.sustain = 0.5;
 ~belladsr6.release = 0.5;
 
-~brassadsr = MyADSR.new;
-~brassadsr.attack = 0.20;
-~brassadsr.decay = 1.0;
-~brassadsr.sustain = 0.5;
-~brassadsr.release = 0.1;
+~saxadsr = MyADSR.new;
+~saxadsr.attack = 0.20;
+~saxadsr.decay = 1.0;
+~saxadsr.sustain = 0.5;
+~saxadsr.release = 0.1;
 
-~brassadsrf = MyADSR.new;
-~brassadsrf.attack = 0.10;
-~brassadsrf.decay =  1.0;
-~brassadsrf.sustain = 0.5;
-~brassadsrf.release = 0.1;
+~saxadsrf = MyADSR.new;
+~saxadsrf.attack = 0.10;
+~saxadsrf.decay =  1.0;
+~saxadsrf.sustain = 0.5;
+~saxadsrf.release = 0.1;
 
 
 ~wavetables.free;
@@ -102,12 +102,12 @@ OSCdef(\stringLow, { |m|
 ~channel1 = {arg num, vel = 1;
 	var ret;
 	num.postln;
-	ret = Synth("brass");
+	ret = Synth("sadSax");
 	//	ret.set(\ss,~wavebuff);
 	//ret.set(\windex, ~windex);
 	ret.set(\freq,num.midicps);
-	~brassadsr.setADSR(ret);
-	~brassadsrf.setfADSR(ret);
+	~saxadsr.setADSR(ret);
+	~saxadsrf.setfADSR(ret);
 	ret.set(\cutoff,3200);
 	ret.set(\amp,~track1.amp);
 	ret.set(\balance,~track1.balance);
@@ -120,6 +120,7 @@ OSCdef(\stringLow, { |m|
 	num.postln;
 	ret = Synth("stringLow");
 	ret.set(\num,num);
+	ret.set(\lag,2.0);
 	ret.set(\gate,1);
 	ret;
 };
@@ -182,7 +183,7 @@ OSCdef(\stringLow, { |m|
 ~channel6 = {arg num, vel = 1;
 	var ret;
 	num.postln;
-	ret = Synth("Tbell");
+	ret = Synth("FMPiano");
 	ret.set(\freq,num.midicps);
 	ret.set(\amp,~track6.amp);
 	ret.set(\balance,~track6.balance);

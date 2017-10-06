@@ -3,8 +3,8 @@ Tbell (Tibetian Prayer Bell)
 ****************************************/
 
 (
-SynthDef(\Tbell, {arg out = 0, gate = 0,freq = 2434, amp = 0.15,
-	attack=0, decay = 10, sustain = 0, release = 1,
+SynthDef(\Tbell, {arg out = 0, gate = 0,freq = 2434, amp = 0.15,hpf = 120,
+	attack=0, decay = 10, sustain = 0, release = 1,gain = 2,cutoff = 10000,
 	lag = 10, da  = 2, scale = 2434,sing_switch = 1, spread = 0, balance = 0;
 
 	var sig, input, freqscale, decayscale, sing, env;
@@ -77,6 +77,17 @@ SynthDef(\Tbell, {arg out = 0, gate = 0,freq = 2434, amp = 0.15,
 
 	env = Env.adsr(attack,decay,sustain,release);
 	env = EnvGen.kr(env, gate, doneAction:da);
+
+	sig =
+	MoogFF.ar(
+		sig,
+		cutoff*env,
+		gain
+	);
+
+	sig = HPF.ar(sig,hpf);
+	sig = LeakDC.ar(sig);
+
 	sig = Splay.ar(sig*env*amp,spread,center:balance);
 
 	Out.ar(out, sig);
