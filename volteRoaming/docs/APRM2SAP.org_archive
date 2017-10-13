@@ -1,0 +1,218 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/dbalchen/workspace/volteRoaming/docs/APRM2SAP.org
+
+
+* Column DCH_STAGING (Test Results)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-09 Mon 14:19
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+** Install Script
+   : ALTER TABLE APP_SHARE.DCH_STAGING
+   :  ADD FILENAME varchar2(128);
+
+*** Before
+|--------------+--------------------|
+| *ColumnName* | *DataType*         |
+|--------------+--------------------|
+| USAGE_TYPE   | VARCHAR2 (32 Byte) |
+| TECHNOLOGY   | VARCHAR2 (32 Byte) |
+| ROAMING      | VARCHAR2 (32 Byte) |
+| PERIOD       | DATE               |
+| MONTH_TYPE   | VARCHAR2 (32 Byte) |
+| COMPANY_CODE | VARCHAR2 (12 Byte) |
+| BID          | VARCHAR2 (32 Byte) |
+| AMOUNT_USD   | NUMBER (16,2)      |
+| AMOUNT_EUR   | NUMBER (16,2)      |
+|--------------+--------------------|
+
+
+*** After
+|---------------+-----------------------|
+| *Column Name* | *DataType*            |
+|---------------+-----------------------|
+| USAGE_TYPE    | VARCHAR2 (32 Byte)    |
+| TECHNOLOGY    | VARCHAR2 (32 Byte)    |
+| ROAMING       | VARCHAR2 (32 Byte)    |
+| PERIOD        | DATE                  |
+| MONTH_TYPE    | VARCHAR2 (32 Byte)    |
+| *FILENAME*    | *VARCHAR2 (128 Byte)* |
+| COMPANY_CODE  | VARCHAR2 (12 Byte)    |
+| BID           | VARCHAR2 (32 Byte)    |
+| AMOUNT_USD    | NUMBER (16,2)         |
+| AMOUNT_EUR    | NUMBER (16,2)         |
+|---------------+-----------------------|
+
+** Backout Script
+   : ALTER TABLE APP_SHARE.DCH_STAGING
+   :  DROP FILENAME;
+
+*** Before
+|---------------+-----------------------|
+| *Column Name* | *DataType*            |
+|---------------+-----------------------|
+| USAGE_TYPE    | VARCHAR2 (32 Byte)    |
+| TECHNOLOGY    | VARCHAR2 (32 Byte)    |
+| ROAMING       | VARCHAR2 (32 Byte)    |
+| PERIOD        | DATE                  |
+| MONTH_TYPE    | VARCHAR2 (32 Byte)    |
+| *FILENAME*    | *VARCHAR2 (128 Byte)* |
+| COMPANY_CODE  | VARCHAR2 (12 Byte)    |
+| BID           | VARCHAR2 (32 Byte)    |
+| AMOUNT_USD    | NUMBER (16,2)         |
+| AMOUNT_EUR    | NUMBER (16,2)         |
+|---------------+-----------------------|
+
+*** After
+|--------------+--------------------|
+| *ColumnName* | *DataType*         |
+|--------------+--------------------|
+| USAGE_TYPE   | VARCHAR2 (32 Byte) |
+| TECHNOLOGY   | VARCHAR2 (32 Byte) |
+| ROAMING      | VARCHAR2 (32 Byte) |
+| PERIOD       | DATE               |
+| MONTH_TYPE   | VARCHAR2 (32 Byte) |
+| COMPANY_CODE | VARCHAR2 (12 Byte) |
+| BID          | VARCHAR2 (32 Byte) |
+| AMOUNT_USD   | NUMBER (16,2)      |
+| AMOUNT_EUR   | NUMBER (16,2)      |
+|--------------+--------------------|
+
+** Verify Script
+   : DESC DCH_STAGING
+
+
+* Fix Euro on NLDLT
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-09 Mon 14:21
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+
+* Accrual
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-11 Wed 11:18
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_OLPATH: CDMA Voice Incollect
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+** DCH_STAGING
+  : select * from aprm_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Incollect' and technology = 'CDMA';
+** APRM
+  : select  /*+ PARALLEL(h1,12) */  sum(TOTAL_CHRG_AMOUNT) from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+  :  (select unique(file_name)  from file_summary where usage_type = 'SDIRI_FCIBER' and process_date > '15-JUL-2017' and process_date < '16-AUG-2017') 
+  :   and generated_rec < 2  and BP_START_DATE =  '16-JUL-2017'
+
+** SAP
+  :  select sum(AU_CHARGE)  from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'IN' and AU_BP_START_DATE = TO_DATE ('20170716', 'YYYYMMDD') and GL_ACCOUNT = 6002201 and AU_ID in
+  :   (select unique(au_id)  from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+  :   (select unique(file_name) 
+  :    from file_summary where usage_type = 'SDIRI_FCIBER' and process_date > '15-JUL-2017' and process_date < '16-AUG-2017') and generated_rec < 2  and BP_START_DATE =  '16-JUL-2017')
+
+** SAP STAGING
+   : select sum(amount) from SAP_STAGING where period = '22-AUG-2017' and  usage_type = 'Voice' and roaming = 'Incollect' and technology = 'CDMA'
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+|  3998130.59 | DCH_STAGING  |
+|  3974805.13 | APRM_STAGING |
+|  3974805.13 | APRM         |
+|  3979811.81 | SAP          |
+|  4001025.89 | SAP_STAGING  |
+|-------------+--------------|
+
+
+* APRM_STAGING
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-11 Wed 12:44
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_OLPATH: CDMA DATA Incollect
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+  : select * from aprm_staging where period = '16-JUL-2017' and usage_type = 'Data' and roaming = 'Incollect' and technology = 'CDMA';
+
+* APRM
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-11 Wed 12:45
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_OLPATH: CDMA DATA Incollect
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+  : select  /*+ PARALLEL(h1,12) */  sum(TOTAL_CHRG_AMOUNT) from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+  :  (select unique(file_name)  from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date > '15-JUL-2017' 
+  :   and process_date < '16-AUG-2017') and generated_rec < 2  and BP_START_DATE =  '16-JUL-2017'
+
+* SAP
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-11 Wed 12:45
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_OLPATH: CDMA DATA Incollect
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+  : select sum(AU_CHARGE)  from USC_SAP_EXTRACT_V where AU_PROD_CAT_ID = 'IN' and AU_BP_START_DATE = TO_DATE ('20170716', 'YYYYMMDD') and GL_ACCOUNT = 6008001 and AU_ID in
+  :  (select unique(au_id)  from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+  :   (select unique(file_name) 
+  :    from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date > '15-JUL-2017' and process_date < '16-AUG-2017') and generated_rec < 2  and BP_START_DATE =  '16-JUL-2017')
+
+
+* SAP STAGING
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-11 Wed 12:45
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_OLPATH: CDMA DATA Incollect
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+   : select * from SAP_STAGING where TECHNOLOGY = 'CDMA' and roaming = 'Incollect' and usage_type = 'Data' and period = to_date('20170822','YYYYMMDD')
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+| 45967601.69 | DCH_STAGING  |
+| 44708266.12 | APRM_STAGING |
+| 44708266.12 | APRM         |
+| 44708266.12 | SAP          |
+| 48422605.25 | SAP_STAGING  |
+|-------------+--------------|
+
+/Discrepecy in SAP_STAGING due to extra data that came in after 16th of August/
+
+
+* SAP STAGING
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-11 Wed 17:02
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_OLPATH: CDMA Voice Outcollect
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+   : select sum(amount) from SAP_STAGING where roaming = 'Outcollect' and technology = 'CDMA' and period = '22-AUG-2017' and usage_type = 'Voice'
+
+|-------------+--------------|
+| *Sum Total* | *Query*      |
+|-------------+--------------|
+|  3148463.26 | DCH_STAGING  |
+|  3372098.48 | APRM_STAGING |
+|  3372098.48 | APRM         |
+|  3372098.48 | SAP_STAGING  |
+|-------------+--------------|
+
+
+* OutCollects
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-10-11 Wed 17:03
+  :ARCHIVE_FILE: ~/workspace/volteRoaming/docs/APRM2SAP.org
+  :ARCHIVE_OLPATH: CDMA Voice Outcollect
+  :ARCHIVE_CATEGORY: APRM2SAP
+  :END:
+** DCH STAGING
+  : select sum(amount_usd) from dch_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Outcollect' and technology = 'CDMA';
+** APRM_STAGING
+  : select sum(amount_usd) from aprm_staging where period = '16-JUL-2017' and usage_type = 'Voice' and roaming = 'Outcollect' and technology = 'CDMA';
+
+** APRM
+  : select  /*+ PARALLEL(h1,12) */  sum(TOTAL_CHRG_AMOUNT)
+  :  from USC_ROAM_EVNTS where  ciber_file_name_1||ciber_file_name_2 in
+  :   (select unique(file_name)  from file_summary where usage_type = 'CIBER_CIBER' and process_date >= to_date('20170716','YYYYMMDD')  
+  :    and process_date < to_date('20170816','YYYYMMDD')) and generated_rec < 2  and BP_START_DATE = to_date('20170716','YYYYMMDD')
+  :    and generated_rec < 2 

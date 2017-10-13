@@ -33,63 +33,77 @@ use List::Uniq ':all';
 
 sub scheduledTask() {
 	chdir("$ENV{'REC_HOME'}");
-	my $path    = abs_path . "/";
-	my $archive = "$path" . "archive/";
-	my $date1   = `date +%Y%m%d%H%M`;
-	chomp $date1;
-	my $date2 = `date --date="1 days ago" +"%Y%m%d"`;
-	chomp $date2;
-	my $time = `date +%H%M`;
-	chomp $time;
 	my $conn = getBODSPRD();
 
-	my $sql =
-"select trunc(start_time), L3_PAYMENT_CATEGORY, L9_NT_ROAMING_IND, L9_NETWORK_FLAG, count(*) as RECORDS, SUM(L3_VOLUME) as VOLUME, SUM(L9_DOWNLINK_VOLUME) as DL_VOLUME, SUM(L9_UPLINK_VOLUME) as UL_VOLUME From ape1_rated_event where L3_PAYMENT_CATEGORY = 'PRE' and  l3_call_source in ('L','D') and start_time > sysdate - 7 group by trunc(start_time), L3_PAYMENT_CATEGORY, L9_NT_ROAMING_IND,L9_NETWORK_FLAG order by 1,2";
+#	$sql =
+#"select trunc(start_time), l9_ip_address,L9_NT_ROAMING_IND,  count(*) as RECORDS, SUM(L3_VOLUME) as VOLUME, SUM(L9_DOWNLINK_VOLUME) as DL_VOLUME, SUM(L9_UPLINK_VOLUME) as UL_VOLUME From ape1_rated_event  where L3_PAYMENT_CATEGORY = 'PRE' and  l3_call_source in ('L','D') and start_time > sysdate - 7 group by trunc(start_time), l9_ip_address,L9_NT_ROAMING_IND order by 1,2,3";
+#
+#	$sth = $conn->prepare($sql);
+#	# $sth->execute() or sendErr();
 
-	my $sth = $conn->prepare($sql);
-	$sth->execute() or sendErr();
+	my %sumData = {};
 
-	my %sumData       = {};
-	my $totalRoamRecs = 0;
-	my $totalHomeRecs = 0;
-	my $totalRoamVol  = 0;
-	my $totalHomeVol  = 0;
+	#	while ( my @rows = $sth->fetchrow_array() ) {
+	#
 
-	while ( my @rows = $sth->fetchrow_array() ) {
+	open( EVENT, "< /home/dbalchen/Desktop/event.csv" ) || exit(0);
 
-		if ( defined $sumData{ $rows[0] } ) {
+	while ( $buff = <EVENT> ) {
+		chomp($buff);
 
-			my @sumrow = @{ $sumData{ $rows[0] } };
+		my @rows = split( "\t", $buff );
+
+		if ( defined $sumData{ $rows[1] } ) {
+
+			if ( !defined( $sumData{ $rows[1] }{ $rows[0] } ) ) {
+
+				my @sumrow = ( 0, 0, 0, 0 );
+				$sumData{ $rows[1] }{ $rows[0] } = \@sumrow;
+
+			}
+
+			my @sumrow = @{ $sumData{ $rows[1] }{ $rows[0] } };
 
 			if ( $rows[2] eq 'Y' ) {
-				$totalRoamRecs = $rows[4];
-				$totalRoamVol  = $rows[5];
-				$totalHomeRecs = $sumrow[4];
-				$totalHomeVol  = $sumrow[5];
+				$sumrow[2] = $rows[3] + $sumrow[2];
+				$sumrow[3] = $rows[4] + $sumrow[3];
 			}
 			else {
-				$totalHomeRecs = $rows[4];
-				$totalHomeVol  = $rows[5];
-				$totalRoamRecs = $sumrow[4];
-				$totalRoamVol  = $sumrow[5];
+				$sumrow[0] = $rows[3] + $sumrow[0];
+				$sumrow[1] = $rows[4] + $sumrow[1];
 			}
 
-			print
-"$rows[0]	$totalRoamRecs	$totalHomeRecs 	$totalRoamVol 	$totalHomeVol\n";
-
+			$sumData{ $rows[1] }{ $rows[0] } = \@sumrow;
 		}
 		else {
-			$sumData{ $rows[0] } = \@rows;
+
+			my @sumrow = ( 0, 0, 0, 0 );
+
+			if ( $rows[2] eq 'Y' ) {
+
+				$sumrow[2] = $rows[3];
+				$sumrow[3] = $rows[4];
+
+			}
+			else {
+				$sumrow[0] = $rows[3];
+				$sumrow[1] = $rows[4];
+			}
+
+			$sumData{ $rows[1] }{ $rows[0] } = \@sumrow;
+
 		}
 	}
 
-	$sql =
-"select trunc(start_time), l9_ip_address,L9_NT_ROAMING_IND,  count(*) as RECORDS, SUM(L3_VOLUME) as VOLUME, SUM(L9_DOWNLINK_VOLUME) as DL_VOLUME, SUM(L9_UPLINK_VOLUME) as UL_VOLUME From ape1_rated_event  where L3_PAYMENT_CATEGORY = 'PRE' and  l3_call_source in ('L','D') and start_time > sysdate - 7 group by trunc(start_time), l9_ip_address,L9_NT_ROAMING_IND order by 1,2,3";
+	foreach my $key ( keys %sumData ) {
 
-	$sth = $conn->prepare($sql);
-	# $sth->execute() or sendErr();
+		my @keyArray = keys %{ $sumData{$key} };
 
-	while ( my @rows = $sth->fetchrow_array() ) {
+		for ( my $a = 0 ; $a < @keyArray; $a = $a + 1 ) {
+			
+			print "keys %{ $sumData{$key} \n";
+			
+		}
 
 	}
 

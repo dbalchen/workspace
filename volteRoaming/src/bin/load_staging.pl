@@ -4,14 +4,14 @@ use Time::Piece;
 use Time::Seconds;
 
 ## For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20170901';
-$ARGV[1] = "APRM";
+$ARGV[0] = '20171001';
+$ARGV[1] = "DCH";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -40,9 +40,11 @@ $period = $period->strftime("%Y%m");
 
 $sqls{'LTE'} =
 "select /*+ PARALLEL(t1,12) */  'Settlement',serving_bid, 'LTE', 'Incollect','Data',sum(charge_amount),sum(charge_amount),carrier_cd, bp_start_date
-from prm_rom_incol_events_ap t1 where  carrier_cd != 'NLDLT' and BP_START_DATE= to_date('$period','YYYYMMDD') and generated_rec <  2 and TAP_IN_FILE_NAME in (
+from prm_rom_incol_events_ap t1 where  carrier_cd != 'NLDLT' and BP_START_DATE= to_date('$period"
+  . "01"
+  . "','YYYYMMDD') and generated_rec <  2 and TAP_IN_FILE_NAME in (
 select  unique(file_name) from file_summary where file_type = 'TAP' and usage_type like 'LTE%'and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1)
- and process_date < to_date('$date','YYYYMMDD') )
+ and process_date < to_date('$sdate" . "04" . "','YYYYMMDD') )
  group by serving_bid, carrier_cd,bp_start_date";
 
 $sqls{'LTEDEL'} =
@@ -60,8 +62,12 @@ group by file_name,sender,receiver ";
 
 $sqls{'DISP_RM'} =
 "select /*+ PARALLEL(t1,12) */ 'Settlement','USAUD', 'LTE','Outcollect','Data', sum(tot_net_charge_lc),sum(tot_net_charge_lc), carrier_cd, bp_start_date
- from prm_rom_outcol_events_ap t1 where carrier_cd != 'NLDLT' and BP_START_DATE= to_date('$period','YYYYMMDD') and generated_rec < 2 and tap_out_file_name in  (select  unique(file_name)  from file_summary where file_type = 'TAP' 
- and usage_type = 'DISP_RM'  and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD')) 
+ from prm_rom_outcol_events_ap t1 where carrier_cd != 'NLDLT' and BP_START_DATE= to_date('$period"
+  . "01"
+  . "','YYYYMMDD') and generated_rec < 2 and tap_out_file_name in  (select  unique(file_name)  from file_summary where file_type = 'TAP' 
+ and usage_type = 'DISP_RM'  and process_date >=add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$sdate"
+  . "04"
+  . "','YYYYMMDD')) 
  group by carrier_cd, bp_start_date";
 
 $sqls{'DISP_RMDEL'} =
@@ -81,7 +87,9 @@ sum((t1.charge_amount * t1.exchange_rate)/t2.from_to_cross_rate), sum(t1.charge_
 from prm_rom_incol_events_ap t1, ICG_CROSS_RATE t2
 where t1.bp_start_date = t2.bp_start_date and t2.from_crncy_cd = 'EUR'
  and to_crncy_cd = 'USD' and T2.CARRIER_CD = 'NLDLT' 
-and t1.generated_rec <  2  and t1.carrier_cd = 'NLDLT'  and t1.BP_START_DATE= to_date('$period"."01"."','YYYYMMDD') and t1.TAP_IN_FILE_NAME in  
+and t1.generated_rec <  2  and t1.carrier_cd = 'NLDLT'  and t1.BP_START_DATE= to_date('$period"
+  . "01"
+  . "','YYYYMMDD') and t1.TAP_IN_FILE_NAME in  
 (select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) 
 and process_date < to_date('$date','YYYYMMDD')  ) group by t1.serving_bid, t1.carrier_cd, t1.charge_type, t1.bp_start_date";
 
@@ -280,31 +288,27 @@ if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
 
-		#		'LTE',
-		#		'DISP_RM',
-				'NLDLT'    #,
-		#		'CDMA_A_IN_VOICE',
-		#		'CDMA_A_IN_DATA',
-		#		'CDMA_A_OUT_VOICE'    #,
-		# 		'CDMA_A_OUT_DATA'
+		'LTE',
+		'DISP_RM',
+		'NLDLT',
+		'CDMA_A_IN_VOICE',
+		'CDMA_A_IN_DATA',
+		'CDMA_A_OUT_VOICE',
+		'CDMA_A_OUT_DATA'
 	);
 
 }
 else {
 	@aprmArray = (
 
-		#		'CDMA_S_IN_VOICE',
-		#  		'CDMA_S_IN_DATA',
-		#		'CDMA_S_OUT_VOICE',
+		'CDMA_S_IN_VOICE',
+		'CDMA_S_IN_DATA',
+		'CDMA_S_OUT_VOICE',
 		'CDMA_S_OUT_DATA'
 	);
 }
 
-my @dchArray = ( 
-#'LTE', 
-'NLDLT'#, 
-#'DISP_RM' 
-);
+my @dchArray = ( 'LTE', 'NLDLT', 'DISP_RM' );
 
 foreach my $report (@reports) {
 
@@ -483,10 +487,10 @@ sub loadAprm {
 #	my @rows = @{$ref};
 #
 #	my $sql = "INSERT INTO APRM_STAGING (
-#   USAGE_TYPE, TECHNOLOGY, ROAMING, 
-#   PERIOD, MONTH_TYPE, COMPANY_CODE, 
-#   BID, AMOUNT_USD, AMOUNT_EUR) 
-#VALUES ( 
+#   USAGE_TYPE, TECHNOLOGY, ROAMING,
+#   PERIOD, MONTH_TYPE, COMPANY_CODE,
+#   BID, AMOUNT_USD, AMOUNT_EUR)
+#VALUES (
 # '$rows[4]'      /* USAGE_TYPE */,
 # '$rows[2]' 	   /* TECHNOLOGY */,
 # '$rows[3]'      /* ROAMING */,
@@ -578,8 +582,9 @@ sub loadSAP {
 		chomp($buff);
 
 		my ( $gl, $cocd, $docdate, $header ) = split( "\t", $buff );
-		
-		$hh = "cat $sapfile | grep $gl | grep $cocd | grep $docdate | grep '$header' | cut -f 3";
+
+		$hh =
+"cat $sapfile | grep $gl | grep $cocd | grep $docdate | grep '$header' | cut -f 3";
 
 		# print "$hh\n";
 		my $month_type = "Settlement";
