@@ -2,15 +2,15 @@
 // eOboe
 // =====================================================================
 
-//"/home/dbalchen/workspace/SuperCollider/makeWaveTable.sc".loadPath;
+"/home/dbalchen/workspace/SuperCollider/makeWaveTable.sc".load;
 
-//~oboesound = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_oboe/AKWF_oboe_0006.wav");
+~oboesound = ~makeWav.value("/home/dbalchen/Desktop/HornSC.wav");
 
 
 SynthDef("Oboe", {
     arg ss, freq = 110, out = 0, amp = 0.5, lagt = 0, da = 2, gate = 1,
       attack = 0, decay = 0, sustain = 1, release = 0.5,
-      fattack = 0.5, fsustain = 1, frelease = 0.5, aoc = 1, gain = 2, cutoff = 5000.00;
+      fattack = 0.5, fsustain = 1, frelease = 0.5, aoc = 0, gain = 2, cutoff = 15000.00;
 
     var sig, env, fenv;
 
@@ -23,11 +23,11 @@ SynthDef("Oboe", {
     freq = Lag.kr(freq,lagt);
     freq = { freq * LFNoise2.kr(1,0.002,1) }!2; 
 
-	//  sig = Osc.ar(ss,freq,[0,0.1,0.2],mul: EnvGen.kr(env, gate: gate, doneAction:da)) * amp;
+    sig = Osc.ar(ss,freq,[0,0.1,0.2],mul: EnvGen.kr(env, gate: gate, doneAction:da)) * amp;
 
 	// freq = SinOsc.ar(0.5*freq)*2 + freq;
 
-       sig  = Pulse.ar(freq, 0.97, mul: EnvGen.kr(env, gate: gate, doneAction:da))  * amp;
+	//      sig  = Pulse.ar(freq, 0.97, mul: EnvGen.kr(env, gate: gate, doneAction:da))  * amp;
     // sig  = Pulse.ar(freq, MouseX.kr(0.5,0.99), mul: EnvGen.kr(env, gate: gate, doneAction:da))  * amp;
        
     sig = MoogFF.ar
