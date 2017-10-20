@@ -293,7 +293,6 @@
 | SAP     | 38696989.10 |
 |---------+-------------|
 
-
 * CDMA Data Outcollect
   *Settlement Report* with a period of /September 1st 2017/ for *DCH* and *APRM* staging /October 4th 2017/ on *SAP_STAGING*.
 ** APRM_STAGING
@@ -390,3 +389,48 @@ select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_t
     : select unique(ciber_file_name_1||ciber_file_name_2)  from USC_ROAM_EVNTS where BP_START_DATE = '16-AUG-2017' and ciber_file_name_1||ciber_file_name_2 like 'CIBER_CIBER%' order by ciber_file_name_1||ciber_file_name_2;
 *** DCH Staging
     : select unique(filename) from dch_staging where period = '16-AUG-2017' and filename like 'CIBER_CIBER%' order by filename;
+* Jerry's SQL
+SELECT SAP.*,APRM.*,DCH.*,
+CASE WHEN NVL(SAP_AMOUNT,0)=0 THEN 0 ELSE ABS(((NVL(SAP_AMOUNT,0)-NVL(APRM_AMOUNT,0))/NVL(SAP_AMOUNT,0))) END SAP_TO_APRM_VAR,
+CASE WHEN NVL(SAP_AMOUNT,0)=0 THEN 0 ELSE ABS(((NVL(SAP_AMOUNT,0)-NVL(DCH_AMOUNT,0))/NVL(SAP_AMOUNT,0))) END SAP_TO_DCH_VAR
+
+FROM (select TECHNOLOGY SAP_TECHNOLOGY,ROAMING SAP_ROAMING, USAGE_TYPE SAP_USAGE_TYPE,SUM(AMOUNT) SAP_AMOUNT,COMPANY_CODE SAP_COMPANY_CODE 
+ from SAP_STAGING where (TECHNOLOGY='CDMA') AND (period = '22-SEP-2017') and (usage_type = 'Voice' or usage_type='Data') and (roaming = 'Incollect') 
+ and (MONTH_TYPE='Settlement')
+group by COMPANY_CODE, TECHNOLOGY,ROAMING, USAGE_TYPE order by company_code) SAP
+
+FULL OUTER JOIN
+
+(select TECHNOLOGY APRM_TECHNOLOGY,ROAMING APRM_ROAMING, USAGE_TYPE APRM_USAGE_TYPE,SUM(AMOUNT_USD) APRM_AMOUNT,COMPANY_CODE APRM_COMPANY_CODE  from aprm_staging 
+where (TECHNOLOGY='CDMA') AND (period = '16-JUL-2017') and  (usage_type = 'Voice' or usage_type='Data') and (roaming = 'Incollect')
+and (MONTH_TYPE='Settlement')
+group by COMPANY_CODE, TECHNOLOGY,ROAMING, USAGE_TYPE order by company_code) APRM
+
+ON APRM.APRM_TECHNOLOGY=SAP.SAP_TECHNOLOGY
+AND APRM.APRM_ROAMING=SAP.SAP_ROAMING
+AND APRM.APRM_USAGE_TYPE=SAP.SAP_USAGE_TYPE
+AND APRM.APRM_COMPANY_CODE=SAP.SAP_COMPANY_CODE
+
+FULL OUTER JOIN
+
+(select TECHNOLOGY APRM_TECHNOLOGY,ROAMING APRM_ROAMING, USAGE_TYPE APRM_USAGE_TYPE,SUM(AMOUNT_USD) APRM_AMOUNT,COMPANY_CODE APRM_COMPANY_CODE  from aprm_staging 
+where (TECHNOLOGY='CDMA') AND (period = '16-JUL-2017') and  (usage_type = 'Voice' or usage_type='Data') and (roaming = 'Incollect')
+and (MONTH_TYPE='Settlement')
+group by COMPANY_CODE, TECHNOLOGY,ROAMING, USAGE_TYPE order by company_code) APRM
+
+ON APRM.APRM_TECHNOLOGY=SAP.SAP_TECHNOLOGY
+AND APRM.APRM_ROAMING=SAP.SAP_ROAMING
+AND APRM.APRM_USAGE_TYPE=SAP.SAP_USAGE_TYPE
+AND APRM.APRM_COMPANY_CODE=SAP.SAP_COMPANY_CODE
+
+FULL OUTER JOIN
+
+(select  TECHNOLOGY DCH_TECHNOLOGY,ROAMING DCH_ROAMING, USAGE_TYPE DCH_USAGE_TYPE,SUM(AMOUNT_USD) DCH_AMOUNT,COMPANY_CODE DCH_COMPANY_CODE from dch_staging 
+where (TECHNOLOGY='CDMA') AND (period = '16-JUL-2017') and  (usage_type = 'Voice' or usage_type='Data')  and (roaming = 'Incollect')
+and (MONTH_TYPE='Settlement')
+group by COMPANY_CODE, TECHNOLOGY,ROAMING, USAGE_TYPE order by company_code) DCH
+ 
+ON DCH.DCH_TECHNOLOGY=SAP.SAP_TECHNOLOGY
+AND DCH.DCH_ROAMING=SAP.SAP_ROAMING
+AND DCH.DCH_USAGE_TYPE=SAP.SAP_USAGE_TYPE
+AND DCH.DCH_COMPANY_CODE=SAP.SAP_COMPANY_CODE;

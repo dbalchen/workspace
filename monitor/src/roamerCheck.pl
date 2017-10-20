@@ -1,18 +1,21 @@
 #!/usr/bin/env perl
 
+
 BEGIN {
-	#push(@INC, '/home/common/eps/perl_lib/lib/perl5/');
-	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+	push(@INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5');
+
 }
 
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/monitor/src/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/IP_Check/';
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 # use strict;
 use MIME::Lite;
@@ -26,51 +29,76 @@ use List::Uniq ':all';
 
 &scheduledTask();
 
-# my $cron = new Schedule::Cron(\&scheduledTask,processprefix=>"ac1_control_volume_monitor");
-# my $time = "0 4 * * *";
-# $cron->add_entry($time);
-# $cron->run(detach=>1,pid_file=>"ac1_control_volume_monitor_pid");
+ my $cron = new Schedule::Cron(\&scheduledTask,processprefix=>"ip_check_monitor");
+ my $time = "0 8 * * *";
+ $cron->add_entry($time);
+ $cron->run(detach=>1,pid_file=>"ip_check_monitor_pid");
+
+exit(0);
 
 sub scheduledTask() {
+
+	my($day, $month, $year)=(localtime)[3,4,5];
+	my $timeStamp = ($month+1)."_".$day."_".($year+1900);
+
 	chdir("$ENV{'REC_HOME'}");
+
+	my $excel_file = "IPCheck_" . $timeStamp . '.xls';
+
+	my $heading    = [
+		'DATE',
+		'IP',
+		'Home Total',
+		'Roam Total',
+		'Home Mean',
+		'Roam Mean',
+		'Home STD',
+		'Roam STD',
+		'Home Per',
+		'Roam Per'
+	];
+
+	my $cntrow    = 1;
+	my $workbook  = Spreadsheet::WriteExcel->new($excel_file);
+	my $worksheet = $workbook->add_worksheet("Oddities");
+
+	my $bold = $workbook->add_format( bold => 1 );
+	$worksheet->write( 'A1', $heading, $bold );
+
 	my $conn = getBODSPRD();
 
-#	$sql =
-#"select trunc(start_time), l9_ip_address,L9_NT_ROAMING_IND,  count(*) as RECORDS, SUM(L3_VOLUME) as VOLUME, SUM(L9_DOWNLINK_VOLUME) as DL_VOLUME, SUM(L9_UPLINK_VOLUME) as UL_VOLUME From ape1_rated_event  where L3_PAYMENT_CATEGORY = 'PRE' and  l3_call_source in ('L','D') and start_time > sysdate - 7 group by trunc(start_time), l9_ip_address,L9_NT_ROAMING_IND order by 1,2,3";
-#
-#	$sth = $conn->prepare($sql);
-#	# $sth->execute() or sendErr();
+	$sql =
+"select to_char(start_time,'YYYYMMDD'), l9_ip_address,L9_NT_ROAMING_IND,  count(*) as RECORDS, SUM(L3_VOLUME) as VOLUME, SUM(L9_DOWNLINK_VOLUME) as DL_VOLUME, SUM(L9_UPLINK_VOLUME) as UL_VOLUME From ape1_rated_event  where L3_PAYMENT_CATEGORY = 'PRE' and  l3_call_source in ('L','D') and start_time > sysdate - 30 group by to_char(start_time,'YYYYMMDD'), l9_ip_address,L9_NT_ROAMING_IND order by 1,2,3";
+
+	$sth = $conn->prepare($sql);
+	$sth->execute() or sendErr();
 
 	my %sumData = {};
 
-	#	while ( my @rows = $sth->fetchrow_array() ) {
-	#
+	while ( my @rows = $sth->fetchrow_array() ) {
 
-	open( EVENT, "< /home/dbalchen/Desktop/event.csv" ) || exit(0);
+		#	open( EVENT, "< /home/dbalchen/Desktop/event.csv" ) || exit(0);
+		#	#
+		#	while ( $buff = <EVENT> ) {
+		#		chomp($buff);
+		#		#
+		#		my @rows = split( "\t", $buff );
 
-	while ( $buff = <EVENT> ) {
-		chomp($buff);
-
-		my @rows = split( "\t", $buff );
-
-		if ( defined $sumData{ $rows[1] } ) {
-
-			if ( !defined( $sumData{ $rows[1] }{ $rows[0] } ) ) {
-
-				my @sumrow = ( 0, 0, 0, 0 );
-				$sumData{ $rows[1] }{ $rows[0] } = \@sumrow;
-
-			}
+		if ( defined $sumData{ $rows[1] }{ $rows[0] } ) {
 
 			my @sumrow = @{ $sumData{ $rows[1] }{ $rows[0] } };
 
 			if ( $rows[2] eq 'Y' ) {
+
 				$sumrow[2] = $rows[3] + $sumrow[2];
 				$sumrow[3] = $rows[4] + $sumrow[3];
+
 			}
 			else {
+
 				$sumrow[0] = $rows[3] + $sumrow[0];
 				$sumrow[1] = $rows[4] + $sumrow[1];
+
 			}
 
 			$sumData{ $rows[1] }{ $rows[0] } = \@sumrow;
@@ -80,10 +108,8 @@ sub scheduledTask() {
 			my @sumrow = ( 0, 0, 0, 0 );
 
 			if ( $rows[2] eq 'Y' ) {
-
 				$sumrow[2] = $rows[3];
 				$sumrow[3] = $rows[4];
-
 			}
 			else {
 				$sumrow[0] = $rows[3];
@@ -91,167 +117,157 @@ sub scheduledTask() {
 			}
 
 			$sumData{ $rows[1] }{ $rows[0] } = \@sumrow;
-
 		}
 	}
 
 	foreach my $key ( keys %sumData ) {
 
-		my @keyArray = keys %{ $sumData{$key} };
+		my @homeTot;
+		my @roamTot;
 
-		for ( my $a = 0 ; $a < @keyArray; $a = $a + 1 ) {
-			
-			print "keys %{ $sumData{$key} \n";
-			
+		my @key2c = keys %{ $sumData{$key} };
+		@key2c = sort { $a <=> $b } @key2c;
+
+		for ( my $a = 0 ; $a < @key2c ; $a = $a + 1 ) {
+
+			my ( $x1, $x2 ) = ( @{ $sumData{$key}{ $key2c[$a] } } )[ 0, 2 ];
+
+			push @homeTot, $x1;
+			push @roamTot, $x2;
 		}
 
+		if ( @homeTot > 10 ) {
+
+			my ( $home_mean, $home_std ) = stdev( \@homeTot );
+			my ( $roam_mean, $roam_std ) = stdev( \@roamTot );
+
+			for ( my $a = 0 ; $a < @homeTot ; $a = $a + 1 ) {
+
+				my $hper = analyze( $homeTot[$a], $home_mean, $home_std );
+				my $rper = analyze( $roamTot[$a], $roam_mean, $roam_std );
+
+				if (
+					   ( $hper || $rper )
+					&& ( $homeTot[$a] > 100 )
+					&& (   ( $hper > 40 or $hper < -40 )
+						|| ( $rper > 40 or $rper < -40 ) )
+				  )
+				{
+					my $rows = [
+						"$key2c[$a]",   "$key",
+						"$homeTot[$a]", "$roamTot[$a]",
+						"$home_mean",   "$roam_mean",
+						"$home_std",    "$roam_std",
+						"$hper",        "$rper"
+					];
+
+					if (   ( $hper < -100 || $hper > 100 )
+						|| ( $rper < -100 || $rper > 100 ) )
+					{
+						$worksheet->write_row( $cntrow, 0, $rows, $bold );
+					}
+					else {
+						$worksheet->write_row( $cntrow, 0, $rows );
+					}
+					$cntrow++;
+
+				}
+
+			}
+		}
 	}
 
-	# sendMail();
-
-	#	cleanUp();
 	$conn->disconnect();
+
+	$workbook->close;
+
+	sendMail( $excel_file, $timeStamp );
+}
+
+sub analyze {
+
+	my ( $total, $mean, $std ) = @_;
+
+	if ( $mean == 0 ) {
+		return (0);
+	}
+	elsif ( ( $total + $std ) < $mean ) {
+		my $point = 100 * ( -1 * ( 1 - ( ( $total + $std ) / $mean ) ) );
+		return ($point);
+	}
+	elsif ( ( $total - $std ) > $mean ) {
+		my $point = ( 100 * ( ( ( $total - $std ) / $mean ) ) ) - 100;
+		return ($point);
+	}
+	else { return (0); }
+
 }
 
 sub mean() {
+
+	my $ptr   = shift;
+	my @stats = @{$ptr};
+
 	my $total = 0;
 	foreach (@stats) {
 		$total += $_;
 	}
-	my $mean = ceil( $total / $#stats );
+
+	my $mean = ceil( $total / @stats );
 	return $mean;
 }
 
 sub stdev() {
-	if ( $#stats == 1 ) {
-		return 0;
+
+	my $ptr   = shift;
+	my @stats = @{$ptr};
+
+	@stats = sort { $a <=> $b } @stats;
+
+	my $mean = &mean( \@stats );    # calculate the mean or average
+
+	if ( @stats == 1 ) {
+		return ( $mean, 0 );
 	}
-	my $mean  = &mean($stats);    # calculate the mean or average
+
 	my $sqsum = 0;
-	for (@stats) {
-		$sqsum += ( ( $_ - $mean )**2 )
-		  ;    # calculate the variance, take each difference, square it...
-	}
-	$sqsum /= $#stats;    # average the result
-	my $stdev = ceil( sqrt($sqsum) )
-	  ;    # calculate standard deviation, take the square root of variance
-	       # print "$extid\t mean: $mean\t stdev: $stdev\n";
-	return $stdev;
-}
 
-sub volumeChart() {
-	@exid5 = @exid;
-	my $workbook = Spreadsheet::WriteExcel->new($xlsout)
-	  or die "failed to create new workbook: $!";
-	my $worksheet = $workbook->add_worksheet();
-	my $bold      = $workbook->add_format( bold => 1 );
-	my $font      = $workbook->add_format( font => 'Arial 8' );
-	$worksheet->write_row( 0, 0, [ '', '' ], $font );
-	my $chart1  = 1;
-	my $cntsht  = 1;
-	my $cntrow  = 0;
-	my $cntcol  = 0;
-	my $cntdata = 0;
-	$extid = shift(@exid5);
+	foreach (@stats) {
+		$sqsum += ( $mean - $_ )**2;
+	}
 
-	while ($extid) {
-		foreach (@xlsin) {
-			my @x = split( ',', $xlsin[$cntdata] );
-			if ( $extid eq $x[0] ) {
-				my @cols = split( ',', $xlsin[$cntdata] );
-				my @fix_cols = grep( s/\s*$//g, @cols );
-				$worksheet->write_row( $cntrow, $cntcol, \@fix_cols );
-				$cntrow++;
-				$cntdata++;
-			}
-		}
-		$cntrow = 0;
-		$cntcol = $cntcol + 3;
-		$extid  = shift(@exid5);
-	}
-	@exid5 = @exid;
-	my $x = $#exid * 3 + 3;
-	my @columns;
-	for ( my $i = 1 ; $i <= $x ; $i++ ) {
-		push( (@columns), ( &num2alpha($i) ) );
-	}
-	my $font = $workbook->add_format( font => 'Arial 8' );
-	foreach $chrt (@exid) {
-		$chart1 = $workbook->add_chart( type => 'line', name => $chrt );
-		$extid = shift(@exid5);
-		my $scaler = join( ",", @xlsin );
-		my $cntrow = () = $scaler =~ /$extid/g;
-		my $column = shift @columns;
-		$column = shift @columns;
-		my $c        = '!' . $column . '$2:';
-		my $x_values = '=Sheet' . "$cntsht" . $c . $column . '$' . "$cntrow";
-		$column   = shift @columns;
-		$c        = '!' . $column . '$2:';
-		$y_values = '=Sheet' . "$cntsht" . $c . $column . '$' . "$cntrow";
-		$chart1->add_series(
-			categories => $x_values,
-			values     => $y_values,
-			name       => $externalId{$chrt},
-		);
-		$chart1->set_title( name => 'USAGE RECORD VOLUME', );    # record count
-		$chart1->set_x_axis( name => 'DATE', );
-		$chart1->set_y_axis( name => 'COUNT', );
-		$chart1++;
-	}
-	$cntsht++;
+	my $stdev = ( $sqsum / ( @stats - 1 ) )**0.5;
+
+	return ( $mean, $stdev );
 }
 
 sub sendMail() {
 
+	my ( $excel_file, $date ) = @_;
+
 	# my $to = 'ISBillingOperations@uscellular.com';
-	my $to      = 'david.smith@uscellular.com';
-	my $cc      = '';
-	my $from    = 'USCDLISOps-BillingCycleManagement@uscellular.com';
-	my $subject = "AC1_CONTROL Record Volume Monitor Report for $date1";
+	my $mime_type = 'multipart/mixed';
+	my $to        = 'david.balchen@uscellular.com';
+	my $cc        = '';
+	my $from      = 'USCDLISOps-BillingCycleManagement@uscellular.com';
+	my $subject   = "IP Usage Check for $date";
 
 	my $msg = MIME::Lite->new(
 		From    => $from,
 		To      => $to,
 		Cc      => $cc,
 		Subject => $subject,
-		Data    => $af_out
-	);
+		Type    => $mime_type
+	) or die "Error creating " . "MIME body: $!\n";
 
 	$msg->attach(
-		Type => "application/vnd.ms-excel",
-
-		# Type => "text/plain",
-		Path        => $path . $xlsout1,
-		Filename    => $xlsout1,
-		Disposition => "attachment"
-	);
+		Type     => 'application/octet-stream',
+		Encoding => 'base64',
+		Path     => $ENV{'REC_HOME'} . $excel_file,
+		Filename => $excel_file
+	) or die "Error attaching file: $!\n";
 
 	$msg->send();
-}
-
-sub sendErr() {
-
-	# my $to = 'ISBillingOperations@uscellular.com';
-	my $to      = 'david.balchen@uscellular.com';
-	my $cc      = '';
-	my $from    = 'USCDLISOps-BillingCycleManagement@uscellular.com';
-	my $subject = "AC1_CONTROL Record Volume Monitor Report FAILED!";
-	my $message .=
-"Failed to create AC1_CONTROL Record Volume Monitor Report for $date!: $!, $?, $@\n";
-	$message .= print "File: ", __FILE__, " Line: ", __LINE__, "\n";
-	$message .= warn("ac1_control_volume_monitor.pl");
-
-	my $msg = MIME::Lite->new(
-		From    => $from,
-		To      => $to,
-		Cc      => $cc,
-		Subject => $subject,
-		Data    => $message
-	);
-
-	$msg->send();
-
-	exit;
 }
 
 #sub getBODSPRD{
@@ -272,8 +288,3 @@ sub getBODSPRD {
 	return $dbods;
 }
 
-sub cleanUp() {
-	chdir("/home/common/eps/ac1/");
-	$cmd = "mv ac1*volume*xls $archive";
-	system($cmd);
-}
