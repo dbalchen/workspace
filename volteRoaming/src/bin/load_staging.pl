@@ -287,7 +287,6 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
-
 		'LTE',
 		'DISP_RM',
 		'NLDLT',

@@ -11,8 +11,8 @@ $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #
-#$ARGV[0] = 'NLDLT';
-#$ARGV[1] = '20170707';
+$ARGV[0] = 'LTE';
+$ARGV[1] = '20171022';
 
 my $clearinghouse = 'TNS';
 my %sqls          = {};
@@ -106,7 +106,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#BooGoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

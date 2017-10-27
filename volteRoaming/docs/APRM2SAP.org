@@ -49,6 +49,7 @@
 \pagenumbering{arabic}
 #+END_LaTeX 
 * Overview
+her number is 708-257-4408 she would love to talk to you She can explain what happen
   This document will provide examples to show the relationship between the various staging tables and how to compare them. For these examples we will use the following periods:
   - *LTE Incollect*
     - DCH - /September 1st 2017/
@@ -186,7 +187,7 @@
 |   121684.96 | APRM_STAGING |
 |   121685.13 | APRM         |
 |    98560.39 | SAP          |
-|    141795.7 | SAP Staging  |
+|   141795.7  | SAP Staging  |
 |-------------+--------------|
 
 * CDMA Voice Incollect
@@ -390,47 +391,49 @@ select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_t
 *** DCH Staging
     : select unique(filename) from dch_staging where period = '16-AUG-2017' and filename like 'CIBER_CIBER%' order by filename;
 * Jerry's SQL
-SELECT SAP.*,APRM.*,DCH.*,
-CASE WHEN NVL(SAP_AMOUNT,0)=0 THEN 0 ELSE ABS(((NVL(SAP_AMOUNT,0)-NVL(APRM_AMOUNT,0))/NVL(SAP_AMOUNT,0))) END SAP_TO_APRM_VAR,
-CASE WHEN NVL(SAP_AMOUNT,0)=0 THEN 0 ELSE ABS(((NVL(SAP_AMOUNT,0)-NVL(DCH_AMOUNT,0))/NVL(SAP_AMOUNT,0))) END SAP_TO_DCH_VAR
+** CDMA 
+* Susan's SQL
+** LTE
+   : select nr_param_3_val "Company Code", decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland') "Carrier", 
+   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024)"Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
+   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = '01-AUG-2017' group by nr_param_3_val, carrier_cd
+** CDMA Data Accrual
+*** File Based
+   : select  home_company, (sum(usage)/1024)/1024 "Usage MB" , sum(total_chrg_amount) "Total Charges" 
+   :   from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+   :    (select unique(file_name)  from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date > to_date('20170815','YYYYMMDD')  
+   :     and process_date < to_date('20170902','YYYYMMDD')) and generated_rec < 2  and BP_START_DATE = to_date('20170816', 'YYYYMMDD')
+   :     group by home_company order by home_company
+*** SAP Based
+   : select
+   :  carrier_cd "Carrier Code", 
+   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
+   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
+   :   group by carrier_cd order by Carrier_cd
 
-FROM (select TECHNOLOGY SAP_TECHNOLOGY,ROAMING SAP_ROAMING, USAGE_TYPE SAP_USAGE_TYPE,SUM(AMOUNT) SAP_AMOUNT,COMPANY_CODE SAP_COMPANY_CODE 
- from SAP_STAGING where (TECHNOLOGY='CDMA') AND (period = '22-SEP-2017') and (usage_type = 'Voice' or usage_type='Data') and (roaming = 'Incollect') 
- and (MONTH_TYPE='Settlement')
-group by COMPANY_CODE, TECHNOLOGY,ROAMING, USAGE_TYPE order by company_code) SAP
+** CDMA Data Settlement
+   : select
+   :  carrier_cd "Carrier Code", 
+   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
+   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 = 'Data'
+   :   group by carrier_cd order by Carrier_cd
+** CDMA Voice Accrual
+*** File Based
+   : select  home_company, (sum(usage)/1024)/1024 "Usage MB" , sum(total_chrg_amount) "Total Charges" 
+   :   from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
+   :    (select unique(file_name)  from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date > to_date('20170815','YYYYMMDD')  
+   :     and process_date < to_date('20170902','YYYYMMDD')) and generated_rec < 2  and BP_START_DATE = to_date('20170816', 'YYYYMMDD')
+   :     group by home_company order by home_company
+*** SAP Based
+   : select
+   :  carrier_cd "Carrier Code", 
+   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
+   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
+   :   group by carrier_cd order by Carrier_cd
 
-FULL OUTER JOIN
-
-(select TECHNOLOGY APRM_TECHNOLOGY,ROAMING APRM_ROAMING, USAGE_TYPE APRM_USAGE_TYPE,SUM(AMOUNT_USD) APRM_AMOUNT,COMPANY_CODE APRM_COMPANY_CODE  from aprm_staging 
-where (TECHNOLOGY='CDMA') AND (period = '16-JUL-2017') and  (usage_type = 'Voice' or usage_type='Data') and (roaming = 'Incollect')
-and (MONTH_TYPE='Settlement')
-group by COMPANY_CODE, TECHNOLOGY,ROAMING, USAGE_TYPE order by company_code) APRM
-
-ON APRM.APRM_TECHNOLOGY=SAP.SAP_TECHNOLOGY
-AND APRM.APRM_ROAMING=SAP.SAP_ROAMING
-AND APRM.APRM_USAGE_TYPE=SAP.SAP_USAGE_TYPE
-AND APRM.APRM_COMPANY_CODE=SAP.SAP_COMPANY_CODE
-
-FULL OUTER JOIN
-
-(select TECHNOLOGY APRM_TECHNOLOGY,ROAMING APRM_ROAMING, USAGE_TYPE APRM_USAGE_TYPE,SUM(AMOUNT_USD) APRM_AMOUNT,COMPANY_CODE APRM_COMPANY_CODE  from aprm_staging 
-where (TECHNOLOGY='CDMA') AND (period = '16-JUL-2017') and  (usage_type = 'Voice' or usage_type='Data') and (roaming = 'Incollect')
-and (MONTH_TYPE='Settlement')
-group by COMPANY_CODE, TECHNOLOGY,ROAMING, USAGE_TYPE order by company_code) APRM
-
-ON APRM.APRM_TECHNOLOGY=SAP.SAP_TECHNOLOGY
-AND APRM.APRM_ROAMING=SAP.SAP_ROAMING
-AND APRM.APRM_USAGE_TYPE=SAP.SAP_USAGE_TYPE
-AND APRM.APRM_COMPANY_CODE=SAP.SAP_COMPANY_CODE
-
-FULL OUTER JOIN
-
-(select  TECHNOLOGY DCH_TECHNOLOGY,ROAMING DCH_ROAMING, USAGE_TYPE DCH_USAGE_TYPE,SUM(AMOUNT_USD) DCH_AMOUNT,COMPANY_CODE DCH_COMPANY_CODE from dch_staging 
-where (TECHNOLOGY='CDMA') AND (period = '16-JUL-2017') and  (usage_type = 'Voice' or usage_type='Data')  and (roaming = 'Incollect')
-and (MONTH_TYPE='Settlement')
-group by COMPANY_CODE, TECHNOLOGY,ROAMING, USAGE_TYPE order by company_code) DCH
- 
-ON DCH.DCH_TECHNOLOGY=SAP.SAP_TECHNOLOGY
-AND DCH.DCH_ROAMING=SAP.SAP_ROAMING
-AND DCH.DCH_USAGE_TYPE=SAP.SAP_USAGE_TYPE
-AND DCH.DCH_COMPANY_CODE=SAP.SAP_COMPANY_CODE;
+** CDMA Voice Settlement
+   : select
+   :  carrier_cd "Carrier Code", 
+   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
+   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
+   :   group by carrier_cd order by Carrier_cd

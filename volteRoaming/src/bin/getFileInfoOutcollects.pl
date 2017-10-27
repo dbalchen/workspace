@@ -60,7 +60,7 @@ $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
 
 my @aprm = $sth->fetchrow_array();
-if ( !defined( $aprm[2] ) ) { $aprm[2] = 0; }
+if ( !defined( $aprm[2] ) ) { $aprm[2] = 0;}
 
 $hh =
 "$ENV{'REC_HOME'}/dch_infoCount.pl $ARGV[0] $ENV{'REC_HOME'}/OutcollectDCH_voice.csv";
