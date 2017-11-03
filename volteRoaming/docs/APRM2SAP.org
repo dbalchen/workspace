@@ -437,3 +437,19 @@ select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_t
    :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
    :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
    :   group by carrier_cd order by Carrier_cd
+** GSM Settlement
+*** APRM Settlement
+   :  select  nr_param_3_val "Company Code", decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland') "Carrier", 
+   :   decode(rate_plan_cd,'RPINCGSMSMSCD','SMS','RPINCGSMDATACD','DATA','RPINCGSMVOICETOTCD','Voice') "Usage Type",
+   :    sum((TOT_CHRG_PARAM_VAL/1024)/1024)"Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
+   :    from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-SEP-2017'  
+   :    group by nr_param_3_val, carrier_cd,rate_plan_cd order by  nr_param_3_val
+*** APRM Settlement 2       
+   :    select sum(charge_amount) from prm_rom_incol_events_ap t1  where  generated_rec <  2  and carrier_c^d = 'NLDLT'  and BP_START_DATE = '01-SEP-2017'
+*** SAP Settlement   
+   :    select -- company_code,usage_type, sum(amount)
+   :    *
+   :     from SAP_STAGING where technology = 'GSM' and period = '04-OCT-2017'  where 
+   :   --  group by company_code,usage_type order by company_code,usage_type
+   :  
+** CDMA Voice Outcollect

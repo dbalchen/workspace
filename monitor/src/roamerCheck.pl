@@ -74,6 +74,7 @@ sub scheduledTask() {
 #	$sth->execute() or sendErr();
 #
 	my %sumData = {};
+	my %results = {};
 #
 #	while ( my @rows = $sth->fetchrow_array() ) {
 
@@ -158,30 +159,24 @@ sub scheduledTask() {
 
 				if (
 					   ( $hper || $rper )
-					&& ( $lastHdays[$a] > 100  || $lastRdays[$a] > 100)
+					&& (($lastHdays[$a] > 100  || $lastRdays[$a] > 100)
 					&& (   ( $hper > 40 or $hper < -40 )
-						|| ( $rper > 40 or $rper < -40 ) )
+						|| ( $rper > 40 or $rper < -40 ) ))
 				  )
 				{
-					my $rows = [
+					my @rows = [
 						"$dayKey[$a]",   "$key",
 						"$lastHdays[$a]", "$lastRdays[$a]",
 						"$home_mean",   "$roam_mean",
 						"$home_std",    "$roam_std",
 						"$hper",        "$rper"
 					];
-
-					if (   ( $hper < -100 || $hper > 100 )
-						|| ( $rper < -100 || $rper > 100 ) )
-					{
-						$worksheet->write_row( $cntrow, 0, $rows, $bold );
-						
-					}
-					else {
-						$worksheet->write_row( $cntrow, 0, $rows );
-					}
-					$cntrow++;
-
+					
+					$results{ $key }{$dayKey[$a]} = \@rows;
+					
+				}
+				else {
+					delete $sumData{ $key }{$dayKey[$a]}
 				}
 
 			}

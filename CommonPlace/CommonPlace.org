@@ -1817,14 +1817,6 @@ subgraph cluster_3 {
       For each DB instance, except ODS and SIT, You need to alter the
       session before you can use it.\\ For example for usage 1 type
       : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
-#+BEGIN_LaTeX
-\begin{landscape}  
-#+END_LaTeX
-** SQL Join Reference
-      [[file:Pictures/Sql_Joins2.png]]
-#+BEGIN_LaTeX
-\end{landscape} 
-#+END_LaTeX
 * Database Tables
 #+BEGIN_LaTeX
 \footnotesize
