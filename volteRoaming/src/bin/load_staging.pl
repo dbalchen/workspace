@@ -10,7 +10,7 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20171027';
+$ARGV[0] = '20171101';
 $ARGV[1] = "APRM";
 my @reports = split( ',', $ARGV[1] );
 
@@ -288,12 +288,12 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
-		'LTE',
-		'DISP_RM',
-		'NLDLT',
-		'CDMA_A_IN_VOICE',
-		'CDMA_A_IN_DATA',
-		'CDMA_A_OUT_VOICE',
+#		'LTE',
+#		'DISP_RM',
+#		'NLDLT',
+#		'CDMA_A_IN_VOICE',
+#		'CDMA_A_IN_DATA',
+#		'CDMA_A_OUT_VOICE',
 		'CDMA_A_OUT_DATA'
 	);
 
@@ -378,7 +378,7 @@ sub loadAprm {
 		print "$sqldel\n";
 
 		$conn2 = $dbconnb->prepare($sqldel);
-		$conn2->execute() or sendErr();
+#		$conn2->execute() or sendErr();
 
 		my $sql = $sqls{$wsql};
 

@@ -342,10 +342,6 @@ her number is 708-257-4408 she would love to talk to you She can explain what ha
   :        AND SUBSTR(T1.BSID,1,11) = TRIM(T2.BSID)
   :     GROUP BY SUBSTR(T2.SITENUM,1,3), TRIM(REGEXP_REPLACE(T1.PARTNER,','));
 ** SAP_STAGING
-   
-
-25266913.83|APRM_STAGING
-25266913.83|APRM
 
 * DCH File Comparison
 ** CDMA Voice Incollect
@@ -397,51 +393,37 @@ select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_t
    : select nr_param_3_val "Company Code", decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland') "Carrier", 
    :  sum((TOT_CHRG_PARAM_VAL/1024)/1024)"Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
    :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = '01-AUG-2017' group by nr_param_3_val, carrier_cd
-** CDMA Data Accrual
-*** File Based
-   : select  home_company, (sum(usage)/1024)/1024 "Usage MB" , sum(total_chrg_amount) "Total Charges" 
-   :   from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
-   :    (select unique(file_name)  from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date > to_date('20170815','YYYYMMDD')  
-   :     and process_date < to_date('20170902','YYYYMMDD')) and generated_rec < 2  and BP_START_DATE = to_date('20170816', 'YYYYMMDD')
-   :     group by home_company order by home_company
-*** SAP Based
+** CDMA Data Incollect Accrual
    : select
    :  carrier_cd "Carrier Code", 
    :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
    :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
    :   group by carrier_cd order by Carrier_cd
 
-** CDMA Data Settlement
-   : select
-   :  carrier_cd "Carrier Code", 
-   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
-   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 = 'Data'
-   :   group by carrier_cd order by Carrier_cd
-** CDMA Voice Accrual
-*** File Based
-   : select  home_company, (sum(usage)/1024)/1024 "Usage MB" , sum(total_chrg_amount) "Total Charges" 
-   :   from USC_ROAM_EVNTS where ciber_file_name_1||ciber_file_name_2 in
-   :    (select unique(file_name)  from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date > to_date('20170815','YYYYMMDD')  
-   :     and process_date < to_date('20170902','YYYYMMDD')) and generated_rec < 2  and BP_START_DATE = to_date('20170816', 'YYYYMMDD')
-   :     group by home_company order by home_company
-*** SAP Based
+** CDMA Data Incollect Settlement
+   : select  t1.carrier_cd "Carrier Code", t2.gl_account "GL Account",
+   :  sum((t1.tot_chrg_param_val/1024)/1024) "Total Usage Mb", sum(t1.tot_net_usage_chrg) "Total Charges" 
+   :   from ic_accumulated_usage t1, usc_sap_extract_v t2 where t1.prod_cat_id = 'in' and t1.bp_start_date = '16-OCT-2017' and t1.future_3 = 'Data'
+   :    and t2.au_prod_cat_id = t1.prod_cat_id and t2.au_evt_id = t1.event_id
+   :   group by t1.carrier_cd,t2.gl_account order by t1.carrier_cd,t2.gl_account
+** CDMA Voice Incollect Accrual
    : select
    :  carrier_cd "Carrier Code", 
    :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
    :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
    :   group by carrier_cd order by Carrier_cd
-
-** CDMA Voice Settlement
-   : select
-   :  carrier_cd "Carrier Code", 
-   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
-   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
-   :   group by carrier_cd order by Carrier_cd
+** CDMA Voice Incollect Settlement
+   : select  t1.carrier_cd "Carrier Code", t2.gl_account "Gl Account",
+   :   sum(t1.tot_chrg_param_val) "Total Usage Minutes", sum(t1.tot_net_usage_chrg) "Total Charges" 
+   :    from ic_accumulated_usage t1, usc_sap_extract_v t2 where t1.prod_cat_id = 'IN' and 
+   :      t1.bp_start_date = '16-OCT-2017' and t1.future_3 = 'Voice'
+   :      and t2.au_prod_cat_id = t1.prod_cat_id and t2.au_evt_id = t1.event_id
+   :     group by t1.carrier_cd,t2.gl_account order by t1.carrier_cd,t2.gl_account 
 ** GSM Settlement
 *** APRM Settlement
    :  select  nr_param_3_val "Company Code", decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland') "Carrier", 
    :   decode(rate_plan_cd,'RPINCGSMSMSCD','SMS','RPINCGSMDATACD','DATA','RPINCGSMVOICETOTCD','Voice') "Usage Type",
-   :    sum((TOT_CHRG_PARAM_VAL/1024)/1024)"Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
+   :   sum((TOT_CHRG_PARAM_VAL/1024)/1024)"Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
    :    from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-SEP-2017'  
    :    group by nr_param_3_val, carrier_cd,rate_plan_cd order by  nr_param_3_val
 *** APRM Settlement 2       
@@ -452,4 +434,111 @@ select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_t
    :     from SAP_STAGING where technology = 'GSM' and period = '04-OCT-2017'  where 
    :   --  group by company_code,usage_type order by company_code,usage_type
    :  
-** CDMA Voice Outcollect
+** CDMA Voice Outcollect Settlement 
+   : select  t1.carrier_cd "Carrier Code",  t2.gl_account "Gl Account", t1.rate_plan_cd "Rate Plan",
+   :  sum(t1.tot_chrg_param_val) "Total Usage Minutes", 
+   :  sum(t1.tot_net_usage_chrg) "Total Charges" 
+   :   from ic_accumulated_usage t1,  usc_sap_extract_v t2   
+   :    where prod_cat_id = 'RO' and bp_start_date = '16-SEP-2017' and future_3 = 'Voice' 
+   :     and t2.au_prod_cat_id = t1.prod_cat_id and t2.au_evt_id = t1.event_id
+   :  -- and  rate_plan_cd = 'rprourotax'
+   :   group by t1.carrier_cd, t2.gl_account, t1.rate_plan_cd  order by t1.carrier_cd, t2.gl_account, t1.rate_plan_cd 
+
+** CDMA Data Outcollect Settlement
+   : select substr(t2.sitenum,1,3),
+   :           trim(regexp_replace(t1.partner,',')),
+   :           count(*),
+   :           sum(amount),
+   :           sum(message_accounting_digits),
+   :           sum(actual_usage_volume),
+   :           sum(actual_data_volume)
+   :      from data_outcollect t1, bsid_to_serve_sid t2
+   :     where to_char(t1.settlement_date, 'yyyymmdd') = to_char(to_date('20171015','yyyymmdd'), 'yyyymmdd')
+   :      and to_char(t1.process_date, 'yyyymm') = to_char(to_date('201710','yyyymm'),'yyyymm')
+   :       and trim(regexp_replace(t1.partner,',')) in (select distinct trim(partner) from roaming_partner where bsid_type = '835-b')
+   :       and substr(t1.bsid,1,11) = trim(t2.bsid)
+   :    group by substr(t2.sitenum,1,3), trim(regexp_replace(t1.partner,','))
+   :    union 
+   :    select substr(t2.sitenum,1,3),
+   :           trim(regexp_replace(t1.partner,',')),
+   :           count(*),
+   :           sum(amount),
+   :           sum(message_accounting_digits),
+   :           sum(actual_usage_volume),
+   :           sum(actual_data_volume)  
+   :      from data_outcollect t1, bsid_to_serve_sid t2
+   :        where to_char(t1.settlement_date, 'yyyymmdd') = to_char(to_date('20171015','yyyymmdd'), 'yyyymmdd')
+   :      and to_char(t1.process_date, 'yyyymm') = to_char(to_date('201710','yyyymm'),'yyyymm')
+   :       and trim(regexp_replace(t1.partner,',')) in (select distinct trim(partner) from roaming_partner where bsid_type = '835-a')
+   :       and substr(t1.bsid,1,8) || substr(t1.bsid,10,3) = trim(t2.bsid)
+   :    group by substr(t2.sitenum,1,3), trim(regexp_replace(t1.partner,','))
+   : 
+
+   Smaller version for Susan's report
+
+   : select substr(t2.sitenum,1,3) "Company Code",
+   :        sum(amount),
+   :        ((sum(actual_data_volume)/1024)/1024) "Data Volumn MB"
+   :      from data_outcollect t1, bsid_to_serve_sid t2
+   :     where to_char(t1.settlement_date, 'yyyymmdd') = to_char(to_date('20171015','yyyymmdd'), 'yyyymmdd')
+   :      and to_char(t1.process_date, 'yyyymm') = to_char(to_date('201710','yyyymm'),'yyyymm')
+   :       and  substr(t1.bsid,1,11) = trim(t2.bsid)
+   :    group by substr(t2.sitenum,1,3) 
+   :    order by substr(t2.sitenum,1,3)
+
+** CDMA Data Outcollect Accrual 
+   : select 
+   :       substr(t2.sitenum,1,3),
+   :       trim(regexp_replace(t1.partner,',')),
+   :       count(*),
+   :       sum(amount),
+   :       sum(message_accounting_digits),
+   :       sum(actual_usage_volume),
+   :       sum(actual_data_volume)
+   :  from data_outcollect t1, bsid_to_serve_sid t2
+   :  where to_char(t1.settlement_date, 'yyyymmdd') = to_char(to_date('20171115','yyyymmdd'), 'yyyymmdd')
+   :   and to_char(t1.process_date, 'yyyymm') = to_char(add_months(to_date('201711','yyyymm'),-1),'yyyymm')
+   :   and trim(regexp_replace(t1.partner,',')) in (select distinct trim(partner) from roaming_partner where bsid_type = '835-B' and upper(CLEARINGHOUSe) = 'SYNIVERSE' )
+   :   and substr(t1.bsid,1,11) = trim(t2.bsid)
+   :    group by substr(t2.sitenum,1,3), trim(regexp_replace(t1.partner,','))
+   :    union 
+   : select substr(t2.sitenum,1,3),
+   :       trim(regexp_replace(t1.partner,',')),
+   :       count(*),
+   :       sum(amount),
+   :       sum(message_accounting_digits),
+   :       sum(actual_usage_volume),
+   :       sum(actual_data_volume)  
+   :  from data_outcollect t1, bsid_to_serve_sid t2
+   :  where to_char(t1.settlement_date, 'yyyymmdd') = to_char(to_date('20171115','yyyymmdd'), 'yyyymmdd')
+   :   and to_char(t1.process_date, 'yyyymm') = to_char(add_months(to_date('201711','yyyymm'),-1),'yyyymm')
+   :   and trim(regexp_replace(t1.partner,',')) in (select distinct trim(partner) from roaming_partner where bsid_type = '835-A')
+   :   and substr(t1.bsid,1,8) || substr(t1.bsid,10,3) = trim(t2.bsid)
+   :    group by substr(t2.sitenum,1,3), trim(regexp_replace(t1.partner,','))
+   :    union
+   : select substr(t2.sitenum,1,3),
+   :       trim(regexp_replace(t1.partner,',')),
+   :       count(*),
+   :       sum(amount),
+   :       sum(message_accounting_digits),
+   :       sum(actual_usage_volume),
+   :       sum(actual_data_volume)  
+   :  from data_outcollect t1, bsid_to_serve_sid t2
+   :  where to_char(t1.settlement_date, 'yyyymmdd') = to_char(to_date('20171115','yyyymmdd'), 'yyyymmdd')
+   :   and t1.process_date < to_date('20171102','yyyymmdd')
+   :   and trim(regexp_replace(t1.partner,',')) in (select distinct trim(partner) from roaming_partner where bsid_type = '835-B' and upper(CLEARINGHOUSE) = 'TNS' )
+   :   and substr(t1.bsid,1,11) = trim(t2.bsid)
+   :    group by substr(t2.sitenum,1,3), trim(regexp_replace(t1.partner,','))
+
+   Smaller version for Susan's report
+
+    : select substr(t2.sitenum,1,3) "Company Code",
+    :   sum(amount),
+    :   ((sum(actual_data_volume)/1024)/1024) "Total Volumn MB",  
+    :   from data_outcollect t1, bsid_to_serve_sid t2
+    :    where to_char(t1.settlement_date, 'yyyymmdd') = to_char(to_date('20171115','yyyymmdd'), 'yyyymmdd')
+    :    and t1.process_date < to_date('20171102','yyyymmdd')
+    :    and substr(t1.bsid,1,11) = trim(t2.bsid)
+    :   group by substr(t2.sitenum,1,3) order by substr(t2.sitenum,1,3)
+
+
