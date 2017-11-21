@@ -22,13 +22,14 @@ o.memSize = 2097152;
 (
 ~startup = {
 
+
 	(
 		// Put stuff here...........
 		~scale = Scale.majorPentatonic.degrees.collect({ arg item, i; item; item}) + 72;
 
-		~clock = MyTrack.new(~synth1,0);
-		~clock.notes.probs = Bjorklund(15, 32);
-		~clock.notes.freqs = ~clock.notes.probs.collect({ arg item, i; item; item*~scale.choose});
+		~track0 = MyTrack.new(~synth1,0);
+		~track0.notes.probs = Bjorklund(15, 32);
+		~track0.notes.freqs = ~clock.notes.probs.collect({ arg item, i; item; item*~scale.choose});
 
 	)
 
@@ -38,8 +39,8 @@ o.memSize = 2097152;
 ~startup.value;
 ~startTimer.value(60);
 
-~clock.transport.play;
-~clock.transport.stop;
+~track0.transport.play;
+~track0.transport.stop;
 
 ~rp = {}; // Example
 

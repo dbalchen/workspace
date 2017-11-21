@@ -1,5 +1,5 @@
-"/home/dbalchen/workspace/SuperCollider/loadSamples.sc".load;
-"/home/dbalchen/workspace/SuperCollider/eSampler.sc".load;
+//"/home/dbalchen/workspace/SuperCollider/loadSamples.sc".load;
+//"/home/dbalchen/workspace/SuperCollider/eSampler.sc".load;
 
 /*
 ~cellosounds.free;

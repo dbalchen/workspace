@@ -26,8 +26,8 @@
 ~belladsr = MyADSR.new;
 ~belladsr.init;
 ~belladsr.attack = 0;
-~belladsr.decay = 0.25;
-~belladsr.sustain = 0.5;
+~belladsr.decay = 120.25;
+~belladsr.sustain = 0.2;
 ~belladsr.release = 0.5;
 
 ~belladsr6 = MyADSR.new;
@@ -48,14 +48,6 @@
 ~saxadsrf.decay =  1.0;
 ~saxadsrf.sustain = 0.5;
 ~saxadsrf.release = 0.1;
-
-
-~wavetables.free;
-~wavetables = ~fileList.value("/home/dbalchen/Desktop/TrumpetSC");
-~windex = ~wavetables.size;
-~wavebuff = ~loadWaveTables.value(~wavetables);
-
-
 
 SynthDef(\stringLow, {arg num = 60,gate = 1;
 	var env = Env.asr(0,1,0);
@@ -103,8 +95,6 @@ OSCdef(\stringLow, { |m|
 	var ret;
 	num.postln;
 	ret = Synth("sadSax");
-	//	ret.set(\ss,~wavebuff);
-	//ret.set(\windex, ~windex);
 	ret.set(\freq,num.midicps);
 	~saxadsr.setADSR(ret);
 	~saxadsrf.setfADSR(ret);
@@ -179,21 +169,6 @@ OSCdef(\stringLow, { |m|
 	ret;
 };
 
-
-~channel6 = {arg num, vel = 1;
-	var ret;
-	num.postln;
-	ret = Synth("FMPiano");
-	ret.set(\freq,num.midicps);
-	ret.set(\amp,~track6.amp);
-	ret.set(\balance,~track6.balance);
-	ret.set(\out,~track6.out);
-	ret.set(\sing,1);
-	~belladsr6.setADSR(ret);
-	ret.set(\gate,1);
-	ret;
-
-};
 
 ~turndown1 = {
 	arg vol,cc,chan,src;
