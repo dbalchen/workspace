@@ -2234,3 +2234,671 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: TODO
   :ARCHIVE_ITAGS: noexport
   :END:
+
+* TC Oncall Daily Duties
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-11-20 Mon 10:53
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+** Check the Web Monitors
+   -   Batch Tab
+       -  Open Remedy against Amdocs - Tier 2 Billing to restart
+              the scripts when any of the Batch1, Batch2, Batch3, or
+              APRM columns are missing indicating they are down.
+       -  Open Remedy against Amdocs - Tier 2 Billing to restart
+              the script when any of these scripts are red indicating
+              they are down.\\
+   -  Event Tab
+      -  Open Remedy against Amdocs - Tier 2 Billing to restart
+              the scripts when any of the Event1 through Event6 columns
+              are missing indicating they are down.
+      -  Open Remedy against Amdocs - Infra Environments to
+              investigate available space when any of the File system %
+              Used sections are red.
+   -  AC1 Control Tab
+      -  Open Remedy against Amdocs for AF and stuck in IU or RD
+              files when creation date and is less than current date.
+      -  Use the A&F monitor report for <MM/DD/YYYY> and APRM
+              monitor report for <MM/DD/YYYY> emails as supporting
+              evidence, which run every hour.
+   -  AEM Tab
+      -  Ignore -- monitor was turned off due a conflict with
+              prepaid event transactions.
+   -  Other Tab
+      -  Open Remedy against Amdocs - Tier 2 Billing to check on
+              going rerating when rows are in red for more than one
+              day.
+   - Check Overage Protection Monitor.
+     -  Go to the MPS mailbox and look for the Overage Notification
+           Count for <MM-DD-YYYY> email.\\
+           When received with counts similar to these there are no
+           issues.
+        #+BEGIN_EXAMPLE
+            Total Files: 42987
+            Total Records: 154323
+            75%: 84418
+            100%: 69830
+            Disclaimer: 60
+            Balance: 15
+        #+END_EXAMPLE
+        -  When count are significantly low open a Sev 3 ticket against
+           Amdocs.
+        #+BEGIN_EXAMPLE
+            Total Files: 2607
+            Total Records: 9458
+            75%: 5365
+            100%: 4092
+            Disclaimer: 0
+            Balance: 1
+        #+END_EXAMPLE
+        -  Open a Sev 2 ticket against Amdocs when Overage Notification
+           Count FAILED for <MM-DD-YYYY>! is received.
+
+           -  Call IS Support at 608-828-5812 to inform them of a Sev 2
+              or above ticket.
+           -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
+              217-766-1979.
+           -  Email applicable teams the ticket number and description.
+
+        #+BEGIN_EXAMPLE
+            To:  GSSUSCCTier25RA@amdocs.com
+            Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+        #+END_EXAMPLE
+
+   -  Check .LOG file monitor.
+      -  Go to the MPS mailbox and look for the Log Monitoring Count
+           for <MM-DD-YYYY> ! email
+      -  When received with No LOG files where found for <MM-DD-YYYY>
+           there are no issues.
+      -  When received with "Log files found for <MM-DD-YYYY> Total
+           Log Files: <XXXXXX> open a sev 3 Remedy ticket against
+           Amdocs.
+      -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
+              217-766-1979.
+      -  Email applicable teams the ticket number and description.
+           #+BEGIN_EXAMPLE
+               To:  GSSUSCCTier25RA@amdocs.com
+               Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+           #+END_EXAMPLE
+
+   -  Check AC1_CONTROL Fixer Status.
+      -  Go to the MPS mailbox and look for the AC1_CONTROL Fixer
+           Status emails. There are two. One at ~12:04AM and on at
+           ~4:03AM.
+      -  The output is similar to what is shown below. The only
+           action needed is when a Sid is removed other than *SIDS*
+           45696, 49697, and 49698. When a Sid other than the
+           aforementioned *SIDS* is removed open a Sev 4 Remedy against
+           Inter-carrier Services, email the ticket number,
+           description, and details to Zachary.Gutter@uscellular.com
+           asking him to validate the Sid.
+
+           #+BEGIN_EXAMPLE
+               Results for the AC1_CONTROL Fixer:
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               Fixed /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/
+                     switch/DIRI/SDIRI_FCIBER_ID000069_T20150802185115.DAT 
+               and replaced it with /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs
+                     /up/physical/switch/DIRI/SDIRI_FCIBER_ID000069_T20150802185199
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               Sid:  was removed
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 0 CIBER AF files with wr_rec_quantity of 2
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 0 out of sequence CIBER files
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 0 OutColllects files stuck IU and set to RD
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 0 File2E stuck IU/AF files and set to RD
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 0 Files stuck FR files and set to RD
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 21 ORG records updated at prdusg1c.ape1_subscriber_rerate
+               from num_of_rerate_tries=3 to 1
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 14 ORG records updated at prdusg2c.ape1_subscriber_rerate 
+               from num_of_rerate_tries=3 to 1
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 28 ORG records updated at prdusg3c.ape1_subscriber_rerate 
+               from num_of_rerate_tries=3 to 1
+           #+END_EXAMPLE
+
+           #+BEGIN_EXAMPLE
+               There were 28 ORG records updated at prdusg4c.ape1_subscriber_rerate 
+               from num_of_rerate_tries=3 to 1
+           #+END_EXAMPLE
+
+   - Check Large Charge monitor.
+     -  Go to the MPS mailbox and look for the Large Charge email.
+     -  When the subject line is other than Large Charge Not
+           Detected - No Action Required open a sev 3 Remedy against
+           Amdocs.
+     -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
+              217-766-1979.
+     -  Email applicable teams the ticket number and description.
+
+           #+BEGIN_EXAMPLE
+               To:  GSSUSCCTier25RA@amdocs.com
+               Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+           #+END_EXAMPLE
+
+
+   - High Dollar Amount Recovery Procedure
+     *IMPORTANT : High Dollar amounts must be reversed on the same day they are created.*
+
+     1. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com receives an
+        internal alert indicating there is a high dollar amount
+        issue.
+     2. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com calls the USC
+        Billing On-Call Person from the daily Billing Priorities
+        Email as soon as the alert is received.
+     3. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com sends an email to
+        the USCDLISOps-BillingandAROperations@uscellular.com
+        email distribution list within 1 hour of the initial
+         internal alert. This email contains:
+         -  FA/BAR
+         -  transaction_id
+         -  amount (e.g. charges_amount)
+         -  tax_amount
+         -  debit_id
+         -  l9_geo_cod
+         -  operator_id (associate id)
+         -  first_name
+         -  last_name
+         -  e_mail
+         -  employee_no
+         -  work_group
+
+     4. USC forwards the Amdocs communication email to the
+        following Financial Services email addresses within 1
+        hour of receiving the email communication from Amdocs:
+        -  NFSC-TulsaResolutions@uscellular.com
+        -  NFSCMADFSHelpDesk@uscellular.com
+        -  Lane.Dohl@uscellular.com
+
+     5. Financial Services reverses any incorrect transactions
+        and replies to the email distribution list for USC and
+        Amdocs. If the process is successful, no further action
+        is required. If there are any other issues, further
+        escalation is needed using our standard processes. This
+        escalation requires a Sev-3 ticket created and routed to
+        the Amdocs Tier 2 Billing queue.
+
+   -  Check out of sequence CIBER records monitor.
+      -  Go to the MPS mailbox and look for the out of sequence CIBER
+           records email.
+      -  When the subject line is other than No out of sequence CIBER
+           records for <YYYYMMDD> open a sev 4 Remedy against Amdocs.
+      -  Email applicable teams the ticket number and description.
+
+        #+BEGIN_EXAMPLE
+            To:  GSSUSCCTier25RA@amdocs.com
+            Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
+        #+END_EXAMPLE
+
+   -   Check Late Usage Processing
+        Follow the link below to see a query to find late usage for a
+        given cycle.
+        [[file:///home/dbalchen/workspace/CommonPlace/docs/LateUsage.sql][Late Usage SQL]]
+
+   -   When Notified Nonfictions.
+        -  kpr01ebiap maintenance.
+        -  Login to the EBI server with your LAN ID and password.
+        -  Check if AEM and KPI scripts are running.
+
+        #+BEGIN_EXAMPLE
+            [md1dsmi1@kpr01ebiap eps]$ ps -ef | grep perl | grep md1dsmi1 | grep -v grep
+            md1dsmi1   16566       1  0 Jul30 ?        00:00:00 perl ./aem_purge_trending_split.pl 1 0
+            md1dsmi1 2345044       1  0 Jul28 ?        00:00:00 perl ./aem_error_trending_auto.pl
+            md1dsmi1 2345048       1  0 Jul28 ?        00:00:00 perl ./aem_purge_trending_auto.pl
+            md1dsmi1 2345050       1  0 Jul28 ?        00:00:00 perl ./em1_errors_trending_auto.pl
+            md1dsmi1 2345052       1  0 Jul28 ?        00:00:00 perl ./em1_errors_write_off_auto.pl
+            md1dsmi1 2345053       1  0 Jul28 ?        00:00:00 perl ./remedy_reports_auto.pl
+            md1dsmi1 2345054       1  0 Jul28 ?        00:00:43 perl ./tc_kpi_auto.pl 2 2 1 1
+            md1dsmi1 2345055       1  0 Jul28 ?        00:00:02 perl ./tc_kpi_datain_auto.pl 2 2 1 1
+        #+END_EXAMPLE
+
+        -  Check if Business Report scripts are running.
+
+        #+BEGIN_EXAMPLE
+            [md1dsmi1@kpr01ebiap eps]$ ps -ef | grep MainLoop | grep -v grep
+            md1dsmi1 2188567       1  0 Jul28 ?        00:00:00 HS1H MainLoop - next: 
+            md1dsmi1 2188568       1  0 Jul28 ?        00:00:00 CancelLineIL MainLoop - next:
+            md1dsmi1 2188569       1  0 Jul28 ?        00:00:00 MADISON MainLoop - next: 
+            md1dsmi1 2188570       1  0 Jul28 ?        00:00:00 CancelLineWI MainLoop - next:
+            md1dsmi1 2188571       1  0 Jul28 ?        00:00:00 daily_counts MainLoop - next:
+        #+END_EXAMPLE
+
+   -  Restart AEM and KPI scripts.
+      -  Login to the EBI server with your LAN ID and password.
+      -  cd to /home/common/eps/das
+      -  Run from the command line nohup ./StartAllErrorAndKPI.sh &
+
+   - Restart Business Report scripts.
+     -  Login to the EBI server with your LAN ID and password.
+     -  cd to /home/common/eps/reports
+     -  Run from the command line nohup ./StartAllReportCron.sh &
+        Note all scripts use Dave Smith's LAN ID password and when the
+        failure is due to the password being expired please notify him
+        immediately and if he is out of the office wait until he
+        returns to the office to reset his password and update the
+        scripts.
+
+
+* Log File Location
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-11-20 Mon 11:00
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+  - Batch 1
+    -  cdlog -
+           \//pkgbl01\//inf\//aimsys\//prdwrk1\//var\//usc\//log
+        -  A&F | ssh prdwrk2@kpr02batch | MF1_MD_MD_USC
+        -  F2E | ssh prdwrk4@kpr02batch |
+           ADJ1_File2E_Daemon_Shell_Sh_F2E
+
+* RLC (Rating Logic configurator)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-11-20 Mon 11:02
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations/TurboCharging
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+       -  The *RLC* has a repository that keeps it rules as an *XML*
+          string in a /database column/.
+       -  Though they are stored as *XML* you can view them as
+          *Product Catalog UI*.
+          -  *Customer* defines set of attributes possibly having
+             different values for different
+             *customers/subscribers*.These attributes are further used
+             in qualification criteria to define guiding to service
+             functionality, and in event handlers to personalize
+             pricing logic for specific customer/subscriber
+          -  *Performance Indicator* defines set of attributes
+             (counters) to keep accumulated usage for some specific
+             pricing item Its attributes are used and modified by the
+             event handlers logic.
+          -  *Item Parameters* define a set of attributes that are the
+             parameters of the Pricing Item Type Their values are set
+             in the Product Catalog UI tool while creating a Pricing
+             Item based on a given Pricing Item Type
+          -  *External record* defines a set of attributes associated
+             with a specific extract record layout.
+          -  *Variables* define a set of attributes (variables) are
+             used by handlers statements.
+
+       -  *PIT* /Pricing Item Type/
+       -  We can define a number of different *Rating roles* and
+          rating events.
+       -  Incoming calls are not dropped but instead are zero rated.
+
+       -  Configuration Tools\\
+          The tool is a split screen application. On the left side
+          contains all the rating schemes which are then dragged and
+          dropped to create a tree structure on the right side.
+
+          -  *RLC - Rating Logic configurator* /Used to configure the
+             rating engine/
+          -  Uses the *EPC* to create the rating logic, not the price
+             plans. Once your finished with the configurator you the
+             compile with the *ICC (Implementation Compiler
+             configurator)* which then creates C++ code thats added to
+             the rater.
+          -  *TCC (Turbo-Charging configurator)* - Used to configure
+             the Turbo-Charging rater.
+          -  *Replenishment Manager* - Used for *Pre-Pay*.
+
+* Extra CIBER
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-11-20 Mon 11:17
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: CIBER File Format
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+:CLOSET:
+: ** Interfaces
+: *** Roamex/Fraudex
+#+ATTR_LaTeX: width=20cm
+   [[file:Pictures/NDC.png]]
+
+
+    -  *Business Process -* Mediation
+    -  *Type -* Batch
+    -  *Category -* Batch Redesign
+    -  *Service -* On all *Nortel* switches switch records are
+            copied to *mad1rom1*. Then through out the day *Syniverse*
+            comes in and finds all the roaming records and runs it
+            against there *Fraudx* application to find evidence of
+            fraud.
+    -  *Thoughts and other random musings* \\ For the most part the
+            process is a black box and everything is handled by
+            *Syniverse*. The file that is sent is raw switch data and at
+            this time only *NTI (Nortel)* is supported. For all NDC
+            processes the source, compilation and processing occur on
+            the NDC machines where the base language is C.
+    -  *Questions*
+       -  [ ] What are the names of the NDC machines.
+       -  [ ] Where is the source code kept.
+    -  *Contacts*
+       -  Roberto Amezcua
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX 
+: *** OutCollects
+     [[file:Pictures/outcoll.png]]
+    -  *Business Process -* Mediation
+       -  *Type -* Batch
+       -  *Category -* Batch Redesign
+       -  *Service -* Send OutCollect data to *Syniverse*.
+       -  *Process Flow*
+          1. Switch records are passed through the billing system and
+               any record that does not belong to a customer gets placed
+               into a file.
+          2. Twice a day the /Ciber_Create/ job is run which takes
+               these files and converts them to CIBER records.
+          3. Five times a day *NDC* starts a job which sends these
+               files to *Syniverse*.
+          4. It also when it looks for CIBER files coming back from
+               *Syniverse* of our customers who are roaming on other
+               networks.
+
+       -  *Thoughts and other random musings* \\ A pretty simple batch
+            interface it is here where we can use the new batch
+            standards to make sure the transfer is complete.
+       -  *Contacts*
+
+          -  Kyle Matte
+          -  Roberto Amezcua
+
+    - CIBERNET - Specification/Reference
+      [[https://www.one1clear.net/mxp/Login.asp]]
+      -  Mobile-X Code: USA-MPS-0001
+      -  Login: Skeup/SyFAGh
+
+
+      : <\\chil-data1\Share\Common\TOPS\outcollects>
+:END:
+
+\newpage
+
+* OutCollect Operational Jobs (CIBER Processing)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-11-20 Mon 11:21
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+      *CIBER* files are a collection of roaming records, these can be
+      either a foreign carrier on our network or one of our customers on
+      another network. More succinctly there are two types of roaming
+      scenarios.
+
+      - *OutCollects*\\
+      Non-USCC customers using our network, eventually the records
+      created become part of the *OutCollect* process.
+
+      - *InCollects*\\
+         USCC customers roaming on another carriers network. These
+         records are sent to Syniverse which in turn sends them to us
+         and become part of our *InCollect* process. All though
+         InCollects come pre-rated they are still re-rated according to
+         their plan.
+\\
+      The OutCollect process runs twice a day *1:00 a.m/p.m.*
+      -  *OUTCOL*\\
+         Extracts from the *APE1_RATED_EVENT* table and creates files
+         for *MAS*.
+      -  *ADJ9MAS OUTCOL*\\
+         Creates files for *SPL1*.
+      -  *SPL1* - /Daemon/\\
+         Processes files as it sees them and creates files for *RGD*.
+      -  *RGD* - /Daemon/\\
+         Processes files as it sees them and creates files for *APP*.
+      -  *APP* - /Daemon/\\
+         Processes files in RD after 12 hours of the last files
+         processed. Output files for *Syniverse*.
+      -  *MF9FTDTAX*\\
+         Loads data into *MF9_OUTCOL_TAXES* table
+      -  *AR9OUTCLTAX*\\
+
+      End-day after *MF9FTDTAX*.
+** OutCollect Files
+        These are the file that are created by *TOPS* that will be sent
+        to *Syniverse*.
+
+        -  *aprout (OutCollect Directory)*\\
+
+        *pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output*
+
+
+*** Operational Tables
+
+        1. *AC1_CONTROL*\\
+           The Outbound Syniverse files       
+           :    select * from ac1_control
+           :    where nxt_pgm_name = 'CBRRPT'
+           :    and cur_pgm_name = 'APP'
+	   :
+           :    FILE_NAME
+           :    ---------
+           :    CIBER_CIBER_20130917090101_1312027_0001.dat
+           :    CIBER_CIBER_20131012092425_1237215_0013.dat
+           :    CIBER_CIBER_20130927090046_1027159_0012.dat
+           :    ...
+           :    CIBER_CIBER_20131011211952_1237215_0012.dat
+
+        2. *MF1_CIBER_BATCH_SEQ*\\
+           Contain the CIBER batch sequence numbers /(See Database
+           Section)/.
+
+
+* Hot Fix Procedures
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-11-20 Mon 12:11
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Database Tables/(BPT) EPC Tables
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+       1. Develop, test the *SQL* to affect the change.
+          -  #{Defect}.sql /sql script/
+          -  #{Defect}BO.sql /backout script/
+          -  #{Defect}VV.sql /verify script/
+
+       2. If not part of an *EPC Dump*
+          1. Update the *BPT Master List*
+          2. Send *SQL* and test results to *Yogesh* and request a hot
+             fix
+          3. Update *BPT Hot Fix Tracking* spreadsheet
+          4. Contact Carolyn/Sandeep/Sali tell them to apply the Hot
+             Fix.
+       3. Update all databases in the *DMZ* with the changes
+       4. Create a *SMART Ticket*.
+          1. Create *Install Plan*
+          2. Create *Test Plan* /use email to Yogesh/
+          3. Create *Backout Plan* /point to Install plan/
+          4. Just add the following sections.
+             -  Risk
+             -  Business reason
+             -  Impact assessment
+       5. If not part of an *EPC Dump* Email John Kelly with the
+          Install plan and all SQL.
+       6. If part of an EPC dump. Notify the EPC team so they can
+          include your *Smart Ticket* with their hot fix.
+       7. Represent the change in the *Change Control Meeting*
+
+
+* SID Updates
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-11-20 Mon 12:11
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Database Tables/(BPT) EPC Tables
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+            SID'S or Switch IDentifiers is a unique 5 digit number that
+            correlates to switch. It is with the *SID* that *TOPS*
+            defines the all mediation and rating logic and is the first
+            enrichment step on a call record.
+
+        When a *SID* is added or changes there is a possibility
+        that the following tables need to be changed:
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+                1. PC9_SID
+                2. PC9_SID_LIST
+                3. PC9_SERVE_AREA_TO_SID
+                4. AGD1_RESOURCES_REF
+                5. MI1_STLMNT_CONTRACT
+                6. MF1_OUTCOL_SID_PAIR
+                7. PC9_INCOL_SID_PAIR
+                8. APE1_SUBSCR_DATA_REF
+                9. APE1_SUBSCR_OFFERS_REF
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+               All *SIDS* changes start with the *SID* table and
+               depending on what needs to be done there determines what
+               needs to be done to the other 7 tables. For example if it
+               is a brand new *SID* all 8 tables need to be updated with
+               the most complicated part setting up InCollect and
+               OutCollect processing for a *SIDS* contract. The
+               following explains in details on what needs to be done:
+
+               1. Find the entry in the *PC9_INCOL_SID_PAIR* where
+                  the *SERVE SID* is the contract number and the *HOME
+                  SID* = '175' /(USCC contract number)/.
+
+                  1. Expire the date for when you want the new rate to
+                     take affect.
+                  2. Use the above row as a template for an insert
+                     statement.
+                  3. *For outcollecs do the same as above except use
+                     SERVE SID = '175'*
+
+               2. Create an Insert statement for the
+                  *PC9_INCOL_SID_PAIR* with the new rates.
+               3. For the OutCollect side find all *SIDS* that that have
+                  the *Settlement Contract Code*, /(In this example we
+                  trying to find all *SIDS* with settlement contract
+                  code = 287)/
+
+              
+                  : SELECT SIDS FROM PC9_SID WHERE SETLMNT_CONTRACT_CD = '287';
+           
+
+               4. For each *SID* found add '175' to the end and use that
+                  as the resource value for the table
+                  *AGD1_RESOURCES_REF* then create an insert if it
+                  don't exists.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+|-------------------------+-----------------------------------|
+| *Column*                | *Value*                           |
+|-------------------------+-----------------------------------|
+| *RESOURCE_SEGMENT*      | *ResourceSegmentCalc_Sh*          |
+| *RESOURCE_VALUE*        | SID + '175'                       |
+| *RESOURCE_TYPE*         | 21 (for OutCollect)               |
+| *SUBSCRIBER_ID*         | sequential number /(1, 2, 3,...)/ |
+| *SUB_STATUS*            | A (default)                       |
+| *ROUTING_POLICY_ID*     | 0 (for Postpaid)                  |
+| *PAYMENT_CATEGORY*      | POST (default)                    |
+| *CUSTOMER_ID*           | 1 + SID                           |
+| *BILL_CYCLE*            | 99                                |
+| *LARGE_CUST_IND*        | ‘N'                               |
+| *RESOURCE_HASH_VALUE*   | *ResourceSegmentCalc_Sh*          |
+| *SUBSCRIBER_HASH_VALUE* | *SubsriberHashValueCalc_Sh*       |
+|-------------------------+-----------------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+               5. For each *SID* found add a '1' in front which will get
+                  you the *customer_id* then do a query against the
+                  *APE1_SUBSCR_DATA_REF* to get the subscriber_id
+                  /(Using the above as an example)/
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+|-------------------------+-----------------------------------|
+| *Column*                | *Value*                           |
+|-------------------------+-----------------------------------|
+| *CYCLE_CODE*            | 99                                |
+| *CUSTOMER_SEGMENT*      | *CustomerSegmentCalc_Sh*          |
+| *SUBSCRIBER_ID*         | Sequential number /(1, 2, 3,...)/ |
+| *CUSTOMER_ID*           | 1 + SID                           |
+| *SUBSCRIBER_HASH_VALUE* | *SubscriberHashCalculator*        |
+|-------------------------+-----------------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+               6. Once you have the subscriber you need to point each
+                  entries offer ID's from the
+                  *APE1_SUBSCR_OFFERS_REF* table to the correct air
+                  and toll charge. /(Again using the above example)/ To
+                  find a suitable offer ID search the *CSM_OFFER*
+                  table, if you cannot find one have the *EPC* group
+                  create one. (/In this example we are looking for a
+                  offer ID with the Air and Toll charge of 0.3/)
+         
+                 :  SELECT * FROM CSM_OFFER WHERE SOC_NAME LIKE '%_0.03_Air_0.03_Toll_PP%';
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+|-----------------------+-----------------------------------|
+| *Column*              | *Value*                           |
+|-----------------------+-----------------------------------|
+| *CYCLE_CODE*          | 99                                |
+| *CUSTOMER_SEGMENT*    | *CustomerSegmentCalc_Sh           |
+| *SUBSCRIBER_ID*       | sequential number /(1, 2, 3,...)/ |
+| *OFFER_ID*            | SOC_ID                            |
+| *OFFER_INSTANCE*      | Subscriber ID                     |
+| SUBSCRIBER_HASH_VALUE | *SubsriberHashValueCalc_Sh*       |
+|-----------------------+-----------------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+
+* Hash Creation Programs
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-11-20 Mon 12:12
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Database Tables/(BPT) EPC Tables
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+             Some tables require that a unique hash value be created
+             to create those values use these programs:
+
+             : ~/abp_home/core/bin/SubsriberHashValueCalc_Sh  <SUBSCRIBER_ID>
+
+             : ~/abp_home/core/bin/ResourceSegmentCalc_Sh     <Resource Type> 21 = (OutCollects)
+             :                                                <Resource Value> 
+             :                                                <Resource value length>
+             : ~/abp_home/core/bin/CustomerSegmentCalc_Sh     <CUSTOMER_ID>
+

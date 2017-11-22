@@ -172,7 +172,6 @@
 |            1 |   787/939 | PRI              | Puerto Rico                  |
 |--------------+-----------+------------------+------------------------------|
 
-
 #+BEGIN_LaTeX
 \newpage 
 #+END_LaTeX
@@ -860,72 +859,8 @@ subgraph cluster_3 {
 |----------------------------------+------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
-
-:CLOSET:
-: ** Interfaces
-: *** Roamex/Fraudex
-#+ATTR_LaTeX: width=20cm
-   [[file:Pictures/NDC.png]]
-
-
-    -  *Business Process -* Mediation
-    -  *Type -* Batch
-    -  *Category -* Batch Redesign
-    -  *Service -* On all *Nortel* switches switch records are
-            copied to *mad1rom1*. Then through out the day *Syniverse*
-            comes in and finds all the roaming records and runs it
-            against there *Fraudx* application to find evidence of
-            fraud.
-    -  *Thoughts and other random musings* \\ For the most part the
-            process is a black box and everything is handled by
-            *Syniverse*. The file that is sent is raw switch data and at
-            this time only *NTI (Nortel)* is supported. For all NDC
-            processes the source, compilation and processing occur on
-            the NDC machines where the base language is C.
-    -  *Questions*
-       -  [ ] What are the names of the NDC machines.
-       -  [ ] Where is the source code kept.
-    -  *Contacts*
-       -  Roberto Amezcua
-#+BEGIN_LaTeX
-\newpage
-#+END_LaTeX 
-: *** OutCollects
-     [[file:Pictures/outcoll.png]]
-    -  *Business Process -* Mediation
-       -  *Type -* Batch
-       -  *Category -* Batch Redesign
-       -  *Service -* Send OutCollect data to *Syniverse*.
-       -  *Process Flow*
-          1. Switch records are passed through the billing system and
-               any record that does not belong to a customer gets placed
-               into a file.
-          2. Twice a day the /Ciber_Create/ job is run which takes
-               these files and converts them to CIBER records.
-          3. Five times a day *NDC* starts a job which sends these
-               files to *Syniverse*.
-          4. It also when it looks for CIBER files coming back from
-               *Syniverse* of our customers who are roaming on other
-               networks.
-
-       -  *Thoughts and other random musings* \\ A pretty simple batch
-            interface it is here where we can use the new batch
-            standards to make sure the transfer is complete.
-       -  *Contacts*
-
-          -  Kyle Matte
-          -  Roberto Amezcua
-
-    - CIBERNET - Specification/Reference
-      [[https://www.one1clear.net/mxp/Login.asp]]
-      -  Mobile-X Code: USA-MPS-0001
-      -  Login: Skeup/SyFAGh
-
-
-      : <\\chil-data1\Share\Common\TOPS\outcollects>
-:END:
-\newpage
 * TOPS Operations
 ** Acquisition and Formating (A&F)
       *A&F* is to the new system what *MAF and RBMS* was to the old.
@@ -971,74 +906,6 @@ subgraph cluster_3 {
          presentment.
       -  Limiting or /choking/ usage can be handled by *Diameter* for
          real-time and *Turbo-Charging* for *Post-Pay*
-
-*** RLC (Rating Logic configurator)
-         -  The *RLC* has a repository that keeps it rules as an *XML*
-            string in a /database column/.
-         -  Though they are stored as *XML* you can view them as
-            *Product Catalog UI*.
-            -  *Customer* defines set of attributes possibly having
-               different values for different
-               *customers/subscribers*.These attributes are further used
-               in qualification criteria to define guiding to service
-               functionality, and in event handlers to personalize
-               pricing logic for specific customer/subscriber
-            -  *Performance Indicator* defines set of attributes
-               (counters) to keep accumulated usage for some specific
-               pricing item Its attributes are used and modified by the
-               event handlers logic.
-            -  *Item Parameters* define a set of attributes that are the
-               parameters of the Pricing Item Type Their values are set
-               in the Product Catalog UI tool while creating a Pricing
-               Item based on a given Pricing Item Type
-            -  *External record* defines a set of attributes associated
-               with a specific extract record layout.
-            -  *Variables* define a set of attributes (variables) are
-               used by handlers statements.
-
-         -  *PIT* /Pricing Item Type/
-         -  We can define a number of different *Rating roles* and
-            rating events.
-         -  Incoming calls are not dropped but instead are zero rated.
-
-         -  Configuration Tools\\
-            The tool is a split screen application. On the left side
-            contains all the rating schemes which are then dragged and
-            dropped to create a tree structure on the right side.
-
-            -  *RLC - Rating Logic configurator* /Used to configure the
-               rating engine/
-            -  Uses the *EPC* to create the rating logic, not the price
-               plans. Once your finished with the configurator you the
-               compile with the *ICC (Implementation Compiler
-               configurator)* which then creates C++ code thats added to
-               the rater.
-            -  *TCC (Turbo-Charging configurator)* - Used to configure
-               the Turbo-Charging rater.
-            -  *Replenishment Manager* - Used for *Pre-Pay*.
-** AEM
-         AEM gets the Turbo-Charging errors from the
-         *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
-         *EM1_RECORD* table. Since there are so many coulmns in the
-         *EM1_RECORD* table we must limit are query's to the following
-         columns. [[file:docs/EM1%20Query's][EM1 Queries]]
-** Production Servers/EpsMonitors
-      -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
-         :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
-      -  *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
-         : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
-      -  *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
-         : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
-      -  *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
-      -  *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
-      -  *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
-      -  *Event3* -- *kprl3event.uscc.com (10.176.181.118)*
-      -  *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
-      -  *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
-      -  *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
-      -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
-         : /inf_nas/apm1/prod/aprmoper/eps/monitors
-
 *** Event Servers
          There are multiple Event Servers which coresspond to bill cycle
          and run on the event servers. Their status can be viewed using
@@ -1065,72 +932,30 @@ subgraph cluster_3 {
          2. *RRP_EOC1068*
          3. *RRP_EOC1192*
 
-** OutCollect Operational Jobs (CIBER Processing)
-      *CIBER* files are a collection of roaming records, these can be
-      either a foreign carrier on our network or one of our customers on
-      another network. More succinctly there are two types of roaming
-      scenarios.
-
-      - *OutCollects*\\
-      Non-USCC customers using our network, eventually the records
-      created become part of the *OutCollect* process.
-
-      - *InCollects*\\
-         USCC customers roaming on another carriers network. These
-         records are sent to Syniverse which in turn sends them to us
-         and become part of our *InCollect* process. All though
-         InCollects come pre-rated they are still re-rated according to
-         their plan.
-\\
-      The OutCollect process runs twice a day *1:00 a.m/p.m.*
-      -  *OUTCOL*\\
-         Extracts from the *APE1_RATED_EVENT* table and creates files
-         for *MAS*.
-      -  *ADJ9MAS OUTCOL*\\
-         Creates files for *SPL1*.
-      -  *SPL1* - /Daemon/\\
-         Processes files as it sees them and creates files for *RGD*.
-      -  *RGD* - /Daemon/\\
-         Processes files as it sees them and creates files for *APP*.
-      -  *APP* - /Daemon/\\
-         Processes files in RD after 12 hours of the last files
-         processed. Output files for *Syniverse*.
-      -  *MF9FTDTAX*\\
-         Loads data into *MF9_OUTCOL_TAXES* table
-      -  *AR9OUTCLTAX*\\
-
-      End-day after *MF9FTDTAX*.
-*** OutCollect Files
-         These are the file that are created by *TOPS* that will be sent
-         to *Syniverse*.
-
-         -  *aprout (OutCollect Directory)*\\
-
-         *pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output*
-
-
-**** Operational Tables
-
-         1. *AC1_CONTROL*\\
-            The Outbound Syniverse files       
-            :    select * from ac1_control
-            :    where nxt_pgm_name = 'CBRRPT'
-            :    and cur_pgm_name = 'APP'
-	    :
-            :    FILE_NAME
-            :    ---------
-            :    CIBER_CIBER_20130917090101_1312027_0001.dat
-            :    CIBER_CIBER_20131012092425_1237215_0013.dat
-            :    CIBER_CIBER_20130927090046_1027159_0012.dat
-            :    ...
-            :    CIBER_CIBER_20131011211952_1237215_0012.dat
-
-         2. *MF1_CIBER_BATCH_SEQ*\\
-            Contain the CIBER batch sequence numbers /(See Database
-            Section)/.
+** AEM
+         AEM gets the Turbo-Charging errors from the
+         *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
+         *EM1_RECORD* table. Since there are so many coulmns in the
+         *EM1_RECORD* table we must limit are query's to the following
+         columns. [[file:docs/EM1%20Query's][EM1 Queries]]
+** Production Servers/EpsMonitors
+      -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
+         :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
+      -  *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
+         : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
+      -  *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
+         : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
+      -  *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
+      -  *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
+      -  *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
+      -  *Event3* -- *kprl3event.uscc.com (10.176.181.118)*
+      -  *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
+      -  *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
+      -  *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
+      -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
+         : /inf_nas/apm1/prod/aprmoper/eps/monitors
 
 ** Overage Protection
-
       Overage notifications are detected on an event by event basis. As
       events are processed by *TC* and added to the *APE1_ACCUMULATORS*
       table a check is made against the
@@ -1159,7 +984,7 @@ subgraph cluster_3 {
          S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
          L3_CALL_SOURCE
 
-*** Billing Process
+** Billing Process
       The billing process follows a map which is created by the job
       *ADJ3_APR_CycleBillRun_Sh*. If it completes successfully it
       will create a billing map that will look something like the
@@ -1168,59 +993,54 @@ subgraph cluster_3 {
       [[file:Pictures/billing_tc_map-27124108.png]]
 
 ** Log File Location
-   - Batch 1
-     -  cdlog -
-            \//pkgbl01\//inf\//aimsys\//prdwrk1\//var\//usc\//log
-         -  A&F | ssh prdwrk2@kpr02batch | MF1_MD_MD_USC
-         -  F2E | ssh prdwrk4@kpr02batch |
-            ADJ1_File2E_Daemon_Shell_Sh_F2E
-
    -  Alias
       -  *cdlog* - cd to the logfile directory.
-      -  *cdswitch (Batch1 Only)* - cd to the switch directory.
+      -  *cdswitch (Batch2 Only)* - cd to the switch directory.
       -  *aprout* - cd to the *CIBER* out directories.
 
 ** Operational Terms and Definitions
-      -  *Front-end Processes*
-         -  *CRM:* Customer Relationship Manager
-            -  *Smart Client Designer*
-            -  *ASCF Designer - Amdocs Smart Client Designer*
-            -  *APM - Amdocs Process manager*
-         -  *RIM:* Retail Interaction Manager
-            -  *POS:* Point of sale provided by *Microtelecom*
-            -  *Pricing Studio*
-            -  *ASM Amdocs Security Module*
-      -  *Provisioning*
-         -  *AM or AAM - Activation Manager:* Provision Tool
-         -  *APM:* The Gui front end to *AM*
-      -  *Usage Acquisition and Rating*
-         -  *A&F* Acquisition and formatting
-         -  *Turbo-Charging* Real-time rater
-            -  *SCP* - Session Control Protocol
-         -  *MAF now called Acquisition and Formatting*
-         -  *AMC - Amdocs Monitoring and control*
-         -  *AEM - Amdocs Error Manager* /replaces EMS/
-         -  *RLC* - Rating Logic Configurator
-      -  *Billing*
-         -  *Billing Configurator*
-         -  *Invoicing Configurator*
-         -  *Replenishment Manager*
-         -  *Designer Studio* /for bill layout/
-         -  *Pooling* - Everyone brings there services to be shared
-            within everyone in the pool. Pooling is customization.
-         -  *Sharing* - A finite set of resources are set-up and
-            everyone can use it.
-         -  *MRC - Monthly Recurring Charge*
-      -  *Integration sub-systems*
-         -  *AIF - Amdocs Integration Framework*
-         -  *\index{ASM}ASM - Amdocs Security Manager*
-         -  *APM - Amdocs Process Manager*
-         -  *MMI - Multimedia Integrator*
-         -  *OM - Order Manager*
-         -  *OMS - Order Management System*
+      - *Front-end Processes*
+	- *CRM:* Customer Relationship Manager
+	  - *Smart Client Designer*
+	  - *ASCF Designer - Amdocs Smart Client Designer*
+	  - *APM - Amdocs Process manager*
+	- *RIM:* Retail Interaction Manager
+	  - *POS:* Point of sale provided by *Microtelecom*
+	  - *Pricing Studio*
+	  - *ASM Amdocs Security Module*
+\newpage
+      - *Provisioning*
+	- *AM or AAM - Activation Manager:* Provision Tool
+	- *APM:* The Gui front end to *AM*
+      - *Usage Acquisition and Rating*
+	- *A&F* Acquisition and formatting
+	- *Turbo-Charging* Real-time rater
+	  - *SCP* - Session Control Protocol
+	- *MAF now called Acquisition and Formatting*
+	- *AMC - Amdocs Monitoring and control*
+	- *AEM - Amdocs Error Manager* /replaces EMS/
+	- *RLC* - Rating Logic Configurator
+	- *APRM - Amdoc Partner Relationship Manager* /Roaming usage kept here/
+	- *ARCM - Process TAP records*
+      - *Billing*
+	- *Billing Configurator*
+	- *Invoicing Configurator*
+	- *Replenishment Manager*
+	- *Designer Studio* /for bill layout/
+	- *Pooling* - Everyone brings there services to be shared
+          within everyone in the pool. Pooling is customization.
+	- *Sharing* - A finite set of resources are set-up and
+          everyone can use it.
+	- *MRC - Monthly Recurring Charge*
+      - *Integration sub-systems*
+	- *AIF - Amdocs Integration Framework*
+	- *\index{ASM}ASM - Amdocs Security Manager*
+	- *APM - Amdocs Process Manager*
+	- *MMI - Multimedia Integrator*
+	- *OM - Order Manager*
+	- *OMS - Order Management System*
 
 ** Production Support - SUP1
-*** Support Server
     Accessed from Putty in *TOPS* Production Support Applications.
     Should be able to login on with LAN ID and password (which is
     same as your LAN ID).
@@ -1253,7 +1073,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** Development Servers
+** Development Servers
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -1270,7 +1090,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** EBI Server
+** EBI Server
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -1432,271 +1252,6 @@ subgraph cluster_3 {
     -   APRM Queries
     :  [[docs/APRM%20Queries][AprmQuery.sql]]
 
-** TC Oncall Daily Duties
-*** Check the Web Monitors
-    -   Batch Tab
-        -  Open Remedy against Amdocs - Tier 2 Billing to restart
-               the scripts when any of the Batch1, Batch2, Batch3, or
-               APRM columns are missing indicating they are down.
-        -  Open Remedy against Amdocs - Tier 2 Billing to restart
-               the script when any of these scripts are red indicating
-               they are down.\\
-    -  Event Tab
-       -  Open Remedy against Amdocs - Tier 2 Billing to restart
-               the scripts when any of the Event1 through Event6 columns
-               are missing indicating they are down.
-       -  Open Remedy against Amdocs - Infra Environments to
-               investigate available space when any of the File system %
-               Used sections are red.
-    -  AC1 Control Tab
-       -  Open Remedy against Amdocs for AF and stuck in IU or RD
-               files when creation date and is less than current date.
-       -  Use the A&F monitor report for <MM/DD/YYYY> and APRM
-               monitor report for <MM/DD/YYYY> emails as supporting
-               evidence, which run every hour.
-    -  AEM Tab
-       -  Ignore -- monitor was turned off due a conflict with
-               prepaid event transactions.
-    -  Other Tab
-       -  Open Remedy against Amdocs - Tier 2 Billing to check on
-               going rerating when rows are in red for more than one
-               day.
-    - Check Overage Protection Monitor.
-      -  Go to the MPS mailbox and look for the Overage Notification
-            Count for <MM-DD-YYYY> email.\\
-            When received with counts similar to these there are no
-            issues.
-         #+BEGIN_EXAMPLE
-             Total Files: 42987
-             Total Records: 154323
-             75%: 84418
-             100%: 69830
-             Disclaimer: 60
-             Balance: 15
-         #+END_EXAMPLE
-         -  When count are significantly low open a Sev 3 ticket against
-            Amdocs.
-         #+BEGIN_EXAMPLE
-             Total Files: 2607
-             Total Records: 9458
-             75%: 5365
-             100%: 4092
-             Disclaimer: 0
-             Balance: 1
-         #+END_EXAMPLE
-         -  Open a Sev 2 ticket against Amdocs when Overage Notification
-            Count FAILED for <MM-DD-YYYY>! is received.
-
-            -  Call IS Support at 608-828-5812 to inform them of a Sev 2
-               or above ticket.
-            -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
-               217-766-1979.
-            -  Email applicable teams the ticket number and description.
-
-         #+BEGIN_EXAMPLE
-             To:  GSSUSCCTier25RA@amdocs.com
-             Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
-         #+END_EXAMPLE
-
-    -  Check .LOG file monitor.
-       -  Go to the MPS mailbox and look for the Log Monitoring Count
-            for <MM-DD-YYYY> ! email
-       -  When received with No LOG files where found for <MM-DD-YYYY>
-            there are no issues.
-       -  When received with "Log files found for <MM-DD-YYYY> Total
-            Log Files: <XXXXXX> open a sev 3 Remedy ticket against
-            Amdocs.
-       -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
-               217-766-1979.
-       -  Email applicable teams the ticket number and description.
-            #+BEGIN_EXAMPLE
-                To:  GSSUSCCTier25RA@amdocs.com
-                Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
-            #+END_EXAMPLE
-
-    -  Check AC1_CONTROL Fixer Status.
-       -  Go to the MPS mailbox and look for the AC1_CONTROL Fixer
-            Status emails. There are two. One at ~12:04AM and on at
-            ~4:03AM.
-       -  The output is similar to what is shown below. The only
-            action needed is when a Sid is removed other than *SIDS*
-            45696, 49697, and 49698. When a Sid other than the
-            aforementioned *SIDS* is removed open a Sev 4 Remedy against
-            Inter-carrier Services, email the ticket number,
-            description, and details to Zachary.Gutter@uscellular.com
-            asking him to validate the Sid.
-
-            #+BEGIN_EXAMPLE
-                Results for the AC1_CONTROL Fixer:
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                Fixed /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/
-                      switch/DIRI/SDIRI_FCIBER_ID000069_T20150802185115.DAT 
-                and replaced it with /pkgbl02/inf/aimsys/prdwrk2/var/usc/projs
-                      /up/physical/switch/DIRI/SDIRI_FCIBER_ID000069_T20150802185199
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                Sid:  was removed
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 0 CIBER AF files with wr_rec_quantity of 2
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 0 out of sequence CIBER files
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 0 OutColllects files stuck IU and set to RD
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 0 File2E stuck IU/AF files and set to RD
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 0 Files stuck FR files and set to RD
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 21 ORG records updated at prdusg1c.ape1_subscriber_rerate
-                from num_of_rerate_tries=3 to 1
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 14 ORG records updated at prdusg2c.ape1_subscriber_rerate 
-                from num_of_rerate_tries=3 to 1
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 28 ORG records updated at prdusg3c.ape1_subscriber_rerate 
-                from num_of_rerate_tries=3 to 1
-            #+END_EXAMPLE
-
-            #+BEGIN_EXAMPLE
-                There were 28 ORG records updated at prdusg4c.ape1_subscriber_rerate 
-                from num_of_rerate_tries=3 to 1
-            #+END_EXAMPLE
-
-    - Check Large Charge monitor.
-      -  Go to the MPS mailbox and look for the Large Charge email.
-      -  When the subject line is other than Large Charge Not
-            Detected - No Action Required open a sev 3 Remedy against
-            Amdocs.
-      -  Escalate ticket in Remedy, call Amdocs T2.5 on call at
-               217-766-1979.
-      -  Email applicable teams the ticket number and description.
-
-            #+BEGIN_EXAMPLE
-                To:  GSSUSCCTier25RA@amdocs.com
-                Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
-            #+END_EXAMPLE
-
-
-    - High Dollar Amount Recovery Procedure
-      *IMPORTANT : High Dollar amounts must be reversed on the same day they are created.*
-
-      1. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com receives an
-         internal alert indicating there is a high dollar amount
-         issue.
-      2. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com calls the USC
-         Billing On-Call Person from the daily Billing Priorities
-         Email as soon as the alert is received.
-      3. Amdocs OCCGMSCPSGUSCCBOPSAR@amdocs.com sends an email to
-         the USCDLISOps-BillingandAROperations@uscellular.com
-         email distribution list within 1 hour of the initial
-          internal alert. This email contains:
-          -  FA/BAR
-          -  transaction_id
-          -  amount (e.g. charges_amount)
-          -  tax_amount
-          -  debit_id
-          -  l9_geo_cod
-          -  operator_id (associate id)
-          -  first_name
-          -  last_name
-          -  e_mail
-          -  employee_no
-          -  work_group
-
-      4. USC forwards the Amdocs communication email to the
-         following Financial Services email addresses within 1
-         hour of receiving the email communication from Amdocs:
-         -  NFSC-TulsaResolutions@uscellular.com
-         -  NFSCMADFSHelpDesk@uscellular.com
-         -  Lane.Dohl@uscellular.com
-
-      5. Financial Services reverses any incorrect transactions
-         and replies to the email distribution list for USC and
-         Amdocs. If the process is successful, no further action
-         is required. If there are any other issues, further
-         escalation is needed using our standard processes. This
-         escalation requires a Sev-3 ticket created and routed to
-         the Amdocs Tier 2 Billing queue.
-
-    -  Check out of sequence CIBER records monitor.
-       -  Go to the MPS mailbox and look for the out of sequence CIBER
-            records email.
-       -  When the subject line is other than No out of sequence CIBER
-            records for <YYYYMMDD> open a sev 4 Remedy against Amdocs.
-       -  Email applicable teams the ticket number and description.
-
-         #+BEGIN_EXAMPLE
-             To:  GSSUSCCTier25RA@amdocs.com
-             Cc:  USCDLISOps-BillingandAROperations@uscellular.com; MPS@uscellular.com
-         #+END_EXAMPLE
-
-    -   Check Late Usage Processing
-         Follow the link below to see a query to find late usage for a
-         given cycle.
-         [[file:///home/dbalchen/workspace/CommonPlace/docs/LateUsage.sql][Late Usage SQL]]
-
-    -   When Notified Nonfictions.
-         -  kpr01ebiap maintenance.
-         -  Login to the EBI server with your LAN ID and password.
-         -  Check if AEM and KPI scripts are running.
-
-         #+BEGIN_EXAMPLE
-             [md1dsmi1@kpr01ebiap eps]$ ps -ef | grep perl | grep md1dsmi1 | grep -v grep
-             md1dsmi1   16566       1  0 Jul30 ?        00:00:00 perl ./aem_purge_trending_split.pl 1 0
-             md1dsmi1 2345044       1  0 Jul28 ?        00:00:00 perl ./aem_error_trending_auto.pl
-             md1dsmi1 2345048       1  0 Jul28 ?        00:00:00 perl ./aem_purge_trending_auto.pl
-             md1dsmi1 2345050       1  0 Jul28 ?        00:00:00 perl ./em1_errors_trending_auto.pl
-             md1dsmi1 2345052       1  0 Jul28 ?        00:00:00 perl ./em1_errors_write_off_auto.pl
-             md1dsmi1 2345053       1  0 Jul28 ?        00:00:00 perl ./remedy_reports_auto.pl
-             md1dsmi1 2345054       1  0 Jul28 ?        00:00:43 perl ./tc_kpi_auto.pl 2 2 1 1
-             md1dsmi1 2345055       1  0 Jul28 ?        00:00:02 perl ./tc_kpi_datain_auto.pl 2 2 1 1
-         #+END_EXAMPLE
-
-         -  Check if Business Report scripts are running.
-
-         #+BEGIN_EXAMPLE
-             [md1dsmi1@kpr01ebiap eps]$ ps -ef | grep MainLoop | grep -v grep
-             md1dsmi1 2188567       1  0 Jul28 ?        00:00:00 HS1H MainLoop - next: 
-             md1dsmi1 2188568       1  0 Jul28 ?        00:00:00 CancelLineIL MainLoop - next:
-             md1dsmi1 2188569       1  0 Jul28 ?        00:00:00 MADISON MainLoop - next: 
-             md1dsmi1 2188570       1  0 Jul28 ?        00:00:00 CancelLineWI MainLoop - next:
-             md1dsmi1 2188571       1  0 Jul28 ?        00:00:00 daily_counts MainLoop - next:
-         #+END_EXAMPLE
-
-    -  Restart AEM and KPI scripts.
-       -  Login to the EBI server with your LAN ID and password.
-       -  cd to /home/common/eps/das
-       -  Run from the command line nohup ./StartAllErrorAndKPI.sh &
-
-    - Restart Business Report scripts.
-      -  Login to the EBI server with your LAN ID and password.
-      -  cd to /home/common/eps/reports
-      -  Run from the command line nohup ./StartAllReportCron.sh &
-         Note all scripts use Dave Smith's LAN ID password and when the
-         failure is due to the password being expired please notify him
-         immediately and if he is out of the office wait until he
-         returns to the office to reset his password and update the
-         scripts.
-
 * CallDump
 ** Data Directories
       -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
@@ -1825,31 +1380,31 @@ subgraph cluster_3 {
 |---------------------------+-------------+----------------------|
 | *Table Name*              | *Database*  | *Description*        |
 |---------------------------+-------------+----------------------|
-| *AC1_CONTROL*             | PRDCUST     | Check both PRDCUST   |
-| *AC1_CONTROL_HIST*        | PRDAF       | and PRDAF            |
-| SERVICE_AGREEMENT         | PRDCUST     |                      |
-| CSM_OFFER                 | PRDCUST     |                      |
-| SUBSCRIBER                | PRDCUST     |                      |
-| *CM1_AGREEMENT_PARAM*     | PRDCUST     | Used for data        |
-|                           |             | cap issues.          |
-| *AGREEMENT_RESOURCE*      | PRDCUST     | Customer Information |
-| *AR9_ACCOUNT_STATE*       | PRDCUST     | /Here we can get/    |
-|                           |             | /the company code/   |
-| *APE1_RATED_EVENT*        | PRDUSG(1-4) |                      |
-| APE1_REJECTED_EVENT       | PRDUSG(1-4) |                      |
-| *APE1_ACCUMULATORS*       | PRDUSG(1-4) |                      |
-| *AC_PHYSICAL_FILES*       | PRDUSG(1-4) |                      |
-| *AC_SOURCE*               | PRDCUST     |                      |
-| *AGD1_RESOURCES*          | PRDAF       |                      |
-| ADJ1_CYCLE_STATE          |             |                      |
-| APR1_NOTIFICATIONS_CTL    |             |                      |
-| AUH1_CTRL                 |             |                      |
-| APE1_SUBSCRIBER_RERATE    | PRDUSG(1-4) |                      |
-| APE1_SUBSCR_DATA          | PRDUSG(1-4) | /See the BPT/        |
-| *APE1_SUBSCR_OFFERS*      | PRDUSG(1-4) | /for the definition/ |
-| APE1_SUBSCR_PARAMS        | PRDUSG(1-4) | /of these tables/    |
-| APE1_CUST_CYCLE_HISTORY   | PRDUSG(1-4) |                      |
-| APE3_EPCEXT_OFFER_DETAILS | PRDCUST     |                      |
+| *Ac1_Control*             | Prdcust     | Check Both Prdcust   |
+| *Ac1_Control_Hist*        | Prdaf       | And Prdaf            |
+| Service_Agreement         | Prdcust     |                      |
+| Csm_Offer                 | Prdcust     |                      |
+| Subscriber                | Prdcust     |                      |
+| *Cm1_Agreement_Param*     | Prdcust     | Used For Data        |
+|                           |             | Cap Issues.          |
+| *Agreement_Resource*      | Prdcust     | Customer Information |
+| *Ar9_Account_State*       | Prdcust     | /Here We Can Get/    |
+|                           |             | /The Company Code/   |
+| *Ape1_Rated_Event*        | Prdusg(1-4) |                      |
+| Ape1_Rejected_Event       | Prdusg(1-4) |                      |
+| *Ape1_Accumulators*       | Prdusg(1-4) |                      |
+| *Ac_Physical_Files*       | Prdusg(1-4) |                      |
+| *Ac_Source*               | Prdcust     |                      |
+| *Agd1_Resources*          | Prdaf       |                      |
+| Adj1_Cycle_State          |             |                      |
+| Apr1_Notifications_Ctl    |             |                      |
+| Auh1_Ctrl                 |             |                      |
+| Ape1_Subscriber_Rerate    | Prdusg(1-4) |                      |
+| Ape1_Subscr_Data          | Prdusg(1-4) | /See The Bpt/        |
+| *Ape1_Subscr_Offers*      | Prdusg(1-4) | /For The Definition/ |
+| Ape1_Subscr_Params        | Prdusg(1-4) | /Of These Tables/    |
+| Ape1_Cust_Cycle_History   | Prdusg(1-4) |                      |
+| Ape3_Epcext_Offer_Details | Prdcust     |                      |
 |---------------------------+-------------+----------------------|
 #+BEGIN_LaTeX
 \normalsize
@@ -1864,33 +1419,33 @@ subgraph cluster_3 {
 |-------------------+---------------------+---------------|
 | *Column Name*     | *Data Type*         | *Description* |
 |-------------------+---------------------+---------------|
-| TRX_ID            | NUMBER (10)         |               |
-| TO_RESOURCE_VAL   | VARCHAR2 (200 Byte) |               |
-| SYS_UPDATE_DATE   | DATE                |               |
-| SYS_CREATION_DATE | DATE                |               |
-| RESRC_SEQ_NO      | NUMBER (10)         |               |
-| RESOURCE_VALUE    | VARCHAR2 (200 Byte) |               |
-| RESOURCE_TYPE     | VARCHAR2 (4 Byte)   |               |
-| RESOURCE_STATE    | CHAR (1 Byte)       |               |
-| RESOURCE_SCOPE_ID | VARCHAR2 (15 Byte)  |               |
-| RESOURCE_PRM_CD   | VARCHAR2 (255 Byte) |               |
-| RESOURCE_CATEGORY | CHAR (1 Byte)       |               |
-| RANGE_IND         | CHAR (1 Byte)       |               |
-| OPERATOR_ID       | NUMBER (9)          |               |
-| OFFER_INSTANCE_ID | NUMBER (10)         |               |
-| INS_TRX_ID        | NUMBER (10)         |               |
-| FROM_RESOURCE_VAL | VARCHAR2 (200 Byte) |               |
-| EXPIRATION_DATE   | DATE                |               |
-| EXP_ISSUE_DATE    | DATE                |               |
-| EFFECTIVE_DATE    | DATE                |               |
-| EFF_ISSUE_DATE    | DATE                |               |
-| DL_UPDATE_STAMP   | NUMBER (4)          |               |
-| DL_SERVICE_CODE   | CHAR (5 Byte)       |               |
-| CONV_RUN_NO       | NUMBER (3)          |               |
-| BASE_PARAM_NAME   | VARCHAR2 (255 Byte) |               |
-| APPLICATION_ID    | CHAR (6 Byte)       |               |
-| AGREEMENT_NO      | NUMBER (10)         |               |
-| AGREEMENT_KEY     | NUMBER (9)          |               |
+| Trx_Id            | Number (10)         |               |
+| To_Resource_Val   | Varchar2 (200 Byte) |               |
+| Sys_Update_Date   | Date                |               |
+| Sys_Creation_Date | Date                |               |
+| Resrc_Seq_No      | Number (10)         |               |
+| Resource_Value    | Varchar2 (200 Byte) |               |
+| Resource_Type     | Varchar2 (4 Byte)   |               |
+| Resource_State    | Char (1 Byte)       |               |
+| Resource_Scope_Id | Varchar2 (15 Byte)  |               |
+| Resource_Prm_Cd   | Varchar2 (255 Byte) |               |
+| Resource_Category | Char (1 Byte)       |               |
+| Range_Ind         | Char (1 Byte)       |               |
+| Operator_Id       | Number (9)          |               |
+| Offer_Instance_Id | Number (10)         |               |
+| Ins_Trx_Id        | Number (10)         |               |
+| From_Resource_Val | Varchar2 (200 Byte) |               |
+| Expiration_Date   | Date                |               |
+| Exp_Issue_Date    | Date                |               |
+| Effective_Date    | Date                |               |
+| Eff_Issue_Date    | Date                |               |
+| Dl_Update_Stamp   | Number (4)          |               |
+| Dl_Service_Code   | Char (5 Byte)       |               |
+| Conv_Run_No       | Number (3)          |               |
+| Base_Param_Name   | Varchar2 (255 Byte) |               |
+| Application_Id    | Char (6 Byte)       |               |
+| Agreement_No      | Number (10)         |               |
+| Agreement_Key     | Number (9)          |               |
 |-------------------+---------------------+---------------|
 
 #+BEGIN_LaTeX
@@ -2241,6 +1796,7 @@ subgraph cluster_3 {
 | L9_Application_Type          | Varchar2 (64 Byte)  |                       |
 | L9_Application_Description   | Varchar2 (193 Byte) |                       |
 | L9_Charge_Code_Description   | Varchar2 (193 Byte) |                       |
+
 | L9_System_Service            | Varchar2 (4 Byte)   |                       |
 | L9_Initiator_Id              | Varchar2 (64 Byte)  |                       |
 | L9_Adj_Reason_Cd             | Varchar2 (64 Byte)  |                       |
@@ -2616,7 +2172,6 @@ subgraph cluster_3 {
 
 ** AR Tables
 *** AR1_ACCOUNT
-:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2666,7 +2221,6 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-:END:
 *** AR1_INVOICE
 :CLOSET:
 #+BEGIN_LaTeX
@@ -2897,7 +2451,6 @@ subgraph cluster_3 {
 #+END_LaTeX
 :END:
 *** AR1_PAYMENT
-:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2936,7 +2489,6 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-:END:
 *** AR1_PAYMENT_DETAILS
 :CLOSET:
 #+BEGIN_LaTeX
@@ -3010,7 +2562,7 @@ subgraph cluster_3 {
 #+END_LaTeX
 :END:
 *** AR1_PAYMENT_ACTIVITY
-         Used in the *Paid and Prepaid* reports.
+    Used in the *Paid and Prepaid* reports.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3058,10 +2610,10 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 *** GL Tables
-    -  ar1_gl_detailed_data_info_v
-    -  ar1_gl_data_info_v
-    -  ar1_transaction_log
-    -  ar1-JGL-control
+    -  AR1_GL_DETAILED_DATA_INFO_V
+    -  AR1_GL_DATA_INFO_V
+    -  AR1_TRANSACTION_LOG
+    -  AR1-JGL-CONTROL
 
 ** BPT Tables
       The *Business Process Tables* are the Tops equivalent to the
@@ -3313,7 +2865,7 @@ subgraph cluster_3 {
 ** (BPT) EPC Tables
          These tables are included in the *EPC* dump which happens once
          or twice a month, no hotfix is needed unless it 
-needs to be in
+         needs to be in
          production right away.
 
 *** PC9_SID
@@ -3591,9 +3143,9 @@ needs to be in
 |-----------------------+--------------------+---------------|
 | *Column Name*         | *Data Type*        | *Description* |
 |-----------------------+--------------------+---------------|
-| CINDEX                | NUMBER(9,0)        |               |
-| ROAMING_DEST_CATEGORY | VARCHAR2(6 BYTE)   |               |
-| DESCRIPTION           | VARCHAR2(101 BYTE) |               |
+| Cindex                | Number(9,0)        |               |
+| Roaming_Dest_Category | Varchar2(6 Byte)   |               |
+| Description           | Varchar2(101 Byte) |               |
 |-----------------------+--------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
@@ -3633,181 +3185,16 @@ needs to be in
 |---------------+--------------------+---------------|
 | *Column Name* | *Data Type*        | *Description* |
 |---------------+--------------------+---------------|
-| Cindex        | Number(9,0)        |               |
-| Address       | Varchar2(256 Byte) | I.P Address   |
-| Description   | Varchar2(101 Byte) |               |
+| cindex        | number(9,0)        |               |
+| address       | varchar2(256 byte) | i.p address   |
+| description   | varchar2(101 byte) |               |
 |---------------+--------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** SID Updates
-            SID'S or Switch IDentifiers is a unique 5 digit number that
-            correlates to switch. It is with the *SID* that *TOPS*
-            defines the all mediation and rating logic and is the first
-            enrichment step on a call record.
-
-        When a *SID* is added or changes there is a possibility
-        that the following tables need to be changed:
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-                1. PC9_SID
-                2. PC9_SID_LIST
-                3. PC9_SERVE_AREA_TO_SID
-                4. AGD1_RESOURCES_REF
-                5. MI1_STLMNT_CONTRACT
-                6. MF1_OUTCOL_SID_PAIR
-                7. PC9_INCOL_SID_PAIR
-                8. APE1_SUBSCR_DATA_REF
-                9. APE1_SUBSCR_OFFERS_REF
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-               All *SIDS* changes start with the *SID* table and
-               depending on what needs to be done there determines what
-               needs to be done to the other 7 tables. For example if it
-               is a brand new *SID* all 8 tables need to be updated with
-               the most complicated part setting up InCollect and
-               OutCollect processing for a *SIDS* contract. The
-               following explains in details on what needs to be done:
-
-               1. Find the entry in the *PC9_INCOL_SID_PAIR* where
-                  the *SERVE SID* is the contract number and the *HOME
-                  SID* = '175' /(USCC contract number)/.
-
-                  1. Expire the date for when you want the new rate to
-                     take affect.
-                  2. Use the above row as a template for an insert
-                     statement.
-                  3. *For outcollecs do the same as above except use
-                     SERVE SID = '175'*
-
-               2. Create an Insert statement for the
-                  *PC9_INCOL_SID_PAIR* with the new rates.
-               3. For the OutCollect side find all *SIDS* that that have
-                  the *Settlement Contract Code*, /(In this example we
-                  trying to find all *SIDS* with settlement contract
-                  code = 287)/
-
-              
-                  : SELECT SIDS FROM PC9_SID WHERE SETLMNT_CONTRACT_CD = '287';
-           
-
-               4. For each *SID* found add '175' to the end and use that
-                  as the resource value for the table
-                  *AGD1_RESOURCES_REF* then create an insert if it
-                  don't exists.
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-|-------------------------+-----------------------------------|
-| *Column*                | *Value*                           |
-|-------------------------+-----------------------------------|
-| *RESOURCE_SEGMENT*      | *ResourceSegmentCalc_Sh*          |
-| *RESOURCE_VALUE*        | SID + '175'                       |
-| *RESOURCE_TYPE*         | 21 (for OutCollect)               |
-| *SUBSCRIBER_ID*         | sequential number /(1, 2, 3,...)/ |
-| *SUB_STATUS*            | A (default)                       |
-| *ROUTING_POLICY_ID*     | 0 (for Postpaid)                  |
-| *PAYMENT_CATEGORY*      | POST (default)                    |
-| *CUSTOMER_ID*           | 1 + SID                           |
-| *BILL_CYCLE*            | 99                                |
-| *LARGE_CUST_IND*        | ‘N'                               |
-| *RESOURCE_HASH_VALUE*   | *ResourceSegmentCalc_Sh*          |
-| *SUBSCRIBER_HASH_VALUE* | *SubsriberHashValueCalc_Sh*       |
-|-------------------------+-----------------------------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-
-               5. For each *SID* found add a '1' in front which will get
-                  you the *customer_id* then do a query against the
-                  *APE1_SUBSCR_DATA_REF* to get the subscriber_id
-                  /(Using the above as an example)/
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-|-------------------------+-----------------------------------|
-| *Column*                | *Value*                           |
-|-------------------------+-----------------------------------|
-| *CYCLE_CODE*            | 99                                |
-| *CUSTOMER_SEGMENT*      | *CustomerSegmentCalc_Sh*          |
-| *SUBSCRIBER_ID*         | Sequential number /(1, 2, 3,...)/ |
-| *CUSTOMER_ID*           | 1 + SID                           |
-| *SUBSCRIBER_HASH_VALUE* | *SubscriberHashCalculator*        |
-|-------------------------+-----------------------------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-
-               6. Once you have the subscriber you need to point each
-                  entries offer ID's from the
-                  *APE1_SUBSCR_OFFERS_REF* table to the correct air
-                  and toll charge. /(Again using the above example)/ To
-                  find a suitable offer ID search the *CSM_OFFER*
-                  table, if you cannot find one have the *EPC* group
-                  create one. (/In this example we are looking for a
-                  offer ID with the Air and Toll charge of 0.3/)
-         
-                 :  SELECT * FROM CSM_OFFER WHERE SOC_NAME LIKE '%_0.03_Air_0.03_Toll_PP%';
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-|-----------------------+-----------------------------------|
-| *Column*              | *Value*                           |
-|-----------------------+-----------------------------------|
-| *CYCLE_CODE*          | 99                                |
-| *CUSTOMER_SEGMENT*    | *CustomerSegmentCalc_Sh           |
-| *SUBSCRIBER_ID*       | sequential number /(1, 2, 3,...)/ |
-| *OFFER_ID*            | SOC_ID                            |
-| *OFFER_INSTANCE*      | Subscriber ID                     |
-| SUBSCRIBER_HASH_VALUE | *SubsriberHashValueCalc_Sh*       |
-|-----------------------+-----------------------------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-
-*** Hash Creation Programs
-               Some tables require that a unique hash value be created
-               to create those values use these programs:
-
-               : ~/abp_home/core/bin/SubsriberHashValueCalc_Sh  <SUBSCRIBER_ID>
-
-               : ~/abp_home/core/bin/ResourceSegmentCalc_Sh     <Resource Type> 21 = (OutCollects)
-               :                                                <Resource Value> 
-               :                                                <Resource value length>
-               : ~/abp_home/core/bin/CustomerSegmentCalc_Sh     <CUSTOMER_ID>
-
-*** Hot Fix Procedures
-         1. Develop, test the *SQL* to affect the change.
-            -  #{Defect}.sql /sql script/
-            -  #{Defect}BO.sql /backout script/
-            -  #{Defect}VV.sql /verify script/
-
-         2. If not part of an *EPC Dump*
-            1. Update the *BPT Master List*
-            2. Send *SQL* and test results to *Yogesh* and request a hot
-               fix
-            3. Update *BPT Hot Fix Tracking* spreadsheet
-            4. Contact Carolyn/Sandeep/Sali tell them to apply the Hot
-               Fix.
-         3. Update all databases in the *DMZ* with the changes
-         4. Create a *SMART Ticket*.
-            1. Create *Install Plan*
-            2. Create *Test Plan* /use email to Yogesh/
-            3. Create *Backout Plan* /point to Install plan/
-            4. Just add the following sections.
-               -  Risk
-               -  Business reason
-               -  Impact assessment
-         5. If not part of an *EPC Dump* Email John Kelly with the
-            Install plan and all SQL.
-         6. If part of an EPC dump. Notify the EPC team so they can
-            include your *Smart Ticket* with their hot fix.
-         7. Represent the change in the *Change Control Meeting*
-
 ** APRM Tables
 *** USC_ROAM_EVNTS
+    Used for CDMA Incollect/Outcollect Voice and data files.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3861,36 +3248,156 @@ needs to be in
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** usc_sap_extract_v
+*** USC_SAP_EXTRACT_V
+    The SAP Extract table is a view of a view *IC_ACCUMULATED_USAGE* joined with table *USC_GL_ACC_LKP*. It is this table that is used create a report that is sent to *TDS* to be loaded into *SAP*
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|------------------+--------------------+----------------|
-| *Name*           | *Data Type*        | *Descritption* |
-|------------------+--------------------+----------------|
-| Au_Id            | Number (9)         |                |
-| Carrier_Cd       | Varchar2 (20 Byte) |                |
-| Other_Partner    | Varchar2 (20 Byte) |                |
-| Au_Prod_Id       | Number (4)         |                |
-| Au_Evt_Id        | Number (4)         |                |
-| Au_Prod_Cat_Id   | Char (2 Byte)      |                |
-| Au_Bp_Start_Date | Date               |                |
-| Au_Charge        | Number             |                |
-| Gl_Account       | Varchar2 (17 Byte) |                |
-| Crdr_Ind         | Char (2 Byte)      |                |
-| Cost_Center      | Char (10 Byte)     |                |
-| Product          | Char (18 Byte)     |                |
-| Tax_Code         | Char (2 Byte)      |                |
-| Tax_Jur_Cd       | Char (15 Byte)     |                |
-| Line_Order       | Number             |                |
-|------------------+--------------------+----------------|
+|------------------+--------------------+-------------------------|
+| *Name*           | *Data Type*        | *Descritption*          |
+|------------------+--------------------+-------------------------|
+| Au_Id            | Number (9)         |                         |
+| Carrier_Cd       | Varchar2 (20 Byte) |                         |
+| Other_Partner    | Varchar2 (20 Byte) |                         |
+| Au_Prod_Id       | Number (4)         |                         |
+| Au_Evt_Id        | Number (4)         |                         |
+| Au_Prod_Cat_Id   | Char (2 Byte)      | IR - Intra Roaming      |
+|                  |                    | IN - Incollect Roaming  |
+|                  |                    | RO - Outcollect Roaming |
+|                  |                    | IS - TAPIN              |
+|                  |                    | OS - TAPOUT             |
+|                  |                    | II - GSM                |
+| Au_Bp_Start_Date | Date               | Billing Period Start    |
+| Au_Charge        | Number             |                         |
+| Gl_Account       | Varchar2 (17 Byte) |                         |
+| Crdr_Ind         | Char (2 Byte)      |                         |
+| Cost_Center      | Char (10 Byte)     |                         |
+| Product          | Char (18 Byte)     |                         |
+| Tax_Code         | Char (2 Byte)      |                         |
+| Tax_Jur_Cd       | Char (15 Byte)     |                         |
+| Line_Order       | Number             |                         |
+|------------------+--------------------+-------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** IC_ACCUMULATED_USAGE
+    One of the tables that is part of *USC_SAP_EXTRACT_V* useful for usage totals and file names. This is a view of the *PRM_EVENT_DTL_PARAM* and *IC_ACCUMULATED_CHRG* tables.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------+--------------------+--------------------------|
+| *Column Name*        | *Data Type*        | *Description*            |
+|----------------------+--------------------+--------------------------|
+| Carrier_Cd           | Varchar2 (20 Byte) |                          |
+| Prod_Bdl_Id          | Number (6)         |                          |
+| Prod_Id              | Number (4)         |                          |
+| Event_Id             | Number (4)         |                          |
+| Content_Grp_Cd       | Varchar2 (20 Byte) |                          |
+| Service_Id           | Number (20)        |                          |
+| Elmnt_Cd             | Char (8 Byte)      |                          |
+| Rate_Plan_Cd         | Varchar2 (20 Byte) |                          |
+| Chrg_Direction       | Char (1 Byte)      |                          |
+| Orig_Bp              | Date               |                          |
+| Bp_Start_Date        | Date               |                          |
+| Event_Date           | Date               |                          |
+| Rate_Eff_Datetime    | Date               |                          |
+| Destination_Cd       | Char (5 Byte)      |                          |
+| Chrg_Param_Id        | Number (4)         |                          |
+| Qual_Param_1_Id      | Number (4)         |                          |
+| Qual_Param_1_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_1_Val     | Varchar2 (20 Byte) |                          |
+| Qual_Param_2_Id      | Number (4)         |                          |
+| Qual_Param_2_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_2_Val     | Varchar2 (20 Byte) |                          |
+| Qual_Param_3_Id      | Number (4)         |                          |
+| Qual_Param_3_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_3_Val     | Varchar2 (20 Byte) |                          |
+| Qual_Param_4_Id      | Number (4)         |                          |
+| Qual_Param_4_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_4_Val     | Varchar2 (20 Byte) |                          |
+| Nr_Param_1_Val       | Char (20 Byte)     |                          |
+| Nr_Param_2_Val       | Char (20 Byte)     |                          |
+| Nr_Param_3_Val       | Char (20 Byte)     |                          |
+| Future_1             | Varchar2 (20 Byte) |                          |
+| Future_2             | Varchar2 (20 Byte) |                          |
+| Future_3             | Varchar2 (20 Byte) |                          |
+| Future_4             | Varchar2 (20 Byte) |                          |
+| Future_5             | Varchar2 (20 Byte) |                          |
+| Future_6             | Varchar2 (20 Byte) |                          |
+| Future_7             | Varchar2 (20 Byte) |                          |
+| Future_8             | Varchar2 (20 Byte) |                          |
+| Future_9             | Varchar2 (20 Byte) |                          |
+| Future_10            | Varchar2 (20 Byte) |                          |
+| Future_11            | Varchar2 (50 Byte) |                          |
+| Future_12            | Varchar2 (50 Byte) |                          |
+| Future_13            | Varchar2 (50 Byte) |                          |
+| Future_14            | Varchar2 (50 Byte) |                          |
+| Future_15            | Varchar2 (50 Byte) |                          |
+| Au_Id                | Number (9)         |                          |
+| Sys_Creation_Date    | Date               |                          |
+| Sys_Update_Date      | Date               |                          |
+| Operator_Id          | Number (9)         |                          |
+| Application_Id       | Char (6 Byte)      |                          |
+| Dl_Service_Code      | Char (5 Byte)      |                          |
+| Dl_Update_Stamp      | Number (4)         |                          |
+| Jurisdiction         | Char (1 Byte)      |                          |
+| Prod_Cat_Id          | Char (2 Byte)      | /Same as Au_Prod_Cat_Id/ |
+| Agreement_Id         | Number (6)         |                          |
+| Elmnt_Cat_Id         | Number (2)         |                          |
+| Rate_Class_Set_Cd    | Char (4 Byte)      |                          |
+| Rate_Per_Unit_Seq    | Number (9)         |                          |
+| One_Time_Rate_Seq    | Number (9)         |                          |
+| Nr_Param_4_Val       | Char (20 Byte)     |                          |
+| Qual_Param_5_Id      | Number (4)         |                          |
+| Qual_Param_5_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_5_Val     | Varchar2 (20 Byte) |                          |
+| Qual_Param_6_Id      | Number (4)         |                          |
+| Qual_Param_6_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_6_Val     | Varchar2 (20 Byte) |                          |
+| Qual_Param_7_Id      | Number (4)         |                          |
+| Qual_Param_7_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_7_Val     | Varchar2 (20 Byte) |                          |
+| Qual_Param_8_Id      | Number (4)         |                          |
+| Qual_Param_8_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_8_Val     | Varchar2 (20 Byte) |                          |
+| Qual_Param_9_Id      | Number (4)         |                          |
+| Qual_Param_9_Set_Cd  | Char (4 Byte)      |                          |
+| Qual_Param_9_Val     | Varchar2 (20 Byte) |                          |
+| Qual_Param_10_Id     | Number (4)         |                          |
+| Qual_Param_10_Set_Cd | Char (4 Byte)      |                          |
+| Qual_Param_10_Val    | Varchar2 (20 Byte) |                          |
+| Nr_Param_1_Id        | Number (4)         |                          |
+| Nr_Param_2_Id        | Number (4)         |                          |
+| Nr_Param_3_Id        | Number (4)         |                          |
+| Nr_Param_4_Id        | Number (4)         |                          |
+| Tax_Set_Cd           | Char (2 Byte)      |                          |
+| Uom                  | Char (2 Byte)      |                          |
+| Num_Of_Events        | Number (9)         |                          |
+| Event_Chrg_Tp        | Char (1 Byte)      |                          |
+| Tot_Org_Chrg_Prm_V   | Number (18,5)      |                          |
+| Tot_Chrg_Param_Val   | Number (18,5)      |                          |
+| Tot_Net_Acces_Chrg   | Number (18,5)      |                          |
+| Tot_Net_Onetm_Chrg   | Number (18,5)      |                          |
+| Tot_Net_Usage_Chrg   | Number (18,5)      |                          |
+| Acces_Chrg_Seq       | Number (9)         |                          |
+| Content_Rate         | Number (13,8)      |                          |
+| Cp_Access_Chrg       | Number (18,5)      |                          |
+| Cp_Usage_Chrg        | Number (18,5)      |                          |
+| Tenant_Cd            | Varchar2 (20 Byte) |                          |
+| Core_Reserved_1      | Char (1 Byte)      |                          |
+| Core_Reserved_2      | Varchar2 (20 Byte) |                          |
+| Core_Reserved_3      | Varchar2 (20 Byte) |                          |
+| Event_Direction      | Char (1 Byte)      |                          |
+|----------------------+--------------------+--------------------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
 
-*** prm_rom_incol_events_ap
+*** PRM_ROM_INCOL_EVENTS_AP
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3899,70 +3406,213 @@ needs to be in
 |---------------------------+---------------------+---------------|
 | *Column Name*             | *Data Type*         | *Description* |
 |---------------------------+---------------------+---------------|
-| VALIDATION_STS            | CHAR (1 Byte)       |               |
-| UOM                       | CHAR (2 Byte)       |               |
-| TRANSCUT_TS_OFFST         | CHAR (5 Byte)       |               |
-| TRANSCUT_TS               | CHAR (14 Byte)      |               |
-| TENANT_CD                 | VARCHAR2 (20 Byte)  |               |
-| TELESERVICECODE           | CHAR (2 Byte)       |               |
-| TAX_TYPE                  | CHAR (2 Byte)       |               |
-| TAP_IN_FILE_SEQ_NUMBER    | NUMBER (5)          |               |
-| TAP_IN_FILE_NAME          | VARCHAR2 (20 Byte)  |               |
-| TADIG_FILE_TYPE           | CHAR (2 Byte)       |               |
-| SYS_UPDATE_DATE           | DATE                |               |
-| SYS_CREATION_DATE         | DATE                |               |
-| SUPP_SERV_CD              | CHAR (2 Byte)       |               |
-| SIM_TOOLKIT_IND           | CHAR (1 Byte)       |               |
-| SERVING_BID               | CHAR (5 Byte)       |               |
-| SERVICE_TYPE              | CHAR (1 Byte)       |               |
-| RERATE_CNT                | NUMBER (3)          |               |
-| RECORD_TYPE               | CHAR (1 Byte)       |               |
-| RECORD_POSITION           | VARCHAR2 (6 Byte)   |               |
-| RATING_CURR               | CHAR (3 Byte)       |               |
-| RAP_FILE_SEQUENCE         | VARCHAR2 (20 Byte)  |               |
-| PROCESS_DATE              | DATE                |               |
-| ORIG_BROK_FILENAME        | VARCHAR2 (24 Byte)  |               |
-| OPERATOR_ID               | NUMBER (9)          |               |
-| ODS_LAST_UPDATE_DATE      | DATE                |               |
-| ODS_INSERT_DATE           | DATE                |               |
-| NORMALIZED_CALLING_NUMBER | CHAR (20 Byte)      |               |
-| NORMALIZED_CALLED_NUMBER  | CHAR (20 Byte)      |               |
-| NON_CHRG_PARTY_NUM        | CHAR (17 Byte)      |               |
-| NON_CHR_PRT_PUB_USER_ID   | CHAR (64 Byte)      |               |
-| NETWORK_ELEMENT_TYPE      | CHAR (1 Byte)       |               |
-| NETWORK_ELEMENT_ID        | CHAR (50 Byte)      |               |
-| MOBILE_SESSION_SERVICE    | CHAR (17 Byte)      |               |
-| MESSAGE_EVENT_SERVICE     | CHAR (17 Byte)      |               |
-| LOCAL_CURRENCY            | CHAR (3 Byte)       |               |
-| GENERATED_REC             | NUMBER (4)          |               |
-| FUTURE_BUFF               | VARCHAR2 (443 Byte) |               |
-| FILE_AVAIL_TS_OFFST       | CHAR (5 Byte)       |               |
-| FILE_AVAIL_TS             | CHAR (14 Byte)      |               |
-| EXCHANGE_RATE             | NUMBER (18,5)       |               |
-| EVENT_START_DATE_TIME     | DATE                |               |
-| EVENT_REFERENCE           | CHAR (64 Byte)      |               |
-| EDR_ID                    | NUMBER (11)         |               |
-| DL_UPDATE_STAMP           | NUMBER (4)          |               |
-| DL_SERVICE_CODE           | CHAR (5 Byte)       |               |
-| CURRENCY_CODE             | CHAR (3 Byte)       |               |
-| COUNTRY_CODE              | CHAR (3 Byte)       |               |
-| CHR_PRT_PUB_USER_ID       | CHAR (64 Byte)      |               |
-| CHARGE_TYPE               | CHAR (1 Byte)       |               |
-| CHARGE_PARAMETER          | NUMBER (18,5)       |               |
-| CHARGE_AMOUNT_SDR         | NUMBER (18,5)       |               |
-| CHARGE_AMOUNT_RC          | NUMBER (18,5)       |               |
-| CHARGE_AMOUNT             | NUMBER (18,5)       |               |
-| CARRIER_CD                | VARCHAR2 (20 Byte)  |               |
-| CALL_TYPE_LEVEL_3         | VARCHAR2 (11 Byte)  |               |
-| CALL_TYPE_LEVEL_2         | CHAR (2 Byte)       |               |
-| CALL_TYPE_LEVEL_1         | CHAR (3 Byte)       |               |
-| CALL_DIRECTION            | CHAR (1 Byte)       |               |
-| BP_START_DATE             | DATE                |               |
-| BP_END_DATE               | DATE                |               |
-| AU_ID                     | NUMBER (9)          |               |
-| APRM_EDR_ID               | NUMBER (20)         |               |
-| APPLICATION_ID            | CHAR (6 Byte)       |               |
+| Validation_Sts            | Char (1 Byte)       |               |
+| Uom                       | Char (2 Byte)       |               |
+| Transcut_Ts_Offst         | Char (5 Byte)       |               |
+| Transcut_Ts               | Char (14 Byte)      |               |
+| Tenant_Cd                 | Varchar2 (20 Byte)  |               |
+| Teleservicecode           | Char (2 Byte)       |               |
+| Tax_Type                  | Char (2 Byte)       |               |
+| Tap_In_File_Seq_Number    | Number (5)          |               |
+| Tap_In_File_Name          | Varchar2 (20 Byte)  |               |
+| Tadig_File_Type           | Char (2 Byte)       |               |
+| Sys_Update_Date           | Date                |               |
+| Sys_Creation_Date         | Date                |               |
+| Supp_Serv_Cd              | Char (2 Byte)       |               |
+| Sim_Toolkit_Ind           | Char (1 Byte)       |               |
+| Serving_Bid               | Char (5 Byte)       |               |
+| Service_Type              | Char (1 Byte)       |               |
+| Rerate_Cnt                | Number (3)          |               |
+| Record_Type               | Char (1 Byte)       |               |
+| Record_Position           | Varchar2 (6 Byte)   |               |
+| Rating_Curr               | Char (3 Byte)       |               |
+| Rap_File_Sequence         | Varchar2 (20 Byte)  |               |
+| Process_Date              | Date                |               |
+| Orig_Brok_Filename        | Varchar2 (24 Byte)  |               |
+| Operator_Id               | Number (9)          |               |
+| Ods_Last_Update_Date      | Date                |               |
+| Ods_Insert_Date           | Date                |               |
+| Normalized_Calling_Number | Char (20 Byte)      |               |
+| Normalized_Called_Number  | Char (20 Byte)      |               |
+| Non_Chrg_Party_Num        | Char (17 Byte)      |               |
+| Non_Chr_Prt_Pub_User_Id   | Char (64 Byte)      |               |
+| Network_Element_Type      | Char (1 Byte)       |               |
+| Network_Element_Id        | Char (50 Byte)      |               |
+| Mobile_Session_Service    | Char (17 Byte)      |               |
+| Message_Event_Service     | Char (17 Byte)      |               |
+| Local_Currency            | Char (3 Byte)       |               |
+| Generated_Rec             | Number (4)          |               |
+| Future_Buff               | Varchar2 (443 Byte) |               |
+| File_Avail_Ts_Offst       | Char (5 Byte)       |               |
+| File_Avail_Ts             | Char (14 Byte)      |               |
+| Exchange_Rate             | Number (18,5)       |               |
+| Event_Start_Date_Time     | Date                |               |
+| Event_Reference           | Char (64 Byte)      |               |
+| Edr_Id                    | Number (11)         |               |
+| Dl_Update_Stamp           | Number (4)          |               |
+| Dl_Service_Code           | Char (5 Byte)       |               |
+| Currency_Code             | Char (3 Byte)       |               |
+| Country_Code              | Char (3 Byte)       |               |
+| Chr_Prt_Pub_User_Id       | Char (64 Byte)      |               |
+| Charge_Type               | Char (1 Byte)       |               |
+| Charge_Parameter          | Number (18,5)       |               |
+| Charge_Amount_Sdr         | Number (18,5)       |               |
+| Charge_Amount_Rc          | Number (18,5)       |               |
+| Charge_Amount             | Number (18,5)       |               |
+| Carrier_Cd                | Varchar2 (20 Byte)  |               |
+| Call_Type_Level_3         | Varchar2 (11 Byte)  |               |
+| Call_Type_Level_2         | Char (2 Byte)       |               |
+| Call_Type_Level_1         | Char (3 Byte)       |               |
+| Call_Direction            | Char (1 Byte)       |               |
+| Bp_Start_Date             | Date                |               |
+| Bp_End_Date               | Date                |               |
+| Au_Id                     | Number (9)          |               |
+| Aprm_Edr_Id               | Number (20)         |               |
+| Application_Id            | Char (6 Byte)       |               |
 |---------------------------+---------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** PRM_ROM_OUTCOL_EVENTS_AP
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------------+---------------------+---------------|
+| *Column Name*           | *Data Type*         | *Description* |
+|-------------------------+---------------------+---------------|
+| Utc_Offset              | Char (5 Byte)       |               |
+| Usg_Net_Charge_Sdr      | Number (18,5)       |               |
+| Usg_Net_Charge_Rc       | Number (18,5)       |               |
+| Usg_Net_Charge_Lc       | Number (18,5)       |               |
+| Uom                     | Char (2 Byte)       |               |
+| Tot_Tax_Amount_Sdr      | Number (18,5)       |               |
+| Tot_Tax_Amount_Rc       | Number (18,5)       |               |
+| Tot_Tax_Amount_Lc1      | Number (18,5)       |               |
+| Tot_Tax_Amount_Lc       | Number (18,5)       |               |
+| Tot_Net_Charge_Sdr      | Number (18,5)       |               |
+| Tot_Net_Charge_Rc       | Number (18,5)       |               |
+| Tot_Net_Charge_Lc1      | Number (18,5)       |               |
+| Tot_Net_Charge_Lc       | Number (18,5)       |               |
+| Tot_Gross_Amt_Sdr       | Number (18,5)       |               |
+| Tot_Gross_Amt_Rc        | Number (18,5)       |               |
+| Tot_Gross_Amt_Lc1       | Number (18,5)       |               |
+| Tot_Gross_Amt_Lc        | Number (18,5)       |               |
+| Termination_Cause       | Varchar2 (8 Byte)   |               |
+| Term_Province           | Char (2 Byte)       |               |
+| Tenant_Cd               | Varchar2 (20 Byte)  |               |
+| Tele_Serv_Code          | Char (2 Byte)       |               |
+| Taxable_Amount4         | Number (18,5)       |               |
+| Taxable_Amount3         | Number (18,5)       |               |
+| Taxable_Amount2         | Number (18,5)       |               |
+| Taxable_Amount1         | Number (18,5)       |               |
+| Tax_Tp_4                | Char (2 Byte)       |               |
+| Tax_Tp_3                | Char (2 Byte)       |               |
+| Tax_Tp_2                | Char (2 Byte)       |               |
+| Tax_Tp_1                | Char (2 Byte)       |               |
+| Tax_Set_Cd              | Char (2 Byte)       |               |
+| Tax_Rate_4              | Number (6,3)        |               |
+| Tax_Rate_3              | Number (6,3)        |               |
+| Tax_Rate_2              | Number (6,3)        |               |
+| Tax_Rate_1              | Number (6,3)        |               |
+| Tax_Jurisdiction        | Char (2 Byte)       |               |
+| Tax_Code_4              | Char (2 Byte)       |               |
+| Tax_Code_3              | Char (2 Byte)       |               |
+| Tax_Code_2              | Char (2 Byte)       |               |
+| Tax_Code_1              | Char (2 Byte)       |               |
+| Tax_Amount_4_Rc         | Number (18,5)       |               |
+| Tax_Amount_4            | Number (18,5)       |               |
+| Tax_Amount_3_Rc         | Number (18,5)       |               |
+| Tax_Amount_3            | Number (18,5)       |               |
+| Tax_Amount_2_Rc         | Number (18,5)       |               |
+| Tax_Amount_2            | Number (18,5)       |               |
+| Tax_Amount_1_Rc         | Number (18,5)       |               |
+| Tax_Amount_1            | Number (18,5)       |               |
+| Tap_Trx_Curr            | Char (3 Byte)       |               |
+| Tap_Out_File_Name       | Varchar2 (20 Byte)  |               |
+| Tap_File_Seq            | Number (5)          |               |
+| Sys_Update_Date         | Date                |               |
+| Sys_Creation_Date       | Date                |               |
+| Supp_Service            | Char (2 Byte)       |               |
+| Src_Number              | Char (20 Byte)      |               |
+| Sim_Toolkit_Ind         | Char (1 Byte)       |               |
+| Service_Type            | Char (1 Byte)       |               |
+| Rec_Entity_Tp           | Char (1 Byte)       |               |
+| Rating_Curr             | Char (3 Byte)       |               |
+| Rap_File_Seq            | Number (5)          |               |
+| Processed_Ind           | Char (1 Byte)       |               |
+| Process_Date            | Date                |               |
+| Pdp_Address             | Varchar2 (50 Byte)  |               |
+| Partial_Type_Ind        | Char (1 Byte)       |               |
+| Orig_Province           | Char (2 Byte)       |               |
+| Operator_Id             | Number (9)          |               |
+| Ods_Last_Update_Date    | Date                |               |
+| Ods_Insert_Date         | Date                |               |
+| Norm_Src_Number         | Char (20 Byte)      |               |
+| Norm_Dest_Number        | Char (20 Byte)      |               |
+| Non_Chr_Prt_Pub_User_Id | Char (64 Byte)      |               |
+| Network_Element_Type    | Char (1 Byte)       |               |
+| Network_Element_Id      | Char (50 Byte)      |               |
+| Net_Sgsnid              | Varchar2 (50 Byte)  |               |
+| Net_Rec_Entity_Id       | Varchar2 (50 Byte)  |               |
+| Net_Loc_Area_Code       | Varchar2 (20 Byte)  |               |
+| Msisdn                  | Varchar2 (20 Byte)  |               |
+| Message_Event_Service   | Char (17 Byte)      |               |
+| Imsi                    | Varchar2 (15 Byte)  |               |
+| Home_Province           | Char (2 Byte)       |               |
+| Home_Bid                | Char (5 Byte)       |               |
+| Gprs_Dest_Apn_Oi        | Varchar2 (38 Byte)  |               |
+| Gprs_Dest_Apn_Ni        | Varchar2 (64 Byte)  |               |
+| Globalrefnumber         | Varchar2 (42 Byte)  |               |
+| Ggsn_Address            | Varchar2 (50 Byte)  |               |
+| Geo_Serv_Loc_Desc       | Varchar2 (30 Byte)  |               |
+| Geo_Serv_Bid            | Char (5 Byte)       |               |
+| Generated_Rec           | Number (4)          |               |
+| Future                  | Varchar2 (100 Byte) |               |
+| File_Identifier         | Number (9)          |               |
+| Extract_Date            | Date                |               |
+| Ext_File_Id             | Number (9)          |               |
+| Event_Start_Datetime    | Date                |               |
+| Event_Reference         | Char (64 Byte)      |               |
+| Event_End_Datetime      | Date                |               |
+| Equipment_Id            | Varchar2 (20 Byte)  |               |
+| Edr_Id                  | Number (11)         |               |
+| Dl_Update_Stamp         | Number (4)          |               |
+| Dl_Service_Code         | Char (5 Byte)       |               |
+| Disp_File_Seq           | Number (9)          |               |
+| Dest_Number             | Char (20 Byte)      |               |
+| Data_Vol_Outgoing       | Varchar2 (12 Byte)  |               |
+| Data_Vol_Incoming       | Varchar2 (12 Byte)  |               |
+| Cross_Rate              | Number (11,6)       |               |
+| Country_Code            | Char (3 Byte)       |               |
+| Chrg_Id                 | Varchar2 (10 Byte)  |               |
+| Chr_Prt_Pub_User_Id     | Char (64 Byte)      |               |
+| Charging_Param          | Number (18,5)       |               |
+| Charge_Units            | Number (18,5)       |               |
+| Cell_Id                 | Varchar2 (10 Byte)  |               |
+| Carrier_Cd              | Varchar2 (20 Byte)  |               |
+| Camel_Serv_Level        | Char (2 Byte)       |               |
+| Camel_Serv_Key          | Varchar2 (10 Byte)  |               |
+| Camel_Invoc_Fee         | Number (18,5)       |               |
+| Camel_Dflt_Hndl         | Char (2 Byte)       |               |
+| Camel_Dest_Num          | Char (20 Byte)      |               |
+| Camel_Cse_Info          | Char (40 Byte)      |               |
+| Call_Tp_Level_3         | Char (4 Byte)       |               |
+| Call_Tp_Level_2         | Char (2 Byte)       |               |
+| Call_Tp_Level_1         | Char (2 Byte)       |               |
+| Call_Direction          | Char (1 Byte)       |               |
+| Bp_Start_Date           | Date                |               |
+| Bp_End_Date             | Date                |               |
+| Bearer_Serv_Code        | Char (2 Byte)       |               |
+| Au_Id                   | Number (9)          |               |
+| Application_Id          | Char (6 Byte)       |               |
+| Air_Toll_Ind            | Char (1 Byte)       |               |
+| Acc_Net_Charge_Sdr      | Number (18,5)       |               |
+| Acc_Net_Charge_Rc       | Number (18,5)       |               |
+| Acc_Net_Charge_Lc       | Number (18,5)       |               |
+|-------------------------+---------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX

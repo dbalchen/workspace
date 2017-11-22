@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 BEGIN {
-	# push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 
 }
