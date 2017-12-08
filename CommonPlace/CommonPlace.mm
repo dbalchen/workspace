@@ -1,9 +1,10 @@
 <map version="freeplane 1.3.0">
 <!--To view this file, download free mind mapping software Freeplane from http://freeplane.sourceforge.net -->
+<attribute_registry SHOW_ATTRIBUTES="selected"/>
 <node TEXT="Notes" ID="ID_1224027211" CREATED="1468275705048" MODIFIED="1470337133214" COLOR="#000000" TEXT_SHORTENED="true">
 <font NAME="SansSerif" SIZE="20"/>
-<hook NAME="MapStyle" zoom="1.037" layout="OUTLINE">
-    <properties show_icon_for_attributes="true" show_note_icons="true"/>
+<hook NAME="MapStyle" zoom="0.4">
+    <properties show_icon_for_attributes="false" show_note_icons="true" show_notes_in_map="false"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node">
@@ -3861,7 +3862,7 @@ make sure the transfer is complete.</li>
 </richcontent>
 </node>
 </node>
-<node ID="sec-5-4" CREATED="1468275705083" MODIFIED="1468275705083" COLOR="#00b439"><richcontent TYPE="NODE">
+<node ID="sec-5-4" CREATED="1468275705083" MODIFIED="1512506560114" COLOR="#00b439"><richcontent TYPE="NODE">
 
 <html>
 <head>
@@ -4390,17 +4391,7 @@ ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
 </html>
 </richcontent>
 </node>
-<node ID="sec-7-4" CREATED="1468275705087" MODIFIED="1470688595418" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>Production Database Tables
-</p>
-</body>
-</html>
-</richcontent>
+<node TEXT="Production Database Tables" ID="sec-7-4" CREATED="1468275705087" MODIFIED="1512505985228" COLOR="#00b439">
 <font NAME="SansSerif" SIZE="16"/>
 <edge STYLE="bezier" WIDTH="thin"/>
 <richcontent TYPE="NOTE">
@@ -11795,7 +11786,7 @@ These tables are included in the <b>EPC</b> dump which happens once or twice a m
 </body>
 </html>
 </richcontent>
-<node ID="sec-7-6-1" CREATED="1468275705112" MODIFIED="1468275705112" COLOR="#990000"><richcontent TYPE="NODE">
+<node ID="sec-7-6-1" CREATED="1468275705112" MODIFIED="1512506204809" COLOR="#990000"><richcontent TYPE="NODE">
 
 <html>
 <head>
@@ -11810,149 +11801,245 @@ These tables are included in the <b>EPC</b> dump which happens once or twice a m
 <richcontent TYPE="NOTE">
 
 <html>
-<head>
-</head>
-<body>
-<p>
-One of the most important reference tables used, contains all
-the information for all the <b>SIDS</b><sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup> for all the companies we
-have a contract with.
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+  <head>
+    
+  </head>
+  <body>
+    <p>
+      One of the most important reference tables used, contains all the information for all the <b>SIDS</b><sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>&#160;for all the companies we have a contract with.
+    </p>
+    <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+      <colgroup>
+      <col class="org-left"/>
+      <col class="org-left"/>
+      <col class="org-left"/>
+      </colgroup>
+      
 
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Column Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">CINDEX</td>
-<td class="org-left">NUMBER(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>SIDS</b></td>
-<td class="org-left">VARCHAR2(5 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">EFFECTIVE_DATE</td>
-<td class="org-left">DATE</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">SID_DESC</td>
-<td class="org-left">VARCHAR2(50 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">SID_COMMERCIAL_NAME</td>
-<td class="org-left">VARCHAR2(50 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">TIME_ZONE_CODE</td>
-<td class="org-left">VARCHAR2(2 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">SETLMNT_CONTRACT_CD</td>
-<td class="org-left">VARCHAR2(3 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">INTRACOMP_IND</td>
-<td class="org-left">VARCHAR2(3 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">SID_STATE</td>
-<td class="org-left">VARCHAR2(2 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">SID_COUNTRY</td>
-<td class="org-left">VARCHAR2(3 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">SID_CITY</td>
-<td class="org-left">VARCHAR2(30 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">SID_LOCATION_CD</td>
-<td class="org-left">CHAR(1 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">OUTCOL_DEST_CD</td>
-<td class="org-left">VARCHAR2(6 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">CURRENCY_CODE</td>
-<td class="org-left">VARCHAR2(2 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">BAND_CODE</td>
-<td class="org-left">CHAR(1 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">GEO_CODE</td>
-<td class="org-left">VARCHAR2(9 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">ORIGINATING_CATEGORY</td>
-<td class="org-left">VARCHAR2(6 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">EXPIRATION_DATE</td>
-<td class="org-left">DATE</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">INCORPORATE_IND</td>
-<td class="org-left">CHAR(1 BYTE)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</body>
+      <tr>
+        <th scope="col" class="org-left">
+          <b>Column Name</b>
+        </th>
+        <th scope="col" class="org-left">
+          <b>Data Type</b>
+        </th>
+        <th scope="col" class="org-left">
+          <b>Description</b>
+        </th>
+      </tr>
+      <tr>
+        <td class="org-left">
+          CINDEX
+        </td>
+        <td class="org-left">
+          NUMBER(9,0)
+        </td>
+        <td class="org-left">
+          
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          <b>SIDS</b>
+        </td>
+        <td class="org-left">
+          VARCHAR2(5 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          EFFECTIVE_DATE
+        </td>
+        <td class="org-left">
+          DATE
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          SID_DESC
+        </td>
+        <td class="org-left">
+          VARCHAR2(50 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          SID_COMMERCIAL_NAME
+        </td>
+        <td class="org-left">
+          VARCHAR2(50 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          TIME_ZONE_CODE
+        </td>
+        <td class="org-left">
+          VARCHAR2(2 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          SETLMNT_CONTRACT_CD
+        </td>
+        <td class="org-left">
+          VARCHAR2(3 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          INTRACOMP_IND
+        </td>
+        <td class="org-left">
+          VARCHAR2(3 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          SID_STATE
+        </td>
+        <td class="org-left">
+          VARCHAR2(2 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          SID_COUNTRY
+        </td>
+        <td class="org-left">
+          VARCHAR2(3 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          SID_CITY
+        </td>
+        <td class="org-left">
+          VARCHAR2(30 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          SID_LOCATION_CD
+        </td>
+        <td class="org-left">
+          CHAR(1 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          OUTCOL_DEST_CD
+        </td>
+        <td class="org-left">
+          VARCHAR2(6 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          CURRENCY_CODE
+        </td>
+        <td class="org-left">
+          VARCHAR2(2 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          BAND_CODE
+        </td>
+        <td class="org-left">
+          CHAR(1 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          GEO_CODE
+        </td>
+        <td class="org-left">
+          VARCHAR2(9 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          ORIGINATING_CATEGORY
+        </td>
+        <td class="org-left">
+          VARCHAR2(6 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          EXPIRATION_DATE
+        </td>
+        <td class="org-left">
+          DATE
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+      <tr>
+        <td class="org-left">
+          INCORPORATE_IND
+        </td>
+        <td class="org-left">
+          CHAR(1 BYTE)
+        </td>
+        <td class="org-left">
+          &#160;
+        </td>
+      </tr>
+    </table>
+  </body>
 </html>
+
 </richcontent>
 </node>
 <node ID="sec-7-6-2" CREATED="1468275705113" MODIFIED="1468275705113" COLOR="#990000"><richcontent TYPE="NODE">
@@ -12617,17 +12704,7 @@ This table as well and <b>PC3_SERVICE_FILTER</b> are used by the <b>RLC</b>.
 </html>
 </richcontent>
 </node>
-<node ID="sec-7-6-10" CREATED="1468275705115" MODIFIED="1468275705115" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>PC9_DEST_CATEGORY
-</p>
-</body>
-</html>
-</richcontent>
+<node TEXT="PC9_DEST_CATEGORY" ID="sec-7-6-10" CREATED="1468275705115" MODIFIED="1512506069505" COLOR="#990000">
 <font NAME="SansSerif" SIZE="14"/>
 <richcontent TYPE="NOTE">
 

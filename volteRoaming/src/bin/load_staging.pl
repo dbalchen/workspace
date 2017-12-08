@@ -10,8 +10,8 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20171101';
-$ARGV[1] = "APRM";
+$ARGV[0] = '20171201';
+$ARGV[1] = "SAP";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -288,21 +288,21 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
-#		'LTE',
-#		'DISP_RM',
-#		'NLDLT',
-#		'CDMA_A_IN_VOICE',
-#		'CDMA_A_IN_DATA',
-#		'CDMA_A_OUT_VOICE',
+		'LTE',
+		'DISP_RM',
+		'NLDLT',
+		'CDMA_A_IN_VOICE',
+		'CDMA_A_IN_DATA',
+		'CDMA_A_OUT_VOICE',
 		'CDMA_A_OUT_DATA'
 	);
 
 }
 else {
 	@aprmArray = (
-#		'CDMA_S_IN_VOICE',
-#		'CDMA_S_IN_DATA',
-#		'CDMA_S_OUT_VOICE',
+		'CDMA_S_IN_VOICE',
+		'CDMA_S_IN_DATA',
+		'CDMA_S_OUT_VOICE',
 		'CDMA_S_OUT_DATA'
 	);
 }
@@ -378,7 +378,7 @@ sub loadAprm {
 		print "$sqldel\n";
 
 		$conn2 = $dbconnb->prepare($sqldel);
-#		$conn2->execute() or sendErr();
+		$conn2->execute() or sendErr();
 
 		my $sql = $sqls{$wsql};
 
@@ -440,7 +440,7 @@ sub loadAprm {
  							  $rows[5]     /* AMOUNT_USD */,
  							  $rows[6]    /* AMOUNT_EUR */ )";
 
-				 print "$sql\n";
+#				 print "$sql\n";
 				$conn2 = $dbconnb->prepare($sql);
 				$conn2->execute() or sendErr();
 
@@ -472,7 +472,7 @@ sub loadAprm {
  						  $rows[5]     /* AMOUNT_USD */,
  						  $rows[6]    /* AMOUNT_EUR */ )";
 
-				 print "$sql\n";
+#				 print "$sql\n";
 				$conn2 = $dbconnb->prepare($sql);
 				$conn2->execute() or sendErr();
 
@@ -621,7 +621,7 @@ sub loadSAP {
 			$total = $total;# / 2;
 		}
 
-		elsif ( ( index( $header, "GLLTNY3" ) >= 0 ) && ( $gl == 6008002 ) ) {
+		elsif ( ( index( $header, "GLLTIY3" ) >= 0 ) && ( $gl == 6008002 ) ) {
 			$technology = "VoLTE";
 			$roaming    = "Incollect";
 			$data_type  = "Data";

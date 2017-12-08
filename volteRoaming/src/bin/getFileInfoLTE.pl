@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "CDUSASGUSAUD75208,75208,Sprint (USASG),25000,781.36496,0,0,20170818";
+$ARGV[0] = "CDUSAW6USAUD08442,8442,T-Mobile (USAW6),99999,9112.79000,1,.1,20171124";
 #
 ## For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -35,18 +35,18 @@ if ( index( $argv[0], "NLDLT" ) >= 0 ) {
 $sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
 
 my $sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
+#sthb->execute() or sendErr();
 
 $sql = "delete from rejected_records where FILE_NAME = '$argv[0]'";
 
 $sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
+# thb->execute() or sendErr();
 
 $sql =
 "select s_444, error_code, error_desc,cast(S_402 as decimal(19,9)) from em1_record where stream_name='INC' and record_status<>55 and s_444='$argv[0]'";
 
 my $sth = $dbconn->prepare($sql);
-$sth->execute() or sendErr();
+# $sth->execute() or sendErr();
 
 while ( my @rows = $sth->fetchrow_array() ) {
 	$sql = "Insert into REJECTED_RECORDS (
@@ -59,7 +59,7 @@ VALUES (
  '$rows[1]')";
 
 	$sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
+#	$sthb->execute() or sendErr();
 }
 
 $sql =
@@ -216,7 +216,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "9000#BooGoo");
 	unless ( defined $dbods ) {
 		sendErr();
 	}

@@ -49,7 +49,7 @@
 \pagenumbering{arabic}
 #+END_LaTeX 
 * Overview
-her number is 708-257-4408 she would love to talk to you She can explain what happen
+  *her number is 708-257-4408 she would love to talk to you She can explain what happen*
   This document will provide examples to show the relationship between the various staging tables and how to compare them. For these examples we will use the following periods:
   - *LTE Incollect*
     - DCH - /September 1st 2017/
@@ -389,43 +389,51 @@ select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_t
 * Jerry's SQL
 ** CDMA 
 * Susan's SQL
-** LTE
-   : select nr_param_3_val "Company Code", decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland') "Carrier", 
+** LTE Incollect
+   : select nr_param_3_val "Company Code", decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' ) "Carrier",
    :  sum((TOT_CHRG_PARAM_VAL/1024)/1024)"Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
    :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = '01-AUG-2017' group by nr_param_3_val, carrier_cd
+** LTE Outcollect
+   : select nr_param_3_val "Company Code",decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' ) "Carrier",
+   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024)"Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
+   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'OS' and BP_START_DATE = '01-NOV-2017' group by nr_param_3_val, carrier_cd
 ** CDMA Data Incollect Accrual
    : select
    :  carrier_cd "Carrier Code", 
    :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
-   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
+   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice' and  sys_creation_date  < '01-DEC-2017'
    :   group by carrier_cd order by Carrier_cd
 
 ** CDMA Data Incollect Settlement
-   : select  t1.carrier_cd "Carrier Code", t2.gl_account "GL Account",
+   : select  t1.carrier_cd "Carrier Code",'6008001' "GL Account",
    :  sum((t1.tot_chrg_param_val/1024)/1024) "Total Usage Mb", sum(t1.tot_net_usage_chrg) "Total Charges" 
-   :   from ic_accumulated_usage t1, usc_sap_extract_v t2 where t1.prod_cat_id = 'in' and t1.bp_start_date = '16-OCT-2017' and t1.future_3 = 'Data'
-   :    and t2.au_prod_cat_id = t1.prod_cat_id and t2.au_evt_id = t1.event_id
-   :   group by t1.carrier_cd,t2.gl_account order by t1.carrier_cd,t2.gl_account
+   :   from ic_accumulated_usage t1 where t1.prod_cat_id = 'IN' and t1.bp_start_date = '16-OCT-2017' and t1.future_3 = 'Data'
+   :   group by t1.carrier_cd order by t1.carrier_cd
 ** CDMA Voice Incollect Accrual
    : select
-   :  carrier_cd "Carrier Code", 
-   :  sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
-   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 != 'Voice'
+   :  carrier_cd "Carrier Code", '6002201' "GL Account",
+   :  sum((TOT_CHRG_PARAM_VAL) "Total Usage Minutes", sum(tot_net_usage_chrg) "Total Charges" 
+   :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IN' and BP_START_DATE = '16-AUG-2017' and future_3 = 'Voice' and sys_creation_date  < '01-DEC-2017'
    :   group by carrier_cd order by Carrier_cd
 ** CDMA Voice Incollect Settlement
-   : select  t1.carrier_cd "Carrier Code", t2.gl_account "Gl Account",
+   : select  t1.carrier_cd "Carrier Code",'6002201',
    :   sum(t1.tot_chrg_param_val) "Total Usage Minutes", sum(t1.tot_net_usage_chrg) "Total Charges" 
-   :    from ic_accumulated_usage t1, usc_sap_extract_v t2 where t1.prod_cat_id = 'IN' and 
-   :      t1.bp_start_date = '16-OCT-2017' and t1.future_3 = 'Voice'
-   :      and t2.au_prod_cat_id = t1.prod_cat_id and t2.au_evt_id = t1.event_id
-   :     group by t1.carrier_cd,t2.gl_account order by t1.carrier_cd,t2.gl_account 
+   :  from ic_accumulated_usage t1 where  prod_cat_id = 'IN' and
+   :   t1.bp_start_date = '16-OCT-2017' and t1.future_3 = 'Voice'
+   :    group by t1.carrier_cd order by t1.carrier_cd
 ** GSM Settlement
 *** APRM Settlement
-   :  select  nr_param_3_val "Company Code", decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland') "Carrier", 
-   :   decode(rate_plan_cd,'RPINCGSMSMSCD','SMS','RPINCGSMDATACD','DATA','RPINCGSMVOICETOTCD','Voice') "Usage Type",
-   :   sum((TOT_CHRG_PARAM_VAL/1024)/1024)"Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" 
-   :    from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-SEP-2017'  
-   :    group by nr_param_3_val, carrier_cd,rate_plan_cd order by  nr_param_3_val
+  : select  nr_param_3_val "Company Code", decode(carrier_cd, 'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland') "Carrier", 
+  :   decode(rate_plan_cd,'RPINCGSMSMSCD','SMS','RPINCGSMDATACD','DATA','RPINCGSMVOICETOTCD','Voice') "Usage Type",
+  :   -- sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", 
+  :   -- sum(TOT_CHRG_PARAM_VAL) "Total Texts",
+  :      sum(TOT_CHRG_PARAM_VAL) "Total Usage Minutes",
+  :      sum(tot_net_usage_chrg) "Total Charges" 
+  :   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-NOV-2017'  
+  :    and rate_plan_cd = 'RPINCGSMVOICETOTCD'
+  :    -- and rate_plan_cd = 'RPINCGSMSMSCD'
+  :    --  and rate_plan_cd = 'RPINCGSMDATACD'  --- and  nr_param_3_val = '0222'
+  :    group by nr_param_3_val, carrier_cd,rate_plan_cd order by  nr_param_3_val
 *** APRM Settlement 2       
    :    select sum(charge_amount) from prm_rom_incol_events_ap t1  where  generated_rec <  2  and carrier_c^d = 'NLDLT'  and BP_START_DATE = '01-SEP-2017'
 *** SAP Settlement   
@@ -435,14 +443,20 @@ select unique(filename) from DCH_staging where roaming = 'Incollect' and usage_t
    :   --  group by company_code,usage_type order by company_code,usage_type
    :  
 ** CDMA Voice Outcollect Settlement 
-   : select  t1.carrier_cd "Carrier Code",  t2.gl_account "Gl Account", t1.rate_plan_cd "Rate Plan",
+   : select  t1.carrier_cd "Carrier Code",  t1.rate_plan_cd "Rate Plan",decode( t1.rate_plan_cd,'RPOUROAIR','5430001','RPOUROTOLL','5410101','RPROUROTAX','4080401') "GL Account",
    :  sum(t1.tot_chrg_param_val) "Total Usage Minutes", 
    :  sum(t1.tot_net_usage_chrg) "Total Charges" 
-   :   from ic_accumulated_usage t1,  usc_sap_extract_v t2   
-   :    where prod_cat_id = 'RO' and bp_start_date = '16-SEP-2017' and future_3 = 'Voice' 
-   :     and t2.au_prod_cat_id = t1.prod_cat_id and t2.au_evt_id = t1.event_id
-   :  -- and  rate_plan_cd = 'rprourotax'
-   :   group by t1.carrier_cd, t2.gl_account, t1.rate_plan_cd  order by t1.carrier_cd, t2.gl_account, t1.rate_plan_cd 
+   : from ic_accumulated_usage t1
+   :  where prod_cat_id = 'RO' and bp_start_date = '16-OCT-2017' and future_3 = 'Voice'  and t1.rate_plan_cd != 'RPOUROTOT'
+   :  group by t1.carrier_cd, t1.rate_plan_cd  order by t1.carrier_cd,t1.rate_plan_cd 
+
+** CDMA Voice Outcollect Accrual 
+   : select  t1.carrier_cd "Carrier Code",  t1.rate_plan_cd "Rate Plan",decode( t1.rate_plan_cd,'RPOUROAIR','5430001','RPOUROTOLL','5410101','RPROUROTAX','4080401') "GL Account",
+   :  sum(t1.tot_chrg_param_val) "Total Usage Minutes", 
+   :  sum(t1.tot_net_usage_chrg) "Total Charges" 
+   : from ic_accumulated_usage t1
+   :  where prod_cat_id = 'RO' and bp_start_date = '16-OCT-2017' and future_3 = 'Voice'  and t1.rate_plan_cd != 'RPOUROTOT'  and sys_creation_date  < '01-DEC-2017'
+   :  group by t1.carrier_cd, t1.rate_plan_cd  order by t1.carrier_cd,t1.rate_plan_cd   
 
 ** CDMA Data Outcollect Settlement
    : select substr(t2.sitenum,1,3),

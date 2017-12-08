@@ -4,7 +4,6 @@
 #+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
 #+DRAWERS: PICTURE CLOSET x
 #+PROPERTY: allocate_ALL dev doc test
-#+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 #+STARTUP: hidestars hideblocks 
 #+LaTeX_CLASS_OPTIONS: [12pt,twoside]
 #+LATEX_HEADER: \usepackage{lscape} 
@@ -3617,6 +3616,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 * Telephone Numbers
+
 |-----------------+--------------|
 | *Name*          |       *Cell* |
 |-----------------+--------------|
@@ -3638,6 +3638,7 @@ subgraph cluster_3 {
 | Soly            | 630-285-8386 |
 |-----------------+--------------|
 
+#+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List 				       :noexport:taskjuggler_project:
 ** Roaming Reconciliation
 *** TODO Figure out what's wrong with GSM
