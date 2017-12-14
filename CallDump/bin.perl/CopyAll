@@ -1,0 +1,3 @@
+#! /bin/bash
+
+/home/calldmp/CallDump2.0/bin/CopyAll.pl > /home/calldmp/CallDump2.0/log/copyall.log

@@ -1,0 +1,2 @@
+nice -n 19 /home/calldmp/CallDumpTest/bin/dataSplitter.pl /m06/switch/sms_nsn switch/mot MOT
+mv /m06/switch/sms_nsn/*etc /m06/switch/mot.etc

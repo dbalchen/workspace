@@ -1,0 +1,8 @@
+nice -n 19 /home/calldmp/CallDumpTest/bin/dataSplitter.pl /m06/switch/MMSText switch/ptx1 PTX
+mv /m06/switch/MMSText/*etc /m06/switch/ptx1.etc
+nice -n 19 /home/calldmp/CallDumpTest/bin/dataSplitter.pl /m05/switch/brew switch/aaa2 AAA
+mv /m05/switch/brew/*AAA*etc /m05/switch/aaa2.etc
+nice -n 19 /home/calldmp/CallDumpTest/bin/dataSplitter.pl /m05/switch/brew switch/qis QIS
+mv /m05/switch/brew/*QIS*etc /m05/switch/qis.etc
+nice -n 19 /home/calldmp/CallDumpTest/bin/dataSplitter.pl /m06/switch/MMS switch/pmg1 PMG
+mv /m06/switch/MMS/*etc /m06/switch/pmg1.etc

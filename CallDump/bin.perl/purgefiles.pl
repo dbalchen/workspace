@@ -85,7 +85,7 @@ print LOG "Total number of files removed $FilesRemoved \n";
 print LOG "Total number of files zipped $FilesZipped \n";
 close(LOG) or die "Could not close the log\n";
 
-emailLog( $logfile, "mps\@uscellular.com" );
+emailLog( $logfile, "ISBillingOperations\@uscellular.com" );
 
 exit(0);
 

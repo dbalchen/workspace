@@ -1,0 +1,7 @@
+sshfs calldmp5@knx1scd1:/m01 /m01 -o nonempty
+sshfs calldmp5@knx1scd1:/m04 /m04 -o nonempty
+sshfs calldmp5@knx1scd1:/m05 /m05 -o nonempty
+
+sshfs calldmp6@mad1scd1:/m02 /m02 -o nonempty
+sshfs calldmp6@mad1scd1:/m06 /m06 -o nonempty
+sshfs calldmp6@mad1scd1:/m03 /m03 -o nonempty

@@ -1,0 +1,36 @@
+#!/bin/ksh
+
+PATH=".:/bin:${PATH}"
+export PATH
+
+# Now change to the directory containing all the Call Dump executables.
+cd /home/calldmp/CallDump2.0/bin
+
+#echo "/copyfiles.pl $1 ${2} "
+
+#./copyfiles.pl /m01/switch_old/ /m01/switch/ > /dev/null 2>&1 &
+#./copyfiles.pl /m02/switch_old/ /m02/switch/ > /dev/null 2>&1 &
+#./copyfiles.pl /m03/switch_old/ /m03/switch/ > /dev/null 2>&1 &
+#./copyfiles.pl /m04/switch_old/ /m04/switch/ > /dev/null 2>&1 &
+#./copyfiles.pl /m05/switch_old/ /m05/switch/ > /dev/null 2>&1 &
+#./copyfiles.pl /m06/switch_old/ /m06/switch/ > /dev/null 2>&1 &
+
+#./copyfiles.pl /m01/switchb_old/ /m01/switchb/ > /dev/null 2>&1 &
+#./copyfiles.pl /m02/switchb_old/ /m02/switchb/ > /dev/null 2>&1 &
+#./copyfiles.pl /m03/switchb_old/ /m03/switchb/ > /dev/null 2>&1 &
+#./copyfiles.pl /m04/switchb_old/ /m04/switchb/ > /dev/null 2>&1 &
+#./copyfiles.pl /m05/switchb_old/ /m05/switchb/ > /dev/null 2>&1 &
+#./copyfiles.pl /m06/switchb_old/ /m06/switchb/ > /dev/null 2>&1 &
+
+#./copyfiles.pl /m03/switchc_old/ /m03/switchc/ > /dev/null 2>&1 &
+./copyfiles.pl /m03/switchc_old/cdr2 /m03/switchb/cdr2 > /dev/null 2>&1 &
+
+if [ $? -ne 0 ]
+then    
+        echo "2"
+        exit
+fi
+
+echo "0"
+
+exit
