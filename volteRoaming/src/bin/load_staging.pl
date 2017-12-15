@@ -11,7 +11,7 @@ $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 $ARGV[0] = '20171201';
-$ARGV[1] = "SAP";
+$ARGV[1] = "APRM";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -83,16 +83,14 @@ and file_name in (select unique(tap_out_file_name) from prm_rom_outcol_events_ap
 group by file_name,sender,receiver";
 
 $sqls{'NLDLT'} = "
-select /*+ PARALLEL(t1,12) */ 'Settlement',t1.serving_bid, 'GSM', 'Incollect',decode(t1.charge_type,'V', 'Data','C', 'SMS', 'O', 'Voice'),
-sum((t1.charge_amount * t1.exchange_rate)/t2.from_to_cross_rate), sum(t1.charge_amount * t1.exchange_rate), 'NLDLT', t1.bp_start_date 
-from prm_rom_incol_events_ap t1, ICG_CROSS_RATE t2
-where t1.bp_start_date = t2.bp_start_date and t2.from_crncy_cd = 'EUR'
- and to_crncy_cd = 'USD' and T2.CARRIER_CD = 'NLDLT' 
-and t1.generated_rec <  2  and t1.carrier_cd = 'NLDLT'  and t1.BP_START_DATE= to_date('$period"
-  . "01"
-  . "','YYYYMMDD') and t1.TAP_IN_FILE_NAME in  
-(select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) 
-and process_date < to_date('$date','YYYYMMDD')  ) group by t1.serving_bid, t1.carrier_cd, t1.charge_type, t1.bp_start_date";
+ select /*+ PARALLEL(t1,12) */ 'Settlement', 'NLDLT', 'GSM', 'Incollect', decode(rate_plan_cd,'RPINCGSMSMSCD','SMS','RPINCGSMDATACD','DATA','RPINCGSMVOICETOTCD','Voice'),
+     sum(t1.tot_net_usage_chrg), sum(t1.tot_net_usage_chrg), t1.nr_param_3_val, t1.bp_start_date 
+     from IC_ACCUMULATED_USAGE t1  where t1.prod_cat_id = 'II' and t1.BP_START_DATE = to_date('$period". "01". "','YYYYMMDD') 
+      and (t1.rate_plan_cd = 'RPINCGSMVOICETOTCD' or t1.rate_plan_cd = 'RPINCGSMSMSCD' or t1.rate_plan_cd = 'RPINCGSMDATACD' ) and t1.core_reserved_2 in (
+    select unique(file_name) from file_summary where  file_type = 'TAP' and sender like '%NLDLT%' and process_date >= add_months(to_date('20171101', 'YYYYMMDD'),-1) 
+and process_date < to_date('$sdate" . "04" . "','YYYYMMDD'))   
+ group by t1.nr_param_3_val, t1.rate_plan_cd, t1.bp_start_date order by  t1.nr_param_3_val, t1.bp_start_date
+";
 
 $sqls{'NLDLTDEL'} =
 "delete from APRM_STAGING where TECHNOLOGY = 'GSM' and roaming = 'Incollect' and period = to_date('$period"
@@ -102,7 +100,7 @@ $sqls{'NLDLTDCH'} =
 "select file_name, decode(usage_type,'NLDLT-V', 'Data','NLDLT-C', 'SMS', 'NLDLT-O', 'Voice'),'GSM', 'Incollect', add_months(to_date('$date', 'YYYYMMDD'),-1),'Settlement' 
 ,receiver, 'NLDLT',sum(TOTAL_CHARGES_DCH),sum(TOTAL_CHARGES_DCH )
   from file_summary  where file_type = 'TAP' and sender like '%NLDLT%'
-  and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$date','YYYYMMDD') 
+  and process_date >= add_months(to_date('$date', 'YYYYMMDD'),-1) and process_date < to_date('$sdate" . "04" . "','YYYYMMDD')
   and file_name in (select unique(tap_in_file_name) from prm_rom_incol_events_ap  where carrier_cd = 'NLDLT' and generated_rec <  2 and bp_start_date = to_date('$period"
   . "01','YYYYMMDD'))
   group by  file_name,sender,receiver,usage_type";
@@ -288,7 +286,7 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
-		'LTE',
+#		'LTE',
 		'DISP_RM',
 		'NLDLT',
 		'CDMA_A_IN_VOICE',
@@ -336,7 +334,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#BooGoo" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -347,7 +345,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#BooGoo" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -358,7 +356,7 @@ sub getBRMPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "9000#BooGoo" );
+	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -378,7 +376,7 @@ sub loadAprm {
 		print "$sqldel\n";
 
 		$conn2 = $dbconnb->prepare($sqldel);
-		$conn2->execute() or sendErr();
+#		$conn2->execute() or sendErr();
 
 		my $sql = $sqls{$wsql};
 
