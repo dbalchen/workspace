@@ -2902,3 +2902,52 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
              :                                                <Resource value length>
              : ~/abp_home/core/bin/CustomerSegmentCalc_Sh     <CUSTOMER_ID>
 
+
+* Operational Terms and Definitions
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2017-12-18 Mon 10:31
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+      - *Front-end Processes*
+	- *CRM:* Customer Relationship Manager
+	  - *Smart Client Designer*
+	  - *ASCF Designer - Amdocs Smart Client Designer*
+	  - *APM - Amdocs Process manager*
+	- *RIM:* Retail Interaction Manager
+	  - *POS:* Point of sale provided by *Microtelecom*
+	  - *Pricing Studio*
+	  - *ASM Amdocs Security Module*
+\newpage
+      - *Provisioning*
+	- *AM or AAM - Activation Manager:* Provision Tool
+	- *APM:* The Gui front end to *AM*
+      - *Usage Acquisition and Rating*
+	- *A&F* Acquisition and formatting
+	- *Turbo-Charging* Real-time rater
+	  - *SCP* - Session Control Protocol
+	- *MAF now called Acquisition and Formatting*
+	- *AMC - Amdocs Monitoring and control*
+	- *AEM - Amdocs Error Manager* /replaces EMS/
+	- *RLC* - Rating Logic Configurator
+	- *APRM - Amdoc Partner Relationship Manager* /Roaming usage kept here/
+	- *ARCM - Process TAP records*
+      - *Billing*
+	- *Billing Configurator*
+	- *Invoicing Configurator*
+	- *Replenishment Manager*
+	- *Designer Studio* /for bill layout/
+	- *Pooling* - Everyone brings there services to be shared
+          within everyone in the pool. Pooling is customization.
+	- *Sharing* - A finite set of resources are set-up and
+          everyone can use it.
+	- *MRC - Monthly Recurring Charge*
+      - *Integration sub-systems*
+	- *AIF - Amdocs Integration Framework*
+	- *\index{ASM}ASM - Amdocs Security Manager*
+	- *APM - Amdocs Process Manager*
+	- *MMI - Multimedia Integrator*
+	- *OM - Order Manager*
+	- *OMS - Order Management System*
+

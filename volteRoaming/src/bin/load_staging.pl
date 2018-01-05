@@ -10,7 +10,7 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20171201';
+$ARGV[0] = '20171222';
 $ARGV[1] = "APRM";
 my @reports = split( ',', $ARGV[1] );
 
@@ -286,7 +286,7 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
-#		'LTE',
+		'LTE',
 		'DISP_RM',
 		'NLDLT',
 		'CDMA_A_IN_VOICE',

@@ -937,6 +937,88 @@ subgraph cluster_3 {
          *EM1_RECORD* table. Since there are so many coulmns in the
          *EM1_RECORD* table we must limit are query's to the following
          columns. [[file:docs/EM1%20Query's][EM1 Queries]]
+#+BEGIN_LaTeX
+\newpage 
+\begin{landscape}  
+#+END_LaTeX
+*** AEM Error Summary
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l|l|l|l|l|l
+|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
+| *ERROR CODE* | *POSTPAID* | *PREPAID* | *RECYCLE* | *REGUIDE* | *PURGE* | *COMMENTS*                                                                         |
+|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
+|        30728 | X          |           | X         |           | X       | Cannot be fixed WA in place.                                                       |
+|        30724 | X          |           |           |           | X       | Technical non-usage events.                                                        |
+|        30712 | X          | X         |           | X         | X       | Guiding error.                                                                     |
+|        30263 | X          | X         |           |           | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
+|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
+|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
+|        30257 | X          | X         |           |           | X       | Open Remedy against Amdocs for NON-BAU postpaid errors.  BAU prepaid               |
+|              |            |           |           |           |         | events with junk in l9_called_number can be purged, because that is                |
+|              |            |           |           |           |         | what the user dialed, ref  textjunk in the called number field.msg                 |
+|        30249 |            | X         |           |           | X       | Can be caused by recycling non-recyclable errors.  See error analysis.             |
+|        30232 |            | X         |           |           | X       | Valid reject that cannot be fixed by a WA.                                         |
+|        30219 | X          | X         | X         |           | X       | Postpaid are recycled until purged.  Prepaid are purged.                           |
+|        30218 | X          | X         | X         |           | X       | Postpaid are recycled until purged.  Prepaid are purged.                           |
+|        30209 | X          | X         |           | X         | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
+|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
+|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
+|        30206 | X          | X         | X         |           | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
+|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
+|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
+|        30203 |            | X         |           |           | X       | Zero byte LTE events.  None since 03/2015                                          |
+|        30109 | X          |           |           |           | X       | IF offer is missing from CSM_OFFER open RT for EPC,                                |
+|              |            |           |           |           |         | if not open Remedy against Amdocs.                                                 |
+|              |            |           |           |           |         |                                                                                    |
+|        10060 |            | X         |           |           | X       | First received on 20170116:  Open Remedy against Amdocs.                           |
+|              |            |           |           |           |         | Prepaid online event rejected due to the EOD maintenance.                          |
+|              |            |           |           |           |         | Remedy 03416730                                                                    |
+|        10040 | X          | X         |           | X         | X       | Guiding error                                                                      |
+|        10037 | X          | X         |           | X         | X       | Guiding error                                                                      |
+|        10036 | X          | X         |           | X         | X       | NON-BAU are reguided and BAU are purged.                                           |
+|              |            |           |           |           |         | See AEM Error Analysis History - TC Errors.docx  for rejected 'vali' events.       |
+|        10035 | X          | X         |           | X         | X       | Guiding error                                                                      |
+|        10025 |            | X         |           |           | X       | Events are rejected, because of failed prepaid replenishments                      |
+|              |            |           |           |           |         | and cannot be recycled.                                                            |
+|         6001 |            | X         | X         |           | X       | Follow AEM Error Analysis History steps.  Recycle when carrier id is added by EPC. |
+|         6000 | X          | X         | X         |           | X       | Open Remedy against NDCII-DCS - Switch Data Coll (Mediation) for postpaid.         |
+|              |            |           |           |           |         | Prepaid can be purged.  Recycle when fix is deployed.                              |
+|              |            |           |           |           |         |                                                                                    |
+|         3000 | X          | X         | X         |           | X       | NON-BAU: Open Remedy against TOPS Configuration for "Event is rejected due to not  |
+|              |            |           |           |           |         | found value 175 in table Incol SID pair".  BAU:  There is also a known special     |
+|              |            |           |           |           |         | number issue that can be purged.                                                   |
+|         1083 | X          |           | X         |           | X       | Open Remedy against Intercarrier Services and recycle once added.                  |
+|         1081 | X          | X         |           |           | X       | These are valid rejects and can be purged                                          |
+|         1032 |            | X         |           |           | X       | Never investigated                                                                 |
+|         1031 | X          | X         |           |           | X       | Check with Nidal Elhrisse then if needed Open Remedy against EPC.                  |
+|              |            |           |           |           |         | See AEM Error Analysis History - TC Errors.docx  Events with google-content etc.   |
+|              |            |           |           |           |         | can be ignored, because the project ended on 11/20/2015.                           |
+|              |            |           |           |           |         | See   EOL spreadsheet 102915.xlsx                                                  |
+|         1030 |            | X         |           |           | X       | Insufficient balance                                                               |
+|         1019 |            | X         |           |           | X       | Technical non-usage events                                                         |
+|         1013 |            | X         |           |           | X       | Balance is already opened                                                          |
+|         1012 | X          | X         |           | X         | X       | Open Remedy against Amdocs for postpaid usage charge event types for active        |
+|              |            |           |           |           |         | subscribers and purged the rest.                                                   |
+|              |            |           |           |           |         |                                                                                    |
+|         1007 |            | X         |           |           | X       | Balance is not yet open                                                            |
+|         1003 |            | X         |           |           | X       | Insufficient balance                                                               |
+|         1002 |            | X         |           |           | X       | Insufficient balance                                                               |
+|         1001 |            | X         |           |           | X       | Balance is expired                                                                 |
+|         1000 |            | X         |           |           | X       | Balance is closed                                                                  |
+|          103 | X          |           |           | X         | X       | System errors. Reguidedevery day.                                                  |
+|          102 | X          |           |           | X         | X       | System errors. Reguided every day.                                                 |
+|          101 | X          | X         |           | X         | X       | System errors. Postpaid reguided every day.  Prepaid purged every day.             |
+|              |            |           |           |           |         |                                                                                    |
+|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
+#+BEGIN_LaTeX
+\end{landscape} 
+\newpage
+\normalsize
+#+END_LaTeX
+
+** APRM
 ** Production Servers/EpsMonitors
       -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
          :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
@@ -996,48 +1078,6 @@ subgraph cluster_3 {
       -  *cdlog* - cd to the logfile directory.
       -  *cdswitch (Batch2 Only)* - cd to the switch directory.
       -  *aprout* - cd to the *CIBER* out directories.
-
-** Operational Terms and Definitions
-      - *Front-end Processes*
-	- *CRM:* Customer Relationship Manager
-	  - *Smart Client Designer*
-	  - *ASCF Designer - Amdocs Smart Client Designer*
-	  - *APM - Amdocs Process manager*
-	- *RIM:* Retail Interaction Manager
-	  - *POS:* Point of sale provided by *Microtelecom*
-	  - *Pricing Studio*
-	  - *ASM Amdocs Security Module*
-\newpage
-      - *Provisioning*
-	- *AM or AAM - Activation Manager:* Provision Tool
-	- *APM:* The Gui front end to *AM*
-      - *Usage Acquisition and Rating*
-	- *A&F* Acquisition and formatting
-	- *Turbo-Charging* Real-time rater
-	  - *SCP* - Session Control Protocol
-	- *MAF now called Acquisition and Formatting*
-	- *AMC - Amdocs Monitoring and control*
-	- *AEM - Amdocs Error Manager* /replaces EMS/
-	- *RLC* - Rating Logic Configurator
-	- *APRM - Amdoc Partner Relationship Manager* /Roaming usage kept here/
-	- *ARCM - Process TAP records*
-      - *Billing*
-	- *Billing Configurator*
-	- *Invoicing Configurator*
-	- *Replenishment Manager*
-	- *Designer Studio* /for bill layout/
-	- *Pooling* - Everyone brings there services to be shared
-          within everyone in the pool. Pooling is customization.
-	- *Sharing* - A finite set of resources are set-up and
-          everyone can use it.
-	- *MRC - Monthly Recurring Charge*
-      - *Integration sub-systems*
-	- *AIF - Amdocs Integration Framework*
-	- *\index{ASM}ASM - Amdocs Security Manager*
-	- *APM - Amdocs Process Manager*
-	- *MMI - Multimedia Integrator*
-	- *OM - Order Manager*
-	- *OMS - Order Management System*
 
 ** Production Support - SUP1
     Accessed from Putty in *TOPS* Production Support Applications.
@@ -3270,7 +3310,7 @@ subgraph cluster_3 {
 |                  |                    | II - GSM                |
 | Au_Bp_Start_Date | Date               | Billing Period Start    |
 | Au_Charge        | Number             |                         |
-| Gl_Account       | Varchar2 (17 Byte) |                         |
+| Gl_Account       | Number             |                         |
 | Crdr_Ind         | Char (2 Byte)      |                         |
 | Cost_Center      | Char (10 Byte)     |                         |
 | Product          | Char (18 Byte)     |                         |
