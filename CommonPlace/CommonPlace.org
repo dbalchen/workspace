@@ -3680,11 +3680,31 @@ subgraph cluster_3 {
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List 				       :noexport:taskjuggler_project:
-** Roaming Reconciliation
-*** TODO Figure out what's wrong with GSM
-*** TODO How to explain TNS data.. Sub report anyone
-*** TODO Fix cdmaDCH
-** Machine to Machine
+** Oncall
+   SCHEDULED: <2018-04-02 Mon>--<2018-04-08 Sun>
+   SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
+   SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
+** Dentist 
+   SCHEDULED: <2018-01-22 Mon>
+** Production Release 
+   SCHEDULED: <2018-03-04 Sun>
+*** Project Eagle
+    SCHEDULED: <2018-04-22 Sun>
+*** TSP    
+    SCHEDULED: <2018-10-01 Mon>--<2018-11-12 Mon>
+*** Volte Roaming
+**** Verizon 
+***** Verizon  Iowa 
+      DEADLINE: <2018-02-28 Wed>
+***** Verizon  California, Washington, Oregon
+      DEADLINE: <2018-04-30 Mon>
+***** Verizon Remaining Verizon Markets
+      DEADLINE: <2018-07-31 Tue>
+****  VoLTE Roaming w/TMO (End September 2018)       
+***** TMO West Virginia, Maine, & Nebraska
+      DEADLINE: <2018-04-30 Mon>
+***** TMO Remaining TMO Markets
+      DEADLINE: <2018-09-28 Fri>     
 ** CallDump
    - Sector information
    - Distance Information
