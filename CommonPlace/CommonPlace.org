@@ -55,6 +55,298 @@
    - /Probability from a point./
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
 
+* TOPS Operations
+** Acquisition and Formating (A&F)
+      *A&F* is to the new system what *MAF and RBMS* was to the old.
+      Since the majority of rules will be moved to *INTEC, A&F's*
+      primary function in the *post-TOPS* world will be to move the data
+      from the *UFF* to the usage record. If an *A&F*
+      error does occur the record will be dumped into a file to be later
+      processed by the *AEM* /(Amdocs Error Manager)/.
+** TurboCharging
+      [[file:Pictures/TC.png]] 
+      Though the overall architecture seems to be
+      the same, with some name changes like *MAF* is now
+      A&F, as *CARES* the major change has been the
+      addition of the new real-time rater which *Amdocs* calls *Turbo
+      Charging* that can handle both PRE and POST pay customers.\\
+      -  All interaction is done through the network interface.
+      -  All tables are now in memory to improve performance.
+      -  We can re-rate continuously by running re-rating in daemon
+         mode.
+      -  We can rate in other units beside minutes like *Content,
+         Volume, Qos*.
+      -  Rating can be by step or tiered.
+      -  *Event flow:*
+
+         1. An event comes in to via a network element
+         2. Transforms data into a conical form which also includes the
+            network element.
+         3. Gets Rated
+            -  For *Pre-Pay* the HLR. is handled by the
+               *SCP*
+         4. The response is sent back to the calling network element.
+
+      -  *International Calls* are rated to the country not the
+         individual city/town.
+      -  Find that in *LD_COUNTRY_RATES* table.
+      -  For *Pre-Pay* roaming customers still get a record which needs
+         to go through *CIBER* process.
+      -  Major problem for *CCMI*. It was decided to remove it but the
+         *LERG* does not give us the granularity that we might need.
+      -  For *Pre-Pay* *MMS* we will not charge each recipient only the
+         sender.
+      -  We convert everything to the *Home SID time* for bill
+         presentment.
+      -  Limiting or /choking/ usage can be handled by *Diameter* for
+         real-time and *Turbo-Charging* for *Post-Pay*
+*** Event Servers
+         There are multiple Event Servers which coresspond to bill cycle
+         and run on the event servers. Their status can be viewed using
+         the following query on the *PRDAF* database.
+
+         : SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
+
+         From the output if the column *event status = Y* then that
+         particular server is in use. If your job requires an event
+         server that is already in use you can change it to one that is
+         not by using *SQL* below on the *PRDCUST* database logged in as
+         *PRDOPRC*.
+
+         In this example we are setting the job rec to run using the
+         *ES_EOC1045* event server
+
+          :   Update OP_APP_DATA set data = 'ES_EOC1045'
+          :          where JOB_REC = '{Your Job Rec}' and field_seq_num = 1 
+          :          and table_NAME IN ('ADJ1EVENTSRV');
+
+*** Rerate Servers
+         There are three *Rerate Servers* they are:
+         1. *RRP_EOC1056*
+         2. *RRP_EOC1068*
+         3. *RRP_EOC1192*
+
+** AEM
+         AEM gets the Turbo-Charging errors from the
+         *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
+         *EM1_RECORD* table. Since there are so many coulmns in the
+         *EM1_RECORD* table we must limit are query's to the following
+         columns. [[file:docs/EM1%20Query's][EM1 Queries]]
+#+BEGIN_LaTeX
+\newpage 
+\begin{landscape}  
+#+END_LaTeX
+*** AEM Error Summary
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l|l|l|l|l|l
+|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
+| *ERROR CODE* | *POSTPAID* | *PREPAID* | *RECYCLE* | *REGUIDE* | *PURGE* | *COMMENTS*                                                                         |
+|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
+|        30728 | X          |           | X         |           | X       | Cannot be fixed WA in place.                                                       |
+|        30724 | X          |           |           |           | X       | Technical non-usage events.                                                        |
+|        30712 | X          | X         |           | X         | X       | Guiding error.                                                                     |
+|        30263 | X          | X         |           |           | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
+|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
+|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
+|        30257 | X          | X         |           |           | X       | Open Remedy against Amdocs for NON-BAU postpaid errors.  BAU prepaid               |
+|              |            |           |           |           |         | events with junk in l9_called_number can be purged, because that is                |
+|              |            |           |           |           |         | what the user dialed, ref  textjunk in the called number field.msg                 |
+|        30249 |            | X         |           |           | X       | Can be caused by recycling non-recyclable errors.  See error analysis.             |
+|        30232 |            | X         |           |           | X       | Valid reject that cannot be fixed by a WA.                                         |
+|        30219 | X          | X         | X         |           | X       | Postpaid are recycled until purged.  Prepaid are purged.                           |
+|        30218 | X          | X         | X         |           | X       | Postpaid are recycled until purged.  Prepaid are purged.                           |
+|        30209 | X          | X         |           | X         | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
+|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
+|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
+|        30206 | X          | X         | X         |           | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
+|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
+|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
+|        30203 |            | X         |           |           | X       | Zero byte LTE events.  None since 03/2015                                          |
+|        30109 | X          |           |           |           | X       | IF offer is missing from CSM_OFFER open RT for EPC,                                |
+|              |            |           |           |           |         | if not open Remedy against Amdocs.                                                 |
+|              |            |           |           |           |         |                                                                                    |
+|        10060 |            | X         |           |           | X       | First received on 20170116:  Open Remedy against Amdocs.                           |
+|              |            |           |           |           |         | Prepaid online event rejected due to the EOD maintenance.                          |
+|              |            |           |           |           |         | Remedy 03416730                                                                    |
+|        10040 | X          | X         |           | X         | X       | Guiding error                                                                      |
+|        10037 | X          | X         |           | X         | X       | Guiding error                                                                      |
+|        10036 | X          | X         |           | X         | X       | NON-BAU are reguided and BAU are purged.                                           |
+|              |            |           |           |           |         | See AEM Error Analysis History - TC Errors.docx  for rejected 'vali' events.       |
+|        10035 | X          | X         |           | X         | X       | Guiding error                                                                      |
+|        10025 |            | X         |           |           | X       | Events are rejected, because of failed prepaid replenishments                      |
+|              |            |           |           |           |         | and cannot be recycled.                                                            |
+|         6001 |            | X         | X         |           | X       | Follow AEM Error Analysis History steps.  Recycle when carrier id is added by EPC. |
+|         6000 | X          | X         | X         |           | X       | Open Remedy against NDCII-DCS - Switch Data Coll (Mediation) for postpaid.         |
+|              |            |           |           |           |         | Prepaid can be purged.  Recycle when fix is deployed.                              |
+|              |            |           |           |           |         |                                                                                    |
+|         3000 | X          | X         | X         |           | X       | NON-BAU: Open Remedy against TOPS Configuration for "Event is rejected due to not  |
+|              |            |           |           |           |         | found value 175 in table Incol SID pair".  BAU:  There is also a known special     |
+|              |            |           |           |           |         | number issue that can be purged.                                                   |
+|         1083 | X          |           | X         |           | X       | Open Remedy against Intercarrier Services and recycle once added.                  |
+|         1081 | X          | X         |           |           | X       | These are valid rejects and can be purged                                          |
+|         1032 |            | X         |           |           | X       | Never investigated                                                                 |
+|         1031 | X          | X         |           |           | X       | Check with Nidal Elhrisse then if needed Open Remedy against EPC.                  |
+|              |            |           |           |           |         | See AEM Error Analysis History - TC Errors.docx  Events with google-content etc.   |
+|              |            |           |           |           |         | can be ignored, because the project ended on 11/20/2015.                           |
+|              |            |           |           |           |         | See   EOL spreadsheet 102915.xlsx                                                  |
+|         1030 |            | X         |           |           | X       | Insufficient balance                                                               |
+|         1019 |            | X         |           |           | X       | Technical non-usage events                                                         |
+|         1013 |            | X         |           |           | X       | Balance is already opened                                                          |
+|         1012 | X          | X         |           | X         | X       | Open Remedy against Amdocs for postpaid usage charge event types for active        |
+|              |            |           |           |           |         | subscribers and purged the rest.                                                   |
+|              |            |           |           |           |         |                                                                                    |
+|         1007 |            | X         |           |           | X       | Balance is not yet open                                                            |
+|         1003 |            | X         |           |           | X       | Insufficient balance                                                               |
+|         1002 |            | X         |           |           | X       | Insufficient balance                                                               |
+|         1001 |            | X         |           |           | X       | Balance is expired                                                                 |
+|         1000 |            | X         |           |           | X       | Balance is closed                                                                  |
+|          103 | X          |           |           | X         | X       | System errors. Reguidedevery day.                                                  |
+|          102 | X          |           |           | X         | X       | System errors. Reguided every day.                                                 |
+|          101 | X          | X         |           | X         | X       | System errors. Postpaid reguided every day.  Prepaid purged every day.             |
+|              |            |           |           |           |         |                                                                                    |
+|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
+#+BEGIN_LaTeX
+\end{landscape} 
+\newpage
+\normalsize
+#+END_LaTeX
+
+** APRM
+   *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
+** Production Servers/EpsMonitors
+      -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
+         :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
+      -  *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
+         : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
+      -  *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
+         : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
+      -  *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
+	Must sign in as prdwrk6 using the super *secret* password
+	 : /pkgbl06/inf/aimsys/prdwrk6/eps/monitors
+      -  *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
+      -  *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
+      -  *Event3* -- *kprl3event.uscc.com (10.176.181.118)*
+      -  *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
+      -  *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
+      -  *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
+      -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
+         : /inf_nas/apm1/prod/aprmoper/eps/monitors
+
+** Overage Protection
+      Overage notifications are detected on an event by event basis. As
+      events are processed by *TC* and added to the *APE1_ACCUMULATORS*
+      table a check is made against the
+      *L9_FIRST_THRESHOLD/L9_SECOND_THRESHOLD* fields. If an overage
+      is detected the ***FIELD*** CTN is added to file (segregated by
+      unique *TC* file?) in the NTF directory. MFT then pulls these
+      files and delivers to DMI for distribution. A note is added to the
+      NOTIFICATION_HUB.SMS_NOTIFICATION table (ODS) indicating the
+      message was sent by DMI.
+
+      - Overage process flow
+         [[file:Pictures/overage.png]]
+
+      - Output Location
+|-----------------------------------------+-------------------------------------|
+| *NOTIF_DESC*                            | *FILE_PATH*                         |
+|-----------------------------------------+-------------------------------------|
+| Overage cap notification on group level | $ABP_APR_ROOT/interfaces/output/NTF |
+| Disclaimer notification on group level  | $ABP_APR_ROOT/interfaces/output/NTF |
+| Bucket notification on group level      | $ABP_APR_ROOT/interfaces/output/NTF |
+|-----------------------------------------+-------------------------------------|
+
+| *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
+
+      -  Fields of Interest
+         S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
+         L3_CALL_SOURCE
+
+** Billing Process
+      The billing process follows a map which is created by the job
+      *ADJ3_APR_CycleBillRun_Sh*. If it completes successfully it
+      will create a billing map that will look something like the
+      following:
+
+      [[file:Pictures/billing_tc_map-27124108.png]]
+
+** Log File Location
+   -  Alias
+      -  *cdlog* - cd to the logfile directory.
+      -  *cdswitch (Batch2 Only)* - cd to the switch directory.
+      -  *aprout* - cd to the *CIBER* out directories.
+
+** Production Support - SUP1
+    Accessed from Putty in *TOPS* Production Support Applications.
+    Should be able to login on with LAN ID and password (which is
+    same as your LAN ID).
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l
+|---------------------|
+| *SERVER NAME*       |
+|---------------------|
+| Ksr01omsap.uscc.com |
+| ksr01bmrim.uscc.com |
+| ksr01csmap.uscc.com |
+| ksr01batch.uscc.com |
+| ksr01tiger.uscc.com |
+| ksr01aprma.uscc.com |
+| ksr01mcsap.uscc.com |
+| ksr01ebiap.uscc.com |
+| msr01esadm.uscc.com |
+| msr01esb01.uscc.com |
+| msr01esb02.uscc.com |
+| msr01wladm.uscc.com |
+| msr01wls01.uscc.com |
+| msr01wls02.uscc.com |
+| msr01web01.uscc.com |
+| msr01web02.uscc.com |
+|---------------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+** Development Servers
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align lllll
+|---------------+--------------+------------+----------+------------|
+| *Environment* |         *IP* | *Hostname* | *UserID* | *Password* |
+|---------------+--------------+------------+----------+------------|
+| Development   |  10.106.10.9 | mdr01bld01 | md1dbal1 | /password/ |
+| Testing       |  10.106.10.9 | mdr01bld01 | d_medap  | Henry*123  |
+| CallDump      | 10.176.179.3 | kpr01scdap | calldmp  | Henry*128  |
+|---------------+--------------+------------+----------+------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+** EBI Server
+   Operational Logins
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l
+    |------------+-------------------------|
+    | *SERVER*   | *LOGIN*                 |
+    |------------+-------------------------|
+    | kpr01ebiap | sudo /bin/su - p_arapp1 |
+    | kpr01ebiap | sudo /bin/su - p_colap1 |
+    | kpr01ebiap | sudo /bin/su - p_comap1 |
+    | kpr01ebiap | sudo /bin/su - p_invap1 |
+    | kpr01ebiap | sudo /bin/su - p_mabel1 |
+    | kpr01ebiap | sudo /bin/su - p_usacq1 |
+    |------------+-------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 * Usage Overview
    Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
    in two ways, *Voice* and *Data*.\\
@@ -86,6 +378,7 @@
       (treated as an *SMS* message in the system). Produces both /Mobile
       Originating and Terminating/ records with a possible one to many
       relationships (multiple recipients).\\
+
 ** Pre-Pay and Data Roaming
 
       In addition to *Post-Pay* we also handle *Pre-Pay* which follows a
@@ -116,6 +409,7 @@
 |--------------+-----------------|
 
 ** Duplicate Record Keys
+   Columns used to detect if a record is a duplicate.
 #+BEGIN_LaTeX
 \small
 #+END_LaTeX
@@ -145,6 +439,7 @@
 \normalsize
 #+END_LaTeX
 ** Guide By Criteria
+
 |--------------+------------|
 | *Data Types* | *Guide By* |
 |--------------+------------|
@@ -300,6 +595,181 @@ subgraph cluster_3 {
 \newpage
 #+END_LaTeX
 
+* Accounts Receivable
+      Handles Finance, Payments and credits as well Collections.
+** AR Basics
+    -  *Root Directory* - $ABP\_AR\_ROOT on kpr01batch
+    -  *Collection Interface* -
+       /pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/cl/interfaces
+
+**  AR Jobs and Deamons
+     - AR1JRNLEXT
+       The Journal Extract process extracts to an output file all
+            financial activities that occurred since the last run of
+            this process.
+            -  *LOG FILE* - AR1JRNLEXT.<SYS\_DATE>.log
+            -  *Output File* -
+            -  *Script Name* - ar1\_JrnlExtract\_Sh
+
+      - AR1PYMRCT
+      - AR1DDREQCRE
+      - AR3GWLSTR
+      - AR1PYMPOST
+      - AR1DDFEDBCK
+      - AR1INVRCT
+**  End of Month
+     : [[docs/AR%20EOM.sql][AR End Of Month - SQL]]
+     -  Email List for Revenue Accounting
+     -  Revenue Not confirmed for cycles 24,26 and 28
+     -  Null GeoCodes
+     -  Query for the EOM
+
+** Payment File
+         Once in a while payment files break due to either bad sequence
+         numbers or format issues. For the most part you should tell
+         Amdocs to put the file in CN status and have *Payment Control*
+         to resend. If the file is also out of sequence have payment
+         control send it with a new sequence number. If the whole file
+         fails, not just records, then have Payment Control send a new
+         file with a new sequence number.
+
+         #+BEGIN_EXAMPLE
+             PaymentControl-ImportPaymentFiles@uscellular.com>
+         #+END_EXAMPLE
+** AR Reports
+    -  *LockBox*
+       -  /File Location/ :
+          $ABP\_AR\_ROOT/interfaces/input/lockbox/MELL\_PYM.*.csv
+    -  *AGTCASH*
+       -  /File Location/ :
+            $ABP\_AR\_ROOT/interfaces/input/lockbox/ACP\_PYM*.csv
+    -  *IMPCOL*
+       -  /File Location/ :
+            $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPCOL.PAY*.csv
+    -  *IMPEFT*
+        -  /File Location/ :
+               $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPEFT.PAY.*csv
+    -  *IMPPAY*
+        -  /File Location/ :
+               $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPPAY.PAY.*.csv
+    -  *Autopay Reports* \\ Both of these reports are derived after
+            the above files have been processed.
+        -  *Autopay\_PostPaid*
+           - Run both the expected and actual *SQL*
+        -  *Autopay\_PrePaid*
+           -  Run prepaid expected *SQL*
+    -  *ACH extract file* \\Check to see if the output report and
+            *SQL* match.
+        - /File Location/ :
+            $ABP\_AR\_ROOT/interfaces/output/ACH.ar.DD\_OUT*\\
+** Credit Cards  
+    - AR9\_CC\_AUTH\_LOG
+      Credit card transactions from the *TOPS* side.
+    - CTLOG
+      Database from the microtelecom side.
+
+** GL Extracts
+         These are created via *APRM*.
+
+    - SAP Extracts
+       -  Business owner (3/15/2013): Sangeeta Khedeker
+       -  Transfer target:
+               svc\_mft\_ops@babble.tds.local:~bosstven/glinty3t
+
+    - General Ledger - Incollect - USCSAPEXTRGL SAPIN
+       -  Job name: USCSAPEXTRGL SAPIN
+       -  Schedule: EOD
+       -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+       -  Transfer Date: 22nd of each month @ 12:00 am
+       -  SLA: 2 days
+       -  File name convention: GLINCY3YYYYMMDDHHMMSS
+       -  File location: ~aprmoper/var/usc/SAPGLEXTR/IN/
+
+    - General Ledger - Outcollect - USCSAPEXTRGL SAPOUT
+      -  Job name: USCSAPEXTRGL SAPOUT
+      -  Schedule: EOD
+      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_OUTCOLGENLEDGER
+      -  Transfer Date: 22nd of each month @ 12:00 am
+      -  SLA: 2 days
+      -  File name convention: GLOUTY3YYYYMMDDHHMMSS
+      -  File location: ~aprmoper/var/usc/SAPGLEXTR/RO/
+
+    - Accrual EOM - Incollect - USCSAPEXTRGL ACCIN
+      -  Job name: USCSAPEXTRGL ACCIN
+      -  Schedule: EOD
+      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  Transfer Date: 1st of each month @ 12:00 am
+      -  SLA: End of day
+      -  File name convention: GLINCY4YYYYMMDDHHMMSS
+      -  File location: ~aprmoper/var/usc/SAPGLEXTR/IN/
+         -  Ex: /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IN/GLINCY420130401005834
+
+    - Accrual EOM - Outcollect - USCSAPEXTRGL ACCOUT
+      -  Job name: USCSAPEXTRGL ACCOUT
+      -  Schedule: EOD
+      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  Transfer Date: 1st of each month @ 12:00 am
+      -  SLA: End of day
+      -  File name convention: GLOUTY4YYYYMMDDHHMMSS
+      -  File location: ~aprmoper/var/usc/SAPGLEXTR/RO/
+         -  Ex:  /inf\_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/RO/GLOUTY420130401005834
+
+    - Intra-Company Roaming - USCSAPEXTRGL SAPIR
+      -  Job name: USCSAPEXTRGL SAPIR
+      -  Schedule: EOD
+      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  Transfer Date: 1st of each month @ 12:00 am
+      -  SLA: End of day
+      -  File name convention: GLINTY3YYYYMMDDHHMMSS
+      -  File location: ~aprmoper/var/usc/SAPGLEXTR/IR/
+         -  Ex:  /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IR/GLINTY320130401005834
+
+** Operational SQL
+         All of these scripts would be good monitor scripts.
+     :    [[docs/AR%20Operational.sql][AR Operational SQL]]
+
+      -  Checks to see if all payment files have been
+            processed.(*PRDCUST*)
+      -  Gateway Listener (*PRDCUST*)
+      -  More General stuff (*PRDCUST*)
+      -  Query for Batch Payments
+
+    -   APRM Queries
+    :  [[docs/APRM%20Queries][AprmQuery.sql]]
+
+* Consolidated Billing
+  MABEL is an industry standard electronic method for a customer to receive their invoices.  
+  The MABEL process will allow a customer with multiple accounts to have those accounts consolidated into one file following the MABEL standards. 
+  
+  Consolidated Billing is comprised of three billing formats:
+  1. Invoice Reports (produced and emailed by the DMI and Cognos teams based on XML files from TOPS)
+  2. Mabel (consolidated by us based on individual Mabel files that are produced by TOPS and sent by the MFT team using sftp)
+  3. MobilSense (a 3rd party web interface, which loads data based on consolidated Mabel files and sent by the MFT team using sftp)
+
+  *Super Secret MABEL Password* sudo /bin/su - p_mabel1
+* CallDump
+** Data Directories
+      -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
+      -  */m06/switch/MMS* - Picture Messaging
+      -  */m06/switch/MMSText* - Picture Messaging Text only.
+      -  */m06/switch/sms\_nsn* - SMS Motorola
+      -  */m06/switchb/sms\_alu* - SMS ALU
+      -  */m04/switch/lte* - *(aaa3)* P-Gateway 4G usage
+      -  */m04/switchb/valista* - Premium SMS
+      -  */m05/switch/brew* - Brew and Brew data *(aaa2)*
+      -  */m01/switchb/tas* - Volte
+
+** WEDO (Switch to bill)
+      The *WEDO* process pulls usage files, tar's them up and places them
+      into a directory so that *MFT* can pick them up. The operational
+      jobs are as follows:
+
+      1. Job PR-BOD-S2B_TO_WEDO is running this script:
+         */m01/switch/to_wedo.sh*
+      2. Job PR-BOD-S2B_CREATE_WEDO_ARCH is running this script:
+         */m01/switch/wedo/create_wedo_archive.sh*
+
+\newpage
 * Unified File Format (UFF)
    In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
    will be reformatted into a /Unified File Format/ (*UFF*). This format
@@ -860,460 +1330,6 @@ subgraph cluster_3 {
 \normalsize
 \newpage
 #+END_LaTeX
-* TOPS Operations
-** Acquisition and Formating (A&F)
-      *A&F* is to the new system what *MAF and RBMS* was to the old.
-      Since the majority of rules will be moved to *INTEC, A&F's*
-      primary function in the *post-TOPS* world will be to move the data
-      from the *UFF* to the usage record. If an *A&F*
-      error does occur the record will be dumped into a file to be later
-      processed by the *AEM* /(Amdocs Error Manager)/.
-** TurboCharging
-      [[file:Pictures/TC.png]] 
-      Though the overall architecture seems to be
-      the same, with some name changes like *MAF* is now
-      A&F, as *CARES* the major change has been the
-      addition of the new real-time rater which *Amdocs* calls *Turbo
-      Charging* that can handle both PRE and POST pay customers.\\
-      -  All interaction is done through the network interface.
-      -  All tables are now in memory to improve performance.
-      -  We can re-rate continuously by running re-rating in daemon
-         mode.
-      -  We can rate in other units beside minutes like *Content,
-         Volume, Qos*.
-      -  Rating can be by step or tiered.
-      -  *Event flow:*
-
-         1. An event comes in to via a network element
-         2. Transforms data into a conical form which also includes the
-            network element.
-         3. Gets Rated
-            -  For *Pre-Pay* the HLR. is handled by the
-               *SCP*
-         4. The response is sent back to the calling network element.
-
-      -  *International Calls* are rated to the country not the
-         individual city/town.
-      -  Find that in *LD_COUNTRY_RATES* table.
-      -  For *Pre-Pay* roaming customers still get a record which needs
-         to go through *CIBER* process.
-      -  Major problem for *CCMI*. It was decided to remove it but the
-         *LERG* does not give us the granularity that we might need.
-      -  For *Pre-Pay* *MMS* we will not charge each recipient only the
-         sender.
-      -  We convert everything to the *Home SID time* for bill
-         presentment.
-      -  Limiting or /choking/ usage can be handled by *Diameter* for
-         real-time and *Turbo-Charging* for *Post-Pay*
-*** Event Servers
-         There are multiple Event Servers which coresspond to bill cycle
-         and run on the event servers. Their status can be viewed using
-         the following query on the *PRDAF* database.
-
-         : SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
-
-         From the output if the column *event status = Y* then that
-         particular server is in use. If your job requires an event
-         server that is already in use you can change it to one that is
-         not by using *SQL* below on the *PRDCUST* database logged in as
-         *PRDOPRC*.
-
-         In this example we are setting the job rec to run using the
-         *ES_EOC1045* event server
-
-          :   Update OP_APP_DATA set data = 'ES_EOC1045'
-          :          where JOB_REC = '{Your Job Rec}' and field_seq_num = 1 
-          :          and table_NAME IN ('ADJ1EVENTSRV');
-
-*** Rerate Servers
-         There are three *Rerate Servers* they are:
-         1. *RRP_EOC1056*
-         2. *RRP_EOC1068*
-         3. *RRP_EOC1192*
-
-** AEM
-         AEM gets the Turbo-Charging errors from the
-         *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
-         *EM1_RECORD* table. Since there are so many coulmns in the
-         *EM1_RECORD* table we must limit are query's to the following
-         columns. [[file:docs/EM1%20Query's][EM1 Queries]]
-#+BEGIN_LaTeX
-\newpage 
-\begin{landscape}  
-#+END_LaTeX
-*** AEM Error Summary
-#+BEGIN_LaTeX
-\scriptsize
-#+END_LaTeX
-#+ATTR_LaTeX: :environment longtable :align l|l|l|l|l|l|l|l|l
-|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
-| *ERROR CODE* | *POSTPAID* | *PREPAID* | *RECYCLE* | *REGUIDE* | *PURGE* | *COMMENTS*                                                                         |
-|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
-|        30728 | X          |           | X         |           | X       | Cannot be fixed WA in place.                                                       |
-|        30724 | X          |           |           |           | X       | Technical non-usage events.                                                        |
-|        30712 | X          | X         |           | X         | X       | Guiding error.                                                                     |
-|        30263 | X          | X         |           |           | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
-|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
-|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
-|        30257 | X          | X         |           |           | X       | Open Remedy against Amdocs for NON-BAU postpaid errors.  BAU prepaid               |
-|              |            |           |           |           |         | events with junk in l9_called_number can be purged, because that is                |
-|              |            |           |           |           |         | what the user dialed, ref  textjunk in the called number field.msg                 |
-|        30249 |            | X         |           |           | X       | Can be caused by recycling non-recyclable errors.  See error analysis.             |
-|        30232 |            | X         |           |           | X       | Valid reject that cannot be fixed by a WA.                                         |
-|        30219 | X          | X         | X         |           | X       | Postpaid are recycled until purged.  Prepaid are purged.                           |
-|        30218 | X          | X         | X         |           | X       | Postpaid are recycled until purged.  Prepaid are purged.                           |
-|        30209 | X          | X         |           | X         | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
-|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
-|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
-|        30206 | X          | X         | X         |           | X       | Open Remedy against Amdocs to handle error as NON-BAU or against                   |
-|              |            |           |           |           |         | IS Ops - Bill Cycle Management when handled by Incident Management.                |
-|              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
-|        30203 |            | X         |           |           | X       | Zero byte LTE events.  None since 03/2015                                          |
-|        30109 | X          |           |           |           | X       | IF offer is missing from CSM_OFFER open RT for EPC,                                |
-|              |            |           |           |           |         | if not open Remedy against Amdocs.                                                 |
-|              |            |           |           |           |         |                                                                                    |
-|        10060 |            | X         |           |           | X       | First received on 20170116:  Open Remedy against Amdocs.                           |
-|              |            |           |           |           |         | Prepaid online event rejected due to the EOD maintenance.                          |
-|              |            |           |           |           |         | Remedy 03416730                                                                    |
-|        10040 | X          | X         |           | X         | X       | Guiding error                                                                      |
-|        10037 | X          | X         |           | X         | X       | Guiding error                                                                      |
-|        10036 | X          | X         |           | X         | X       | NON-BAU are reguided and BAU are purged.                                           |
-|              |            |           |           |           |         | See AEM Error Analysis History - TC Errors.docx  for rejected 'vali' events.       |
-|        10035 | X          | X         |           | X         | X       | Guiding error                                                                      |
-|        10025 |            | X         |           |           | X       | Events are rejected, because of failed prepaid replenishments                      |
-|              |            |           |           |           |         | and cannot be recycled.                                                            |
-|         6001 |            | X         | X         |           | X       | Follow AEM Error Analysis History steps.  Recycle when carrier id is added by EPC. |
-|         6000 | X          | X         | X         |           | X       | Open Remedy against NDCII-DCS - Switch Data Coll (Mediation) for postpaid.         |
-|              |            |           |           |           |         | Prepaid can be purged.  Recycle when fix is deployed.                              |
-|              |            |           |           |           |         |                                                                                    |
-|         3000 | X          | X         | X         |           | X       | NON-BAU: Open Remedy against TOPS Configuration for "Event is rejected due to not  |
-|              |            |           |           |           |         | found value 175 in table Incol SID pair".  BAU:  There is also a known special     |
-|              |            |           |           |           |         | number issue that can be purged.                                                   |
-|         1083 | X          |           | X         |           | X       | Open Remedy against Intercarrier Services and recycle once added.                  |
-|         1081 | X          | X         |           |           | X       | These are valid rejects and can be purged                                          |
-|         1032 |            | X         |           |           | X       | Never investigated                                                                 |
-|         1031 | X          | X         |           |           | X       | Check with Nidal Elhrisse then if needed Open Remedy against EPC.                  |
-|              |            |           |           |           |         | See AEM Error Analysis History - TC Errors.docx  Events with google-content etc.   |
-|              |            |           |           |           |         | can be ignored, because the project ended on 11/20/2015.                           |
-|              |            |           |           |           |         | See   EOL spreadsheet 102915.xlsx                                                  |
-|         1030 |            | X         |           |           | X       | Insufficient balance                                                               |
-|         1019 |            | X         |           |           | X       | Technical non-usage events                                                         |
-|         1013 |            | X         |           |           | X       | Balance is already opened                                                          |
-|         1012 | X          | X         |           | X         | X       | Open Remedy against Amdocs for postpaid usage charge event types for active        |
-|              |            |           |           |           |         | subscribers and purged the rest.                                                   |
-|              |            |           |           |           |         |                                                                                    |
-|         1007 |            | X         |           |           | X       | Balance is not yet open                                                            |
-|         1003 |            | X         |           |           | X       | Insufficient balance                                                               |
-|         1002 |            | X         |           |           | X       | Insufficient balance                                                               |
-|         1001 |            | X         |           |           | X       | Balance is expired                                                                 |
-|         1000 |            | X         |           |           | X       | Balance is closed                                                                  |
-|          103 | X          |           |           | X         | X       | System errors. Reguidedevery day.                                                  |
-|          102 | X          |           |           | X         | X       | System errors. Reguided every day.                                                 |
-|          101 | X          | X         |           | X         | X       | System errors. Postpaid reguided every day.  Prepaid purged every day.             |
-|              |            |           |           |           |         |                                                                                    |
-|--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
-#+BEGIN_LaTeX
-\end{landscape} 
-\newpage
-\normalsize
-#+END_LaTeX
-
-** APRM
-** Production Servers/EpsMonitors
-      -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
-         :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
-      -  *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
-         : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
-      -  *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
-         : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
-      -  *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
-      -  *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
-      -  *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
-      -  *Event3* -- *kprl3event.uscc.com (10.176.181.118)*
-      -  *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
-      -  *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
-      -  *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
-      -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
-         : /inf_nas/apm1/prod/aprmoper/eps/monitors
-
-** Overage Protection
-      Overage notifications are detected on an event by event basis. As
-      events are processed by *TC* and added to the *APE1_ACCUMULATORS*
-      table a check is made against the
-      *L9_FIRST_THRESHOLD/L9_SECOND_THRESHOLD* fields. If an overage
-      is detected the ***FIELD*** CTN is added to file (segregated by
-      unique *TC* file?) in the NTF directory. MFT then pulls these
-      files and delivers to DMI for distribution. A note is added to the
-      NOTIFICATION_HUB.SMS_NOTIFICATION table (ODS) indicating the
-      message was sent by DMI.
-
-      - Overage process flow
-         [[file:Pictures/overage.png]]
-
-      - Output Location
-|-----------------------------------------+-------------------------------------|
-| *NOTIF_DESC*                            | *FILE_PATH*                         |
-|-----------------------------------------+-------------------------------------|
-| Overage cap notification on group level | $ABP_APR_ROOT/interfaces/output/NTF |
-| Disclaimer notification on group level  | $ABP_APR_ROOT/interfaces/output/NTF |
-| Bucket notification on group level      | $ABP_APR_ROOT/interfaces/output/NTF |
-|-----------------------------------------+-------------------------------------|
-
-| *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
-
-      -  Fields of Interest
-         S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
-         L3_CALL_SOURCE
-
-** Billing Process
-      The billing process follows a map which is created by the job
-      *ADJ3_APR_CycleBillRun_Sh*. If it completes successfully it
-      will create a billing map that will look something like the
-      following:
-
-      [[file:Pictures/billing_tc_map-27124108.png]]
-
-** Log File Location
-   -  Alias
-      -  *cdlog* - cd to the logfile directory.
-      -  *cdswitch (Batch2 Only)* - cd to the switch directory.
-      -  *aprout* - cd to the *CIBER* out directories.
-
-** Production Support - SUP1
-    Accessed from Putty in *TOPS* Production Support Applications.
-    Should be able to login on with LAN ID and password (which is
-    same as your LAN ID).
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-
-#+ATTR_LaTeX: :environment longtable :align l
-|---------------------|
-| *SERVER NAME*       |
-|---------------------|
-| Ksr01omsap.uscc.com |
-| ksr01bmrim.uscc.com |
-| ksr01csmap.uscc.com |
-| ksr01batch.uscc.com |
-| ksr01tiger.uscc.com |
-| ksr01aprma.uscc.com |
-| ksr01mcsap.uscc.com |
-| ksr01ebiap.uscc.com |
-| msr01esadm.uscc.com |
-| msr01esb01.uscc.com |
-| msr01esb02.uscc.com |
-| msr01wladm.uscc.com |
-| msr01wls01.uscc.com |
-| msr01wls02.uscc.com |
-| msr01web01.uscc.com |
-| msr01web02.uscc.com |
-|---------------------|
-
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-** Development Servers
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-
-#+ATTR_LaTeX: :environment longtable :align lllll
-|---------------+--------------+------------+----------+------------|
-| *Environment* |         *IP* | *Hostname* | *UserID* | *Password* |
-|---------------+--------------+------------+----------+------------|
-| Development   |  10.106.10.9 | mdr01bld01 | md1dbal1 | /password/ |
-| Testing       |  10.106.10.9 | mdr01bld01 | d_medap  | Henry*123  |
-| CallDump      | 10.176.179.3 | kpr01scdap | calldmp  | Henry*128  |
-|---------------+--------------+------------+----------+------------|
-
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-** EBI Server
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-
-#+ATTR_LaTeX: :environment longtable :align l|l
-    |------------+-------------------------|
-    | *SERVER*   | *LOGIN*                 |
-    |------------+-------------------------|
-    | kpr01ebiap | sudo /bin/su - p_arapp1 |
-    | kpr01ebiap | sudo /bin/su - p_colap1 |
-    | kpr01ebiap | sudo /bin/su - p_comap1 |
-    | kpr01ebiap | sudo /bin/su - p_invap1 |
-    | kpr01ebiap | sudo /bin/su - p_mabel1 |
-    | kpr01ebiap | sudo /bin/su - p_usacq1 |
-    |------------+-------------------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-** Accounts Receivable
-      Handles Finance, Payments and credits as well Collections.
-
-*** AR Basics
-    -  *Root Directory* - $ABP\_AR\_ROOT on kpr01batch
-    -  *Collection Interface* -
-       /pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/cl/interfaces
-
-***  AR Jobs and Deamons
-     - AR1JRNLEXT
-       The Journal Extract process extracts to an output file all
-            financial activities that occurred since the last run of
-            this process.
-            -  *LOG FILE* - AR1JRNLEXT.<SYS\_DATE>.log
-            -  *Output File* -
-            -  *Script Name* - ar1\_JrnlExtract\_Sh
-
-      - AR1PYMRCT
-      - AR1DDREQCRE
-      - AR3GWLSTR
-      - AR1PYMPOST
-      - AR1DDFEDBCK
-      - AR1INVRCT
-***  End of Month
-     : [[docs/AR%20EOM.sql][AR End Of Month - SQL]]
-     -  Email List for Revenue Accounting
-     -  Revenue Not confirmed for cycles 24,26 and 28
-     -  Null GeoCodes
-     -  Query for the EOM
-
-*** Payment File
-         Once in a while payment files break due to either bad sequence
-         numbers or format issues. For the most part you should tell
-         Amdocs to put the file in CN status and have *Payment Control*
-         to resend. If the file is also out of sequence have payment
-         control send it with a new sequence number. If the whole file
-         fails, not just records, then have Payment Control send a new
-         file with a new sequence number.
-
-         #+BEGIN_EXAMPLE
-             PaymentControl-ImportPaymentFiles@uscellular.com>
-         #+END_EXAMPLE
-*** AR Reports
-    -  *LockBox*
-       -  /File Location/ :
-          $ABP\_AR\_ROOT/interfaces/input/lockbox/MELL\_PYM.*.csv
-    -  *AGTCASH*
-       -  /File Location/ :
-            $ABP\_AR\_ROOT/interfaces/input/lockbox/ACP\_PYM*.csv
-    -  *IMPCOL*
-       -  /File Location/ :
-            $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPCOL.PAY*.csv
-    -  *IMPEFT*
-        -  /File Location/ :
-               $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPEFT.PAY.*csv
-    -  *IMPPAY*
-        -  /File Location/ :
-               $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPPAY.PAY.*.csv
-    -  *Autopay Reports* \\ Both of these reports are derived after
-            the above files have been processed.
-        -  *Autopay\_PostPaid*
-           - Run both the expected and actual *SQL*
-        -  *Autopay\_PrePaid*
-           -  Run prepaid expected *SQL*
-    -  *ACH extract file* \\Check to see if the output report and
-            *SQL* match.
-        - /File Location/ :
-            $ABP\_AR\_ROOT/interfaces/output/ACH.ar.DD\_OUT*\\
-*** Credit Cards  
-    - AR9\_CC\_AUTH\_LOG
-      Credit card transactions from the *TOPS* side.
-    - CTLOG
-      Database from the microtelecom side.
-
-*** GL Extracts
-         These are created via *APRM*.
-
-    - SAP Extracts
-       -  Business owner (3/15/2013): Sangeeta Khedeker
-       -  Transfer target:
-               svc\_mft\_ops@babble.tds.local:~bosstven/glinty3t
-
-    - General Ledger - Incollect - USCSAPEXTRGL SAPIN
-       -  Job name: USCSAPEXTRGL SAPIN
-       -  Schedule: EOD
-       -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
-       -  Transfer Date: 22nd of each month @ 12:00 am
-       -  SLA: 2 days
-       -  File name convention: GLINCY3YYYYMMDDHHMMSS
-       -  File location: ~aprmoper/var/usc/SAPGLEXTR/IN/
-
-    - General Ledger - Outcollect - USCSAPEXTRGL SAPOUT
-      -  Job name: USCSAPEXTRGL SAPOUT
-      -  Schedule: EOD
-      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_OUTCOLGENLEDGER
-      -  Transfer Date: 22nd of each month @ 12:00 am
-      -  SLA: 2 days
-      -  File name convention: GLOUTY3YYYYMMDDHHMMSS
-      -  File location: ~aprmoper/var/usc/SAPGLEXTR/RO/
-
-    - Accrual EOM - Incollect - USCSAPEXTRGL ACCIN
-      -  Job name: USCSAPEXTRGL ACCIN
-      -  Schedule: EOD
-      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
-      -  Transfer Date: 1st of each month @ 12:00 am
-      -  SLA: End of day
-      -  File name convention: GLINCY4YYYYMMDDHHMMSS
-      -  File location: ~aprmoper/var/usc/SAPGLEXTR/IN/
-         -  Ex: /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IN/GLINCY420130401005834
-
-    - Accrual EOM - Outcollect - USCSAPEXTRGL ACCOUT
-      -  Job name: USCSAPEXTRGL ACCOUT
-      -  Schedule: EOD
-      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
-      -  Transfer Date: 1st of each month @ 12:00 am
-      -  SLA: End of day
-      -  File name convention: GLOUTY4YYYYMMDDHHMMSS
-      -  File location: ~aprmoper/var/usc/SAPGLEXTR/RO/
-         -  Ex:  /inf\_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/RO/GLOUTY420130401005834
-
-    - Intra-Company Roaming - USCSAPEXTRGL SAPIR
-      -  Job name: USCSAPEXTRGL SAPIR
-      -  Schedule: EOD
-      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
-      -  Transfer Date: 1st of each month @ 12:00 am
-      -  SLA: End of day
-      -  File name convention: GLINTY3YYYYMMDDHHMMSS
-      -  File location: ~aprmoper/var/usc/SAPGLEXTR/IR/
-         -  Ex:  /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IR/GLINTY320130401005834
-
-*** Operational SQL
-         All of these scripts would be good monitor scripts.
-     :    [[docs/AR%20Operational.sql][AR Operational SQL]]
-
-      -  Checks to see if all payment files have been
-            processed.(*PRDCUST*)
-      -  Gateway Listener (*PRDCUST*)
-      -  More General stuff (*PRDCUST*)
-      -  Query for Batch Payments
-
-    -   APRM Queries
-    :  [[docs/APRM%20Queries][AprmQuery.sql]]
-
-* CallDump
-** Data Directories
-      -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
-      -  */m06/switch/MMS* - Picture Messaging
-      -  */m06/switch/MMSText* - Picture Messaging Text only.
-      -  */m06/switch/sms\_nsn* - SMS Motorola
-      -  */m06/switchb/sms\_alu* - SMS ALU
-      -  */m04/switch/lte* - *(aaa3)* P-Gateway 4G usage
-      -  */m04/switchb/valista* - Premium SMS
-      -  */m05/switch/brew* - Brew and Brew data *(aaa2)*
-      -  */m01/switchb/tas* - Volte
-
-** WEDO (Switch to bill)
-      The *WEDO* process pulls usage files tar's them up and places them
-      into a directory so that *MFT* can pick them up. The operational
-      jobs are as follows:
-
-      1. Job PR-BOD-S2B_TO_WEDO is running this script:
-         /m01/switch/to_wedo.sh
-      2. Job PR-BOD-S2B_CREATE_WEDO_ARCH is running this script:
-         /m01/switch/wedo/create_wedo_archive.sh
-
-\newpage
 * Databases
 ** Production Database - Login/Password
 #+BEGIN_LaTeX
@@ -1339,7 +1355,6 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
 ** Support Databases - Login/Password
 #+BEGIN_LaTeX
 \footnotesize
@@ -1362,7 +1377,6 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
 ** Usage DB by cycle
 #+BEGIN_LaTeX
 \footnotesize
@@ -3661,10 +3675,9 @@ subgraph cluster_3 {
 | *Name*          |       *Cell* |
 |-----------------+--------------|
 | Vanessa         | 608-444-7106 |
+|                 | 630-571-7825 |
 | Alex            | 608-219-7641 |
 | Dexter          | 608-219-5832 |
-| Dr. Smith       | 608-263-7500 |
-| CVS             | 608-836-6630 |
 | Chuck           | 630-710-5201 |
 | Cindy           | 608-516-4539 |
 | Deb             | 312-810-1111 |
