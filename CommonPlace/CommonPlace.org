@@ -359,22 +359,22 @@
       voice record format and since an NTI record contains both the
       /originating and terminating features/ certain call types may
       result in a record being generated.
-   3. *GSM Roaming* - Voice and data records from our customers who are
-      roaming in Europe and other *GSM* countries.
-   4. *CIBER* - For /InCollect and OutCollect/ processing.\\
+   3. *CIBER* - For /InCollect and OutCollect/ processing.\\
 
 *Data*
    1. *SMSC Server* - Both *Motorola* and *Acatel-Lucent SMS* records
       that can be either a /Mobile Originating or Terminating/ record
       type.
    2. *AAA Server* - Produces one record for each complete data session.
-      -  *PGW* - P-Gateway *LTE* data usage
-      -  *ECS* - ECS *3G and lower* data usage.
-      -  *AAA* - Raw AAA usage found on the CallDump only.
-      -  *TAS* - /Volte/ Voice over *LTE*.
+      - *PGW* - P-Gateway *LTE* data usage
+      - *ECS* - ECS *3G and lower* data usage.
+      - *AAA* - Raw AAA usage found on the CallDump only.
+      - *TAS* - /Volte/ Voice over *LTE*.
    3. *VALI* - /Premium SMS (Valista)/ pre-rated records one record per
       event.
-   4. *MMSC* - Used for both pictures and picture messaging text only
+   4. *GSM Roaming* - Voice and data records from our customers who are
+      roaming in Europe and other *GSM* countries.
+   5. *MMSC* - Used for both pictures and picture messaging text only
       (treated as an *SMS* message in the system). Produces both /Mobile
       Originating and Terminating/ records with a possible one to many
       relationships (multiple recipients).\\
@@ -3692,20 +3692,31 @@ subgraph cluster_3 {
 |-----------------+--------------|
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
-* Task List 				       :noexport:taskjuggler_project:
-** Oncall
+* Task List				       :noexport:taskjuggler_project:
+** TODO Oncall
    SCHEDULED: <2018-04-02 Mon>--<2018-04-08 Sun>
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
-** Dentist 
-   SCHEDULED: <2018-01-22 Mon>
-** Production Release 
+** TODO Production Release 
    SCHEDULED: <2018-03-04 Sun>
 *** Project Eagle
     SCHEDULED: <2018-04-22 Sun>
-*** TSP    
-    SCHEDULED: <2018-10-01 Mon>--<2018-11-12 Mon>
-*** Volte Roaming
+*** TODO TSP    
+    DEADLINE: <2018-10-14 Sun>
+    Upgrading Infrastructure software
+    |---------------+----------|
+    | Applications  |  Version |
+    |---------------+----------|
+    | Oracle DBMS   |     12.1 |
+    | Oracle Client | 11.2.0.4 |
+    | WebLogic      |     12.2 |
+    | Java          |      1.8 |
+    | Red Hat Linux |        7 |
+    | IE            |       11 |
+    | PMX           |     10.2 |
+    |---------------+----------|
+ 
+*** TODO Volte Roaming
 **** Verizon 
 ***** Verizon  Iowa 
       DEADLINE: <2018-02-28 Wed>
@@ -3718,7 +3729,7 @@ subgraph cluster_3 {
       DEADLINE: <2018-04-30 Mon>
 ***** TMO Remaining TMO Markets
       DEADLINE: <2018-09-28 Fri>     
-** CallDump
+** HOLD CallDump
    - Sector information
    - Distance Information
    - Merge M2M calls

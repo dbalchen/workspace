@@ -2951,3 +2951,14 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
 	- *OM - Order Manager*
 	- *OMS - Order Management System*
 
+
+* DONE Dentist 
+  SCHEDULED: <2018-01-22 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-01-22 Mon 14:56
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
