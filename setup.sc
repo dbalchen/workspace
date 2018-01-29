@@ -218,7 +218,6 @@ MIDIIn.noteOff = { arg src,chan,num,vel;
 
 	if(b != nil,{ b.set(\gate, 0);});
 
-
 	if((chan == 0), {
 		x = ~channel0off.value(num,vel);
 

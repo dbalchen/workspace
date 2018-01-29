@@ -5,22 +5,24 @@
 ~string_low_vca_control_in = Bus.control(s, 1);
 ~string_low_vcf_control_in = Bus.control(s, 1);
 
+
 ~string_low_synth.set(\fenvIn,~string_low_vcf_control_in);
 ~string_low_synth.set(\vcaIn,~string_low_vca_control_in);
+
 
 ~string_low_vca_envelope = MyADSR.new;
 ~string_low_vca_envelope.init;
 ~string_low_vca_envelope.attack = 2.0;
 ~string_low_vca_envelope.decay = 4.0;
 ~string_low_vca_envelope.sustain = 0.4;
-~string_low_vca_envelope.release = 1.0;
+~string_low_vca_envelope.release = 0.9;
 
 ~string_low_vcf_envelope = MyADSR.new;
 ~string_low_vcf_envelope.init;
-~string_low_vcf_envelope.attack = 1.0;
+~string_low_vcf_envelope.attack = 2.0;
 ~string_low_vcf_envelope.decay = 4;
 ~string_low_vcf_envelope.sustain = 0.8;
-~string_low_vcf_envelope.release = 1.0;
+~string_low_vcf_envelope.release = 0.9;
 
 // Bell Setup
 ~belladsr = MyADSR.new;
@@ -63,17 +65,21 @@ OSCdef(\stringLow, { |m|
 	~string_low_synth.set(\lagtime,	0.5);
 	~string_low_synth.set(\amp,~track2.amp);
 	~string_low_synth.set(\balance,~track2.balance);
+	~string_low_synth.set(\release,~string_low_vca_envelope.release);
 
-	~stringLow_env  = Synth("myADSR",addAction: \addToHead);
-	~string_low_vca_envelope.setADSR(~stringLow_env);
-	~stringLow_env.set(\out,~string_low_vca_control_in);
 
 	~stringLow_fenv = Synth("myADSR",addAction: \addToHead);
 	~stringLow_fenv.set(\out,~string_low_vcf_control_in);
 	~string_low_vcf_envelope.setADSR(~stringLow_fenv);
 
-	~stringLow_fenv.set(\gate,1);
+	~stringLow_env  = Synth("myADSR",addAction: \addToHead);
+	~string_low_vca_envelope.setADSR(~stringLow_env);
+	~stringLow_env.set(\out,~string_low_vca_control_in);
+
 	~stringLow_env.set(\gate,1);
+	~stringLow_fenv.set(\gate,1);
+	~string_low_synth.set(\gate,1);
+
 
 }, '/stringLow');
 
@@ -108,17 +114,21 @@ OSCdef(\stringLow, { |m|
 ~channel2 = {arg num, vel = 1;
 	var ret;
 	num.postln;
+
 	ret = Synth("stringLow");
 	ret.set(\num,num);
-	ret.set(\lag,2.0);
+	ret.set(\lag,4.0);
 	ret.set(\gate,1);
+
 	ret;
 };
 
 ~channel2off = {arg num, vel = 1;
 	var ret = nil;
-	~stringLow_fenv.set(\gate,0);
+
 	~stringLow_env.set(\gate,0);
+	~stringLow_fenv.set(\gate,0);
+	~string_low_synth.set(\gate,0);
 	ret;
 };
 
@@ -129,7 +139,7 @@ OSCdef(\stringLow, { |m|
 	ret.set(\freq,num.midicps);
 	ret.set(\amp,~track3.amp);
 	ret.set(\balance,~track3.balance);
-	ret.set(\attack,2);
+	ret.set(\attack,0.5);
 	ret.set(\release,0.4);
 	ret.set(\gate,1);
 	ret;

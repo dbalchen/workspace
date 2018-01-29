@@ -49,7 +49,7 @@ SynthDef(\pulseSound, {arg out = 0, amp = 1, aoc = 1, oscIn = 0, aocIn = 0, spre
 ~myadsr2.sustain = 0.5;
 ~myadsr2.release = 0.0;
 
-~mixer3 = Synth("two2one",target: ~oGroup,addAction: \addToTail);
+~mixer3 = Synth("two2one",addAction: \addToTail);
 ~mixer3.set(\in0,~env2out1);
 ~mixer3.set(\in1,~asrOut);
 ~mixer3.set(\out,~mix3out);
