@@ -12,35 +12,44 @@ Server.default.makeGui
 
 
 (
-o = Server.local.options;
-o.numOutputBusChannels = 24; // The next time it boots, this will take effect
-o.memSize = 2097152;
-)
+ o = Server.local.options;
+ o.numOutputBusChannels = 24; // The next time it boots, this will take effect
+ o.memSize = 2097152;
+ )
 
 "/home/dbalchen/Music/setup.sc".load;
 
 
 
 (
-~startup = {
+ ~startup = {
 
 
-	(
+   (
 
-		"/home/dbalchen/Music/MyTechnoSong/include/synths/envelopes.sc".load;
-		"/home/dbalchen/Music/MyTechnoSong/include/synths/kick.sc".load;
-		"/home/dbalchen/Music/MyTechnoSong/include/synths/eStrings.sc".load;
-		"/home/dbalchen/Music/MyTechnoSong/include/events/bassDrum.sc".load;
-		"/home/dbalchen/Music/MyTechnoSong/include/patch/bassDrum.sc".load;
+    "/home/dbalchen/Music/MyTechnoSong/include/synths/envelopes.sc".load;
+    "/home/dbalchen/Music/MyTechnoSong/include/synths/kick.sc".load;
+    "/home/dbalchen/Music/MyTechnoSong/include/synths/eStrings.sc".load;
+    "/home/dbalchen/Music/MyTechnoSong/include/synths/eSampler.sc".load;
+		
+    "/home/dbalchen/Music/MyTechnoSong/include/events/bassDrum.sc".load;
+    "/home/dbalchen/Music/MyTechnoSong/include/patch/bassDrum.sc".load;
+		
+    "/home/dbalchen/Music/MyTechnoSong/include/events/LowStrings.sc".load;
+    "/home/dbalchen/Music/MyTechnoSong/include/patch/LowStrings.scd".load;
+		
+    "/home/dbalchen/Music/MyTechnoSong/include/patch/strings.sc".load;
 
-		"/home/dbalchen/Music/MyTechnoSong/include/events/LowStrings.sc".load;
-		"/home/dbalchen/Music/MyTechnoSong/include/patch/LowStrings.scd".load;
-		"/home/dbalchen/Music/MyTechnoSong/include/midiDefs.sc".load
+    ~cello = MyTrack.new(~synth1,1);
+    ~viola = MyTrack.new(~synth1,2);
+    ~violin = MyTrack.new(~synth1,3);
 
-	)
+    "/home/dbalchen/Music/MyTechnoSong/include/midiDefs.sc".load
 
-};
-)
+    )
+
+     };
+ )
 
 ~myadsr.gui
 ~mixergui.gui
@@ -62,36 +71,36 @@ o.memSize = 2097152;
 ~rp = {~lowStrings.transport.play;~bassDrum.transport.play;~bassDrumNotes.transport.play;}; // Example
 
 (
-~start = {
+ ~start = {
 
-	var num = 60,timeNow;
-	t = TempoClock.default.tempo = num / 60;
+   var num = 60,timeNow;
+   t = TempoClock.default.tempo = num / 60;
 
-	Routine.run({
-		s.sync;
-		timeNow = TempoClock.default.beats;
+   Routine.run({
+       s.sync;
+       timeNow = TempoClock.default.beats;
 
-		t.schedAbs(timeNow + 00,{ // 00 = Time in beats
-			(
-				// If yes put stuff Here
+       t.schedAbs(timeNow + 00,{ // 00 = Time in beats
+	   (
+	    // If yes put stuff Here
 			);
 
-			(
-				// If No put stuff here otherwise nil
-				nil
-			);
-		};	 // End of if statement
+	   (
+	    // If No put stuff here otherwise nil
+	    nil
+	    );
+	 };	 // End of if statement
 
-		); // End of t.schedAbs
+	 ); // End of t.schedAbs
 
 
-		//Add more
+       //Add more
 
-	}); // End of Routine
+     }); // End of Routine
 
-}; //End of Start
+ }; //End of Start
 
-)
+ )
 
 
 ~rp = {~start.value;};
