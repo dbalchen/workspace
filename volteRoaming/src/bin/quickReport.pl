@@ -24,7 +24,7 @@ use MIME::Lite;
 #$ARGV[0] = "SDATACBR_FDATACBR";
 #$ARGV[0] = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
-#$ARGV[0] = "LTE,DISP_RM,NLDLT";
+#$ARGV[0] = "DISP_RM,NLDLT";
 #$ARGV[0] = "DISP_RM";
 #$ARGV[0] = "LTE";
 #$ARGV[0] = "NLDLT";
@@ -38,7 +38,7 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-#$timeStamp = '20170728';
+#$timeStamp = '20180119';
 
 # Setup switch types and their directory location
 my %dirs     = {};
@@ -475,7 +475,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "9000#BooGoo" );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -486,7 +486,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#BooGoo" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

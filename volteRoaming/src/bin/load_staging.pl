@@ -10,8 +10,8 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20171201';
-$ARGV[1] = "APRM";
+#$ARGV[0] = '20171201';
+#$ARGV[1] = "APRM";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -286,12 +286,12 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
-#		'LTE',
-#		'DISP_RM',
-#		'NLDLT',
-#		'CDMA_A_IN_VOICE',
-#		'CDMA_A_IN_DATA',
-#		'CDMA_A_OUT_VOICE',
+		'LTE',
+		'DISP_RM',
+		'NLDLT',
+		'CDMA_A_IN_VOICE',
+		'CDMA_A_IN_DATA',
+		'CDMA_A_OUT_VOICE',
 		'CDMA_A_OUT_DATA'
 	);
 
@@ -482,29 +482,7 @@ sub loadAprm {
 
 }
 
-#sub updateAPRM {
-#	my ( $dbconnb, $ref ) = @_;
-#
-#	my @rows = @{$ref};
-#
-#	my $sql = "INSERT INTO APRM_STAGING (
-#   USAGE_TYPE, TECHNOLOGY, ROAMING,
-#   PERIOD, MONTH_TYPE, COMPANY_CODE,
-#   BID, AMOUNT_USD, AMOUNT_EUR)
-#VALUES (
-# '$rows[4]'      /* USAGE_TYPE */,
-# '$rows[2]' 	   /* TECHNOLOGY */,
-# '$rows[3]'      /* ROAMING */,
-# '$rows[8]'      /* PERIOD */,
-# '$rows[0]'      /* MONTH_TYPE */,
-# '$rows[7]'      /* COMPANY_CODE */,
-# '$rows[1]'      /* BID */,
-# $rows[5]     /* AMOUNT_USD */,
-# $rows[6]    /* AMOUNT_EUR */ )";
-#
-#	my $conn2 = $dbconnb->prepare($sql);
-#	$conn2->execute() or sendErr();
-#}
+
 
 sub loadDCH {
 

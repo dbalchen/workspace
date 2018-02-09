@@ -20,7 +20,7 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20180122';
+$ARGV[0] = '20180201';
 
 my $date = $ARGV[0];
 
@@ -60,8 +60,7 @@ select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
   . "01','YYYYMMDD')"
   . " and GL_ACCOUNT = 6008002 and carrier_cd = t1.nr_param_3_val) ,0) "
   . ' "VoLTE Charges" from IC_ACCUMULATED_USAGE t1 '
-  . " where t1.prod_cat_id = 'IS' and t1.BP_START_DATE = to_date('$period"
-  . "01','YYYYMMDD')"
+  . " where t1.prod_cat_id = 'IS' and t1.BP_START_DATE = to_date('$period". "01','YYYYMMDD')"
   . " group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val order by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val";
 
 $sqls{'LTE_INCOLLECT_CARRIER'} = '
@@ -106,15 +105,15 @@ select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
   . '"Carrier",'
   . "'6008001', sum((t1.TOT_CHRG_PARAM_VAL/1024)/1024)"
   . ' "Total Usage MB",  sum(tot_net_usage_chrg) "Data Charges SDR", '
-  . "'6002202', (nvl((select sum(TOT_CHRG_PARAM_VAL)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-DEC-2017' and rate_plan_cd = 'RPINCGSMSMSCD' and  t1.nr_param_3_val =   nr_param_3_val)	,0)) "
+  . "'6002202', (nvl((select sum(TOT_CHRG_PARAM_VAL)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMSMSCD' and  t1.nr_param_3_val =   nr_param_3_val)	,0)) "
   . ' "Total Texts" ,'
-  . " (nvl((select  sum(tot_net_usage_chrg)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-DEC-2017' and rate_plan_cd = 'RPINCGSMSMSCD' and  t1.nr_param_3_val =   nr_param_3_val)  ,0)) "
+  . " (nvl((select  sum(tot_net_usage_chrg)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMSMSCD' and  t1.nr_param_3_val =   nr_param_3_val)  ,0)) "
   . '"Text Charges" , '
-  . "'6002201',(nvl((select sum(TOT_CHRG_PARAM_VAL)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-DEC-2017' and rate_plan_cd = 'RPINCGSMVOICETOTCD' and  t1.nr_param_3_val =   nr_param_3_val),0)) "
+  . "'6002201',(nvl((select sum(TOT_CHRG_PARAM_VAL)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMVOICETOTCD' and  t1.nr_param_3_val =   nr_param_3_val),0)) "
   . '"Total Minutes",'
-  . "(nvl(   (select  sum(tot_net_usage_chrg)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = '01-DEC-2017' and rate_plan_cd = 'RPINCGSMVOICETOTCD' and  t1.nr_param_3_val =   nr_param_3_val),0)) "
+  . "(nvl(   (select  sum(tot_net_usage_chrg)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMVOICETOTCD' and  t1.nr_param_3_val =   nr_param_3_val),0)) "
   . ' "Voice Charges" '
-  . " from IC_ACCUMULATED_USAGE t1 where prod_cat_id = 'II' and BP_START_DATE = '01-DEC-2017' and  rate_plan_cd = 'RPINCGSMDATACD' group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val, t1.carrier_cd order by  to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val";
+  . " from IC_ACCUMULATED_USAGE t1 where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and  rate_plan_cd = 'RPINCGSMDATACD' group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val, t1.carrier_cd order by  to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val";
 
 $sqls{'CDMA_INCOLLECT_DATA_ACCRUAL'} = "
 select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
@@ -180,7 +179,7 @@ select  t1.carrier_cd "Carrier Code", t2.carrier_name,  t1.rate_plan_cd "Rate Pl
   . '"GL Account", sum(t1.tot_chrg_param_val) "Total Usage Minutes", sum(t1.tot_net_usage_chrg) "Total Charges"  from ic_accumulated_usage t1,'
   . "(select setlmnt_contract_cd, max(Sid_Commercial_Name) carrier_name from pc9_sid group by setlmnt_contract_cd order by setlmnt_contract_cd)  t2 "
   . " where substr(t1.nr_param_1_val,0,3)  = t2.setlmnt_contract_cd and "
-  . " prod_cat_id = 'RO' and bp_start_date = '16-DEC-2017' and future_3 = 'Voice'  and t1.rate_plan_cd != 'RPOUROTOT' and  t1.sys_creation_date  < to_date('$sdate"
+  . " prod_cat_id = 'RO' and bp_start_date = to_date('$period". "16 ','YYYYMMDD') and future_3 = 'Voice'  and t1.rate_plan_cd != 'RPOUROTOT' and  t1.sys_creation_date  < to_date('$sdate"
   . "01"
   . "','YYYYMMDD')"
   . " group by carrier_cd, Nr_Param_2_Val, t2.Carrier_Name, t1.rate_plan_cd "
@@ -274,10 +273,10 @@ if ( substr( $date, 6, 2 ) eq '01' ) {
 }
 else {
 	@aprmArray = (
-#		'CDMA_INCOLLECT_VOICE_SETTLEMENT',
-#		'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER',
-#		'CDMA_INCOLLECT_DATA_SETTLEMENT',
-#		'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER',
+		'CDMA_INCOLLECT_VOICE_SETTLEMENT',
+		'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER',
+		'CDMA_INCOLLECT_DATA_SETTLEMENT',
+		'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER',
 		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT',
 		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'
 	);
