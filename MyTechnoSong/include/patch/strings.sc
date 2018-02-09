@@ -26,8 +26,8 @@
 
   // ret = ~eSampler.value(~cello,~cellosounds,~celloTemplate,num);
 
+*/
 
-  */
 
 ~cellosounds.free;
 ~cellosounds = ~loadSamples.value("/home/dbalchen/Music/Samples/string2/cellos");

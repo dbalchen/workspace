@@ -1,5 +1,5 @@
 ~string_low_synth = Synth("mono_eStrings",addAction: \addToTail);
-~string_low_synth.set(\cutoff,1950);
+~string_low_synth.set(\cutoff,5950);
 ~string_low_vca_control_in = Bus.control(s, 1);
 ~string_low_vcf_control_in = Bus.control(s, 1);
 

@@ -63,11 +63,8 @@ OSCdef(\stringLow, { |m|
 	     ~celloTemplate.value(ret,num,~cellosounds);
 	     ret.set(\amp,~cello.amp);
 	     ret.set(\balance,~cello.balance);
-
-	     ret.set(\attack,0.5);
-	     ret.set(\decay,3);
-	     ret.set(\sustain,0.3);
-	     ret.set(\release,0.8);
+	     ~string_cello_vcf_envelope.setfADSR(ret);
+	     ~string_cello_vca_envelope.setADSR(ret);
 	     ret.set(\gate,1);
 	     ret;
 };
@@ -82,11 +79,8 @@ OSCdef(\stringLow, { |m|
 	     ~violaTemplate.value(ret,num,~violasounds);
 	     ret.set(\amp,~viola.amp);
 	     ret.set(\balance,~viola.balance);
-
-	     ret.set(\attack,0.5);
-	     ret.set(\decay,3);
-	     ret.set(\sustain,0.3);
-	     ret.set(\release,0.8);
+	     ~string_viola_vcf_envelope.setfADSR(ret);
+	     ~string_viola_vca_envelope.setADSR(ret);
 	     ret.set(\gate,1);
 	     ret;
 };
@@ -95,18 +89,29 @@ OSCdef(\stringLow, { |m|
 ~channel3 = {arg num, vel = 1;
 	     var ret;
 	     num.postln;
-
 	     ret = Synth("Esampler");
 	     ret.set(\gate,0);
 
 	     ~violinTemplate.value(ret,num,~violinsounds);
 	     ret.set(\amp,~violin.amp);
 	     ret.set(\balance,~violin.balance);
+	     ~string_violin_vcf_envelope.setfADSR(ret);
+	     ~string_violin_vca_envelope.setADSR(ret);
 
-	     ret.set(\attack,0.5);
-	     ret.set(\decay,3);
-	     ret.set(\sustain,0.3);
-	     ret.set(\release,0.8);
+	     ret.set(\gate,1);
+	     ret;
+};
+
+~channel4 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+	     ret = Synth("eStrings");
+	     ret.set(\gate,0);
+	     ret.set(\freq,num.midicps);
+	     ret.set(\amp,~viola2.amp);
+	     ret.set(\balance,~viola2.balance);
+	     ~string_viola2_vcf_envelope.setfADSR(ret);
+	     ~string_viola2_vca_envelope.setADSR(ret);
 	     ret.set(\gate,1);
 	     ret;
 };
@@ -153,7 +158,6 @@ OSCdef(\kickClock, { |m|
 	      ~noise.set(\freq,num/2);
 	      ~sine.set(\freq, num/2);
 
-
 	      ~ret0 = Synth("env2",addAction: \addToHead);
 	      ~ret0.set(\out,~envout2);
 	      ~ret0.set(\gate,1);
@@ -187,7 +191,7 @@ OSCdef(\kickClock, { |m|
 
   if((chan == 2), {
 
-     ~viola.amp = vol;
+      ~viola.amp = vol;
 
     });
 
@@ -272,21 +276,21 @@ OSCdef(\kickClock, { |m|
     });
 
   if((chan == 1), {
-      
+
       ~cello.balance = vol;
-      
+
     });
 
   if((chan == 2), {
 
       ~viola.balance = vol;
-      
+
     });
 
   if((chan == 3), {
-      
+
       ~violin.balance = vol;
-      
+
     });
 
   if((chan == 4), {
