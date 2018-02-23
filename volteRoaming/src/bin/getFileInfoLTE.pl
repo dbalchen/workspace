@@ -3,7 +3,8 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "CDNLDLTIWB5101582,1582,Vodafone Netherland (NLDLT),2706,1999.9384,0,0,20180120";
+$ARGV[0] =
+  "CDUSAW6USAUD09893,9893,T-Mobile (USAW6),100000,7648.12000,1,.01,20180219";
 #
 ## For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -20,11 +21,13 @@ my @argv = split( /,/, $ARGV[0] );
 
 my $dbconn = getBODSPRD();
 
-#my $dbconnb = getSNDPRD();
-my $dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
+
+#my $dbconnb = $dbconn;
 
 my $sql    = '';
 my $prefix = "LTE";
+my $flag   = 0;
 
 my $exrate = 1;
 
@@ -46,7 +49,7 @@ $sql =
 "select s_444, error_code, error_desc,cast(S_402 as decimal(19,9)) from em1_record where stream_name='INC' and record_status<>55 and s_444='$argv[0]'";
 
 my $sth = $dbconn->prepare($sql);
- $sth->execute() or sendErr();
+$sth->execute() or sendErr();
 
 while ( my @rows = $sth->fetchrow_array() ) {
 	$sql = "Insert into REJECTED_RECORDS (
@@ -62,8 +65,18 @@ VALUES (
 	$sthb->execute() or sendErr();
 }
 
-$sql =
+if ( $prefix eq "NLDLT" ) {
+
+	$sql =
 "select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),charge_type  from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]' group by charge_type";
+
+}
+else {
+
+	$sql =
+"select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),service_type  from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]' group by service_type";
+
+}
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -78,10 +91,10 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $dropped = ( $argv[3] - $argv[5] );
 
 	my $usage_type        = $prefix . '-' . $rows[3];
-	my $file_name_dch     = "";
-	my $total_charges_dch = "";
-	my $total_records_dch = "";
-	my $total_volume_dch  = "";
+	my $file_name_dch     = 0;
+	my $total_charges_dch = 0;
+	my $total_records_dch = 0;
+	my $total_volume_dch  = 0;
 
 	my $grep = "";
 
@@ -123,27 +136,32 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 	}
 	else {
+		
 		$file_name_dch = $argv[0];
-		$grep          = " grep $file_name_dch ";
-		my $hh =
-		  "cat $ENV{'REC_HOME'}/tnsIncollect.csv | $grep | cut -f 9,10,24";
+		
+		if ( $flag == 0 ) {
+			$grep          = " grep $file_name_dch ";
+			my $hh =
+			  "cat $ENV{'REC_HOME'}/tnsIncollect.csv | $grep | cut -f 9,10,24";
 
-		my @output = `$hh`;
-		if ( @output > 1 ) {
-			$output[0] = $output[1];
+			my @output = `$hh`;
+			if ( @output > 1 ) {
+				$output[0] = $output[1];
+			}
+
+			chomp(@output);
+			$output[0] =~ s/"//g;
+			$output[0] =~ s/,//g;
+
+			my @dchValues = split( "\t", $output[0] );
+			chomp(@dchValues);
+
+			$total_volume_dch  = $rows[2];
+			$total_charges_dch = $dchValues[2];
+			$total_records_dch = $dchValues[1];
+
+			$flag = 1;
 		}
-
-		chomp(@output);
-		$output[0] =~ s/"//g;
-		$output[0] =~ s/,//g;
-
-		my @dchValues = split( "\t", $output[0] );
-		chomp(@dchValues);
-
-		$total_volume_dch  = $rows[2];
-		$total_charges_dch = $dchValues[2];
-		$total_records_dch = $dchValues[1];
-
 	}
 
 	$sql = " INSERT INTO FILE_SUMMARY (
@@ -216,7 +234,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "#5000Reptar");
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -227,7 +245,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

@@ -3,8 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] =
-#"/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000085991_20170401_000043.ASC.done";
+$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000136815_20180220_021444.ASC.done";
 
 #For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -25,13 +24,13 @@ my $process_date = ( split( '_', $filename ) )[3];
 
 my $dbconn = getBODSPRD();
 
-#my $dbconnb = getSNDPRD();
-my $dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
+#my $dbconnb = $dbconn;
 
 my $sql =
-"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd  from prm_rom_outcol_events_ap
+"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd,service_type  from prm_rom_outcol_events_ap
  where  tap_out_file_name in (select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME )
-  group by TAP_OUT_FILE_NAME, carrier_cd ";
+  group by TAP_OUT_FILE_NAME, carrier_cd,service_type ";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -67,10 +66,13 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		chomp(@dchValues);
 
 		$total_volume_dch = $dchValues[0];
-
 		$total_charges_dch = $dchValues[2];
 		$total_records_dch = $dchValues[1];
 
+		if ( $total_volume_dch eq "" || $total_volume_dch eq "-" ) {
+			$total_volume_dch = 0;
+		}
+		
 		if ( $total_charges_dch eq "" || $total_charges_dch eq "-" ) {
 			$total_charges_dch = 0;
 		}
@@ -82,6 +84,8 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	}
 	my $file_name_dch = $rows[0];
 
+	my $usage_type = "DISP_RM-$rows[5]";
+	
 	$sql = "
 INSERT INTO FILE_SUMMARY (
 USAGE_TYPE, 
@@ -111,7 +115,7 @@ APRM_TOTAL_CHARGES,
 APRM_DIFFERENCE
 ) 
 VALUES ( 
- 'DISP_RM',
+ '$usage_type',
   $total_volume_dch,
   $rows[2],
  $total_records_dch,
@@ -142,7 +146,7 @@ VALUES (
 	$sthb->execute() or sendErr();
 }
 
-# print $sql."\n";
+ print $sql."\n";
 
 $dbconnb->disconnect();
 $dbconn->disconnect();
@@ -153,7 +157,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -164,7 +168,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar");
 	unless ( defined $dbods ) {
 		sendErr();
 	}

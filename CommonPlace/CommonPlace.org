@@ -777,6 +777,8 @@ subgraph cluster_3 {
 *** PR-INVFO1B-MABEL_RAW_DATA_98500_REPORT
     The Google job
     - /apps/ebi/mabel1/bin/718Report.sh
+** Mable Query
+   The queries that produce the daily consolidated report can be found in this perl script on the EBI server: */apps/ebi/mabel1/checks/jacob/allCNSLDTDRPT.pl*
 * CallDump
 ** Data Directories
       -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.

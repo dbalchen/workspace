@@ -20,7 +20,7 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20180201';
+#$ARGV[0] = '20180201';
 
 my $date = $ARGV[0];
 
