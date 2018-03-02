@@ -3,8 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] =
-#  "CDUSAW6USAUD09893,9893,T-Mobile (USAW6),100000,7648.12000,1,.01,20180219";
+$ARGV[0] = "CDUSASGUSAUD02964,2964,Sprint (USASG),25000,517.05297,0,0,20180219";
 #
 ## For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -12,28 +11,27 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
+
 my @argv = split( /,/, $ARGV[0] );
 
-my $dbconn = getBODSPRD();
-
+my $dbconn  = getBODSPRD();
 my $dbconnb = getSNDPRD();
-
 #my $dbconnb = $dbconn;
 
-my $sql    = '';
+my $sql = '';
 my $prefix = "LTE";
-my $flag   = 0;
 
 my $exrate = 1;
 
 if ( index( $argv[0], "NLDLT" ) >= 0 ) {
 	$prefix = "NLDLT";
 }
+
 
 $sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
 
@@ -65,21 +63,9 @@ VALUES (
 	$sthb->execute() or sendErr();
 }
 
-if ( $prefix eq "NLDLT" ) {
-
-	$sql =
-"select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),charge_type  
-	from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]' and process_date = to_date($argv[7],'YYYYMMDD') 
- 	group by charge_type";
-
-}
-else {
-
-	$sql =
-"select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),service_type  from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]'
-and process_date = to_date($argv[7],'YYYYMMDD')  group by service_type";
-
-}
+$sql =
+"select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),charge_type  from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]' 
+	and process_date = to_date($argv[7],'YYYYMMDD') group by charge_type";
 
 $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -94,10 +80,10 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $dropped = ( $argv[3] - $argv[5] );
 
 	my $usage_type        = $prefix . '-' . $rows[3];
-	my $file_name_dch     = 0;
-	my $total_charges_dch = 0;
-	my $total_records_dch = 0;
-	my $total_volume_dch  = 0;
+	my $file_name_dch     = "";
+	my $total_charges_dch = "";
+	my $total_records_dch = "";
+	my $total_volume_dch  = "";
 
 	my $grep = "";
 
@@ -116,8 +102,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 			$grep = $grep . " grep Voice";
 		}
 
-		my $hh =
-"cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv | $grep | cut -f 9,10,11,12 ";
+		my $hh = "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv | $grep | cut -f 9,10,11,12 ";
 		my $output = `$hh`;
 		chomp($output);
 
@@ -139,44 +124,27 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 	}
 	else {
-
 		$file_name_dch = $argv[0];
+		$grep          = " grep $file_name_dch ";
+		my $hh = "cat $ENV{'REC_HOME'}/tnsIncollect.csv | $grep | cut -f 9,10,24";
 
-		if ( $flag == 0 ) {
-			$grep = " grep $file_name_dch ";
-			my $hh =
-			  "cat $ENV{'REC_HOME'}/tnsIncollect.csv | $grep | cut -f 9,10,24";
-
-			my @output = `$hh`;
-			if ( @output > 1 ) {
-				$output[0] = $output[1];
-			}
-
-			chomp(@output);
-			$output[0] =~ s/"//g;
-			$output[0] =~ s/,//g;
-
-			my @dchValues = split( "\t", $output[0] );
-			chomp(@dchValues);
-
-			$total_volume_dch = $rows[2];
-
-			if ( $dchValues[2] eq '' ) {
-				$total_charges_dch = 0;
-			}
-			else {
-				$total_charges_dch = $dchValues[2];
-			}
-
-			if ( $dchValues[1] eq '' ) {
-				$total_records_dch = 0;
-			}
-			else {
-				$total_records_dch = $dchValues[1];
-			}
-
-			$flag = 1;
+		my @output = `$hh`;
+		if(@output > 1)
+		{
+		  $output[0] = $output[1];
 		}
+
+		chomp(@output);
+		$output[0] =~ s/"//g;
+		$output[0] =~ s/,//g;
+
+		my @dchValues = split( "\t", $output[0] );
+		chomp(@dchValues);
+
+		$total_volume_dch  = $rows[2];
+		$total_charges_dch = $dchValues[2];
+		$total_records_dch = $dchValues[1];
+
 	}
 
 	$sql = " INSERT INTO FILE_SUMMARY (
@@ -233,8 +201,7 @@ VALUES (
  $rows[1],
  $dropped
 )";
-
-	print $sql. "\n";
+	#print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);
 	$sthb->execute() or sendErr();

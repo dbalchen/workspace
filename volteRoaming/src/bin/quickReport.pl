@@ -38,7 +38,7 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-$timeStamp = '20180219';
+$timeStamp = '20180228';
 
 # Setup switch types and their directory location
 my %dirs     = {};
@@ -255,21 +255,61 @@ $sqls{'DATA_CIBER'} =
 (TOTAL_VOLUME-TOTAL_VOLUME_DCH),( (TOTAL_VOLUME-TOTAL_VOLUME_DCH)/TOTAL_VOLUME)  from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 
-$sqls{'LTE'} =
-"select FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, 'LTE', SENDER, 
-sum((TOTAL_RECORDS + REJECTED_COUNT)) ".
-' "Total Records",
+#$sqls{'LTE'} =
+#"select FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, 'LTE', SENDER, 
+#sum((TOTAL_RECORDS + REJECTED_COUNT)) ".
+#' "Total Records",
+#sum(TOTAL_VOLUME) "Total Volume Bytes",
+#sum(ceil(TOTAL_VOLUME/1040)) "Total Volume KB",
+#sum(ceil((TOTAL_VOLUME/1040)/1040)) "Total Volume MB" ,
+#sum(TOTAL_CHARGES) "Total Charges",
+#t2.total_data_records "Total Data Records",
+#t2.total_data_volume "Total Data Volume Bytes" ,
+#t2.total_data_charges "Total Data Charges",
+#t3.total_volte_records "Total VoLTE Records",
+#t3.total_volte_volume "Total VoLTE Volume Bytes",
+#t3.total_volte_charges "Total VoLTE Charges",
+#sum(REJECTED_COUNT), 
+#sum(REJECTED_CHARGES),
+#sum(APRM_TOTAL_RECORDS),
+#sum(APRM_TOTAL_CHARGES),
+#sum(DROPPED_APRM), 
+#sum(DROPPED_APRM_CHARGES),
+#sum(TOTAL_RECORDS_DCH),
+#sum(TOTAL_VOLUME_DCH) "Total Volume DCH Bytes",
+#sum(ceil(TOTAL_VOLUME_DCH/1040)) "Total Volume DCH KB",
+#sum(ceil((TOTAL_VOLUME_DCH/1040)/1040)) "Total Volume DCH MB",
+#sum(TOTAL_CHARGES_DCH), 
+#sum(((TOTAL_RECORDS + REJECTED_COUNT)-TOTAL_RECORDS_DCH)) "DCH/Usage Record Difference",
+#sum(((TOTAL_CHARGES + REJECTED_CHARGES) - TOTAL_CHARGES_DCH))  "DCH/Usage Charge Difference",
+#sum((aprm_total_records - total_records_dch)) "DCH/APRM Record Difference", 
+#sum((aprm_total_charges - total_charges_dch)) "DCH/APRM Charge Difference"
+#from file_summary t1,'
+#."(select sum(nvl(total_records,0)) total_data_records,sum(nvl(TOTAL_VOLUME,0)) total_data_volume,sum(nvl(TOTAL_CHARGES,0)) total_data_charges ,identifier from file_summary  where usage_type like 'LTE-H' group by identifier) t2,
+#(select sum(nvl(total_records,0)) total_volte_records,sum(nvl(TOTAL_VOLUME,0)) total_volte_volume,sum(nvl(TOTAL_CHARGES,0)) total_volte_charges, identifier from file_summary  where usage_type like 'LTE-L' group by identifier) t3
+#where t1.usage_type like 'LTE%' and t1.process_date = to_date($timeStamp,'YYYYMMDD')
+#and t2.identifier = t1.identifier and t1.identifier = t3.identifier
+#group by FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, SENDER, t2.total_data_records, t2.total_data_volume, t2.total_data_charges, t3.total_volte_records,
+#t3.total_volte_volume, t3.total_volte_charges";
+
+$sqls{'LTE'} = "
+select FILE_NAME_DCH, 
+FILE_NAME, 
+t1.IDENTIFIER, 
+'LTE',
+SENDER," 
+.'sum((TOTAL_RECORDS + REJECTED_COUNT)) "Total Records",
 sum(TOTAL_VOLUME) "Total Volume Bytes",
 sum(ceil(TOTAL_VOLUME/1040)) "Total Volume KB",
 sum(ceil((TOTAL_VOLUME/1040)/1040)) "Total Volume MB" ,
-sum(TOTAL_CHARGES) "Total Charges",
-t2.total_data_records "Total Data Records",
-t2.total_data_volume "Total Data Volume Bytes" ,
-t2.total_data_charges "Total Data Charges",
-t3.total_volte_records "Total VoLTE Records",
-t3.total_volte_volume "Total VoLTE Volume Bytes",
-t3.total_volte_charges "Total VoLTE Charges",
-sum(REJECTED_COUNT), 
+sum(TOTAL_CHARGES) "Total Charges",'
+."(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ".' "Total Data Records",'
+."(select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ".' "Total Data Volume Bytes",'
+."(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ".' "Total Data Charges",'
+."(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ".' "Total VoLTE Records",'
+."(select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ".' "Total VoLTE Volume Bytes",'
+."(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ".' "Total VoLTE Charges",'
+.'sum(REJECTED_COUNT), 
 sum(REJECTED_CHARGES),
 sum(APRM_TOTAL_RECORDS),
 sum(APRM_TOTAL_CHARGES),
@@ -282,15 +322,15 @@ sum(ceil((TOTAL_VOLUME_DCH/1040)/1040)) "Total Volume DCH MB",
 sum(TOTAL_CHARGES_DCH), 
 sum(((TOTAL_RECORDS + REJECTED_COUNT)-TOTAL_RECORDS_DCH)) "DCH/Usage Record Difference",
 sum(((TOTAL_CHARGES + REJECTED_CHARGES) - TOTAL_CHARGES_DCH))  "DCH/Usage Charge Difference",
-sum((aprm_total_records - total_records_dch)) "DCH/APRM Record Difference", 
-sum((aprm_total_charges - total_charges_dch)) "DCH/APRM Charge Difference"
-from file_summary t1,'
-."(select sum(nvl(total_records,0)) total_data_records,sum(nvl(TOTAL_VOLUME,0)) total_data_volume,sum(nvl(TOTAL_CHARGES,0)) total_data_charges ,identifier from file_summary  where usage_type like 'LTE-H' group by identifier) t2,
-(select sum(nvl(total_records,0)) total_volte_records,sum(nvl(TOTAL_VOLUME,0)) total_volte_volume,sum(nvl(TOTAL_CHARGES,0)) total_volte_charges, identifier from file_summary  where usage_type like 'LTE-L' group by identifier) t3
-where t1.usage_type like 'LTE%' and t1.process_date = to_date($timeStamp,'YYYYMMDD')
-and t2.identifier = t1.identifier and t1.identifier = t3.identifier
-group by FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, SENDER, t2.total_data_records, t2.total_data_volume, t2.total_data_charges, t3.total_volte_records,
-t3.total_volte_volume, t3.total_volte_charges";
+sum((aprm_total_records - total_records_dch)) "DCH/APRM Record Difference",
+sum((aprm_total_charges - total_charges_dch)) "DCH/APRM Charge Difference",
+sum((TOTAL_RECORDS-APRM_TOTAL_RECORDS)) "DCH/APRM Record Difference"
+from file_summary t1'
+." where t1.usage_type like 'LTE%' and t1.process_date = to_date($timeStamp,'YYYYMMDD')
+group by FILE_NAME_DCH, 
+FILE_NAME, 
+t1.IDENTIFIER, 
+SENDER";
 
 $sqls{'NLDLT'} =
 "select FILE_NAME_DCH, FILE_NAME, IDENTIFIER, USAGE_TYPE, SENDER, TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_VOLUME,REJECTED_COUNT, REJECTED_CHARGES, DROPPED_APRM, DROPPED_APRM_CHARGES,
@@ -529,9 +569,9 @@ sub getBODSPRD {
 
 sub getSNDPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar" );
+		my $dbPwd = "BILLING_OPS_APP";
+		$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	#my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

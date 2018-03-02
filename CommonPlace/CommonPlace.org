@@ -54,7 +54,6 @@
      person doing it likes it./
    - /Probability from a point./
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
-
 * TOPS Operations
 ** Acquisition and Formating (A&F)
       *A&F* is to the new system what *MAF and RBMS* was to the old.
@@ -602,7 +601,7 @@ subgraph cluster_3 {
     -  *Collection Interface* -
        /pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/cl/interfaces
 
-**  AR Jobs and Deamons
+** AR Jobs and Deamons
      - AR1JRNLEXT
        The Journal Extract process extracts to an output file all
             financial activities that occurred since the last run of
@@ -617,7 +616,7 @@ subgraph cluster_3 {
       - AR1PYMPOST
       - AR1DDFEDBCK
       - AR1INVRCT
-**  End of Month
+** End of Month
      : [[docs/AR%20EOM.sql][AR End Of Month - SQL]]
      -  Email List for Revenue Accounting
      -  Revenue Not confirmed for cycles 24,26 and 28
@@ -779,6 +778,18 @@ subgraph cluster_3 {
     - /apps/ebi/mabel1/bin/718Report.sh
 ** Mable Query
    The queries that produce the daily consolidated report can be found in this perl script on the EBI server: */apps/ebi/mabel1/checks/jacob/allCNSLDTDRPT.pl*
+** Mable Logs
+   - *Use this alias to view today’s Mabel_Validation logs on the EBI server:*
+      - [p_mabel1@kpr01ebiap ~]$ valLogs\\
+        -rw-r--r-- 1 p_mabel1 mabel 3126 Jan 25 05:00 O3369767.0500
+   -  You can also view this log in Outlook under the IS Billing Operations->Inbox->Mabel->Validation for MABEL
+      - *Example email subject:* /“Log from mabel load validation on Thu Jan 25 05:00:23 CST 2018”/
+        - Within those logs, you can see the path to the Perl scripts that are called. \\
+          Mabel_Validation scripts start here:\\
+           /apps/ebi/mabel1/MABEL_validation/mabelValidation.sh\\
+          Mabel_Consolidation scripts start here:\\
+           /apps/ebi/mabel1/bin/mabelCon.sh
+** Invoice 
 * CallDump
 ** Data Directories
       -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
@@ -1369,7 +1380,7 @@ subgraph cluster_3 {
 |------------+-------------+---------------+-----------------------|
 | *USERNAME* | *PASSWORD*  | *DB_INSTANCE* | *Description*         |
 |------------+-------------+---------------+-----------------------|
-| /{Lan ID}/ | /{Lan PWD}/ | BODSPRD       | ODS/Datawarehouse     |
+| /{Lan ID}/ | /{Lan PWD}/ | BODSPRD       | *ODS/Datawarehouse*   |
 | PRDAFC     | con8af8     | PRDAF         | Reference Tables      |
 | PRDCUSTC   | con8cst8    | PRDCUST       | Customer              |
 | PRDRPLC    | con8rpl8    | PRDRPL        | Replenishment Manager |
@@ -3700,10 +3711,11 @@ subgraph cluster_3 {
 #+END_LaTeX
 ** Consolidation Tables
 *** Mabel_Control
+    Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
+    : select * from mabel_control order by sys_creation_date desc;
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
-
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+---------------------+---------------|
 | *Name*            | *Data Type*         | *Description* |
@@ -3732,7 +3744,40 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 
+*** Mabel_Audit
+    Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
+    : select * from mabel_audit order by sent_date desc,sent_file_name;
+
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------+---------------------+---------------|
+| *Name*            | *Data Type*         | *Description* |
+|-------------------+---------------------+---------------|
+| ACCOUNT_NO        | NUMBER (12)         |               |
+| APPLICATION_ID    | CHAR (6 Byte)       |               |
+| CONSOLIDATOR      | NUMBER (5)          |               |
+| CYCLE_CODE        | NUMBER (4)          |               |
+| CYCLE_RUN_MONTH   | NUMBER (2)          |               |
+| CYCLE_RUN_YEAR    | NUMBER (4)          |               |
+| DESTINATION_NAME  | VARCHAR2 (240 Byte) |               |
+| FILE_IDENTIFIER   | NUMBER (9)          |               |
+| FILE_SEQ_NO       | NUMBER (3)          |               |
+| OPERATOR_ID       | NUMBER (9)          |               |
+| ORIG_FILE_NAME    | VARCHAR2 (400 Byte) |               |
+| SENT_DATE         | DATE                |               |
+| SENT_FILE_NAME    | VARCHAR2 (400 Byte) |               |
+| SYS_CREATION_DATE | DATE                |               |
+| SYS_UPDATE_DATE   | DATE                |               | 
+|-------------------+---------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+  
 *** Add9_Mabel_Ids
+    Tables on the TOPS side that are used for Mabel/MobilSense setup:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3761,7 +3806,66 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+*** Bl1_Generic_codes
+    Tables on the TOPS side that are used for Mabel/MobilSense setup:
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------+---------------------+---------------|
+| *Column Name*        | *Data Type*         | *Description* |
+|----------------------+---------------------+---------------|
+| Gen_Type             | Varchar2 (60 Byte)  |               |
+| Gen_Code             | Varchar2 (40 Byte)  |               |
+| Language             | Char (2 Byte)       |               |
+| Sys_Creation_Date    | Date                |               |
+| Sys_Update_Date      | Date                |               |
+| Operator_Id          | Number (9)          |               |
+| Application_Id       | Char (6 Byte)       |               |
+| Dl_Service_Code      | Char (5 Byte)       |               |
+| Dl_Update_Stamp      | Number (4)          |               |
+| Gen_Description      | Varchar2 (180 Byte) |               |
+| Bc_Info              | Varchar2 (40 Byte)  |               |
+| Ods_Insert_Date      | Date                |               |
+| Ods_Last_Update_Date | Date                |               |
+|----------------------+---------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** Bl1_Printing_Cat_Dest
+    Tables on the TOPS side that are used for Mabel/MobilSense setup:
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------+----------------------+---------------|
+| *Column Name*        | *Data Type*          | *Description* |
+|----------------------+----------------------+---------------|
+| APPLICATION_ID       | CHAR (6 Byte)        |               |
+| BC_INFO              | VARCHAR2 (40 Byte)   |               |
+| CATEGORY_CODE        | VARCHAR2 (40 Byte)   |               |
+| DESTINATION_ATTR     | VARCHAR2 (4000 Byte) |               |
+| DESTINATION_CODE     | VARCHAR2 (10 Byte)   |               |
+| DESTINATION_TYPE     | VARCHAR2 (10 Byte)   |               |
+| DL_SERVICE_CODE      | CHAR (5 Byte)        |               |
+| DL_UPDATE_STAMP      | NUMBER (4)           |               |
+| ODS_INSERT_DATE      | DATE                 |               |
+| ODS_LAST_UPDATE_DATE | DATE                 |               |
+| OPERATOR_ID          | NUMBER (9)           |               |
+| SYS_CREATION_DATE    | DATE                 |               |
+| SYS_UPDATE_DATE      | DATE                 |               |
+|----------------------+---------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
 *** Bl1_Blng_Arrangement
+    Table on the TOPS side that contains the populated Mabel ID in the perm_printing_cat column:
+    : select * from bl1_blng_arrangement where perm_printing_cat is not null;
+
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3838,8 +3942,12 @@ subgraph cluster_3 {
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Production Release 
    SCHEDULED: <2018-03-04 Sun>
+*** Prpaid Evolution
+    *TBD*
 *** Project Eagle
     SCHEDULED: <2018-04-22 Sun>
+**** Project Eagle Launch
+     SCHEDULED: <2018-05-13 Sun>
 *** TODO TSP    
     DEADLINE: <2018-10-14 Sun>
     Upgrading Infrastructure software
