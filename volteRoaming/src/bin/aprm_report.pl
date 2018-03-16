@@ -20,7 +20,7 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-#$ARGV[0] = '20180201';
+#$ARGV[0] = '20180301';
 
 my $date = $ARGV[0];
 
@@ -46,21 +46,26 @@ $period = $period->strftime("%Y%m");
 
 my %sqls = {};
 
-$sqls{'LTE_INCOLLECT_SETTLEMENT'} = "
-select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
-  . '"Creation Date", t1.nr_param_3_val "Company Code",'
-.' sum((t1.TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(t1.tot_net_usage_chrg) "Total Charges",'
-  . "'6008001', nvl((select sum(au_charge)  from  USC_SAP_EXTRACT_V where Au_Prod_Cat_Id = 'IS' and  "
-  . " Au_Bp_Start_Date = to_date('$period"
+$sqls{'LTE_INCOLLECT_SETTLEMENT'} =
+    "select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
+  . '"Creation Date",'
+  . " t1.nr_param_3_val "
+  . '"Company Code",'
+  . 'sum((t1.TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB",'
+  . 'sum(t1.tot_net_usage_chrg) "Total Charges",'
+  . "'6008001'," . "nvl((
+select sum(tot_net_usage_chrg) from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = to_date('$period"
   . "01','YYYYMMDD')"
-  . " and GL_ACCOUNT = 6008001"
-  . ' and carrier_cd = t1.nr_param_3_val) ,0) "Data Charges",'
-  . " '6008002', nvl((select sum(au_charge)  from  USC_SAP_EXTRACT_V where Au_Prod_Cat_Id = 'IS' "
-  . " and  Au_Bp_Start_Date = to_date('$period"
+  . "and to_char(sys_creation_date,'YYYY-MM-DD') = to_char(t1.sys_creation_date,'YYYY-MM-DD') and nr_param_3_val = t1.nr_param_3_val and rate_plan_cd != 'RPINCVoLTEDATCD'
+ ) ,0)" . '"Data Charges",' . "'6008002', 
+nvl((
+select sum(tot_net_usage_chrg) from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = to_date('$period"
   . "01','YYYYMMDD')"
-  . " and GL_ACCOUNT = 6008002 and carrier_cd = t1.nr_param_3_val) ,0) "
-  . ' "VoLTE Charges" from IC_ACCUMULATED_USAGE t1 '
-  . " where t1.prod_cat_id = 'IS' and t1.BP_START_DATE = to_date('$period". "01','YYYYMMDD')"
+  . " and to_char(sys_creation_date,'YYYY-MM-DD') = to_char(t1.sys_creation_date,'YYYY-MM-DD') and nr_param_3_val = t1.nr_param_3_val and rate_plan_cd = 'RPINCVoLTEDATCD'
+) ,0)"
+  . ' "VoLTE Charges" '
+  . "from IC_ACCUMULATED_USAGE t1  where t1.prod_cat_id = 'IS' and t1.BP_START_DATE = to_date('$period"
+  . "01','YYYYMMDD')"
   . " group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val order by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val";
 
 $sqls{'LTE_INCOLLECT_CARRIER'} = '
@@ -70,7 +75,7 @@ $sqls{'LTE_INCOLLECT_CARRIER'} = '
   . "from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = to_date('$period"
   . "01"
   . "','YYYYMMDD') group by nr_param_3_val, carrier_cd order by nr_param_3_val, carrier_cd";
-  
+
 $sqls{'LTE_OUTCOLLECT_CARRIER'} = '
   select nr_param_3_val "Company Code", decode(carrier_cd,'
   . "'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' )"
@@ -79,41 +84,51 @@ $sqls{'LTE_OUTCOLLECT_CARRIER'} = '
   . "01"
   . "','YYYYMMDD') group by nr_param_3_val, carrier_cd order by nr_param_3_val, carrier_cd";
 
-$sqls{'LTE_OUTCOLLECT_SETTLEMENT'} = "
-select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
-  . '"Creation Date", t1.nr_param_3_val "Company Code",'
-  .' sum((t1.TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(t1.tot_net_usage_chrg) "Total Charges",'
-  . "'5438001', nvl((select sum(au_charge)  from  USC_SAP_EXTRACT_V where Au_Prod_Cat_Id = 'OS' and  "
-  . " Au_Bp_Start_Date = to_date('$period"
+
+$sqls{'LTE_OUTCOLLECT_SETTLEMENT'} =
+    "select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
+  . '"Creation Date",'
+  . " t1.nr_param_3_val "
+  . '"Company Code",'
+  . 'sum((t1.TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB",'
+  . 'sum(t1.tot_net_usage_chrg) "Total Charges",'
+  . "'5438001'," . "nvl((
+select sum(tot_net_usage_chrg) from IC_ACCUMULATED_USAGE  where prod_cat_id = 'OS' and BP_START_DATE = to_date('$period"
   . "01','YYYYMMDD')"
-  . " and GL_ACCOUNT = 5438001"
-  . ' and carrier_cd = t1.nr_param_3_val) ,0) "Data Charges",'
-  . " '5438002', nvl((select sum(au_charge)  from  USC_SAP_EXTRACT_V where Au_Prod_Cat_Id = 'OS' "
-  . " and  Au_Bp_Start_Date = to_date('$period"
+  . "and to_char(sys_creation_date,'YYYY-MM-DD') = to_char(t1.sys_creation_date,'YYYY-MM-DD') and nr_param_3_val = t1.nr_param_3_val and rate_plan_cd not like 'RPOUTSVoLTE%'
+ ) ,0)" . '"Data Charges",' . "'5438002', 
+nvl((
+select sum(tot_net_usage_chrg) from IC_ACCUMULATED_USAGE  where prod_cat_id = 'OS' and BP_START_DATE = to_date('$period"
   . "01','YYYYMMDD')"
-  . " and GL_ACCOUNT = 5438002 and carrier_cd = t1.nr_param_3_val) ,0) "
-  . ' "VoLTE Charges" from IC_ACCUMULATED_USAGE t1 '
-  . " where t1.prod_cat_id = 'OS' and t1.BP_START_DATE = to_date('$period"
+  . " and to_char(sys_creation_date,'YYYY-MM-DD') = to_char(t1.sys_creation_date,'YYYY-MM-DD') and nr_param_3_val = t1.nr_param_3_val and rate_plan_cd like 'RPOUTSVoLTE%'
+) ,0)"
+  . ' "VoLTE Charges" '
+  . " from IC_ACCUMULATED_USAGE t1  where t1.prod_cat_id = 'OS' and t1.BP_START_DATE = to_date('$period"
   . "01','YYYYMMDD')"
   . " group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val order by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val";
 
 $sqls{'GSM_INCOLLECT_SETTLEMENT'} = "
 select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
   . '"Creation Date", t1.nr_param_3_val "Company Code",'
-  .' decode(t1.carrier_cd, '
+  . ' decode(t1.carrier_cd, '
   . "'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland')"
   . '"Carrier",'
   . "'6008001', sum((t1.TOT_CHRG_PARAM_VAL/1024)/1024)"
   . ' "Total Usage MB",  sum(tot_net_usage_chrg) "Data Charges SDR", '
-  . "'6002202', (nvl((select sum(TOT_CHRG_PARAM_VAL)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMSMSCD' and  t1.nr_param_3_val =   nr_param_3_val)	,0)) "
+  . "'6002202', (nvl((select sum(TOT_CHRG_PARAM_VAL)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period"
+  . "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMSMSCD' and  t1.nr_param_3_val =   nr_param_3_val)	,0)) "
   . ' "Total Texts" ,'
-  . " (nvl((select  sum(tot_net_usage_chrg)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMSMSCD' and  t1.nr_param_3_val =   nr_param_3_val)  ,0)) "
+  . " (nvl((select  sum(tot_net_usage_chrg)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period"
+  . "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMSMSCD' and  t1.nr_param_3_val =   nr_param_3_val)  ,0)) "
   . '"Text Charges" , '
-  . "'6002201',(nvl((select sum(TOT_CHRG_PARAM_VAL)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMVOICETOTCD' and  t1.nr_param_3_val =   nr_param_3_val),0)) "
+  . "'6002201',(nvl((select sum(TOT_CHRG_PARAM_VAL)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period"
+  . "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMVOICETOTCD' and  t1.nr_param_3_val =   nr_param_3_val),0)) "
   . '"Total Minutes",'
-  . "(nvl(   (select  sum(tot_net_usage_chrg)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMVOICETOTCD' and  t1.nr_param_3_val =   nr_param_3_val),0)) "
+  . "(nvl(   (select  sum(tot_net_usage_chrg)   from IC_ACCUMULATED_USAGE  where prod_cat_id = 'II' and BP_START_DATE = to_date('$period"
+  . "01','YYYYMMDD') and rate_plan_cd = 'RPINCGSMVOICETOTCD' and  t1.nr_param_3_val =   nr_param_3_val),0)) "
   . ' "Voice Charges" '
-  . " from IC_ACCUMULATED_USAGE t1 where prod_cat_id = 'II' and BP_START_DATE = to_date('$period". "01','YYYYMMDD') and  rate_plan_cd = 'RPINCGSMDATACD' group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val, t1.carrier_cd order by  to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val";
+  . " from IC_ACCUMULATED_USAGE t1 where prod_cat_id = 'II' and BP_START_DATE = to_date('$period"
+  . "01','YYYYMMDD') and  rate_plan_cd = 'RPINCGSMDATACD' group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val, t1.carrier_cd order by  to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val";
 
 $sqls{'CDMA_INCOLLECT_DATA_ACCRUAL'} = "
 select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
@@ -179,7 +194,8 @@ select  t1.carrier_cd "Carrier Code", t2.carrier_name,  t1.rate_plan_cd "Rate Pl
   . '"GL Account", sum(t1.tot_chrg_param_val) "Total Usage Minutes", sum(t1.tot_net_usage_chrg) "Total Charges"  from ic_accumulated_usage t1,'
   . "(select setlmnt_contract_cd, max(Sid_Commercial_Name) carrier_name from pc9_sid group by setlmnt_contract_cd order by setlmnt_contract_cd)  t2 "
   . " where substr(t1.nr_param_1_val,0,3)  = t2.setlmnt_contract_cd and "
-  . " prod_cat_id = 'RO' and bp_start_date = to_date('$period". "16 ','YYYYMMDD') and future_3 = 'Voice'  and t1.rate_plan_cd != 'RPOUROTOT' and  t1.sys_creation_date  < to_date('$sdate"
+  . " prod_cat_id = 'RO' and bp_start_date = to_date('$period"
+  . "16 ','YYYYMMDD') and future_3 = 'Voice'  and t1.rate_plan_cd != 'RPOUROTOT' and  t1.sys_creation_date  < to_date('$sdate"
   . "01"
   . "','YYYYMMDD')"
   . " group by carrier_cd, Nr_Param_2_Val, t2.Carrier_Name, t1.rate_plan_cd "
@@ -257,8 +273,9 @@ my @aprmArray = ();
 if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
+
 		'LTE_INCOLLECT_SETTLEMENT',
-		'LTE_INCOLLECT_CARRIER',
+		'LTE_INCOLLECT_CARRIER'    ,
 		'LTE_OUTCOLLECT_SETTLEMENT',
 		'LTE_OUTCOLLECT_CARRIER',
 		'GSM_INCOLLECT_SETTLEMENT',
@@ -453,12 +470,8 @@ sub readAprm {
 		'GL VoLTE',
 		'VoLTE Charges'
 	];
-	$headings{'LTE_INCOLLECT_CARRIER'} = [
-		'Carrier Code',
-		'Carrier',
-		'Total Usage MB',
-		'Total Charges'
-	];
+	$headings{'LTE_INCOLLECT_CARRIER'} =
+	  [ 'Carrier Code', 'Carrier', 'Total Usage MB', 'Total Charges' ];
 
 	$headings{'LTE_OUTCOLLECT_SETTLEMENT'} = [
 		'Creation Date',
@@ -470,12 +483,8 @@ sub readAprm {
 		'GL VoLTE',
 		'Total Charges'
 	];
-	$headings{'LTE_OUTCOLLECT_CARRIER'} = [
-		'Carrier Code',
-		'Carrier',
-		'Total Usage MB',
-		'Total Charges'
-	];
+	$headings{'LTE_OUTCOLLECT_CARRIER'} =
+	  [ 'Carrier Code', 'Carrier', 'Total Usage MB', 'Total Charges' ];
 
 	foreach my $wsql ( @{$sqlList} ) {
 
@@ -519,7 +528,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -530,7 +539,7 @@ sub getBRMPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

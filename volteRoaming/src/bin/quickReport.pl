@@ -25,8 +25,8 @@ use MIME::Lite;
 #$ARGV[0] = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
 #$ARGV[0] = "DISP_RM,NLDLT";
-#$ARGV[0] = "DISP_RM";
-$ARGV[0] = "LTE";
+$ARGV[0] = "DISP_RM";
+#$ARGV[0] = "LTE";
 #$ARGV[0] = "NLDLT";
 #$ARGV[0] = "NLDLT,CIBER_CIBER";
 
@@ -38,7 +38,7 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-$timeStamp = '20180228';
+$timeStamp = '20180313';
 
 # Setup switch types and their directory location
 my %dirs     = {};
@@ -48,21 +48,21 @@ my %tab      = {};
 my %sqls     = {};
 my %aprmsql  = {};
 
-$dirs{'SDIRI_FCIBER'} =
-  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI';
-$dirs{'SDATACBR_FDATACBR'} =
-  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR';
-$dirs{'CIBER_CIBER'} =
-  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output';
-$dirs{'DISP_RM'} = '/inf_nas/apm1/prod/aprmoper/var/usc/DISP';
-
-$jobs{'SDIRI_FCIBER'}      = 'getFileInfo.pl';
-$jobs{'SDATACBR_FDATACBR'} = 'getFileInfoData.pl';
-$jobs{'CIBER_CIBER'}       = 'getFileInfoOutcollects.pl';
-$jobs{'DATA_CIBER'}        = 'getFileInfoOutcollectsData.pl';
-$jobs{'LTE'}               = 'getFileInfoLTE.pl';
-$jobs{'DISP_RM'}           = 'getFileInfoLTEOut.pl';
-$jobs{'NLDLT'}             = 'getFileInfoLTE.pl';
+#$dirs{'SDIRI_FCIBER'} =
+#  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI';
+#$dirs{'SDATACBR_FDATACBR'} =
+#  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR';
+#$dirs{'CIBER_CIBER'} =
+#  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output';
+#$dirs{'DISP_RM'} = '/inf_nas/apm1/prod/aprmoper/var/usc/DISP';
+#
+#$jobs{'SDIRI_FCIBER'}      = 'getFileInfo.pl';
+#$jobs{'SDATACBR_FDATACBR'} = 'getFileInfoData.pl';
+#$jobs{'CIBER_CIBER'}       = 'getFileInfoOutcollects.pl';
+#$jobs{'DATA_CIBER'}        = 'getFileInfoOutcollectsData.pl';
+#$jobs{'LTE'}               = 'getFileInfoLTE.pl';
+#$jobs{'DISP_RM'}           = 'getFileInfoLTEOut.pl';
+#$jobs{'NLDLT'}             = 'getFileInfoLTE.pl';
 
 $headings{'SDIRI_FCIBER'} = [
 	'File Name',
@@ -184,11 +184,17 @@ $headings{'LTE'} = [
 $headings{'DISP_RM'} = [
 	'File Name',
 	'Total Outcollect Records',
+	'Total Bytes',
 	'Total Charges ($)',
-	'APRM Records',
-	'APRM Total Bytes',
 	'DCH Records',
+	'DCH Total Bytes',	
 	'DCH Total Charges ($)',
+	'Total Data Records',
+	'total Data Volume',
+	'Total Data Charges',
+	'Total VoLTE Records',
+	'Total VoLTE Volume',
+	'Total VoLTE Charges',
 	'Record Count Variance Usage File vs. DCH',
 	'Total Charge Variance Usage File vs. DCH ($)'
 ];
@@ -255,43 +261,6 @@ $sqls{'DATA_CIBER'} =
 (TOTAL_VOLUME-TOTAL_VOLUME_DCH),( (TOTAL_VOLUME-TOTAL_VOLUME_DCH)/TOTAL_VOLUME)  from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 
-#$sqls{'LTE'} =
-#"select FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, 'LTE', SENDER, 
-#sum((TOTAL_RECORDS + REJECTED_COUNT)) ".
-#' "Total Records",
-#sum(TOTAL_VOLUME) "Total Volume Bytes",
-#sum(ceil(TOTAL_VOLUME/1040)) "Total Volume KB",
-#sum(ceil((TOTAL_VOLUME/1040)/1040)) "Total Volume MB" ,
-#sum(TOTAL_CHARGES) "Total Charges",
-#t2.total_data_records "Total Data Records",
-#t2.total_data_volume "Total Data Volume Bytes" ,
-#t2.total_data_charges "Total Data Charges",
-#t3.total_volte_records "Total VoLTE Records",
-#t3.total_volte_volume "Total VoLTE Volume Bytes",
-#t3.total_volte_charges "Total VoLTE Charges",
-#sum(REJECTED_COUNT), 
-#sum(REJECTED_CHARGES),
-#sum(APRM_TOTAL_RECORDS),
-#sum(APRM_TOTAL_CHARGES),
-#sum(DROPPED_APRM), 
-#sum(DROPPED_APRM_CHARGES),
-#sum(TOTAL_RECORDS_DCH),
-#sum(TOTAL_VOLUME_DCH) "Total Volume DCH Bytes",
-#sum(ceil(TOTAL_VOLUME_DCH/1040)) "Total Volume DCH KB",
-#sum(ceil((TOTAL_VOLUME_DCH/1040)/1040)) "Total Volume DCH MB",
-#sum(TOTAL_CHARGES_DCH), 
-#sum(((TOTAL_RECORDS + REJECTED_COUNT)-TOTAL_RECORDS_DCH)) "DCH/Usage Record Difference",
-#sum(((TOTAL_CHARGES + REJECTED_CHARGES) - TOTAL_CHARGES_DCH))  "DCH/Usage Charge Difference",
-#sum((aprm_total_records - total_records_dch)) "DCH/APRM Record Difference", 
-#sum((aprm_total_charges - total_charges_dch)) "DCH/APRM Charge Difference"
-#from file_summary t1,'
-#."(select sum(nvl(total_records,0)) total_data_records,sum(nvl(TOTAL_VOLUME,0)) total_data_volume,sum(nvl(TOTAL_CHARGES,0)) total_data_charges ,identifier from file_summary  where usage_type like 'LTE-H' group by identifier) t2,
-#(select sum(nvl(total_records,0)) total_volte_records,sum(nvl(TOTAL_VOLUME,0)) total_volte_volume,sum(nvl(TOTAL_CHARGES,0)) total_volte_charges, identifier from file_summary  where usage_type like 'LTE-L' group by identifier) t3
-#where t1.usage_type like 'LTE%' and t1.process_date = to_date($timeStamp,'YYYYMMDD')
-#and t2.identifier = t1.identifier and t1.identifier = t3.identifier
-#group by FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, SENDER, t2.total_data_records, t2.total_data_volume, t2.total_data_charges, t3.total_volte_records,
-#t3.total_volte_volume, t3.total_volte_charges";
-
 $sqls{'LTE'} = "
 select FILE_NAME_DCH, 
 FILE_NAME, 
@@ -340,9 +309,20 @@ APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, TOT
 
 
 $sqls{'DISP_RM'} =
-"select  file_name,  total_records, total_charges, APRM_TOTAL_RECORDS,total_volume, TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH, 
-    TOTAL_RECORDS-TOTAL_RECORDS_DCH, TOTAL_CHARGES-TOTAL_CHARGES_DCH
- from file_summary where usage_type = 'DISP_RM' and file_type = 'TAP'  and process_date = to_date($timeStamp,'YYYYMMDD') ";
+"select 
+ file_name,sum(t1.total_records),sum(t1.total_volume),sum(t1.total_charges),max(t1.total_records_dch),max(t1.total_volume_dch),max(t1.total_charges_dch),
+ nvl((select sum(total_records) from file_summary dd where  (usage_type = 'DISP_RM-H' or usage_type = 'DISP_RM-S') and file_name = t1.file_name and process_date = to_date($timeStamp,'YYYYMMDD')),0)".' "Total Data Records",'.
+ "nvl((select sum(total_volume) from file_summary dd where  (usage_type = 'DISP_RM-H' or usage_type = 'DISP_RM-S') and file_name = t1.file_name and process_date = to_date($timeStamp,'YYYYMMDD')),0)".' "Total Data Volume",'.
+ "nvl((select sum(total_charges) from file_summary dd where  (usage_type = 'DISP_RM-H' or usage_type = 'DISP_RM-S') and file_name = t1.file_name and process_date = to_date($timeStamp,'YYYYMMDD')),0)".' "Total Data Charges",'.
+ "nvl((select sum(total_records) from file_summary dd where  usage_type = 'DISP_RM-L' and file_name = t1.file_name and process_date = to_date($timeStamp,'YYYYMMDD')),0) ".'"Total VoLTE Records",'.
+ "nvl((select sum(total_volume) from file_summary dd where  usage_type = 'DISP_RM-L' and file_name = t1.file_name and process_date = to_date($timeStamp,'YYYYMMDD')),0) ".'"Total VoLTE Volume",'.
+ "nvl((select sum(total_charges) from file_summary dd where usage_type = 'DISP_RM-L' and file_name = t1.file_name and process_date = to_date($timeStamp,'YYYYMMDD')),0) ".'"Total VoLTE Charges", '.
+ "sum(t1.total_records) - max(t1.total_records_dch), sum(t1.total_charges) - max(t1.total_charges_dch)".
+ " from file_summary t1 where process_date = to_date($timeStamp,'YYYYMMDD') and usage_type like 'DISP%'
+  group by t1.file_name
+  order by t1.file_name";
+
+
 
 # Get Roaming switches to check
 my @switches = split( ',', $ARGV[0] );
@@ -560,7 +540,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -569,9 +549,9 @@ sub getBODSPRD {
 
 sub getSNDPRD {
 
-		my $dbPwd = "BILLING_OPS_APP";
-		$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	#my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar" );
+	#	my $dbPwd = "BILLING_OPS_APP";
+	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

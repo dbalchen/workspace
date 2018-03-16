@@ -2962,3 +2962,47 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: DONE
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
+
+* Table List
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-03-15 Thu 15:23
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Database Tables
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------------------+-------------+----------------------|
+| *Table Name*              | *Database*  | *Description*        |
+|---------------------------+-------------+----------------------|
+| *Ac1_Control*             | Prdcust     | Check Both Prdcust   |
+| *Ac1_Control_Hist*        | Prdaf       | And Prdaf            |
+| Service_Agreement         | Prdcust     |                      |
+| Csm_Offer                 | Prdcust     |                      |
+| Subscriber                | Prdcust     |                      |
+| *Cm1_Agreement_Param*     | Prdcust     | Used For Data        |
+|                           |             | Cap Issues.          |
+| *Agreement_Resource*      | Prdcust     | Customer Information |
+| *Ar9_Account_State*       | Prdcust     | /Here We Can Get/    |
+|                           |             | /The Company Code/   |
+| *Ape1_Rated_Event*        | Prdusg(1-4) |                      |
+| Ape1_Rejected_Event       | Prdusg(1-4) |                      |
+| *Ape1_Accumulators*       | Prdusg(1-4) |                      |
+| *Ac_Physical_Files*       | Prdusg(1-4) |                      |
+| *Ac_Source*               | Prdcust     |                      |
+| *Agd1_Resources*          | Prdaf       |                      |
+| Adj1_Cycle_State          |             |                      |
+| Apr1_Notifications_Ctl    |             |                      |
+| Auh1_Ctrl                 |             |                      |
+| Ape1_Subscriber_Rerate    | Prdusg(1-4) |                      |
+| Ape1_Subscr_Data          | Prdusg(1-4) | /See The Bpt/        |
+| *Ape1_Subscr_Offers*      | Prdusg(1-4) | /For The Definition/ |
+| Ape1_Subscr_Params        | Prdusg(1-4) | /Of These Tables/    |
+| Ape1_Cust_Cycle_History   | Prdusg(1-4) |                      |
+| Ape3_Epcext_Offer_Details | Prdcust     |                      |
+|---------------------------+-------------+----------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX

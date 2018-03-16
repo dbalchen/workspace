@@ -8,6 +8,7 @@
 #+LaTeX_CLASS_OPTIONS: [12pt,twoside]
 #+LATEX_HEADER: \usepackage{lscape} 
 #+LATEX_HEADER: \usepackage{fancyhdr} 
+
 #+LATEX_HEADER: \usepackage{multirow}
 #+LATEX_HEADER: \usepackage{multicol}
 #+BEGIN_LaTeX
@@ -47,7 +48,7 @@
  \newpage
 \pagenumbering{arabic}
 #+END_LaTeX 
-* Statement of Principals						  
+* Statxement of Principals						  
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
    - /A PowerPoint presentation is like smoking a cigar, only the
@@ -63,7 +64,7 @@
       error does occur the record will be dumped into a file to be later
       processed by the *AEM* /(Amdocs Error Manager)/.
 ** TurboCharging
-      [[file:Pictures/TC.png]] 
+      [[file:Pictures/TC.png]] \\ \\
       Though the overall architecture seems to be
       the same, with some name changes like *MAF* is now
       A&F, as *CARES* the major change has been the
@@ -790,29 +791,7 @@ subgraph cluster_3 {
           Mabel_Consolidation scripts start here:\\
            /apps/ebi/mabel1/bin/mabelCon.sh
 ** Invoice 
-* CallDump
-** Data Directories
-      -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
-      -  */m06/switch/MMS* - Picture Messaging
-      -  */m06/switch/MMSText* - Picture Messaging Text only.
-      -  */m06/switch/sms\_nsn* - SMS Motorola
-      -  */m06/switchb/sms\_alu* - SMS ALU
-      -  */m04/switch/lte* - *(aaa3)* P-Gateway 4G usage
-      -  */m04/switchb/valista* - Premium SMS
-      -  */m05/switch/brew* - Brew and Brew data *(aaa2)*
-      -  */m01/switchb/tas* - Volte
 
-** WEDO (Switch to bill)
-      The *WEDO* process pulls usage files, tar's them up and places them
-      into a directory so that *MFT* can pick them up. The operational
-      jobs are as follows:
-
-      1. Job PR-BOD-S2B_TO_WEDO is running this script:
-         */m01/switch/to_wedo.sh*
-      2. Job PR-BOD-S2B_CREATE_WEDO_ARCH is running this script:
-         */m01/switch/wedo/create_wedo_archive.sh*
-
-\newpage
 * Unified File Format (UFF)
    In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
    will be reformatted into a /Unified File Format/ (*UFF*). This format
@@ -1466,42 +1445,6 @@ subgraph cluster_3 {
       session before you can use it.\\ For example for usage 1 type
       : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
 * Database Tables
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-#+ATTR_LaTeX: :environment longtable :align l|l|l
-|---------------------------+-------------+----------------------|
-| *Table Name*              | *Database*  | *Description*        |
-|---------------------------+-------------+----------------------|
-| *Ac1_Control*             | Prdcust     | Check Both Prdcust   |
-| *Ac1_Control_Hist*        | Prdaf       | And Prdaf            |
-| Service_Agreement         | Prdcust     |                      |
-| Csm_Offer                 | Prdcust     |                      |
-| Subscriber                | Prdcust     |                      |
-| *Cm1_Agreement_Param*     | Prdcust     | Used For Data        |
-|                           |             | Cap Issues.          |
-| *Agreement_Resource*      | Prdcust     | Customer Information |
-| *Ar9_Account_State*       | Prdcust     | /Here We Can Get/    |
-|                           |             | /The Company Code/   |
-| *Ape1_Rated_Event*        | Prdusg(1-4) |                      |
-| Ape1_Rejected_Event       | Prdusg(1-4) |                      |
-| *Ape1_Accumulators*       | Prdusg(1-4) |                      |
-| *Ac_Physical_Files*       | Prdusg(1-4) |                      |
-| *Ac_Source*               | Prdcust     |                      |
-| *Agd1_Resources*          | Prdaf       |                      |
-| Adj1_Cycle_State          |             |                      |
-| Apr1_Notifications_Ctl    |             |                      |
-| Auh1_Ctrl                 |             |                      |
-| Ape1_Subscriber_Rerate    | Prdusg(1-4) |                      |
-| Ape1_Subscr_Data          | Prdusg(1-4) | /See The Bpt/        |
-| *Ape1_Subscr_Offers*      | Prdusg(1-4) | /For The Definition/ |
-| Ape1_Subscr_Params        | Prdusg(1-4) | /Of These Tables/    |
-| Ape1_Cust_Cycle_History   | Prdusg(1-4) |                      |
-| Ape3_Epcext_Offer_Details | Prdcust     |                      |
-|---------------------------+-------------+----------------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
 ** Usage Tables
 *** AGREEMENT_RESOURCE
 #+BEGIN_LaTeX
@@ -3709,6 +3652,8 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+** CDMA Data Outcollects
+*** 
 ** Consolidation Tables
 *** Mabel_Control
     Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
@@ -3912,6 +3857,29 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+* CallDump
+** Data Directories
+      -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
+      -  */m06/switch/MMS* - Picture Messaging
+      -  */m06/switch/MMSText* - Picture Messaging Text only.
+      -  */m06/switch/sms\_nsn* - SMS Motorola
+      -  */m06/switchb/sms\_alu* - SMS ALU
+      -  */m04/switch/lte* - *(aaa3)* P-Gateway 4G usage
+      -  */m04/switchb/valista* - Premium SMS
+      -  */m05/switch/brew* - Brew and Brew data *(aaa2)*
+      -  */m01/switchb/tas* - Volte
+
+** WEDO (Switch to bill)
+      The *WEDO* process pulls usage files, tar's them up and places them
+      into a directory so that *MFT* can pick them up. The operational
+      jobs are as follows:
+
+      1. Job PR-BOD-S2B_TO_WEDO is running this script:
+         */m01/switch/to_wedo.sh*
+      2. Job PR-BOD-S2B_CREATE_WEDO_ARCH is running this script:
+         */m01/switch/wedo/create_wedo_archive.sh*
+
+\newpage
 * Telephone Numbers
 
 |-----------------+--------------|
@@ -3936,13 +3904,20 @@ subgraph cluster_3 {
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO PGW Upgrade
+   SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
+** TODO Finish IDP
+   DEADLINE: <2018-03-16 Fri>
+** TODO Open RC for RoamRecon USID and password.
+   SCHEDULED: <2018-03-19 Mon>
+** TODO Investigate the discrepencies in the Roamining Recon Report
+   SCHEDULED: <2018-03-15 Thu>--<2018-03-30 Fri>
 ** TODO Oncall
    SCHEDULED: <2018-04-02 Mon>--<2018-04-08 Sun>
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Production Release 
-   SCHEDULED: <2018-03-04 Sun>
-*** Prpaid Evolution
+*** Prepaid Evolution
     *TBD*
 *** Project Eagle
     SCHEDULED: <2018-04-22 Sun>
@@ -3966,7 +3941,7 @@ subgraph cluster_3 {
 *** TODO Volte Roaming
 **** Verizon 
 ***** Verizon  Iowa 
-      DEADLINE: <2018-02-28 Wed>
+      DEADLINE: <2018-03-23 Fri>
 ***** Verizon  California, Washington, Oregon
       DEADLINE: <2018-04-30 Mon>
 ***** Verizon Remaining Verizon Markets
@@ -3976,7 +3951,11 @@ subgraph cluster_3 {
       DEADLINE: <2018-04-30 Mon>
 ***** TMO Remaining TMO Markets
       DEADLINE: <2018-09-28 Fri>     
+** TODO Finish Christine's Data Outcollect Issue
+*** TODO Get data Outcollect tables and add them to Notes.
+   DEADLINE: <2018-03-19 Mon>
 ** HOLD CallDump
    - Sector information
    - Distance Information
    - Merge M2M calls
+     

@@ -354,10 +354,10 @@ sub getSNDPRD {
 
 sub getBRMPRD {
 
-	my $dbPwd = "BILLING_OPS_APP";
-	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+#	my $dbPwd = "BILLING_OPS_APP";
+#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
 	
-	#my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "#5000Reptar" );
 	
 	unless ( defined $dbods ) {
 		sendErr();

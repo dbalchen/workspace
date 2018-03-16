@@ -3,16 +3,16 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000136815_20180220_021444.ASC.done";
+#$ARGV[0] = "/inf_nas/apm1/prod/aprmoper/var/usc/DISP/DISP_RM_000139209_20180305_182400.ASC.done";
 
 #For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
-$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $filename = ( split( '/', $ARGV[0] ) )[-1];
 
@@ -28,7 +28,8 @@ my $dbconnb = getSNDPRD();
 #my $dbconnb = $dbconn;
 
 my $sql =
-"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd,service_type  from prm_rom_outcol_events_ap
+"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd,service_type  
+from prm_rom_outcol_events_ap
  where  tap_out_file_name in (select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME )
   group by TAP_OUT_FILE_NAME, carrier_cd,service_type ";
 
@@ -47,8 +48,9 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 	else {
 
+		
 		$sql =
-"delete from file_summary where FILE_NAME = '$rows[0]' and PROCESS_DATE = to_date($process_date,'YYYYMMDD')";
+"delete from file_summary where FILE_NAME = '$rows[0]' and PROCESS_DATE = to_date($process_date,'YYYYMMDD') and usage_type = 'DISP_RM-$rows[5]'";
 		$sthb = $dbconnb->prepare($sql);
 		$sthb->execute() or sendErr();
 
@@ -157,7 +159,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -168,7 +170,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar");
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#");
 	unless ( defined $dbods ) {
 		sendErr();
 	}
