@@ -48,7 +48,7 @@
  \newpage
 \pagenumbering{arabic}
 #+END_LaTeX 
-* Statxement of Principals						  
+* Statement of Principals						  
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
    - /A PowerPoint presentation is like smoking a cigar, only the
@@ -57,26 +57,13 @@
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
 * TOPS Operations
 ** Acquisition and Formating (A&F)
-      *A&F* is to the new system what *MAF and RBMS* was to the old.
-      Since the majority of rules will be moved to *INTEC, A&F's*
-      primary function in the *post-TOPS* world will be to move the data
-      from the *UFF* to the usage record. If an *A&F*
-      error does occur the record will be dumped into a file to be later
-      processed by the *AEM* /(Amdocs Error Manager)/.
+   *A&F* is the first stage of the mediation process where the *UFF* or *CIBER* record is examined, enriched 
+   and transfered to an intermediatary /usage/ format. For *CIBER* records an extra rules step is 
+   added to further mediate the records.
+
 ** TurboCharging
       [[file:Pictures/TC.png]] \\ \\
-      Though the overall architecture seems to be
-      the same, with some name changes like *MAF* is now
-      A&F, as *CARES* the major change has been the
-      addition of the new real-time rater which *Amdocs* calls *Turbo
-      Charging* that can handle both PRE and POST pay customers.\\
-      -  All interaction is done through the network interface.
-      -  All tables are now in memory to improve performance.
-      -  We can re-rate continuously by running re-rating in daemon
-         mode.
-      -  We can rate in other units beside minutes like *Content,
-         Volume, Qos*.
-      -  Rating can be by step or tiered.
+      The most important /sub-system/ in *TOPS* it is here that all usage is mediated and rated and 
       -  *Event flow:*
 
          1. An event comes in to via a network element
@@ -85,24 +72,14 @@
          3. Gets Rated
             -  For *Pre-Pay* the HLR. is handled by the
                *SCP*
-         4. The response is sent back to the calling network element.
 
-      -  *International Calls* are rated to the country not the
-         individual city/town.
-      -  Find that in *LD_COUNTRY_RATES* table.
-      -  For *Pre-Pay* roaming customers still get a record which needs
-         to go through *CIBER* process.
-      -  Major problem for *CCMI*. It was decided to remove it but the
-         *LERG* does not give us the granularity that we might need.
-      -  For *Pre-Pay* *MMS* we will not charge each recipient only the
-         sender.
+      -  *International Calls* Using rates from the *LD_COUNTRY_RATES* table international calls are rated by country.
       -  We convert everything to the *Home SID time* for bill
          presentment.
       -  Limiting or /choking/ usage can be handled by *Diameter* for
          real-time and *Turbo-Charging* for *Post-Pay*
 *** Event Servers
-         There are multiple Event Servers which coresspond to bill cycle
-         and run on the event servers. Their status can be viewed using
+    *Turbo-Charging* is not one application but multipleinstances of *Event Servers*. Each event server corresponds to a bill cycle. Their status can be viewed using
          the following query on the *PRDAF* database.
 
          : SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
@@ -121,7 +98,7 @@
           :          and table_NAME IN ('ADJ1EVENTSRV');
 
 *** Rerate Servers
-         There are three *Rerate Servers* they are:
+         In addition we have three *Rerate Servers* they are:
          1. *RRP_EOC1056*
          2. *RRP_EOC1068*
          3. *RRP_EOC1192*
@@ -216,24 +193,32 @@
 ** APRM
    *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
 ** Production Servers/EpsMonitors
-      -  *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
-         :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
-      -  *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
-         : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
-      -  *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
-         : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
-      -  *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
-	Must sign in as prdwrk6 using the super *secret* password
-	 : /pkgbl06/inf/aimsys/prdwrk6/eps/monitors
-      -  *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
-      -  *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
-      -  *Event3* -- *kprl3event.uscc.com (10.176.181.118)*
-      -  *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
-      -  *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
-      -  *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
-      -  *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
-         : /inf_nas/apm1/prod/aprmoper/eps/monitors
-
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+      - *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
+        :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
+      - *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
+        : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
+      - *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
+        : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
+      - *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
+       Must sign in as prdwrk6 using the super *secret* password
+	: /pkgbl06/inf/aimsys/prdwrk6/eps/monitors
+      - *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
+      - *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
+      - *Event3* -- *kprl3event.uscc.com (10.176.181.118)*
+      - *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
+      - *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
+      - *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
+      - *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
+        : /inf_nas/apm1/prod/aprmoper/eps/monitors
+      - *EBI* - *kpr01ebiap.uscc.com (10.176.177.211)*
+	: /home/common/eps/monitors
+	/Before restarting remove all err and log files./
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Overage Protection
       Overage notifications are detected on an event by event basis. As
       events are processed by *TC* and added to the *APE1_ACCUMULATORS*
@@ -393,6 +378,35 @@
          Applications* extend the base protocol by adding new commands
          and/or attributes, such as those for use of the Extensible
          Authentication Protocol (*EAP*).
+** Carrier Code and Names
+   SQL Statement which produced this data:
+   : select distinct carr_name, carr_cd from prm_app.PRM_REP_CARR_INFO
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l
+|------------------------------+--------------|
+| CARRIER_NAME                 | CARRIER_CODE |
+|------------------------------+--------------|
+| AT&T Mobility (USAAT)        | USAAT        |
+| AT&T Mobility (USACG)        | USACG        |
+| AT&T Mobility (USABS)        | USABS        |
+| Pioneer Cellular (USAPI)     | USAPI        |
+| T-Mobile (USATM)             | USATM        |
+| Nex-Tech Wireless (USA6G)    | USA6G        |
+| AT&T Mobility (USAPB)        | USAPB        |
+| AT&T Mobility (USAMF)        | USAMF        |
+| Sprint (USASG)               | USASG        |
+| T-Mobile (USAW6)             | USAW6        |
+| Sprint (USASP)               | USASP        |
+| Verizon (USAVZ)              | USAVZ        |
+| Vodafone Netherlands (NLDLT) | NLDLT        |
+| AT&T Mobility (USACC)        | USACC        |
+|------------------------------+--------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Usage Time Zones
 |--------------+-----------------|
 | *Usage Type* | *TimeZone*      |
@@ -1509,8 +1523,8 @@ subgraph cluster_3 {
 | Dl_Update_Stamp   | Number (4)           |                   |
 | Param_Name        | Varchar2 (255 Byte)  |                   |
 | Param_Values      | Varchar2 (4000 Byte) |                   |
-| Effective_Date    | Date                 |                   |
-| Expiration_Date   | Date                 |                   |
+| *Effective_Date*  | Date                 |                   |
+| *Expiration_Date* | Date                 |                   |
 | Agr_Level         | Char (1 Byte)        |                   |
 | Source_Agr_No     | Number (10)          |                   |
 | Trx_Id            | Number (10)          |                   |
@@ -2018,7 +2032,7 @@ subgraph cluster_3 {
 |                       |                   | 19 - Min         |
 |                       |                   | 21 - Outcollects |
 |                       |                   | 23 - Timsi       |
-| Effective_Date        | Date              |                  |
+| *Effective_Date*      | Date              |                  |
 | Sys_Creation_Date     | Date              |                  |
 | Sys_Update_Date       | Date              |                  |
 | Operator_Id           | Number(9,0)       |                  |
@@ -2026,13 +2040,13 @@ subgraph cluster_3 {
 | Dl_Service_Code       | Char(5 Byte)      |                  |
 | Dl_Update_Stamp       | Number(4,0)       |                  |
 | Update_Id             | Number(18,0)      |                  |
-| Expiration_Date       | Date              |                  |
+| *Expiration_Date*     | Date              |                  |
 | *Subscriber_Id*       | Number(10,0)      |                  |
 | Sub_Status            | Char(1 Byte)      |                  |
 | Routing_Policy_Id     | Number(9,0)       |                  |
 | Payment_Category      | Char(4 Byte)      |                  |
 | *Customer_Id*         | Number(10,0)      |                  |
-| Bill_Cycle            | Number(4,0)       |                  |
+| *Bill_Cycle*          | Number(4,0)       |                  |
 | New_Bill_Cycle        | Number(4,0)       |                  |
 | Chg_Cyc_Req_Date      | Date              |                  |
 | Large_Cust_Ind        | Char(1 Byte)      |                  |
@@ -2062,7 +2076,7 @@ subgraph cluster_3 {
 | *Column Name*       | *Data Type*        | *Description* |
 |---------------------+--------------------+---------------|
 | *Identifier*        | Number(15,0)       |               |
-| Sys_Creation_Date   | Date               |               |
+| *Sys_Creation_Date* | Date               |               |
 | Sys_Update_Date     | Date               |               |
 | Operator_Id         | Number(9,0)        |               |
 | Application_Id      | Char(6 Byte)       |               |
@@ -3228,8 +3242,295 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+** ARCM Tables
+*** SMM1_COLLECT_FILES_HIST
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------+---------------------+---------------|
+| *Column Name*        | *Data Type*         | *Description* |
+|----------------------+---------------------+---------------|
+| Ods_Source_Cd        | Number              |               |
+| Period_Key           | Number (4)          |               |
+| File_Identifier      | Number (22)         |               |
+| *File_Name*          | Varchar2 (200 Byte) |               |
+| File_Format          | Varchar2 (10 Byte)  |               |
+| Source_Id            | Number (22)         |               |
+| Source_Type          | Varchar2 (10 Byte)  |               |
+| File_Path            | Varchar2 (512 Byte) |               |
+| File_Status          | Varchar2 (2 Byte)   |               |
+| *Physical_Date*      | Date                |               |
+| File_Size            | Number (15)         |               |
+| Is_Instance_Id       | Number (11)         |               |
+| Reject_Reason        | Varchar2 (512 Byte) |               |
+| Sys_Creation_Date    | Date                |               |
+| Sys_Update_Date      | Date                |               |
+| Operator_Id          | Number (9)          |               |
+| Application_Id       | Char (6 Byte)       |               |
+| Dl_Service_Code      | Char (5 Byte)       |               |
+| Dl_Update_Stamp      | Number (4)          |               |
+| Ods_Insert_Date      | Date                |               |
+| Ods_Last_Update_Date | Date                |               |
+|----------------------+---------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** SMM1_ARCM_FILE_REPOSITORY 
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|--------------------------+---------------------+---------------|
+| *Column Name*            | *Data Type*         | *Description* |
+|--------------------------+---------------------+---------------|
+| Ods_Source_Cd            | Number              |               |
+| File_Name                | Varchar2 (20 Byte)  |               |
+| File_Dir                 | Varchar2 (100 Byte) |               |
+| File_Status              | Varchar2 (20 Byte)  |               |
+| File_Type                | Varchar2 (5 Byte)   |               |
+| Sender                   | Varchar2 (5 Byte)   |               |
+| Recipient                | Varchar2 (5 Byte)   |               |
+| Sequence_Num             | Number (11)         |               |
+| Last_Modified_Timestamp  | Number (22)         |               |
+| File_Available_Timestamp | Number (22)         |               |
+| File_Content             | Varchar2 (50 Byte)  |               |
+| Corresponding_File_Name  | Varchar2 (20 Byte)  |               |
+| Clearing_House           | Varchar2 (50 Byte)  |               |
+| Events_Count             | Number (11)         |               |
+| Total_Value              | Varchar2 (20 Byte)  |               |
+| Currency                 | Varchar2 (5 Byte)   |               |
+| File_Ack_Status          | Varchar2 (20 Byte)  |               |
+| Module_Id                | Number (11)         |               |
+| Sys_Creation_Date        | Date                |               |
+| Sys_Update_Date          | Date                |               |
+| Operator_Id              | Number (9)          |               |
+| Application_Id           | Char (6 Byte)       |               |
+| Dl_Service_Code          | Char (5 Byte)       |               |
+| Dl_Update_Stamp          | Number (4)          |               |
+| Ods_Insert_Date          | Date                |               |
+| Ods_Last_Update_Date     | Date                |               |
+|--------------------------+---------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** PRM_RAPOUT_ERR_MNGR
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------------------+----------------------+---------------|
+| *Column Name*             | *Data Type*          | *Description* |
+|---------------------------+----------------------+---------------|
+| Ac_Rate_Cd_Seq_1          | Number (9)           |               |
+| Ac_Rate_Cd_Seq_2          | Number (9)           |               |
+| Ac_Rate_Cd_Seq_3          | Number (9)           |               |
+| Acces_Chrg_1              | Number (18,5)        |               |
+| Acces_Chrg_2              | Number (18,5)        |               |
+| Acces_Chrg_3              | Number (18,5)        |               |
+| Agreement_Id              | Number (6)           |               |
+| Application_Id            | Char (6 Byte)        |               |
+| Aprm_Edr_Id               | Number (20)          |               |
+| Au_Id_1                   | Number (9)           |               |
+| Au_Id_2                   | Number (9)           |               |
+| Au_Id_3                   | Number (9)           |               |
+| Bill_In_Advance           | Char (1 Byte)        |               |
+| Billing_Pct               | Number (5,2)         |               |
+| Calc_Acces_Chrg           | Number (18,5)        |               |
+| Calc_Usage_Chrg           | Number (18,5)        |               |
+| Call_Direction            | Char (1 Byte)        |               |
+| Carrier_Cd                | Varchar2 (20 Byte)   |               |
+| Charge_Amount             | Number (18,5)        |               |
+| Charge_Type               | Char (1 Byte)        |               |
+| Chr_Prt_Pub_User_Id       | Char (64 Byte)       |               |
+| Chrg_Direction            | Char (1 Byte)        |               |
+| Chrg_Param_1_Val          | Number (18,5)        |               |
+| Chrg_Param_2_Val          | Number (18,5)        |               |
+| Chrg_Param_3_Val          | Number (18,5)        |               |
+| Content_Grp_Cd            | Varchar2 (20 Byte)   |               |
+| Core_Reserved_1           | Char (1 Byte)        |               |
+| Core_Reserved_2           | Varchar2 (20 Byte)   |               |
+| Core_Reserved_3           | Varchar2 (20 Byte)   |               |
+| Country_Cd                | Char (3 Byte)        |               |
+| Daily_Ind                 | Char (1 Byte)        |               |
+| Destination_Cd            | Char (5 Byte)        |               |
+| Dl_Service_Code           | Char (5 Byte)        |               |
+| Dl_Update_Stamp           | Number (4)           |               |
+| Edr_Id                    | Number (11)          |               |
+| Elmnt_Cat_Id              | Number (2)           |               |
+| Elmnt_Cd                  | Char (8 Byte)        |               |
+| Err_Seq_Num               | Number (9)           |               |
+| Event_Chrg_Tp             | Char (1 Byte)        |               |
+| Event_Direction           | Char (1 Byte)        |               |
+| Event_Id                  | Number (4)           |               |
+| Event_Reference           | Char (64 Byte)       |               |
+| Event_Start_Datetime      | Date                 |               |
+| Exchange_Rate             | Number (18,5)        |               |
+| Ext_Trunk                 | Char (10 Byte)       |               |
+| File_Avail_Ts             | Char (14 Byte)       |               |
+| File_Avail_Ts_Offst       | Char (5 Byte)        |               |
+| Future_1                  | Varchar2 (20 Byte)   |               |
+| Future_10                 | Varchar2 (20 Byte)   |               |
+| Future_11                 | Varchar2 (50 Byte)   |               |
+| Future_12                 | Varchar2 (50 Byte)   |               |
+| Future_13                 | Varchar2 (50 Byte)   |               |
+| Future_14                 | Varchar2 (50 Byte)   |               |
+| Future_15                 | Varchar2 (50 Byte)   |               |
+| Future_2                  | Varchar2 (20 Byte)   |               |
+| Future_3                  | Varchar2 (20 Byte)   |               |
+| Future_4                  | Varchar2 (20 Byte)   |               |
+| Future_5                  | Varchar2 (20 Byte)   |               |
+| Future_6                  | Varchar2 (20 Byte)   |               |
+| Future_7                  | Varchar2 (20 Byte)   |               |
+| Future_8                  | Varchar2 (20 Byte)   |               |
+| Future_9                  | Varchar2 (20 Byte)   |               |
+| Generated_Rec             | Number (4)           |               |
+| Geoloc_Servbid            | Char (5 Byte)        |               |
+| Iecd                      | Char (4 Byte)        |               |
+| Inc_Call_Tp_Lvl_1         | Char (3 Byte)        |               |
+| Inc_Call_Tp_Lvl_2         | Char (2 Byte)        |               |
+| Inc_Call_Tp_Lvl_3         | Char (11 Byte)       |               |
+| Jurisdiction              | Char (1 Byte)        |               |
+| Local_Currency            | Char (3 Byte)        |               |
+| Message_Event_Service     | Char (17 Byte)       |               |
+| Mobile_Session_Service    | Char (17 Byte)       |               |
+| Network_Element_Id        | Char (50 Byte)       |               |
+| Network_Element_Type      | Char (1 Byte)        |               |
+| Non_Chr_Prt_Pub_User_Id   | Char (64 Byte)       |               |
+| Non_Chrg_Party_Num        | Char (17 Byte)       |               |
+| Nr_Param_1_Val            | Char (20 Byte)       |               |
+| Nr_Param_2_Val            | Char (20 Byte)       |               |
+| Nr_Param_3_Val            | Char (20 Byte)       |               |
+| Nr_Param_4_Val            | Char (20 Byte)       |               |
+| Num_Of_Days               | Number (9)           |               |
+| Num_Of_Rate_Seg           | Number (1)           |               |
+| Ods_Insert_Date           | Date                 |               |
+| Ods_Last_Update_Date      | Date                 |               |
+| One_Time_Chrg_Ind         | Char (1 Byte)        |               |
+| Operator_Id               | Number (9)           |               |
+| Orig_Brok_Filename        | Varchar2 (24 Byte)   |               |
+| Orig_Chrg_Param_Val_1     | Number (18,5)        |               |
+| Orig_Chrg_Param_Val_2     | Number (18,5)        |               |
+| Orig_Chrg_Param_Val_3     | Number (18,5)        |               |
+| Orig_Event_Start_Datetime | Date                 |               |
+| Orig_Process_Date         | Date                 |               |
+| Orig_Tot_Acces_Chrg_1     | Number (18,5)        |               |
+| Orig_Tot_Acces_Chrg_2     | Number (18,5)        |               |
+| Orig_Tot_Acces_Chrg_3     | Number (18,5)        |               |
+| Orig_Tot_Usage_Chrg_1     | Number (18,5)        |               |
+| Orig_Tot_Usage_Chrg_2     | Number (18,5)        |               |
+| Orig_Tot_Usage_Chrg_3     | Number (18,5)        |               |
+| Original_Terminating_Id   | Varchar2 (20 Byte)   |               |
+| Originating_Id            | Char (20 Byte)       |               |
+| Phy_File_Id               | Number (9)           |               |
+| Process_Date              | Date                 |               |
+| Process_Datetime          | Date                 |               |
+| Prod_Cat_Id               | Char (2 Byte)        |               |
+| Prod_Id                   | Number (4)           |               |
+| Qual_Param_1_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_1_Val          | Varchar2 (20 Byte)   |               |
+| Qual_Param_10_Set_Cd      | Char (4 Byte)        |               |
+| Qual_Param_10_Val         | Varchar2 (20 Byte)   |               |
+| Qual_Param_2_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_2_Val          | Varchar2 (20 Byte)   |               |
+| Qual_Param_3_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_3_Val          | Varchar2 (20 Byte)   |               |
+| Qual_Param_4_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_4_Val          | Varchar2 (20 Byte)   |               |
+| Qual_Param_5_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_5_Val          | Varchar2 (20 Byte)   |               |
+| Qual_Param_6_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_6_Val          | Varchar2 (20 Byte)   |               |
+| Qual_Param_7_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_7_Val          | Varchar2 (20 Byte)   |               |
+| Qual_Param_8_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_8_Val          | Varchar2 (20 Byte)   |               |
+| Qual_Param_9_Set_Cd       | Char (4 Byte)        |               |
+| Qual_Param_9_Val          | Varchar2 (20 Byte)   |               |
+| Rap_File_Seq_No           | Char (20 Byte)       |               |
+| Rate_Class_Set_Cd         | Char (4 Byte)        |               |
+| Rate_Plan_Cd              | Varchar2 (20 Byte)   |               |
+| Rate_Segments             | Varchar2 (2000 Byte) |               |
+| Reason_Status             | Char (4 Byte)        |               |
+| Rec_Handle_Ind            | Char (1 Byte)        |               |
+| Record_Position           | Char (6 Byte)        |               |
+| Record_Type               | Char (1 Byte)        |               |
+| Ro_Aprm_Edr_Id            | Number (20)          |               |
+| Ro_Err_Cd1                | Number (4)           |               |
+| Ro_Err_Cd2                | Number (4)           |               |
+| Ro_Err_Cd3                | Number (4)           |               |
+| Ro_Err_Cd4                | Number (4)           |               |
+| Ro_Err_Contxt_Path1       | Varchar2 (50 Byte)   |               |
+| Ro_Err_Contxt_Path2       | Varchar2 (50 Byte)   |               |
+| Ro_Err_Contxt_Path3       | Varchar2 (50 Byte)   |               |
+| Ro_Err_Contxt_Path4       | Varchar2 (50 Byte)   |               |
+| Ro_File_Tp_Ind            | Char (1 Byte)        |               |
+| Ro_Future_Use             | Varchar2 (500 Byte)  |               |
+| Ro_Orig_Brok_File         | Varchar2 (24 Byte)   |               |
+| Ro_Rap_File_Seq           | Char (5 Byte)        |               |
+| Ro_Rap_Sev                | Char (1 Byte)        |               |
+| Ro_Rapfile_Avail_Ts       | Char (14 Byte)       |               |
+| Ro_Rapfile_Avail_Ts_Offst | Char (5 Byte)        |               |
+| Ro_Rapfile_Cret_Ts        | Char (14 Byte)       |               |
+| Ro_Rapfile_Cret_Ts_Offst  | Char (5 Byte)        |               |
+| Ro_Raprel_Ver_Num         | Char (2 Byte)        |               |
+| Ro_Rapspec_Ver_Num        | Char (2 Byte)        |               |
+| Ro_Recipient              | Char (5 Byte)        |               |
+| Ro_Rel_Ver_Num            | Char (2 Byte)        |               |
+| Ro_Reserved               | Varchar2 (100 Byte)  |               |
+| Ro_Ret_Det_Indx           | Number (6)           |               |
+| Ro_Roam_Prt               | Char (5 Byte)        |               |
+| Ro_Sender                 | Char (5 Byte)        |               |
+| Ro_Spec_Ver_Num           | Char (2 Byte)        |               |
+| Ro_Tap_Curr               | Char (3 Byte)        |               |
+| Ro_Tap_Event_Ref          | Char (20 Byte)       |               |
+| Ro_Tap_File_Name          | Varchar2 (20 Byte)   |               |
+| Ro_Tap_File_Seq           | Char (5 Byte)        |               |
+| Ro_Tol_Sev_Ret_Tax        | Number (18,5)        |               |
+| Ro_Tot_Sev_Ret_Val        | Number (18,5)        |               |
+| Rpu_Rate_Cd_Seq_1         | Number (9)           |               |
+| Rpu_Rate_Cd_Seq_2         | Number (9)           |               |
+| Rpu_Rate_Cd_Seq_3         | Number (9)           |               |
+| Rule_Cd                   | Varchar2 (20 Byte)   |               |
+| Service_Id                | Number (20)          |               |
+| Service_Type              | Char (1 Byte)        |               |
+| Session_Id                | Char (20 Byte)       |               |
+| Sim_Toolkit_Ind           | Char (1 Byte)        |               |
+| Supp_Serv_Cd              | Char (2 Byte)        |               |
+| Sys_Creation_Date         | Date                 |               |
+| Sys_Update_Date           | Date                 |               |
+| Tadig_File_Type           | Char (2 Byte)        |               |
+| Tap_Curr_Code             | Char (3 Byte)        |               |
+| Tap_In_File_Nm            | Varchar2 (20 Byte)   |               |
+| Tapin_File_Seq_No         | Number (5)           |               |
+| Tapin_Future              | Varchar2 (443 Byte)  |               |
+| Tax_Set_Cd                | Char (2 Byte)        |               |
+| Tax_Type                  | Char (2 Byte)        |               |
+| Teleservicecode           | Char (2 Byte)        |               |
+| Tenant_Cd                 | Varchar2 (20 Byte)   |               |
+| Terminating_Id            | Char (20 Byte)       |               |
+| Total_Bill_Days           | Number (9)           |               |
+| Transcut_Ts               | Char (14 Byte)       |               |
+| Transcut_Ts_Offst         | Char (5 Byte)        |               |
+| Uom_1                     | Char (2 Byte)        |               |
+| Uom_2                     | Char (2 Byte)        |               |
+| Uom_3                     | Char (2 Byte)        |               |
+| Usage_Chrg_1              | Number (18,5)        |               |
+| Usage_Chrg_2              | Number (18,5)        |               |
+| Usage_Chrg_3              | Number (18,5)        |               |
+| Validation_Sts            | Char (1 Byte)        |               |
+|---------------------------+----------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** APRM Tables
-*** USC_ROAM_EVNTS
+*** CDMA USC_ROAM_EVNTS
     Used for CDMA Incollect/Outcollect Voice and data files.
 #+BEGIN_LaTeX
 \footnotesize
@@ -3284,7 +3585,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** USC_SAP_EXTRACT_V
+*** (Both) USC_SAP_EXTRACT_V
     The SAP Extract table is a view of a view *IC_ACCUMULATED_USAGE* joined with table *USC_GL_ACC_LKP*. It is this table that is used create a report that is sent to *TDS* to be loaded into *SAP*
 #+BEGIN_LaTeX
 \footnotesize
@@ -3318,7 +3619,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** IC_ACCUMULATED_USAGE
+*** 4G IC_ACCUMULATED_USAGE
     One of the tables that is part of *USC_SAP_EXTRACT_V* useful for usage totals and file names. This is a view of the *PRM_EVENT_DTL_PARAM* and *IC_ACCUMULATED_CHRG* tables.
 #+BEGIN_LaTeX
 \footnotesize
@@ -3433,7 +3734,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 
-*** PRM_ROM_INCOL_EVENTS_AP
+*** 4G PRM_ROM_INCOL_EVENTS_AP
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3510,7 +3811,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 
-*** PRM_ROM_OUTCOL_EVENTS_AP
+*** 4G PRM_ROM_OUTCOL_EVENTS_AP
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3653,7 +3954,46 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 ** CDMA Data Outcollects
-*** 
+*** DATA_OUTCOLLECT
+    Event table used for CDMA data Outcollects.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+    |---------------------------+--------------------+---------------|
+    | *Name*                    | *Data Type*        | *Description* |
+    |---------------------------+--------------------+---------------|
+    | Actual_Data_Volume        | Number             |               |
+    | Actual_Usage_Volume       | Number             |               |
+    | Amount                    | Number (9,2)       |               |
+    | Bsid                      | Char (12 Byte)     |               |
+    | Home_Carrier              | Varchar2 (40 Byte) |               |
+    | Home_Sid                  | Char (5 Byte)      |               |
+    | Message_Accounting_Digits | Number             |               |
+    | Partner                   | Varchar2 (40 Byte) |               |
+    | Process_Date              | Date               |               |
+    | Settlement_Date           | Date               |               |
+    |---------------------------+--------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX  
+*** ROAMING_PARTNER 
+    A table that contains all the CDMA Data Outcollect roaming partners.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+    |---------------+--------------------+---------------|
+    | *Name*        | *Data Type*        | *Description* |
+    |---------------+--------------------+---------------|
+    | Bsid_Type     | Char (5 Byte)      |               |
+    | Clearinghouse | Varchar2 (40 Byte) |               |
+    | Partner       | Varchar2 (40 Byte) |               |
+    | Roaming_Type  | Char (1 Byte)      |               |
+    |---------------+--------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX   
 ** Consolidation Tables
 *** Mabel_Control
     Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
@@ -3857,6 +4197,46 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+** Roaming Reconciliation Tables
+*** File Summary
+    Used to hold data for all the roaming files.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+    |----------------------+------------------------+---------------|
+    | *Name*               | *Data Type*            | *Description* |
+    |----------------------+------------------------+---------------|
+    | File_Name            | Not Null Varchar2(255) |               |
+    | Identifier           | Not Null Number(38)    |               |
+    | File_Type            | Varchar2(255)          |               |
+    | Usage_Type           | Varchar2(255)          |               |
+    | Sender               | Varchar2(255)          |               |
+    | Receiver             | Varchar2(255)          |               |
+    | Total_Records_Dch    | Number(38)             |               |
+    | Total_Volume_Dch     | Number(38)             |               |
+    | Total_Charges_Dch    | Number(38,2)           |               |
+    | Total_Records        | Number(38)             |               |
+    | Total_Volume         | Number(38)             |               |
+    | Total_Charges        | Number(38,2)           |               |
+    | Dropped_Records      | Number(38)             |               |
+    | Duplicates           | Number(38)             |               |
+    | Tc_Send              | Number(38)             |               |
+    | Dropped_Tc           | Number(38)             |               |
+    | Rejected_Count       | Number(38)             |               |
+    | Rejected_Charges     | Number(38,2)           |               |
+    | Dropped_Aprm         | Number(10)             |               |
+    | Dropped_Aprm_Charges | Number(38,2)           |               |
+    | Aprm_Difference      | Number(38)             |               |
+    | Aprm_Total_Records   | Number(38)             |               |
+    | Aprm_Total_Charges   | Number(38,2)           |               |
+    | Process_Date         | Date                   |               |
+    | File_Name_Dch        | Varchar2(100)          |               |
+    |----------------------+------------------------+---------------|
+ 
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX   
 * CallDump
 ** Data Directories
       -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
@@ -3904,14 +4284,19 @@ subgraph cluster_3 {
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO BRM Upgrade
+   DEADLINE: <2018-04-09 Mon>
+** TODO Santa Clara
+   DEADLINE: <2018-05-12 Sat> For all testing.
+   
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
-** TODO Finish IDP
-   DEADLINE: <2018-03-16 Fri>
 ** TODO Open RC for RoamRecon USID and password.
    SCHEDULED: <2018-03-19 Mon>
 ** TODO Investigate the discrepencies in the Roamining Recon Report
    SCHEDULED: <2018-03-15 Thu>--<2018-03-30 Fri>
+*** CDMA Incollect Voice - Volume is off starting the 1st of February
+*** CDMA Outcollect difference in records, volume and chanrges.
 ** TODO Oncall
    SCHEDULED: <2018-04-02 Mon>--<2018-04-08 Sun>
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
@@ -3939,21 +4324,23 @@ subgraph cluster_3 {
     |---------------+----------|
  
 *** TODO Volte Roaming
-**** Verizon 
-***** Verizon  Iowa 
+**** Verizon  Iowa 
       DEADLINE: <2018-03-23 Fri>
-***** Verizon  California, Washington, Oregon
+**** Verizon  California, Washington, Oregon
       DEADLINE: <2018-04-30 Mon>
-***** Verizon Remaining Verizon Markets
+**** Verizon Remaining Verizon Markets
       DEADLINE: <2018-07-31 Tue>
-****  VoLTE Roaming w/TMO (End September 2018)       
-***** TMO West Virginia, Maine, & Nebraska
+**** TMO West Virginia, Maine, & Nebraska
       DEADLINE: <2018-04-30 Mon>
-***** TMO Remaining TMO Markets
+**** TMO Remaining TMO Markets
       DEADLINE: <2018-09-28 Fri>     
 ** TODO Finish Christine's Data Outcollect Issue
-*** TODO Get data Outcollect tables and add them to Notes.
-   DEADLINE: <2018-03-19 Mon>
+** TODO Project Sentinel  
+   A database used in the MFT transfer. Only used by the job below. 
+   : [‎3/‎19/‎2018 11:37 AM] Lee, Daniel W: 
+   : uscc_usc_mabel_e2e_alert.pl 
+   : on EBI Server.
+   : path: /apps/ebi/invap1/support/bin 
 ** HOLD CallDump
    - Sector information
    - Distance Information

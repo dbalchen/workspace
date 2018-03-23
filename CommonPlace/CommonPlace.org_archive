@@ -3006,3 +3006,47 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+
+* TODO Finish IDP
+  DEADLINE: <2018-03-16 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-03-19 Mon 10:56
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* TODO Get data Outcollect tables and add them to Notes.
+  DEADLINE: <2018-03-19 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-03-20 Tue 13:04
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Finish Christine's Data Outcollect Issue
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* NDC VoLTE
+  DEADLINE: <2018-03-20 Tue>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-03-21 Wed 14:56
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Production Release/Volte Roaming
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* TODO Finish up Shweta's request
+  DEADLINE: <2018-03-20 Tue>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-03-21 Wed 14:56
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+   
