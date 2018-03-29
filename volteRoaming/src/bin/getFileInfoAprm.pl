@@ -3,8 +3,8 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "SDIRI_FCIBER";
-#$ARGV[1] = '20170210';
+$ARGV[0] = "SDIRI_FCIBER";
+$ARGV[1] = '20180325';
 # # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 my $ORACLE_SID  = "bodsprd";
@@ -16,8 +16,8 @@ my $filetype = $ARGV[0] . '%' . $ARGV[1] . '%';
 
 my $dbconn = getBODSPRD();
 
-#my $dbconnb = getSNDPRD();
-my $dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
+#my $dbconnb = $dbconn;
 
 # clean up Database
 
@@ -89,7 +89,7 @@ exit(0);
 
 sub getBODSPRD {
 
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -98,7 +98,7 @@ sub getBODSPRD {
 
 sub getSNDPRD {
 
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

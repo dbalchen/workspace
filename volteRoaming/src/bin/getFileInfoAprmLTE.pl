@@ -11,20 +11,44 @@ $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #
-$ARGV[0] = 'LTE';
-$ARGV[1] = '20171022';
+$ARGV[0] = 'DISP_RM';
+$ARGV[1] = '20180325';
 
 my $clearinghouse = 'TNS';
 my %sqls          = {};
 
-$sqls{'LTE'} =
-"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type,max(exchange_rate) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
+#$sqls{'LTE'} =
+#"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type,max(exchange_rate) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
 
-$sqls{'NLDLT'} =
-"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type, max(exchange_rate) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
+$sqls{'LTE'} = "
+select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),
+charge_type,max(exchange_rate) from prm_rom_incol_events_ap t1 where tap_in_file_name in (
+select unique(file_name) from file_summary where usage_type like '%LTE%' and process_date = to_date($ARGV[1],'YYYYMMDD'))
+and bp_start_date >= add_months(to_date(substr($ARGV[1],0,6),'YYYYMM'),-1)
+group by carrier_cd, bp_start_date,charge_type";
 
-$sqls{'DISP_RM'} =
-"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
+
+#$sqls{'NLDLT'} =
+#"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type, max(exchange_rate) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
+
+
+$sqls{'NLDLT'} = "
+select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type, max(exchange_rate) 
+from prm_rom_incol_events_ap t1 where 
+tap_in_file_name in (select unique(file_name) from file_summary where usage_type like '%NLDLT%' and process_date = to_date($ARGV[1],'YYYYMMDD'))
+and bp_start_date >= add_months(to_date(substr($ARGV[1],0,6),'YYYYMM'),-1)
+ group by carrier_cd, bp_start_date,charge_type
+";
+
+#$sqls{'DISP_RM'} =
+#"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
+$sqls{'DISP_RM'} = "
+select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) 
+from prm_rom_outcol_events_ap t1 where tap_out_file_name in
+(select unique(file_name) from file_summary where usage_type like '%DISP%' and process_date = to_date($ARGV[1],'YYYYMMDD'))
+and bp_start_date >= add_months(to_date(substr($ARGV[1],0,6),'YYYYMM'),-1)
+ group by carrier_cd, bp_start_date
+";
 
 if ( $ARGV[0] eq "NLDLT" ) {
 	$clearinghouse = 'Syniverse';
@@ -32,8 +56,8 @@ if ( $ARGV[0] eq "NLDLT" ) {
 
 my $dbconn = getBODSPRD();
 
-#my $dbconnb = getSNDPRD();
-my $dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
+#my $dbconnb = $dbconn;
 
 my $sqlT = "delete from APRM where usage_type like '$ARGV[0]" . '%'
   . "' and DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') ";
@@ -106,7 +130,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#BooGoo" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -117,7 +141,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

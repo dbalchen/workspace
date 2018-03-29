@@ -21,7 +21,8 @@ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 #Test parameters remove when going to production.
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
-$ARGV[0] = "SDIRI_FCIBER";
+#$ARGV[0] = "SDIRI_FCIBER";
+$ARGV[0] = "SDIRI_FCIBER,LTE";
 #$ARGV[0] = "SDATACBR_FDATACBR";
 #$ARGV[0] = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
@@ -40,7 +41,7 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
-$timeStamp = '20180211';
+$timeStamp = '20180325';
 
 my $hh = "$ENV{'REC_HOME'}/dchList.pl $timeStamp";
 
@@ -341,14 +342,14 @@ foreach my $switch (@switches) {
 				$hh =
 				  "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $timeStamp &";
 			}
-			system($hh);
+#			system($hh);
 		}
 
 	}
 	else {
 
 		$hh = "$ENV{'REC_HOME'}/$jobs{$switch} $timeStamp &";
-		system($hh);
+#		system($hh);
 	}
 
 	sleep 10;
@@ -491,7 +492,7 @@ $workbook->close;
 #my @email = ('david.balchen@uscellular.com');
 my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
 foreach my $too (@email) {
-	sendMsg($too);
+#	sendMsg($too);
 }
 
 exit(0);
@@ -504,7 +505,7 @@ sub createExcel {
 	$worksheet->write( 'A1', $headings, $bold );
 
 	$sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
+	# $sthb->execute() or sendErr();
 
 	my $cntrow = 1;
 	while ( my @rows = $sthb->fetchrow_array() ) {
@@ -560,7 +561,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -571,7 +572,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
