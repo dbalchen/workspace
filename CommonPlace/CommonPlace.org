@@ -104,7 +104,7 @@
          3. *RRP_EOC1192*
 
 ** AEM
-         AEM gets the Turbo-Charging errors from the
+         *AEM* gets the Turbo-Charging errors from the
          *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
          *EM1_RECORD* table. Since there are so many coulmns in the
          *EM1_RECORD* table we must limit are query's to the following
@@ -683,8 +683,10 @@ subgraph cluster_3 {
       Database from the microtelecom side.
 
 ** GL Extracts
-         These are created via *APRM*.
-
+    These are created via *APRM*.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
     - SAP Extracts
        -  Business owner (3/15/2013): Sangeeta Khedeker
        -  Transfer target:
@@ -737,7 +739,9 @@ subgraph cluster_3 {
       -  File name convention: GLINTY3YYYYMMDDHHMMSS
       -  File location: ~aprmoper/var/usc/SAPGLEXTR/IR/
          -  Ex:  /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IR/GLINTY320130401005834
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Operational SQL
          All of these scripts would be good monitor scripts.
      :    [[docs/AR%20Operational.sql][AR Operational SQL]]
@@ -768,29 +772,56 @@ subgraph cluster_3 {
    - [[file:docs/Mable2_record_structure_C07.pdf][MABEL 2.0 Record Structure]]
    - [[file:docs/Mabel3_record_structure_CH07.pdf][MABEL 3.0 Record Structure]]
 ** Mable Jobs
-   - Validation and Consolidation run twice a day at 5:00 am/pm
+   - *Validation* and *Consolidation* run twice a day at 5:00 am/pm
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
 *** PR-INVBO-CHECK_CON_MABEL_REPORTS1
-    - /apps/ebi/mabel1/checks/jacob/check_con_reports.ksh
+    The consolidated reports monitor. If the reports are not running this will restart them.
+    - */apps/ebi/mabel1/checks/jacob/check_con_reports.ksh*
+
+    This job will restart the following jobs if they are found to be not running:
+    - *./ALLCONSOLIDATED_report_daemon.pl*
+    - *./dailyMABELDaemon.pl*
+    - *./syncINVRPTSDaemon.pl*
 *** PR-INVBO-CHECK_CON_MABEL_REPORTS2
     - /apps/ebi/invap1/PRBKP/mabel/grep/check_con_reports.ksh
+    
+    This job will restart the following:
+    - *./consolidated_report_daemon.pl*
 *** PR-INVBO-CLD_LOOP_MON-MS_MABEL
     Closed loop to Mobile Sense
     - /apps/ebi/invap1/support/bin/closed_loop_monitor_ms_mabel
+
+    Contains and array of job names that is used by the closed loop process for *Mobile sense*.
 *** PR-INVBO-CLD_LOOP_MON-TDS_MABEL
     Closed loop to TDS
     - /apps/ebi/invap1/support/bin/closed_loop_monitor_tds_mabel
+
+    Keeps tabs on the following closed loop process.
+    - *$HOME/.bgw/closed_loop_monitor_tds_mabel.lck*
 *** PR-INVBO-CLD_LOOP_MON-USC_MABEL
     Closed loop to USC
     - /apps/ebi/invap1/support/bin/closed_loop_monitor_usc_mabel
+
+    More set-up for closed loop.
 *** PR-INVBO-MABEL_RAW_DATA_CONSOLID_VALIDAT
     The Consolidation job
     - /apps/ebi/mabel1/bin/mabelCon.sh
+
+    This shell script runs the all important *./mabel* job
 *** PR-INVBO-MABEL_RAW_DATA_SFV_VALIDATE
     The validation job 
     - /apps/ebi/mabel1/MABEL_validation/mabelValidation.sh
+
+    Kicks off the all important *MABEL Validation* job: /Check here for database information/
+    - *./bin/mabelEnrichment*
 *** PR-INVFO1B-MABEL_RAW_DATA_98500_REPORT
     The Google job
     - /apps/ebi/mabel1/bin/718Report.sh
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Mable Query
    The queries that produce the daily consolidated report can be found in this perl script on the EBI server: */apps/ebi/mabel1/checks/jacob/allCNSLDTDRPT.pl*
 ** Mable Logs
@@ -4291,12 +4322,15 @@ subgraph cluster_3 {
    
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
-** TODO Open RC for RoamRecon USID and password.
+** HOLD Open RC for RoamRecon USID and password.
    SCHEDULED: <2018-03-19 Mon>
 ** TODO Investigate the discrepencies in the Roamining Recon Report
    SCHEDULED: <2018-03-15 Thu>--<2018-03-30 Fri>
 *** CDMA Incollect Voice - Volume is off starting the 1st of February
-*** CDMA Outcollect difference in records, volume and chanrges.
+*** CDMA Outcollect difference in records, volume and charges.
+*** TODO Investigate record count varience in LTE and CDMA
+*** TODO LTE Outcollects move back 3 days
+*** TODO Fix LTE APRM
 ** TODO Oncall
    SCHEDULED: <2018-04-02 Mon>--<2018-04-08 Sun>
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
@@ -4304,9 +4338,9 @@ subgraph cluster_3 {
 ** TODO Production Release 
 *** Prepaid Evolution
     *TBD*
-*** Project Eagle
+*** Project Eagle Soft Launch
     SCHEDULED: <2018-04-22 Sun>
-**** Project Eagle Launch
+*** Project Eagle Launch
      SCHEDULED: <2018-05-13 Sun>
 *** TODO TSP    
     DEADLINE: <2018-10-14 Sun>
@@ -4324,17 +4358,18 @@ subgraph cluster_3 {
     |---------------+----------|
  
 *** TODO Volte Roaming
-**** Verizon  Iowa 
+**** Verizon  Iowa TADIG Complete
       DEADLINE: <2018-03-23 Fri>
-**** Verizon  California, Washington, Oregon
+**** Verizon  California, Washington, Oregon,  TMO West Virginia, Maine, & Nebraska
       DEADLINE: <2018-04-30 Mon>
 **** Verizon Remaining Verizon Markets
       DEADLINE: <2018-07-31 Tue>
-**** TMO West Virginia, Maine, & Nebraska
-      DEADLINE: <2018-04-30 Mon>
 **** TMO Remaining TMO Markets
       DEADLINE: <2018-09-28 Fri>     
 ** TODO Finish Christine's Data Outcollect Issue
+   SCHEDULED: <2018-04-02 Mon>
+   - [ ] Check out that SID 
+   
 ** TODO Project Sentinel  
    A database used in the MFT transfer. Only used by the job below. 
    : [‎3/‎19/‎2018 11:37 AM] Lee, Daniel W: 

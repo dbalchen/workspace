@@ -307,6 +307,7 @@ APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, TOT
  from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 
+
 $sqls{'DISP_RM'} =
 "select 
  file_name,sum(t1.total_records),sum(t1.total_volume),sum(t1.total_charges),max(t1.total_records_dch),max(t1.total_volume_dch),max(t1.total_charges_dch),

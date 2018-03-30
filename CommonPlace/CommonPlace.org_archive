@@ -3050,3 +3050,35 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
    
+
+* DONE Reply to Sunil about MABEL
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-03-27 Tue 10:50
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  - [ ] Talk to Jacob
+  DEADLINE: <2018-03-29 Thu>
+
+* DONE DCH - APRM remove headers and trailers
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-03-27 Tue 15:58
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Investigate the discrepencies in the Roamining Recon Report
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* DONE LTE - Remove last column
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-03-27 Tue 15:58
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Investigate the discrepencies in the Roamining Recon Report
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
