@@ -38,7 +38,7 @@ sub scheduledTask {
 	my $hh =
 	  "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/listBuilder.pl";
 	system($hh);
-	my $hh =
+    $hh =
 "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/roamingReconciliation.pl SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,DISP_RM,NLDLT $timeStamp & ";
 
 	#print "$hh\n";

@@ -653,31 +653,31 @@ subgraph cluster_3 {
 ** AR Reports
     -  *LockBox*
        -  /File Location/ :
-          $ABP\_AR\_ROOT/interfaces/input/lockbox/MELL\_PYM.*.csv
+          $ABP_AR_ROOT/interfaces/input/lockbox/MELL_PYM.*.csv
     -  *AGTCASH*
        -  /File Location/ :
-            $ABP\_AR\_ROOT/interfaces/input/lockbox/ACP\_PYM*.csv
+            $ABP_AR_ROOT/interfaces/input/lockbox/ACP_PYM*.csv
     -  *IMPCOL*
        -  /File Location/ :
-            $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPCOL.PAY*.csv
+            $ABP_AR_ROOT/interfaces/input/lockbox/IMPCOL.PAY*.csv
     -  *IMPEFT*
         -  /File Location/ :
-               $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPEFT.PAY.*csv
+               $ABP_AR_ROOT/interfaces/input/lockbox/IMPEFT.PAY.*csv
     -  *IMPPAY*
         -  /File Location/ :
-               $ABP\_AR\_ROOT/interfaces/input/lockbox/IMPPAY.PAY.*.csv
+               $ABP_AR_ROOT/interfaces/input/lockbox/IMPPAY.PAY.*.csv
     -  *Autopay Reports* \\ Both of these reports are derived after
             the above files have been processed.
-        -  *Autopay\_PostPaid*
+        -  *Autopay_PostPaid*
            - Run both the expected and actual *SQL*
-        -  *Autopay\_PrePaid*
+        -  *Autopay_PrePaid*
            -  Run prepaid expected *SQL*
     -  *ACH extract file* \\Check to see if the output report and
             *SQL* match.
         - /File Location/ :
-            $ABP\_AR\_ROOT/interfaces/output/ACH.ar.DD\_OUT*\\
+            *$ABP_AR_ROOT/interfaces/output/ACH.ar.DD_OUT* \\
 ** Credit Cards  
-    - AR9\_CC\_AUTH\_LOG
+    - AR9_CC_AUTH_LOG
       Credit card transactions from the *TOPS* side.
     - CTLOG
       Database from the microtelecom side.
@@ -685,7 +685,7 @@ subgraph cluster_3 {
 ** GL Extracts
     These are created via *APRM*.
 #+BEGIN_LaTeX
-\footnotesize
+\small
 #+END_LaTeX
     - SAP Extracts
        -  Business owner (3/15/2013): Sangeeta Khedeker
@@ -774,51 +774,51 @@ subgraph cluster_3 {
 ** Mable Jobs
    - *Validation* and *Consolidation* run twice a day at 5:00 am/pm
 #+BEGIN_LaTeX
-\footnotesize
+\small
 #+END_LaTeX
 *** PR-INVBO-CHECK_CON_MABEL_REPORTS1
     The consolidated reports monitor. If the reports are not running this will restart them.
     - */apps/ebi/mabel1/checks/jacob/check_con_reports.ksh*
 
     This job will restart the following jobs if they are found to be not running:
-    - *./ALLCONSOLIDATED_report_daemon.pl*
-    - *./dailyMABELDaemon.pl*
-    - *./syncINVRPTSDaemon.pl*
+    - *ALLCONSOLIDATED_report_daemon.pl*
+    - *dailyMABELDaemon.pl*
+    - *syncINVRPTSDaemon.pl*
 *** PR-INVBO-CHECK_CON_MABEL_REPORTS2
-    - /apps/ebi/invap1/PRBKP/mabel/grep/check_con_reports.ksh
+    - */apps/ebi/invap1/PRBKP/mabel/grep/check_con_reports.ksh*
     
     This job will restart the following:
-    - *./consolidated_report_daemon.pl*
+    - *consolidated_report_daemon.pl*
 *** PR-INVBO-CLD_LOOP_MON-MS_MABEL
     Closed loop to Mobile Sense
-    - /apps/ebi/invap1/support/bin/closed_loop_monitor_ms_mabel
+    - */apps/ebi/invap1/support/bin/closed_loop_monitor_ms_mabel*
 
     Contains and array of job names that is used by the closed loop process for *Mobile sense*.
 *** PR-INVBO-CLD_LOOP_MON-TDS_MABEL
     Closed loop to TDS
-    - /apps/ebi/invap1/support/bin/closed_loop_monitor_tds_mabel
+    - */apps/ebi/invap1/support/bin/closed_loop_monitor_tds_mabel*
 
     Keeps tabs on the following closed loop process.
     - *$HOME/.bgw/closed_loop_monitor_tds_mabel.lck*
 *** PR-INVBO-CLD_LOOP_MON-USC_MABEL
     Closed loop to USC
-    - /apps/ebi/invap1/support/bin/closed_loop_monitor_usc_mabel
+    - */apps/ebi/invap1/support/bin/closed_loop_monitor_usc_mabel*
 
     More set-up for closed loop.
 *** PR-INVBO-MABEL_RAW_DATA_CONSOLID_VALIDAT
     The Consolidation job
-    - /apps/ebi/mabel1/bin/mabelCon.sh
+    - */apps/ebi/mabel1/bin/mabelCon.sh*
 
-    This shell script runs the all important *./mabel* job
+    This shell script runs the all important *mabel* job
 *** PR-INVBO-MABEL_RAW_DATA_SFV_VALIDATE
     The validation job 
-    - /apps/ebi/mabel1/MABEL_validation/mabelValidation.sh
+    - */apps/ebi/mabel1/MABEL_validation/mabelValidation.sh*
 
     Kicks off the all important *MABEL Validation* job: /Check here for database information/
-    - *./bin/mabelEnrichment*
+    - *bin/mabelEnrichment*
 *** PR-INVFO1B-MABEL_RAW_DATA_98500_REPORT
     The Google job
-    - /apps/ebi/mabel1/bin/718Report.sh
+    - */apps/ebi/mabel1/bin/718Report.sh*
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -4315,6 +4315,27 @@ subgraph cluster_3 {
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO OPS EBI upgrade
+*** File Systems needed
+    - */pkgbl01/inf/aimsys/prdwrk1/var*
+    - */pkgbl02/inf/aimsys/prdwrk2/var*
+    - */pkgbl03/inf/aimsys/prdwrk3/var*
+    - */inf_nas/apm1/prod/aprmoper/var*
+*** Firewall Ports
+
+|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
+| Source    | Source IP    | Source IP   | Destination    | Destination | Port | Protocol | Bi-Directional? (Y/N)   |
+|           | Address      | Device Name | IP Address     | Device      |      |          |                         |
+|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
+| Knoxville | 10.176.179.3 | kpr01scdap  | 10.176.177.211 | KPR01EBIAP  | 8999 | TCP      | 2 way communication     |
+|           |              |             |                |             |      |          | between the two servers |
+|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
+*** Databases Access
+    - BRMPRD
+    - ODSPRD
+*** Perl Libraries
+    What Perl modules do we use.
+
 ** TODO BRM Upgrade
    DEADLINE: <2018-04-09 Mon>
 ** TODO Santa Clara
@@ -4331,7 +4352,7 @@ subgraph cluster_3 {
 *** TODO Investigate record count varience in LTE and CDMA
 *** TODO LTE Outcollects move back 3 days
 *** TODO Fix LTE APRM
-** TODO Oncall
+** APPT Oncall
    SCHEDULED: <2018-04-02 Mon>--<2018-04-08 Sun>
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>

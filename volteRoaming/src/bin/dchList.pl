@@ -67,7 +67,7 @@ $hh =
 "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_GSM.csv";
 system($hh);
 
-$inGrep = "egrep '^$tomorrow|^$dayafter|^$dayafterthat' ";
+$inGrep = "egrep '^$daybefore|^$today|^$tomorrow|^$dayafter|^$dayafterthat' ";
 
 $hh =
 "cat $ENV{'REC_HOME'}/OutcollectDCH_voice.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/OutcollectDCH_voice.csv";

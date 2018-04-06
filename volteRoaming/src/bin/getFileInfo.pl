@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] ="/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001887_T20170707192108.DAT";
+$ARGV[0] ="/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID000098_T20180402173942.DAT";
 
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
@@ -42,8 +42,8 @@ my $dateTime = substr( $filename, index( $filename, "T2" ) + 1, 8 );
 
 my $dbconn = getBODSPRD();
 
-#my $dbconnb = getSNDPRD();
-my $dbconnb = $dbconn;
+my $dbconnb = getSNDPRD();
+#my $dbconnb = $dbconn;
 
 my $sql  = "delete from file_summary where FILE_NAME = '$filename'";
 my $sthb = $dbconnb->prepare($sql);
@@ -283,7 +283,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -294,7 +294,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Reptar5000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

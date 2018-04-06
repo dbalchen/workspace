@@ -4,7 +4,7 @@ use DBI;
 
 #Test parameters remove when going to production.
 $ARGV[0] = "SDIRI_FCIBER";
-$ARGV[1] = '20180325';
+$ARGV[1] = '20180402';
 # # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 my $ORACLE_SID  = "bodsprd";

@@ -23,8 +23,6 @@
 	<property name="dist" location="bin" />
 	<property name="reports" location="reports" />
 	<property name="stage" location="stage" />
-	<property name="style.config.dir" location="etc" />
-	<property name="style.output.dir" location="checkstyle" />
 	<property name="java.home" location="/usr/lib/jvm/java-6-openjdk" />
 
 	<!-- Environment Setup -->
@@ -47,7 +45,6 @@
 		<pathelement location="${checkstyle.jar}" />
 	</path>
 
-	<taskdef resource="checkstyletask.properties" classpathref="checkstyle.classpath" />
 
 	<!-- Start OF QA, this can probably be moved to a common .xml that can be included -->
 	<target name="qaprep" depends="qaprephpux,qaprepwinnt,qaprepwinxp">
@@ -331,7 +328,7 @@
 	</target>
 
 	<!-- Do all development tasks -->
-	<target name="all" depends="docs,checkstyle">
+	<target name="all" >
 	</target>
 
 	<!-- Clean out development evnironment -->

@@ -1,6 +1,8 @@
 #! /usr/local/bin/perl
 
 use DBI;
+use Time::Piece;
+use Time::Seconds;
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
@@ -42,6 +44,9 @@ my $max_process = 10;
 my $timeStamp   = $ARGV[1];
 
 $timeStamp = '20180325';
+my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
+$outTimeStamp    = $outTimeStamp - ONE_DAY;
+$outTimeStamp =     ($outTimeStamp->year).pad( $outTimeStamp->mon,  '0', 2 ). pad( $outTimeStamp->mday, '0', 2 );
 
 my $hh = "$ENV{'REC_HOME'}/dchList.pl $timeStamp";
 
@@ -250,7 +255,7 @@ $sqls{'CIBER_CIBER'} =
 " FILE_NAME, IDENTIFIER, TOTAL_RECORDS, TOTAL_VOLUME, TOTAL_CHARGES, APRM_DIFFERENCE, 
 APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH,
 TOTAL_VOLUME_DCH, TOTAL_CHARGES_DCH, (TOTAL_RECORDS - TOTAL_RECORDS_DCH), (TOTAL_CHARGES - TOTAL_CHARGES_DCH)
- from file_summary where usage_type = 'CIBER_CIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
+ from file_summary where usage_type = 'CIBER_CIBER' and process_date = to_date($outTimeStamp,'YYYYMMDD')";
 
 $sqls{'DATA_CIBER'} =
 "select  RECEIVER, TOTAL_RECORDS, TOTAL_CHARGES, TOTAL_VOLUME, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, (TOTAL_RECORDS-TOTAL_RECORDS_DCH), 
@@ -276,7 +281,7 @@ APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH, TOT
 $sqls{'DISP_RM'} =
 "select  file_name,  total_records, total_charges, APRM_TOTAL_RECORDS,total_volume, TOTAL_RECORDS_DCH,TOTAL_CHARGES_DCH, 
     TOTAL_RECORDS-TOTAL_RECORDS_DCH, TOTAL_CHARGES-TOTAL_CHARGES_DCH
- from file_summary where usage_type = 'DISP_RM' and file_type = 'TAP'  and process_date = to_date($timeStamp,'YYYYMMDD') ";
+ from file_summary where usage_type = 'DISP_RM' and file_type = 'TAP'  and process_date = to_date($outTimeStamp,'YYYYMMDD') ";
 
 # Get Roaming switches to check
 my @switches = split( ',', $ARGV[0] );
@@ -298,6 +303,14 @@ foreach my $switch (@switches) {
 		}
 		elsif ( $switch eq "NLDLT" ) {
 			$hh = "$ENV{'REC_HOME'}/listLTE.pl $timeStamp NLDLT|";
+		}
+		elsif ( $switch eq "CIBER_CIBER"  || $switch eq "DISP_RM") {
+			$hh = 'find '
+			  . $dirs{$switch}
+			  . ' -name "'
+			  . $switch . '*'
+			  . $outTimeStamp
+			  . '*" -print |';
 		}
 		else {
 			$hh = 'find '
@@ -577,5 +590,17 @@ sub getSNDPRD {
 		sendErr();
 	}
 	return $dbods;
+}
+
+sub pad {
+
+	my ( $padString, $padwith, $length ) = @_;
+
+	while ( length($padString) < $length ) {
+		$padString = $padwith . $padString;
+	}
+
+	return $padString;
+
 }
 
