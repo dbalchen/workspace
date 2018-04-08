@@ -29,7 +29,7 @@ o.memSize = 2097152;
 
 		~track0 = MyTrack.new(~synth1,0);
 		~track0.notes.probs = Bjorklund(15, 32);
-		~track0.notes.freqs = ~clock.notes.probs.collect({ arg item, i; item; item*~scale.choose});
+		~track0.notes.freqs = ~track0.notes.probs.collect({ arg item, i; item; item*~scale.choose});
 
 	)
 

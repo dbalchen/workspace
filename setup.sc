@@ -298,7 +298,7 @@ MIDIIn.noteOff = { arg src,chan,num,vel;
 
 };
 
-
+/*
 MIDIIn.polytouch = { arg src, chan, num, vel;
 
 
@@ -312,6 +312,7 @@ MIDIIn.program = { arg src, chan, prog;
 
 
 };
+*/
 
 ~displayCC.free;
 ~displayCC = MIDIdef.cc(\displayCC, {arg ...args; args.postln}); // display CC

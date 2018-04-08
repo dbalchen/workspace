@@ -53,3 +53,12 @@
 ~sine.set(\e0In,~envout0);
 ~sine.set(\e1In,~envout1);
 
+~bassDrumPulseSaw = {arg bal = 0;
+
+	if(bal == 0, {~pulseSaw.set(\amp, 0);~pulseSaw2.set(\amp, 2.2);},
+		{~pulseSaw.set(\amp, 1);~pulseSaw2.set(\amp, 1.2);});
+
+};
+
+~bassDrumPulseSaw.value(0);
+

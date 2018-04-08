@@ -15,7 +15,7 @@
 
 
 SynthDef(\noisekick, { arg out=0, amp= 0.5, clip = 0.5,
-	gain = 0.25, e0In = 0, e1In = 0,lagLev = 0.1, freq = 110,rq = 0.30,
+	gain = 0.25, e0In = 0, e1In = 0,lagLev = 0.0, freq = 110,rq = 0.30,
 	cutoff = 5200.00,hpf = 22,spread = 0, balance = 0;
 
 	var env0, env1, env1m, sig;
@@ -53,7 +53,7 @@ SynthDef(\noisekick, { arg out=0, amp= 0.5, clip = 0.5,
 
 
 SynthDef(\sawPulsekick, { arg ss, out=0, amp= 1, clip = 1.0, windex = 1,idx = 0.25,freq = 55.00,fmod = 0.0,
-	gain = 0.25, e0In = 0, e1In = 0, cutoff = 5200.00,dist = 0.5,hpf = 55,lagLev = 0.1, spread = 0, balance = 0;
+	gain = 0.25, e0In = 0, e1In = 0, cutoff = 5200.00,dist = 0.5,hpf = 55,lagLev = 0.0, spread = 0, balance = 0;
 
 	var env0, env1, sig;
 
@@ -89,7 +89,7 @@ SynthDef(\sawPulsekick, { arg ss, out=0, amp= 1, clip = 1.0, windex = 1,idx = 0.
 
 
 SynthDef(\sinekick, { arg out=0, amp= 0.5, clip = 1.3, e0In = 0, e1In = 0,freq = 27.5,
-	lagLev = 0.1, hpf = 27.5,spread = 0, balance = 0;
+	lagLev = 0.0, hpf = 27.5,spread = 0, balance = 0;
 
 	var env0, env1, env1m, sig;
 

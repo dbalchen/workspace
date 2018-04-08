@@ -10,7 +10,8 @@ SynthDef("eStrings",
 
 		var sig, env, fenv, env2;
 
-		env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+		//		env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+		env  = Env.new([0, 1, sustain,0], [attack, decay,release],[1.5,0,-4],2);
 
 		freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
 
@@ -40,7 +41,7 @@ SynthDef("eStrings",
 
 
 
-SynthDef(\mono_eStrings, {arg freq = 110, out = 0, amp = 0.5, aoc = 1.0,fenvIn = 999, vcaIn = 999,cutoff = 7200, gain = 0.7,release = 0.8, attack = 0.1,bend =0,hpf = 120, mul = 1,lagtime =0, spread = 1, balance = 0, gate = 0;
+SynthDef(\mono_eStrings, {arg freq = 110, out = 0, amp = 0.5, aoc = 1.0,fenvIn = 999, vcaIn = 999,cutoff = 5200, gain = 0.7,release = 0.8, attack = 0.1,bend =0,hpf = 120, mul = 1,lagtime =0, spread = 1, balance = 0, gate = 0;
 
 	var sig,fenv, env;
 
@@ -107,21 +108,21 @@ SynthDef(\mono_eStrings, {arg freq = 110, out = 0, amp = 0.5, aoc = 1.0,fenvIn =
 ~string_low_vcf_envelope.release = 0.9;
 
 
-	~stringLow_fenv = Synth("myADSR",addAction: \addToHead);
-	~stringLow_fenv.set(\out,~string_low_vcf_control_in);
-	~string_low_vcf_envelope.setADSR(~stringLow_fenv);
+~stringLow_fenv = Synth("myADSR",addAction: \addToHead);
+~stringLow_fenv.set(\out,~string_low_vcf_control_in);
+~string_low_vcf_envelope.setADSR(~stringLow_fenv);
 
-	~stringLow_env  = Synth("myADSR",addAction: \addToHead);
-	~string_low_vca_envelope.setADSR(~stringLow_env);
-	~stringLow_env.set(\out,~string_low_vca_control_in);
+~stringLow_env  = Synth("myADSR",addAction: \addToHead);
+~string_low_vca_envelope.setADSR(~stringLow_env);
+~stringLow_env.set(\out,~string_low_vca_control_in);
 
-	~stringLow_env.set(\gate,1);
-	~stringLow_fenv.set(\gate,1);
-	~string_low_synth.set(\gate,1);
+~stringLow_env.set(\gate,1);
+~stringLow_fenv.set(\gate,1);
+~string_low_synth.set(\gate,1);
 
 
-	~stringLow_env.set(\gate,0);
-	~stringLow_fenv.set(\gate,0);
-	~string_low_synth.set(\gate,0);
+~stringLow_env.set(\gate,0);
+~stringLow_fenv.set(\gate,0);
+~string_low_synth.set(\gate,0);
 
 */
