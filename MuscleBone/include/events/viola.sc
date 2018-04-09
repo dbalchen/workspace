@@ -1,21 +1,18 @@
 ~viola = MyTrack.new(~synth1,2);
 ~viola2 = MyTrack.new(~synth1,4);
+~viola.amp = 0.24;
+~viola2.amp = 0.12;
+
 
 ~violaInit = {
-
 
 	~viola.notes.freqs = ([65,66,68,66,65,59,61] - 3);
 	~viola.notes.waits = [6.0,2.0,6.0,2.0,6.0,2.0,12.0];
 	~viola.notes.durations = [6.0,2.0,6.0,2.0,6.0,2.0,12.0];
 
-	~viola.amp = 0.25;
-
-
 	~viola2.notes.freqs = ([65,66,68,66,65,59,61] - 3);
 	~viola2.notes.waits = [6.0,2.0,6.0,2.0,6.0,2.0,12.0];
 	~viola2.notes.durations = [6.0,2.0,6.0,2.0,6.0,2.0,12.0];
-
-	~viola2.amp = 0.12;
 
 };
 

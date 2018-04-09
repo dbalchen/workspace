@@ -23,22 +23,22 @@ o.memSize = 2097152;
 
 (
 
-"/home/dbalchen/Music/MyTechnoSong/include/synths/envelopes.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/synths/kick.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/synths/eStrings.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/synths/eSampler.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/synths/envelopes.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/synths/kick.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/synths/eStrings.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/synths/eSampler.sc".load;
 
-"/home/dbalchen/Music/MyTechnoSong/include/events/bassDrum.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/patch/bassDrum.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/patch/strings.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/events/bassDrum.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/patch/bassDrum.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/patch/strings.sc".load;
 
-"/home/dbalchen/Music/MyTechnoSong/include/events/LowStrings.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/patch/LowStrings.scd".load;
-"/home/dbalchen/Music/MyTechnoSong/include/events/viola.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/patch/viola.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/events/violin.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/patch/violin.sc".load;
-"/home/dbalchen/Music/MyTechnoSong/include/midiDefs.sc".load
+"/home/dbalchen/Music/MuscleBone/include/events/LowStrings.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/patch/LowStrings.scd".load;
+"/home/dbalchen/Music/MuscleBone/include/events/viola.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/patch/viola.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/events/violin.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/patch/violin.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/midiDefs.sc".load
 
 )
 

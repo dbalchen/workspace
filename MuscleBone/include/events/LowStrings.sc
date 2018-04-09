@@ -1,4 +1,5 @@
 ~lowStrings = MyTrack.new(~synth1,0);
+~lowStrings.amp = 0.3;
 
 ~lowStringsInit = {
 	~lowStrings.notes.freqs = [41,42,41,39,41,42,41,39] + 5;
@@ -6,7 +7,7 @@
 	~lowStrings.notes.durations = [6.0,2.0,6.0,2.0,6.0,2.0,6.0,2.0];
 	~lowStrings.notes.probs = [1];
 	~lowStrings.notes.lag = 0.9;
-	~lowStrings.amp = 0.15;
+
 };
 
 ~lowStringsInit.value();
@@ -18,7 +19,7 @@
 	~lowStrings.notes.waits = [6.0,2.0,6.0,2.0,6.0,2.0,12.0];
 	~lowStrings.notes.durations = [6.0,2.0,6.0,2.0,6.0,2.0,12.0];
 	~lowStrings.notes.lag = 0.9;
-	~lowStrings.amp = 0.15;
+
 };
 
 ~lowStringsInitStop = {

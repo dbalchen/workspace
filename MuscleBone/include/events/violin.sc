@@ -1,18 +1,19 @@
 ~violin = MyTrack.new(~synth1,3);
 ~violin2 = MyTrack.new(~synth1,4);
-
+~violin.amp = 0.4;
+~violin2.amp = 0.2;
 
 ~violinInit = {
 	~violin.notes.waits = [2.0,1.0,1.0];
 	~violin.notes.freqs = [36,77,80];
 	~violin.notes.probs = [0,1,1];
 	~violin.notes.durations = [2.0,1.0,1.0];
-	~violin.amp = 0.4;
+
 	~violin2.notes.waits = [2.0,1.0,1.0];
 	~violin2.notes.freqs = [36,77,80];
 	~violin2.notes.probs = [0,1,1];
 	~violin2.notes.durations = [2.0,1.0,1.0];
-	~violin2.amp = 0.2;
+
 };
 
 ~violinInit.value;
