@@ -2,13 +2,12 @@
 #+OPTIONS: d:nil
 #+OPTIONS: toc:nil
 #+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
-#+DRAWERS: PICTURE CLOSET x
+#+DRAWERS: PICTURE CLOSET
 #+PROPERTY: allocate_ALL dev doc test
 #+STARTUP: hidestars hideblocks 
 #+LaTeX_CLASS_OPTIONS: [12pt,twoside]
 #+LATEX_HEADER: \usepackage{lscape} 
 #+LATEX_HEADER: \usepackage{fancyhdr} 
-
 #+LATEX_HEADER: \usepackage{multirow}
 #+LATEX_HEADER: \usepackage{multicol}
 #+BEGIN_LaTeX
@@ -1893,157 +1892,157 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|--------------------------------+---------------------+---------------------|
-| *Column Name*                  | *Data Type*         | *Description*       |
-|--------------------------------+---------------------+---------------------|
-| *Cycle_Code*                   | Number(4,0)         |                     |
-| *Cycle_Instance*               | Number(2,0)         | Cycle Instance = 0  |
-|                                |                     | Pre-Paid Subscriber |
-| Customer_Segment               | Number(4,0)         |                     |
-| *Customer_Id*                  | Number(10,0)        |                     |
-| *Accum_Type_Id*                | Number(9,0)         |                     |
-| Owner_Id                       | Number(10,0)        |                     |
-| Owner_Type                     | Char(1 Byte)        |                     |
-| Item_Id                        | Number(9,0)         |                     |
-| Offer_Instance                 | Number(10,0)        |                     |
-| Dimension_Id                   | Number(5,0)         |                     |
-| *Cycle_Year*                   | Number(4,0)         |                     |
-| Sys_Creation_Date              | Date                |                     |
-| Sys_Update_Date                | Date                |                     |
-| Operator_Id                    | Number(9,0)         |                     |
-| Application_Id                 | Char(6 Byte)        |                     |
-| Dl_Service_Code                | Char(5 Byte)        |                     |
-| Dl_Update_Stamp                | Number(4,0)         |                     |
-| Update_Id                      | Number(9,0)         |                     |
-| Version_Id                     | Number(9,0)         |                     |
-| Global_Accum_Ind               | Char(1 Byte)        |                     |
-| Cross_Cycle_Ind                | Char(1 Byte)        |                     |
-| *Accum_Id*                     | Number(9,0)         |                     |
-| Rerate_Type                    | Char(1 Byte)        |                     |
-| Account                        | Number              |                     |
-| *Accum_Charge*                 | Number              |                     |
-| *Accum_Chg_Incl_Free_Allw*     | Number              |                     |
-| *Accum_Free_Unit*              | Number              |                     |
-| *Accum_Unit*                   | Number              |                     |
-| Billing_Arrangement            | Number              |                     |
-| *Currency_Code*                | Varchar2(3 Byte)    |                     |
-| First_Event_Date               | Date                |                     |
-| L3_Balance_Amount              | Number              |                     |
-| L3_Balance_Status              | Varchar2(1 Byte)    |                     |
-| Last_Event_Date                | Date                |                     |
-| *Number_Of_Events*             | Number              |                     |
-| *Number_Of_Free_Events*        | Number              |                     |
-| *Number_Of_Rolled_Cycles*      | Number              |                     |
-| Offer_Id                       | Number              |                     |
-| Pi_Role                        | Number              |                     |
-| Pi_Status                      | Number              |                     |
-| Quota                          | Number              |                     |
-| Quota_Per_Period               | Varchar2(512 Byte)  |                     |
-| Remaining_Quota_Per_Period     | Varchar2(512 Byte)  |                     |
-| Remain_Quota_Per_Month_Period  | Varchar2(512 Byte)  |                     |
-| Rolled_Previous_Cyc_Per_Period | Varchar2(512 Byte)  |                     |
-| Rolled_Quota_From_Previous_Cyc | Number              |                     |
-| Uom                            | Varchar2(1 Byte)    |                     |
-| Utilized_Quota_Per_Period      | Varchar2(512 Byte)  |                     |
-| Utilize_Quota_Per_Month_Period | Varchar2(512 Byte)  |                     |
-| Billing_Resource_Type          | Varchar2(16 Byte)   |                     |
-| Billing_Resource_Id            | Varchar2(63 Byte)   |                     |
-| Toll_Tax                       | Number              |                     |
-| L9_Accum_Chg_Incl_Allw_Cmplx   | Varchar2(512 Byte)  |                     |
-| L9_Accum_Credit                | Number              |                     |
-| L9_Accumulated_Chg_Cmplx       | Varchar2(512 Byte)  |                     |
-| L9_Overage_Cap                 | Number              |                     |
-| L9_Accum_Free_Unit_Cmplx       | Varchar2(512 Byte)  |                     |
-| L9_Number_Of_Events_Cmplx      | Varchar2(512 Byte)  |                     |
-| L9_Number_Free_Events_Cmplx    | Varchar2(512 Byte)  |                     |
-| L9_Accum_Unit_Cmplx            | Varchar2(512 Byte)  |                     |
-| L9_Cap_Exceed                  | Varchar2(1 Byte)    |                     |
-| L9_Number_Of_Credit_Events     | Number              |                     |
-| Air_Tax                        | Number              |                     |
-| L9_Tot_Units_Above_Cap         | Varchar2(512 Byte)  |                     |
-| Accum_Duration                 | Number              |                     |
-| L9_Call_Direction              | Varchar2(1 Byte)    |                     |
-| L9_Roaming_Ind                 | Varchar2(1 Byte)    |                     |
-| L9_Tax_Change_Date             | Varchar2(25 Byte)   |                     |
-| L9_Serve_Sid                   | Varchar2(5 Byte)    |                     |
-| L9_Eha_Indicator               | Varchar2(1 Byte)    |                     |
-| L9_Pay_Channel                 | Number              |                     |
-| L9_Customer_Sub_Type           | Varchar2(15 Byte)   |                     |
-| L9_Be                          | Number              |                     |
-| L9_Customer_Type               | Varchar2(1 Byte)    |                     |
-| L9_Called_Country              | Varchar2(3 Byte)    |                     |
-| *L9_Payment_Category*          | Varchar2(4 Byte)    | Post Or Pre         |
-| L9_Billing_Arrangement         | Number              |                     |
-| L9_Volume_Accumulation         | Number              |                     |
-| L9_Offer_Level                 | Varchar2(1 Byte)    |                     |
-| L9_Full_Cap                    | Number              |                     |
-| L9_Charge_Type                 | Varchar2(3 Byte)    |                     |
-| L9_Prev_Add_Chg_Cmplx2         | Varchar2(512 Byte)  |                     |
-| L9_Prev_Add_Chg_Cmplx1         | Varchar2(512 Byte)  |                     |
-| L9_Prev_Add_Chg_Cmplx3         | Varchar2(512 Byte)  |                     |
-| L9_Prev_Add_Chg_Cmplx          | Varchar2(4000 Byte) |                     |
-| L9_Acc_Usage_Before_Eom        | Number              |                     |
-| L9_Acc_Usage_After_Eom         | Number              |                     |
-| L9_Msisdn                      | Varchar2(256 Byte)  |                     |
-| L9_Cap_To_Be_Used              | Number              |                     |
-| L9_Charge_Code                 | Varchar2(15 Byte)   |                     |
-| L9_Offer_Type                  | Varchar2(255 Byte)  |                     |
-| L9_Accum_Chg_Beyo_Cap_Cmplx    | Varchar2(512 Byte)  |                     |
-| *L9_Ctn*                       | Varchar2(10 Byte)   |                     |
-| L9_Media_Type                  | Varchar2(1 Byte)    |                     |
-| L9_Utilized_Quota_Cmplx        | Varchar2(512 Byte)  |                     |
-| L9_First_Threshold_Sent_Ind    | Varchar2(1 Byte)    |                     |
-| L9_Remain_Quota_Cmplx          | Varchar2(512 Byte)  |                     |
-| L9_Used_Quota                  | Number              |                     |
-| L9_Last_Threshold_Sent         | Number              |                     |
-| L9_Charge_Rev_Code             | Varchar2(2 Byte)    |                     |
-| L9_Is_New_Scale                | Varchar2(1 Byte)    |                     |
-| L9_Is_First_Notif              | Varchar2(1 Byte)    |                     |
-| L9_Notified_Ctn                | Varchar2(32 Byte)   |                     |
-| L9_Unlimited_Ind               | Varchar2(1 Byte)    |                     |
-| Proration_Factor               | Number              |                     |
-| L9_Curr_Leg                    | Number              |                     |
-| L9_Num_Of_Period               | Number              |                     |
-| L9_Is_Notif_Sent               | Varchar2(1 Byte)    |                     |
-| L9_Period_Name                 | Varchar2(255 Byte)  |                     |
-| L9_Volume_Per_Leg              | Varchar2(4000 Byte) |                     |
-| L9_Cycle_Start_Date_Cmplx      | Varchar2(512 Byte)  |                     |
-| Disable_Notif_Ind              | Varchar2(1 Byte)    |                     |
-| L9_Notif_Elig                  | Varchar2(1 Byte)    |                     |
-| L9_Is_Second_Notif             | Varchar2(1 Byte)    |                     |
-| L9_Limit_Quota_Change_Cmplx    | Varchar2(512 Byte)  |                     |
-| Agr_Level_Offer_Inst           | Varchar2(512 Byte)  |                     |
-| L9_Last_Notif_Index            | Number              |                     |
-| L9_Second_Notif_Thresh         | Number              |                     |
-| Offer_Exp_Date                 | Date                |                     |
-| L9_Second_Threshold            | Number              |                     |
-| L9_Accum_Free_Unts_Beyo_Cap    | Number              |                     |
-| Offer_Eff_Date                 | Date                |                     |
-| L9_First_Threshold             | Number              |                     |
-| L9_Second_Threshold_Sent_Ind   | Varchar2(1 Byte)    |                     |
-| L9_Limit_Quota_Cmplx           | Varchar2(512 Byte)  |                     |
-| L9_First_Notif_Thresh          | Number              |                     |
-| L9_Remaining_Bucket            | Number              |                     |
-| L9_Class_Code                  | Varchar2(12 Byte)   |                     |
-| L9_Ivr_Ann_Code                | Varchar2(50 Byte)   |                     |
-| L9_Accum_Add_Tax_Amt           | Number              |                     |
-| L9_Accum_Tax_Amt               | Number              |                     |
-| L9_Days_Of_Daily_Data          | Number              |                     |
-| L9_Calling_Area_Name           | Varchar2(50 Byte)   |                     |
-| Expiration_Date                | Date                |                     |
-| L9_Disclaimer_Sent             | Varchar2(1 Byte)    |                     |
-| L9_Is_Roam_Data_Speed_Notif    | Varchar2(1 Byte)    |                     |
-| L9_Geocode                     | Varchar2(10 Byte)   |                     |
-| L9_Is_Total_Data_Speed_Notif   | Varchar2(1 Byte)    |                     |
-| L9_Roam_Volume_Accumulation    | Number              |                     |
-| L9_Roam_Speed_Limit            | Number              |                     |
-| L9_Indicator                   | Varchar2(1 Byte)    |                     |
-| L9_Charge_Accumulation         | Number              |                     |
-| L9_Pp_Changed_Ind              | Varchar2(1 Byte)    |                     |
-| L9_First_Level                 | Varchar2(512 Byte)  |                     |
-| L9_Grp_Level_Offer_Inst        | Number              |                     |
-| L9_Group_Offer_Id              | Number              |                     |
-|--------------------------------+---------------------+---------------------|
+|--------------------------------+---------------------+------------------------|
+| *Column Name*                  | *Data Type*         | *Description*          |
+|--------------------------------+---------------------+------------------------|
+| *Cycle_Code*                   | Number(4,0)         |                        |
+| *Cycle_Instance*               | Number(2,0)         | /Cycle Instance = 0/   |
+|                                |                     | /Pre-Paid Subscriber/  |
+| Customer_Segment               | Number(4,0)         |                        |
+| *Customer_Id*                  | Number(10,0)        |                        |
+| *Accum_Type_Id*                | Number(9,0)         |                        |
+| *Owner_Id*                     | Number(10,0)        | /Same as Subsciber_id/ |
+| Owner_Type                     | Char(1 Byte)        |                        |
+| Item_Id                        | Number(9,0)         |                        |
+| Offer_Instance                 | Number(10,0)        |                        |
+| Dimension_Id                   | Number(5,0)         |                        |
+| *Cycle_Year*                   | Number(4,0)         |                        |
+| Sys_Creation_Date              | Date                |                        |
+| Sys_Update_Date                | Date                |                        |
+| Operator_Id                    | Number(9,0)         |                        |
+| Application_Id                 | Char(6 Byte)        |                        |
+| Dl_Service_Code                | Char(5 Byte)        |                        |
+| Dl_Update_Stamp                | Number(4,0)         |                        |
+| Update_Id                      | Number(9,0)         |                        |
+| Version_Id                     | Number(9,0)         |                        |
+| Global_Accum_Ind               | Char(1 Byte)        |                        |
+| Cross_Cycle_Ind                | Char(1 Byte)        |                        |
+| *Accum_Id*                     | Number(9,0)         |                        |
+| Rerate_Type                    | Char(1 Byte)        |                        |
+| Account                        | Number              |                        |
+| *Accum_Charge*                 | Number              |                        |
+| *Accum_Chg_Incl_Free_Allw*     | Number              |                        |
+| *Accum_Free_Unit*              | Number              |                        |
+| *Accum_Unit*                   | Number              |                        |
+| Billing_Arrangement            | Number              |                        |
+| *Currency_Code*                | Varchar2(3 Byte)    |                        |
+| First_Event_Date               | Date                |                        |
+| L3_Balance_Amount              | Number              |                        |
+| L3_Balance_Status              | Varchar2(1 Byte)    |                        |
+| Last_Event_Date                | Date                |                        |
+| *Number_Of_Events*             | Number              |                        |
+| *Number_Of_Free_Events*        | Number              |                        |
+| *Number_Of_Rolled_Cycles*      | Number              |                        |
+| Offer_Id                       | Number              |                        |
+| Pi_Role                        | Number              |                        |
+| Pi_Status                      | Number              |                        |
+| Quota                          | Number              |                        |
+| Quota_Per_Period               | Varchar2(512 Byte)  |                        |
+| Remaining_Quota_Per_Period     | Varchar2(512 Byte)  |                        |
+| Remain_Quota_Per_Month_Period  | Varchar2(512 Byte)  |                        |
+| Rolled_Previous_Cyc_Per_Period | Varchar2(512 Byte)  |                        |
+| Rolled_Quota_From_Previous_Cyc | Number              |                        |
+| Uom                            | Varchar2(1 Byte)    |                        |
+| Utilized_Quota_Per_Period      | Varchar2(512 Byte)  |                        |
+| Utilize_Quota_Per_Month_Period | Varchar2(512 Byte)  |                        |
+| Billing_Resource_Type          | Varchar2(16 Byte)   |                        |
+| Billing_Resource_Id            | Varchar2(63 Byte)   |                        |
+| Toll_Tax                       | Number              |                        |
+| L9_Accum_Chg_Incl_Allw_Cmplx   | Varchar2(512 Byte)  |                        |
+| L9_Accum_Credit                | Number              |                        |
+| L9_Accumulated_Chg_Cmplx       | Varchar2(512 Byte)  |                        |
+| L9_Overage_Cap                 | Number              |                        |
+| L9_Accum_Free_Unit_Cmplx       | Varchar2(512 Byte)  |                        |
+| L9_Number_Of_Events_Cmplx      | Varchar2(512 Byte)  |                        |
+| L9_Number_Free_Events_Cmplx    | Varchar2(512 Byte)  |                        |
+| L9_Accum_Unit_Cmplx            | Varchar2(512 Byte)  |                        |
+| L9_Cap_Exceed                  | Varchar2(1 Byte)    |                        |
+| L9_Number_Of_Credit_Events     | Number              |                        |
+| Air_Tax                        | Number              |                        |
+| L9_Tot_Units_Above_Cap         | Varchar2(512 Byte)  |                        |
+| Accum_Duration                 | Number              |                        |
+| L9_Call_Direction              | Varchar2(1 Byte)    |                        |
+| L9_Roaming_Ind                 | Varchar2(1 Byte)    |                        |
+| L9_Tax_Change_Date             | Varchar2(25 Byte)   |                        |
+| L9_Serve_Sid                   | Varchar2(5 Byte)    |                        |
+| L9_Eha_Indicator               | Varchar2(1 Byte)    |                        |
+| L9_Pay_Channel                 | Number              |                        |
+| L9_Customer_Sub_Type           | Varchar2(15 Byte)   |                        |
+| L9_Be                          | Number              |                        |
+| L9_Customer_Type               | Varchar2(1 Byte)    |                        |
+| L9_Called_Country              | Varchar2(3 Byte)    |                        |
+| *L9_Payment_Category*          | Varchar2(4 Byte)    | /Post Or Pre/          |
+| L9_Billing_Arrangement         | Number              |                        |
+| L9_Volume_Accumulation         | Number              |                        |
+| L9_Offer_Level                 | Varchar2(1 Byte)    |                        |
+| L9_Full_Cap                    | Number              |                        |
+| L9_Charge_Type                 | Varchar2(3 Byte)    |                        |
+| L9_Prev_Add_Chg_Cmplx2         | Varchar2(512 Byte)  |                        |
+| L9_Prev_Add_Chg_Cmplx1         | Varchar2(512 Byte)  |                        |
+| L9_Prev_Add_Chg_Cmplx3         | Varchar2(512 Byte)  |                        |
+| L9_Prev_Add_Chg_Cmplx          | Varchar2(4000 Byte) |                        |
+| L9_Acc_Usage_Before_Eom        | Number              |                        |
+| L9_Acc_Usage_After_Eom         | Number              |                        |
+| L9_Msisdn                      | Varchar2(256 Byte)  |                        |
+| L9_Cap_To_Be_Used              | Number              |                        |
+| L9_Charge_Code                 | Varchar2(15 Byte)   |                        |
+| L9_Offer_Type                  | Varchar2(255 Byte)  |                        |
+| L9_Accum_Chg_Beyo_Cap_Cmplx    | Varchar2(512 Byte)  |                        |
+| *L9_Ctn*                       | Varchar2(10 Byte)   |                        |
+| L9_Media_Type                  | Varchar2(1 Byte)    |                        |
+| L9_Utilized_Quota_Cmplx        | Varchar2(512 Byte)  |                        |
+| L9_First_Threshold_Sent_Ind    | Varchar2(1 Byte)    |                        |
+| L9_Remain_Quota_Cmplx          | Varchar2(512 Byte)  |                        |
+| L9_Used_Quota                  | Number              |                        |
+| L9_Last_Threshold_Sent         | Number              |                        |
+| L9_Charge_Rev_Code             | Varchar2(2 Byte)    |                        |
+| L9_Is_New_Scale                | Varchar2(1 Byte)    |                        |
+| L9_Is_First_Notif              | Varchar2(1 Byte)    |                        |
+| L9_Notified_Ctn                | Varchar2(32 Byte)   |                        |
+| L9_Unlimited_Ind               | Varchar2(1 Byte)    |                        |
+| Proration_Factor               | Number              |                        |
+| L9_Curr_Leg                    | Number              |                        |
+| L9_Num_Of_Period               | Number              |                        |
+| L9_Is_Notif_Sent               | Varchar2(1 Byte)    |                        |
+| L9_Period_Name                 | Varchar2(255 Byte)  |                        |
+| L9_Volume_Per_Leg              | Varchar2(4000 Byte) |                        |
+| L9_Cycle_Start_Date_Cmplx      | Varchar2(512 Byte)  |                        |
+| Disable_Notif_Ind              | Varchar2(1 Byte)    |                        |
+| L9_Notif_Elig                  | Varchar2(1 Byte)    |                        |
+| L9_Is_Second_Notif             | Varchar2(1 Byte)    |                        |
+| L9_Limit_Quota_Change_Cmplx    | Varchar2(512 Byte)  |                        |
+| Agr_Level_Offer_Inst           | Varchar2(512 Byte)  |                        |
+| L9_Last_Notif_Index            | Number              |                        |
+| L9_Second_Notif_Thresh         | Number              |                        |
+| Offer_Exp_Date                 | Date                |                        |
+| L9_Second_Threshold            | Number              |                        |
+| L9_Accum_Free_Unts_Beyo_Cap    | Number              |                        |
+| Offer_Eff_Date                 | Date                |                        |
+| L9_First_Threshold             | Number              |                        |
+| L9_Second_Threshold_Sent_Ind   | Varchar2(1 Byte)    |                        |
+| L9_Limit_Quota_Cmplx           | Varchar2(512 Byte)  |                        |
+| L9_First_Notif_Thresh          | Number              |                        |
+| L9_Remaining_Bucket            | Number              |                        |
+| L9_Class_Code                  | Varchar2(12 Byte)   |                        |
+| L9_Ivr_Ann_Code                | Varchar2(50 Byte)   |                        |
+| L9_Accum_Add_Tax_Amt           | Number              |                        |
+| L9_Accum_Tax_Amt               | Number              |                        |
+| L9_Days_Of_Daily_Data          | Number              |                        |
+| L9_Calling_Area_Name           | Varchar2(50 Byte)   |                        |
+| Expiration_Date                | Date                |                        |
+| L9_Disclaimer_Sent             | Varchar2(1 Byte)    |                        |
+| L9_Is_Roam_Data_Speed_Notif    | Varchar2(1 Byte)    |                        |
+| L9_Geocode                     | Varchar2(10 Byte)   |                        |
+| L9_Is_Total_Data_Speed_Notif   | Varchar2(1 Byte)    |                        |
+| L9_Roam_Volume_Accumulation    | Number              |                        |
+| L9_Roam_Speed_Limit            | Number              |                        |
+| L9_Indicator                   | Varchar2(1 Byte)    |                        |
+| L9_Charge_Accumulation         | Number              |                        |
+| L9_Pp_Changed_Ind              | Varchar2(1 Byte)    |                        |
+| L9_First_Level                 | Varchar2(512 Byte)  |                        |
+| L9_Grp_Level_Offer_Inst        | Number              |                        |
+| L9_Group_Offer_Id              | Number              |                        |
+|--------------------------------+---------------------+------------------------|
 
 #+BEGIN_LaTeX
 \normalsize
@@ -4315,6 +4314,11 @@ subgraph cluster_3 {
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO Recompile Applications
+   - [ ] EpsMonitors
+   - [ ] CallDump
+   - [ ] Switch 2 Bill
+   - [ ] Monitor
 ** TODO OPS EBI upgrade
 *** File Systems needed
     - */pkgbl01/inf/aimsys/prdwrk1/var*
@@ -4335,9 +4339,22 @@ subgraph cluster_3 {
     - ODSPRD
 *** Perl Libraries
     What Perl modules do we use.
-
-** TODO BRM Upgrade
-   DEADLINE: <2018-04-09 Mon>
+*** sudo EBI needs
+#+ATTR_LaTeX: :environment longtable :align l|l
+    |------------+-------------------------|
+    | *SERVER*   | *LOGIN*                 |
+    |------------+-------------------------|
+    | kpr01ebiap | sudo /bin/su - p_arapp1 |
+    | kpr01ebiap | sudo /bin/su - p_colap1 |
+    | kpr01ebiap | sudo /bin/su - p_comap1 |
+    | kpr01ebiap | sudo /bin/su - p_invap1 |
+    | kpr01ebiap | sudo /bin/su - p_mabel1 |
+    | kpr01ebiap | sudo /bin/su - p_usacq1 |
+    |------------+-------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+    
 ** TODO Santa Clara
    DEADLINE: <2018-05-12 Sat> For all testing.
    
@@ -4350,10 +4367,13 @@ subgraph cluster_3 {
 *** CDMA Incollect Voice - Volume is off starting the 1st of February
 *** CDMA Outcollect difference in records, volume and charges.
 *** TODO Investigate record count varience in LTE and CDMA
-*** TODO LTE Outcollects move back 3 days
-*** TODO Fix LTE APRM
+*** TODO LTE/CDMA Outcollects move back 3 days
+    DEADLINE: <2018-04-17 Tue>
+*** TODO Logical flow for all usage types
+    DEADLINE: <2018-04-20 Fri>
+*** TODO Work on APRM
+    DEADLINE: <2018-04-27 Fri>
 ** APPT Oncall
-   SCHEDULED: <2018-04-02 Mon>--<2018-04-08 Sun>
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Production Release 
@@ -4378,15 +4398,13 @@ subgraph cluster_3 {
     | PMX           |     10.2 |
     |---------------+----------|
  
-*** TODO Volte Roaming
-**** Verizon  Iowa TADIG Complete
-      DEADLINE: <2018-03-23 Fri>
-**** Verizon  California, Washington, Oregon,  TMO West Virginia, Maine, & Nebraska
-      DEADLINE: <2018-04-30 Mon>
-**** Verizon Remaining Verizon Markets
+** TODO Volte Roaming
+*** Verizon  California, Washington, Oregon,  TMO West Virginia, Maine, & Nebraska
+     DEADLINE: <2018-04-30 Mon>
+*** Verizon Remaining Verizon Markets
       DEADLINE: <2018-07-31 Tue>
-**** TMO Remaining TMO Markets
-      DEADLINE: <2018-09-28 Fri>     
+*** TMO Remaining TMO Markets
+    DEADLINE: <2018-09-28 Fri>     
 ** TODO Finish Christine's Data Outcollect Issue
    SCHEDULED: <2018-04-02 Mon>
    - [ ] Check out that SID 

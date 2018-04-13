@@ -3092,3 +3092,37 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: DONE
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
+
+* APPT Oncall
+  SCHEDULED: <2018-04-02 Mon>--<2018-04-08 Sun>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-04-09 Mon 09:45
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: APPT
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
+  SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
+
+* TODO BRM Upgrade
+  DEADLINE: <2018-04-09 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-04-13 Fri 09:38
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* Verizon  Iowa TADIG Complete
+  DEADLINE: <2018-03-23 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-04-13 Fri 16:20
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Production Release/Volte Roaming
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
