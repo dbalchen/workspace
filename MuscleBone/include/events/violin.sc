@@ -1,6 +1,6 @@
 ~violin = MyTrack.new(~synth1,3);
 ~violin2 = MyTrack.new(~synth1,4);
-~violin.amp = 0.4;
+~violin.amp = 0.3;
 ~violin2.amp = 0.2;
 
 ~violinInit = {

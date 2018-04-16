@@ -1,5 +1,5 @@
 ~lowStrings = MyTrack.new(~synth1,0);
-~lowStrings.amp = 0.3;
+~lowStrings.amp = 0.15;
 
 ~lowStringsInit = {
 	~lowStrings.notes.freqs = [41,42,41,39,41,42,41,39] + 5;

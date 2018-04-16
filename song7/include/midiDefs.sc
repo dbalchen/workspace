@@ -135,12 +135,15 @@ OSCdef(\stringLow, { |m|
 ~channel3 = {arg num, vel = 1;
 	var ret;
 	// num.postln;
+
+	num = ~useDic.value(num,~dic,8);
+	num = num + ~t0;
 	ret = Synth("eStrings");
 	ret.set(\freq,num.midicps);
 	ret.set(\amp,~track3.amp);
 	ret.set(\balance,~track3.balance);
 	ret.set(\attack,0.5);
-	ret.set(\release,0.4);
+	ret.set(\release,0.2);
 	ret.set(\gate,1);
 	ret;
 };
@@ -175,6 +178,40 @@ OSCdef(\stringLow, { |m|
 	ret.set(\amp,~track5.amp);
 	ret.set(\balance,~track5.balance);
 	ret.set(\attack,2);
+	ret.set(\gate,1);
+	ret;
+};
+
+~channel6 = {arg num, vel = 1;
+	var ret;
+	// num.postln;
+
+	num = ~useDic.value(num,~dic,8);
+	num = num + ~t1;
+	ret = Synth("eStrings");
+	ret.set(\freq,num.midicps);
+	ret.set(\amp,~track6.amp);
+	//	ret.set(\balance,~track6.balance);
+	ret.set(\attack,0.5);
+	ret.set(\release,0.2);
+	ret.set(\gate,1);
+	ret;
+};
+
+
+
+~channel7 = {arg num, vel = 1;
+	var ret;
+	// num.postln;
+
+	num = ~useDic.value(num,~dic,8);
+	num = num + ~t2;
+	ret = Synth("eStrings");
+	ret.set(\freq,num.midicps);
+	ret.set(\amp,~track7.amp);
+	//	ret.set(\balance,~track6.balance);
+	ret.set(\attack,0.5);
+	ret.set(\release,0.2);
 	ret.set(\gate,1);
 	ret;
 };

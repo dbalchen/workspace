@@ -56,18 +56,10 @@ o.memSize = 2097152;
 ~violin2.transport.mute;~violin.transport.mute;
 ~violin2.transport.unmute;~violin.transport.unmute;
 
-~bassDrum.transport.play;~bassDrumNotes.transport.play;
-~lowStrings.transport.play;
-~viola2.transport.play;~viola.transport.play;
-~violin.transport.play;~violin2.transport.play;
-
-
 ~rp = {~lowStrings.transport.play;};
 ~rp = {~viola2.transport.play;~viola.transport.play;};
 ~rp = {~violin.transport.play;~violin2.transport.play;};
 ~rp = {~initialBassDrum.value;~bassDrum.transport.play;~bassDrumNotes.transport.play;}; // Example
-
-~rp = {	~lowStringsInit4.value();~lowStrings.transport.play; ~viola2.transport.play;~viola.transport.play;};
 
 ~rp = {~violin.transport.play;~violin2.transport.play;~viola2.transport.play;~viola.transport.play;~lowStrings.transport.play;~bassDrum.transport.play;~bassDrumNotes.transport.play;};
 
