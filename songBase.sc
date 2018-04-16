@@ -41,6 +41,9 @@ o.memSize = 2097152;
 
 ~track0.transport.play;
 ~track0.transport.stop;
+~track0.transport.mute;
+~track0.transport.unmute;
+
 
 ~rp = {}; // Example
 
