@@ -4,21 +4,17 @@ use DBI;
 
 #Test parameters remove when going to production.
 #For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
-
-#
+ my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+ my $ORACLE_SID  = "bodsprd";
+ $ENV{ORACLE_HOME} = $ORACLE_HOME;
+ $ENV{ORACLE_SID}  = $ORACLE_SID;
+ $ENV{PATH}  = "$ENV{PATH}:$ORACLE_HOME/bin";
+# 
 $ARGV[0] = 'DISP_RM';
-$ARGV[1] = '20180325';
+$ARGV[1] = '20180414';
 
 my $clearinghouse = 'TNS';
-my %sqls          = {};
-
-#$sqls{'LTE'} =
-#"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type,max(exchange_rate) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
+my %sqls = {};
 
 $sqls{'LTE'} = "
 select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),
@@ -26,10 +22,6 @@ charge_type,max(exchange_rate) from prm_rom_incol_events_ap t1 where tap_in_file
 select unique(file_name) from file_summary where usage_type like '%LTE%' and process_date = to_date($ARGV[1],'YYYYMMDD'))
 and bp_start_date >= add_months(to_date(substr($ARGV[1],0,6),'YYYYMM'),-1)
 group by carrier_cd, bp_start_date,charge_type";
-
-
-#$sqls{'NLDLT'} =
-#"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type, max(exchange_rate) from prm_rom_incol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd = 'NLDLT' group by carrier_cd, bp_start_date,charge_type";
 
 
 $sqls{'NLDLT'} = "
@@ -40,8 +32,6 @@ and bp_start_date >= add_months(to_date(substr($ARGV[1],0,6),'YYYYMM'),-1)
  group by carrier_cd, bp_start_date,charge_type
 ";
 
-#$sqls{'DISP_RM'} =
-#"select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) from prm_rom_outcol_events_ap t1 where process_date = to_date($ARGV[1],'YYYYMMDD') and carrier_cd != 'NLDLT' group by carrier_cd, bp_start_date";
 $sqls{'DISP_RM'} = "
 select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(tot_net_charge_lc), sum(charging_param) 
 from prm_rom_outcol_events_ap t1 where tap_out_file_name in
@@ -54,15 +44,14 @@ if ( $ARGV[0] eq "NLDLT" ) {
 	$clearinghouse = 'Syniverse';
 }
 
-my $dbconn = getBODSPRD();
-
-my $dbconnb = getSNDPRD();
-#my $dbconnb = $dbconn;
+my $dbconn  = getBODSPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 
 my $sqlT = "delete from APRM where usage_type like '$ARGV[0]" . '%'
   . "' and DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') ";
 $sthb = $dbconnb->prepare($sqlT);
-$sthb->execute() or sendErr();
+# $sthb->execute() or sendErr();
 
 my $sql = $sqls{ $ARGV[0] };
 my $sth = $dbconn->prepare($sql);
@@ -77,10 +66,11 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $usage_type        = $ARGV[0] . "-" . $rows[5];
 
 	my $exrate = 1;
-	if ( $ARGV[0] ne 'DISP_RM' ) {
+	if($ARGV[0] ne 'DISP_RM')
+	{
 		$exrate = $rows[6];
 	}
-
+	
 	$sql = "
   INSERT INTO APRM (
    USAGE_TYPE,

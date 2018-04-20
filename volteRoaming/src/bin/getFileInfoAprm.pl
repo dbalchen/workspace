@@ -4,7 +4,7 @@ use DBI;
 
 #Test parameters remove when going to production.
 $ARGV[0] = "SDIRI_FCIBER";
-$ARGV[1] = '20180402';
+$ARGV[1] = '20180210';
 # # For test only.....
 my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 my $ORACLE_SID  = "bodsprd";
@@ -14,10 +14,10 @@ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $filetype = $ARGV[0] . '%' . $ARGV[1] . '%';
 
-my $dbconn = getBODSPRD();
+#my $dbconn = getBODSPRD();
+my $dbconn = getSNDPRD();
 
-my $dbconnb = getSNDPRD();
-#my $dbconnb = $dbconn;
+my $dbconnb = $dbconn;
 
 # clean up Database
 

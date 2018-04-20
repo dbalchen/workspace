@@ -1,28 +1,24 @@
 #! /usr/local/bin/perl
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#exit(0);
 
 chdir("$ENV{'REC_HOME'}");
 
 my $hh = "";
 
-$hh = "cat IncollectDCH_data* | tr -d '" . '\0'
-  . "'| grep '^[0-9]' | dos2unix | sort -u > IncollectDCH_data.csv.all.tmp";
+ $hh = "cat IncollectDCH_data* | tr -d '".'\0'."'| grep '^[0-9]' | dos2unix | sort -u > IncollectDCH_data.csv.all.tmp";
 system("$hh");
 
-$hh = "cat IncollectDCH_voice* | tr -d '" . '\0'
-  . "' | grep '^[0-9]' | dos2unix | sort -u  > IncollectDCH_voice.csv.all.tmp";
+$hh = "cat IncollectDCH_voice* | tr -d '".'\0'."' | grep '^[0-9]' | dos2unix | sort -u  > IncollectDCH_voice.csv.all.tmp";
 system("$hh");
 
-$hh = "cat OutcollectDCH_voice* | tr -d '" . '\0'
-  . "' | grep '^[0-9]' | dos2unix| sort -u  > OutcollectDCH_voice.csv.all.tmp";
+$hh = "cat OutcollectDCH_voice* | tr -d '".'\0'."' | grep '^[0-9]' | dos2unix| sort -u  > OutcollectDCH_voice.csv.all.tmp";
 system("$hh");
 
-$hh = "cat IncollectDCH_GSM* | tr -d '" . '\0'
-  . "' | grep '^[0-9]' | dos2unix | sort -u  > IncollectDCH_GSM.csv.all.tmp";
+$hh =  "cat IncollectDCH_GSM* | tr -d '".'\0'."' | grep '^[0-9]' | dos2unix | sort -u  > IncollectDCH_GSM.csv.all.tmp";
 system("$hh");
 
 $hh = "mv *DCH*_2*csv OldDCH";

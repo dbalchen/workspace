@@ -11,8 +11,8 @@ use DBI;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 #$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $filename = ( split( '/', $ARGV[0] ) )[-1];
 
@@ -24,8 +24,8 @@ my $process_date = ( split( '_', $filename ) )[3];
 
 my $dbconn = getBODSPRD();
 
-my $dbconnb = getSNDPRD();
-#my $dbconnb = $dbconn;
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 
 my $sql =
 "select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd,service_type  
@@ -148,7 +148,7 @@ VALUES (
 	$sthb->execute() or sendErr();
 }
 
- print $sql."\n";
+# print $sql."\n";
 
 $dbconnb->disconnect();
 $dbconn->disconnect();

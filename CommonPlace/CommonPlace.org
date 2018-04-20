@@ -4367,11 +4367,11 @@ subgraph cluster_3 {
 *** CDMA Incollect Voice - Volume is off starting the 1st of February
 *** CDMA Outcollect difference in records, volume and charges.
 *** TODO Investigate record count varience in LTE and CDMA
-*** TODO LTE/CDMA Outcollects move back 3 days
+*** TODO LTE/CDMA Outcollects move back 3 days			    :ARCHIVE:
     DEADLINE: <2018-04-17 Tue>
 *** TODO Logical flow for all usage types
     DEADLINE: <2018-04-20 Fri>
-*** TODO Work on APRM
+*** TODO Work on APRM						    :ARCHIVE:
     DEADLINE: <2018-04-27 Fri>
 ** APPT Oncall
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>

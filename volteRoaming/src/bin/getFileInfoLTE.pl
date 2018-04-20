@@ -3,29 +3,26 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] =
-#  "CDUSAW6USAUD09893,9893,T-Mobile (USAW6),100000,7648.12000,1,.01,20180219";
+#$ARGV[0] = "CDUSASGUSAUD75208,75208,Sprint (USASG),25000,781.36496,0,0,20170818";
 #
 ## For test only.....
 #my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 #$ENV{ORACLE_HOME} = $ORACLE_HOME;
 #$ENV{ORACLE_SID}  = $ORACLE_SID;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
-#
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my @argv = split( /,/, $ARGV[0] );
 
-my $dbconn = getBODSPRD();
+my $dbconn  = getBODSPRD();
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 
-my $dbconnb = getSNDPRD();
-
-#my $dbconnb = $dbconn;
-
-my $sql    = '';
+my $sql = '';
 my $prefix = "LTE";
 my $flag   = 0;
 
@@ -233,8 +230,7 @@ VALUES (
  $rows[1],
  $dropped
 )";
-
-	print $sql. "\n";
+	#print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);
 	$sthb->execute() or sendErr();
@@ -249,7 +245,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -260,7 +256,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "#5000Reptar" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

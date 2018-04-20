@@ -3,12 +3,12 @@
 use Time::Piece;
 use Time::Seconds;
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
-my $date = $ARGV[0];
+my $date  = $ARGV[0];
 
 my $today        = Time::Piece->strptime( "$date", "%Y%m%d" );
 my $yesterday    = $today - ONE_DAY;
@@ -55,16 +55,13 @@ $dayafterthat =
 
 my $inGrep = "egrep '^$daybefore|^$yesterday|^$today|^$tomorrow' ";
 
-my $hh =
-"cat $ENV{'REC_HOME'}/IncollectDCH_data.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_data.csv";
-#system($hh);
-
-$hh =
-"cat $ENV{'REC_HOME'}/IncollectDCH_voice.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_voice.csv";
+my $hh = "cat $ENV{'REC_HOME'}/IncollectDCH_data.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_data.csv";
 system($hh);
 
-$hh =
-"cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_GSM.csv";
+$hh = "cat $ENV{'REC_HOME'}/IncollectDCH_voice.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_voice.csv";
+system($hh);
+
+$hh = "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_GSM.csv";
 system($hh);
 
 $inGrep = "egrep '^$daybefore|^$today|^$tomorrow|^$dayafter|^$dayafterthat' ";
@@ -73,10 +70,11 @@ $hh =
 "cat $ENV{'REC_HOME'}/OutcollectDCH_voice.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/OutcollectDCH_voice.csv";
 system($hh);
 
-open( IN,  "<$ENV{'REC_HOME'}/IncollectDCH_GSM.csv.all" ) || exit(1);
-open( OUT, ">$ENV{'REC_HOME'}/IncollectDCH_GSM.csv" )     || exit(1);
+open(IN,"<$ENV{'REC_HOME'}/IncollectDCH_GSM.csv.all") || exit(1);
+open(OUT,">$ENV{'REC_HOME'}/IncollectDCH_GSM.csv") || exit(1);
 
-while ( my $buff = <IN> ) {
+while(my $buff = <IN>)
+{
 	chomp($buff);
 	my @arry = split( /\t/, $buff );
 
@@ -92,32 +90,35 @@ while ( my $buff = <IN> ) {
 close(IN);
 close(OUT);
 
-my @arry = split( "-", $yesterday );
-$yesterday = ( $arry[2] - 0 ) . "-$yesMon-" . ( $arry[0] - 2000 );
+my @arry = split("-", $yesterday);
+$yesterday = ($arry[2]-0)."-$yesMon-".($arry[0]-2000);
+$yesterday = pad($yesterday,'0',9);
 
-@arry = split( "-", $today );
-$today = ( $arry[2] - 0 ) . "-$todMon-" . ( $arry[0] - 2000 );
+@arry = split("-", $today);
+$today = ($arry[2]-0)."-$todMon-".($arry[0]-2000);
+$today = pad($today,'0',9);
 
-@arry = split( "-", $tomorrow );
-$tomorrow = ( $arry[2] - 0 ) . "-$tomMon-" . ( $arry[0] - 2000 );
+@arry = split("-", $tomorrow);
+$tomorrow = ($arry[2]-0)."-$tomMon-".($arry[0]-2000);
+$tomorrow = pad($tomorrow,'0',9);
 
-@arry = split( "-", $dayafter );
-$dayafter = ( $arry[2] - 0 ) . "-$dayaMon-" . ( $arry[0] - 2000 );
+@arry = split("-", $dayafter);
+$dayafter = ($arry[2]-0)."-$dayaMon-".($arry[0]-2000);
+$dayafter = pad($dayafter,'0',9);
 
-@arry = split( "-", $dayafterthat );
-$dayafterthat = ( $arry[2] - 0 ) . "-$dayafMon-" . ( $arry[0] - 2000 );
+@arry = split("-", $dayafterthat);
+$dayafterthat = ($arry[2]-0)."-$dayafMon-".($arry[0]-2000);
+$dayafterthat = pad($dayafterthat,'0',9);
 
-open( IN,  "<$ENV{'REC_HOME'}/tnsIncollect.csv.all" ) || exit(1);
-open( OUT, ">$ENV{'REC_HOME'}/tnsIncollect.csv" )     || exit(1);
+open(IN,"<$ENV{'REC_HOME'}/tnsIncollect.csv.all") || exit(1);
+open(OUT,">$ENV{'REC_HOME'}/tnsIncollect.csv") || exit(1);
 
-while ( my $buff = <IN> ) {
+while(my $buff = <IN>)
+{
 	chomp($buff);
-	my @arry = split( /\t/, $buff );
-
-	if (   ( $arry[5] eq $today )
-		|| ( $arry[5] eq $yesterday )
-		|| ( $arry[5] eq $tomorrow )
-		|| ( $arry[5] eq $dayafter ) )
+	my @arry = split(/\t/,$buff);
+	
+	if(($arry[5] eq $today) || ($arry[5] eq $yesterday) || ($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter))
 	{
 		print OUT "$buff\n";
 	}
@@ -126,17 +127,16 @@ while ( my $buff = <IN> ) {
 close(IN);
 close(OUT);
 
-open( IN,  "<tnsOutcollect.csv.all" ) || exit(1);
-open( OUT, ">tnsOutcollect.csv" )     || exit(1);
 
-while ( my $buff = <IN> ) {
+open(IN,"<tnsOutcollect.csv.all") || exit(1);
+open(OUT,">tnsOutcollect.csv") || exit(1);
+
+while(my $buff = <IN>)
+{
 	chomp($buff);
-	my @arry = split( /\t/, $buff );
-
-	if (   ( $arry[5] eq $today )
-		|| ( $arry[5] eq $yesterday )
-		|| ( $arry[5] eq $tomorrow )
-		|| ( $arry[5] eq $dayafter ) )
+	my @arry = split(/\t/,$buff);
+	
+	if(($arry[5] eq $today) || ($arry[5] eq $yesterday) || ($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter))
 	{
 		print OUT "$buff\n";
 	}
@@ -149,12 +149,12 @@ exit(0);
 
 sub pad {
 
-	my ( $padString, $padwith, $length ) = @_;
+  my ( $padString, $padwith, $length ) = @_;
 
-	while ( length($padString) < $length ) {
-		$padString = $padwith . $padString;
-	}
+  while ( length($padString) < $length ) {
+    $padString = $padwith . $padString;
+  }
 
-	return $padString;
+  return $padString;
 
 }

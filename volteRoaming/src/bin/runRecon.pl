@@ -2,8 +2,7 @@
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-
-	# push(@INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5');
+	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Schedule::Cron;
@@ -12,12 +11,12 @@ use FileHandle;
 # Tell perl to flush the buffer to stdout after every command.
 STDOUT->autoflush();
 
-my $pid = "ROAMRECON.pid";
+my $pid = "runRecon.pid";
 
-scheduledTask();
+&scheduledTask();
 
-my $cron = new Schedule::Cron( \&scheduledTask, processprefix => "ROAMRECON" );
-my $time = "00 10 * * *";
+my $cron = new Schedule::Cron( \&scheduledTask, processprefix => "runRecon" );
+my $time = "0 10 * * *";
 $cron->add_entry($time);
 $cron->run(
 	detach   => 1,
@@ -27,6 +26,8 @@ $cron->run(
 exit(0);
 
 sub scheduledTask {
+
+	#return;
 
 	chdir("/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon");
 
@@ -38,7 +39,7 @@ sub scheduledTask {
 	my $hh =
 	  "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/listBuilder.pl";
 	system($hh);
-    $hh =
+	my $hh =
 "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/roamingReconciliation.pl SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,DISP_RM,NLDLT $timeStamp & ";
 
 	#print "$hh\n";
