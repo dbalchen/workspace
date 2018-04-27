@@ -19,7 +19,7 @@ use warnings;
 
 #---REPORT FORMAT------------------------------------
 format REPORT12 =
-@<<<<<<<<<<@<<<<<<<<<@<<<<<  @<<<<<<<<< @<<<<<<<<<<<< @<<<<<<<<<<<< @  @  @  @  @  @  @<<<<<<<<<<<<<<<<<< @<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+@<<<<<<<<<<@<<<<<<<<<@<<<<<  @<<<<<<<<< @<<<<<<<<<<<<<<< @<<<<<<<<<<<<<<< @  @  @  @  @  @  @<<<<<<<<<<<<<<<<<< @<<<<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 $date,$ctime,$duration,$calling_tn,$dialed_tn,$called_tn,$cd,$ans,$o3w,$tc,$tcf,$oss,$enodeb,$switch,$srvFeat
 .
 
@@ -198,9 +198,9 @@ sub report12 {
 
   my $prefix = "";
 
-  if (length($dialed_tn) > 10) {
-    $prefix = substr($dialed_tn,0,-10);
-    $dialed_tn = substr($dialed_tn,-10);
+  if (length($dialed_tn) > 15) {
+    $prefix = substr($dialed_tn,0,-15);
+    $dialed_tn = substr($dialed_tn,-15);
   }
 
 }

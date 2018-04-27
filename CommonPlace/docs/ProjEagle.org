@@ -1,0 +1,84 @@
+#+STARTUP: overview
+#+OPTIONS: d:nil
+#+OPTIONS: toc:nil
+#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET
+#+PROPERTY: allocate_ALL dev doc test
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+#+TITLE: Project Eagle
+#+BEGIN_LaTex
+\clearpage
+\addtolength{\oddsidemargin}{-.25in}
+%\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+\newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{2}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+
+#+END_LaTeX
+:CLOSET:
+ : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+ : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
+ : weeks #+PROPERTY: Effort_ALL 1w 2w 3w 4w 5w 6w 7w 8w 9w
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+ : New Page
+ : \newpage
+:END:
+#+TOC: headlines 2
+#+BEGIN_LaTeX
+ \newpage
+\pagenumbering{arabic}
+#+END_LaTeX 
+* OverView 
+  Project Eagle delivers the end to end US Cellular solution to operationalize and market cellular connected wearables (secondary device) to the US Cellular customer base. Specifically the project aims to deliver functionality that will allow the following:
+  1. Activate secondary device without a CDMA radio
+  2. Support the use of embedded SIMs (eSIM) in the secondary device
+  3. Use one phone number to activate and operate both the primary and secondary device. 
+  4. Both devices will be able to make and receive calls, send SMS/MMS, and consume data using a single Mobile Device Number (MDN) that is presented to the customer. 
+** Secondary device to Qualify
+   - The secondary device will need to qualify for “cellular pairing” via the below criteria:
+     - The primary device model need to be an iPhone 6S or later CR#193 - Updated
+     - Secondary device must connect to a primary device that is upgraded to a specified software version. 
+     - The primary device will need to be VoLTE enabled (Provisioned with VoLTE)
+** UFF Changes
+   - UFF will be enhanced to pass the secondary device indicator and secondary device MDN to TOPS 
+     -  NOTE: Additional fields will be finalized during design.   /see if that is true
+   - Field 59 (Initiator Type) will be populated with: 
+     - “Y” when PGW UFF CDR or TAS UFF CDR is associated with a Secondary Device. Null (as done today) when PGW UFF CDR or TAS UFF CDR is not associated with a Secondary Device.   
+   - Field 56 (External Reference ID ) will be  populated with:  
+     - IMSI of Secondary Device when PGW UFF CDR is associated with a Secondary Device.
+     - MDN of Secondary Device when TAS UFF CDR is associated with a Secondary Device          
+     - Null (as done today), when PGW UFF CDR or TAS UFF CDR is not associated with a Secondary Device 
+                         |
+** Billing
+   Voice and data usage for the secondary device will be grouped with the primary device voice and data usage.
+   Any detailed usage of the secondary device will be listed with the primary device usage without any additional indicators.
+** Usage Issues (AEM)
+   - As a short term solution, at launch, the MT (Mobile Terminating) Calls that is being picked-up by the secondary device will be passed to TOPS and will be unguidable. 
+     These records will be dropped in TurboCharging.  These dropped usages will NOT be reflected on the bill.
+   - Billing Ops will create a process to identify these records, and will be updated to purged status after 1 day.
+   - The purged records will show up in the existing Billing Ops reports.
+
+* Tasks
+** TODO Talk to Frank about provisioning
+** TODO Talk to Jason about File/Usage
+   - [ ] How will you match the records to point to the primary device. What is the name of the table.
+   - [ ] 

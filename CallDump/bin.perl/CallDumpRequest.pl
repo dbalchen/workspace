@@ -691,8 +691,8 @@ $mon,$mday,$year
 Time Frame - @<<<<<<<<<<<  to @<<<<<<<<<<<        Translated Usage From Switch                 Time: @<.@<.@< 
 $StartDt, $EndDate,$hour,$min,$sec
 
-Start      Connect   Duration Orig       Dialed       Called        DR AN 3W  CW CF MS ENODEB              Switch Service
-Date       Time      (Sec)    Number     Digits       Number                                                     Feature
+Start      Connect   Duration Orig       Dialed           Called           DR AN 3W  CW CF MS ENODEB              Switch Service
+Date       Time      (Sec)    Number     Digits           Number                                                         Feature
 .
     return "TAS_REPORT_HEADER";
 

@@ -21,11 +21,10 @@ $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
-#$ARGV[0] =
-#  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+#$ARGV[0] =  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
-#$ARGV[0] = "SDIRI_FCIBER";
+$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
 #$ARGV[0] = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
@@ -41,9 +40,9 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # Setup Initial variables
-my $timeStamp   = $ARGV[1];
+my $timeStamp = $ARGV[1];
 
-# $timeStamp = '20180416';
+$timeStamp = '20180418';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
@@ -59,31 +58,31 @@ my %tab      = {};
 my %sqls     = {};
 my %aprmsql  = {};
 
-
 $headings{'SDIRI_FCIBER'} = [
 	'File Name',
 	'Identifier',
+	'Total Records DCH',
+	'Total Volume DCH (min)',
+	'Total Charges DCH ($)',
 	'Total Records',
-	'Total Minutes',
+	'Total Volume (min)',
 	'Total Charges ($)',
-	'Dropped Records',
-	'Duplicate Records',
-	'Records Sent To TC',
-	'Records Dropped to TC',
-	'Rejected Records',
-	'Rejected Total($)',
-	'Dropped APRM Records ',
-	'Dropped APRM Charges ($)',
-	'TC to APRM Record Difference',
-	'APRM Records',
-	'APRM Total Charges ($)',
-	'DCH Total Records',
-	'DCH Total Minutes',
-	'DCH Total Charges ($)',
 	'Record Count Variance Usage File vs. DCH',
+	'Total Volume Variance Usage File vs. DCH (min)',
 	'Total Charge Variance Usage File vs. DCH ($)',
-	'Record Count Variance DCH vs. APRM',
-	'Total Charge Variance DCH vs. APRM ($)'
+	'Dropped Records',
+	'Duplicates',
+	'TC Send',
+	'Rejected Record Count',
+	'Total Rejected Charges ($)',
+	'Dropped TC Records',
+	'Dropped APRM',
+	'Dropped APRM Charges ($)',
+	'APRM Duplicates',
+	'APRM Total Records',
+	'APRM Total Charges ($)',
+	'Record Count Variance TC Send vs. APRM',
+	'Charge Variance TC Send vs. APRM ($)'
 ];
 
 $headings{'SDATACBR_FDATACBR'} = [
@@ -227,13 +226,16 @@ $tab{'LTE'}               = 'LTE Incollect';
 $tab{'DISP_RM'}           = 'LTE Outcollect';
 $tab{'NLDLT'}             = 'GSM (Incollect)';
 
-$sqls{'SDIRI_FCIBER'} =
-    "select "
-  . " file_name, identifier, Total_Records, total_volume, total_charges, dropped_records, duplicates, TC_SEND, dropped_tc, rejected_count, 
-rejected_charges, dropped_aprm,dropped_aprm_charges, aprm_difference, aprm_total_records, aprm_total_charges,
-total_records_dch, total_volume_dch, total_charges_dch, (Total_Records - total_records_dch), (total_charges - total_charges_dch),
-(aprm_total_records + DROPPED_RECORDS) - total_records_dch , (aprm_total_charges - total_charges_dch)
- from file_summary where usage_type = 'SDIRI_FCIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
+$sqls{'SDIRI_FCIBER'} = "select 
+ file_name, identifier, 
+ total_records_dch, total_volume_dch, total_charges_dch,
+ Total_Records, total_volume, total_charges, 
+ (Total_Records - total_records_dch), (total_volume - total_volume_dch ), (total_charges - total_charges_dch),
+	dropped_records, duplicates, 
+	TC_SEND, rejected_count, rejected_charges, 
+	dropped_tc,  dropped_aprm, dropped_aprm_charges, aprm_difference, aprm_total_records, aprm_total_charges,
+	tc_send - aprm_total_records , (aprm_total_charges - total_charges)
+from file_summary where usage_type = 'SDIRI_FCIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 $sqls{'SDATACBR_FDATACBR'} =
     "select "
@@ -468,6 +470,7 @@ foreach my $switch (@switches) {
 $workbook->close;
 
 my @email = ('david.balchen@uscellular.com');
+
 #my @email = ('david.balchen@uscellular.com','Ilham.Elgarni@uscellular.com','USCDLISOps-BillingCycleManagement@uscellular.com');
 
 foreach my $too (@email) {

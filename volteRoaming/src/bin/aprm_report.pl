@@ -266,7 +266,7 @@ select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
  group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.carrier_cd   order by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.carrier_cd";
 
 my $dbconn  = getBODSPRD();
-my $dbconnb = getBRMPRD();
+my $dbconnb = ''; # getBRMPRD();
 
 my @aprmArray = ();
 

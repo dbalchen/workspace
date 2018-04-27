@@ -57,6 +57,9 @@ use constant MAX_ROWS => 33000;
 
 my %special_switches = ("AAA","aaa","MOT","sms","SMS","sms","PTX","pmg","PMG","pmg","QIS","qis","PGW","pgw","TAS","tas");
 
+#$ARGV[0] = "TAS";
+#$ARGV[1] = "/home/dbalchen/Desktop/CALLDUMP_REPORT.kpr01scdap_TAS_5154447658_20180419053748.1.dat";
+#$ARGV[2] = "dave\@balchen.org";
 
 # Get command line arguments.
 my ($switch,$dumpFile,$email) = @ARGV;
@@ -105,7 +108,7 @@ $workbook->close();
 close(INPUT);
 
 # Email results.
-emailSpreadsheet($excelFile,$email);
+#emailSpreadsheet($excelFile,$email);
 
 #unlink("$excelFile");
 
@@ -446,7 +449,7 @@ sub processLinePMG {
 #
 ###############################################################################
 sub processTAS{
-  setCellWidth(11,10,8,11,15,14,3,3,3,3,3,3,20,7,32);
+  setCellWidth(11,10,8,11,17,17,3,3,3,3,3,3,20,7,32);
   # Loop through the input file records:
   #   Detect if record is a title or a a data line.
   #   Print the record to the excel worksheet.
@@ -478,7 +481,7 @@ sub processTAS{
           emailSpreadsheet($excelFile,$email);
           unlink("$excelFile");
           getNewWB();
-          setCellWidth(11,10,8,11,14,14,3,3,3,3,3,3,20,7,32);
+          setCellWidth(11,10,8,11,17,17,3,3,3,3,3,3,20,7,32);
           $row = 0;
      }
   }#end for
@@ -499,7 +502,7 @@ sub processTAS{
 sub processLineTAS {
   my $line = shift;
   # Define length of each consecutive field in a data record.
-  my @idx = (0,11,10,8,11,14,14,3,3,3,3,3,3,20,7,32);
+  my @idx = (0,11,10,8,11,17,17,3,3,3,3,3,3,20,7,32);
   my @rec = ();
   my $strt_pos = 0;
   for(my $i=0; $i<$#idx; $i++){
@@ -721,7 +724,7 @@ sub emailSpreadsheet{
                      Filename=>$excelFile) or die "Error attaching file: $!\n";
 
    # Send the email.
-   $mime_msg->send();
+#   $mime_msg->send();
  }
 
 sub setCellWidth {
