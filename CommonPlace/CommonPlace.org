@@ -4394,45 +4394,8 @@ subgraph cluster_3 {
    - [ ] CallDump
    - [ ] Switch 2 Bill
    - [ ] Monitor
-** TODO OPS EBI upgrade
-*** File Systems needed
-    - */pkgbl01/inf/aimsys/prdwrk1/var*
-    - */pkgbl02/inf/aimsys/prdwrk2/var*
-    - */pkgbl03/inf/aimsys/prdwrk3/var*
-    - */inf_nas/apm1/prod/aprmoper/var*
-*** Firewall Ports
-
-|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
-| Source    | Source IP    | Source IP   | Destination    | Destination | Port | Protocol | Bi-Directional? (Y/N)   |
-|           | Address      | Device Name | IP Address     | Device      |      |          |                         |
-|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
-| Knoxville | 10.176.179.3 | kpr01scdap  | 10.176.177.211 | KPR01EBIAP  | 8999 | TCP      | 2 way communication     |
-|           |              |             |                |             |      |          | between the two servers |
-|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
-*** Databases Access
-    - BRMPRD
-    - ODSPRD
-*** Perl Libraries
-    What Perl modules do we use.
-*** sudo EBI needs
-#+ATTR_LaTeX: :environment longtable :align l|l
-    |------------+-------------------------|
-    | *SERVER*   | *LOGIN*                 |
-    |------------+-------------------------|
-    | kpr01ebiap | sudo /bin/su - p_arapp1 |
-    | kpr01ebiap | sudo /bin/su - p_colap1 |
-    | kpr01ebiap | sudo /bin/su - p_comap1 |
-    | kpr01ebiap | sudo /bin/su - p_invap1 |
-    | kpr01ebiap | sudo /bin/su - p_mabel1 |
-    | kpr01ebiap | sudo /bin/su - p_usacq1 |
-    |------------+-------------------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-    
 ** TODO Santa Clara
    DEADLINE: <2018-05-12 Sat> For all testing.
-   
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** HOLD Open RC for RoamRecon USID and password.
@@ -4441,38 +4404,13 @@ subgraph cluster_3 {
    SCHEDULED: <2018-03-15 Thu>--<2018-03-30 Fri>
 *** CDMA Incollect Voice - Volume is off starting the 1st of February
 *** CDMA Outcollect difference in records, volume and charges.
-*** TODO Investigate record count varience in LTE and CDMA
-*** TODO LTE/CDMA Outcollects move back 3 days			    :ARCHIVE:
-    DEADLINE: <2018-04-17 Tue>
-*** TODO Logical flow for all usage types
-    DEADLINE: <2018-04-20 Fri>
-*** TODO Work on APRM						    :ARCHIVE:
-    DEADLINE: <2018-04-27 Fri>
 ** APPT Oncall
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Production Release 
 *** Prepaid Evolution
     *TBD*
-*** Project Eagle Soft Launch
-    SCHEDULED: <2018-04-22 Sun>
-*** Project Eagle Launch
-     SCHEDULED: <2018-05-13 Sun>
-*** TODO TSP    
-    DEADLINE: <2018-10-14 Sun>
-    Upgrading Infrastructure software
-    |---------------+----------|
-    | Applications  |  Version |
-    |---------------+----------|
-    | Oracle DBMS   |     12.1 |
-    | Oracle Client | 11.2.0.4 |
-    | WebLogic      |     12.2 |
-    | Java          |      1.8 |
-    | Red Hat Linux |        7 |
-    | IE            |       11 |
-    | PMX           |     10.2 |
-    |---------------+----------|
- 
+
 ** TODO Volte Roaming
 *** Verizon  California, Washington, Oregon,  TMO West Virginia, Maine, & Nebraska
      DEADLINE: <2018-04-30 Mon>
@@ -4480,7 +4418,7 @@ subgraph cluster_3 {
       DEADLINE: <2018-07-31 Tue>
 *** TMO Remaining TMO Markets
     DEADLINE: <2018-09-28 Fri>     
-** TODO Finish Christine's Data Outcollect Issue
+** TODO Finish Christine's Data Outcollect Issue		    :ARCHIVE:
    SCHEDULED: <2018-04-02 Mon>
    - [ ] Check out that SID 
    

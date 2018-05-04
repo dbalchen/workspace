@@ -81,4 +81,8 @@
 ** TODO Talk to Frank about provisioning
 ** TODO Talk to Jason about File/Usage
    - [ ] How will you match the records to point to the primary device. What is the name of the table.
-   - [ ] 
+** Project Eagle Launch
+   DEADLINE: <2018-05-13 Sun>
+** Project Eagle Commercial rollout
+   DEADLINE: <2018-06-14 Thu>
+   

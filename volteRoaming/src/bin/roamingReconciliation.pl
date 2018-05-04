@@ -500,7 +500,7 @@ foreach my $switch (@switches) {
 		elsif ( $switch eq "DATA_CIBER" ) {
 
 			my $sql =
-"select CARRIER_CODE, BP_START_DATE, CLEARINGHOUSE, TOTAL_CHARGES, TOTAL_VOLUME,CEIL(TOTAL_VOLUME/1024), CEIL((TOTAL_VOLUME/1024)/1024)  from APRM where usage_type = 'DATA_CIBER' and date_processed = to_date($timeStamp,'YYYYMMDD')";
+"select CARRIER_CODE, BP_START_DATE, CLEARINGHOUSE, TOTAL_CHARGES, TOTAL_VOLUME,CEIL(TOTAL_VOLUME/1024), CEIL((TOTAL_VOLUME/1024)/1024)  from APRM where usage_type = 'DATA_CIBER' and date_processed = to_date($outTimeStamp,'YYYYMMDD')";
 
 			$heading = [
 				'Carrier',

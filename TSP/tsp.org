@@ -207,6 +207,21 @@
 #+END_LaTeX
 
 * Schedule/Time Management		       :noexport:taskjuggler_project:
+** TODO TSP    
+    DEADLINE: <2018-10-14 Sun>
+    Upgrading Infrastructure software
+    |---------------+----------|
+    | Applications  |  Version |
+    |---------------+----------|
+    | Oracle DBMS   |     12.1 |
+    | Oracle Client | 11.2.0.4 |
+    | WebLogic      |     12.2 |
+    | Java          |      1.8 |
+    | Red Hat Linux |        7 |
+    | IE            |       11 |
+    | PMX           |     10.2 |
+    |---------------+----------|
+ 
 * Wish List
   - [ ] Sendmail in relay mode
   - [ ] Websegrver

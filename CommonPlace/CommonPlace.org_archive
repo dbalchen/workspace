@@ -3126,3 +3126,91 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_CATEGORY: CommonPlace
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
+
+* TODO LTE/CDMA Outcollects move back 3 days			    :ARCHIVE:
+  DEADLINE: <2018-04-17 Tue>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-05-01 Tue 16:32
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Investigate the discrepencies in the Roamining Recon Report
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* TODO Logical flow for all usage types				    :ARCHIVE:
+  DEADLINE: <2018-04-20 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-05-01 Tue 16:32
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Investigate the discrepencies in the Roamining Recon Report
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* TODO Work on APRM						    :ARCHIVE:
+  DEADLINE: <2018-04-27 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-05-01 Tue 16:32
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Investigate the discrepencies in the Roamining Recon Report
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* Project Eagle Soft Launch					    :ARCHIVE:
+  SCHEDULED: <2018-04-22 Sun>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-05-01 Tue 16:33
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Production Release
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* TODO OPS EBI upgrade
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-05-01 Tue 16:36
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+** File Systems needed
+   - */pkgbl01/inf/aimsys/prdwrk1/var*
+   - */pkgbl02/inf/aimsys/prdwrk2/var*
+   - */pkgbl03/inf/aimsys/prdwrk3/var*
+   - */inf_nas/apm1/prod/aprmoper/var*
+** Firewall Ports
+
+|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
+| Source    | Source IP    | Source IP   | Destination    | Destination | Port | Protocol | Bi-Directional? (Y/N)   |
+|           | Address      | Device Name | IP Address     | Device      |      |          |                         |
+|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
+| Knoxville | 10.176.179.3 | kpr01scdap  | 10.176.177.211 | KPR01EBIAP  | 8999 | TCP      | 2 way communication     |
+|           |              |             |                |             |      |          | between the two servers |
+|-----------+--------------+-------------+----------------+-------------+------+----------+-------------------------|
+** Databases Access
+   - BRMPRD
+   - ODSPRD
+** Perl Libraries
+   What Perl modules do we use.
+** sudo EBI needs
+#+ATTR_LaTeX: :environment longtable :align l|l
+    |------------+-------------------------|
+    | *SERVER*   | *LOGIN*                 |
+    |------------+-------------------------|
+    | kpr01ebiap | sudo /bin/su - p_arapp1 |
+    | kpr01ebiap | sudo /bin/su - p_colap1 |
+    | kpr01ebiap | sudo /bin/su - p_comap1 |
+    | kpr01ebiap | sudo /bin/su - p_invap1 |
+    | kpr01ebiap | sudo /bin/su - p_mabel1 |
+    | kpr01ebiap | sudo /bin/su - p_usacq1 |
+    |------------+-------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+    
