@@ -60,7 +60,7 @@ SynthDef(\mono_eStrings, {arg freq = 110, out = 0, amp = 0.5, aoc = 1.0,fenvIn =
 	sig = LPF.ar
 	(
 		sig,
-		cutoff*fenv,
+		cutoff*fenv//,
 	);
 
 	sig = HPF.ar(sig,hpf);

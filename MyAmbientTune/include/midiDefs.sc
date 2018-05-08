@@ -9,6 +9,7 @@
 	ret;
 };
 
+
 ~channel0off = {arg num, vel = 1;
 	var ret = nil;
 
@@ -18,6 +19,37 @@
 	ret;
 };
 
+~channel1 = {arg num, vel = 1;
+	var ret;
+	num.postln;
+
+	ret = Synth("Esampler");
+	ret.set(\gate,0);
+
+	~celloTemplate.value(ret,num,~cellosounds);
+	ret.set(\amp,~cello.amp);
+//	ret.set(\balance,~cello.balance);
+	~string_cello_vcf_envelope.setfADSR(ret);
+    ~string_cello_vca_envelope.setADSR(ret);
+	ret.set(\gate,1);
+	ret;
+};
+
+
+
+~channel2 = {arg num, vel = 1;
+	var ret;
+	num.postln;
+	ret = Synth("eStrings");
+	ret.set(\gate,0);
+	ret.set(\freq,num.midicps);
+	ret.set(\amp,~viola.amp);
+//	ret.set(\balance,~viola2.balance);
+	~string_viola_vcf_envelope.setfADSR(ret);
+	~string_viola_vca_envelope.setADSR(ret);
+	ret.set(\gate,1);
+	ret;
+};
 
 ~turndown1 = {
 	arg vol,cc,chan,src;
