@@ -3,17 +3,17 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "CDUSASGUSAUD75208,75208,Sprint (USASG),25000,781.36496,0,0,20170818";
+$ARGV[0] = "CDUSASGUSAUD15139,15139,Sprint (USASG),25000,463.31596,0,0,20180507";
 #
 ## For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my @argv = split( /,/, $ARGV[0] );
@@ -66,7 +66,7 @@ if ( $prefix eq "NLDLT" ) {
 
 	$sql =
 "select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),charge_type  
-	from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]' and process_date = to_date($argv[7],'YYYYMMDD') 
+	from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]' and process_date >= to_date($argv[7],'YYYYMMDD') 
  	group by charge_type";
 
 }
@@ -74,7 +74,7 @@ else {
 
 	$sql =
 "select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),service_type  from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]'
-and process_date = to_date($argv[7],'YYYYMMDD')  group by service_type";
+and process_date >= to_date($argv[7],'YYYYMMDD')  group by service_type";
 
 }
 

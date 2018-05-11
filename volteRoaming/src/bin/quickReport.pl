@@ -21,7 +21,7 @@ $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
-$ARGV[0] =  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+#$ARGV[0] =  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
 #$ARGV[0] = "SDIRI_FCIBER";
@@ -30,7 +30,7 @@ $ARGV[0] =  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DIS
 #$ARGV[0] = "DATA_CIBER";
 #$ARGV[0] = "DISP_RM,NLDLT";
 #$ARGV[0] = "DISP_RM";
-#$ARGV[0] = "LTE";
+$ARGV[0] = "LTE";
 #$ARGV[0] = "DATA_CIBER,CIBER_CIBER";
 #$ARGV[0] = "NLDLT";
 #$ARGV[0] = "NLDLT,CIBER_CIBER";
@@ -43,7 +43,7 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 # Setup Initial variables
 my $timeStamp = $ARGV[1];
 
-$timeStamp = '20180429';
+$timeStamp = '20180509';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
