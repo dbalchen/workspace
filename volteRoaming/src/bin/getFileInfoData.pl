@@ -12,12 +12,12 @@ use DBI;
 # $ENV{ORACLE_SID}  = $ORACLE_SID;
 # $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my $hh =
-"cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,219-224,330-335 | $ENV{'REC_HOME'}/addMultiUp.pl";
+"cat $ARGV[0] | grep '^32' | sort -u | cut -b 72-81,203-212 | $ENV{'REC_HOME'}/addMultiUpData.pl";
 my $ttemp = "";
 $ttemp = `$hh`;
 chomp($ttemp);
@@ -61,7 +61,7 @@ if ( $fileId[1] eq "" ) {
 }
 
 $hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
-system($hh);
+#system($hh);
 
 $sql = "select 'IN_REC_QUANTITY', sum(in_rec_quantity) 
      from ac1_control_hist 

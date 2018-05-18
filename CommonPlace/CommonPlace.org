@@ -14,6 +14,8 @@
 \pagenumbering{}
 #+END_LaTeX 
 #+TITLE: Notes
+#+Author: David Balchen
+#+Email: dave@balchen.org
 #+BEGIN_LaTeX
 \clearpage
 \addtolength{\oddsidemargin}{-.25in}
@@ -78,7 +80,7 @@
       -  Limiting or /choking/ usage can be handled by *Diameter* for
          real-time and *Turbo-Charging* for *Post-Pay*
 *** Event Servers
-    *Turbo-Charging* is not one application but multipleinstances of *Event Servers*. Each event server corresponds to a bill cycle. Their status can be viewed using
+    *Turbo-Charging* is not one application but multiple instances of *Event Servers*. Each event server corresponds to a bill cycle. Their status can be viewed using
          the following query on the *PRDAF* database.
 
          : SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
@@ -331,19 +333,35 @@
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** EBI Diagram
+#+BEGIN_LaTeX
+\begin{landscape}  
+#+END_LaTeX
 :PICTURE:
 digraph BI {
+	
+graph [splines=true nodesep=0.8  compress=true overlap=false style=bold];
+node [shape=doublecircle];"EBI\nOperational\nServer"
+node [shape=circle];
 
-graph [splines=true nodesep=0.8 overlap=false style=bold];
-"kpr02batch\nSwitch\nDirectories" -> "EBI\nOperational\nServer"  [label = "(a)"];
-"kpr01batch\nLog\nDirectories" -> "EBI\nOperational\nServer" [label = "(b)"];
-node [shape=folder];"ODS Prod";"BRM Prod";
-"ODS Prod" -> "EBI\nOperational\nServer" [label = "(c)"];
-"BRM Prod" -> "EBI\nOperational\nServer"[label = "(d)"];
+"kpr01batch\nBatch 1\nServer\n(a)" -> "EBI\nOperational\nServer" [label = "NFS Mount\nDirectories"];
+
+"kpr02batch\nBatch 2\nServer\n(b)" -> "EBI\nOperational\nServer" [label = "NFS Mount\nDirectories"];
+
+"kpr03batch\nBatch 3\nServer\n(c)" -> "EBI\nOperational\nServer" [label = "NFS Mount\nDirectories"];
+
+"kpr01scdap\nCallDump\nServer\n(d)"  -> "EBI\nOperational\nServer" [label = "NFS Mount\nDirectories\nFirewall\nPorts"];
+
+"kpr14web01\nWeb\nServer\n(e)" -> "EBI\nOperational\nServer" [label = "Firewall\nPorts"];
+
+"WIMIDJUMPFS01\nJump\nServer\n(f)" -> "EBI\nOperational\nServer" [label = "Firewall\nPorts"];
+
+node [shape=house];
+"DataBase Tables\n(g)\n" -> "EBI\nOperational\nServer" [label = "Database\nLinks"];
 }
 
-
+:END:
+#+ATTR_LaTeX: width=15cm
+:PICTURE:
 digraph BI {
 
 graph [splines=true nodesep=0.8 size=8.5,11 compress=true overlap=false style=bold];
@@ -406,6 +424,13 @@ subgraph cluster_3 {
 }
 :END:
 
+   [[file:Pictures/EBI_Operational_Server.png]]
+
+
+#+BEGIN_LaTeX
+\end{landscape} 
+\newpage
+#+END_LaTeX
 * Usage Overview
    Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
    in two ways, *Voice* and *Data*.\\
@@ -3209,7 +3234,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
-
+hhh
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------+-------------------+---------------|
 | *Column Name*  | *Data Type*       | *Description* |
@@ -4147,7 +4172,7 @@ subgraph cluster_3 {
 |-------------------+---------------------+---------------|
 | ACCOUNT_NO        | NUMBER (12)         |               |
 | APPLICATION_ID    | CHAR (6 Byte)       |               |
-| CONSOLIDATOR      | NUMBER (5)          |               |
+| *CONSOLIDATOR*    | NUMBER (5)          |               |
 | CYCLE_CODE        | NUMBER (4)          |               |
 | CYCLE_RUN_MONTH   | NUMBER (2)          |               |
 | CYCLE_RUN_YEAR    | NUMBER (4)          |               |
@@ -4176,7 +4201,7 @@ subgraph cluster_3 {
 |----------------------+---------------------+----------------|
 | *Name*               | *Data Type*         | *Description*  |
 |----------------------+---------------------+----------------|
-| Mabel_Id             | Varchar2 (20 Byte)  |                |
+| *Mabel_Id*           | Varchar2 (20 Byte)  |                |
 | Sys_Creation_Date    | Date                |                |
 | Sys_Update_Date      | Date                |                |
 | Operator_Id          | Number (9)          |                |
@@ -4186,7 +4211,7 @@ subgraph cluster_3 {
 | Description          | Varchar2 (100 Byte) |                |
 | Mabel_Bill_Format    | Varchar2 (3 Byte)   |                |
 | Consolidation_Period | Varchar2 (3 Byte)   |                |
-| Consolidator         | Varchar2 (10 Byte)  |                |
+| *Consolidator*       | Varchar2 (10 Byte)  |                |
 | Recipient            | Varchar2 (30 Byte)  |                |
 | Effective_Date       | Date                | /Doesn't Work/ |
 | Expiration_Date      | Date                | /Doesn't Work/ |
@@ -4302,6 +4327,50 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+
+*** Bl1_Document
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|------------------------+----------------------+---------------|
+| *Column Name*          | *Datatype*           | *Description* |
+|------------------------+----------------------+---------------|
+| Account_No             | Number (12)          |               |
+| Amount_Currency        | Varchar2 (3 Byte)    |               |
+| Application_Id         | Char (6 Byte)        |               |
+| Ba_No                  | Number (12)          |               |
+| Bill_Date              | Date                 |               |
+| Bill_Frequency         | Number (2)           |               |
+| Customer_Key           | Number (5)           |               |
+| Customer_No            | Number (12)          |               |
+| Cycle_Seq_No           | Number (9)           |               |
+| Cycle_Seq_Run          | Number (5)           |               |
+| Dl_Service_Code        | Char (5 Byte)        |               |
+| Dl_Update_Stamp        | Number (4)           |               |
+| Doc_Produce_Ind        | Char (1 Byte)        |               |
+| Doc_Seq_No             | Number (12)          |               |
+| Document_Demand_Type   | Varchar2 (6 Byte)    |               |
+| Document_Format        | Char (2 Byte)        |               |
+| Document_Status        | Char (1 Byte)        |               |
+| Document_Type          | Varchar2 (2 Byte)    |               |
+| Dynamic_Attributes     | Varchar2 (4000 Byte) |               |
+| Ods_Insert_Date        | Date                 |               |
+| Ods_Last_Update_Date   | Date                 |               |
+| Operator_Id            | Number (9)           |               |
+| Period_Cvrg_End_Date   | Date                 |               |
+| Period_Cvrg_Start_Date | Date                 |               |
+| Period_Key             | Number (5)           |               |
+| Printing_Category      | Varchar2 (40 Byte)   |               |
+| Production_Type        | Char (2 Byte)        |               |
+| Sys_Creation_Date      | Date                 |               |
+| Sys_Update_Date        | Date                 |               |
+|------------------------+----------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Roaming Reconciliation Tables
 *** File Summary
     Used to hold data for all the roaming files.
@@ -4390,38 +4459,41 @@ subgraph cluster_3 {
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
 ** TODO Recompile Applications
+   SCHEDULED: <2018-05-23 Wed>--<2018-06-22 Fri>  
    - [ ] EpsMonitors
    - [ ] CallDump
    - [ ] Switch 2 Bill
    - [ ] Monitor
-** TODO Santa Clara
-   DEADLINE: <2018-05-12 Sat> For all testing.
+** TODO Finish TSP/EBI Picture
+   DEADLINE: <2018-05-21 Mon>
+** TODO Finish bogusDoc.pl
+   DEADLINE: <2018-05-22 Tue>
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** HOLD Open RC for RoamRecon USID and password.
    SCHEDULED: <2018-03-19 Mon>
-** TODO Investigate the discrepencies in the Roamining Recon Report
+** DONE Investigate the discrepencies in the Roamining Recon Report :ARCHIVE:
    SCHEDULED: <2018-03-15 Thu>--<2018-03-30 Fri>
 *** CDMA Incollect Voice - Volume is off starting the 1st of February
+**** cat IncollectDCH_voice.csv | awk -F'"' -vOFS='"' '{for(i=2; i<=NF; i+=2) gsub("\t", "", $i)} 1' > xxx.txt
+**** cat IncollectDCH_voice.csv | awk -F'"' -vOFS='"' '{for(i=2; i<=NF; i+=2) gsub("\t", "", $i)} 1'
 *** CDMA Outcollect difference in records, volume and charges.
+** TODO Do Deanna's List
+   SCHEDULED: <2018-05-21 Mon>--<2018-05-23 Wed>
+   
 ** APPT Oncall
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Production Release 
 *** Prepaid Evolution
-    *TBD*
-
+    DEADLINE: <2018-08-05 Sun> First track of work only...
 ** TODO Volte Roaming
-*** Verizon  California, Washington, Oregon,  TMO West Virginia, Maine, & Nebraska
+*** Verizon  California, Washington, Oregon,  TMO West Virginia, Maine, & Nebraska :ARCHIVE:
      DEADLINE: <2018-04-30 Mon>
 *** Verizon Remaining Verizon Markets
       DEADLINE: <2018-07-31 Tue>
 *** TMO Remaining TMO Markets
     DEADLINE: <2018-09-28 Fri>     
-** TODO Finish Christine's Data Outcollect Issue		    :ARCHIVE:
-   SCHEDULED: <2018-04-02 Mon>
-   - [ ] Check out that SID 
-   
 ** TODO Project Sentinel  
    A database used in the MFT transfer. Only used by the job below. 
    : [‎3/‎19/‎2018 11:37 AM] Lee, Daniel W: 
@@ -4432,4 +4504,3 @@ subgraph cluster_3 {
    - Sector information
    - Distance Information
    - Merge M2M calls
-     

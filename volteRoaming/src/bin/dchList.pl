@@ -4,9 +4,9 @@ use Time::Piece;
 use Time::Seconds;
 
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my $date  = $ARGV[0];
 
@@ -53,7 +53,8 @@ $dayafterthat =
   . pad( $dayafterthat->mon,  '0', 2 ) . "-"
   . pad( $dayafterthat->mday, '0', 2 );
 
-my $inGrep = "egrep '^$daybefore|^$yesterday|^$today|^$tomorrow' ";
+my $inGrep = "egrep '^$daybefore|^$yesterday|^$today|^$tomorrow' |awk -F'".'"'."' -vOFS='".'"'."' '{for(i=2; i<=NF; i+=2) ".'gsub("\t", "", $i)} 1'."'";
+print "$inGrep\n";
 
 my $hh = "cat $ENV{'REC_HOME'}/IncollectDCH_data.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_data.csv";
 system($hh);
@@ -64,8 +65,8 @@ system($hh);
 $hh = "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/IncollectDCH_GSM.csv";
 system($hh);
 
-$inGrep = "egrep '^$daybefore|^$today|^$tomorrow|^$dayafter|^$dayafterthat' ";
-
+$inGrep = "egrep '^$yesterday|^$today|^$tomorrow|^$dayafter|^$dayafterthat' |awk -F'".'"'."' -vOFS='".'"'."' '{for(i=2; i<=NF; i+=2) ".'gsub("\t", "", $i)} 1'."'";
+print "$inGrep\n";
 $hh =
 "cat $ENV{'REC_HOME'}/OutcollectDCH_voice.csv.all | $inGrep | sort -u > $ENV{'REC_HOME'}/OutcollectDCH_voice.csv";
 system($hh);

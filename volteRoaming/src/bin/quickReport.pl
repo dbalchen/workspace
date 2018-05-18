@@ -22,7 +22,6 @@ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
 #$ARGV[0] =  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
-
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
 #$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
@@ -43,7 +42,7 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 # Setup Initial variables
 my $timeStamp = $ARGV[1];
 
-$timeStamp = '20180509';
+$timeStamp = '20180516';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
@@ -390,7 +389,10 @@ foreach my $switch (@switches) {
 				'Data Charge'
 			];
 			my $sql =
-"select t1.* from rejected_records t1, file_summary t2 where t1.file_name = t2.file_name and usage_type like '$switch%'  and process_date = to_date($timeStamp,'YYYYMMDD')";
+				"select * from rejected_records t1 where t1.file_name in 
+					(select unique(t2.file_name) 
+						from file_summary t2 
+						where t2.usage_type like '$switch%' and t2.process_date = to_date($timeStamp,'YYYYMMDD'))";
 
 			my $rejectTab = "Rejected " . $tab{$switch};
 			createExcel( $sql, $heading, $rejectTab, $switch );

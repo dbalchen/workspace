@@ -4,14 +4,14 @@ use DBI;
 
 #Test parameters remove when going to production.
 #For test only.....
- my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
- my $ORACLE_SID  = "bodsprd";
- $ENV{ORACLE_HOME} = $ORACLE_HOME;
- $ENV{ORACLE_SID}  = $ORACLE_SID;
- $ENV{PATH}  = "$ENV{PATH}:$ORACLE_HOME/bin";
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# my $ORACLE_SID  = "bodsprd";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}  = "$ENV{PATH}:$ORACLE_HOME/bin";
 # 
-$ARGV[0] = 'DISP_RM';
-$ARGV[1] = '20180414';
+#$ARGV[0] = 'NLDLT';
+#$ARGV[1] = '20170707';
 
 my $clearinghouse = 'TNS';
 my %sqls = {};
@@ -51,7 +51,7 @@ my $dbconnb = $dbconn;
 my $sqlT = "delete from APRM where usage_type like '$ARGV[0]" . '%'
   . "' and DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') ";
 $sthb = $dbconnb->prepare($sqlT);
-# $sthb->execute() or sendErr();
+$sthb->execute() or sendErr();
 
 my $sql = $sqls{ $ARGV[0] };
 my $sth = $dbconn->prepare($sql);

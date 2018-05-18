@@ -3,17 +3,17 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "CDUSASGUSAUD15139,15139,Sprint (USASG),25000,463.31596,0,0,20180507";
+#$ARGV[0] = "CDUSAW6USAUD11673,11673,T-Mobile (USAW6),100000,8426.81000,10,2.03,20180513";
 #
 ## For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my @argv = split( /,/, $ARGV[0] );
@@ -66,7 +66,7 @@ if ( $prefix eq "NLDLT" ) {
 
 	$sql =
 "select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),charge_type  
-	from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]' and process_date >= to_date($argv[7],'YYYYMMDD') 
+	from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]' and process_date >= to_date($argv[7],'YYYYMMDD') - 1
  	group by charge_type";
 
 }
@@ -74,7 +74,7 @@ else {
 
 	$sql =
 "select /*+ PARALLEL(t1,12) */ count(*), sum(charge_amount),sum(charge_parameter),service_type  from  prm_rom_incol_events_ap t1 where tap_in_file_name = '$argv[0]'
-and process_date >= to_date($argv[7],'YYYYMMDD')  group by service_type";
+and process_date >= to_date($argv[7],'YYYYMMDD') - 1  group by service_type";
 
 }
 
@@ -95,7 +95,8 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $total_charges_dch = 0;
 	my $total_records_dch = 0;
 	my $total_volume_dch  = 0;
-
+	my $total_rejected  =   0;
+	my $total_rejected_cost  =   0;	
 	my $grep = "";
 
 	if ( $prefix eq "NLDLT" ) {
@@ -120,7 +121,8 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 		my @dchValues = split( "\t", $output );
 		chomp(@dchValues);
-
+		$total_rejected  =   $argv[5];
+	    $total_rejected_cost  =   $argv[6];	
 		$total_charges_dch = $dchValues[2];
 		$total_records_dch = $dchValues[3];
 
@@ -140,6 +142,9 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		$file_name_dch = $argv[0];
 
 		if ( $flag == 0 ) {
+			$total_rejected  =   $argv[5];
+	        $total_rejected_cost  =   $argv[6];	
+	        
 			$grep = " grep $file_name_dch ";
 			my $hh =
 			  "cat $ENV{'REC_HOME'}/tnsIncollect.csv | $grep | cut -f 9,10,24";
@@ -213,8 +218,8 @@ VALUES (
   $rows[1],
  $rows[0],
  '$argv[2]',
- $argv[5],
- $argv[6],
+ $total_rejected,
+ $total_rejected_cost,
  'USCC',
  to_date($argv[7],'YYYYMMDD'),
  $argv[1],

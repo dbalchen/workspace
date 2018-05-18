@@ -3,21 +3,20 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID002656_T20180414182109.DAT";
+#$ARGV[0] =
+"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001887_T20170707192108.DAT";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
+
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID} = $ORACLE_SID;
-
-#ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 # fire off DCH Job
 
 my $hh =
@@ -43,8 +42,8 @@ my $dateTime = substr( $filename, index( $filename, "T2" ) + 1, 8 );
 
 my $dbconn = getBODSPRD();
 
-my $dbconnb = getSNDPRD();
-#my $dbconnb = $dbconn;
+#my $dbconnb = getSNDPRD();
+my $dbconnb = $dbconn;
 
 my $sql  = "delete from file_summary where FILE_NAME = '$filename'";
 my $sthb = $dbconnb->prepare($sql);
@@ -77,6 +76,7 @@ if ( $fileId[1] eq "" ) {
 
 $hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
 #system($hh);
+
 
 $sql = "select 'IN_REC_QUANTITY',sum(in_rec_quantity) 
     from ac1_control_hist 

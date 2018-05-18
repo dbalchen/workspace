@@ -5,19 +5,17 @@ use Time::Piece;
 use Time::Seconds;
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
-
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
-$dbconn = getBODSPRD();
-
+$dbconn  = getBODSPRD();
 #$dbconnb = getSNDPRD();
 
 $dbconnb = $dbconn;
@@ -216,7 +214,10 @@ sub check_addDB {
 
 	my $today = Time::Piece->strptime( "$period", "%Y%m%d" );
 	$today = ( $today - ONE_MONTH );
-	$period = $today->year . pad( $today->mon, '0', 2 ) . "16";
+	$period =
+	    $today->year 
+	  . pad( $today->mon,  '0', 2 ) 
+	  . "16";
 
 	my $sql = "INSERT INTO DCH_STAGING (
    FILENAME,USAGE_TYPE, TECHNOLOGY, ROAMING, 
@@ -257,7 +258,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900# );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

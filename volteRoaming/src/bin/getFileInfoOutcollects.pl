@@ -31,7 +31,7 @@ my $dbconn = getBODSPRD();
 my $dbconnb = $dbconn;
 
 $hh = "$ENV{'REC_HOME'}/cdmaDCHcounter.pl $ARGV[0] > /dev/null 2>&1 &";
-system($hh);
+#system($hh);
 
 my $dateTime = substr($filename,index($filename,"R_2")+2,8);
 

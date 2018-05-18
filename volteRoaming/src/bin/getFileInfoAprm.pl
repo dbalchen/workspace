@@ -3,20 +3,19 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "SDIRI_FCIBER";
-$ARGV[1] = '20180420';
+#$ARGV[0] = "SDIRI_FCIBER";
+#$ARGV[1] = '20170210';
 # # For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+# my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+# my $ORACLE_SID  = "bodsprd";
+# $ENV{ORACLE_HOME} = $ORACLE_HOME;
+# $ENV{ORACLE_SID}  = $ORACLE_SID;
+# $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $filetype = $ARGV[0] . '%' . $ARGV[1] . '%';
 
-my $dbconn = getBODSPRD();
-#my $dbconn = getSNDPRD();
-
+my $dbconn  = getBODSPRD();
+#my $dbconnb = getSNDPRD();
 my $dbconnb = $dbconn;
 
 # clean up Database
@@ -24,7 +23,7 @@ my $dbconnb = $dbconn;
 my $sql =
 "delete from APRM where DATE_PROCESSED = to_date($ARGV[1],'YYYYMMDD') and USAGE_TYPE like '$ARGV[0]%'";
 $sthb = $dbconnb->prepare($sql);
-#$sthb->execute() or sendErr();
+$sthb->execute() or sendErr();
 
 $sql =
 'select /*+ PARALLEL(h1,12) */ home_company,carrier_cd, bp_start_date, count(*), sum(usage),sum(TOTAL_CHRG_AMOUNT) from USC_ROAM_EVNTS where (ciber_file_name_1||ciber_file_name_2 like '
@@ -78,7 +77,7 @@ VALUES (
 )";
 
 	$sthb = $dbconnb->prepare($sql);
-#	$sthb->execute() or sendErr();
+	$sthb->execute() or sendErr();
 
 }
 
