@@ -4464,7 +4464,7 @@ hhh
    - [ ] CallDump
    - [ ] Switch 2 Bill
    - [ ] Monitor
-** TODO Finish TSP/EBI Picture
+** TODO Finish TSP/EBI Picture					    :ARCHIVE:
    DEADLINE: <2018-05-21 Mon>
 ** TODO Finish bogusDoc.pl
    DEADLINE: <2018-05-22 Tue>
@@ -4478,9 +4478,7 @@ hhh
 **** cat IncollectDCH_voice.csv | awk -F'"' -vOFS='"' '{for(i=2; i<=NF; i+=2) gsub("\t", "", $i)} 1' > xxx.txt
 **** cat IncollectDCH_voice.csv | awk -F'"' -vOFS='"' '{for(i=2; i<=NF; i+=2) gsub("\t", "", $i)} 1'
 *** CDMA Outcollect difference in records, volume and charges.
-** TODO Do Deanna's List
-   SCHEDULED: <2018-05-21 Mon>--<2018-05-23 Wed>
-   
+** HOLD Do Deanna's List
 ** APPT Oncall
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
@@ -4494,7 +4492,7 @@ hhh
       DEADLINE: <2018-07-31 Tue>
 *** TMO Remaining TMO Markets
     DEADLINE: <2018-09-28 Fri>     
-** TODO Project Sentinel  
+** HOLD Project Sentinel  
    A database used in the MFT transfer. Only used by the job below. 
    : [‎3/‎19/‎2018 11:37 AM] Lee, Daniel W: 
    : uscc_usc_mabel_e2e_alert.pl 
