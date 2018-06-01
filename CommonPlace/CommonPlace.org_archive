@@ -3259,3 +3259,39 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: TODO
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
+
+* TODO Finish TSP/EBI Picture					    :ARCHIVE:
+  DEADLINE: <2018-05-21 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-06-01 Fri 17:15
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* DONE Investigate the discrepencies in the Roamining Recon Report  :ARCHIVE:
+  SCHEDULED: <2018-03-15 Thu>--<2018-03-30 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-06-01 Fri 17:16
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+** CDMA Incollect Voice - Volume is off starting the 1st of February
+*** cat IncollectDCH_voice.csv | awk -F'"' -vOFS='"' '{for(i=2; i<=NF; i+=2) gsub("\t", "", $i)} 1' > xxx.txt
+*** cat IncollectDCH_voice.csv | awk -F'"' -vOFS='"' '{for(i=2; i<=NF; i+=2) gsub("\t", "", $i)} 1'
+** CDMA Outcollect difference in records, volume and charges.
+
+* Verizon  California, Washington, Oregon,  TMO West Virginia, Maine, & Nebraska :ARCHIVE:
+  DEADLINE: <2018-04-30 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-06-01 Fri 17:16
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Volte Roaming
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:

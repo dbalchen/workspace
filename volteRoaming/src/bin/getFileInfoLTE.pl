@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "CDUSAW6USAUD11673,11673,T-Mobile (USAW6),100000,8426.81000,10,2.03,20180513";
+#$ARGV[0] = "CDUSAW6USAUD11951,11951,T-Mobile (USAW6),100000,9563.58000,3,.03,20180529";
 #
 ## For test only.....
 #my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -161,7 +161,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 			my @dchValues = split( "\t", $output[0] );
 			chomp(@dchValues);
 
-			$total_volume_dch = $rows[2];
+			$total_volume_dch = $dchValues[0];
 
 			if ( $dchValues[2] eq '' ) {
 				$total_charges_dch = 0;
@@ -250,7 +250,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "BooGoo900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -261,7 +261,7 @@ sub getSNDPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "BooGoo900#" );
+	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

@@ -4458,26 +4458,20 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO Do Accrual Report for Accounting
+   DEADLINE: <2018-06-05 Tue>
 ** TODO Recompile Applications
    SCHEDULED: <2018-05-23 Wed>--<2018-06-22 Fri>  
    - [ ] EpsMonitors
    - [ ] CallDump
    - [ ] Switch 2 Bill
    - [ ] Monitor
-** TODO Finish TSP/EBI Picture					    :ARCHIVE:
-   DEADLINE: <2018-05-21 Mon>
 ** TODO Finish bogusDoc.pl
-   DEADLINE: <2018-05-22 Tue>
+   DEADLINE: <2018-06-04 Mon>
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** HOLD Open RC for RoamRecon USID and password.
    SCHEDULED: <2018-03-19 Mon>
-** DONE Investigate the discrepencies in the Roamining Recon Report :ARCHIVE:
-   SCHEDULED: <2018-03-15 Thu>--<2018-03-30 Fri>
-*** CDMA Incollect Voice - Volume is off starting the 1st of February
-**** cat IncollectDCH_voice.csv | awk -F'"' -vOFS='"' '{for(i=2; i<=NF; i+=2) gsub("\t", "", $i)} 1' > xxx.txt
-**** cat IncollectDCH_voice.csv | awk -F'"' -vOFS='"' '{for(i=2; i<=NF; i+=2) gsub("\t", "", $i)} 1'
-*** CDMA Outcollect difference in records, volume and charges.
 ** HOLD Do Deanna's List
 ** APPT Oncall
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
@@ -4486,8 +4480,6 @@ hhh
 *** Prepaid Evolution
     DEADLINE: <2018-08-05 Sun> First track of work only...
 ** TODO Volte Roaming
-*** Verizon  California, Washington, Oregon,  TMO West Virginia, Maine, & Nebraska :ARCHIVE:
-     DEADLINE: <2018-04-30 Mon>
 *** Verizon Remaining Verizon Markets
       DEADLINE: <2018-07-31 Tue>
 *** TMO Remaining TMO Markets

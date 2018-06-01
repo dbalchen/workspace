@@ -2,6 +2,7 @@
 #exit(0);
 
 BEGIN {
+  push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
   push(@INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5');
 }
 
@@ -34,6 +35,7 @@ my ($day,$month,$year) = (localtime((time - 60 * 60 * (48 + (localtime)[2] ) ) )
 my $timeStamp = 1900 + $year.pad( $month + 1, '0', 2 ).pad( $day, '0', 2 );
 my $hh = "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/listBuilder.pl";
 system($hh);
+return;
 
 my $hh = "/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/roamingReconciliation.pl SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,DISP_RM,NLDLT $timeStamp & ";
 #print "$hh\n";
