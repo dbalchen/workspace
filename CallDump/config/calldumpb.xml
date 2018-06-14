@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <calldump>
 	<server>
-	    <machine>knx1scd1</machine>
+		<machine>knx1scd1</machine>
 		<serverport>8877</serverport>
 		<path>/users/calldmp5/CallDump2.0/</path>
 	</server>

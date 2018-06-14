@@ -9,31 +9,25 @@
 	<!-- ======================================== Form Bean Definitions -->
 	<form-beans>
 
-		<form-bean name="InvalidLoginForm"
-			type="org.apache.struts.action.DynaActionForm">
+		<form-bean name="InvalidLoginForm" type="org.apache.struts.action.DynaActionForm">
 			<form-property name="user" type="java.lang.String" />
 			<form-property name="password" type="java.lang.String" />
 		</form-bean>
-		<form-bean name="sendPasswordReminderForm"
-			type="org.apache.struts.action.DynaActionForm">
+		<form-bean name="sendPasswordReminderForm" type="org.apache.struts.action.DynaActionForm">
 			<form-property name="user" type="java.lang.String" />
 		</form-bean>
-		<form-bean name="ChangePasswordForm"
-			type="org.apache.struts.action.DynaActionForm">
+		<form-bean name="ChangePasswordForm" type="org.apache.struts.action.DynaActionForm">
 			<form-property name="user" type="java.lang.String" />
 			<form-property name="old_password" type="java.lang.String" />
 			<form-property name="new_password" type="java.lang.String" />
-			<form-property name="confirm_new_password"
-				type="java.lang.String" />
+			<form-property name="confirm_new_password" type="java.lang.String" />
 		</form-bean>
-		<form-bean name="submitCallDumpForm"
-			type="org.apache.struts.action.DynaActionForm">
+		<form-bean name="submitCallDumpForm" type="org.apache.struts.action.DynaActionForm">
 			<form-property name="switchlist" type="java.lang.String" />
 			<form-property name="list2" type="java.lang.String" />
 		</form-bean>
 
-		<form-bean name="addUserForm"
-			type="org.apache.struts.action.DynaActionForm">
+		<form-bean name="addUserForm" type="org.apache.struts.action.DynaActionForm">
 			<form-property name="user" type="java.lang.String" />
 			<form-property name="firstname" type="java.lang.String" />
 			<form-property name="lastname" type="java.lang.String" />
@@ -54,118 +48,85 @@
 
 
 		<!-- Mappings -->
-		<action path="/view/showCallDumpRequests"
-			type="com.uscc.action.ShowCallDumpRequestsAction">
+		<action path="/view/showCallDumpRequests" type="com.uscc.action.ShowCallDumpRequestsAction">
 			<forward name="success" path="/jsp/show_calldump_queue.jsp" />
-			<forward name="passwordexpired"
-				path="/jsp/show_password_change.jsp" />
+			<forward name="passwordexpired" path="/jsp/show_password_change.jsp" />
 		</action>
-		<action path="/view/getCallDumpReports"
-			type="com.uscc.action.SendCallDumpReportAction">
-			<forward name="success"
-				path="/view/showCallDumpRequests.do?status=CO" />
+		<action path="/view/getCallDumpReports" type="com.uscc.action.SendCallDumpReportAction">
+			<forward name="success" path="/view/showCallDumpRequests.do?status=CO" />
 		</action>
-		<action path="/logoutSession"
-			type="com.uscc.action.LogoutAction">
+		<action path="/logoutSession" type="com.uscc.action.LogoutAction">
 			<forward name="success" path="/login/logout.html" />
 		</action>
-		<action path="/calldumpadmin/RaisePriority"
-			type="com.uscc.action.RaisePriorityAction">
-			<forward name="success"
-				path="/view/showCallDumpRequests.do?status=NOCO" />
+		<action path="/calldumpadmin/RaisePriority" type="com.uscc.action.RaisePriorityAction">
+			<forward name="success" path="/view/showCallDumpRequests.do?status=NOCO" />
 		</action>
 
-		<action path="/security/ChangeUserStatus"
-			type="com.uscc.action.ChangeUserStatusAction">
+		<action path="/security/ChangeUserStatus" type="com.uscc.action.ChangeUserStatusAction">
 			<forward name="success" path="/security/ShowUsersAction.do" />
 		</action>
-		<action path="/security/ShowUserRoleUpdate"
-			type="com.uscc.action.ShowUserRoleUpdate">
+		<action path="/security/ShowUserRoleUpdate" type="com.uscc.action.ShowUserRoleUpdate">
 			<forward name="success" path="/jsp/show_user_roles_mapping.jsp" />
 		</action>
 
-		<action path="/calldumpadmin/RemoveCallDump"
-			type="com.uscc.action.RemoveCallDumpAction">
-			<forward name="success"
-				path="/view/showCallDumpRequests.do?status=NOCO" />
+		<action path="/calldumpadmin/RemoveCallDump" type="com.uscc.action.RemoveCallDumpAction">
+			<forward name="success" path="/view/showCallDumpRequests.do?status=NOCO" />
 		</action>
-		<action path="/calldumpadmin/LowerPriority"
-			type="com.uscc.action.LowerPriorityAction">
-			<forward name="success"
-				path="/view/showCallDumpRequests.do?status=NOCO" />
+		<action path="/calldumpadmin/LowerPriority" type="com.uscc.action.LowerPriorityAction">
+			<forward name="success" path="/view/showCallDumpRequests.do?status=NOCO" />
 		</action>
-		<action path="/calldumpadmin/ChangeStatus"
-			type="com.uscc.action.ChangeStatusAction">
-			<forward name="success"
-				path="/view/showCallDumpRequests.do?status=NOCO" />
+		<action path="/calldumpadmin/ChangeStatus" type="com.uscc.action.ChangeStatusAction">
+			<forward name="success" path="/view/showCallDumpRequests.do?status=NOCO" />
 		</action>
-		<action path="/CheckPasswordStatus"
-			type="com.uscc.action.CheckPasswordStatusAction"
+		<action path="/CheckPasswordStatus" type="com.uscc.action.CheckPasswordStatusAction"
 			name="InvalidLoginForm">
 			<forward name="notexpired" path="/login/login.jsp" />
 			<forward name="expired" path="/login/change_password.jsp" />
 		</action>
-		<action path="/ChangePasswordAction"
-			type="com.uscc.action.ChangePasswordAction"
+		<action path="/ChangePasswordAction" type="com.uscc.action.ChangePasswordAction"
 			name="ChangePasswordForm">
 			<forward name="success" path="/login/index.jsp" />
-			<forward name="failure"
-				path="/jsp/show_password_change.jsp" />
+			<forward name="failure" path="/jsp/show_password_change.jsp" />
 		</action>
-		<action path="/security/addUserForm"
-			type="com.uscc.action.AddUserAction" name="addUserForm">
+		<action path="/security/addUserForm" type="com.uscc.action.AddUserAction"
+			name="addUserForm">
 			<forward name="success" path="/security/ShowUsersAction.do" />
 			<forward name="duplicate" path="/jsp/show_dup_user.jsp" />
-			<forward name="missingdata"
-				path="/jsp/show_missing_data.jsp" />
+			<forward name="missingdata" path="/jsp/show_missing_data.jsp" />
 		</action>
-		<action path="/security/ShowAddUserForm"
-			type="com.uscc.action.ShowRolesAction">
+		<action path="/security/ShowAddUserForm" type="com.uscc.action.ShowRolesAction">
 			<forward name="success" path="/jsp/add_user_form.jsp" />
-			<forward name="passwordexpired"
-				path="/jsp/show_password_change.jsp" />
+			<forward name="passwordexpired" path="/jsp/show_password_change.jsp" />
 		</action>
 
-		<action path="/showPasswordReminderForm"
-			type="com.uscc.action.ShowPasswordReminderAction">
-			<forward name="success"
-				path="/jsp/show_password_reminder.jsp" />
+		<action path="/showPasswordReminderForm" type="com.uscc.action.ShowPasswordReminderAction">
+			<forward name="success" path="/jsp/show_password_reminder.jsp" />
 		</action>
-		<action path="/sendPasswordReminderAction"
-			type="com.uscc.action.SendPasswordReminderAction"
+		<action path="/sendPasswordReminderAction" type="com.uscc.action.SendPasswordReminderAction"
 			name="sendPasswordReminderForm">
 			<forward name="success" path="/login/closedpage.html" />
 		</action>
 
-		<action path="/security/ShowUsersAction"
-			type="com.uscc.action.ShowUsersAction">
+		<action path="/security/ShowUsersAction" type="com.uscc.action.ShowUsersAction">
 			<forward name="success" path="/jsp/show_users.jsp" />
 		</action>
-		<action path="/security/RemoveUserRoleAction"
-			type="com.uscc.action.RemoveUserRoleAction">
+		<action path="/security/RemoveUserRoleAction" type="com.uscc.action.RemoveUserRoleAction">
 			<forward name="success" path="/security/ShowUsersAction.do" />
 		</action>
 
-		<action path="/security/AddUserRoleAction"
-			type="com.uscc.action.AddUserRoleAction">
+		<action path="/security/AddUserRoleAction" type="com.uscc.action.AddUserRoleAction">
 			<forward name="success" path="/security/ShowUsersAction.do" />
 		</action>
 
-		<action path="/submitter/ShowCallDumpSubmitForm"
-			type="com.uscc.action.ShowCallDumpSubmitAction">
-			<forward name="success"
-				path="/jsp/show_call_dump_request.jsp" />
-			<forward name="passwordexpired"
-				path="/jsp/show_password_change.jsp" />
+		<action path="/submitter/ShowCallDumpSubmitForm" type="com.uscc.action.ShowCallDumpSubmitAction">
+			<forward name="success" path="/jsp/show_call_dump_request.jsp" />
+			<forward name="passwordexpired" path="/jsp/show_password_change.jsp" />
 		</action>
-		<action path="/submitter/submitCallDumpForm"
-			type="com.uscc.action.SubmitCallDumpAction"
+		<action path="/submitter/submitCallDumpForm" type="com.uscc.action.SubmitCallDumpAction"
 			name="submitCallDumpForm">
-			<forward name="success"
-				path="/submitter/ShowCallDumpSubmitForm.do" />
+			<forward name="success" path="/submitter/ShowCallDumpSubmitForm.do" />
 			<forward name="error" path="/jsp/error.jsp" />
-			<forward name="passwordexpired"
-				path="/jsp/show_password_change.jsp" />
+			<forward name="passwordexpired" path="/jsp/show_password_change.jsp" />
 		</action>
 
 

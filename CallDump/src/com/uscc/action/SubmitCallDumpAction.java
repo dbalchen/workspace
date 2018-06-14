@@ -2,7 +2,7 @@ package com.uscc.action;
 
 import com.uscc.dao.*;
 import com.uscc.rules.CallDumpRules;
-import com.uscc.Utilities.Utils;
+import com.uscc.CallDump.Utils;
 import com.uscc.beans.*;
 
 import org.apache.struts.action.Action;

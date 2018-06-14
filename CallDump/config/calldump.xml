@@ -14,6 +14,6 @@
 	<manager>
 		<threads>16</threads>
 		<wait>30</wait>
-		<markets>m01,m02,m03,m04,m05,m06,Data</markets>
+		<markets>m01,m02,m03,m04,m05,m06</markets>
 	</manager>
 </calldump>

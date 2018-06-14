@@ -5,32 +5,26 @@
 
 <html>
 <head>
-<title>Invalid Login Attempt</title>
+<title>Build Request</title>
 </head>
 
 <body>
-	<h3>Invalid Login Attempt</h3>
+	<h3>Password Reminder</h3>
 	<hr>
 
-	<html:form method="post" action="/CheckPasswordStatus.do"
-		onsubmit="return validateaddUserForm(this);">
+	<html:form method="post" action="/sendPasswordReminderAction">
 		<table border="0">
 			<tr>
-				<td width="50">User</td>
+				<td width="200">User</td>
 				<td width="200"><html:text property="user" /> <em><font
-						size="-2">(required)</font></em></td>
-			</tr>
-			<tr>
-				<td>Password</td>
-				<td><html:password property="password" /> <em><font
 						size="-2">(required)</font></em></td>
 			</tr>
 		</table>
 		<p>
-			<html:submit></html:submit>
+			<html:submit>Submit Request</html:submit>
 			<html:reset>Clear</html:reset>
 		</p>
 	</html:form>
-
+	<p>&nbsp;</p>
 </body>
 </html>

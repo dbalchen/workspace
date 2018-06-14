@@ -2,19 +2,19 @@
 
 <form-validation>
 
-    <formset>
+	<formset>
 
-        <form name="addRequestForm">
-            <field property="request" depends="required">
-                    <arg0 key="request" resource="false"/>
-             </field>
-            <field property="requestor" depends="required">
-                    <arg0 key="requestor" resource="false"/>
-             </field>
-                                      
-        </form>
+		<form name="addRequestForm">
+			<field property="request" depends="required">
+				<arg0 key="request" resource="false" />
+			</field>
+			<field property="requestor" depends="required">
+				<arg0 key="requestor" resource="false" />
+			</field>
 
-    </formset>
+		</form>
+
+	</formset>
 
 
 </form-validation>

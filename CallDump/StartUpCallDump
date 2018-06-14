@@ -1,0 +1,42 @@
+#! /usr/bin/perl
+
+$ENV{JAVA_HOME} ='/apps/java1.6/';
+
+$tomcat_home = '/home/calldmp/tomcat_prod';
+$calldump_home = '/home/calldmp/CallDump2.0';
+
+print "Clean up the Tomcat server logs.... Press any key to proceed\n --> ";
+$keyOn = <STDIN>;
+
+$tomcat_cleanup = $tomcat_home.'/logs';
+chdir($tomcat_cleanup);
+
+$rc = system('rm -fr *');
+
+print "RC = $rc\n";
+
+print "Now will start Tomcat";
+$tomcat_startup = $tomcat_home.'/bin/startup.sh';
+print "$tomcat_startup\n";
+
+$rc = system($tomcat_startup);
+sleep(5);
+
+print "Clean up and start the CallDump Server..... Press any key to proceed\n --> ";
+$keyOn = <STDIN>;
+
+$calldump_cleanup = $calldump_home.'/log';
+chdir($calldump_cleanup);
+$rc = system('rm -fr *');
+
+
+$calldump_cleanup = $calldump_home.'/work';
+chdir($calldump_cleanup);
+$rc = system('rm -fr *');
+
+print "Now for the final part.... Lets start the CallDump!!!!\n";
+chdir($calldump_home);
+
+$rc = system('./StartCallDump');
+
+exit(0);
