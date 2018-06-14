@@ -22,20 +22,42 @@ $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $conn  = getBODSPRD();
 
-my $sql = "select BA_NO,customer_no,account_no,doc_produce_ind, bill_date from Bl1_Document t1 where bill_date > '01-APR-2018' group by  BA_NO,customer_no,account_no,doc_produce_ind, bill_date order by BA_NO,customer_no,account_no,doc_produce_ind, bill_date desc";
+#my $sql = "select BA_NO,customer_no,account_no,doc_produce_ind, to_char('t1.bill_date','YYYYMMDD') from Bl1_Document t1 where bill_date >= '01-MAY-2018' group by  BA_NO,customer_no,account_no,doc_produce_ind, bill_date order by BA_NO,customer_no,account_no,doc_produce_ind, bill_date desc";
+
+my $sql = "select t1.BA_NO,t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD'),t1.doc_produce_ind,t2.BA_STATUS 
+from Bl1_Document t1,  Bl1_Blng_Arrangement t2 
+where t1.bill_date >= '01-APR-2018' and t1.ACCOUNT_NO = t2.BA_ACCOUNT_NO 
+group by  t1.BA_NO, t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD'),t1.doc_produce_ind, t2.BA_STATUS 
+order by t1.BA_NO ,t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD') desc, t1.doc_produce_ind";
 
 my $sth = $conn->prepare($sql);
 $sth->execute() or sendErr();
 
 my $who = "";
 my $flag = 0;
+my @prevRow;
 
 while ( my @rows = $sth->fetchrow_array() ) {
-  my($ba_no,$customer_no,$account_no,$doc_produce_ind,$bill_date) = grep( s/\s*$//g, @rows );
+  my($ba_no,$customer_no,$account_no,$bill_date,$doc_produce_ind,$status) = grep( s/\s*$//g, @rows );
   
-  if(($who ne $ba_no) && $doc_produce_ind eq 'N') {$who = $ba_no; $flag = 1;}
-  
-  if(($who eq $ba_no) && $flag ==1 && $doc_produce_ind eq 'Y') {print "@rows\n";$flag = 0;}
+  if(($who ne $ba_no) && $doc_produce_ind eq 'N') {
+  	$who = $ba_no; $flag = 1;
+  	@prevRow = @rows;
+  }
+  elsif(($who eq $ba_no) && $flag ==1 && $doc_produce_ind eq 'Y') {
+  	
+  	if($status eq "O")
+  	{
+#  	print "@prevRow\n";
+#  	print "@rows\n\n";$flag = 0;
+	print "@prevRow @rows\n\n";
+    $flag = 0;
+    
+ 	}
+  }
+  else {
+  	$flag = 0;
+  }
 
 
 }
@@ -48,7 +70,7 @@ sub getBODSPRD {
 
   #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
   #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#BooGoo" );
+  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
   unless ( defined $dbods ) {
     sendErr();
   }

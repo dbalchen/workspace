@@ -3295,3 +3295,24 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_CATEGORY: CommonPlace
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
+
+* TODO Do Accrual Report for Accounting
+  DEADLINE: <2018-06-05 Tue>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-06-07 Thu 10:07
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* HOLD Do Deanna's List
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-06-12 Tue 12:43
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: HOLD
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:

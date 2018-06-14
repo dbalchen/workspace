@@ -1916,7 +1916,7 @@ subgraph cluster_3 {
 | *L9_Application_Id*          | Varchar2 (64 Byte)  | Used For Brew         |
 | L9_Orig_Trans_Id             | Varchar2 (64 Byte)  |                       |
 | *L9_Call_Answered_Indicator* | Varchar2 (1 Byte)   |                       |
-| L9_Destination_Category      | Varchar2 (6 Byte)   |                       |
+| L9_Destination_Category      | Varchar2 (6 Byte)   |INTNL = International  |
 | L9_Surcharge_Amount          | Number              |                       |
 | L9_Destination_State_Code    | Varchar2 (2 Byte)   |                       |
 | L9_Redirect_Number           | Varchar2 (32 Byte)  |                       |
@@ -1976,7 +1976,6 @@ subgraph cluster_3 {
 | L9_Application_Type          | Varchar2 (64 Byte)  |                       |
 | L9_Application_Description   | Varchar2 (193 Byte) |                       |
 | L9_Charge_Code_Description   | Varchar2 (193 Byte) |                       |
-
 | L9_System_Service            | Varchar2 (4 Byte)   |                       |
 | L9_Initiator_Id              | Varchar2 (64 Byte)  |                       |
 | L9_Adj_Reason_Cd             | Varchar2 (64 Byte)  |                       |
@@ -2157,7 +2156,7 @@ subgraph cluster_3 {
 | *Column Name*         | *Data Type*       | *Description*    |
 |-----------------------+-------------------+------------------|
 | Resource_Segment      | Number(4,0)       |                  |
-| Resource_Value        | Varchar2(63 Byte) |                  |
+| Resource_Value        | Varchar2(63 Byte) | Contains         |
 | *Resource_Type*       | Number(4,0)       | 0 - Mdn          |
 |                       |                   | 19 - Min         |
 |                       |                   | 21 - Outcollects |
@@ -2171,11 +2170,11 @@ subgraph cluster_3 {
 | Dl_Update_Stamp       | Number(4,0)       |                  |
 | Update_Id             | Number(18,0)      |                  |
 | *Expiration_Date*     | Date              |                  |
-| *Subscriber_Id*       | Number(10,0)      |                  |
+| *Subscriber_Id*       | Number(10,0)      | The Subscriber   |
 | Sub_Status            | Char(1 Byte)      |                  |
 | Routing_Policy_Id     | Number(9,0)       |                  |
 | Payment_Category      | Char(4 Byte)      |                  |
-| *Customer_Id*         | Number(10,0)      |                  |
+| *Customer_Id*         | Number(10,0)      | Customer ID      |
 | *Bill_Cycle*          | Number(4,0)       |                  |
 | New_Bill_Cycle        | Number(4,0)       |                  |
 | Chg_Cyc_Req_Date      | Date              |                  |
@@ -4296,7 +4295,10 @@ hhh
 | Application_Id             | Char (6 Byte)       |               |
 | Dl_Service_Code            | Char (5 Byte)       |               |
 | Dl_Update_Stamp            | Number (4)          |               |
-| Ba_Status                  | Char (1 Byte)       |               |
+| Ba_Status                  | Char (1 Byte)       | T =           |
+|                            |                     | N =           |
+|                            |                     | C =           |
+|                            |                     | O =           |
 | Ba_Status_Date             | Date                |               |
 | Ba_Account_No              | Number (12)         |               |
 | Ba_Customer_No             | Number (12)         |               |
@@ -4458,21 +4460,19 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
-** TODO Do Accrual Report for Accounting
-   DEADLINE: <2018-06-05 Tue>
 ** TODO Recompile Applications
-   SCHEDULED: <2018-05-23 Wed>--<2018-06-22 Fri>  
+   SCHEDULE: <2018-05-23 Wed>--<2018-06-22 Fri>   
+   DEADLINE: <2018-06-22 Fri>
    - [ ] EpsMonitors
    - [ ] CallDump
    - [ ] Switch 2 Bill
    - [ ] Monitor
 ** TODO Finish bogusDoc.pl
-   DEADLINE: <2018-06-04 Mon>
+   DEADLINE: <2018-06-13 Wed>
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** HOLD Open RC for RoamRecon USID and password.
    SCHEDULED: <2018-03-19 Mon>
-** HOLD Do Deanna's List
 ** APPT Oncall
    SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
