@@ -362,23 +362,36 @@ $sqls{'NLDLT'} =
  TOTAL_CHARGES - APRM_TOTAL_CHARGES
 from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'DISP_RM'} = "select 
-  file_name, nvl((select sum(total_records) from file_summary dd where  (usage_type = 'DISP_RM-H' or usage_type = 'DISP_RM-S') and file_name = t1.file_name and process_date = to_date($outTimeStamp,'YYYYMMDD')),0) ,
- nvl((select sum(total_volume) from file_summary dd where  (usage_type = 'DISP_RM-H' or usage_type = 'DISP_RM-S') and file_name = t1.file_name and process_date = to_date($outTimeStamp,'YYYYMMDD')),0) ,
- nvl((select sum(total_charges) from file_summary dd where  (usage_type = 'DISP_RM-H' or usage_type = 'DISP_RM-S') and file_name = t1.file_name and process_date = to_date($outTimeStamp,'YYYYMMDD')),0),
- nvl((select sum(total_records) from file_summary dd where  usage_type = 'DISP_RM-L' and file_name = t1.file_name and process_date = to_date($outTimeStamp,'YYYYMMDD')),0) ,
- nvl((select sum(total_volume) from file_summary dd where  usage_type = 'DISP_RM-L' and file_name = t1.file_name and process_date = to_date($outTimeStamp,'YYYYMMDD')),0),
- nvl((select sum(total_charges) from file_summary dd where usage_type = 'DISP_RM-L' and file_name = t1.file_name and process_date = to_date($outTimeStamp,'YYYYMMDD')),0), 
-sum(t1.total_records),sum(t1.total_volume),sum(t1.total_charges),
-max(t1.total_records_dch),
-max(t1.total_volume_dch),
-max(t1.total_charges_dch),
-sum(t1.total_records) - max(t1.total_records_dch),
-sum(t1.total_volume) - max(t1.total_volume_dch),
-sum(t1.total_charges) - max(t1.total_charges_dch)
-from file_summary t1 where process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%'
-  group by t1.file_name
-  order by t1.file_name";
+$sqls{'DISP_RM'} = "
+select t1.file_name, t1.total_records + t2.total_records, t1.total_volume + t2.total_volume, t1.total_charges + t2.total_charges,
+t3.total_records, t3.total_volume, t3.total_charges,
+t1.total_records + t2.total_records + t3.total_records, t1.total_volume + t2.total_volume + t3.total_volume, t1.total_charges + t2.total_charges + t3.total_charges,
+t4.total_records, t4.total_volume, t4.total_charges,
+t1.total_records + t2.total_records + t3.total_records - t4.total_records,
+t1.total_volume + t2.total_volume + t3.total_volume - t4.total_volume,
+t1.total_charges + t2.total_charges + t3.total_charges - t4.total_charges
+from
+(select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_records,
+nvl((select max(total_volume) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_volume,
+nvl((select max(total_charges) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_charges
+from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
+group by file_name) t1,
+(select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-H'),0) total_records,
+nvl((select max(total_volume) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-H'),0) total_volume,
+nvl((select max(total_charges) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-H'),0) total_charges
+from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
+group by file_name) t2,
+(select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-L'),0) total_records,
+nvl((select max(total_volume) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-L'),0) total_volume,
+nvl((select max(total_charges) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-L'),0) total_charges
+from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
+group by file_name) t3, 
+(select file_name,nvl((select max(total_records_dch) from file_summary where file_name = t1.file_name),0) total_records,
+nvl((select max(total_volume_dch) from file_summary where file_name = t1.file_name ),0) total_volume,
+nvl((select max(total_charges_dch) from file_summary where file_name = t1.file_name),0) total_charges
+from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
+group by file_name) t4 where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_name = t4.file_name
+";
 
 # Get Roaming switches to check
 my @switches = split( ',', $ARGV[0] );
