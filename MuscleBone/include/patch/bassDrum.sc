@@ -27,6 +27,7 @@
 ~noise =  Synth("noisekick",addAction: \addToTail);
 ~noise.set(\e0In,~envout0);
 ~noise.set(\e1In,~envout1);
+~noise.set(\out,~bassDrum.out);
 
 ~pulseSaw =  Synth("sawPulsekick",addAction: \addToTail);
 ~pulseSaw.set(\e0In,~mixout);
@@ -37,6 +38,7 @@
 ~pulseSaw.set(\gain, 0.75);
 ~pulseSaw.set(\idx, 0.25);
 ~pulseSaw.set(\amp, 1);
+~pulseSaw.set(\out,~bassDrum.out + 2);
 
 ~pulseSaw2 =  Synth("sawPulsekick",addAction: \addToTail);
 ~pulseSaw2.set(\e0In,~envout0);
@@ -48,10 +50,12 @@
 ~pulseSaw2.set(\gain, 0.1);
 ~pulseSaw2.set(\idx, 0.35);
 ~pulseSaw2.set(\amp, 1.2);
+~pulseSaw2.set(\out,~bassDrum.out + 2);
 
 ~sine =  Synth("sinekick",addAction: \addToTail);
 ~sine.set(\e0In,~envout0);
 ~sine.set(\e1In,~envout1);
+~sine.set(\out,~bassDrum.out + 4);
 
 ~bassDrumPulseSaw = {arg bal = 0;
 

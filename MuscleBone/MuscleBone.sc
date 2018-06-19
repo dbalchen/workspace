@@ -17,6 +17,7 @@ o.numOutputBusChannels = 24; // The next time it boots, this will take effect
 o.memSize = 2097152;
 )
 
+
 "/home/dbalchen/Music/setup.sc".load;
 
 
@@ -29,23 +30,42 @@ o.memSize = 2097152;
 "/home/dbalchen/Music/MuscleBone/include/synths/eSampler.sc".load;
 
 "/home/dbalchen/Music/MuscleBone/include/events/bassDrum.sc".load;
+~bassDrum.out = 10;
 "/home/dbalchen/Music/MuscleBone/include/patch/bassDrum.sc".load;
-"/home/dbalchen/Music/MuscleBone/include/patch/strings.sc".load;
+
 
 "/home/dbalchen/Music/MuscleBone/include/events/LowStrings.sc".load;
 "/home/dbalchen/Music/MuscleBone/include/patch/LowStrings.scd".load;
+
 "/home/dbalchen/Music/MuscleBone/include/events/viola.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/patch/strings.sc".load;
 "/home/dbalchen/Music/MuscleBone/include/patch/viola.sc".load;
+
 "/home/dbalchen/Music/MuscleBone/include/events/violin.sc".load;
 "/home/dbalchen/Music/MuscleBone/include/patch/violin.sc".load;
-"/home/dbalchen/Music/MuscleBone/include/midiDefs.sc".load
+
+
+~lowStrings.out = 0;
+~viola.out = 2;
+~viola2.out = 4;
+~violin.out = 6;
+~violin2.out = 8;
+
+
+"/home/dbalchen/Music/MuscleBone/include/midiDefs.sc".load;
+
 
 )
 
 ~startTimer.value(120);
 
+{
+	~lowStrings.notes.freq.next
+
+}
+
 ~bassDrum.transport.mute;~bassDrumNotes.transport.mute;
-~bassDrum.transport.unmute;~bassDrumNotes.transport.unmute;
+
 
 ~lowStrings.transport.mute;
 ~lowStrings.transport.unmute;
@@ -57,11 +77,16 @@ o.memSize = 2097152;
 ~violin2.transport.unmute;~violin.transport.unmute;
 
 ~rp = {~lowStrings.transport.play;};
+
 ~rp = {~viola2.transport.play;~viola.transport.play;};
 ~rp = {~violin.transport.play;~violin2.transport.play;};
-~rp = {~initialBassDrum.value;~bassDrum.transport.play;~bassDrumNotes.transport.play;}; // Example
+~rp = {~initialBassDrum.value;~bassDrum.transport.play;~bassDrumNotes.transport.play;};
 
-~rp = {~violin.transport.play;~violin2.transport.play;~viola2.transport.play;~viola.transport.play;~lowStrings.transport.play;~bassDrum.transport.play;~bassDrumNotes.transport.play;};
+
+
+// Example
+
+
 
 
 (
@@ -106,9 +131,10 @@ o.memSize = 2097152;
 		t.schedAbs((timeNow + (4*16) - 0.01),{ // 00 = Time in beats
 			(
 				~lowStrings3.value();
+				~lowStringsEnvRest.value;
 				~bassDrum3.value;
-//				~viola2.transport.play;~viola.transport.play;
-//				~violin2.transport.play;~violin.transport.play;
+				~viola2.transport.play;~viola.transport.play;
+				~violin2.transport.play;~violin.transport.play;
 			);
 
 			(
@@ -126,7 +152,7 @@ o.memSize = 2097152;
 			(
 				~bassDrum4.value;
 				~lowStrings4.value();
-				~lowStringsEnvRest.value;
+
 				~viola4.value;
 				~violin4.value;
 				~violaEnv2.value;
@@ -143,7 +169,7 @@ o.memSize = 2097152;
 		//Add more
 
 
-		t.schedAbs((timeNow + (4*34)) - 1,{ // 00 = Time in beats
+		t.schedAbs((timeNow + (4*34)) - 0.01,{ // 00 = Time in beats
 			(
 				~bassDrum5.value;
 				~lowStrings5.value();
@@ -161,7 +187,7 @@ o.memSize = 2097152;
 
 
 
-		t.schedAbs((timeNow + (4*42)) - 1,{ // 00 = Time in beats
+		t.schedAbs((timeNow + (4*42)) - 0.01,{ // 00 = Time in beats
 			(
 				~bassDrum6.value;
 				~lowStrings6.value();
@@ -177,7 +203,7 @@ o.memSize = 2097152;
 		); // End of t.schedAbs
 
 
-		t.schedAbs((timeNow + (4*50)) - 1,{ // 00 = Time in beats
+		t.schedAbs((timeNow + (4*50)) - 0.01,{ // 00 = Time in beats
 			(
 				~bassDrum7.value;
 				~lowStrings7.value();
@@ -194,7 +220,7 @@ o.memSize = 2097152;
 		); // End of t.schedAbs
 
 
-		t.schedAbs((timeNow + (4*58)) - 1,{ // 00 = Time in beats
+		t.schedAbs((timeNow + (4*58)) - 0.01,{ // 00 = Time in beats
 			(
 				~bassDrum8.value;
 				~lowStrings8.value();
@@ -211,7 +237,7 @@ o.memSize = 2097152;
 
 
 
-		t.schedAbs((timeNow + (4*66)) - 1,{ // 00 = Time in beats
+		t.schedAbs((timeNow + (4*66)) - 0.1,{ // 00 = Time in beats
 			(
 				~bassDrum9.value;
 				~lowStrings9.value();
@@ -227,7 +253,7 @@ o.memSize = 2097152;
 		); // End of t.schedAbs
 
 
-		t.schedAbs((timeNow + (4*74)) - 1,{ // 00 = Time in beats
+		t.schedAbs((timeNow + (4*74)) - 0.01,{ // 00 = Time in beats
 		(
 				~bassDrum10.value;
 				~lowStrings10.value();
@@ -243,7 +269,7 @@ o.memSize = 2097152;
 		); // End of t.schedAbs
 
 
-		t.schedAbs((timeNow + (4*82)) - 1,{ // 00 = Time in beats
+		t.schedAbs((timeNow + (4*82)) - 0.01,{ // 00 = Time in beats
 		(
 				~bassDrum11.value;
 				~lowStrings11.value();
@@ -259,7 +285,7 @@ o.memSize = 2097152;
 		); // End of t.schedAbs
 
 
-		t.schedAbs((timeNow + (4*90)) - 1,{ // 00 = Time in beats
+		t.schedAbs((timeNow + (4*90)) - 0.01,{ // 00 = Time in beats
 		(
 				~bassDrum12.value;
 				~lowStrings12.value();

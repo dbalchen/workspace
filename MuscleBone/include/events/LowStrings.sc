@@ -14,11 +14,12 @@
 
 
 ~lowStrings2 = {
+
 	~lowStrings.notes.freqs = [46,47,46,44,46,47,46,44];
 	~lowStrings.notes.waits = [6.0,2.0,6.0,2.0,6.0,2.0,6.0,2.0];
 	~lowStrings.notes.durations = [6.0,2.0,6.0,2.0,6.0,2.0,6.0,2.0];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1];
-	~lowStrings.notes.lag = 0.9;
+	~lowStrings.notes.lag =  1.2;
 
 };
 
@@ -37,7 +38,7 @@
 	~lowStrings.notes.freqs = [46,47,46,44,46,47,46,44];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [6.0,2.0,6.0,2.0,6.0,2.0,6.0,2.0];
-	~lowStrings.notes.lag = 0.9;
+	~lowStrings.notes.lag = 0.9
 };
 
 ~lowStrings5 = {
@@ -47,6 +48,7 @@
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [6.0,2.0,6.0,1.97,6.0,2,8];
 	~lowStrings.notes.lag = 0.9;
+
 };
 
 
@@ -55,8 +57,7 @@
 	~lowStrings.notes.freqs = [48,43,46,41,44,46,41];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [6.0,2,6.0,2,6.0,1.98,8];
-	~lowStrings.notes.lag = 0.9;
-
+	~lowStrings.notes.lag = 0.5;
 };
 
 
@@ -65,7 +66,8 @@
 	~lowStrings.notes.freqs = [47,49,46,39,44,47,41,44];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [4.0,4.0,6.0,2.0,4.0,4.0,4.0,4.0];
-	~lowStrings.notes.lag = 0.9;
+	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1];
+	~lowStrings.notes.lag = 0.5;
 
 };
 
@@ -74,7 +76,7 @@
 	~lowStrings.notes.freqs = [46,47,46,41,46,44,41,44];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [6.0,2.0,6.0,2.0,4.0,4.0,6.0,2.0];
-	~lowStrings.notes.lag = 0.9;
+	~lowStrings.notes.lag = 0.5;
 
 };
 
@@ -83,7 +85,7 @@
 	~lowStrings.notes.freqs = [46,47,46,41,46,48,41,46,41,44];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [6.0,2.0,4.0,2.0,2.0,4.0,4.0,4.0,2.0,2.0];
-	~lowStrings.notes.lag = 0.9;
+	~lowStrings.notes.lag = 0.5;
 
 };
 
@@ -92,8 +94,7 @@
 	~lowStrings.notes.freqs = [48,44,41,44,46,41,46,44,41,39,41,41,44];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [2.0,2.0,2.0,2.0,4,2.0,2.0,4,2,2,4,2,2.0];
-	~lowStrings.notes.lag = 0.9;
-
+	~lowStrings.notes.lag = 0.4;
 };
 
 ~lowStrings11 = {
@@ -103,9 +104,8 @@
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [6.0,2.0,4.0,2.0,2.0,4.0,4.0,6.0,2.0];
 	~lowStrings.notes.lag = 0.9;
+
 };
-
-
 
 
 ~lowStrings12 = {
@@ -114,6 +114,7 @@
 	~lowStrings.notes.freqs = [46,41,46,47,46,41,46,47,46,41,46,44,46,0];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 	~lowStrings.notes.durations = [5.99,2.0,5.99,2.0,5.99,2.0,6.0,2.0,6.0,2.0,4.0,4.0,12.0,1.0];
-	~lowStrings.notes.lag = 1.35;
+	~lowStrings.notes.lag = 0.6;
+
 };
 

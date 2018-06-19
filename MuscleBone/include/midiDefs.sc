@@ -13,6 +13,7 @@ OSCdef(\stringLow, { |m|
 	~string_low_synth.set(\amp,	~lowStrings.amp);
 	~string_low_synth.set(\balance,	~lowStrings.balance);
 	~string_low_synth.set(\release,~string_low_vca_envelope.release);
+    ~string_low_synth.set(\out,	~lowStrings.out);
 
 
 	~stringLow_fenv = Synth("myADSRk",addAction: \addToHead);
@@ -63,6 +64,7 @@ OSCdef(\stringLow, { |m|
 	~celloTemplate.value(ret,num,~cellosounds);
 	ret.set(\amp,~cello.amp);
 	ret.set(\balance,~cello.balance);
+	ret.set(\out,~cello.out);
 	~string_cello_vcf_envelope.setfADSR(ret);
 	~string_cello_vca_envelope.setADSR(ret);
 	ret.set(\gate,1);
@@ -79,6 +81,7 @@ OSCdef(\stringLow, { |m|
 	~violaTemplate.value(ret,num,~violasounds);
 	ret.set(\amp,~viola.amp);
 	ret.set(\balance,~viola.balance);
+	ret.set(\out,~viola.out);
 	~string_viola_vcf_envelope.setfADSR(ret);
 	~string_viola_vca_envelope.setADSR(ret);
 	ret.set(\gate,1);
@@ -94,6 +97,7 @@ OSCdef(\stringLow, { |m|
 
 	~violinTemplate.value(ret,num,~violinsounds);
 	ret.set(\amp,~violin.amp);
+	ret.set(\out,~violin.out);
 	ret.set(\balance,~violin.balance);
 	ret.set(\cutoff,4950);
 	~string_violin_vcf_envelope.setfADSR(ret);
@@ -110,6 +114,7 @@ OSCdef(\stringLow, { |m|
 	ret.set(\gate,0);
 	ret.set(\freq,num.midicps);
 	ret.set(\amp,~viola2.amp);
+	ret.set(\out,~viola2.out);
 	ret.set(\balance,~viola2.balance);
 	~string_viola_vcf_envelope.setfADSR(ret);
 	~string_viola_vca_envelope.setADSR(ret);
@@ -126,6 +131,7 @@ OSCdef(\stringLow, { |m|
 	ret.set(\gate,0);
 	ret.set(\freq,num.midicps);
 	ret.set(\amp,~violin2.amp);
+	ret.set(\out,~violin2.out);
 	ret.set(\balance,~violin2.balance);
 
 	~string_violin_vcf_envelope.setfADSR(ret);
