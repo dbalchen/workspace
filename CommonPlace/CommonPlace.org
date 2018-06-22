@@ -4462,13 +4462,14 @@ hhh
 * Task List				       :noexport:taskjuggler_project:
 ** TODO Recompile Applications
    SCHEDULE: <2018-05-23 Wed>--<2018-06-22 Fri>   
-   DEADLINE: <2018-06-22 Fri>
+   DEADLINE:  <2018-06-29 Fri>
    - [ ] EpsMonitors
-   - [ ] CallDump
+     - Bring in all perl monitors
+   - [X] CallDump
    - [ ] Switch 2 Bill
    - [ ] Monitor
 ** TODO Finish bogusDoc.pl
-   DEADLINE: <2018-06-13 Wed>
+   DEADLINE: <2018-06-29 Fri>
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** HOLD Open RC for RoamRecon USID and password.
@@ -4478,13 +4479,14 @@ hhh
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Production Release 
 *** Prepaid Evolution
+    This is for the first trackm only which adds variuos autopay functionality.
     DEADLINE: <2018-08-05 Sun> First track of work only...
 ** TODO Volte Roaming
 *** Verizon Remaining Verizon Markets
       DEADLINE: <2018-07-31 Tue>
 *** TMO Remaining TMO Markets
     DEADLINE: <2018-09-28 Fri>     
-** HOLD Project Sentinel  
+** HOLD Project Sentinel					    :ARCHIVE:
    A database used in the MFT transfer. Only used by the job below. 
    : [‎3/‎19/‎2018 11:37 AM] Lee, Daniel W: 
    : uscc_usc_mabel_e2e_alert.pl 
@@ -4494,3 +4496,6 @@ hhh
    - Sector information
    - Distance Information
    - Merge M2M calls
+** DONE finish off Roaming Recon				    :ARCHIVE:
+   DEADLINE: <2018-06-22 Fri>
+   
