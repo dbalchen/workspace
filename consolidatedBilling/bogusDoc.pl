@@ -26,7 +26,7 @@ my $conn  = getBODSPRD();
 
 my $sql = "select t1.BA_NO,t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD'),t1.doc_produce_ind,t2.BA_STATUS 
 from Bl1_Document t1,  Bl1_Blng_Arrangement t2 
-where t1.bill_date >= '01-APR-2018' and t1.ACCOUNT_NO = t2.BA_ACCOUNT_NO 
+where t1.bill_date >= '01-MAY-2018' and t1.ACCOUNT_NO = t2.BA_ACCOUNT_NO 
 group by  t1.BA_NO, t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD'),t1.doc_produce_ind, t2.BA_STATUS 
 order by t1.BA_NO ,t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD') desc, t1.doc_produce_ind";
 

@@ -4461,15 +4461,14 @@ hhh
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
 ** TODO Recompile Applications
-   SCHEDULE: <2018-05-23 Wed>--<2018-06-22 Fri>   
-   DEADLINE:  <2018-06-29 Fri>
+   DEADLINE:  <2018-07-13 Fri>
    - [ ] EpsMonitors
      - Bring in all perl monitors
    - [X] CallDump
    - [ ] Switch 2 Bill
    - [ ] Monitor
 ** TODO Finish bogusDoc.pl
-   DEADLINE: <2018-06-29 Fri>
+   DEADLINE: <2018-07-06 Fri>
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** HOLD Open RC for RoamRecon USID and password.
@@ -4492,7 +4491,7 @@ hhh
    : uscc_usc_mabel_e2e_alert.pl 
    : on EBI Server.
    : path: /apps/ebi/invap1/support/bin 
-** HOLD CallDump
+** TODO CallDump
    - Sector information
    - Distance Information
    - Merge M2M calls

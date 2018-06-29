@@ -50,7 +50,6 @@
 \newpage
 \pagenumbering{arabic}
 #+END_LaTeX
-
 * /TSP - EBI Design Document Analysis/
 ** Introduction
    This document contains the various infrastructure elements needed for the new *EBI Operational* server. This will include:
@@ -118,7 +117,6 @@
 \normalsize
 #+END_LaTeX
 ** Process Decomposition
-
 
 ** Software Libraries
 *** /Program Library Name/

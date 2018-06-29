@@ -3,8 +3,8 @@
 my $file     = $ARGV[0];
 my $dch_file = $ARGV[1];
 
-$file ="/home/dbalchen/workspace/volteRoaming/src/bin/SDIRI_FCIBER_ID002728_T20180511192109.DAT";
-$dch_file = '/home/dbalchen/workspace/volteRoaming/src/bin/IncollectDCH_voice.csv';
+$file ="/home/dbalchen/Desktop/CIBER_CIBER_20180622135109_3857788_0044.dat";
+$dch_file = '/home/dbalchen/Desktop/Outcollect.csv';
 
 my $total_records = 0;
 my $total_charges = 0;
@@ -63,12 +63,12 @@ while ( my $buff = <PIPE> ) {
 
 	if($records != $rec_totals)
 	{
-		print "Record totals Different\n";
+		#print "Record totals Different\n";
 		$flag = 1;
 	}
 	elsif($charges != $rec_charges)
 	{
-	 print "charges Different\n";
+	 #print "charges Different\n";
 	 		$flag = 1;
 	}
 
