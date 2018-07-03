@@ -2,11 +2,15 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="lib" path="jars/junit.jar"/>
-	<classpathentry kind="lib" path="jars/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="jars/servlet-api.jar"/>
-	<classpathentry kind="lib" path="jars/xercesImpl.jar"/>
-	<classpathentry kind="lib" path="jars/xmlParserAPIs.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/javax.servlet.jsp.jstl-api-1.2.1.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/serializer.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/servlets-common.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/xercesSamples.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/xmlParserAPIs.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

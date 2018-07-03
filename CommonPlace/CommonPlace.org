@@ -4283,8 +4283,8 @@ hhh
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
-
 #+ATTR_LaTeX: :environment longtable :align l|l|l
+
 |----------------------------+---------------------+---------------|
 | *Name*                     | *Data Type*         | *Description* |
 |----------------------------+---------------------+---------------|
@@ -4370,6 +4370,40 @@ hhh
 | Sys_Update_Date        | Date                 |               |
 |------------------------+----------------------+---------------|
 
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** Csm_Ben
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------------------+---------------------+---------------|
+| *Column Name*             | *Datatype*          | *Description* |
+|---------------------------+---------------------+---------------|
+| Application_Id            | Char (6 Byte)       |               |
+| Ban                       | Number (10)         |               |
+| Ben                       | Number (10)         |               |
+| Ben_Number                | Number (10)         |               |
+| Ben_Status                | Char (1 Byte)       |               |
+| Bill_Item_Tax_Ind         | Char (1 Byte)       |               |
+| Bill_Product_Ind          | Char (1 Byte)       |               |
+| Bill_Production_Frequency | Number (2)          |               |
+| Business_Entity_Id        | Number (9)          |               |
+| Conv_Run_No               | Number (3)          |               |
+| Dl_Service_Code           | Char (5 Byte)       |               |
+| Dl_Update_Stamp           | Number (4)          |               |
+| External_Id               | Varchar2 (100 Byte) |               |
+| L3_Bill_Format            | Varchar2 (40 Byte)  |               |
+| Ods_Insert_Date           | Date                |               |
+| Ods_Last_Update_Date      | Date                |               |
+| Open_Date                 | Date                |               |
+| Operator_Id               | Number (9)          |               |
+| Status_Date               | Date                |               |
+| Sys_Creation_Date         | Date                |               |
+| Sys_Update_Date           | Date                |               |
+|---------------------------+---------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -4460,6 +4494,11 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO Talk to Ratish Patel about moving Batch 2 apps
+   DEADLINE: <2018-07-13 Fri>
+   
+** TODO Wallet Master
+   SCHEDULED: <2018-07-02 Mon>--<2022-06-06 Mon>
 ** TODO Recompile Applications
    DEADLINE:  <2018-07-13 Fri>
    - [ ] EpsMonitors
