@@ -24,11 +24,15 @@ my $conn  = getBODSPRD();
 
 #my $sql = "select BA_NO,customer_no,account_no,doc_produce_ind, to_char('t1.bill_date','YYYYMMDD') from Bl1_Document t1 where bill_date >= '01-MAY-2018' group by  BA_NO,customer_no,account_no,doc_produce_ind, bill_date order by BA_NO,customer_no,account_no,doc_produce_ind, bill_date desc";
 
-my $sql = "select t1.BA_NO,t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD'),t1.doc_produce_ind,t2.BA_STATUS 
-from Bl1_Document t1,  Bl1_Blng_Arrangement t2 
-where t1.bill_date >= '01-MAY-2018' and t1.ACCOUNT_NO = t2.BA_ACCOUNT_NO 
-group by  t1.BA_NO, t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD'),t1.doc_produce_ind, t2.BA_STATUS 
-order by t1.BA_NO ,t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD') desc, t1.doc_produce_ind";
+my $sql = "select t1.BA_NO,t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD') Bill_Date,mabel.MABEL_ID,mabel.DESCRIPTION,mabel.CONS,t1.doc_produce_ind,t2.BA_STATUS 
+from Bl1_Document t1,  Bl1_Blng_Arrangement t2,
+ (select t2.A_NO aact_no,t1.MABEL_ID,t1.Description,t1.MABEL_BILL_FORMAT mabel_format,t2.cons from Add9_Mabel_Ids t1,
+(select account_no a_no, CONSOLIDATOR cons, max(sys_creation_date) mydate from Mabel_Audit group by account_no,CONSOLIDATOR) t2
+where t2.cons = t1.CONSOLIDATOR) mabel
+where t1.bill_date >= '01-May-2018' and t1.ACCOUNT_NO = t2.BA_ACCOUNT_NO 
+and t1.ACCOUNT_NO = mabel.AACT_NO
+group by  t1.BA_NO, t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD'),t1.doc_produce_ind, t2.BA_STATUS,mabel.MABEL_ID,mabel.DESCRIPTION,mabel.CONS 
+order by t1.BA_NO ,t1.customer_no,t1.account_no,mabel.MABEL_ID,to_char(t1.bill_date,'YYYYMMDD') desc, t1.doc_produce_ind";
 
 my $sth = $conn->prepare($sql);
 $sth->execute() or sendErr();
@@ -38,7 +42,7 @@ my $flag = 0;
 my @prevRow;
 
 while ( my @rows = $sth->fetchrow_array() ) {
-  my($ba_no,$customer_no,$account_no,$bill_date,$doc_produce_ind,$status) = grep( s/\s*$//g, @rows );
+  my($ba_no,$customer_no,$account_no,$bill_date,$mabel_id,$description,$consol,$doc_produce_ind,$status) = grep( s/\s*$//g, @rows );
   
   if(($who ne $ba_no) && $doc_produce_ind eq 'N') {
   	$who = $ba_no; $flag = 1;
@@ -48,9 +52,10 @@ while ( my @rows = $sth->fetchrow_array() ) {
   	
   	if($status eq "O")
   	{
-#  	print "@prevRow\n";
-#  	print "@rows\n\n";$flag = 0;
-	print "@prevRow @rows\n\n";
+
+    my $prev = join("\t", @prevRow);
+    my $row = join("\t", @rows);
+	print "$prev\t$row\n";
     $flag = 0;
     
  	}
