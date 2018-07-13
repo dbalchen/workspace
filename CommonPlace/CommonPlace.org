@@ -4500,14 +4500,14 @@ hhh
 ** TODO Wallet Master
    SCHEDULED: <2018-07-02 Mon>--<2022-06-06 Mon>
 ** TODO Recompile Applications
-   DEADLINE:  <2018-07-13 Fri>
+   DEADLINE:  <2018-07-20 Fri>
    - [ ] EpsMonitors
      - Bring in all perl monitors
    - [X] CallDump
-   - [ ] Switch 2 Bill
-   - [ ] Monitor
+   - [X] Switch 2 Bill
+   - [X] Monitor
 ** DONE Finish bogusDoc.pl					    :ARCHIVE:
-   DEADLINE: <2018-07-06 Fri>
+   DEADLINE: <2018-07-13 Fri>
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** HOLD Open RC for RoamRecon USID and password.
@@ -4517,19 +4517,13 @@ hhh
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Production Release 
 *** Prepaid Evolution
-    This is for the first trackm only which adds variuos autopay functionality.
+    This is for the first track only which adds variouss autopay functionality.
     DEADLINE: <2018-08-05 Sun> First track of work only...
 ** TODO Volte Roaming
 *** Verizon Remaining Verizon Markets
       DEADLINE: <2018-07-31 Tue>
 *** TMO Remaining TMO Markets
     DEADLINE: <2018-09-28 Fri>     
-** HOLD Project Sentinel					    :ARCHIVE:
-   A database used in the MFT transfer. Only used by the job below. 
-   : [‎3/‎19/‎2018 11:37 AM] Lee, Daniel W: 
-   : uscc_usc_mabel_e2e_alert.pl 
-   : on EBI Server.
-   : path: /apps/ebi/invap1/support/bin 
 ** TODO CallDump
    - Sector information
    - Distance Information
@@ -4537,3 +4531,9 @@ hhh
 ** DONE finish off Roaming Recon				    :ARCHIVE:
    DEADLINE: <2018-06-22 Fri>
    
+** Arabic Scales
+*** Major
+    : C, D, E, F, F#, G#, Bb, C
+    : [4,5,6,8,10,0,2]
+    : (012468T)
+

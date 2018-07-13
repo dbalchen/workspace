@@ -394,19 +394,20 @@ $sqls{'NLDLT'} =
  0
 from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
-$sqls{'DISP_RM'} =  "
-select t1.file_name, t1.total_records + t2.total_records, t1.total_volume + t2.total_volume, t1.total_charges + t2.total_charges,
+$sqls{'DISP_RM'} = "
+select t1.file_name, 
+t1.total_records + t2.total_records, t1.total_volume + t2.total_volume, t1.total_charges + t2.total_charges,
 t3.total_records, t3.total_volume, t3.total_charges,
 t1.total_records + t2.total_records + t3.total_records, t1.total_volume + t2.total_volume + t3.total_volume, t1.total_charges + t2.total_charges + t3.total_charges,
 t4.total_records, t4.total_volume, t4.total_charges,
 t1.total_records + t2.total_records + t3.total_records - t4.total_records,
 t1.total_volume + t2.total_volume + t3.total_volume - t4.total_volume,
 t1.total_charges + t2.total_charges + t3.total_charges - t4.total_charges,
-abs(((t4.total_records) - (t1.total_records + t2.total_records + t3.total_records))/(t1.total_records + t2.total_records + t3.total_records))*100,
-	abs(((t4.total_volume) - (t1.total_volume + t2.total_volume + t3.total_volume))/(t1.total_volume + t2.total_volume + t3.total_volume))*100,
-	abs(((t4.total_charges) - (t1.total_charges + t2.total_charges + t3.total_charges))/(t1.total_charges + t2.total_charges + t3.total_charges))*100,
-	abs(((t1.total_records + t2.total_records) - (t1.total_records + t2.total_records))/(t1.total_records + t2.total_records))*100,
-	abs(((t1.total_charges + t2.total_charges + t3.total_charges) - (t4.total_charges))/(t1.total_charges + t2.total_charges + t3.total_charges))*100 
+abs(((t4.total_records) - (t1.total_records + t2.total_records + t3.total_records))/nullif((t1.total_records + t2.total_records + t3.total_records),0))*100,
+	abs(((t4.total_volume) - (t1.total_volume + t2.total_volume + t3.total_volume))/nullif((t1.total_volume + t2.total_volume + t3.total_volume),0))*100,
+	abs(((t4.total_charges) - (t1.total_charges + t2.total_charges + t3.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100,
+	abs(((t1.total_records + t2.total_records  + t3.total_records) - (t1.total_records + t2.total_records + + t3.total_records))/nullif((t1.total_records + t2.total_records  + t3.total_records),0))*100,
+	abs(((t1.total_charges + t2.total_charges + t3.total_charges) - (t4.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100 
 from
 (select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_records,
 nvl((select max(total_volume) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_volume,
@@ -427,9 +428,9 @@ group by file_name) t3,
 nvl((select max(total_volume_dch) from file_summary where file_name = t1.file_name ),0) total_volume,
 nvl((select max(total_charges_dch) from file_summary where file_name = t1.file_name),0) total_charges
 from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
-group by file_name) t4 where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_name = t4.file_name
- ";
-
+group by file_name) t4 
+where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_name = t4.file_name
+";
 
 # Get Roaming switches to check
 my @switches = split( ',', $ARGV[0] );
@@ -685,7 +686,8 @@ sub createExcel {
 	$sthb->execute() or sendErr();
 
 	my $cntrow = 1;
-
+    my $flag = 0;
+    
 	while ( my @rows = $sthb->fetchrow_array() ) {
 
 		my @fix_cols = [];
@@ -698,8 +700,9 @@ sub createExcel {
 			for ( my $a = $headcount ; $a < @rows ; $a = $a + 1 ) {
 				if ( $rows[$a] >= 1 ) {
 
-					$msg =
-					  $msg . "The file $rows[0] has the following problem : ";
+					if($flag == 0){$msg = $msg."$sheetname\n\n", $flag = 1;}
+
+					$msg = $msg . "\tThe file $rows[0] has the following problem : \t";
 
 					if ( $a == $headcount ) {
 
@@ -712,14 +715,14 @@ sub createExcel {
 
 						$msg =
 						    $msg
-						  . "Total Volume VS DCH Volume = "
+						   ."Total Volume VS DCH Volume = "
 						  . sprintf( "%.2f", $rows[$a] ) . '%' . " \n\n";
 					}
 					elsif ( $a == $headcount + 2 ) {
 
 						$msg =
 						    $msg
-						  . "Total Charges VS DCH Charges = "
+						   . "Total Charges VS DCH Charges = "
 						  . sprintf( "%.2f", $rows[$a] ) . '%' . " \n\n";
 					}
 					elsif ( $a == $headcount + 3 ) {

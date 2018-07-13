@@ -14,15 +14,15 @@ use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#my $ORACLE_SID  = "bodsprd";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
-#$ARGV[0] =
-#  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+$ARGV[0] =
+  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
 #$ARGV[0] = "SDIRI_FCIBER";
@@ -44,7 +44,7 @@ $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 # Setup Initial variables
 my $timeStamp = $ARGV[1];
 
-$timeStamp = '20180620';
+$timeStamp = '20180707';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
@@ -385,7 +385,7 @@ t1.total_charges + t2.total_charges + t3.total_charges - t4.total_charges,
 abs(((t4.total_records) - (t1.total_records + t2.total_records + t3.total_records))/nullif((t1.total_records + t2.total_records + t3.total_records),0))*100,
 	abs(((t4.total_volume) - (t1.total_volume + t2.total_volume + t3.total_volume))/nullif((t1.total_volume + t2.total_volume + t3.total_volume),0))*100,
 	abs(((t4.total_charges) - (t1.total_charges + t2.total_charges + t3.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100,
-	abs(((t1.total_records + t2.total_records  + t3.total_records) - (t1.total_records + t2.total_records))/nullif((t1.total_records + t2.total_records  + t3.total_records),0))*100,
+	abs(((t1.total_records + t2.total_records  + t3.total_records) - (t1.total_records + t2.total_records + + t3.total_records))/nullif((t1.total_records + t2.total_records  + t3.total_records),0))*100,
 	abs(((t1.total_charges + t2.total_charges + t3.total_charges) - (t4.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100 
 from
 (select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_records,
@@ -407,7 +407,8 @@ group by file_name) t3,
 nvl((select max(total_volume_dch) from file_summary where file_name = t1.file_name ),0) total_volume,
 nvl((select max(total_charges_dch) from file_summary where file_name = t1.file_name),0) total_charges
 from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
-group by file_name) t4 where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_name = t4.file_name
+group by file_name) t4 
+where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_name = t4.file_name
 ";
 
 # Get Roaming switches to check
@@ -565,8 +566,8 @@ my @email = ('david.balchen@uscellular.com');
 #my @email = ('david.balchen@uscellular.com','Ilham.Elgarni@uscellular.com','USCDLISOps-BillingCycleManagement@uscellular.com');
 
 foreach my $too (@email) {
-	#print $msg;
-	sendMsg( $too, $msg );
+	print $msg;
+	#sendMsg( $too, $msg );
 }
 
 exit(0);
@@ -584,7 +585,8 @@ sub createExcel {
 	$sthb->execute() or sendErr();
 
 	my $cntrow = 1;
-
+    my $flag = 0;
+    
 	while ( my @rows = $sthb->fetchrow_array() ) {
 
 		my @fix_cols = [];
@@ -597,8 +599,9 @@ sub createExcel {
 			for ( my $a = $headcount ; $a < @rows ; $a = $a + 1 ) {
 				if ( $rows[$a] >= 1 ) {
 
-					$msg =
-					  $msg . "The file $rows[0] has the following problem : ";
+					if($flag == 0){$msg = $msg."$sheetname\n\n", $flag = 1;}
+
+					$msg = $msg . "\tThe file $rows[0] has the following problem : \t";
 
 					if ( $a == $headcount ) {
 
@@ -611,14 +614,14 @@ sub createExcel {
 
 						$msg =
 						    $msg
-						  . "Total Volume VS DCH Volume = "
+						   ."Total Volume VS DCH Volume = "
 						  . sprintf( "%.2f", $rows[$a] ) . '%' . " \n\n";
 					}
 					elsif ( $a == $headcount + 2 ) {
 
 						$msg =
 						    $msg
-						  . "Total Charges VS DCH Charges = "
+						   . "Total Charges VS DCH Charges = "
 						  . sprintf( "%.2f", $rows[$a] ) . '%' . " \n\n";
 					}
 					elsif ( $a == $headcount + 3 ) {

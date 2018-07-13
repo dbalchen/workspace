@@ -3,8 +3,8 @@
 my $file     = $ARGV[0];
 my $dch_file = $ARGV[1];
 
-$file ="/home/dbalchen/Desktop/CIBER_CIBER_20180622135109_3857788_0044.dat";
-$dch_file = '/home/dbalchen/Desktop/Outcollect.csv';
+$file ="/home/dbalchen/Desktop/CIBER_CIBER_20180707013759_261985_0018.dat";
+$dch_file = '/home/dbalchen/Desktop/OutcollectDCH_voice.csv';
 
 my $total_records = 0;
 my $total_charges = 0;

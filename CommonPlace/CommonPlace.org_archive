@@ -3316,3 +3316,18 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: HOLD
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
+
+* HOLD Project Sentinel						    :ARCHIVE:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-07-13 Fri 15:31
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: HOLD
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  A database used in the MFT transfer. Only used by the job below. 
+  : [‎3/‎19/‎2018 11:37 AM] Lee, Daniel W: 
+  : uscc_usc_mabel_e2e_alert.pl 
+  : on EBI Server.
+  : path: /apps/ebi/invap1/support/bin 
