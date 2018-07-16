@@ -8,12 +8,12 @@
 
 ~violaEnvInit = {
 
-	~string_viola_vca_envelope.attack = 1.5;
+	~string_viola_vca_envelope.attack = 1.25;
 	~string_viola_vca_envelope.decay = 2.5;
 	~string_viola_vca_envelope.sustain = 0.3;
-	~string_viola_vca_envelope.release = 0.4;
+	~string_viola_vca_envelope.release = 0.3;
 
-	~string_viola_vcf_envelope.attack = 1.5;
+	~string_viola_vcf_envelope.attack = 1.25;
 	~string_viola_vcf_envelope.decay = 2.5;
 	~string_viola_vcf_envelope.sustain = 0.2;
 	~string_viola_vcf_envelope.release = 0.4;

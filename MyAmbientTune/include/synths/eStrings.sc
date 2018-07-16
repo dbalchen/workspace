@@ -10,8 +10,8 @@ SynthDef("eStrings",
 
 		var sig, env, fenv, env2;
 
-		//		env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
-		env  = Env.new([0, 1, sustain,0], [attack, decay,release],[0,0,0],2);
+				env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+		//env  = Env.new([0, 1, sustain,0], [attack, decay,release],[0,0,0],2);
 
 		freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
 

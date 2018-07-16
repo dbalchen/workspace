@@ -7,7 +7,7 @@
 ~string_low_synth = Synth("mono_eStrings",addAction: \addToTail);
 ~string_low_synth.set(\cutoff,7950);
 ~string_low_synth.set(\gain,1.2);
-~string_low_synth.set(\aoc,0.5);
+~string_low_synth.set(\aoc,0.2);
 ~string_low_synth.set(\hpf,175);
 ~string_low_vca_control_in = Bus.control(s, 1);
 ~string_low_vcf_control_in = Bus.control(s, 1);

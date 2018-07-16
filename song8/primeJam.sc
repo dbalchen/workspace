@@ -11,100 +11,113 @@ s.quit;
 
 (
 
-~null4 = Bjorklund(0, 4);
-~null5 = Bjorklund(0, 5);
-~null7 = Bjorklund(0, 7);
+~allTimes = [0.25,0.5,0.25,0.25,0.25,0.5,0.5,0.06,0.44,0.25,0.5,0.25,0.5,0.5,0.25,0.5,0.25,0.5,1.0,0.25,0.25,0.5,0.25,0.25,0.5,0.5,0.5,0.25,0.25,0.25,0.25,0.5,0.5,0.25,0.25,0.25,0.5,0.25,0.5,0.5,0.25,0.25,0.25,0.25]; 
 
-~track0 = MyTrack.new(~synth1,9);
-//~track0.notes.probs = Bjorklund(3, 5);
-//~track0.notes.probs =[ 1, 0, 0, 0, 1 ];
-~track0.notes.probs =[ 1, 0, 0, 0, 0];
-~track0.notes.waits = ~track0.notes.waits*0.25;
+~chimeLong = MyTrack.new(~synth1,0);
+~chimeLong.notes.waits = ~allTimes.deepCopy;
+~chimeLong.notes.freqs = [73,0,0,0,0,0,0,69,0,0,0,0,76,0,0,0,0,0,71,0,0,73,0,0,0,0,0,69,0,0,0,0,76,0,0,0,0,0,0,71,0,0,0,0];
+~chimeLong.notes.probs = [1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0];
+~chimeLong.notes.durations = [2.43,0,0,0,0,0,0,1.44,0,0,0,0,2.44,0,0,0,0,0,1.44,0,0,2.44,0,0,0,0,0,1.44,0,0,0,0,2.44,0,0,0,0,0,0,1.44,0,0,0,0] * 0.5;
+~chimeLong.notes.init;
 
-~track1 = MyTrack.new(~synth1,9);
-//~track1.notes.probs = Bjorklund(5, 7);
-//~track1.notes.probs = [ 1, 0, 0, 1, 0, 1, 0 ];
-//~track1.notes.probs = [ 1, 0, 0, 0, 0, 1, 0 ];
-~track1.notes.probs = [ 0, 0, 0, 0, 0, 1, 0 ] *0;
-~track1.notes.waits = ~track1.notes.waits*0.25;
-~track1.notes.freqs = ~track1.notes.probs*61;
+~chimeLong = MyTrack.new(~synth1,0);
+~chimeLong.notes.waits = [2.5,1.5,2.5,1.5,2.5,1.5,2.5,1.5];
 
-~track2 = MyTrack.new(~synth1,9);
-~track2.notes.probs = Bjorklund(4, 4);
-~track2.notes.freqs = ~track2.notes.probs*36;
+~chimeLong.notes.freqs = [73,69,76,71,73,69,76,71] - 12;
+~chimeLong.notes.probs = [1,1,1,1,1,1,1,1];
+~chimeLong.notes.durations = [2.44,1.44,2.44,1.44,2.44,1.44,2.44,1.44];
+~chimeLong.notes.init;
 
-~track3 = MyTrack.new(~synth1,0);
-~track3.notes.probs =[ 0, 0, 1, 0, 0];
-~track3.notes.waits = ~track3.notes.waits * 2;
-~track3.notes.durations =[16];
-~track3.notes.freqs = [ 0, 0, [64,69,75], 0, 0];
+~chime = MyTrack.new(~synth1,1);
+~chime.notes.waits = ~allTimes.deepCopy;
+~chime.notes.freqs = [73,73,73,73,73,73,73,69,69,69,69,69,76,76,76,76,76,76,[71,71],71,71,73,73,73,73,73,73,69,69,69,69,69,76,76,76,76,76,76,76,71,71,71,71,71];
+~chime.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+~chime.notes.durations = [0.13,0.13,0.12,0.13,0.13,0.13,0.12,0.13,0.13,0.13,0.12,0.12,0.13,0.12,0.12,0.13,0.12,0.13,0.13,0.13,0.13,0.13,0.12,0.13,0.13,0.13,0.13,0.13,0.13,0.12,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.12,0.13,0.13,0.12,0.13,0.13,0.13] * 0.8;
+~chime.notes.init;
 
-~track4 = MyTrack.new(~synth1,1);
-~track4.notes.probs = [ 0, 0, 1, 0, 0, 0, 0 ];
-~track4.notes.waits = ~track4.notes.waits * 0.25;
-~track4.notes.durations =[0.5];
-~track4.notes.freqs = [42];
 
-~track5 = MyTrack.new(~synth1,1);
-~track5.notes.probs = [ 1, 0, 0, 0];
-~track5.notes.waits = ~track5.notes.waits * 1;
-~track5.notes.durations =[1];
-~track5.notes.freqs = [42];
+~verse = MyTrack.new(~synth1,2);
+~verse.notes.waits = ~allTimes.deepCopy;
+/*
+~verse.notes.freqs = [69,0,0,0,0,0,0,64,0,0,0,0,66,0,0,0,0,0,68,0,0,69,0,0,0,0,0,64,0,0,0,0,66,0,0,0,0,0,0,64,0,0,0,0];
+~verse.notes.probs = [1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0];
+~verse.notes.durations = [2.43,0,0,0,0,0,0,1.44,0,0,0,0,2.44,0,0,0,0,0,1.44,0,0,2.44,0,0,0,0,0,1.44,0,0,0,0,2.44,0,0,0,0,0,0,1.44,0,0,0,0] * 0.9;
 
-~track6 = MyTrack.new(~synth1,1);
-~track6.notes.probs =[ 0, 0, 1, 0, 0];
-~track6.notes.waits = ~track6.notes.waits;
-~track6.notes.durations =[0.5];
-~track6.notes.freqs = [42];
+	*/
+~verse.notes.freqs = [69,0,0,0,0,0,0,64,0,0,0,0,66,0,0,0,0,0,68,0,0,69,0,0,0,0,0,64,0,0,0,0,66,0,0,0,0,0,0,64,0,0,0,0];
+//~verse.notes.probs = [1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0];
+~verse.notes.durations = [2.5,0,0,0,0,0,0,1.5,0,0,0,0,2.5,0,0,0,0,0,1.5,0,0,2.5,0,0,0,0,0,1.5,0,0,0,0,2.5,0,0,0,0,0,0,1.5,0,0,0,0] * 0.8;
+~verse.notes.init;
 
-~track7 = MyTrack.new(~synth1,9);
-~track7.notes.probs = [ 0, 0, 1, 0, 1]++[ 0, 0, 1, 0, 1]++[ 0, 0, 1, 0, 1];
-~track7.notes.waits = ~track7.notes.waits * 0.25;
-~track7.notes.durations =[1];
-~track7.notes.freqs = [ 0, 0, 38, 0, 42]++[ 0, 0, 42, 0, 38]++[ 0, 0, 38, 0, 42];
+~bassdrum = MyTrack.new(~synth1,9);
+~bassdrum.notes.waits = [0.25,0.5,0.25,0.25,0.25,0.5,0.5,0.06,0.44,0.25,0.5,0.25,0.5,0.5,0.25,0.5,0.25,0.5,0.5,0.5,0.25,0.25,0.5,0.25,0.25,0.5,0.5,0.5,0.25,0.25,0.25,0.25,0.5,0.5,0.25,0.25,0.25,0.5,0.25,0.5,0.5,0.25,0.25,0.25,0.25];
+~bassdrum.notes.freqs = [36,0,0,36,0,0,36,0,0,36,0,0,36,0,36,0,0,36,0,36,0,0,36,0,0,36,0,36,0,0,36,0,0,36,0,0,36,0,0,36,0,36,0,0,0];
+~bassdrum.notes.probs = [1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,0];
+~bassdrum.notes.durations = [1.0,0,0,1.0,0,0,1.0,0,0,1.0,0,0,1.0,0,1.0,0,0,1.0,0,1.0,0,0,1.0,0,0,1.0,0,1.0,0,0,1.0,0,0,1.0,0,0,1.0,0,0,1.0,0,1.0,0,0,0] * 0.1;
+~bassdrum.notes.init;
 
-~track8 = MyTrack.new(~synth1,9);
-~track8.notes.probs = [ 1, 0, 1, 0, 0, 0, 1] ++ [ 1, 0, 1, 0, 0, 0, 1 ] ++ [ 1, 0, 1, 0, 0, 0, 1 ];
-~track8.notes.waits = ~track8.notes.waits * 0.5;
-~track8.notes.durations =[1];
-~track8.notes.freqs = [ 42, 0, 42, 0, 0, 0, 42] ++ [ 42, 0, 42, 0, 0, 0, 38] ++ [ 42, 0, 42, 0, 0, 0, 42];
 
-~track9 = MyTrack.new(~synth1,1);
-~track9.notes.probs = [ 0, 0, 0, 1, 0, 0, 0 ];
-~track9.notes.waits = ~track9.notes.waits*0.25;
-~track9.notes.freqs = ~track9.notes.probs*42;
+~snare = MyTrack.new(~synth2,9);
+~snare.notes.waits = [1.75,0.75,0.66,0.59,1.75,0.5,0.25,1.25,1.75,0.75,1.25,1.75,0.75,1.25,1.0]; 
+~snare.notes.freqs = [38,38,38,38,38,38,38,38,38,38,38,38,38,38,38];
+~snare.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+~snare.notes.durations = [1.75,0.75,0.91,0.59,1.75,0.5,0.25,1.25,1.75,0.75,1.25,1.75,0.75,1.25,1.0];
+
+~snare.notes.init;
 
 )
 
 ~startTimer.value(100);
 
-~rp = {~track0.transport.play;
-	~track1.transport.play;
-	~track2.transport.play;
-	~track3.transport.play;
-	~track4.transport.play;
-	~track5.transport.play;
-	~track6.transport.play;
-	~track7.transport.play;
-	~track8.transport.play;
-	~track9.transport.play;
-}
+~rp = {~chime.transport.play;~chimeLong.transport.play;~verse.transport.play;~bassdrum.transport.play;~snare.transport.play;}
 
 
+~verse.notes.freqs = [ 69, 69, 69, 69, 68, 64, 57, 64, 64, 64, 68, 68, 66, 69, 69, 66, 64, 64, 68, 76, 68, 69, 68, 66, 68, 57, 68, 64, 64, 68, 66, 68, 66, 66, 57, 57, 64, 66, 66, 64, 66, 66, 68, 76 ];
 
 
-~track0.transport.pause;
-~track1.transport.pause;
-~track2.transport.pause;
-~track3.transport.pause;
-~track4.transport.pause;
-~track5.transport.pause;
-~track6.transport.pause;
-~track7.transport.pause;
-~track8.transport.pause;
-~track9.transport.pause;
-~track10.transport.pause;
+~chime.transport.mute;
+~chimeLong.transport.mute;
+~verse.transport.mute;
+~bassdrum.transport.mute;
+
+~chime.transport.unmute;
+~chimeLong.transport.unmute;
+~verse.transport.unmute;
+~bassdrum.transport.mute;
 
 
+~verse.notes.probs = ~chime.notes.probs.deepCopy;
+~verse.notes.init;
+(
+~start = {
 
-~track4.notes.probs
+	var num = 100,timeNow;
+	t = TempoClock.default.tempo = num / 60;
+
+	Routine.run({
+		s.sync;
+		timeNow = TempoClock.default.beats;
+
+		t.schedAbs(timeNow + 00,{ // 00 = Time in beats
+			(
+				// place stuff here
+			);
+
+			(
+				// If No put stuff here otherwise nil
+				nil
+			);
+		};	 // End of if statement
+
+		); // End of t.schedAbs
+
+
+		//Add more
+
+	}); // End of Routine
+
+}; //End of Start
+
+)
+
+~rp = {~start.value;};

@@ -25,7 +25,6 @@
 
 	ret = Synth("Esampler");
 	ret.set(\gate,0);
-
 	~celloTemplate.value(ret,num,~cellosounds);
 	ret.set(\amp,~cello.amp);
 //	ret.set(\balance,~cello.balance);
@@ -44,12 +43,23 @@
 	ret.set(\gate,0);
 	ret.set(\freq,num.midicps);
 	ret.set(\amp,~viola.amp);
+	ret.set(\cutoff,12500);
 //	ret.set(\balance,~viola2.balance);
 	~string_viola_vcf_envelope.setfADSR(ret);
 	~string_viola_vca_envelope.setADSR(ret);
 	ret.set(\gate,1);
 	ret;
 };
+
+~channel9 = {arg num, vel = 1;
+	var ret;
+	ret = Synth("Esampler");
+	ret.set(\gate,0);
+    ~openDrumKit.value(ret,num,vel*127);
+	ret.set(\gate,1);
+	ret;
+};
+
 
 ~turndown1 = {
 	arg vol,cc,chan,src;

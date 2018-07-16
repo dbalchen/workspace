@@ -22,7 +22,7 @@ o.memSize = 2097152;
 
 
 (
-
+"/home/dbalchen/Music/Samples/Drum Samples/the_open_source_drumkit/TheOpenSourceDrumKit-Complete-V1.sc".load;
 "/home/dbalchen/Music/MyAmbientTune/include/synths/envelopes.sc".load;
 "/home/dbalchen/Music/MyAmbientTune/include/synths/eStrings.sc".load;
 "/home/dbalchen/Music/MyAmbientTune/include/patch/LowStrings.sc".load;
@@ -57,7 +57,7 @@ o.memSize = 2097152;
 ~viola.notes.probs = [1,1,1,1,1,1,1];
 ~viola.notes.durations = [6.0,1.0,1.0,2.0,2.0,2.0,2.0];
 ~viola.notes.init;
-~viola.amp = 0.80;
+~viola.amp = 0.40;
 
 
 
@@ -101,9 +101,9 @@ o.memSize = 2097152;
 
 ~motif = ~fullDic.value([57,59,57,61,56,52,59],~dic,~keyoff);
 
-~lowStrings.notes.freqs = ~motif - 12;
-~cello.notes.freqs = ~motif -5 ;
-~viola.notes.freqs = ~motif + 12;
+~lowStrings.notes.freqs = ~motif;
+~cello.notes.freqs = ~motif ;
+~viola.notes.freqs = ~motif + 24;
 
 ~viola.notes.freqs = ~motif + 12 + 4;
 t = TempoClock.default.tempo = 90 / 60;
