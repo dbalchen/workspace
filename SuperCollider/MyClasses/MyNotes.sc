@@ -11,7 +11,7 @@ MyNotes {
       <>vel = 1,          <>vels = nil,
       <>durations = nil,  <>duration = nil,
       <>persistProbs = 1, <>fixdurs = 0,
-      <>tonerow = [0,1,2,3,4,5,6,7,8,9,10,11];;
+      <>tonerow = nil;
 
   init {
 
@@ -34,6 +34,8 @@ MyNotes {
       {lags = Array.newClear(freqs.size).fill(0); });
 
 
+	  tonerow = [0,1,2,3,4,5,6,7,8,9,10,11];
+	  
     this.calcFreq.value;
     this.calcDur.value;
     this.calcWait.value;
@@ -120,13 +122,13 @@ MyNotes {
 
   fixDurs {
 
-    freqs.do({arg item, i;
+    probs.do({arg item, i;
 
 	var dur = 0, count = i+1;
 
 	if (item != 0,{
 	    dur = waits[i];
-	    while({(freqs[count] == 0) && (count < freqs.size)},{
+	    while({(probs[count] == 0) && (count < probs.size)},{
 		dur = dur + waits[count];
 		count = count + 1;
 	      });
@@ -139,7 +141,9 @@ MyNotes {
 	  );
 
 
-      });
+	});
+
+	  durations.postln;
   }
   
 }
