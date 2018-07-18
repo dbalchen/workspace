@@ -1,0 +1,19 @@
+
+
+***********************************************************************
+Fatal NI connect error 12545, connecting to:
+ (DESCRIPTION=(ADDRESS=(PROTOCOL=beq)(PROGRAM=/u01/app/oracle/product/11.2.0.3/client64/bin/oracle)(ARGV0=oraclePRDCUST)(ARGS='(DESCRIPTION=(LOCAL=YES)(ADDRESS=(PROTOCOL=beq)))')(DETACH=YES))(CONNECT_DATA=(CID=(PROGRAM=perl@kpr03batch)(HOST=kpr03batch)(USER=prdwrk3))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 11.2.0.2.0 - Production
+	Oracle Bequeath NT Protocol Adapter for Linux: Version 11.2.0.2.0 - Production
+  Time: 05-MAR-2014 13:29:24
+  Tracing not turned on.
+  Tns error struct:
+    ns main err code: 12545
+    TNS-12545: Connect failed because target host or object does not exist
+    ns secondary err code: 12560
+    nt main err code: 515
+    TNS-00515: Connect failed because target host or object does not exist
+    nt secondary err code: 2
+    nt OS err code: 0

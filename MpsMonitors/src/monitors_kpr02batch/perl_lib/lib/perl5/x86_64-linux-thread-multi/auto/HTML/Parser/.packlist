@@ -1,0 +1,16 @@
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/HTML/Entities.pm
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/HTML/Filter.pm
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/HTML/HeadParser.pm
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/HTML/LinkExtor.pm
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/HTML/Parser.pm
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/HTML/PullParser.pm
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/HTML/TokeParser.pm
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/auto/HTML/Parser/Parser.bs
+../perl_lib/lib/perl5/x86_64-linux-thread-multi/auto/HTML/Parser/Parser.so
+../perl_lib/man/man3/HTML::Entities.3
+../perl_lib/man/man3/HTML::Filter.3
+../perl_lib/man/man3/HTML::HeadParser.3
+../perl_lib/man/man3/HTML::LinkExtor.3
+../perl_lib/man/man3/HTML::Parser.3
+../perl_lib/man/man3/HTML::PullParser.3
+../perl_lib/man/man3/HTML::TokeParser.3

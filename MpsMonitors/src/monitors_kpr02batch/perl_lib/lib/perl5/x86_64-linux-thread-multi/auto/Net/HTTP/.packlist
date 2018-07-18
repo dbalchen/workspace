@@ -1,0 +1,7 @@
+../perl_lib/lib/perl5/Net/HTTP.pm
+../perl_lib/lib/perl5/Net/HTTP/Methods.pm
+../perl_lib/lib/perl5/Net/HTTP/NB.pm
+../perl_lib/lib/perl5/Net/HTTPS.pm
+../perl_lib/man/man3/Net::HTTP.3
+../perl_lib/man/man3/Net::HTTP::NB.3
+../perl_lib/man/man3/Net::HTTPS.3

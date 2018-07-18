@@ -1,0 +1,52 @@
+<!-- Created with Bluefish http://bluefish.openoffice.nl/ -->
+<HTML>
+<HEAD>
+<TITLE>MPS System Monitor Documentation</TITLE>
+<BODY bgcolor="#e6e6e6">
+  <table width="100%">
+    <tr>
+    <td align="left"><img src="../img/uscc_logo.gif"></td>
+    <td>
+      <center>
+        <h2>
+        <font color="#8080ff">MPS System Issue Log</font>
+        </h2>
+        <h3>New Issue Form</h3>
+      </center>
+    </td>
+    <td align="right"><img src="../img/uscc_logo.gif"></td>
+    </tr>
+  </table>
+  <hr align="center">
+  <p></p>
+  <font size="-1">
+  Please provide a detailed description of the issue encountered
+  including the name of the Audit, circumstances in which 
+  the issue occurred, and the exact time at which the issue was 
+  discovered. 
+  <br>
+  If applicable, please paste the portion of the monitor log 
+  pertaining to the issue.
+  </font>
+  <p></p>
+  <form action="/cgi-bin/work/issues/new_issue.pl" method="post">
+  Title: 
+  <br>
+  <input type="text" size="80" maxlength="120" name="title">
+  <p></p>
+  Description:
+  <br>
+  <textarea name="desc" cols="80" rows="16">
+    Audit: 
+    Time of incident:
+    Detailed description:
+    
+  </textarea>
+  <p></p>
+  <input type="submit" value="Submit Issue">
+  </form>
+  <form method="post" action="/cgi-bin/work/issues/issue_log.pl">
+  <input type="submit" name="Cancel" value="Cancel" />
+  </form>
+</BODY>
+</HTML>

@@ -3,14 +3,25 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/com.jcraft.jsch_0.1.31.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/commons-beanutils-1.9.3.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/commons-digester3-3.2.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/commons-fileupload-1.3.3.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/commons-validator-1.6.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/javax.servlet.jsp.jstl-api-1.2.1.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/jsch-0.1.54.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/junit-4.10.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/mail-1.4.7.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/resolver.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/serializer.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/servlets-common.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/taglibs-standard-jstlel-1.2.5.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/xercesSamples.jar"/>
+	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/xml-apis.jar"/>
 	<classpathentry kind="lib" path="/home/dbalchen/workspace/MpsMonitors/jars/xmlParserAPIs.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
