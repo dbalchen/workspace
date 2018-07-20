@@ -1,0 +1,5 @@
+#!/usr/bin/ksh
+
+sleep 3600
+
+exit 0
