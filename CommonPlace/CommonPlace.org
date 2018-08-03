@@ -194,29 +194,54 @@
 ** APRM
    *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
 ** Production Servers/EpsMonitors
+ : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
+ : Service Account SVC_BILLINGOPS    lXmWKh5pJsGxr!nIl_GQl0Db
+
+ export ORACLE_HOME=/u01/app/oracle/product/current/client_1
+ export PATH=$PATH:$ORACLE_HOME/bin
+
+ mkstore -wrl <wallet_location> -create
+ mkstore -wrl <wallet_location> -createCredential <db_connect_string> <username> <password>
+
+ mkstore -wrl . -deleteCredential bods_svc_billingops svc_np_billingops
+ mkstore -wrl . -modifyCredential cst_svc_billingops svc_np_billingops
+
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
-      - *Batch1* - *kprl1batch.uscc.com (10.176.177.177)*
-        :  /pkgbl01/inf/aimsys/prdwrk1/eps/monitors
-      - *Batch2* - *kprl2batch.uscc.com (10.176.177.178)*
-        : /pkgbl02/inf/aimsys/prdwrk2/eps/monitors
-      - *Batch3* - *kprl3batch.uscc.com (10.176.177.179)*
-        : /pkgbl03/inf/aimsys/prdwrk3/eps/monitors
-      - *Batch4* -- *kprl6batch.uscc.com (10.176.181.123)*
-       Must sign in as prdwrk6 using the super *secret* password
-	: /pkgbl06/inf/aimsys/prdwrk6/eps/monitors
-      - *Event1* -- *kprl1event.uscc.com (10.176.181.116)*
-      - *Event2* -- *kprl2event.uscc.com (10.176.181.117)*
-      - *Event3* -- *kprl3event.uscc.com (10.176.181.118)*
-      - *Event4* -- *kprl4event.uscc.com (10.176.181.119)*
-      - *Event5* -- *kprl5event.uscc.com (10.176.181.120)*
-      - *Event6* -- *kprl6event.uscc.com (10.176.181.121)*
-      - *APRM* - *kprl1batch.uscc.com (10.176.177.179)*
-        : /inf_nas/apm1/prod/aprmoper/eps/monitors
-      - *EBI* - *kpr01ebiap.uscc.com (10.176.177.211)*
+      - *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
+      - *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
+      - *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
+      - *Batch4* - *kpr01bch04.uscc.com (10.176.12.134)*
+      - *Batch5* - *kpr01bch05.uscc.com (10.176.15.58)*
+      - *Event1* - *kpr01eve01.uscc.com (10.176.12.128)*
+      - *Event2* - *kpr01eve02.uscc.com (10.176.12.129)*
+      - *Event3* - *kpr01eve03.uscc.com (10.176.12.130)*
+      - *Event4* - *kpr01eve04.uscc.com (10.176.12.131)*
+      - *Event5* - *kpr01eve05.uscc.com (10.176.12.132)*
+      - *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
+      - *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
 	: /home/common/eps/monitors
 	/Before restarting remove all err and log files./
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+** Production Server Logins
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l
+
+    |------------+-------------------------|
+    | *SERVER*   | *LOGIN*                 |
+    |------------+-------------------------|
+    | kpr01oprmn | sudo /bin/su - o_arapp1 |
+    | kpr01oprmn | sudo /bin/su - o_ebiap1 |
+    | kpr01oprmn | sudo /bin/su - o_invap1 |
+    | kpr01oprmn | sudo /bin/su - o_mabel1 |
+    | kpr01oprmn | sudo /bin/su - o_usacq1 |
+    |------------+-------------------------|
+
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -311,24 +336,6 @@
     | mdr02bld01/mdr01oprmn | sudo /bin/su - d_mabel1 |
     | mdr02bld01/mdr01oprmn | sudo /bin/su - d_usacq1 |
     |-----------------------+-------------------------|
-
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
-*** Production Server Logins
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-#+ATTR_LaTeX: :environment longtable :align l|l
-    |------------+-------------------------|
-    | *SERVER*   | *LOGIN*                 |
-    |------------+-------------------------|
-    | kpr01oprmn | sudo /bin/su - o_arapp1 |
-    | kpr01oprmn | sudo /bin/su - o_ebiap1 |
-    | kpr01oprmn | sudo /bin/su - o_invap1 |
-    | kpr01oprmn | sudo /bin/su - o_mabel1 |
-    | kpr01oprmn | sudo /bin/su - o_usacq1 |
-    |------------+-------------------------|
 
 #+BEGIN_LaTeX
 \normalsize
@@ -1280,7 +1287,6 @@ subgraph cluster_3 {
             -  *LOG FILE* - AR1JRNLEXT.<SYS\_DATE>.log
             -  *Output File* -
             -  *Script Name* - ar1\_JrnlExtract\_Sh
-
       - AR1PYMRCT
       - AR1DDREQCRE
       - AR3GWLSTR
@@ -4494,14 +4500,15 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
-** TODO Talk to Ratish Patel about moving Batch 2 apps
+** TODO Move PGW/LTE date to new directory
+** HOLD Talk to Ratish Patel about moving Batch 2 apps
    DEADLINE: <2018-07-13 Fri>
    
-** TODO Wallet Master
+** DONE Wallet Master						    :ARCHIVE:
    SCHEDULED: <2018-07-02 Mon>--<2022-06-06 Mon>
-** TODO Recompile Applications
+** DONE Recompile Applications [100%]
    DEADLINE:  <2018-07-20 Fri>
-   - [ ] EpsMonitors
+   - [X] EpsMonitors
      - Bring in all perl monitors
    - [X] CallDump
    - [X] Switch 2 Bill
@@ -4510,30 +4517,55 @@ hhh
    DEADLINE: <2018-07-13 Fri>
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
-** HOLD Open RC for RoamRecon USID and password.
+** HOLD Open RC for RoamRecon USID and password.		    :ARCHIVE:
    SCHEDULED: <2018-03-19 Mon>
 ** APPT Oncall
-   SCHEDULED: <2018-07-09 Mon>--<2018-07-15 Sun>
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Production Release 
 *** Prepaid Evolution
-    This is for the first track only which adds variouss autopay functionality.
+    This is for the first track only which adds various autopay functionality.
     DEADLINE: <2018-08-05 Sun> First track of work only...
 ** TODO Volte Roaming
-*** Verizon Remaining Verizon Markets
-      DEADLINE: <2018-07-31 Tue>
 *** TMO Remaining TMO Markets
     DEADLINE: <2018-09-28 Fri>     
 ** TODO CallDump
    - Sector information
    - Distance Information
    - Merge M2M calls
-** DONE finish off Roaming Recon				    :ARCHIVE:
-   DEADLINE: <2018-06-22 Fri>
-   
+** TODO IME Upgrade
+   SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
+** TODO TSP
+*** Issues log
+    https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx
+*** TODO Setup wallets in production [50%]
+    SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
+    - [X] Wallets to Development
+    - [ ] Wallets to Production
+*** TODO Push out the monitors
+    SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
+*** TODO MFT file transfers
+    SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
+*** TODO Database access
+    SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
+*** TODO Firewall access
+    SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
 ** Arabic Scales
 *** Major
     : C, D, E, F, F#, G#, Bb, C
     : [4,5,6,8,10,0,2]
     : (012468T)
-
+*** Extra
+    : I have pushed out the sudo (and updated for billingtechops) for prodtc1-6 on the following servers:
+    : 
+    : 
+    : kpr01bch01
+    : kpr01bch02
+    : kpr01bch03
+    : kpr01bch04
+    : kpr01bch05
+    : kpr01eve01
+    : kpr01eve02
+    : kpr01eve03
+    : kpr01eve04
+    : kpr01eve05
+    : kpr01eve06

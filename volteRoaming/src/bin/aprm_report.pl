@@ -20,7 +20,7 @@ $ENV{ORACLE_HOME} = $ORACLE_HOME;
 $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20180622';
+$ARGV[0] = '20180701';
 
 my $date = $ARGV[0];
 
@@ -70,7 +70,7 @@ select sum(tot_net_usage_chrg) from IC_ACCUMULATED_USAGE  where prod_cat_id = 'I
 
 $sqls{'LTE_INCOLLECT_CARRIER'} = '
   select nr_param_3_val "Company Code", decode(carrier_cd,'
-  . "'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' )"
+  . "'AAZVF','Vodafone Malta','USAXC','Inland','USASU','SPRINT','USAJV','James Valley Wireless','USAPI','Pioneer Cellular','USAKY','Appalachian Wireless','USAUW','United Wireless','USACM','C-SPIRE','USAXC','Inland','USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' )"
   . ' "Carrier", sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" '
   . "from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = to_date('$period"
   . "01"
@@ -78,7 +78,7 @@ $sqls{'LTE_INCOLLECT_CARRIER'} = '
 
 $sqls{'LTE_OUTCOLLECT_CARRIER'} = '
   select nr_param_3_val "Company Code", decode(carrier_cd,'
-  . "'USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' )"
+  . "'AAZVF','Vodafone Malta','USAXC','Inland','USASU','SPRINT','USAJV','James Valley Wireless','USAPI','Pioneer Cellular','USAKY','Appalachian Wireless','USAUW','United Wireless','USACM','C-SPIRE','USAXC','Inland','USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' )"
   . ' "Carrier", sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" '
   . "from IC_ACCUMULATED_USAGE  where prod_cat_id = 'OS' and BP_START_DATE = to_date('$period"
   . "01"
@@ -274,17 +274,17 @@ if ( substr( $date, 6, 2 ) eq '01' ) {
 
 	@aprmArray = (
 
-		'LTE_INCOLLECT_SETTLEMENT',
-		'LTE_INCOLLECT_CARRIER'    ,
-		'LTE_OUTCOLLECT_SETTLEMENT',
-		'LTE_OUTCOLLECT_CARRIER',
-		'GSM_INCOLLECT_SETTLEMENT',
-		'CDMA_INCOLLECT_DATA_ACCRUAL',
-		'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER',
-		'CDMA_INCOLLECT_VOICE_ACCRUAL',
-		'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER',
-		'CDMA_OUTCOLLECT_VOICE_ACCRUAL',
-		'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'
+#		'LTE_INCOLLECT_SETTLEMENT',
+#		'LTE_INCOLLECT_CARRIER'    ,
+#		'LTE_OUTCOLLECT_SETTLEMENT',
+		'LTE_OUTCOLLECT_CARRIER' #,
+#		'GSM_INCOLLECT_SETTLEMENT',
+#		'CDMA_INCOLLECT_DATA_ACCRUAL',
+#		'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER',
+#		'CDMA_INCOLLECT_VOICE_ACCRUAL',
+#		'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER',
+#		'CDMA_OUTCOLLECT_VOICE_ACCRUAL',
+#		'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'
 	);
 
 }

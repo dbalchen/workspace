@@ -3331,3 +3331,25 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   : uscc_usc_mabel_e2e_alert.pl 
   : on EBI Server.
   : path: /apps/ebi/invap1/support/bin 
+
+* DONE finish off Roaming Recon					    :ARCHIVE:
+  DEADLINE: <2018-06-22 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-07-31 Tue 12:16
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+   
+
+* Verizon Remaining Verizon Markets				    :ARCHIVE:
+  DEADLINE: <2018-07-31 Tue>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-02 Thu 15:06
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Volte Roaming
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
