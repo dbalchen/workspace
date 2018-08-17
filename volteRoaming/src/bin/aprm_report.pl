@@ -539,10 +539,25 @@ sub getBRMPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooGoo900#" );
+	#   my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooGoo900#" );'
+	
+	 my $dbPwd = "BODS_SVC_BILLINGOPS";
+	 my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	 
 	unless ( defined $dbods ) {
 		sendErr();
 	}
 	return $dbods;
 }
 
+sub pad {
+
+  my ( $padString, $padwith, $length ) = @_;
+
+  while ( length($padString) < $length ) {
+    $padString = $padwith . $padString;
+  }
+
+  return $padString;
+
+}

@@ -5,11 +5,11 @@ use DBI;
 #Test parameters remove when going to production.
 
 # For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
-#$ARGV[0] = "20170707";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+$ARGV[0] = "20180805";
 #$ARGV[1] = "NLDLT";
 
 my $gsm = " and t1.file_name not like '" . '%NLDLT%' . "' ";

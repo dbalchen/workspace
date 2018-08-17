@@ -3,9 +3,9 @@
 use DBI;
 
 # For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $dbconn = getBODSPRD();
 my $sql    = "(SELECT
@@ -61,9 +61,9 @@ exit(0);
 
 sub getBODSPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "GooB00900#" );
+	my $dbPwd = "BODS_SVC_BILLINGOPS";
+	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	#   my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "GooB00900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

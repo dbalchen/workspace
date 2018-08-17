@@ -39,12 +39,12 @@ $ARGV[0] =
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # Setup Initial variables
 my $timeStamp = $ARGV[1];
 
-$timeStamp = '20180707';
+$timeStamp = '20180805';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =

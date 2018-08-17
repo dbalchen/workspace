@@ -3,17 +3,17 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "CDUSAW6USAUD11951,11951,T-Mobile (USAW6),100000,9563.58000,3,.03,20180529";
+$ARGV[0] = "CDUSASGUSAUD34126,34126,Sprint (USASG),25000,718.08133,0,0,20180805";
 #
 ## For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my @argv = split( /,/, $ARGV[0] );
@@ -35,12 +35,12 @@ if ( index( $argv[0], "NLDLT" ) >= 0 ) {
 $sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
 
 my $sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
+#$sthb->execute() or sendErr();
 
 $sql = "delete from rejected_records where FILE_NAME = '$argv[0]'";
 
 $sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
+#$sthb->execute() or sendErr();
 
 $sql =
 "select s_444, error_code, error_desc,cast(S_402 as decimal(19,9)) from em1_record where stream_name='INC' and record_status<>55 and s_444='$argv[0]'";
@@ -59,7 +59,7 @@ VALUES (
  '$rows[1]')";
 
 	$sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
+#	$sthb->execute() or sendErr();
 }
 
 if ( $prefix eq "NLDLT" ) {
@@ -238,7 +238,7 @@ VALUES (
 	#print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
+#	$sthb->execute() or sendErr();
 }
 
 $dbconnb->disconnect();

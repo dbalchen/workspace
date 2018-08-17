@@ -3434,3 +3434,54 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
    : kpr01eve04
    : kpr01eve05
    : kpr01eve06
+
+* Production Support - SUP1					    :ARCHIVE:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-14 Tue 16:13
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+    Accessed from Putty in *TOPS* Production Support Applications.
+    Should be able to login on with LAN ID and password (which is
+    same as your LAN ID).
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l
+|---------------------|
+| *SERVER NAME*       |
+|---------------------|
+| Ksr01omsap.uscc.com |
+| ksr01bmrim.uscc.com |
+| ksr01csmap.uscc.com |
+| ksr01batch.uscc.com |
+| ksr01tiger.uscc.com |
+| ksr01aprma.uscc.com |
+| ksr01mcsap.uscc.com |
+| ksr01ebiap.uscc.com |
+| msr01esadm.uscc.com |
+| msr01esb01.uscc.com |
+| msr01esb02.uscc.com |
+| msr01wladm.uscc.com |
+| msr01wls01.uscc.com |
+| msr01wls02.uscc.com |
+| msr01web01.uscc.com |
+| msr01web02.uscc.com |
+|---------------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+* DONE Move PGW/LTE date to new directory
+  SCHEDULED: <2018-08-13 Mon>--<2018-08-17 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-15 Wed 16:04
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
