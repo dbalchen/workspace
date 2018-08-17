@@ -4,169 +4,177 @@
 
 
 MyNotes {
-  var <>freqs = nil,      <>freq = nil,
-    <>probs = nil,        <>prob = nil,
-    <>waits = nil,        <>wait = nil,
-    <>lag = 0.0,          <>lags = nil,
-    <>vel = 1,            <>vels = nil,
-    <>durations = nil,    <>duration = nil,
-    <>persistProbs = 1,   <>fixdurs = 0,
-    <>tonerow = nil,      <>durMult = 1,
-    <>scale = nil;
+	var <>freqs = nil,    <>freq = nil,
+	<>probs = nil,        <>prob = nil,
+	<>waits = nil,        <>wait = nil,
+	<>lag = 0.0,          <>lags = nil,
+	<>vel = 1,            <>vels = nil,
+	<>durations = nil,    <>duration = nil,
+	<>persistProbs = 1,   <>fixdurs = 0,
+	<>tonerow = nil,      <>durMult = 1,
+	<>scale = nil;
 
-  init {
+	init {
 
-    if(freqs == nil,
-      {freqs = [60]; });
+		if(freqs == nil,
+			{freqs = [60]; });
 
-    if(probs == nil,
-      {probs = freqs.deepCopy.collect{|x| if(x == 0,{x = 0;},{x = 1;})}});
+		if(probs == nil,
+			{probs = freqs.deepCopy.collect{|x| if(x == 0,{x = 0;},{x = 1;})}});
 
-    if(waits == nil,
-      {waits = Array.newClear(freqs.size).fill(1); });
+		if(waits == nil,
+			{waits = Array.newClear(freqs.size).fill(1); });
 
-    if(durations == nil,
-      {this.fixDurs.value;});
 
-    if(vels == nil,
-      {vels = Array.newClear(freqs.size).fill(1); });
+		if(durations == nil,
+			{
+				durations = waits.deepCopy;
+				this.fixDurs.value;
 
-    if(lags == nil,
-      {lags = Array.newClear(freqs.size).fill(0); });
-
-    if(tonerow == nil,
-      {tonerow = [0,1,2,3,4,5,6,7,8,9,10,11];};
-	  
-      this.calcFreq.value;
-      this.calcDur.value;
-      this.calcWait.value;
-      this.calcLag.value;
-      this.calcVel.value;
-      this.createScale.value;
-
-      }
-	
-    calcFreq {
-      var lazy;
-
-      lazy = Plazy({
-	
-	  var ary,flip,fre;
-
-	  if(freqs.size >= probs.size,{ary = Array.newClear(freqs.size);},
-	    {ary = Array.newClear(probs.size);});
-			
-	  ary.do({ arg item, i;
-	      flip =  rrand(0.0, 1.0);
-	      if(probs.at(i%probs.size) >= flip,{ary.put(i,1);},{ary.put(i,0);})
 		});
-			
-	  fre = freqs*ary;
-
-	  if(fixdurs == 1,{this.fixDurs.value(ary);});
-
-	  if(persistProbs == 1, {probs = ary.deepCopy;});
 
 
+		if(vels == nil,
+			{vels = Array.newClear(freqs.size).fill(1); });
 
-	  fre.do({ arg item, i;
-	      if(item.isKindOf(Array),{
-		  if(item.at(0) == 0,{fre.put(i,\rest)};)});
-	      if(item == 0,{fre.put(i,\rest);});
-	    });
+		if(lags == nil,
+			{lags = Array.newClear(freqs.size).fill(0); });
 
-	  Pseq(fre,1);
-	});
+		if(tonerow == nil,
+			{tonerow = [0,1,2,3,4,5,6,7,8,9,10,11];});
 
-      freq = Pn(lazy,inf).asStream;
-    }
+		this.calcFreq.value;
+		this.calcDur.value;
+		this.calcWait.value;
+		this.calcLag.value;
+		this.calcVel.value;
+		this.createScale.value;
 
-    calcDur {
-      var lazy;
+	}
 
-      lazy = Plazy({
-	  Pseq(durations*durMult,1);
-	});
+	calcFreq {
+		var lazy;
 
-      duration = Pn(lazy,inf).asStream;
-    }
+		lazy = Plazy({
 
-    calcWait {
-      var lazy;
+			var ary,flip,fre;
 
-      lazy = Plazy({
-	  Pseq(waits,1);
-	});
+			if(freqs.size >= probs.size,{ary = Array.newClear(freqs.size);},
+				{ary = Array.newClear(probs.size);});
 
-      wait =Pn(lazy,inf).asStream;
+			ary.do({ arg item, i;
+				flip =  rrand(0.0, 1.0);
+				if(probs.at(i%probs.size) >= flip,{ary.put(i,1);},{ary.put(i,0);})
+			});
 
-    }
+			fre = freqs*ary;
 
-    calcLag {
-      var lazy;
+			if(fixdurs == 1,{this.fixDurs.value(ary);});
 
-      lazy = Plazy({
-	  Pseq(lags,1);
-	});
+			if(persistProbs == 1, {probs = ary.deepCopy;});
 
-      lag =Pn(lazy,inf).asStream;
+			fre.do({ arg item, i;
+				if(item.isKindOf(Array),{
+					if(item.at(0) == 0,{fre.put(i,\rest)};)});
+				if(item == 0,{fre.put(i,\rest);});
+			});
 
-    }
-
-    calcVel {
-      var lazy;
-
-      lazy = Plazy({
-	  Pseq(vels,1);
-	});
-
-      vel =Pn(lazy,inf).asStream;
-
-    }
-
-    fixDurs {arg proby = probs;
-
-      proby.do({arg item, i;
-
-	  var dur = 0, count = i+1;
-
-	  if ((item != 0)),{
-	      dur = waits[i];
-	      while({(proby[count] == 0) && (count < proby.size)},{
-		  dur = dur + waits[count];
-		  count = count + 1;
+			Pseq(fre,1);
 		});
-				
-	      durations[i] = dur;
-	    },
-			     {
-			       durations[i] = 0;
-			     }
-			     );
-	});
 
-    durations.postln;
-  }
+		freq = Pn(lazy,inf).asStream;
+	}
 
-  createScale {
+	calcDur {
 
-    for(0,12,
-      { arg i;	
-	tonerow.do({arg item, ii;
+		var lazy;
 
-	    var point;
+		lazy = Plazy({
+			Pseq(durations*durMult,1);
+		});
 
-	    point = item + (i*12);
+		duration = Pn(lazy,inf).asStream;
 
-	    if((point >=0) && (point <= 120),{
 
-		scale = scale.add(point);
 
-	      };)});	
-      });
-    scale = scale.sort;
-  };
-  
+	}
+
+	calcWait {
+		var lazy;
+
+		lazy = Plazy({
+			Pseq(waits,1);
+		});
+
+		wait =Pn(lazy,inf).asStream;
+
+	}
+
+	calcLag {
+		var lazy;
+
+		lazy = Plazy({
+			Pseq(lags,1);
+		});
+
+		lag =Pn(lazy,inf).asStream;
+
+	}
+
+	calcVel {
+		var lazy;
+
+		lazy = Plazy({
+			Pseq(vels,1);
+		});
+
+		vel =Pn(lazy,inf).asStream;
+
+	}
+
+	fixDurs {arg proby = probs;
+
+		proby.do({arg item, i;
+
+			var dur = 0, count = i+1;
+
+			if ((item != 0),{
+				dur = waits[i];
+				while({(proby[count] == 0) && (count < proby.size)},{
+					dur = dur + waits[count];
+					count = count + 1;
+				});
+
+				durations[i] = dur;
+			},
+			{
+				durations[i] = 0;
+			}
+
+		)});
+
+		durations.postln;
+	}
+
+	createScale {
+
+		for(0,12,
+			{ arg i;
+				tonerow.do({arg item, ii;
+
+					var point;
+
+					point = item + (i*12);
+
+					if((point >=0) && (point <= 120),{
+
+						scale = scale.add(point);
+
+				};)});
+		});
+		scale = scale.sort;
+	}
+
 }
 
 
