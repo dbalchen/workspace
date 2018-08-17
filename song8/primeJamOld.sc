@@ -22,11 +22,11 @@ s.quit;
 ~track0.notes.waits = ~track0.notes.waits*0.25;
 
 ~track1 = MyTrack.new(~synth1,9);
-//~track1.notes.probs = Bjorklund(5, 7);
+~track1.notes.probs = Bjorklund(5, 8);
 //~track1.notes.probs = [ 1, 0, 0, 1, 0, 1, 0 ];
 //~track1.notes.probs = [ 1, 0, 0, 0, 0, 1, 0 ];
-~track1.notes.probs = [ 0, 0, 0, 0, 0, 1, 0 ] *0;
-~track1.notes.waits = ~track1.notes.waits*0.25;
+//~track1.notes.probs = [ 0, 0, 0, 0, 0, 1, 0 ] *0;
+~track1.notes.waits = ~track1.notes.waits*0.5;
 ~track1.notes.freqs = ~track1.notes.probs*61;
 
 ~track2 = MyTrack.new(~synth1,9);
@@ -79,7 +79,7 @@ s.quit;
 ~startTimer.value(100);
 
 ~rp = {~track0.transport.play;
-	~track0.transport.play;	
+	~track0.transport.play;
 	~track1.transport.play;
 	~track2.transport.play;
 	~track3.transport.play;
@@ -135,16 +135,16 @@ s.quit;
 		t.schedAbs(timeNow + 00,{ // 00 = Time in beats
 			(
 				// If yes put stuff Here
-	~track0.transport.play;	
-	~track1.transport.play;
-	~track2.transport.play;
-	~track3.transport.play;
-	~track4.transport.play;
-	~track5.transport.play;
-	~track6.transport.play;
-	~track7.transport.play;
-	~track8.transport.play;
-	~track9.transport.play;
+				~track0.transport.play;
+				~track1.transport.play;
+				~track2.transport.play;
+				~track3.transport.play;
+				~track4.transport.play;
+				~track5.transport.play;
+				~track6.transport.play;
+				~track7.transport.play;
+				~track8.transport.play;
+				~track9.transport.play;
 			);
 
 			(
