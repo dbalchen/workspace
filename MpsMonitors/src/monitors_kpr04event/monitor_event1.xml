@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+
+<!--
+    Revision      : PR270997
+    Description   : Modified for TOPS 
+    Author        : David A Smith
+    Date          : Fri Jul 12 11:12:00 CDT 2013
+-->
+
+<!-- The MONITOR configuration file. -->
+<monitor>
+	<!-- 
+		GENFERAL SETTINGS 
+		Settings applicable to the overall environment of this Monitor instance.
+	-->
+	<general>
+		<!--
+			ASSOCIATE ONCALL SCHEDULE
+			Value contains oncall start date and end date in format YYYMMDD.
+		-->
+		<schedule>
+
+			<period>
+				<start_oncall>20130101</start_oncall>
+				<end_oncall>20501231</end_oncall>
+				<victim>JoeMps</victim>
+			</period>
+		</schedule>
+
+		<!--
+			ASSOCIATE INFORMATION
+			SMTP pager and email addresses.
+		-->
+		<associate>
+			<name>JoeMps</name>
+			<email>MPS@uscellular.com</email>
+		</associate>
+
+		<!--
+			ROOT PATH
+			Physical address of the root project directory.
+			This is where all the check executables are located.
+		-->
+		<SERVLET>
+			<TEMPLATE file="ini/Mps_Monitor.html" key="default" />
+			<TEMPLATE file="ini/OncallM01.html" key="ONCALLM01" />
+			<TEMPLATE file="ini/Oncall3M01.html" key="ONCALL3M01" />
+		</SERVLET>
+	</general>
+
+	<!--
+		MARKET
+		Settings specific to each market.            
+	-->
+	<MARKET>
+		<!--
+			These sections contain input parameters for each individual
+			monitor check.
+			To turn off any of the checks, set its 'disable' flag to 'Yes', 'y', 
+			or any other case variation thereof.
+		-->
+		<EVENT1 hostname="mtr01s2eap.uscc.com" port="8999" StartHour="7">
+
+			<WebListenGuideRate>
+				<disable>yes</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>1,6,11,16,21,26,31,36,41,46,51,56</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>
+					Monitor/WebListenerGuidersRaters.pl
+				</executable>
+				<params title="WebListenGuideRate:EVENT1" />
+				<repage>1</repage>
+			</WebListenGuideRate>
+
+			<WebSpaceMb>
+				<disable>yes</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>7</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>Monitor/WebSpaceMb.pl</executable>
+				<params title="WebSpaceMb:EVENT1" />
+				<repage>1</repage>
+			</WebSpaceMb>
+
+		</EVENT1>
+	</MARKET>
+</monitor>

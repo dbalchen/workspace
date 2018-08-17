@@ -3331,3 +3331,106 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   : uscc_usc_mabel_e2e_alert.pl 
   : on EBI Server.
   : path: /apps/ebi/invap1/support/bin 
+
+* DONE finish off Roaming Recon					    :ARCHIVE:
+  DEADLINE: <2018-06-22 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-07-31 Tue 12:16
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+   
+
+* Verizon Remaining Verizon Markets				    :ARCHIVE:
+  DEADLINE: <2018-07-31 Tue>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-02 Thu 15:06
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Volte Roaming
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* DONE Wallet Master						    :ARCHIVE:
+  SCHEDULED: <2018-07-02 Mon>--<2022-06-06 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-10 Fri 15:29
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* HOLD Open RC for RoamRecon USID and password.			    :ARCHIVE:
+  SCHEDULED: <2018-03-19 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-10 Fri 15:30
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: HOLD
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* DONE Setup wallets in production [100%]			    :ARCHIVE:
+  SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-10 Fri 15:30
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/TSP
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  - [X] Wallets to Development
+  - [X] Wallets to Production
+
+* Archive							    :ARCHIVE:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-10 Fri 15:31
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+** DONE Recompile Applications [100%]				    :ARCHIVE:
+   DEADLINE:  <2018-07-20 Fri>
+   :PROPERTIES:
+   :ARCHIVE_TIME: 2018-08-10 Fri 15:29
+   :END:
+   - [X] EpsMonitors
+     - Bring in all perl monitors
+   - [X] CallDump
+   - [X] Switch 2 Bill
+   - [X] Monitor
+** HOLD Talk to Ratish Patel about moving Batch 2 apps		    :ARCHIVE:
+   DEADLINE: <2018-07-13 Fri>
+   :PROPERTIES:
+   :ARCHIVE_TIME: 2018-08-10 Fri 15:29
+   :END:
+   
+
+* Extra								    :ARCHIVE:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-10 Fri 15:31
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+   : I have pushed out the sudo (and updated for billingtechops) for prodtc1-6 on the following servers: 
+   : kpr01bch01
+   : kpr01bch02
+   : kpr01bch03
+   : kpr01bch04
+   : kpr01bch05
+   : kpr01eve01
+   : kpr01eve02
+   : kpr01eve03
+   : kpr01eve04
+   : kpr01eve05
+   : kpr01eve06

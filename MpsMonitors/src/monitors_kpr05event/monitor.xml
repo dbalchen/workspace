@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+
+<!--
+    Revision      : PR270997
+    Description   : Modified for APRM 
+    Author        : David A Smith
+    Date          : Mon Jun  3 12:24:21 CDT 2013
+-->
+
+<!-- The MONITOR configuration file. -->
+<monitor>
+	<!-- 
+		GENFERAL SETTINGS 
+		Settings applicable to the overall environment of this Monitor instance.
+	-->
+	<general>
+		<!--
+			ASSOCIATE ONCALL SCHEDULE
+			Value contains oncall start date and end date in format YYYMMDD.
+		-->
+		<schedule>
+			<period>
+				<start_oncall>20130101</start_oncall>
+				<end_oncall>20501231</end_oncall>
+				<victim>JoeMps</victim>
+			</period>
+		</schedule>
+
+		<!--
+			ASSOCIATE INFORMATION
+			SMTP pager and email addresses.
+		-->
+		<associate>
+			<name>JoeMps</name>
+			<!--pager>6086575663@archwireless.net</pager-->
+			<!-- <email>MPS@uscellular.com</email-->
+			<!--email>david.smith@uscellular.com</email-->
+		</associate>
+
+		<!--
+			ROOT PATH
+			Physical address of the root project directory.
+			This is where all the check executables are located.
+		-->
+		<SERVLET>
+			<TEMPLATE file="ini/Mps_Monitor.html" key="default" />
+			<TEMPLATE file="ini/ACPA2.html" key="ACPA2" />
+			<TEMPLATE file="ini/ACPA3.html" key="ACPA3" />
+			<TEMPLATE file="ini/OncallM01.html" key="ONCALLM01" />
+			<TEMPLATE file="ini/Oncall3M01.html" key="ONCALL3M01" />
+		</SERVLET>
+	</general>
+
+	<!--
+		MARKET
+		Settings specific to each market.            
+	-->
+	<MARKET>
+		<!--
+			These sections contain input parameters for each individual
+			monitor check.
+			To turn off any of the checks, set its 'disable' flag to 'Yes', 'y', 
+			or any other case variation thereof.
+		-->
+		<!--APRM hostname="APRMusg1.uscc.com" port="8999" StartHour="7"-->
+		<KPRL5EVENT hostname="kpr05event.uscc.com" port="8999" StartHour="7">
+                       <WebSpaceMb>
+                                <disable>yes</disable>
+                                <!--
+                                        The following 5 tags tell the monitor when it should run the
+                                        check.  The method is similar to the Unix CRON.  
+                                        Thus, for instance the setting:
+                                        "   <minutes>5,23</minutes>
+                                        <hours>3,5,19</hours> 
+                                        <days>1-25</days>
+                                        <dayofweek>*</dayofweek>
+                                        <month>*</month>           "
+                                        results in the check being performed every day of the month,
+                                        on any day of the week, but only on days of month 1st through
+                                        the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and
+                                        7:23 PM.
+                                -->
+                                <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+                                <hours>*</hours>
+                                <days>*</days>
+                                <dayofweek>*</dayofweek>
+                                <month>*</month>
+
+                                <executable>Monitor/WebSpaceMb.pl</executable>
+                                <params title="WebSpaceMb:EVENT5" />
+                                <repage>1</repage>
+                        </WebSpaceMb>
+                        <Apps>
+                                <disable>yes</disable>
+                                <!--
+                                        The following 5 tags tell the monitor when it should run the
+                                        check.  The method is similar to the Unix CRON.
+                                        Thus, for instance the setting:
+                                        "   <minutes>5,23</minutes>
+                                        <hours>3,5,19</hours>
+                                        <days>1-25</days>
+                                        <dayofweek>*</dayofweek>
+                                        <month>*</month>           "
+                                        results in the check being performed every day of the month,
+                                        on any day of the week, but only on days of month 1st through
+                                        the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and
+                                        7:23 PM.
+                                -->
+                                <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+                                <hours>*</hours>
+                                <days>*</days>
+                                <dayofweek>*</dayofweek>
+                                <month>*</month>
+
+                                <executable>Monitor/getApps_json.pl</executable>
+                                <params path="/user1/inf/aimsys/prdtc5/eps/monitors/Monitor/apps.config"/>
+                                <repage>1</repage>
+                        </Apps>
+                        <Filesystem>
+                                <disable>yes</disable>
+                                <!--
+                                        The following 5 tags tell the monitor when it should run the
+                                        check.  The method is similar to the Unix CRON.
+                                        Thus, for instance the setting:
+                                        "   <minutes>5,23</minutes>
+                                        <hours>3,5,19</hours>
+                                        <days>1-25</days>
+                                        <dayofweek>*</dayofweek>
+                                        <month>*</month>           "
+                                        results in the check being performed every day of the month,
+                                        on any day of the week, but only on days of month 1st through
+                                        the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and
+                                        7:23 PM.
+                                -->
+                                <minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57</minutes>
+                                <hours>*</hours>
+                                <days>*</days>
+                                <dayofweek>*</dayofweek>
+                                <month>*</month>
+
+                                <executable>Monitor/WebSpaceMb_json.pl</executable>
+                                <params path="/user1/inf/aimsys/prdtc5/eps/monitors/Monitor/systemdirs.config"/>
+                                <repage>1</repage>
+                        </Filesystem>
+
+
+		</KPRL5EVENT>
+
+	</MARKET>
+</monitor>

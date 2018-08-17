@@ -17,11 +17,12 @@ if(index($filename,"gz") >= 0)
 	$filename = substr($filename,0,length($filename)-3);	
 }
 
-$hh = "./filter ./mdnList.csv ./minList.csv ../$filename > ../$filename.tmp 2> ../rejected/$filename.err";
+$hh = "./filter ./mdnList.csv ./minList.csv ../$filename > work/$filename.tmp 2> ../rejected/$filename.err";
+
 system($hh);
 
-$hh = "mv ../$filename.tmp ../$filename";
+$hh = "mv work/$filename.tmp ../$filename";
 
-#system($hh);
+system($hh);
 
 exit(0);

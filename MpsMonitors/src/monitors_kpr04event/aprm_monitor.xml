@@ -1,0 +1,385 @@
+<?xml version="1.0"?>
+
+<!--
+    Revision      : PR270997
+    Description   : Modified for APRM 
+    Author        : David A Smith
+    Date          : Mon Jun  3 12:24:21 CDT 2013
+-->
+
+<!-- The MONITOR configuration file. -->
+<monitor>
+	<!-- 
+		GENFERAL SETTINGS 
+		Settings applicable to the overall environment of this Monitor instance.
+	-->
+	<general>
+		<!--
+			ASSOCIATE ONCALL SCHEDULE
+			Value contains oncall start date and end date in format YYYMMDD.
+		-->
+		<schedule>
+			<period>
+				<start_oncall>20130101</start_oncall>
+				<end_oncall>20501231</end_oncall>
+				<victim>JoeMps</victim>
+			</period>
+		</schedule>
+
+		<!--
+			ASSOCIATE INFORMATION
+			SMTP pager and email addresses.
+		-->
+		<associate>
+			<name>JoeMps</name>
+			<!--pager>6086575663@archwireless.net</pager-->
+			<!--email>MPS@uscellular.com</email-->
+			<email>david.smith@uscellular.com</email>
+		</associate>
+
+		<!--
+			ROOT PATH
+			Physical address of the root project directory.
+			This is where all the check executables are located.
+		-->
+		<SERVLET>
+			<TEMPLATE file="ini/Mps_Monitor.html" key="default" />
+			<TEMPLATE file="ini/ACPA2.html" key="ACPA2" />
+			<TEMPLATE file="ini/ACPA3.html" key="ACPA3" />
+			<TEMPLATE file="ini/OncallAPRM.html" key="ONCALLAPRM" />
+			<TEMPLATE file="ini/Oncall3APRM.html" key="ONCALL3APRM" />
+		</SERVLET>
+	</general>
+
+	<!--
+		MARKET
+		Settings specific to each market.            
+	-->
+	<MARKET>
+		<!--
+			These sections contain input parameters for each individual
+			monitor check.
+			To turn off any of the checks, set its 'disable' flag to 'Yes', 'y', 
+			or any other case variation thereof.
+		-->
+		<!--APRM hostname="APRMusg1.uscc.com" port="8999" StartHour="7"-->
+		<APRM hostname="mtr01s2eap.uscc.com" port="18999" StartHour="7">
+			<!--
+				ProgremBehind
+				This check is responsible for paging the oncall person when 
+				a program is behind in processing by a threshold number of records.
+			-->
+			<ProgramBehind>
+				<disable>No</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>0</minutes>
+				<hours>8-23</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+				<!-- Path (relative to <MpsLib>) to the audit executable -->
+				<executable>Monitor/ProgramBehind.pl</executable>
+				<params market="APRM" sql_query="aprm_program_behind_01.sql"
+					threshold="2000000" MpsLib="" SqlLib="sql/" Log="log/"
+					title="APRM:ProgramBehind" />
+				<collector_interval>6,46</collector_interval>
+				<repage>1</repage>
+			</ProgramBehind>
+			
+			<ProgramBehind>
+				<disable>No</disable>
+				<minutes>0</minutes>
+				<hours>8-23</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+				<!-- Path (relative to <MpsLib>) to the audit executable -->
+				<executable>Monitor/ProgramBehind.pl</executable>
+				<params market="APRM" sql_query="aprm_program_behind_02.sql"
+					threshold="2000000" MpsLib="" SqlLib="sql/" Log="log/"
+					title="APRM:ProgramBehind" />
+				<collector_interval>8,48</collector_interval>
+				<repage>1</repage>
+			</ProgramBehind>			
+
+			<ProgramBehind>
+				<disable>No</disable>
+				<minutes>0</minutes>
+				<hours>8-23</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+				<!-- Path (relative to <MpsLib>) to the audit executable -->
+				<executable>Monitor/ProgramBehind.pl</executable>
+				<params market="APRM" sql_query="aprm_program_behind_03.sql"
+					threshold="2000000" MpsLib="" SqlLib="sql/" Log="log/"
+					title="APRM:ProgramBehind" />
+				<collector_interval>10,50</collector_interval>
+				<repage>1</repage>
+			</ProgramBehind>
+
+			<!--
+				StuckFile
+				This check is responsible for paging the oncall person when 
+				files stuck in usage are detected.
+			-->
+			<StuckFile>
+				<disable>No</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>0</minutes>
+				<hours>8-23</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+				<!-- Path (relative to <MpsLib>) to the audit executable -->
+				<executable>Monitor/StuckFile.pl</executable>
+				<params market="APRM" sql_query="aprm_stuck_file_01.sql"
+					threshold="4" MpsLib="" SqlLib="sql/" Log="log/"
+					title="APRM:StuckFile" />
+				<collector_interval>3,48</collector_interval>
+				<repage>1</repage>
+			</StuckFile>
+			
+			<StuckFile>
+				<disable>No</disable>
+				<minutes>0</minutes>
+				<hours>8-23</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+				<!-- Path (relative to <MpsLib>) to the audit executable -->
+				<executable>Monitor/StuckFile.pl</executable>
+				<params market="APRM" sql_query="aprm_stuck_file_02.sql"
+					threshold="4" MpsLib="" SqlLib="sql/" Log="log/"
+					title="APRM:StuckFile" />
+				<collector_interval>5,50</collector_interval>
+				<repage>1</repage>
+			</StuckFile>			
+			
+			<StuckFile>
+				<disable>No</disable>
+				<minutes>0</minutes>
+				<hours>8-23</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+				<!-- Path (relative to <MpsLib>) to the audit executable -->
+				<executable>Monitor/StuckFile.pl</executable>
+				<params market="APRM" sql_query="aprm_stuck_file_03.sql"
+					threshold="4" MpsLib="" SqlLib="sql/" Log="log/"
+					title="APRM:StuckFile" />
+				<collector_interval>7,52</collector_interval>
+				<repage>1</repage>
+			</StuckFile>			
+
+			<!--
+				OutcollectCiber
+				This check is responsible for paging the oncall person if 
+				Incollect Ciber files have not been received from the ClearingHouse
+				in <params threshold> amount of time.
+			-->
+			<IncollectCiber>
+				<disable>No</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>0</minutes>
+				<hours>7-22</hours>
+				<days>*</days>
+				<dayofweek>0,2,3,4,5,6</dayofweek>
+				<month>*</month>
+				<params market="APRM" threshold="30" Log="log/"
+					title="APRM:IncollectInterRoaming"
+					phys_dir="/inf_nas/apm1/prod/aprmoper/var/usc/LSN/output1" />
+				<executable>Monitor/IncollectCiber.pl</executable>
+				<collector_interval>3,48</collector_interval>
+				<repage>0</repage>
+			</IncollectCiber>
+
+			<!--
+				OutcollectCiber
+				This check is responsible for paging the oncall person if 
+				Outcollect Ciber files have not been sent to the ClearingHouse
+				in <params threshold> amount of time.
+			-->
+			<OutcollectCiber>
+				<disable>No</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>0</minutes>
+				<hours>8-23</hours>
+				<days>*</days>
+				<dayofweek>0,2,3,4,5,6</dayofweek>
+				<month>*</month>
+				<executable>Monitor/OutcollectCiber.pl</executable>
+				<params market="APRM" threshold="24" alt_thresh="48"
+					MpsLib="" SqlLib="sql/" Log="log/" title="APRM:Outcollect_Ciber"
+					phys_dir="/user1/abp/sit/sitabp12/var/usc/projs/up/physical/switch/CIBER" />
+				<collector_interval>4,49</collector_interval>
+				<repage>0</repage>
+			</OutcollectCiber>
+
+			<WebAcpa2>
+				<disable>yes</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>
+					2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59
+				</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+				<executable>Monitor/acpa2.pl</executable>
+				<params title="ACPA2:APRM" />
+				<repage>1</repage>
+			</WebAcpa2>
+
+			<WebListenGuideRate>
+				<disable>yes</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>1,6,11,16,21,26,31,36,41,46,51,56</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>
+					Monitor/WebListenerGuidersRaters.pl
+				</executable>
+				<params title="WebListenGuideRate:APRM" />
+				<repage>1</repage>
+			</WebListenGuideRate>
+
+			<WebSpaceMb>
+				<disable>yes</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>7</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>Monitor/WebSpaceMb.pl</executable>
+				<params title="WebSpaceMb:APRM" />
+				<repage>1</repage>
+			</WebSpaceMb>
+
+			<WebStuckFileProc>
+				<disable>yes</disable>
+				<!--
+					The following 5 tags tell the monitor when it should run the
+					check.  The method is similar to the Unix CRON.  
+					Thus, for instance the setting:
+					"   <minutes>5,23</minutes>
+					<hours>3,5,19</hours> 
+					<days>1-25</days>
+					<dayofweek>*</dayofweek>
+					<month>*</month>           "
+					results in the check being performed every day of the month,
+					on any day of the week, but only on days of month 1st through
+					the 25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and
+					7:23 PM.
+				-->
+				<minutes>18,48</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>Monitor/WebStuckFileProc.pl</executable>
+				<params
+					ignore_list=""
+					title="APRM:WebStuckFileProc" />
+				<repage>1</repage>
+			</WebStuckFileProc>
+		</APRM>
+	</MARKET>
+</monitor>
