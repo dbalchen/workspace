@@ -3485,3 +3485,41 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: DONE
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
+
+* Prepaid Evolution						    :ARCHIVE:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-20 Mon 16:02
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Production Release
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  This is for the first track only which adds various autopay functionality.
+  DEADLINE: <2018-08-05 Sun> First track of work only...
+
+* TODO Database access for Production ODS			    :ARCHIVE:
+  SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-23 Thu 16:44
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/TSP
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* Archive							    :ARCHIVE:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-08-24 Fri 16:50
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+** HOLD CallDump						    :ARCHIVE:
+   :PROPERTIES:
+   :ARCHIVE_TIME: 2018-08-24 Fri 16:49
+   :END:
+   - Sector information
+   - Distance Information
+   - Merge M2M calls

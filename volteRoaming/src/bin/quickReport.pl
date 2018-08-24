@@ -36,15 +36,14 @@ $ARGV[0] =
 #$ARGV[0] = "NLDLT";
 #$ARGV[0] = "NLDLT,CIBER_CIBER";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 # Setup Initial variables
 my $timeStamp = $ARGV[1];
 
-$timeStamp = '20180805';
+#$timeStamp = '20180805';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
@@ -699,9 +698,9 @@ sub sendMsg() {
 
 sub getBODSPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "9000#GooBoo" );
+	my $dbPwd = "BODS_DAV_BILLINGOPS";
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+	# my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -710,9 +709,9 @@ sub getBODSPRD {
 
 sub getSNDPRD {
 
-	#	my $dbPwd = "BILLING_OPS_APP";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
+	my $dbPwd = "SND_SVC_BILLINGOPS";
+	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	# my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

@@ -46,7 +46,7 @@
 			<TEMPLATE file="ini/ACPA2.html" key="ACPA2" />
 			<TEMPLATE file="ini/KPRL1BATCH.html" key="KPRL1BATCH" />
 			<TEMPLATE file="ini/KPRL2BATCH.html" key="KPRL2BATCH" />
-			<TEMPLATE file="ini/KPRL3BATCH.html" key="KPRL3BATCH" />
+			<TEMPLATE file="ini/KPR01BCH03.html" key="KPR01BCH03" />
 		</SERVLET>
 	</general>
 
@@ -62,7 +62,7 @@
 			or any other case variation thereof.
 		-->
 
-  <KPRL3BATCH hostname="kprl3batch" port="8999" StartHour="7">
+  <KPR01BCH03 hostname="kpr01bch03" port="8999" StartHour="7">
 
                         <WebListenGuideRate>
                                 <disable>yes</disable>
@@ -89,7 +89,7 @@
                                 <executable>
                                         Monitor/WebListenerGuidersRaters.pl
                                 </executable>
-                                <params title="WebListenGuideRate:KPRL3BATCH" />
+                                <params title="WebListenGuideRate:KPR01BCH03" />
                                 <repage>1</repage>
                         </WebListenGuideRate>
 
@@ -116,7 +116,7 @@
                                 <month>*</month>
 
                                 <executable>Monitor/WebSpaceMb.pl</executable>
-                                <params title="WebSpaceMb:KPRL3BATCH" />
+                                <params title="WebSpaceMb:KPR01BCH03" />
                                 <repage>1</repage>
                         </WebSpaceMb>
 
@@ -145,7 +145,7 @@
                                 <executable>
                                         aprmMon/WebListenerGuidersRaters.pl
                                 </executable>
-                                <params title="WebListenGuideRateA:KPRL3BATCH" />
+                                <params title="WebListenGuideRateA:KPR01BCH03" />
                                 <repage>1</repage>
                         </WebListenGuideRateA>
                         
@@ -173,7 +173,7 @@
                                 <dayofweek>*</dayofweek>
                                 <month>*</month>
                                 <executable>aprmMon/acpa2.pl</executable>
-                                <params title="ACPA2A:KPRL3BATCH" />
+                                <params title="ACPA2A:KPR01BCH03" />
                                 <repage>1</repage>
                         </WebAcpa2A>
 
@@ -200,7 +200,7 @@
                                 <month>*</month>
 
                                 <executable>aprmMon/WebSpaceMb.pl</executable>
-                                <params title="WebSpaceMbA:KPRL3BATCH" />
+                                <params title="WebSpaceMbA:KPR01BCH03" />
                                 <repage>1</repage>
                         </WebSpaceMbA>
 
@@ -229,7 +229,7 @@
                                 <executable>aprmMon/WebStuckFileProc.pl</executable>
                                 <params
                                         ignore_list=""
-                                        title="KPRL3BATCH:WebStuckFileProcA" />
+                                        title="KPR01BCH03:WebStuckFileProcA" />
                                 <repage>1</repage>
                         </WebStuckFileProcA>
 
@@ -365,7 +365,7 @@
                                 <repage>1</repage>
                         </FilesystemA>
 
-		</KPRL3BATCH>
+		</KPR01BCH03>
 
 	</MARKET>
 </monitor>

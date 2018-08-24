@@ -6,21 +6,21 @@ use Time::Seconds;
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-
-   #push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20180801';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
+
+#$ARGV[0] = '20180822';
 
 my $date = $ARGV[0];
 
@@ -31,7 +31,7 @@ my $period = '';
 $period = Time::Piece->strptime( $date, "%Y%m%d" );
 $period -= ONE_MONTH;
 
-if ( substr( $date, 6, 2 ) eq '01' ) {
+if ( substr( $date, 6, 2 ) eq '05' ) {
 
 	$period += ONE_WEEK;
 	$ldate = $period->strftime("%Y%m");
@@ -270,7 +270,7 @@ my $dbconnb = ''; # getBRMPRD();
 
 my @aprmArray = ();
 
-if ( substr( $date, 6, 2 ) eq '01' ) {
+if ( substr( $date, 6, 2 ) eq '05' ) {
 
 	@aprmArray = (
 
@@ -290,12 +290,12 @@ if ( substr( $date, 6, 2 ) eq '01' ) {
 }
 else {
 	@aprmArray = (
-		'CDMA_INCOLLECT_VOICE_SETTLEMENT',
-	        'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER',
-		'CDMA_INCOLLECT_DATA_SETTLEMENT',
-		'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER',
-		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT',
-		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'
+		'CDMA_INCOLLECT_VOICE_SETTLEMENT' #,
+#	    'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER',
+#		'CDMA_INCOLLECT_DATA_SETTLEMENT',
+#		'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER',
+#		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT',
+#		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'
 	);
 }
 
@@ -303,6 +303,9 @@ readAprm( \@aprmArray, $dbconn, $dbconnb, $date );
 
 $dbconn->disconnect();
 $dbconnb->disconnect();
+
+
+
 
 exit(0);
 
@@ -521,14 +524,20 @@ sub readAprm {
 
 	}
 	$workbook->close;
+	
+	my @email = ('david.balchen@uscellular.com');
+	foreach my $too (@email) {
+
+	sendMsg( $too,"APRM Report for $date\n",$excel_file );
+}
 
 }
 
 sub getBODSPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
+	my $dbPwd = "BODS_SVC_BILLINGOPS";
+	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -560,4 +569,37 @@ sub pad {
 
   return $padString;
 
+}
+
+sub sendMsg() {
+
+	my ( $to, $message, $excel_file ) = @_;
+	my $mime_type = 'multipart/mixed';
+	my $from      = "david.balchen\@uscellular.com";
+	my $subject   = "APRM Report for $date";
+	my $cc        = '';
+
+	$message = "You'll find the report attached to this email\n\n" . $message;
+
+	my $msg = MIME::Lite->new(
+		From    => $from,
+		To      => $to,
+		Cc      => $cc,
+		Subject => $subject,
+		Type    => $mime_type
+	) or die "Error creating " . "MIME body: $!\n";
+
+	$msg->attach(
+		Type => 'TEXT',
+		Data => $message
+	) or die "Error adding text message: $!\n";
+
+	$msg->attach(
+		Type     => 'application/octet-stream',
+		Encoding => 'base64',
+		Path     => $ENV{'REC_HOME'} . $excel_file,
+		Filename => $excel_file
+	) or die "Error attaching file: $!\n";
+
+	$msg->send();
 }

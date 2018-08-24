@@ -1,18 +1,13 @@
 #! /usr/local/bin/perl
 
-$Market = "KPRL3BATCH";
+$Market = "KPR01BCH03";
 $market = lc($Market);
 
-#$ENV{'OP_JOB_NAME'} = 'MPSBOOT';
-#$ENV{'OP_ORA_INST'} = 'pc1'.$market;
-#$ENV{'OP_ORA_USER'} = $market.'operconn';
-#$ENV{'OP_ORA_PASS'} = $market.'operconn';
-
 $mainPgm = "com.uscc.monitor.MpsMonitor";
-$java = "/usr/java/jdk1.6.0_24/bin/java";
-$classpath = "./xmlParserAPIs.jar:./MpsMonitors.jar:./xercesImpl.jar:./xerces.jar";
+$java = "/apps/amdocs/jdk1.8.0_131/bin/java";
+$classpath = "./xmlParserAPIs.jar:./MpsMonitors.jar:./xercesImpl.jar:./xml-apis.jar";
 # runs in a posix shell
-$hh = "$java  -classpath $classpath $mainPgm $Market ./monitor.xml >/pkgbl03/inf/aimsys/prdwrk3/eps/monitors/mon.err 2>&1 &";
+$hh = "$java  -classpath $classpath $mainPgm $Market ./monitor.xml > ./mon.err 2>&1 &";
 
 print "$hh \n";
 

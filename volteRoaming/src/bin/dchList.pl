@@ -5,9 +5,8 @@ use Time::Seconds;
 
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 my $date  = $ARGV[0];
 
 my $today        = Time::Piece->strptime( "$date", "%Y%m%d" );

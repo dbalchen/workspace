@@ -36,8 +36,7 @@ use MIME::Lite;
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 $ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
 # Setup Initial variables
 my $max_process = 10;
@@ -798,11 +797,12 @@ sub sendMsg() {
 	$msg->send();
 }
 
-sub getBODSPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
+sub getBODSPRD {
+	my $dbPwd = "BODS_DAV_BILLINGOPS";
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -811,24 +811,13 @@ sub getBODSPRD {
 
 sub getSNDPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
+	my $dbPwd = "SND_SVC_BILLINGOPS";
+	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	# my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo");
 	unless ( defined $dbods ) {
 		sendErr();
 	}
 	return $dbods;
 }
 
-sub pad {
-
-	my ( $padString, $padwith, $length ) = @_;
-
-	while ( length($padString) < $length ) {
-		$padString = $padwith . $padString;
-	}
-
-	return $padString;
-
-}
 

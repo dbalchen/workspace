@@ -1,6 +1,6 @@
-#! /usr/local/bin/perl
+#! /usr/bin/perl
 
-$Market = "KPRL3EVENT";
+$Market = "KPR01EVE03";
 $market = lc($Market);
 
 #$ENV{'OP_JOB_NAME'} = 'MPSBOOT';
@@ -9,8 +9,8 @@ $market = lc($Market);
 #$ENV{'OP_ORA_PASS'} = $market.'operconn';
 
 $mainPgm = "com.uscc.monitor.MpsMonitor";
-$java = "/usr/java/jdk1.6.0_24/bin/java";
-$classpath = "./xmlParserAPIs.jar:./MpsMonitors.jar:./xercesImpl.jar:./xerces.jar";
+$java = "/apps/amdocs/jdk1.8.0_131/bin/java";
+$classpath = "./xmlParserAPIs.jar:./MpsMonitors.jar:./xercesImpl.jar:./xml-apis.jar";
 # runs in a posix shell
 $hh = "$java -Xms64m -Xmx256m -classpath $classpath $mainPgm $Market ./monitor.xml >mon.err 2>&1 &";
 

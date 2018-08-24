@@ -44,7 +44,7 @@
 		<SERVLET>
 			<TEMPLATE file="ini/Mps_Monitor.html" key="default" />
 			<TEMPLATE file="ini/ACPA2.html" key="ACPA2" />
-			<TEMPLATE file="ini/KPRL1BATCH.html" key="KPRL1BATCH" />
+			<TEMPLATE file="ini/KPR01BCH01.html" key="KPR01BCH01" />
 			<TEMPLATE file="ini/KPRL2BATCH.html" key="KPRL2BATCH" />
 			<TEMPLATE file="ini/KPRL3BATCH.html" key="KPRL3BATCH" />
 		</SERVLET>
@@ -61,7 +61,7 @@
 			To turn off any of the checks, set its 'disable' flag to 'Yes', 'y', 
 			or any other case variation thereof.
 		-->
-		<KPRL1BATCH hostname="kprl1batch" port="8999" StartHour="7">
+		<KPR01BCH01 hostname="kpr01bch01" port="8999" StartHour="7">
                         <Apps>
                                 <disable>yes</disable>
                                 <!--
@@ -151,6 +151,6 @@
                                 <params/>
                                 <repage>1</repage>
                         </OVP>
-		</KPRL1BATCH>
+		</KPR01BCH01>
 	</MARKET>
 </monitor>

@@ -6,15 +6,14 @@ use DBI;
 $ARGV[0] = "CDUSASGUSAUD34126,34126,Sprint (USASG),25000,718.08133,0,0,20180805";
 #
 ## For test only.....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
 
 my @argv = split( /,/, $ARGV[0] );
 
@@ -247,10 +246,10 @@ $dbconn->disconnect();
 exit(0);
 
 sub getBODSPRD {
+	my $dbPwd = "BODS_DAV_BILLINGOPS";
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "9000#GooBoo" );
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -259,9 +258,9 @@ sub getBODSPRD {
 
 sub getSNDPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
+	my $dbPwd = "SND_SVC_BILLINGOPS";
+	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	# my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo");
 	unless ( defined $dbods ) {
 		sendErr();
 	}

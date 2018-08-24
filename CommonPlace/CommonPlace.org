@@ -193,19 +193,19 @@
 
 ** APRM
    *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
-** Production Servers/EpsMonitors
+** Create Wallets 						   :noexport:
  : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
  : Service Account SVC_BILLINGOPS    lXmWKh5pJsGxr!nIl_GQl0Db
 
- export ORACLE_HOME=/u01/app/oracle/product/current/client_1
- export PATH=$PATH:$ORACLE_HOME/bin
+ : export ORACLE_HOME=/u01/app/oracle/product/current/client_1
+ : export PATH=$PATH:$ORACLE_HOME/bin
 
- mkstore -wrl <wallet_location> -create
- mkstore -wrl <wallet_location> -createCredentialdf <db_connect_string> <username> <password>
+ : mkstore -wrl <wallet_location> -create
+ : mkstore -wrl <wallet_location> -createCredential <db_connect_string> <username> <password>
 
- mkstore -wrl . -deleteCredential bods_svc_billingops svc_np_billingops
- mkstore -wrl . -modifyCredential cst_svc_billingops svc_np_billingops
-
+ : mkstore -wrl . -deleteCredential bods_svc_billingops svc_np_billingops
+ : mkstore -wrl . -modifyCredential cst_svc_billingops svc_np_billingops
+** Production Servers/EpsMonitors
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -221,13 +221,12 @@
       - *Event5* - *kpr01eve05.uscc.com (10.176.12.132)*
       - *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
       - *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
-	: /home/common/eps/monitors
-	/Before restarting remove all err and log files./
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-** Production Server Logins
-*** Operational Service Accounts
+*** Production Service Accounts
+    - *prodtc1 - 6*
+*** Operational Server Service Accounts
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -246,61 +245,13 @@
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** TSP Tops Servers
-    - *prodtc1-6* For all production service accounts.
-
-** Overage Protection
-      Overage notifications are detected on an event by event basis. As
-      events are processed by *TC* and added to the *APE1_ACCUMULATORS*
-      table a check is made against the
-      *L9_FIRST_THRESHOLD/L9_SECOND_THRESHOLD* fields. If an overage
-      is detected the ***FIELD*** CTN is added to file (segregated by
-      unique *TC* file?) in the NTF directory. MFT then pulls these
-      files and delivers to DMI for distribution. A note is added to the
-      NOTIFICATION_HUB.SMS_NOTIFICATION table (ODS) indicating the
-      message was sent by DMI.
-
-      - Overage process flow
-         [[file:Pictures/overage.png]]
-
-      - Output Location
-|-----------------------------------------+-------------------------------------|
-| *NOTIF_DESC*                            | *FILE_PATH*                         |
-|-----------------------------------------+-------------------------------------|
-| Overage cap notification on group level | $ABP_APR_ROOT/interfaces/output/NTF |
-| Disclaimer notification on group level  | $ABP_APR_ROOT/interfaces/output/NTF |
-| Bucket notification on group level      | $ABP_APR_ROOT/interfaces/output/NTF |
-|-----------------------------------------+-------------------------------------|
-
-| *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
-
-      -  Fields of Interest
-         S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
-         L3_CALL_SOURCE
-
-** Billing Process
-      The billing process follows a map which is created by the job
-      *ADJ3_APR_CycleBillRun_Sh*. If it completes successfully it
-      will create a billing map that will look something like the
-      following:
-
-      [[file:Pictures/billing_tc_map-27124108.png]]
-
-** Log File Location
-   -  Alias
-      -  *cdlog* - cd to the logfile directory.
-      -  *cdswitch (Batch2 Only)* - cd to the switch directory.
-      -  *aprout* - cd to the *CIBER* out directories.
-
-** EBI Operational Server
-*** Development Server Logins
+*** Development Server Service Accounts
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
 #+ATTR_LaTeX: :environment longtable :align l|l
     |-----------------------+-------------------------|
     | *SERVER*              | *LOGIN*                 |
-
     |-----------------------+-------------------------|
     | mdr02bld01/mdr01oprmn | sudo /bin/su - d_arapp1 |
     | mdr02bld01/mdr01oprmn | sudo /bin/su - d_ebiap1 |
@@ -410,6 +361,49 @@ subgraph cluster_3 {
 \end{landscape} 
 \newpage
 #+END_LaTeX
+** Overage Protection
+      Overage notifications are detected on an event by event basis. As
+      events are processed by *TC* and added to the *APE1_ACCUMULATORS*
+      table a check is made against the
+      *L9_FIRST_THRESHOLD/L9_SECOND_THRESHOLD* fields. If an overage
+      is detected the ***FIELD*** CTN is added to file (segregated by
+      unique *TC* file?) in the NTF directory. MFT then pulls these
+      files and delivers to DMI for distribution. A note is added to the
+      NOTIFICATION_HUB.SMS_NOTIFICATION table (ODS) indicating the
+      message was sent by DMI.
+
+      - Overage process flow
+         [[file:Pictures/overage.png]]
+
+      - Output Location
+|-----------------------------------------+-------------------------------------|
+| *NOTIF_DESC*                            | *FILE_PATH*                         |
+|-----------------------------------------+-------------------------------------|
+| Overage cap notification on group level | $ABP_APR_ROOT/interfaces/output/NTF |
+| Disclaimer notification on group level  | $ABP_APR_ROOT/interfaces/output/NTF |
+| Bucket notification on group level      | $ABP_APR_ROOT/interfaces/output/NTF |
+|-----------------------------------------+-------------------------------------|
+
+| *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
+
+      -  Fields of Interest
+         S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
+         L3_CALL_SOURCE
+
+** Billing Process
+      The billing process follows a map which is created by the job
+      *ADJ3_APR_CycleBillRun_Sh*. If it completes successfully it
+      will create a billing map that will look something like the
+      following:
+
+      [[file:Pictures/billing_tc_map-27124108.png]]
+
+** Log File Location
+   -  Alias
+      -  *cdlog* - cd to the logfile directory.
+      -  *cdswitch (Batch2 Only)* - cd to the switch directory.
+      -  *aprout* - cd to the *CIBER* out directories.
+
 * Usage Overview
    Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
    in two ways, *Voice* and *Data*.\\
@@ -4736,35 +4730,67 @@ hhh
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** APPT Oncall
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
-** TODO Production Release 
-*** Prepaid Evolution						    :ARCHIVE:
-    This is for the first track only which adds various autopay functionality.
-    DEADLINE: <2018-08-05 Sun> First track of work only...
+** HOLD Production Release 
 ** TODO Volte Roaming
 *** TMO Remaining TMO Markets
     DEADLINE: <2018-09-28 Fri>     
-** TODO CallDump
-   - Sector information
-   - Distance Information
-   - Merge M2M calls
 ** TODO IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 ** TSP
 *** [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx][Issues Log]]
 *** TODO Push Applications to TSP Production/OPER [60%]
-    - [ ] Push out the monitors
+    - [-] EpsMonitors [0%] 
+      - [-] Set up all Production Environments [92%]
+	- [X] *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
+	- [X] *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
+	- [X] *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
+	- [X] *Batch4* - *kpr01bch04.uscc.com (10.176.12.134)*
+	- [X] *Batch5* - *kpr01bch05.uscc.com (10.176.15.58)*
+	- [X] *Event1* - *kpr01eve01.uscc.com (10.176.12.128)*
+	- [X] *Event2* - *kpr01eve02.uscc.com (10.176.12.129)*
+	- [X] *Event3* - *kpr01eve03.uscc.com (10.176.12.130)*
+	- [X] *Event4* - *kpr01eve04.uscc.com (10.176.12.131)*
+	- [X] *Event5* - *kpr01eve05.uscc.com (10.176.12.132)*
+	- [X] *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
+	- [X] *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
+        - [ ] Test Network Connection to CallDump
+      - [ ] Test modify each perl process for each market [0%]
+	- [ ] *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
+	- [ ] *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
+	- [ ] *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
+	- [ ] *Batch4* - *kpr01bch04.uscc.com (10.176.12.134)*
+	- [ ] *Batch5* - *kpr01bch05.uscc.com (10.176.15.58)*
+	- [ ] *Event1* - *kpr01eve01.uscc.com (10.176.12.128)*
+	- [ ] *Event2* - *kpr01eve02.uscc.com (10.176.12.129)*
+	- [ ] *Event3* - *kpr01eve03.uscc.com (10.176.12.130)*
+	- [ ] *Event4* - *kpr01eve04.uscc.com (10.176.12.131)*
+	- [ ] *Event5* - *kpr01eve05.uscc.com (10.176.12.132)*
+	- [ ] *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
+	- [ ] *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
+      - [ ] Modify Front End process [0%]
+	- [ ] Modify XML
+	- [ ] Modify jason
+
     - [X] m2mList.pl
     - [ ] runRecon.pl
     - [X] AR9RPLDAILY.pl
     - [X] ip_check_monitor.pl
     SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
-*** DONE MFT file transfers					    :ARCHIVE:
+*** TODO MFT file transfers					    :ARCHIVE:
     [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/MFT%2520Tracker/AllItems.aspx][Deputy Jakes Spreadsheet]]
     SCHEDULED: <2018-08-02 Thu>--<2018-08-09 Thu>
-*** TODO Database access for Production ODS			    :ARCHIVE:
+*** DONE Firewall access DataBase and CallDump			    :ARCHIVE:
     SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
-*** TODO Firewall access DataBase and CallDump
-    SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
+
+** TODO Redo Goals
+  SCHEDULED: <2018-08-20 Mon>--<2018-08-29 Wed>
+  
+* Misc								   :noexport:
+  : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
+  : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
+  : and start_time >= to_date('20180821040058','YYYYMMDDHH24miss') and start_time < to_date('20180823170434','YYYYMMDDHH24miss')
+  : group by customer_id,subscriber_id,cycle_code
+  : order by customer_id,subscriber_id,cycle_code
 ** Arabic Scales
 *** Major
     : C, D, E, F, F#, G#, Bb, C

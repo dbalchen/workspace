@@ -63,7 +63,7 @@
 			or any other case variation thereof.
 		-->
 		<!--APRM hostname="APRMusg1.uscc.com" port="8999" StartHour="7"-->
-		<KPRL5EVENT hostname="kpr05event.uscc.com" port="8999" StartHour="7">
+		<KPR01EVE05 hostname="kpr01eve05.uscc.com" port="8999" StartHour="7">
                        <WebSpaceMb>
                                 <disable>yes</disable>
                                 <!--
@@ -144,7 +144,7 @@
                         </Filesystem>
 
 
-		</KPRL5EVENT>
+		</KPR01EVE05>
 
 	</MARKET>
 </monitor>

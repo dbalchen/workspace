@@ -4,12 +4,11 @@ use DBI;
 
 #Test parameters remove when going to production.
 #$ARGV[0] =
-"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001887_T20170707192108.DAT";
+#"/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI/SDIRI_FCIBER_ID001887_T20170707192108.DAT";
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
-
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
 # For test only....
 #my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
@@ -280,11 +279,12 @@ $dbconnb->disconnect();
 
 exit(0);
 
-sub getBODSPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
+sub getBODSPRD {
+	my $dbPwd = "BODS_DAV_BILLINGOPS";
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -293,9 +293,9 @@ sub getBODSPRD {
 
 sub getSNDPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
+	my $dbPwd = "SND_SVC_BILLINGOPS";
+	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	# my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo");
 	unless ( defined $dbods ) {
 		sendErr();
 	}

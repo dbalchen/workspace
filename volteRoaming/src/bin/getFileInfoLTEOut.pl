@@ -10,9 +10,8 @@ use DBI;
 #$ENV{ORACLE_HOME} = $ORACLE_HOME;
 #$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 #$ENV{'REC_HOME'}  = '/home/dbalchen/workspace/volteRoaming/src/bin';
-
-$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon2/';
+#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
 my $filename = ( split( '/', $ARGV[0] ) )[-1];
 
@@ -157,9 +156,10 @@ exit(0);
 
 sub getBODSPRD {
 
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
+	my $dbPwd = "BODS_DAV_BILLINGOPS";
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -167,10 +167,10 @@ sub getBODSPRD {
 }
 
 sub getSNDPRD {
-
-	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo");
+		
+	my $dbPwd = "SND_SVC_BILLINGOPS";
+	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	# my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo");
 	unless ( defined $dbods ) {
 		sendErr();
 	}
