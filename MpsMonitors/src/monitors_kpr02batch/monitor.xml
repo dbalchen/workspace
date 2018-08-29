@@ -45,7 +45,7 @@
 			<TEMPLATE file="ini/Mps_Monitor.html" key="default" />
 			<TEMPLATE file="ini/ACPA2.html" key="ACPA2" />
 			<TEMPLATE file="ini/KPRL1BATCH.html" key="KPRL1BATCH" />
-			<TEMPLATE file="ini/KPRL2BATCH.html" key="KPRL2BATCH" />
+			<TEMPLATE file="ini/KPR01BCH02.html" key="KPR01BCH02" />
 			<TEMPLATE file="ini/KPRL3BATCH.html" key="KPRL3BATCH" />
 		</SERVLET>
 	</general>
@@ -62,7 +62,7 @@
 			or any other case variation thereof.
 		-->
 
-		<KPRL2BATCH hostname="kprl2batch" port="8999" StartHour="7">
+		<KPR01BCH02 hostname="kpr01bch02" port="8999" StartHour="7">
 
                         <WebListenGuideRate>
                                 <disable>yes</disable>
@@ -89,7 +89,7 @@
                                 <executable>
                                         Monitor/WebListenerGuidersRaters.pl
                                 </executable>
-                                <params title="WebListenGuideRate:KPRL2BATCH" />
+                                <params title="WebListenGuideRate:KPR01BCH02" />
                                 <repage>1</repage>
                         </WebListenGuideRate>
 
@@ -116,7 +116,7 @@
                                 <month>*</month>
 
                                 <executable>Monitor/WebSpaceMb.pl</executable>
-                                <params title="WebSpaceMb:KPRL2BATCH" />
+                                <params title="WebSpaceMb:KPR01BCH02" />
                                 <repage>1</repage>
                         </WebSpaceMb>
                         <Apps>
@@ -224,7 +224,7 @@
                         </Switch_records>
                         
                         
-		</KPRL2BATCH>
+		</KPR01BCH02>
 
 	</MARKET>
 </monitor>
