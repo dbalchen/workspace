@@ -4754,11 +4754,12 @@ hhh
 	- [X] *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
 	- [X] *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
         - [X] Test Network Connection to CallDump
-      - [-] Test modify each perl process for each market [66%]
+      - [-] Test modify each perl process for each market [75%]	
 	- [X] *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
 	  - OVP.pl is not setup, so Overage protection is still on hold.
 	  - Need a better list for both files and applicati
-	- [ ] *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
+	- [X] *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
+	  - Do the rerate_back-log then done
 	- [ ] *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
 	- [ ] *Batch4* - *kpr01bch04.uscc.com (10.176.12.134)*
 	- [ ] *Batch5* - *kpr01bch05.uscc.com (10.176.15.58)*
@@ -4772,7 +4773,7 @@ hhh
 	  - AEM Monitor is not working.....
       - [ ] Modify Front End process [0%]
 	- [ ] Modify XML
-	- [ ] Modify jason
+	- [ ] Modify jason *Dash.js*
 
     - [X] m2mList.pl
     - [ ] runRecon.pl
@@ -4785,7 +4786,7 @@ hhh
 *** DONE Firewall access DataBase and CallDump			    :ARCHIVE:
     SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
 
-** TODO Redo Goals
+** DONE Redo Goals						    :ARCHIVE:
   SCHEDULED: <2018-08-20 Mon>--<2018-08-29 Wed>
 
 * Misc								   :noexport:
