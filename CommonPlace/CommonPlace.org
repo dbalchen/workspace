@@ -202,9 +202,8 @@
 
  : mkstore -wrl <wallet_location> -create
  : mkstore -wrl <wallet_location> -createCredential <db_connect_string> <username> <password>
-
- : mkstore -wrl . -deleteCredential bods_svc_billingops svc_np_billingops
- : mkstore -wrl . -modifyCredential cst_svc_billingops svc_np_billingops
+ : mkstore -wrl  <wallet_location> -deleteCredential <db_connect_string> <username> <password>
+ : mkstore -wrl  <wallet_location> -modifyCredential <db_connect_string> <username> <password>
 ** Production Servers/EpsMonitors
 #+BEGIN_LaTeX
 \footnotesize
@@ -4738,8 +4737,9 @@ hhh
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 ** TSP
 *** [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx][Issues Log]]
+    -  https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx
 *** TODO Push Applications to TSP Production/OPER [60%]
-    - [-] EpsMonitors [33%] 
+    - [-] EpsMonitors [66%] 
       - [X] Set up all Production Environments [100%]
 	- [X] *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
 	- [X] *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
@@ -4754,32 +4754,34 @@ hhh
 	- [X] *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
 	- [X] *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
         - [X] Test Network Connection to CallDump
-      - [-] Test modify each perl process for each market [75%]	
+      - [-] Test modify each perl process for each market [91%]	
 	- [X] *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
-	  - OVP.pl is not setup, so Overage protection is still on hold.
-	  - Need a better list for both files and applicati
+	  - Need a better list for both files and applications
 	- [X] *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
 	  - Do the rerate_back-log then done
-	- [ ] *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
-	- [ ] *Batch4* - *kpr01bch04.uscc.com (10.176.12.134)*
-	- [ ] *Batch5* - *kpr01bch05.uscc.com (10.176.15.58)*
+	- [X] *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
+	- [X] *Batch4* - *kpr01bch04.uscc.com (10.176.12.134)*
+	- [X] *Batch5* - *kpr01bch05.uscc.com (10.176.15.58)*
+	  - /I'm assuming this will be APRM/
 	- [X] *Event1* - *kpr01eve01.uscc.com (10.176.12.128)*
 	- [X] *Event2* - *kpr01eve02.uscc.com (10.176.12.129)*
 	- [X] *Event3* - *kpr01eve03.uscc.com (10.176.12.130)*
 	- [X] *Event4* - *kpr01eve04.uscc.com (10.176.12.131)*
 	- [X] *Event5* - *kpr01eve05.uscc.com (10.176.12.132)*
 	- [X] *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
-	- [X] *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
-	  - AEM Monitor is not working.....
-      - [ ] Modify Front End process [0%]
-	- [ ] Modify XML
-	- [ ] Modify jason *Dash.js*
+	- [-] *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)* [50%]
+	  - [ ] AEM Monitor is not working
+	  - [X] OVP
+      - [X] Modify Front End process [100%]
+	- [X] Modify XML
+	- [X] Modify jason *Dash.js*
 
     - [X] m2mList.pl
     - [ ] runRecon.pl
     - [X] AR9RPLDAILY.pl
     - [X] ip_check_monitor.pl
     SCHEDULED: <2018-08-02 Thu>--<2018-09-14 Fri>
+
 *** TODO MFT file transfers					    :ARCHIVE:
     [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/MFT%2520Tracker/AllItems.aspx][Deputy Jakes Spreadsheet]]
     SCHEDULED: <2018-08-02 Thu>--<2018-08-09 Thu>

@@ -1,32 +1,35 @@
 var allWidgets=[
-                ["Batch 1 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL1BATCH","1","App"],
-                ["Batch 1 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL1BATCH","1","FS"],
-                ["Batch 2 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL2BATCH","2","App"],
-                ["Batch 2 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL2BATCH","2","FS"],
-                ["Batch 3 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL3BATCH","3","App"],
-                ["Batch 3 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL3BATCH","3","FS"],
-                ["Batch 4 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL6BATCH","3","App"],
-                ["Batch 4 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL6BATCH","3","FS"],
-                ["APRM Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=AppsA&MARKET=KPRL3BATCH","4","App"],
-                ["APRM Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=FilesystemA&MARKET=KPRL3BATCH","4","FS"],
-                ["EBI Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EBIAP","4","App"],
-                ["EBI Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EBIAP","4","FS"],
-                ["ES1 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL1EVENT","1","FS"],
-                ["ES2 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL2EVENT","1","FS"],
-                ["ES3 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL3EVENT","1","FS"],
-                ["ES4 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL4EVENT","1","FS"],
-                ["ES5 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL5EVENT","1","FS"],
-                ["ES6 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPRL6EVENT","1","FS"],
-                ["ES1 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL1EVENT","2","App"],
-                ["ES2 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL2EVENT","2","App"],
-                ["ES3 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL3EVENT","2","App"],
-                ["ES4 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL4EVENT","2","App"],
-                ["ES5 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL5EVENT","2","App"],
-                ["ES6 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPRL6EVENT","2","App"],
-                ["APRM AC Control Status","ac1","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=APRM_AC&MARKET=KPRL3BATCH","1","addWidgetAPRMAC"],
-                ["Ongoing Rerate Backlog","other","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Rerate_backlog&MARKET=KPRL2BATCH","1","addWidgetRaterBacklog"],
-                ["Overage Notification Count","other","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=OvpCount&MARKET=KPR01EBIAP","1","addWidgetOVP"],
-                ["AC1 Control Status","ac1","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Ac1control&MARKET=KPRL1BATCH","1","addWidgetAC1"]
+                ["Batch 1 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH01","1","App"],
+                ["Batch 1 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH01","1","FS"],
+                ["Batch 2 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH02","2","App"],
+                ["Batch 2 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH02","2","FS"],
+                ["Batch 3 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH03","3","App"],
+                ["Batch 3 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH03","3","FS"],
+                ["Batch 4 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH04","3","App"],
+                ["Batch 4 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH04","3","FS"],
+                ["ARCM Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH05","4","App"],
+                ["ARCM Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH05","4","FS"],				
+                ["APRM Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=AppsA&MARKET=KPR01BCH03","4","App"],
+                ["APRM Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=FilesystemA&MARKET=KPR01BCH03","4","FS"],
+                ["EBI Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01OPRMN","5","App"],
+                ["EBI Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01OPRMN","5","FS"],
+                ["ES1 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE01","1","FS"],
+                ["ES2 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE02","1","FS"],
+                ["ES3 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE03","1","FS"],
+                ["ES4 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE04","1","FS"],
+                ["ES5 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE05","1","FS"],
+                ["ES6 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE06","1","FS"],
+                ["ES1 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE01","2","App"],
+                ["ES2 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE02","2","App"],
+                ["ES3 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE03","2","App"],
+                ["ES4 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE04","2","App"],
+                ["ES5 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE05","2","App"],
+                ["ES6 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE06","2","App"],
+				["AC1 Control Status","ac1","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Ac1control&MARKET=KPR01BCH01","1","addWidgetAC1"],
+				["ARCM SMM1 File Status","ac1","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=ARCM_SMM1&MARKET=KPR01BCH05","1","addWidgetARCMSMM1"],
+				["APRM AC Control Status","ac1","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=APRM_AC&MARKET=KPR01BCH03","1","addWidgetAPRMAC"],
+                ["Ongoing Rerate Backlog","other","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Rerate_backlog&MARKET=KPR01BCH02","1","addWidgetRaterBacklog"],
+                ["Overage Notification Count","other","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=OvpCount&MARKET=KPR01OPRMN","1","addWidgetOVP"],			
                 ];
 
 
@@ -100,7 +103,7 @@ function makeAC1TableFiles($data){
 	var tbl='<table border=1><tr><th>Format</th><th>Status</th><th>Current Program</th><th>Next Program</th><th>Creation Date</th><th>Update Date</th><th>Count</th></tr>';
 	for (var i=0;i<$data.length;i++){
 		var row = $data[i];
-		var today=new Date;
+		var today = new Date;
 		var todayCompare = today.getFullYear() +''+ ('0' + (today.getMonth()+1)).slice(-2) +''+ ('0' + today.getDate()).slice(-2);
 		if((row.file_status == 'RD')){
 			tbl += '<tr style="color:green;"><td>' + row.file_format + '</td><td>' + row.file_status + '</td><td>' + row.curpgm + '</td><td>' + row.nxtpgm + '</td><td>' + row.create_date + '</td><td>' + row.update_date + '</td><td>' + row.count + '</td></tr>';
@@ -136,6 +139,43 @@ function makeAC1TableData($data){
 	}
 	tbl += "</table>";	
 	return [tbl,errors];
+}
+
+/* Adds all of the APRM Ac1 tables to the widget */
+function addWidgetAPRMAC($title,$tab,$url,$col){
+	var errors =0;
+	return $.ajax({
+		url: $url,
+		type: 'GET',
+		async: false,
+		success: function(data) {
+			var jsonData = jQuery.parseJSON(data);
+			var fileValues = makeAPRMTableFiles(jsonData.file_status);
+			var ratersValues= makeAPRMACTableRater(jsonData.rater_status);
+			var errorsValues = makeAPRMTableErrors(jsonData.errors);
+			var tblFile = fileValues[0];
+			var tblRaters = ratersValues[0];
+			var tblErrors= errorsValues[0];
+			errors = fileValues[1] + ratersValues[1] + errorsValues[1];
+			var tblStuckProcess  ='';
+			if(jsonData.stuck.length > 0){
+				stuckValues = makeAPRMTableStuckProcess(jsonData.stuck);
+				tblStuckProcess = stuckValues[0];
+				errors+=stuckValues[1];
+			}
+			var headerColor='green';
+			if(tblFile.indexOf("red")>0 || tblRaters.indexOf("red")>0 || tblErrors.indexOf("red")>0 || tblStuckProcess.indexOf("red")>0){
+				headerColor='red';
+				$("#ac1-tab").css("background","red");
+			}
+			if(errors > 0){
+				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '<div id=circle>' + errors +'</div></h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tblFile + '</p><br><h3>Rater Status</h3><p>' + tblRaters + '</p><br><h3>APRM Errors</h3><p>' + tblErrors+ '</p>' + tblStuckProcess + '</center></div></li>');
+			}else {
+				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '</h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tblFile + '</p><br><h3>Rater Status</h3><p>' + tblRaters + '</p><br><h3>APRM Errors</h3><p>' + tblErrors+ '</p>' + tblStuckProcess + '</center></div></li>');
+
+			}
+		}
+	});
 }
 
 function addWidgetAC1($title,$tab,$url,$col){
@@ -191,6 +231,91 @@ function makeAPRMACTableRater($data){
 	return [tbl,errors];
 }
 
+/* Adds all of the ARCM SMM1 table to the widget */
+function addWidgetARCMSMM1($title,$tab,$url,$col){
+	var errors = 0;
+	return $.ajax({
+		url: $url,
+		type: 'GET',
+		async: false,
+		success: function(data) {
+			var jsonData = jQuery.parseJSON(data);
+			var fileValues = makeARCMSMM1TableFiles(jsonData.file_status);
+			var errorsValues = makeARCMSMM1TableErrors(jsonData.errors);
+		
+			var tblFile = fileValues[0];		
+			var tblErrors = errorsValues[0];
+			
+			var headerColor='green';
+			if(tblFile.indexOf("orange")>0){
+				headerColor='orange';
+				$("#ac1-tab").css("background","orange");
+			}
+
+			var sys_creation_date = new Date(fileValues[1]);
+			var file_status = new Date(fileValues[2]);
+			var sla_5_day = new Date;
+			sla_5_day.setDate(sla_5_day.getDate() - 5);
+
+			if(sys_creation_date < sla_5_day && file_status == 'EXPECTED'){
+				headerColor='red';
+				$("#ac1-tab").css("background","red");
+			}else if (sys_creation_date > sla_5_day && file_status == 'EXPECTED'){
+				headerColor='orange';
+				$("#ac1-tab").css("background","orange");
+			}else if (file_status == 'DONE'){
+				headerColor='green';
+				$("#ac1-tab").css("background","green");
+			}
+
+			if(errors > 0){
+				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '<div id=circle>' + errors +'</div></h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tblFile + '</center></div></li>');
+			}else {
+				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '</h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tblFile + '</center></div></li>');
+			}
+		}
+	});
+}
+
+/* Shows the Files processing through ACRM */
+function makeARCMSMM1TableFiles($data){
+	var errors =0;
+	var tbl='<table border=1><tr><th>File Name</th><th>Sys Creation Date</th><th>File Status</th><th>File Type</th><th>Sender</th><th>Recipient</th><th>File Content</th><th>Corresponding File Name</th><th>Events Count</th><th>Total Value</th></tr>';
+	for (var i=0;i<$data.length;i++){
+		var row = $data[i];
+		var today = new Date;
+		var sys_creation_date = new Date(row.create_date);
+		var sla_5_day = new Date;
+		sla_5_day.setDate(sla_5_day.getDate() - 5);
+		if(sys_creation_date < sla_5_day){
+			tbl += '<tr style="color:red;"><td>' + row.file_name + '</td><td>' + row.create_date + '</td><td>' + row.file_status + '</td><td>' + row.file_type + '</td><td>' + row.sender + '</td><td>' + row.recipient + '</td><td>' + row.file_content + '</td><td>' + row.corresponding_file_name + '</td><td>' + row.events_count + '</td><td>' + row.total_value + '</td></tr>';
+		}else if (row.file_status == 'EXPECTED'){
+			tbl += '<tr style="color:orange;"><td>' + row.file_name + '</td><td>' + row.create_date + '</td><td>' + row.file_status + '</td><td>' + row.file_type + '</td><td>' + row.sender + '</td><td>' + row.recipient + '</td><td>' + row.file_content + '</td><td>' + row.corresponding_file_name + '</td><td>' + row.events_count + '</td><td>' + row.total_value + '</td></tr>';
+		}else{
+			tbl += '<tr style="color:green;"><td>' + row.file_name + '</td><td>' + row.create_date + '</td><td>' + row.file_status + '</td><td>' + row.file_type + '</td><td>' + row.sender + '</td><td>' + row.recipient + '</td><td>' + row.file_content + '</td><td>' + row.corresponding_file_name + '</td><td>' + row.events_count + '</td><td>' + row.total_value + '</td></tr>';
+		}
+	}
+	tbl += "</table>";	
+	return [tbl,errors];
+}
+
+/* Shows the ARCM Errors, no red condition */
+function makeARCMSMM1TableErrors($data){
+	var errors =0;
+	var tbl='<table border=1><tr><th>File Name</th><th>Count</th></tr>';
+	for (var i=0;i<$data.length;i++){
+		var row = $data[i];
+		if(1){
+			tbl += '<tr style="color:green;"><td>' + row.file_name + '</td><td>' + row.events_count + '</td></tr>';
+		}else{
+			errors++;
+			tbl += '<tr style="color:red;"><td>' + row.file_name + '</td><td>' + row.events_count + '</td></tr>';
+		}
+	}
+	tbl += "</table>";	
+	return [tbl,errors];
+}
+
 /* Shows the Files processing through APRM, red if AF*/
 function makeAPRMTableFiles($data){
 	var errors =0;
@@ -236,48 +361,11 @@ function makeAPRMTableStuckProcess($data){
 			tbl += '<tr style="color:green;"><td>' + row.ac + '</td><td>' + row.nxt_pgm_name + '</td><td>' + row.file_status + '</td><td>' + row.count + '</td><td>' + row.quantity + '</td></tr>';
 		}else{
 			errors++;
-			tbl += '<tr style="color:red;"><td>' + row.ac + '</td><td>' + row.nxt_pgm_name + '</td><td>' + row.file_status + '</td><td>' + row.count + '</td><td>' + row.quantity + '</td></tr>';
+			tbl += '<tr style="color:orange;"><td>' + row.ac + '</td><td>' + row.nxt_pgm_name + '</td><td>' + row.file_status + '</td><td>' + row.count + '</td><td>' + row.quantity + '</td></tr>';
 		}
 	}
 	tbl += "</table></p>";	
 	return [tbl,errors];
-}
-
-/* Adds all of the APRM AC tables to the widget */
-function addWidgetAPRMAC($title,$tab,$url,$col){
-	var errors =0;
-	return $.ajax({
-		url: $url,
-		type: 'GET',
-		async: false,
-		success: function(data) {
-			var jsonData = jQuery.parseJSON(data);
-			var fileValues = makeAPRMTableFiles(jsonData.file_status);
-			var ratersValues= makeAPRMACTableRater(jsonData.rater_status);
-			var errorsValues = makeAPRMTableErrors(jsonData.errors);
-			var tblFile = fileValues[0];
-			var tblRaters = ratersValues[0];
-			var tblErrors= errorsValues[0];
-			errors = fileValues[1] + ratersValues[1] + errorsValues[1];
-			var tblStuckProcess  ='';
-			if(jsonData.stuck.length > 0){
-				stuckValues = makeAPRMTableStuckProcess(jsonData.stuck);
-				tblStuckProcess = stuckValues[0];
-				errors+=stuckValues[1];
-			}
-			var headerColor='green';
-			if(tblFile.indexOf("red")>0 || tblRaters.indexOf("red")>0 || tblErrors.indexOf("red")>0 || tblStuckProcess.indexOf("red")>0){
-				headerColor='red';
-				$("#ac1-tab").css("background","red");
-			}
-			if(errors > 0){
-				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '<div id=circle>' + errors +'</div></h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tblFile + '</p><br><h3>Rater Status</h3><p>' + tblRaters + '</p><br><h3>APRM Errors</h3><p>' + tblErrors+ '</p>' + tblStuckProcess + '</center></div></li>');
-			}else {
-				$("#column" + $col + "-" + $tab).append('<li class="widget color-' + headerColor + '"><div class="widget-head"><h3>' + $title + '</h3></div><div class="widget-content"><center><p><h4 style="text-align:center">' + jsonData.time + '</h4>' + tblFile + '</p><br><h3>Rater Status</h3><p>' + tblRaters + '</p><br><h3>APRM Errors</h3><p>' + tblErrors+ '</p>' + tblStuckProcess + '</center></div></li>');
-
-			}
-		}
-	});
 }
 
 function addWidgetAEM($title,$tab,$url,$col){
@@ -421,6 +509,8 @@ function loadWidgets(){
 			addWidget(allWidgets[i][0],allWidgets[i][1],allWidgets[i][2],allWidgets[i][3],allWidgets[i][4]);
 		}else if (allWidgets[i][4] == "addWidgetAC1"){
 			addWidgetAC1(allWidgets[i][0],allWidgets[i][1],allWidgets[i][2],allWidgets[i][3]);
+		}else if (allWidgets[i][4] == "addWidgetARCMSMM1"){
+			addWidgetARCMSMM1(allWidgets[i][0],allWidgets[i][1],allWidgets[i][2],allWidgets[i][3]);		
 		}else if (allWidgets[i][4] == "addWidgetAPRMAC"){
 			addWidgetAPRMAC(allWidgets[i][0],allWidgets[i][1],allWidgets[i][2],allWidgets[i][3]);
 		}else if (allWidgets[i][4] == "addWidgetRaterBacklog"){
@@ -462,7 +552,8 @@ $(function() {
 	});
 
 	loadWidgets();
-	addWidgetAEM("AEM Error Counts","aem","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=AEMErrorCount&MARKET=KPR01EBIAP","1");
+	addWidgetAEM("AEM Error Counts","aem","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=AEMErrorCount&MARKET=KPR01OPRMN","1");
 	setInterval(function(){loadWidgets();},60000);
 
 });
+

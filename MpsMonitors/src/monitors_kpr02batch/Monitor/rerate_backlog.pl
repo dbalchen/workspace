@@ -43,7 +43,7 @@ sub checkBacklog {
 		#		[ 'PRDUSG4', 'PRDUSG4C', 'con8usg48' ]
 
 		'TC1_SVC_BILLINGOPS', 'TC2_SVC_BILLINGOPS', 'TC3_SVC_BILLINGOPS',
-		'TC3_SVC_BILLINGOPS'
+		'TC4_SVC_BILLINGOPS'
 	);
 
 	my $first = 1;
@@ -59,7 +59,7 @@ sub checkBacklog {
 qq#select cycle_code,cycle_instance,count(*),num_of_rerate_tries from ape1_subscriber_rerate where cycle_instance in (?,?) 
 group by cycle_code,cycle_instance,num_of_rerate_tries#;
 
-		my $sth = $db->prepare($sqql);
+		my $sth = $db->prepare($sql);
 		$sth->execute( $prev_month, $curr_month );
 
 		#my $rows=$sth->fetchall_arrayref();
