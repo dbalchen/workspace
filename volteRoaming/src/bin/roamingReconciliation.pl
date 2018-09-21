@@ -70,7 +70,7 @@ $dirs{'SDATACBR_FDATACBR'} =
   '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR';
 $dirs{'CIBER_CIBER'} =
   '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output';
-$dirs{'DISP_RM'} = '/inf_nas/apm1/prod/aprmoper/var/usc/DISP';
+$dirs{'DISP_RM'} = '/pkgbl03/inf/prdsys/operaprm/var/usc/LSN/input2';
 
 $jobs{'SDIRI_FCIBER'}      = 'getFileInfo.pl';
 $jobs{'SDATACBR_FDATACBR'} = 'getFileInfoData.pl';

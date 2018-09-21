@@ -14,13 +14,20 @@ use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $conn  = getBODSPRD();
+
+my $date = $ARGV[0];
+my $period = '';
+
+$period = Time::Piece->strptime( $date, "%Y%m%d" );
+$period -= ONE_MONTH;
+
 
 #my $sql = "select BA_NO,customer_no,account_no,doc_produce_ind, to_char('t1.bill_date','YYYYMMDD') from Bl1_Document t1 where bill_date >= '01-MAY-2018' group by  BA_NO,customer_no,account_no,doc_produce_ind, bill_date order by BA_NO,customer_no,account_no,doc_produce_ind, bill_date desc";
 
@@ -72,12 +79,46 @@ exit(0);
 
 
 sub getBODSPRD {
+        my $dbPwd = "BODS_SVC_BILLINGOPS";
+        my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
+  # my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
   unless ( defined $dbods ) {
     sendErr();
   }
   return $dbods;
+}
+
+sub sendMsg() {
+
+	my ( $to, $message, $excel_file ) = @_;
+	my $mime_type = 'multipart/mixed';
+	my $from      = "david.balchen\@uscellular.com";
+	my $subject   = "APRM Report for $date";
+	my $cc        = '';
+
+	$message = "You'll find the report attached to this email\n\n" . $message;
+
+	my $msg = MIME::Lite->new(
+		From    => $from,
+		To      => $to,
+		Cc      => $cc,
+		Subject => $subject,
+		Type    => $mime_type
+	) or die "Error creat
+ing " . "MIME body: $!\n";
+
+	$msg->attach(
+		Type => 'TEXT',
+		Data => $message
+	) or die "Error adding text message: $!\n";
+
+	$msg->attach(
+		Type     => 'application/octet-stream',
+		Encoding => 'base64',
+		Path     => $ENV{'REC_HOME'} . $excel_file,
+		Filename => $excel_file
+	) or die "Error attaching file: $!\n";
+
+	$msg->send();
 }

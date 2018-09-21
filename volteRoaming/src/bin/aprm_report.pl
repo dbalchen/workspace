@@ -587,7 +587,8 @@ sub sendMsg() {
 		Cc      => $cc,
 		Subject => $subject,
 		Type    => $mime_type
-	) or die "Error creating " . "MIME body: $!\n";
+	) or die "Error creat
+ing " . "MIME body: $!\n";
 
 	$msg->attach(
 		Type => 'TEXT',
