@@ -196,12 +196,22 @@
 ** Create Wallets 						   :noexport:
  : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
  : Service Account SVC_BILLINGOPS    lXmWKh5pJsGxr!nIl_GQl0Db
+ : TSP Production Password prmAPPC!PHAV1
+ :                         PRMAPPC!22 - Starting tomorrow
 
+ : sqlplus PRDUSG1C/tc1SG1C!18@TC1PRD 
+ : sqlplus PRDUSG2C/tc2SG2C!18@TC2PRD 
+ : sqlplus PRDUSG3C/tc3SG3C!18@TC3PRD 
+ : sqlplus PRDUSG4C/tc4SG4C!18@TC4PRD 
  : export ORACLE_HOME=/u01/app/oracle/product/current/client_1
  : export PATH=$PATH:$ORACLE_HOME/bin
 
+ : export TNS_ADMIN=/apps/amduser/prodtc1/.tnsadmin
+ : export JAVA_HOME=/apps/amdocs/jdk1.8.0_131
+ : export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${ORACLE_HOME}/lib
+
  : mkstore -wrl <wallet_location> -create
- : mkstore -wrl <wallet_location> -createCredential <db_connect_string> <username> <password>
+ : mkstore -wrl <wallet_location>  -createCredential <db_connect_string> <username> <password>
  : mkstore -wrl  <wallet_location> -deleteCredential <db_connect_string> <username> <password>
  : mkstore -wrl  <wallet_location> -modifyCredential <db_connect_string> <username> <password>
 ** Production Servers/EpsMonitors
@@ -332,7 +342,7 @@ label = " ";
 }
 
 
-subgraph cluster_3 {
+
 	"F2E";
 	"Turbo Charging";
 	"A&F";
@@ -360,6 +370,37 @@ subgraph cluster_3 {
 \end{landscape} 
 \newpage
 #+END_LaTeX
+** EpsMonitor
+:PICTURE:
+digraph BI {
+	
+graph [splines=ortho nodesep=0.8  rankdir=LR  constraint=false overlap=false style=bold];
+
+
+
+subgraph cluster_2 {
+	 {rank = same; "EpsMonitor\nkpr01bch01" "EpsMonitor\nkpr01bch05" }
+	 "WebMonitor\nCallDump" -> "EpsMonitor\nkpr01bch05" [dir=both ];
+	 "WebMonitor\nCallDump" -> "EpsMonitor\nkpr01bch01" [dir=both];	
+	 "EpsMonitor\nkpr01bch05" -> "EpsMonitor\nkpr01bch01" [style=dashed arrowhead=none xlabel="Includes Servers\n2,3,4"];
+	color="#FFFFFF";
+	label = "Batch Servers";
+}
+
+subgraph cluster_3 {
+		 {rank = same; "EpsMonitor\nkpr01eve01" "EpsMonitor\nkpr01eve06" }
+"EpsMonitor\nkpr01eve06" -> "EpsMonitor\nkpr01eve01"[style=dashed arrowhead=none splines=true xlabel="Includes Servers\n2,3,4,5"];
+"WebMonitor\nCallDump" -> "EpsMonitor\nkpr01eve01"[dir=both];
+"WebMonitor\nCallDump" -> "EpsMonitor\nkpr01eve06"[dir=both];
+color="#FFFFFF";
+label = "Event Servers";		
+}
+
+"Joe/Jane \n Ops" -> "WebMonitor\nCallDump"[dir=both];	
+"WebMonitor\nCallDump" -> "EpsMonitor\nkpr01oprmn"[dir=both];
+
+}
+:END:
 ** Overage Protection
       Overage notifications are detected on an event by event basis. As
       events are processed by *TC* and added to the *APE1_ACCUMULATORS*
@@ -1475,7 +1516,7 @@ subgraph cluster_3 {
 | *USERNAME* | *PASSWORD*  | *DB_INSTANCE* | *Description*         |
 |------------+-------------+---------------+-----------------------|
 | /{Lan ID}/ | /{Lan PWD}/ | BODSPRD       | *ODS/Datawarehouse*   |
-| PRDAFC     | con8af8     | PRDAF         | Reference Tables      |
+| prdappc    | PRMAPPC!22  | prmprd        | Aprm                  |
 | PRDCUSTC   | con8cst8    | PRDCUST       | Customer              |
 | PRDRPLC    | con8rpl8    | PRDRPL        | Replenishment Manager |
 | PRDOPRC    | con8opr8    | PRDCUST       | Operations            |
@@ -1484,7 +1525,6 @@ subgraph cluster_3 {
 | PRDUSG3C   | con8usg38   | PRDUSG3       | Usage                 |
 | PRDUSG4C   | con8usg48   | PRDUSG4       | Usage                 |
 | prdappc    | Con5app5    | PRDAPRM       | Aprm                  |
-| prdaem     | prdaem      | PTE2AEM       | AEM Database          |
 |------------+-------------+---------------+-----------------------|
 #+BEGIN_LaTeX
 \normalsize
@@ -4720,77 +4760,29 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
-** DONE Why does Dan's list look different then mine.		    :ARCHIVE:
-   SCHEDULED: <2018-08-13 Mon>--<2018-08-17 Fri>
-** TODO Finish bogusDoc.pl
-   Add Ban Information
-   DEADLINE: <2018-08-17 Fri>
+** Consolidated Billing [0%]
+   - Finish bogusDoc.pl [%]
+     - [ ] Add Ban Information
+     - [ ] Add mailing Process
+     - [ ] Create spreadsheet
+   - [ ] Start Janeen's new Report
+** Finish IP Check
 ** TODO PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
 ** APPT Oncall
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
-** HOLD Production Release 
 ** TODO Volte Roaming
 *** TMO Remaining TMO Markets
     DEADLINE: <2018-09-28 Fri>     
-** TODO IME Upgrade
+** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
-** TSP
+** TODO TSP
+   SCHEDULED: <2018-09-27 Thu>--<2018-10-12 Fri>
+   
+*** Use the PRM Alias on kpr01bch03
+    : PRM_SVC_BILLINGOPS=(description=(address=(protocol=tcp)(host=prmprd.uscc.com)(port=1521))(connect_data=(service_name=prmprd_adhoc)(UR=A)))
 *** [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx][Issues Log]]
     -  https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx
-*** TODO Push Applications to TSP Production/OPER [60%]
-    - [-] EpsMonitors [66%] 
-      - [X] Set up all Production Environments [100%]
-	- [X] *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
-	- [X] *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
-	- [X] *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
-	- [X] *Batch4* - *kpr01bch04.uscc.com (10.176.12.134)*
-	- [X] *Batch5* - *kpr01bch05.uscc.com (10.176.15.58)*
-	- [X] *Event1* - *kpr01eve01.uscc.com (10.176.12.128)*
-	- [X] *Event2* - *kpr01eve02.uscc.com (10.176.12.129)*
-	- [X] *Event3* - *kpr01eve03.uscc.com (10.176.12.130)*
-	- [X] *Event4* - *kpr01eve04.uscc.com (10.176.12.131)*
-	- [X] *Event5* - *kpr01eve05.uscc.com (10.176.12.132)*
-	- [X] *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
-	- [X] *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
-        - [X] Test Network Connection to CallDump
-      - [-] Test modify each perl process for each market [91%]	
-	- [X] *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
-	  - Need a better list for both files and applications
-	- [X] *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
-	  - Do the rerate_back-log then done
-	- [X] *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
-	- [X] *Batch4* - *kpr01bch04.uscc.com (10.176.12.134)*
-	- [X] *Batch5* - *kpr01bch05.uscc.com (10.176.15.58)*
-	  - /I'm assuming this will be APRM/
-	- [X] *Event1* - *kpr01eve01.uscc.com (10.176.12.128)*
-	- [X] *Event2* - *kpr01eve02.uscc.com (10.176.12.129)*
-	- [X] *Event3* - *kpr01eve03.uscc.com (10.176.12.130)*
-	- [X] *Event4* - *kpr01eve04.uscc.com (10.176.12.131)*
-	- [X] *Event5* - *kpr01eve05.uscc.com (10.176.12.132)*
-	- [X] *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
-	- [-] *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)* [50%]
-	  - [ ] AEM Monitor is not working
-	  - [X] OVP
-      - [X] Modify Front End process [100%]
-	- [X] Modify XML
-	- [X] Modify jason *Dash.js*
-
-    - [X] m2mList.pl
-    - [ ] runRecon.pl
-    - [X] AR9RPLDAILY.pl
-    - [X] ip_check_monitor.pl
-    SCHEDULED: <2018-08-02 Thu>--<2018-09-14 Fri>
-
-*** TODO MFT file transfers					    :ARCHIVE:
-    [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/MFT%2520Tracker/AllItems.aspx][Deputy Jakes Spreadsheet]]
-    SCHEDULED: <2018-08-02 Thu>--<2018-08-09 Thu>
-*** DONE Firewall access DataBase and CallDump			    :ARCHIVE:
-    SCHEDULED: <2018-08-02 Thu>--<2018-08-31 Fri>
-
-** DONE Redo Goals						    :ARCHIVE:
-  SCHEDULED: <2018-08-20 Mon>--<2018-08-29 Wed>
-
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
@@ -4802,3 +4794,16 @@ hhh
     : C, D, E, F, F#, G#, Bb, C
     : [4,5,6,8,10,0,2]
     : (012468T)
+* EpsMonitors
+** Overview
+   [[file:Pictures/EpsMonitors.png][Eps Monitor Overview]]
+** Preparation for TSP
+*** Hunt Down latest *JAR* files.
+*** Recompile and Test
+*** Modify all called scripts
+*** Setup the TSP environment
+*** Deploy
+** Where and What to expect on TSP Day
+*** [[http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Dash][New Link (8081]]
+*** Lots of Red
+*** Stuff Missing

@@ -65,11 +65,11 @@ my %aprmsql  = {};
 $msg = "";
 
 $dirs{'SDIRI_FCIBER'} =
-  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DIRI';
+  '/pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DIRI';
 $dirs{'SDATACBR_FDATACBR'} =
-  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/up/physical/switch/DATACBR';
+  '/pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DATACBR';
 $dirs{'CIBER_CIBER'} =
-  '/pkgbl02/inf/aimsys/prdwrk2/var/usc/projs/apr/interfaces/output';
+  '/pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/apr/interfaces/output';
 $dirs{'DISP_RM'} = '/pkgbl03/inf/prdsys/operaprm/var/usc/LSN/input2';
 
 $jobs{'SDIRI_FCIBER'}      = 'getFileInfo.pl';
