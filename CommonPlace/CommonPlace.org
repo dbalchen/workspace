@@ -18,8 +18,8 @@
 #+Email: dave@balchen.org
 #+BEGIN_LaTeX
 \clearpage
-\addtolength{\oddsidemargin}{-.25in}
-%\addtolength{\oddsidemargin}{-.5in}
+%\addtolength{\oddsidemargin}{-.25in}
+\addtolength{\oddsidemargin}{0in}
 \addtolength{\evensidemargin}{-01.25in}
 \addtolength{\textwidth}{1.4in}
 \addtolength{\topmargin}{-1.25in}
@@ -63,17 +63,21 @@
    added to further mediate the records.
 
 ** TurboCharging
-      [[file:Pictures/TC.png]] \\ \\
-      The most important /sub-system/ in *TOPS* it is here that all usage is mediated and rated and 
-      -  *Event flow:*
+   The most important /sub-system/ in *TOPS*. It is here that all usage is mediated and rated.\\
+\\
+#+ATTR_LaTeX: :width 16cm
+      [[file:Pictures/TC.png]]
 
+#+BEGIN_LaTeX
+\newpage 
+#+END_LaTeX
+      -  *Event flow:*
          1. An event comes in to via a network element
          2. Transforms data into a conical form which also includes the
             network element.
          3. Gets Rated
             -  For *Pre-Pay* the HLR. is handled by the
                *SCP*
-
       -  *International Calls* Using rates from the *LD_COUNTRY_RATES* table international calls are rated by country.
       -  We convert everything to the *Home SID time* for bill
          presentment.
@@ -103,17 +107,17 @@
          1. *RRP_EOC1056*
          2. *RRP_EOC1068*
          3. *RRP_EOC1192*
-
+#+BEGIN_LaTeX
+\newpage 
+\begin{landscape}  
+#+END_LaTeX
 ** AEM
          *AEM* gets the Turbo-Charging errors from the
          *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
          *EM1_RECORD* table. Since there are so many coulmns in the
          *EM1_RECORD* table we must limit are query's to the following
          columns. [[file:docs/EM1%20Query's][EM1 Queries]]
-#+BEGIN_LaTeX
-\newpage 
-\begin{landscape}  
-#+END_LaTeX
+
 *** AEM Error Summary
 #+BEGIN_LaTeX
 \scriptsize
@@ -234,7 +238,8 @@
 \normalsize
 #+END_LaTeX
 *** Production Service Accounts
-    - *prodtc1 - 6*
+    - *prodtc1 - 6* (Operational production accounts)
+    - *prodwrk1 - 5* (Amdocs Production accounts that corespond in TOPS)
 *** Operational Server Service Accounts
 #+BEGIN_LaTeX
 \footnotesize
@@ -272,6 +277,7 @@
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+
 #+BEGIN_LaTeX
 \begin{landscape}  
 #+END_LaTeX
@@ -299,70 +305,8 @@ node [shape=house];
 }
 
 :END:
-#+ATTR_LaTeX: width=15cm
-:PICTURE:
-digraph BI {
 
-graph [splines=true nodesep=0.8 size=8.5,11 compress=true overlap=false style=bold];
-
-node [shape=folder];"Database";"CallDump""APRM";
-node [shape=house];"Syniverse";"Business";"EPC";"MFT";
-
-node [shape=triangle];"Switch";
-node [shape=circle];"A&F";
-
-"Switch" -> "Intec" [label = "(a)"];
-"Switch" -> "SCP" [label = "(i)"];
-"Syniverse" -> "Intec" [label = "(b)"];
-"Syniverse" -> "Intec" [label = "(j)"];
-"Intec" -> "CallDump" [label = "(n)"];
-"Intec" -> "A&F" [label = "(d)"];	     
-"Intec" -> "Syniverse" [label = "(c)"];
-"Database" -> "Intec" [label = "(f)"];	
-"A&F" -> "F2E" [label = "(e)"];
-"F2E" -> "Turbo Charging" [label = "(e)"];
-"Turbo Charging" -> "Database" [label = "(d)"];
-"Turbo Charging" -> "Intec" [label = "(c)"];
-"Turbo Charging" -> "MFT" [label = "(j)"];
-"Turbo Charging" -> "APRM" [label = "(+)"];
-"Database" -> "Turbo Charging" [label = "(e)"];
-"MFT" -> "Turbo Charging" [label = "(o)"];
-"SCP" -> "Turbo Charging" [label = "(i)"];
-"EPC" -> "Database" [label = "(e)"];
-"Business" -> "Database" [label = "(i)"];
-
-subgraph cluster_2 {
-	
-"Switch";
-"MFT";
-"SCP";
-color="#FFFFFF";
-label = " ";
-
-}
-
-
-
-	"F2E";
-	"Turbo Charging";
-	"A&F";
-	"APRM";
-	label = "TOPS";
-	
-	subgraph cluster_1 {
-		"Database";
-		"EPC";
-		color="#FFFFFF";
-		label = " ";		
-	}
-	
-}
-
-
-
-}
-:END:
-
+#+ATTR_LaTeX: :width 22cm
    [[file:Pictures/EBI_Operational_Server.png]]
 
 
@@ -371,6 +315,9 @@ label = " ";
 \newpage
 #+END_LaTeX
 ** EpsMonitor
+#+ATTR_LaTeX: :width 10cm
+   file:Pictures/EpsMonitors.png
+
 :PICTURE:
 digraph BI {
 	
@@ -475,7 +422,68 @@ label = "Event Servers";
       (treated as an *SMS* message in the system). Produces both /Mobile
       Originating and Terminating/ records with a possible one to many
       relationships (multiple recipients).\\
+** Network Elements
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
 
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------+------------+-----------------------------------------------------------------------|
+| *Element* | *New Host* | *New Directory*                                                       |
+|-----------+------------+-----------------------------------------------------------------------|
+| APPL      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/APPL      |
+| ASHE      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/ASHE      |
+| CDP       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/CONT/CDP       |
+| CDR2      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CDR2      |
+| CIB_IC    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DIRI    |
+| CIB_OCR   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/SYNR    |
+| CLIN      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CLIN      |
+| COLU      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/COLU      |
+| CONG      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CONG      |
+| ECS       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/AAA/AAA1       |
+| EURE      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/EURE      |
+| GRAN      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/GRAN      |
+| GREE      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/GREE      |
+| GSM_IR    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMS      |
+| GSM_IR    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMV      |
+| JOHN      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/JOHN      |
+| JOPL      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/JOPL      |
+| KNOX      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/KNOX      |
+| LLYN      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/LLYN/     |
+| LROE      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/LROE/     |
+| LTE       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/PGW/PGW1       |
+| LTE       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMD      |
+| MADI      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/MADI      |
+| MEDF      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/MEDF      |
+| MMSC      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/PMG1   |
+| MMSC      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/PTX1   |
+| MORG      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/MORG/     |
+| NEWB      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/NEWB      |
+| OKLA      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/OKLA      |
+| OMAH      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/OMAH      |
+| OWAS      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/OWAS      |
+| PEO2      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/PEO2      |
+| ROC2      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/ROC2      |
+| SALI      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/SALI      |
+| SMS_NSN   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/MOT    |
+| SMS_NSN   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMT      |
+| TAS       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/TAS/TAS1       |
+| VALISTA   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/CONT/VALI      |
+| YAKI      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/YAKI      |
+| TAP_IN    | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPIN/            |
+| TAP_OUT   | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPOUT/           |
+| APRM      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DATAIN  |
+| CIB_IC    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DATACBR |
+| CIB_IC    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DIRI    |
+| CIB_ICR   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/apr/interfaces/output      |
+| SGW       | kpr01bchl3 | /pkgbl03/inf/prdsys/operaprm/var/usc/LSN/input2                       |
+| GSM_IR    | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPIN/            |
+| RAP_IN    | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/RAPIN/            |
+| RAP_OUT   | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/RAPOUT/           |
+|-----------+------------+-----------------------------------------------------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Pre-Pay and Data Roaming
 
       In addition to *Post-Pay* we also handle *Pre-Pay* which follows a
@@ -1359,7 +1367,9 @@ subgraph cluster_3 {
           Mabel_Consolidation scripts start here:\\
            /apps/ebi/mabel1/bin/mabelCon.sh
 ** Invoice 
-
+#+BEGIN_LaTeX
+ \newpage
+#+END_LaTeX 
 * Accounts Receivable
       Handles Finance, Payments and credits as well Collections.
 ** AR Basics
@@ -1504,7 +1514,9 @@ subgraph cluster_3 {
 
     -   APRM Queries
     :  [[docs/APRM%20Queries][AprmQuery.sql]]
-
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX
 * Databases
 ** Production Database - Login/Password
 #+BEGIN_LaTeX
@@ -1516,15 +1528,15 @@ subgraph cluster_3 {
 | *USERNAME* | *PASSWORD*  | *DB_INSTANCE* | *Description*         |
 |------------+-------------+---------------+-----------------------|
 | /{Lan ID}/ | /{Lan PWD}/ | BODSPRD       | *ODS/Datawarehouse*   |
-| prdappc    | PRMAPPC!22  | prmprd        | Aprm                  |
-| PRDCUSTC   | con8cst8    | PRDCUST       | Customer              |
-| PRDRPLC    | con8rpl8    | PRDRPL        | Replenishment Manager |
-| PRDOPRC    | con8opr8    | PRDCUST       | Operations            |
-| PRDUSG1C   | con8usg18   | PRDUSG1       | Usage                 |
-| PRDUSG2C   | con8usg28   | PRDUSG2       | Usage                 |
-| PRDUSG3C   | con8usg38   | PRDUSG3       | Usage                 |
-| PRDUSG4C   | con8usg48   | PRDUSG4       | Usage                 |
-| prdappc    | Con5app5    | PRDAPRM       | Aprm                  |
+| PRDAPPC    | PRMAPPC!22  | PRMPRD        | Aprm                  |
+| /{Lan ID}/ | /{Lan PWD}/ | CSTPRD        | Customer              |
+| /{Lan ID}/ | /{Lan PWD}/ | RPLPRD        | Replenishment Manager |
+| PRDUSG1C   | tc1SG1C!18  | TC1PRD        | Usage                 |
+| PRDUSG2C   | tc2SG2C!18  | TC2PRD        | Usage                 |
+| PRDUSG3C   | tc3SG3C!18  | TC3PRD        | Usage                 |
+| PRDUSG4C   | tc4SG4C!18  | TC4PRD        | Usage                 |
+| /{Lan ID}/ | /{Lan PWD}/ | ANFPRD        | ANF                   |
+| /{Lan ID}/ | /{Lan PWD}/ | OMSPRD        | OMS                   |
 |------------+-------------+---------------+-----------------------|
 #+BEGIN_LaTeX
 \normalsize
@@ -4712,6 +4724,7 @@ hhh
     |-------------------+---------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX   
 * CallDump
 ** Data Directories
@@ -4760,25 +4773,27 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
-** Consolidated Billing [0%]
-   - Finish bogusDoc.pl [%]
-     - [ ] Add Ban Information
-     - [ ] Add mailing Process
-     - [ ] Create spreadsheet
+** TODO Consolidated Billing [33%]
+   - [X] Finish bogusDoc.pl [100%]
+     - [X] Add Ban Information
+     - [X] Add mailing Process
+     - [X] Create spreadsheet
    - [ ] Start Janeen's new Report
-** Finish IP Check
-** TODO PGW Upgrade
-   SCHEDULED: <2018-09-16 Sun>--<2018-09-29 Sat>   
+   - [ ] Ask Janeen about Sunset project
+** TODO Finish IP Check
+   SCHEDULED: <2018-10-11 Thu>--<2018-10-25 Thu>
+** PGW Upgrade
+   SCHEDULED: <2018-09-16 Sun>--<2018-10-25 Thu>
+*** TODO check to see if we have any new vendors in the INcollect/Outcollect space.
 ** APPT Oncall
    SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Volte Roaming
-*** TMO Remaining TMO Markets
-    DEADLINE: <2018-09-28 Fri>     
+   Add a summary page
+   SCHEDULED: <2018-10-12 Fri>--<2018-11-21 Wed> 
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 ** TODO TSP
    SCHEDULED: <2018-09-27 Thu>--<2018-10-12 Fri>
-   
 *** Use the PRM Alias on kpr01bch03
     : PRM_SVC_BILLINGOPS=(description=(address=(protocol=tcp)(host=prmprd.uscc.com)(port=1521))(connect_data=(service_name=prmprd_adhoc)(UR=A)))
 *** [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx][Issues Log]]
@@ -4794,16 +4809,3 @@ hhh
     : C, D, E, F, F#, G#, Bb, C
     : [4,5,6,8,10,0,2]
     : (012468T)
-* EpsMonitors
-** Overview
-   [[file:Pictures/EpsMonitors.png][Eps Monitor Overview]]
-** Preparation for TSP
-*** Hunt Down latest *JAR* files.
-*** Recompile and Test
-*** Modify all called scripts
-*** Setup the TSP environment
-*** Deploy
-** Where and What to expect on TSP Day
-*** [[http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Dash][New Link (8081]]
-*** Lots of Red
-*** Stuff Missing

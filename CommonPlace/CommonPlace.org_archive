@@ -3626,3 +3626,32 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   - [X] ip_check_monitor.pl
   SCHEDULED: <2018-08-02 Thu>--<2018-09-14 Fri>
 
+
+* TMO Remaining TMO Markets
+  DEADLINE: <2018-09-28 Fri>     
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-10-08 Mon 11:22
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Volte Roaming
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* EpsMonitors
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-10-11 Thu 15:23
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+** Overview
+   [[file:Pictures/EpsMonitors.png][Eps Monitor Overview]]
+** Preparation for TSP
+*** Hunt Down latest *JAR* files.
+*** Recompile and Test
+*** Modify all called scripts
+*** Setup the TSP environment
+*** Deploy
+** Where and What to expect on TSP Day
+*** [[http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Dash][New Link (8081]]
+*** Lots of Red
+*** Stuff Missing
