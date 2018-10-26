@@ -11,7 +11,7 @@
 #+LATEX_HEADER: \usepackage{multirow}
 #+LATEX_HEADER: \usepackage{multicol}
 #+BEGIN_LaTeX
-\pagenumbering{}
+\pagenumbering{gobble}
 #+END_LaTeX 
 #+TITLE: Notes
 #+Author: David Balchen
@@ -218,6 +218,8 @@
  : mkstore -wrl <wallet_location>  -createCredential <db_connect_string> <username> <password>
  : mkstore -wrl  <wallet_location> -deleteCredential <db_connect_string> <username> <password>
  : mkstore -wrl  <wallet_location> -modifyCredential <db_connect_string> <username> <password>
+ : mkstore -wrl .wallet  -createCredential ANF_SVC_BILLINGOPS SVC_BILLINGOPS 'lXmWKh5pJsGxr!nIl_GQl0Db'
+
 ** Production Servers/EpsMonitors
 #+BEGIN_LaTeX
 \footnotesize
@@ -234,6 +236,8 @@
       - *Event5* - *kpr01eve05.uscc.com (10.176.12.132)*
       - *Event6* - *kpr01eve06.uscc.com (10.176.12.133)*
       - *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
+      - *EBI Business* - *kpr01ebi01.uscc.com (10.176.15.153)*
+
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -246,15 +250,16 @@
 #+END_LaTeX
 #+ATTR_LaTeX: :environment longtable :align l|l
 
-    |------------+-----------------------------|
-    | *SERVER*   | *LOGIN*                     |
-    |------------+-----------------------------|
-    | kpr01oprmn | sudo /bin/su - o_arapp1     |
-    | kpr01oprmn | sudo /bin/su - o_ebiap1     |
-    | kpr01oprmn | sudo /bin/su - o_invap1     |
-    | kpr01oprmn | sudo /bin/su - o_mabel1     |
-    | kpr01oprmn | sudo /bin/su - o_usacq1     |
-    |------------+-----------------------------|
+    |------------+-------------------------|
+    | *SERVER*   | *LOGIN*                 |
+    |------------+-------------------------|
+    | kpr01oprmn | sudo /bin/su - o_arapp1 |
+    | kpr01oprmn | sudo /bin/su - o_ebiap1 |
+    | kpr01oprmn | sudo /bin/su - o_invap1 |
+    | kpr01oprmn | sudo /bin/su - o_mabel1 |
+    | kpr01ebi01 | sudo /bin/su - o_mabel1 |
+    | kpr01oprmn | sudo /bin/su - o_usacq1 |
+    |------------+-------------------------|
 
 #+BEGIN_LaTeX
 \normalsize
@@ -390,7 +395,9 @@ label = "Event Servers";
       -  *cdlog* - cd to the logfile directory.
       -  *cdswitch (Batch2 Only)* - cd to the switch directory.
       -  *aprout* - cd to the *CIBER* out directories.
-
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX
 * Usage Overview
    Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
    in two ways, *Voice* and *Data*.\\
@@ -422,6 +429,10 @@ label = "Event Servers";
       (treated as an *SMS* message in the system). Produces both /Mobile
       Originating and Terminating/ records with a possible one to many
       relationships (multiple recipients).\\
+#+BEGIN_LaTeX
+\newpage
+
+#+END_LaTeX
 ** Network Elements
 #+BEGIN_LaTeX
 \footnotesize
@@ -1286,6 +1297,8 @@ subgraph cluster_3 {
 \normalsize
 \newpage
 #+END_LaTeX
+** CIBERNET - Specification/Reference
+   https://www.one1clear.net/mxp/Login.asp
 * Consolidated Billing
   *MABEL* is an industry standard electronic method for a customer to receive their invoices.  
   The *MABEL* process will allow a customer with multiple accounts to have those accounts consolidated into one file following the *MABEL* standards. 
@@ -1354,10 +1367,42 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 ** Mable Query
-   The queries that produce the daily consolidated report can be found in this perl script on the EBI server: */apps/ebi/mabel1/checks/jacob/allCNSLDTDRPT.pl*
+   The queries that produce the daily consolidated report 
+   can be found in this perl script on the 
+   EBI server: */apps/ebi/mabel1/checks/jacob/allCNSLDTDRPT.pl*
+
+*** How to Manually Validate MABEL files
+    - Query Brmprd
+    :   select file_path||file_name from mabel_control
+    :    where file_type = 'act'
+    :        and cycle_run_year = 2018
+    :        and cycle_run_month = 10
+    :        and consolidator = 90093 
+    :        and application_id = 'load  '
+    :    order by cycle_code 
+    - Create A File Containing Full File Path And Names In The Following Directory
+      : o_mabel1@kpr01oprmn:mabel1/valSingle> pwd
+      : /apps/ebi/mabel1/valSingle
+      :  FOR EXAMPLE
+      :   ll 90093_oct_files
+      :    -rw-rw-r-- 1 o_mabel1 ebiprd 12376 Oct 25 14:37 90093_oct_files
+    - Run Each File Through The Sfv (Single File Validator)
+      : for i in `ls *.mbl`; do ./valSingleFile.sh $i >> C1OSCOMM.txt; done
+    - Check For Any Mabel Files That Do Not Sucessfully Pass Validation
+      : grep 'valmab program returns' C1OSCOMM.txt | grep -v SUCCESS 
+** Update Mabel_control to "Load" Status
+   :  update mabel_control
+   :  set file_status = 'RD'
+   :  where file_type = 'ACT'
+   :  and cycle_run_year = 2018
+   :  and cycle_run_month = 10
+   :  and consolidator = 90093 
+   :  AND application_id = 'LOAD  ' 
+
+   Now using http://isoc.uscc.com/supportrequestform.php to request the Mabel Validation job stream be run: *MABEL_RVAL_ADHOC*  
 ** Mable Logs
    - *Use this alias to view today’s Mabel_Validation logs on the EBI server:*
-      - [p_mabel1@kpr01ebiap ~]$ valLogs\\
+      - [o_mabel1@kpr01ebi01 ~]$ valLogs\\
         -rw-r--r-- 1 p_mabel1 mabel 3126 Jan 25 05:00 O3369767.0500
    -  You can also view this log in Outlook under the IS Billing Operations->Inbox->Mabel->Validation for MABEL
       - *Example email subject:* /“Log from mabel load validation on Thu Jan 25 05:00:23 CST 2018”/
@@ -1527,6 +1572,7 @@ subgraph cluster_3 {
 |------------+-------------+---------------+-----------------------|
 | *USERNAME* | *PASSWORD*  | *DB_INSTANCE* | *Description*         |
 |------------+-------------+---------------+-----------------------|
+| /{Lan ID}/ | /{Lan PWD}/ | BRMPRD        | *ODS/Datawarehouse*   |
 | /{Lan ID}/ | /{Lan PWD}/ | BODSPRD       | *ODS/Datawarehouse*   |
 | PRDAPPC    | PRMAPPC!22  | PRMPRD        | Aprm                  |
 | /{Lan ID}/ | /{Lan PWD}/ | CSTPRD        | Customer              |
@@ -1541,7 +1587,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-** Support Databases - Login/Password
+** Support Databases - Login/Password				    :ARCHIVE:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -1572,37 +1618,37 @@ subgraph cluster_3 {
 |-------------+------------+-------------------------------------------------|
 | *CycleCode* | *Database* | *Description*                                   |
 |-------------+------------+-------------------------------------------------|
-|           2 | PRDUSG1    | General Cycle close on the 1st                  |
-|           4 | PRDUSG4    | General Cycle close on the 3rd                  |
-|           6 | PRDUSG4    | General Cycle close on the 5th                  |
-|           8 | PRDUSG1    | General Cycle close on the 7th                  |
-|          10 | PRDUSG3    | General Cycle close on the 9th                  |
-|          12 | PRDUSG2    | General Cycle close on the 11th                 |
-|          14 | PRDUSG4    | General Cycle close on the 13th                 |
-|          16 | PRDUSG3    | General Cycle close on the 15th                 |
-|          18 | PRDUSG2    | General Cycle close on the 17th                 |
-|          20 | PRDUSG1    | General Cycle close on the 19th                 |
-|          22 | PRDUSG2    | General Cycle close on the 21st                 |
-|          24 | PRDUSG3    | General Cycle close on the 23rd                 |
-|          26 | PRDUSG4    | General Cycle close on the 25th                 |
-|          28 | PRDUSG3    | General Cycle close on the 27th                 |
-|          77 | PRDUSG1    | Dropped events cycle                            |
-|          80 | PRDUSG3    | Rejected events cycle                           |
-|          99 | PRDUSG2    | Reserved for OutCollect Cycle close on the 31th |
-|        1002 | PRDUSG2    | Reseller Cycle close on the 1st                 |
-|        1004 | PRDUSG1    | Reseller Cycle close on the 3rd                 |
-|        1006 | PRDUSG1    | Reseller Cycle close on the 5th                 |
-|        1008 | PRDUSG3    | Reseller Cycle close on the 7th                 |
-|        1010 | PRDUSG2    | Reseller Cycle close on the 9th                 |
-|        1012 | PRDUSG4    | Reseller Cycle close on the 11th                |
-|        1014 | PRDUSG1    | Reseller Cycle close on the 13th                |
-|        1016 | PRDUSG2    | Reseller Cycle close on the 15th                |
-|        1018 | PRDUSG4    | Reseller Cycle close on the 17th                |
-|        1020 | PRDUSG3    | Reseller Cycle close on the 19th                |
-|        1022 | PRDUSG3    | Reseller Cycle close on the 21st                |
-|        1024 | PRDUSG1    | Reseller Cycle close on the 23rd                |
-|        1026 | PRDUSG4    | Reseller Cycle close on the 25th                |
-|        1028 | PRDUSG2    | Reseller Cycle close on the 27th                |
+|           2 | TC1PRD     | General Cycle close on the 1st                  |
+|           4 | TC4PRD     | General Cycle close on the 3rd                  |
+|           6 | TC4PRD     | General Cycle close on the 5th                  |
+|           8 | TC1PRD     | General Cycle close on the 7th                  |
+|          10 | TC3PRD     | General Cycle close on the 9th                  |
+|          12 | TC2PRD     | General Cycle close on the 11th                 |
+|          14 | TC4PRD     | General Cycle close on the 13th                 |
+|          16 | TC3PRD     | General Cycle close on the 15th                 |
+|          18 | TC2PRD     | General Cycle close on the 17th                 |
+|          20 | TC1PRD     | General Cycle close on the 19th                 |
+|          22 | TC2PRD     | General Cycle close on the 21st                 |
+|          24 | TC3PRD     | General Cycle close on the 23rd                 |
+|          26 | TC4PRD     | General Cycle close on the 25th                 |
+|          28 | TC3PRD     | General Cycle close on the 27th                 |
+|          77 | TC1PRD     | Dropped events cycle                            |
+|          80 | TC3PRD     | Rejected events cycle                           |
+|          99 | TC2PRD     | Reserved for OutCollect Cycle close on the 31th |
+|        1002 | TC2PRD     | Reseller Cycle close on the 1st                 |
+|        1004 | TC1PRD     | Reseller Cycle close on the 3rd                 |
+|        1006 | TC1PRD     | Reseller Cycle close on the 5th                 |
+|        1008 | TC3PRD     | Reseller Cycle close on the 7th                 |
+|        1010 | TC2PRD     | Reseller Cycle close on the 9th                 |
+|        1012 | TC4PRD     | Reseller Cycle close on the 11th                |
+|        1014 | TC1PRD     | Reseller Cycle close on the 13th                |
+|        1016 | TC2PRD     | Reseller Cycle close on the 15th                |
+|        1018 | TC4PRD     | Reseller Cycle close on the 17th                |
+|        1020 | TC3PRD     | Reseller Cycle close on the 19th                |
+|        1022 | TC3PRD     | Reseller Cycle close on the 21st                |
+|        1024 | TC1PRD     | Reseller Cycle close on the 23rd                |
+|        1026 | TC4PRD     | Reseller Cycle close on the 25th                |
+|        1028 | TC2PRD     | Reseller Cycle close on the 27th                |
 |-------------+------------+-------------------------------------------------|
 #+BEGIN_LaTeX
 \normalsize
@@ -4359,7 +4405,7 @@ hhh
 \normalsize
 #+END_LaTeX   
 ** Consolidation Tables
-*** Mabel_Control
+*** MABEL_CONTROL
     Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
     : select * from mabel_control order by sys_creation_date desc;
 #+BEGIN_LaTeX
@@ -4393,7 +4439,7 @@ hhh
 \normalsize
 #+END_LaTeX
 
-*** Mabel_Audit
+*** MABEL_AUDIT
     Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
     : select * from mabel_audit order by sent_date desc,sent_file_name;
 
@@ -4404,28 +4450,28 @@ hhh
 |-------------------+---------------------+---------------|
 | *Name*            | *Data Type*         | *Description* |
 |-------------------+---------------------+---------------|
-| ACCOUNT_NO        | NUMBER (12)         |               |
-| APPLICATION_ID    | CHAR (6 Byte)       |               |
-| *CONSOLIDATOR*    | NUMBER (5)          |               |
-| CYCLE_CODE        | NUMBER (4)          |               |
-| CYCLE_RUN_MONTH   | NUMBER (2)          |               |
-| CYCLE_RUN_YEAR    | NUMBER (4)          |               |
-| DESTINATION_NAME  | VARCHAR2 (240 Byte) |               |
-| FILE_IDENTIFIER   | NUMBER (9)          |               |
-| FILE_SEQ_NO       | NUMBER (3)          |               |
-| OPERATOR_ID       | NUMBER (9)          |               |
-| ORIG_FILE_NAME    | VARCHAR2 (400 Byte) |               |
-| SENT_DATE         | DATE                |               |
-| SENT_FILE_NAME    | VARCHAR2 (400 Byte) |               |
-| SYS_CREATION_DATE | DATE                |               |
-| SYS_UPDATE_DATE   | DATE                |               | 
+| Account_No        | Number (12)         |               |
+| Application_Id    | Char (6 Byte)       |               |
+| *Consolidator*    | Number (5)          |               |
+| Cycle_Code        | Number (4)          |               |
+| Cycle_Run_Month   | Number (2)          |               |
+| Cycle_Run_Year    | Number (4)          |               |
+| Destination_Name  | Varchar2 (240 Byte) |               |
+| File_Identifier   | Number (9)          |               |
+| File_Seq_No       | Number (3)          |               |
+| Operator_Id       | Number (9)          |               |
+| Orig_File_Name    | Varchar2 (400 Byte) |               |
+| Sent_Date         | Date                |               |
+| Sent_File_Name    | Varchar2 (400 Byte) |               |
+| Sys_Creation_Date | Date                |               |
+| Sys_Update_Date   | Date                |               | 
 |-------------------+---------------------+---------------|
 
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
   
-*** Add9_Mabel_Ids
+*** ADD9_MABEL_IDS
     Tables on the TOPS side that are used for Mabel/MobilSense setup:
 #+BEGIN_LaTeX
 \footnotesize
@@ -4455,7 +4501,7 @@ hhh
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** Bl1_Generic_codes
+*** BL1_GENERIC_CODES
     Tables on the TOPS side that are used for Mabel/MobilSense setup:
 #+BEGIN_LaTeX
 \footnotesize
@@ -4483,7 +4529,7 @@ hhh
 \normalsize
 #+END_LaTeX
 
-*** Bl1_Printing_Cat_Dest
+*** BL1_PRINTING_CAT_DEST
     Tables on the TOPS side that are used for Mabel/MobilSense setup:
 #+BEGIN_LaTeX
 \footnotesize
@@ -4493,25 +4539,26 @@ hhh
 |----------------------+----------------------+---------------|
 | *Column Name*        | *Data Type*          | *Description* |
 |----------------------+----------------------+---------------|
-| APPLICATION_ID       | CHAR (6 Byte)        |               |
-| BC_INFO              | VARCHAR2 (40 Byte)   |               |
-| CATEGORY_CODE        | VARCHAR2 (40 Byte)   |               |
-| DESTINATION_ATTR     | VARCHAR2 (4000 Byte) |               |
-| DESTINATION_CODE     | VARCHAR2 (10 Byte)   |               |
-| DESTINATION_TYPE     | VARCHAR2 (10 Byte)   |               |
-| DL_SERVICE_CODE      | CHAR (5 Byte)        |               |
-| DL_UPDATE_STAMP      | NUMBER (4)           |               |
-| ODS_INSERT_DATE      | DATE                 |               |
-| ODS_LAST_UPDATE_DATE | DATE                 |               |
-| OPERATOR_ID          | NUMBER (9)           |               |
-| SYS_CREATION_DATE    | DATE                 |               |
-| SYS_UPDATE_DATE      | DATE                 |               |
-|----------------------+---------------------+---------------|
+| Application_Id       | Char (6 Byte)        |               |
+| Bc_Info              | Varchar2 (40 Byte)   |               |
+| Category_Code        | Varchar2 (40 Byte)   |               |
+| Destination_Attr     | Varchar2 (4000 Byte) |               |
+| Destination_Code     | Varchar2 (10 Byte)   |               |
+| Destination_Type     | Varchar2 (10 Byte)   |               |
+| Dl_Service_Code      | Char (5 Byte)        |               |
+| Dl_Update_Stamp      | Number (4)           |               |
+| Ods_Insert_Date      | Date                 |               |
+| Ods_Last_Update_Date | Date                 |               |
+| Operator_Id          | Number (9)           |               |
+| Sys_Creation_Date    | Date                 |               |
+| Sys_Update_Date      | Date                 |               |
+|----------------------+----------------------+---------------|
+
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
 
-*** Bl1_Blng_Arrangement
+*** BL1_BLNG_ARRANGEMENT
     Table on the TOPS side that contains the populated Mabel ID in the perm_printing_cat column:
     : select * from bl1_blng_arrangement where perm_printing_cat is not null;
 
@@ -4565,7 +4612,7 @@ hhh
 \normalsize
 #+END_LaTeX
 
-*** Bl1_Document
+*** BL1_DOCUMENT
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -4608,7 +4655,7 @@ hhh
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** Csm_Ben
+*** CSM_BEN
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -4642,6 +4689,59 @@ hhh
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+** Invoice Report Database
+*** INVRPT_ACCT_DEST_LINK_MV
+|-------------------+---------------+---------------|
+| *Column Name*     | *Datatype*    | *Description* |
+|-------------------+---------------+---------------|
+| Ba_Account_No     | Number (12)   |               |
+| Invrpt_Dest_Code  | Char (5 Byte) |               |
+| Eff_Date          | Date          |               |
+| Sys_Creation_Date | Date          |               |
+| Sys_Update_Date   | Date          |               |
+| Operator_Id       | Number (9)    |               |
+| Application_Id    | Char (6 Byte) |               |
+| Exp_Date          | Date          |               |
+| Group_Id          | Number (9)    |               |
+|-------------------+---------------+---------------|
+
+*** INVRPT_DESTINATION_MV
+|---------------------+----------------------+---------------|
+| *Column Name*       | *Datatype*           | *Description* |
+|---------------------+----------------------+---------------|
+| Invrpt_Dest_Code    | Char (5 Byte)        |               |
+| Dest_Name           | Varchar2 (30 Byte)   |               |
+| Dest_Status         | Char (2 Byte)        |               |
+| Addr_Attention      | Varchar2 (100 Byte)  |               |
+| Addr_Primary_Line   | Varchar2 (100 Byte)  |               |
+| Addr_Secondary_Line | Varchar2 (100 Byte)  |               |
+| Addr_City           | Varchar2 (50 Byte)   |               |
+| Addr_State          | Char (2 Byte)        |               |
+| Addr_Zip            | Char (5 Byte)        |               |
+| Addr_Zip_4          | Char (4 Byte)        |               |
+| Addr_Country        | Char (3 Byte)        |               |
+| Contact_Name        | Varchar2 (50 Byte)   |               |
+| Contact_Phone       | Varchar2 (20 Byte)   |               |
+| Contact_Email       | Varchar2 (50 Byte)   |               |
+| Xmission_Type       | Char (5 Byte)        |               |
+| Comments            | Varchar2 (2000 Byte) |               |
+| Deliv_Email_Addr    | Varchar2 (2000 Byte) |               |
+| Send_Rpt_To_Rep     | Char (1 Byte)        |               |
+| B2b_Rep_Name        | Varchar2 (100 Byte)  |               |
+| B2b_Rep_Phone       | Varchar2 (20 Byte)   |               |
+| B2b_Rep_Email       | Varchar2 (50 Byte)   |               |
+| Sys_Creation_Date   | Date                 |               |
+| Sys_Update_Date     | Date                 |               |
+| Curr_Record_Ind     | Varchar2 (1 Byte)    |               |
+| Bill_Method_Ind     | Char (1 Byte)        |               |
+| Operator_Id         | Number (9)           |               |
+| Application_Id      | Char (6 Byte)        |               |
+| Dl_Service_Code     | Char (5 Byte)        |               |
+| Dl_Update_Stamp     | Number (4)           |               |
+| Eff_Date            | Date                 |               |
+| Exp_Date            | Date                 |               |
+|---------------------+----------------------+---------------|
+
 ** Roaming Reconciliation Tables
 *** FILE_SUMMARY
     Used to hold data for all the roaming files.
@@ -4731,8 +4831,8 @@ hhh
       -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.
       -  */m06/switch/MMS* - Picture Messaging
       -  */m06/switch/MMSText* - Picture Messaging Text only.
-      -  */m06/switch/sms\_nsn* - SMS Motorola
-      -  */m06/switchb/sms\_alu* - SMS ALU
+      -  */m06/switch/sms_nsn* - SMS Motorola
+      -  */m06/switchb/sms_alu* - SMS ALU
       -  */m04/switch/lte* - *(aaa3)* P-Gateway 4G usage
       -  */m04/switchb/valista* - Premium SMS
       -  */m05/switch/brew* - Brew and Brew data *(aaa2)*
@@ -4743,16 +4843,16 @@ hhh
       into a directory so that *MFT* can pick them up. The operational
       jobs are as follows:
 
-      1. Job PR-BOD-S2B_TO_WEDO is running this script:
+      1. Job *PR-BOD-S2B_TO_WED* is running this script:
          */m01/switch/to_wedo.sh*
-      2. Job PR-BOD-S2B_CREATE_WEDO_ARCH is running this script:
+      2. Job *PR-BOD-S2B_CREATE_WEDO_ARCH* is running this script:
          */m01/switch/wedo/create_wedo_archive.sh*
 
 \newpage
 * Telephone Numbers
 
 |-----------------+--------------|
-| *Name*          |       *Cell* |
+| *Name*          |     *Number* |
 |-----------------+--------------|
 | Vanessa         | 608-444-7106 |
 |                 | 630-571-7825 |
@@ -4764,6 +4864,7 @@ hhh
 | DC Operations   | 865-777-8771 |
 | Escalate Ticket | 217-766-1979 |
 | Steve           | 608-222-5222 |
+| MA              | 618-201-5599 |
 | Ron W           | 651-734-8230 |
 | Paul Volpe      | 773-216-5606 |
 | Aunt Patty      | 256-772-7512 |
@@ -4773,20 +4874,28 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO Add Monitors to EBI Business Server
+   SCHEDULED: <2018-10-17 Wed>--<2018-11-21 Wed>
+   
 ** TODO Consolidated Billing [33%]
+   SCHEDULED: <2018-10-19 Fri>--<2018-11-21 Wed>
+   
    - [X] Finish bogusDoc.pl [100%]
      - [X] Add Ban Information
      - [X] Add mailing Process
      - [X] Create spreadsheet
-   - [ ] Start Janeen's new Report
+   - [-] Start Janeen's new Report [33%]
+     - [X] Based on Daily Consolidation report.
+     - [-] Develope Query [50%]
+       - [X] Inventory Side
+       - [ ] MobileSense 
+     - [ ] Write program
    - [ ] Ask Janeen about Sunset project
 ** TODO Finish IP Check
    SCHEDULED: <2018-10-11 Thu>--<2018-10-25 Thu>
 ** PGW Upgrade
    SCHEDULED: <2018-09-16 Sun>--<2018-10-25 Thu>
 *** TODO check to see if we have any new vendors in the INcollect/Outcollect space.
-** APPT Oncall
-   SCHEDULED: <2018-10-15 Mon>--<2018-10-21 Sun>
 ** TODO Volte Roaming
    Add a summary page
    SCHEDULED: <2018-10-12 Fri>--<2018-11-21 Wed> 

@@ -1,1 +1,0 @@
-#export USER_JAVA_ENV="-Damdocs.config.path=/user1/abp/sit/sitabp12/J2EEServer/config/ABP-FULL/ABPServer/properties/root.conf -Djava.security.auth.login.config=/user1/abp/sit/sitabp12/J2EEServer/config/ABP-FULL/ABPServer/properties/auth.conf ${USER_JAVA_ENV}"

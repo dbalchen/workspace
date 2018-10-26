@@ -12,9 +12,9 @@
 			date in format YYYMMDD. -->
 		<schedule>
 			<period>
-				<start_oncall>20130101</start_oncall>
-				<end_oncall>20501231</end_oncall>
-				<victim>JoeMps</victim>
+				<start_oncall>20181001</start_oncall>
+				<end_oncall>99991001</end_oncall>
+				<victim>JoeJaneOps</victim>
 			</period>
 		</schedule>
 
@@ -28,10 +28,8 @@
 		<!-- ROOT PATH Physical address of the root project directory. This is 
 			where all the check executables are located. -->
 		<SERVLET>
-			<TEMPLATE file="ini/Mps_Monitor.html" key="default" />
 			<TEMPLATE file="ini/dash.html" key="Dash" />
 			<TEMPLATE file="ini/dash_test.html" key="Dash_Test" />
-
 		</SERVLET>
 	</general>
 
@@ -83,17 +81,6 @@
 				<repage>1</repage>
 			</Filesystem>
 
-			<!-- <AEMErrorCount> <disable>no</disable> The following 5 tags tell the 
-				monitor when it should run the check. The method is similar to the Unix CRON. 
-				Thus, for instance the setting: " <minutes>5,23</minutes> <hours>3,5,19</hours> 
-				<days>1-25</days> <dayofweek>*</dayofweek> <month>*</month> " results in 
-				the check being performed every day of the month, on any day of the week, 
-				but only on days of month 1st through the 25th, at 3:05 AM, 3:23 AM, 5:05 
-				AM, 5:23 AM, 7:05 PM, and 7:23 PM. <minutes>0</minutes> <hours>*</hours> 
-				<days>*</days> <dayofweek>*</dayofweek> <month>*</month> <executable>Monitor/AEMErrorCount.pl</executable> 
-				<params market="BATCH3" sql_query="aemerrorcount.sql" MpsLib="" ignore_list="" 
-				SqlLib="/apps/ebi/ebiap1/EpsMonitors/sql/" Log="/apps/ebi/ebiap1/EpsMonitors/log/" 
-				title="AEM:ErrorCount" /> <repage>1</repage> </AEMErrorCount> -->
 			<OvpCount>
 				<disable>no</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -113,9 +100,31 @@
 				<repage>1</repage>
 			</OvpCount>
 
+			<AEMErrorCount>
+				<disable>no</disable>
+				<!-- The following 5 tags tell the monitor when it should run the check. 
+					The method is similar to the Unix CRON. Thus, for instance the setting: " 
+					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
+					<month>*</month> " results in the check being performed every day of the 
+					month, on any day of the week, but only on days of month 1st through the 
+					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and 7:23 PM. -->
+				<minutes>0</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>Monitor/AEMErrorCount.pl</executable>
+				<params market="BATCH3" sql_query="aemerrorcount.sql" MpsLib=""
+					ignore_list="" SqlLib="/apps/ebi/ebiap1/EpsMonitors/sql/" Log="/apps/ebi/ebiap1/EpsMonitors/log/"
+					title="AEM:ErrorCount" />
+				<repage>1</repage>
+			</AEMErrorCount>
+
 		</KPR01OPRMN>
 
 		<KPR01BCH01 hostname="kpr01bch01" port="8999" StartHour="7">
+
 			<Apps>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -243,104 +252,6 @@
 		</KPR01BCH02>
 
 		<KPR01BCH03 hostname="kpr01bch03" port="8999" StartHour="7">
-		
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and 7:23 PM. -->
-				<minutes>7</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:KPR01BCH03" />
-				<repage>1</repage>
-			</WebSpaceMb>
-
-			<WebListenGuideRateA>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and 7:23 PM. -->
-				<minutes>1,6,11,16,21,26,31,36,41,46,51,56</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-
-				<executable>
-					aprmMon/WebListenerGuidersRaters.pl
-				</executable>
-				<params title="WebListenGuideRateA:KPR01BCH03" />
-				<repage>1</repage>
-			</WebListenGuideRateA>
-
-			<WebAcpa2A>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and 7:23 PM. -->
-				<minutes>
-					2,5,8,11,14,17,20,23,26,29,32,35,38,41,44,47,50,53,56,59
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-				<executable>aprmMon/acpa2.pl</executable>
-				<params title="ACPA2A:KPR01BCH03" />
-				<repage>1</repage>
-			</WebAcpa2A>
-
-			<WebSpaceMbA>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and 7:23 PM. -->
-				<minutes>7</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-
-				<executable>aprmMon/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMbA:KPR01BCH03" />
-				<repage>1</repage>
-			</WebSpaceMbA>
-
-			<WebStuckFileProcA>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, 7:05 PM, and 7:23 PM. -->
-				<minutes>18,48</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-
-				<executable>aprmMon/WebStuckFileProc.pl</executable>
-				<params ignore_list="" title="KPR01BCH03:WebStuckFileProcA" />
-				<repage>1</repage>
-			</WebStuckFileProcA>
 
 			<Apps>
 				<disable>yes</disable>
@@ -358,10 +269,31 @@
 				<month>*</month>
 
 				<executable>Monitor/getApps_json.pl</executable>
-				<params
-					path="/pkgbl03/inf/aimsys/prdwrk3/eps/monitors/Monitor/apps.config" />
+				<params path="/apps/amduser/prodtc3/eps/EpsMonitors/Monitor/apps.config" />
 				<repage>1</repage>
 			</Apps>
+
+			<Filesystem>
+				<disable>yes</disable>
+				<!-- The following 5 tags tell the monitor when it should run the check. 
+					The method is similar to the Unix CRON. Thus, for instance the setting: " 
+					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
+					<month>*</month> " results in the check being performed every day of the 
+					month, on any day of the week, but only on days of month 1st through the 
+					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
+				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
+				</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>Monitor/WebSpaceMb_json.pl</executable>
+				<params
+					path="/apps/amduser/prodtc3/eps/EpsMonitors/Monitor/systemdirs.config" />
+				<repage>1</repage>
+			</Filesystem>
+
 			<AppsA>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -379,9 +311,49 @@
 
 				<executable>Monitor/getApps_json.pl</executable>
 				<params
-					path="/pkgbl03/inf/aimsys/prdwrk3/eps/monitors/Monitor/apps_aprm.config" />
+					path="/apps/amduser/prodtc3/eps/EpsMonitors/Monitor/apps_aprm.config" />
 				<repage>1</repage>
 			</AppsA>
+
+			<AppsC>
+				<disable>yes</disable>
+				<!-- The following 5 tags tell the monitor when it should run the check. 
+					The method is similar to the Unix CRON. Thus, for instance the setting: " 
+					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
+					<month>*</month> " results in the check being performed every day of the 
+					month, on any day of the week, but only on days of month 1st through the 
+					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
+				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
+				</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>Monitor/getApps_json.pl</executable>
+				<params
+					path="/apps/amduser/prodtc3/eps/EpsMonitors/Monitor/apps_arcm.config" />
+				<repage>1</repage>
+			</AppsC>
+
+			<ARCM_SMM1>
+				<disable>yes</disable>
+				<!-- The following 5 tags tell the monitor when it should run the check. 
+					The method is similar to the Unix CRON. Thus, for instance the setting: " 
+					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
+					<month>*</month> " results in the check being performed every day of the 
+					month, on any day of the week, but only on days of month 1st through the 
+					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
+				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
+				</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>Monitor/ARCM_SMM1.pl</executable>
+				<repage>1</repage>
+			</ARCM_SMM1>
 
 			<APRM_AC>
 				<disable>yes</disable>
@@ -402,78 +374,13 @@
 				<repage>1</repage>
 			</APRM_AC>
 
-			<Filesystem>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-
-				<executable>Monitor/WebSpaceMb_json.pl</executable>
-				<params
-					path="/pkgbl03/inf/aimsys/prdwrk3/eps/monitors/Monitor/systemdirs.config" />
-				<repage>1</repage>
-			</Filesystem>
-			<FilesystemA>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-
-				<executable>Monitor/WebSpaceMb_json.pl</executable>
-				<params
-					path="/pkgbl03/inf/aimsys/prdwrk3/eps/monitors/Monitor/systemdirs_aprm.config" />
-				<repage>1</repage>
-			</FilesystemA>
-
 		</KPR01BCH03>
 
 		<KPR01BCH04 hostname="kpr01bch04.uscc.com" port="8999"
 			StartHour="7">
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
 
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:EVENT6" />
-				<repage>1</repage>
-			</WebSpaceMb>
-			<Apps>
+			<AppsC>
 				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
 				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
 				</minutes>
 				<hours>*</hours>
@@ -482,9 +389,24 @@
 				<month>*</month>
 
 				<executable>Monitor/getApps_json.pl</executable>
-				<params path="/user1/inf/aimsys/prdtc6/eps/monitors/Monitor/apps.config" />
+				<params path="/apps/amduser/prodtc4/EpsMonitors/Monitor/appsC.config" />
+				<repage>1</repage>
+			</AppsC>
+
+			<Apps>
+				<disable>yes</disable>
+				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
+				</minutes>
+				<hours>*</hours>
+				<days>*</days>
+				<dayofweek>*</dayofweek>
+				<month>*</month>
+
+				<executable>Monitor/getApps_json.pl</executable>
+				<params path="/apps/amduser/prodtc4/EpsMonitors/Monitor/apps.config" />
 				<repage>1</repage>
 			</Apps>
+
 			<Filesystem>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -502,34 +424,15 @@
 
 				<executable>Monitor/WebSpaceMb_json.pl</executable>
 				<params
-					path="/user1/inf/aimsys/prdtc6/eps/monitors/Monitor/systemdirs.config" />
+					path="/apps/amduser/prodtc4/EpsMonitors/Monitor/systemdirs.config" />
 				<repage>1</repage>
 			</Filesystem>
-
 
 		</KPR01BCH04>
 
 		<KPR01BCH05 hostname="kpr01bch05.uscc.com" port="8999"
 			StartHour="7">
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
 
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:EVENT6" />
-				<repage>1</repage>
-			</WebSpaceMb>
 			<Apps>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -549,6 +452,7 @@
 				<params path="/user1/inf/aimsys/prdtc6/eps/monitors/Monitor/apps.config" />
 				<repage>1</repage>
 			</Apps>
+
 			<Filesystem>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -569,29 +473,11 @@
 					path="/user1/inf/aimsys/prdtc6/eps/monitors/Monitor/systemdirs.config" />
 				<repage>1</repage>
 			</Filesystem>
+
 		</KPR01BCH05>
 
 		<KPR01EVE01 hostname="kpr01eve01.uscc.com" port="8999"
 			StartHour="7">
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
-
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:EVENT1" />
-				<repage>1</repage>
-			</WebSpaceMb>
 
 			<Apps>
 				<disable>yes</disable>
@@ -612,6 +498,7 @@
 				<params path="/apps/amduser/prodtc1/eps/EpsMonitors/Monitor/apps.config" />
 				<repage>1</repage>
 			</Apps>
+
 			<Filesystem>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -637,25 +524,7 @@
 
 		<KPR01EVE02 hostname="kpr01eve02.uscc.com" port="8999"
 			StartHour="7">
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
 
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:EVENT2" />
-				<repage>1</repage>
-			</WebSpaceMb>
 			<Apps>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -675,6 +544,7 @@
 				<params path="/apps/amduser/prodtc2/eps/EpsMonitors/Monitor/apps.config" />
 				<repage>1</repage>
 			</Apps>
+
 			<Filesystem>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -695,29 +565,12 @@
 					path="/apps/amduser/prodtc2/eps/EpsMonitors/Monitor/systemdirs.config" />
 				<repage>1</repage>
 			</Filesystem>
+
 		</KPR01EVE02>
 
 		<KPR01EVE03 hostname="kpr01eve03.uscc.com" port="8999"
 			StartHour="7">
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
 
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:EVENT3" />
-				<repage>1</repage>
-			</WebSpaceMb>
 			<Apps>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -737,6 +590,7 @@
 				<params path="/apps/amduser/prodtc3/eps/EpsMonitor/Monitor/apps.config" />
 				<repage>1</repage>
 			</Apps>
+
 			<Filesystem>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -757,29 +611,12 @@
 					path="/apps/amduser/prodtc3/eps/EpsMonitor/Monitor/systemdirs.config" />
 				<repage>1</repage>
 			</Filesystem>
+
 		</KPR01EVE03>
 
 		<KPR01EVE04 hostname="kpr01eve04.uscc.com" port="8999"
 			StartHour="7">
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
 
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:EVENT4" />
-				<repage>1</repage>
-			</WebSpaceMb>
 			<Apps>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -819,29 +656,14 @@
 					path="/apps/amduser/prodtc4/eps/EpsMonitors/Monitor/systemdirs.config" />
 				<repage>1</repage>
 			</Filesystem>
+
+
 		</KPR01EVE04>
+
 
 		<KPR01EVE05 hostname="kpr01eve05.uscc.com" port="8999"
 			StartHour="7">
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
 
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:EVENT5" />
-				<repage>1</repage>
-			</WebSpaceMb>
 			<Apps>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -881,29 +703,15 @@
 					path="/apps/amduser/prodtc5/eps/EpsMonitors/Monitor/systemdirs.config" />
 				<repage>1</repage>
 			</Filesystem>
+
+
 		</KPR01EVE05>
+
+
 
 		<KPR01EVE06 hostname="kpr01eve06.uscc.com" port="8999"
 			StartHour="7">
-			<WebSpaceMb>
-				<disable>yes</disable>
-				<!-- The following 5 tags tell the monitor when it should run the check. 
-					The method is similar to the Unix CRON. Thus, for instance the setting: " 
-					<minutes>5,23</minutes> <hours>3,5,19</hours> <days>1-25</days> <dayofweek>*</dayofweek> 
-					<month>*</month> " results in the check being performed every day of the 
-					month, on any day of the week, but only on days of month 1st through the 
-					25th, at 3:05 AM, 3:23 AM, 5:05 AM, 5:23 AM, *:05 PM, and 7:23 PM. -->
-				<minutes>0,3,6,9,12,15,18,21,24,27,30,33,36,39,42,45,48,51,54,57
-				</minutes>
-				<hours>*</hours>
-				<days>*</days>
-				<dayofweek>*</dayofweek>
-				<month>*</month>
 
-				<executable>Monitor/WebSpaceMb.pl</executable>
-				<params title="WebSpaceMb:EVENT6" />
-				<repage>1</repage>
-			</WebSpaceMb>
 			<Apps>
 				<disable>yes</disable>
 				<!-- The following 5 tags tell the monitor when it should run the check. 
@@ -943,6 +751,8 @@
 					path="/apps/amduser/prodtc6/eps/EpsMonitors/Monitor/systemdirs.config" />
 				<repage>1</repage>
 			</Filesystem>
+
+
 		</KPR01EVE06>
 
 	</MARKET>

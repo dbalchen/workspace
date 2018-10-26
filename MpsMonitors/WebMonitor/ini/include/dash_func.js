@@ -1,35 +1,33 @@
 var allWidgets=[
-                ["Batch 1 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH01","1","App"],
-                ["Batch 1 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH01","1","FS"],
-                ["Batch 2 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH02","2","App"],
-                ["Batch 2 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH02","2","FS"],
-                ["Batch 3 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH03","3","App"],
-                ["Batch 3 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH03","3","FS"],
-                ["Batch 4 Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH04","3","App"],
-                ["Batch 4 Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH04","3","FS"],
-                ["ARCM Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH05","4","App"],
-                ["ARCM Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH05","4","FS"],				
-                ["APRM Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=AppsA&MARKET=KPR01BCH03","4","App"],
-                ["APRM Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=FilesystemA&MARKET=KPR01BCH03","4","FS"],
-                ["EBI Apps","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01OPRMN","5","App"],
-                ["EBI Filesystem","batch","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01OPRMN","5","FS"],
-                ["ES1 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE01","1","FS"],
-                ["ES2 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE02","1","FS"],
-                ["ES3 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE03","1","FS"],
-                ["ES4 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE04","1","FS"],
-                ["ES5 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE05","1","FS"],
-                ["ES6 Filesystem","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE06","1","FS"],
-                ["ES1 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE01","2","App"],
-                ["ES2 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE02","2","App"],
-                ["ES3 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE03","2","App"],
-                ["ES4 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE04","2","App"],
-                ["ES5 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE05","2","App"],
-                ["ES6 Apps","event","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE06","2","App"],
-				["AC1 Control Status","ac1","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Ac1control&MARKET=KPR01BCH01","1","addWidgetAC1"],
-				["ARCM SMM1 File Status","ac1","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=ARCM_SMM1&MARKET=KPR01BCH05","1","addWidgetARCMSMM1"],
-				["APRM AC Control Status","ac1","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=APRM_AC&MARKET=KPR01BCH03","1","addWidgetAPRMAC"],
-                ["Ongoing Rerate Backlog","other","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=Rerate_backlog&MARKET=KPR01BCH02","1","addWidgetRaterBacklog"],
-                ["Overage Notification Count","other","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=OvpCount&MARKET=KPR01OPRMN","1","addWidgetOVP"],			
+                ["Batch 1 Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH01","1","App"],
+                ["Batch 1 Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH01","1","FS"],
+                ["Batch 2 Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH02","2","App"],
+                ["Batch 2 Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH02","2","FS"],
+                ["Batch 3 Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH03","3","App"],
+                ["Batch 3 Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH03","3","FS"],
+                ["Batch 4 Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01BCH04","4","App"],
+                ["ARCM Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=AppsC&MARKET=KPR01BCH04","4","App"],
+                ["APRM Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=AppsA&MARKET=KPR01BCH03","3","App"],
+                ["Batch 4 Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01BCH04","4","FS"],
+                ["EBI Operations Apps","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01OPRMN","5","App"],
+                ["EBI Operations Filesystem","batch","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01OPRMN","5","FS"],
+                ["ES1 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE01","1","FS"],
+                ["ES2 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE02","1","FS"],
+                ["ES3 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE03","1","FS"],
+                ["ES4 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE04","1","FS"],
+                ["ES5 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE05","1","FS"],
+                ["ES6 Filesystem","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Filesystem&MARKET=KPR01EVE06","1","FS"],
+                ["ES1 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE01","2","App"],
+                ["ES2 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE02","2","App"],
+                ["ES3 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE03","2","App"],
+                ["ES4 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE04","2","App"],
+                ["ES5 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE05","2","App"],
+                ["ES6 Apps","event","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Apps&MARKET=KPR01EVE06","2","App"],
+                ["AC1 Control Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Ac1control&MARKET=KPR01BCH01","1","addWidgetAC1"],
+                ["ARCM SMM1 File Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=ARCM_SMM1&MARKET=KPR01BCH03","1","addWidgetARCMSMM1"],
+                ["Ongoing Rerate Backlog","other","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Rerate_backlog&MARKET=KPR01BCH02","1","addWidgetRaterBacklog"],
+                ["Overage Notification Count","other","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=OvpCount&MARKET=KPR01OPRMN","1","addWidgetOVP"],
+                ["APRM AC Control Status","ac1","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=APRM_AC&MARKET=KPR01BCH03","1","addWidgetAPRMAC"]			
                 ];
 
 
@@ -242,10 +240,10 @@ function addWidgetARCMSMM1($title,$tab,$url,$col){
 			var jsonData = jQuery.parseJSON(data);
 			var fileValues = makeARCMSMM1TableFiles(jsonData.file_status);
 			var errorsValues = makeARCMSMM1TableErrors(jsonData.errors);
-		
+
 			var tblFile = fileValues[0];		
 			var tblErrors = errorsValues[0];
-			
+
 			var headerColor='green';
 			if(tblFile.indexOf("orange")>0){
 				headerColor='orange';
@@ -371,7 +369,7 @@ function makeAPRMTableStuckProcess($data){
 function addWidgetAEM($title,$tab,$url,$col){
 	oTable=$("#aemTable").dataTable( {
 		"fnInitComplete": function () {
-			/* Add a select menu for each TH element in the table footer */
+			// Add a select menu for each TH element in the table footer
 			$(".filter").each( function ( i ) {
 				this.innerHTML = fnCreateSelect( oTable.fnGetColumnData(i) );
 				$('select', this).change( function () {
@@ -552,7 +550,7 @@ $(function() {
 	});
 
 	loadWidgets();
-	addWidgetAEM("AEM Error Counts","aem","http://kpr01scdap.uscc.com:8081/WebMonitor/servlet/WebMonitor?MonName=AEMErrorCount&MARKET=KPR01OPRMN","1");
+	addWidgetAEM("AEM Error Counts","aem","http://kpr01scdap.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=AEMErrorCount&MARKET=KPR01OPRMN","1");
 	setInterval(function(){loadWidgets();},60000);
 
 });

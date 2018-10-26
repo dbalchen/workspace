@@ -1,4 +1,0 @@
-File Stuck  : 424316644554200
-Stuck in    : MF1MAINDRIVER
-Stuck since : 13-JUN-2013 14:05:41
-
