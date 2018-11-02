@@ -1418,18 +1418,18 @@ subgraph cluster_3 {
 * Accounts Receivable
       Handles Finance, Payments and credits as well Collections.
 ** AR Basics
-    -  *Root Directory* - $ABP\_AR\_ROOT on kpr01batch
+    -  *Root Directory* - $ABP_AR_ROOT on kpr01batch
     -  *Collection Interface* -
-       /pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/cl/interfaces
+       /pkgbl01/inf/prodsys/prdwrk1/var/usc/projs/cl/interfaces
 
 ** AR Jobs and Deamons
      - AR1JRNLEXT
        The Journal Extract process extracts to an output file all
             financial activities that occurred since the last run of
             this process.
-            -  *LOG FILE* - AR1JRNLEXT.<SYS\_DATE>.log
+            -  *LOG FILE* - AR1JRNLEXT.<SYS_DATE>.log
             -  *Output File* -
-            -  *Script Name* - ar1\_JrnlExtract\_Sh
+            -  *Script Name* - ar1_JrnlExtract_Sh
       - AR1PYMRCT
       - AR1DDREQCRE
       - AR3GWLSTR
@@ -1495,12 +1495,12 @@ subgraph cluster_3 {
     - SAP Extracts
        -  Business owner (3/15/2013): Sangeeta Khedeker
        -  Transfer target:
-               svc\_mft\_ops@babble.tds.local:~bosstven/glinty3t
+               svc_mft_ops@babble.tds.local:~bosstven/glinty3t
 
     - General Ledger - Incollect - USCSAPEXTRGL SAPIN
        -  Job name: USCSAPEXTRGL SAPIN
        -  Schedule: EOD
-       -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+       -  TWS Job name: PR-FINFN17-APRM_RMG_SAP_INCOLGENLEDGER
        -  Transfer Date: 22nd of each month @ 12:00 am
        -  SLA: 2 days
        -  File name convention: GLINCY3YYYYMMDDHHMMSS
@@ -1509,7 +1509,7 @@ subgraph cluster_3 {
     - General Ledger - Outcollect - USCSAPEXTRGL SAPOUT
       -  Job name: USCSAPEXTRGL SAPOUT
       -  Schedule: EOD
-      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_OUTCOLGENLEDGER
+      -  TWS Job name: PR-FINFN17-APRM_RMG_SAP_OUTCOLGENLEDGER
       -  Transfer Date: 22nd of each month @ 12:00 am
       -  SLA: 2 days
       -  File name convention: GLOUTY3YYYYMMDDHHMMSS
@@ -1518,7 +1518,7 @@ subgraph cluster_3 {
     - Accrual EOM - Incollect - USCSAPEXTRGL ACCIN
       -  Job name: USCSAPEXTRGL ACCIN
       -  Schedule: EOD
-      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  TWS Job name: PR-FINFN17-APRM_RMG_SAP_INCOLGENLEDGER
       -  Transfer Date: 1st of each month @ 12:00 am
       -  SLA: End of day
       -  File name convention: GLINCY4YYYYMMDDHHMMSS
@@ -1528,17 +1528,17 @@ subgraph cluster_3 {
     - Accrual EOM - Outcollect - USCSAPEXTRGL ACCOUT
       -  Job name: USCSAPEXTRGL ACCOUT
       -  Schedule: EOD
-      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  TWS Job name: PR-FINFN17-APRM_RMG_SAP_INCOLGENLEDGER
       -  Transfer Date: 1st of each month @ 12:00 am
       -  SLA: End of day
       -  File name convention: GLOUTY4YYYYMMDDHHMMSS
       -  File location: ~aprmoper/var/usc/SAPGLEXTR/RO/
-         -  Ex:  /inf\_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/RO/GLOUTY420130401005834
+         -  Ex:  /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/RO/GLOUTY420130401005834
 
     - Intra-Company Roaming - USCSAPEXTRGL SAPIR
       -  Job name: USCSAPEXTRGL SAPIR
       -  Schedule: EOD
-      -  TWS Job name: PR-FINFN17-APRM\_RMG\_SAP\_INCOLGENLEDGER
+      -  TWS Job name: PR-FINFN17-APRM_RMG_SAP_INCOLGENLEDGER
       -  Transfer Date: 1st of each month @ 12:00 am
       -  SLA: End of day
       -  File name convention: GLINTY3YYYYMMDDHHMMSS
@@ -4874,8 +4874,12 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
-** TODO Add Monitors to EBI Business Server
+** TODO Add Monitors to EBI Business Server [75%]
    SCHEDULED: <2018-10-17 Wed>--<2018-11-21 Wed>
+   - [X] Add to the EBI Server
+   - [X] Do firewall request
+   - [X] Modify Dash script
+   - [ ] Final configuration
    
 ** TODO Consolidated Billing [33%]
    SCHEDULED: <2018-10-19 Fri>--<2018-11-21 Wed>
@@ -4884,16 +4888,17 @@ hhh
      - [X] Add Ban Information
      - [X] Add mailing Process
      - [X] Create spreadsheet
-   - [-] Start Janeen's new Report [33%]
+   - [-] Start Janeen's new Report [75%]
      - [X] Based on Daily Consolidation report.
-     - [-] Develope Query [50%]
+     - [X] Develope Query [100%]
        - [X] Inventory Side
-       - [ ] MobileSense 
-     - [ ] Write program
+       - [X] MobileSense 
+     - [X] Write program
+     - [ ] Modify program
    - [ ] Ask Janeen about Sunset project
 ** TODO Finish IP Check
-   SCHEDULED: <2018-10-11 Thu>--<2018-10-25 Thu>
-** PGW Upgrade
+   SCHEDULED: <2018-10-11 Thu>--<2018-11-21 Wed>
+** PGW Upgrade							    :ARCHIVE:
    SCHEDULED: <2018-09-16 Sun>--<2018-10-25 Thu>
 *** TODO check to see if we have any new vendors in the INcollect/Outcollect space.
 ** TODO Volte Roaming
@@ -4901,7 +4906,7 @@ hhh
    SCHEDULED: <2018-10-12 Fri>--<2018-11-21 Wed> 
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
-** TODO TSP
+** TODO TSP							    :ARCHIVE:
    SCHEDULED: <2018-09-27 Thu>--<2018-10-12 Fri>
 *** Use the PRM Alias on kpr01bch03
     : PRM_SVC_BILLINGOPS=(description=(address=(protocol=tcp)(host=prmprd.uscc.com)(port=1521))(connect_data=(service_name=prmprd_adhoc)(UR=A)))

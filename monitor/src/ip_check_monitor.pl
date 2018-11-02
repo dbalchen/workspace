@@ -2,8 +2,9 @@
 #exit(0);
 
 BEGIN {
- push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-#	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+
+  #	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 
 }
 
@@ -25,25 +26,19 @@ use Spreadsheet::WriteExcel;
 use FileHandle;
 use Cwd qw(abs_path);
 use POSIX;
-use List::Uniq ':all';
 
-&scheduledTask();
+#use List::Uniq ':all';
+
+use List::Util qw(max maxstr min minstr product sum sum0);
+
+scheduledTask();
 exit(0);
 
-sub scheduledTask() {
+sub scheduledTask {
 
 	my ( $day, $month, $year ) = (localtime)[ 3, 4, 5 ];
 	my $timeStamp =
 	  1900 + $year . pad( $month + 1, '0', 2 ) . pad( $day, '0', 2 );
-
-	( $day, $month, $year ) =
-	  ( localtime( ( time - 60 * 60 * ( ( 24 * 10 ) + (localtime)[2] ) ) ) )
-	  [ 3, 4, 5 ];
-	my $yesterday =
-	  1900 + $year . pad( $month + 1, '0', 2 ) . pad( $day, '0', 2 );
-
-#	$timeStamp = "20171106";
-#	$yesterday = "20171027";
 
 	chdir("$ENV{'REC_HOME'}");
 
@@ -68,25 +63,54 @@ sub scheduledTask() {
 	my $bold = $workbook->add_format( bold => 1 );
 	$worksheet->write( 'A1', $heading, $bold );
 
-	my $conn = getBODSPRD();
+	#	my $conn = getBODSPRD();
 
-	$sql =
-"select to_char(start_time,'YYYYMMDD'), l9_ip_address,L9_NT_ROAMING_IND,  count(*) as RECORDS, SUM(L3_VOLUME) as VOLUME, SUM(L9_DOWNLINK_VOLUME) as DL_VOLUME, SUM(L9_UPLINK_VOLUME) as UL_VOLUME From ape1_rated_event  where L3_PAYMENT_CATEGORY = 'PRE' and  l3_call_source in ('L','D') and start_time > sysdate - 30 group by to_char(start_time,'YYYYMMDD'), l9_ip_address,L9_NT_ROAMING_IND order by 1,2,3";
+	my $sql = "
+	select to_char(start_time,'YYYYMMDD'),
+       l9_ip_address,
+       L9_NT_ROAMING_IND,
+       count(*) as RECORDS,
+       SUM(L3_VOLUME) as VOLUME
+    From ape1_rated_event
+    where L3_PAYMENT_CATEGORY = 'PRE'
+     and l3_call_source in ('L',
+                         'D')
+     and start_time >= sysdate - 30
+   group by to_char(start_time,'YYYYMMDD'),
+         l9_ip_address,
+         L9_NT_ROAMING_IND
+   order by 2,
+         1,
+         3
+	";
 
-	$sth = $conn->prepare($sql);
-	$sth->execute() or sendErr();
+	#	$sth = $conn->prepare($sql);
+	#	$sth->execute() or sendErr();
 
+	my $ip      = "";
 	my %sumData = {};
-	my %results = {};
 
-	while ( my @rows = $sth->fetchrow_array() ) {
+	#	while ( my @rows = $sth->fetchrow_array() ) {
 
-		#	open( EVENT, "< /home/dbalchen/Desktop/event.csv" ) || exit(0);
-		#
-		#	while ( $buff = <EVENT> ) {
-		#		chomp($buff);
-		#		#
-		#		my @rows = split( "\t", $buff );
+	open( EVENT, "< /home/dbalchen/Desktop/event.csv" ) || exit(0);
+
+	while ( my $buff = <EVENT> ) {
+		chomp($buff);
+
+		my @rows = split( "\t", $buff );
+
+		if ( $ip ne $rows[1] ) {
+
+			if ( $ip ne "" ) {
+
+				# Calculate stats
+				analyze( \%sumData );
+
+				print "Woot";
+			}
+	        %sumData = {};
+			$ip = $rows[1];
+		}
 
 		if ( defined $sumData{ $rows[1] }{ $rows[0] } ) {
 
@@ -100,7 +124,7 @@ sub scheduledTask() {
 				$sumrow[0] = $rows[3] + $sumrow[0];
 				$sumrow[1] = $rows[4] + $sumrow[1];
 			}
-			
+
 			$sumData{ $rows[1] }{ $rows[0] } = \@sumrow;
 		}
 		else {
@@ -118,126 +142,74 @@ sub scheduledTask() {
 
 			$sumData{ $rows[1] }{ $rows[0] } = \@sumrow;
 		}
+
 	}
 
-	foreach my $key ( keys %sumData ) {
+	# Calculate stats
 
-		my @homeTot;
-		my @roamTot;
+	#	$conn->disconnect();
 
-		my @key2c = keys %{ $sumData{$key} };
+	my $cntrow = 1;
+
+	$workbook->close;
+
+	#	sendMail( $excel_file, $timeStamp );
+
+}
+
+sub analyze {
+
+	my ($raw) = shift;
+	my %rawdata = %{$raw};
+
+	my @home;
+	my @roam;
+
+	foreach my $key ( keys %rawdata ) {
+
+		my @key2c = keys %{ $rawdata{$key} };
 
 		@key2c = sort { $a <=> $b } @key2c;
 
 		for ( my $a = 0 ; $a < @key2c ; $a = $a + 1 ) {
 
-			my ( $x1, $x2 ) = ( @{ $sumData{$key}{ $key2c[$a] } } )[ 0, 2 ];
+			my ( $x1, $x2 ) = ( @{ $rawdata{$key}{ $key2c[$a] } } )[ 0, 2 ];
 
-			push @homeTot, $x1;
-			push @roamTot, $x2;
+			push @home, $x1;
+			push @roam, $x2;
 		}
 
-		if ( @homeTot > 7 || @roamTot > 7 ) {
-
-			my @dayKey = @key2c[ $#key2c - 7 .. $#key2c ];
-
-			my @lastHdays = @homeTot[ $#homeTot - 7 .. $#homeTot ];
-			@homeTot = @homeTot[ 0 .. $#homeTot - 7 ];
-
-			my @lastRdays = @roamTot[ $#roamTot - 7 .. $#roamTot ];
-			@roamTot = @roamTot[ 0 .. $#roamTot - 7 ];
-
-			my ( $home_mean, $home_std ) = stdev( \@homeTot );
-			my ( $roam_mean, $roam_std ) = stdev( \@roamTot );
-
-			for ( my $a = 0 ; $a < @lastHdays ; $a = $a + 1 ) {
-
-				my $hper = analyze( $lastHdays[$a], $home_mean, $home_std );
-				my $rper = analyze( $lastRdays[$a], $roam_mean, $roam_std );
-
-				if (
-					( $hper || $rper )
-					&& (
-						( $lastHdays[$a] > 100 || $lastRdays[$a] > 100 )
-						&& (   ( $hper > 40 or $hper < -40 )
-							|| ( $rper > 40 or $rper < -40 ) )
-					)
-				  )
-				{
-					if (   ( $dayKey[$a] != $timeStamp )
-						&& ( $dayKey[$a] >= $yesterday ) )
-					{
-						my @rows = [
-							"$dayKey[$a]",    "$key",
-							"$lastHdays[$a]", "$lastRdays[$a]",
-							"$home_mean",     "$roam_mean",
-							"$home_std",      "$roam_std",
-							"$hper",          "$rper"
-						];
-						
-						$results{$key}{ $dayKey[$a] } = \@rows;
-					}
-
-				}
-			}
-
-			my @dayKeyT = ( keys %{ $results{$key} } );
-
-			if ( @dayKeyT <= 3 ) {
-				delete $results{$key};
-
-			}
-		}
 	}
 
-	$conn->disconnect();
+	if ( @home < 7 ) { return; }
 
-	my $cntrow = 1;
+	if ( ( max @home ) < 10000 and max @roam < 10000 ) { return; }
 
-	foreach my $key ( keys %results ) {
-
-		my @dayKey = ( keys %{ $results{$key} } );
-
-		for ( my $a = 0 ; $a < @dayKey ; $a = $a + 1 ) {
-			my @rows = @{ ( $results{$key}{ $dayKey[$a] } )[0] };
-
-			if (   ( $rows[0][8] < -100 || $rows[0][8] > 100 )
-				|| ( $rows[0][9] < -100 || $rows[0][9] > 100 ) )
-			{
-				$worksheet->write_row( $cntrow, 0, @rows, $bold );
-			}
-			else {
-				$worksheet->write_row( $cntrow, 0, @rows );
-			}
-			$cntrow = $cntrow + 1;
-		}
-	}
-
-	$workbook->close;
-
-		sendMail( $excel_file, $timeStamp );
-}
-
-sub analyze {
-
-	my ( $total, $mean, $std ) = @_;
-
-	if ( $mean == 0 ) {
-		return (0);
-	}
-	elsif ( ( $total + $std ) < $mean ) {
-		my $point = 100 * ( -1 * ( 1 - ( ( $total + $std ) / $mean ) ) );
-		return ($point);
-	}
-	elsif ( ( $total - $std ) > $mean ) {
-		my $point = ( 100 * ( ( ( $total - $std ) / $mean ) ) ) - 100;
-		return ($point);
-	}
-	else { return (0); }
+	descStats( \@home );
 
 }
 
-sub mean() {
+sub descStats {
+	my $ptr  = shift;
+	my @data = @{$ptr};
+
+	@data = sort { $a <=> $b } @data;
+
+	my $median = 0;
+	( my $int, my $frac ) =
+	  split( /\./, ( sprintf( "%1.5f", ( @data / 2 ) ) ), 2 );
+
+	if ( $frac > 0 ) {
+		$median = $data[$int];
+	}
+	else {
+		$median = ( $data[$int] + $data[ $int - 1 ] ) / 2;
+	}
+	print "$median\n";
+
+}
+
+sub mean {
 
 	my $ptr   = shift;
 	my @stats = @{$ptr};
@@ -251,7 +223,7 @@ sub mean() {
 	return $mean;
 }
 
-sub stdev() {
+sub stdev {
 
 	my $ptr   = shift;
 	my @stats = @{$ptr};
@@ -281,16 +253,17 @@ sub stdev() {
 	return ( $mean, $stdev );
 }
 
-sub sendMail() {
+sub sendMail {
 
 	my ( $excel_file, $date ) = @_;
 
-    my $to = 'ISBillingOperations@uscellular.com';
+	my $to        = 'ISBillingOperations@uscellular.com';
 	my $mime_type = 'multipart/mixed';
-    my $from        = 'david.balchen@uscellular.com';
+	my $from      = 'david.balchen@uscellular.com';
 	my $cc        = '';
+
 	#my $from      = 'USCDLISOps-BillingCycleManagement@uscellular.com';
-	my $subject   = "IP Usage Check for $date";
+	my $subject = " IP Usage Check for $date ";
 
 	my $msg = MIME::Lite->new(
 		From    => $from,
@@ -298,29 +271,22 @@ sub sendMail() {
 		Cc      => $cc,
 		Subject => $subject,
 		Type    => $mime_type
-	) or die "Error creating " . "MIME body: $!\n";
+	) or die " Error creating " . " MIME body : $! \n ";
 
 	$msg->attach(
 		Type     => 'application/octet-stream',
 		Encoding => 'base64',
 		Path     => $ENV{'REC_HOME'} . $excel_file,
 		Filename => $excel_file
-	) or die "Error attaching file: $!\n";
+	) or die " Error attaching file : $! \n ";
 
 	$msg->send();
 }
 
-#sub getBODSPRD{
-#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-#	unless (defined $dbods) {sendErr();}
-#	return $dbods;
-#}
-
 sub getBODSPRD {
 
-	#my $dbPwd = "BODS_SVC_BILLINGOPS";
-	#my 	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	#my $dbPwd = " BODS_SVC_BILLINGOPS ";
+	#my 	$dbods = (DBI->connect(" DBI : Oracle : $dbPwd ",,));
 	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "5000#Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
