@@ -3666,3 +3666,58 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: APPT
   :ARCHIVE_ITAGS: noexport taskjuggler_project
   :END:
+
+* PGW Upgrade							    :ARCHIVE:
+  SCHEDULED: <2018-09-16 Sun>--<2018-10-25 Thu>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-11-13 Tue 15:55
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+** TODO check to see if we have any new vendors in the INcollect/Outcollect space.
+
+* TODO TSP							    :ARCHIVE:
+  SCHEDULED: <2018-09-27 Thu>--<2018-10-12 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-11-13 Tue 15:55
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+** Use the PRM Alias on kpr01bch03
+   : PRM_SVC_BILLINGOPS=(description=(address=(protocol=tcp)(host=prmprd.uscc.com)(port=1521))(connect_data=(service_name=prmprd_adhoc)(UR=A)))
+** [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx][Issues Log]]
+   -  https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx
+
+* Support Databases - Login/Password				    :ARCHIVE:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-11-13 Tue 16:53
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Databases
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l|l
+|------------+-------------+---------------+-----------------------|
+| *USERNAME* | *PASSWORD*  | *DB_INSTANCE* | *Description*         |
+|------------+-------------+---------------+-----------------------|
+| /{Lan ID}/ | /{Lan PWD}/ | BODSDEV       | ODS/Datawarehouse     |
+| PRDAFC     | PRDAFC      | SUPAF         | Reference Tables      |
+| PRDCUSTC   | PRDCUSTC    | SUPCUST       | Customer              |
+| PRDRPLC    | PRDRPLC     | SUPRPL        | Replenishment Manager |
+| PRDUSG1C   | PRDUSG1C    | SUPUSG1       | Usage                 |
+| PRDUSG2C   | PRDUSG2C    | SUPUSG2       | Usage                 |
+| PRDUSG3C   | PRDUSG3C    | SUPUSG3       | Usage                 |
+| PRDUSG4C   | PRDUSG4C    | SUPUSG4       | Usage                 |
+| PRDSELC    | PRDSELC     | SUPAPRM       | APRM                  |
+|------------+-------------+---------------+-----------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX

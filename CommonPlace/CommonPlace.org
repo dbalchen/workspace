@@ -1587,28 +1587,6 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-** Support Databases - Login/Password				    :ARCHIVE:
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-
-#+ATTR_LaTeX: :environment longtable :align l|l|l|l
-|------------+-------------+---------------+-----------------------|
-| *USERNAME* | *PASSWORD*  | *DB_INSTANCE* | *Description*         |
-|------------+-------------+---------------+-----------------------|
-| /{Lan ID}/ | /{Lan PWD}/ | BODSDEV       | ODS/Datawarehouse     |
-| PRDAFC     | PRDAFC      | SUPAF         | Reference Tables      |
-| PRDCUSTC   | PRDCUSTC    | SUPCUST       | Customer              |
-| PRDRPLC    | PRDRPLC     | SUPRPL        | Replenishment Manager |
-| PRDUSG1C   | PRDUSG1C    | SUPUSG1       | Usage                 |
-| PRDUSG2C   | PRDUSG2C    | SUPUSG2       | Usage                 |
-| PRDUSG3C   | PRDUSG3C    | SUPUSG3       | Usage                 |
-| PRDUSG4C   | PRDUSG4C    | SUPUSG4       | Usage                 |
-| PRDSELC    | PRDSELC     | SUPAPRM       | APRM                  |
-|------------+-------------+---------------+-----------------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
 ** Usage DB by cycle
 #+BEGIN_LaTeX
 \footnotesize
@@ -3214,7 +3192,15 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+*** PRM_REP_CARR_INFO
+    Defines the Carrier (TADIG[fn:1]) Code used in IN and OUTCOLLECTS.
+    The below query shows the company name and carrier code.
 
+   :  SELECT DISTINCT carr_name, carr_cd
+   :    FROM prm_app.PRM_REP_CARR_INFO
+   :  ORDER BY carr_name;
+
+    
 *** M19_MIN_LR
          Contains the *USCC* MIN (MSID) block ranges and there *SID*
          code. The Block Ranges are listed in the *Technical Data Sheet*
@@ -4537,7 +4523,7 @@ hhh
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+----------------------+---------------|
-| *Column Name*        | *Data Type*          | *Description* |
+| *Name*               | *Data Type*          | *Description* |
 |----------------------+----------------------+---------------|
 | Application_Id       | Char (6 Byte)        |               |
 | Bc_Info              | Varchar2 (40 Byte)   |               |
@@ -4691,6 +4677,11 @@ hhh
 #+END_LaTeX
 ** Invoice Report Database
 *** INVRPT_ACCT_DEST_LINK_MV
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+---------------+---------------|
 | *Column Name*     | *Datatype*    | *Description* |
 |-------------------+---------------+---------------|
@@ -4704,8 +4695,15 @@ hhh
 | Exp_Date          | Date          |               |
 | Group_Id          | Number (9)    |               |
 |-------------------+---------------+---------------|
-
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 *** INVRPT_DESTINATION_MV
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------+----------------------+---------------|
 | *Column Name*       | *Datatype*           | *Description* |
 |---------------------+----------------------+---------------|
@@ -4741,6 +4739,52 @@ hhh
 | Eff_Date            | Date                 |               |
 | Exp_Date            | Date                 |               |
 |---------------------+----------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** MABEL_DESTINATION
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|--------------------------+---------------------+---------------|
+| *Name*                   | *Data Type*         | *Description* |
+|--------------------------+---------------------+---------------|
+| Addr_Attention           | Varchar2 (25 Byte)  |               |
+| Addr_City                | Varchar2 (40 Byte)  |               |
+| Addr_Country             | Char (3 Byte)       |               |
+| Addr_Primary_Ln          | Varchar2 (100 Byte) |               |
+| Addr_Secondary_Ln        | Varchar2 (100 Byte) |               |
+| Addr_State_Code          | Char (2 Byte)       |               |
+| Addr_Zip                 | Char (5 Byte)       |               |
+| Addr_Zip_4               | Char (4 Byte)       |               |
+| Application_Id           | Char (6 Byte)       |               |
+| B2b_Contact_Name         | Varchar2 (35 Byte)  |               |
+| B2b_Contact_Phone_Number | Varchar2 (20 Byte)  |               |
+| B2b_Mkt_Rep_Email_Addr   | Varchar2 (50 Byte)  |               |
+| Bill_Format_Ind          | Char (2 Byte)       |               |
+| Bill_Method_Ind          | Char (1 Byte)       |               |
+| Consolidator             | Number (5)          |               |
+| Contact_Email_Address    | Varchar2 (50 Byte)  |               |
+| Contact_Name             | Varchar2 (35 Byte)  |               |
+| Contact_Phone_Number     | Varchar2 (20 Byte)  |               |
+| Cust_Ip_Addr             | Varchar2 (30 Byte)  |               |
+| Destination_Desc         | Varchar2 (30 Byte)  |               |
+| Effective_Date           | Date                |               |
+| Expiration_Date          | Date                |               |
+| Invrpt_Dest_Code         | Number (5)          |               |
+| Mabel_Comments           | Varchar2 (255 Byte) |               |
+| Mabel_Version            | Number (3,1)        |               |
+| Operator_Id              | Number (9)          |               |
+| Sys_Creation_Date        | Date                |               |
+| Sys_Update_Date          | Date                |               |
+| Xmission_Media_Mode      | Varchar2 (4 Byte)   |               |
+| Xmission_Media_Type      | Char (4 Byte)       |               |
+|--------------------------+---------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 
 ** Roaming Reconciliation Tables
 *** FILE_SUMMARY
@@ -4874,12 +4918,15 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
-** TODO Add Monitors to EBI Business Server [75%]
+** DONE Add Monitors to EBI Business Server [100%]		    :ARCHIVE:
    SCHEDULED: <2018-10-17 Wed>--<2018-11-21 Wed>
    - [X] Add to the EBI Server
    - [X] Do firewall request
    - [X] Modify Dash script
-   - [ ] Final configuration
+   - [X] Final configuration
+   
+** TODO Check Code into GIT
+   SCHEDULED: <2018-11-29 Thu>--<2018-12-21 Fri>
    
 ** TODO Consolidated Billing [33%]
    SCHEDULED: <2018-10-19 Fri>--<2018-11-21 Wed>
@@ -4896,22 +4943,13 @@ hhh
      - [X] Write program
      - [ ] Modify program
    - [ ] Ask Janeen about Sunset project
-** TODO Finish IP Check
+** DONE Finish IP Check						    :ARCHIVE:
    SCHEDULED: <2018-10-11 Thu>--<2018-11-21 Wed>
-** PGW Upgrade							    :ARCHIVE:
-   SCHEDULED: <2018-09-16 Sun>--<2018-10-25 Thu>
-*** TODO check to see if we have any new vendors in the INcollect/Outcollect space.
 ** TODO Volte Roaming
    Add a summary page
    SCHEDULED: <2018-10-12 Fri>--<2018-11-21 Wed> 
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
-** TODO TSP							    :ARCHIVE:
-   SCHEDULED: <2018-09-27 Thu>--<2018-10-12 Fri>
-*** Use the PRM Alias on kpr01bch03
-    : PRM_SVC_BILLINGOPS=(description=(address=(protocol=tcp)(host=prmprd.uscc.com)(port=1521))(connect_data=(service_name=prmprd_adhoc)(UR=A)))
-*** [[https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx][Issues Log]]
-    -  https://usc.intranet.teldta.com/sites/EISPROJECTS/IRIS8033/_layouts/15/start.aspx#/Lists/Issues/AllItems.aspx
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
@@ -4923,3 +4961,7 @@ hhh
     : C, D, E, F, F#, G#, Bb, C
     : [4,5,6,8,10,0,2]
     : (012468T)
+
+* Footnotes
+
+[fn:1] Transfer Account Data Interchange Group

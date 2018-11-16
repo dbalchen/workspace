@@ -2,22 +2,20 @@
 #exit(0);
 
 BEGIN {
-	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-
-  #	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 
 }
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/monitor/src/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/monitor/src/';
 
-#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/IP_Check/';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/IP_Check/';
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 # use strict;
 use MIME::Lite;
@@ -45,25 +43,33 @@ sub scheduledTask {
 	my $excel_file = "IPCheck_" . $timeStamp . '.xls';
 
 	my $heading = [
-		'DATE',
-		'IP',
-		'Home Total',
-		'Roam Total',
+		'IP Address',
+		'Home Medium',
+		'IQ0',
+		'IQ3',
 		'Home Mean',
-		'Roam Mean',
 		'Home STD',
+		'Home Max',
+		'Home Min',
+		'Roam Medium',
+		'IQ0',
+		'IQ3',
+		'Roam Mean',
 		'Roam STD',
-		'Home Per',
-		'Roam Per'
+		'Roam Max',
+		'Roam Min'
 	];
 
-	my $workbook  = Spreadsheet::WriteExcel->new($excel_file);
-	my $worksheet = $workbook->add_worksheet("Oddities");
+	$workbook  = Spreadsheet::WriteExcel->new($excel_file);
+	$worksheet = $workbook->add_worksheet("Oddities");
 
-	my $bold = $workbook->add_format( bold => 1 );
+	$bold = $workbook->add_format( bold => 1 );
 	$worksheet->write( 'A1', $heading, $bold );
 
-	#	my $conn = getBODSPRD();
+	$firstFlip = 0;
+	$cnt       = 1;
+
+	my $conn = getBODSPRD();
 
 	my $sql = "
 	select to_char(start_time,'YYYYMMDD'),
@@ -75,7 +81,7 @@ sub scheduledTask {
     where L3_PAYMENT_CATEGORY = 'PRE'
      and l3_call_source in ('L',
                          'D')
-     and start_time >= sysdate - 30
+     and (start_time >= (sysdate - 31)) and (to_char(start_time,'YYYYMMDD') <  to_char(sysdate,'YYYYMMDD'))
    group by to_char(start_time,'YYYYMMDD'),
          l9_ip_address,
          L9_NT_ROAMING_IND
@@ -84,20 +90,23 @@ sub scheduledTask {
          3
 	";
 
-	#	$sth = $conn->prepare($sql);
-	#	$sth->execute() or sendErr();
+	$sth = $conn->prepare($sql);
+	$sth->execute() or sendErr();
 
 	my $ip      = "";
 	my %sumData = {};
 
-	#	while ( my @rows = $sth->fetchrow_array() ) {
+	#	open( EVENT, "< /home/dbalchen/Desktop/events.csv" ) || exit(0);
 
-	open( EVENT, "< /home/dbalchen/Desktop/event.csv" ) || exit(0);
+	while ( my @rows = $sth->fetchrow_array() ) {
 
-	while ( my $buff = <EVENT> ) {
-		chomp($buff);
+		# Comment Out this after test
+		#	while ( my $buff = <EVENT> ) {
+		#		chomp($buff);
+		#
+		#		my @rows = split( "\t", $buff );
 
-		my @rows = split( "\t", $buff );
+		# End of Test comment
 
 		if ( $ip ne $rows[1] ) {
 
@@ -105,11 +114,9 @@ sub scheduledTask {
 
 				# Calculate stats
 				analyze( \%sumData );
-
-				print "Woot";
 			}
-	        %sumData = {};
-			$ip = $rows[1];
+			%sumData = {};
+			$ip      = $rows[1];
 		}
 
 		if ( defined $sumData{ $rows[1] }{ $rows[0] } ) {
@@ -147,13 +154,15 @@ sub scheduledTask {
 
 	# Calculate stats
 
-	#	$conn->disconnect();
+	analyze( \%sumData );
+
+	$conn->disconnect();
 
 	my $cntrow = 1;
 
 	$workbook->close;
 
-	#	sendMail( $excel_file, $timeStamp );
+    sendMail( $excel_file, $timeStamp );
 
 }
 
@@ -165,11 +174,20 @@ sub analyze {
 	my @home;
 	my @roam;
 
+	my $ip;
+	my @dates = ();
+
 	foreach my $key ( keys %rawdata ) {
 
 		my @key2c = keys %{ $rawdata{$key} };
 
 		@key2c = sort { $a <=> $b } @key2c;
+
+		if ( defined $rawdata{$key}{ $key2c[$a] } ) {
+			@dates = @key2c;
+			$ip    = $key;
+		}
+		else { last; }
 
 		for ( my $a = 0 ; $a < @key2c ; $a = $a + 1 ) {
 
@@ -181,12 +199,114 @@ sub analyze {
 
 	}
 
-	if ( @home < 7 ) { return; }
+	if ( @home < 30 ) {
+		return;
+	}
 
-	if ( ( max @home ) < 10000 and max @roam < 10000 ) { return; }
+	if ( ( max @home ) < 10000 and max @roam < 10000 ) {
+		return;
+	}
 
-	descStats( \@home );
+	my ( $hmedium, $hiq0, $hiq3, $hmean, $hstd, $hmax, $hmin ) =
+	  descStats( \@home );
+	my ( $rmedium, $riq0, $riq3, $rmean, $rstd, $rmax, $rmin ) =
+	  descStats( \@roam );
 
+	my @header = [
+		"$ip",      "$hmedium", "$hiq0", "$hiq3",
+		"$hmean",   "$hstd",    "$hmax", "$hmin",
+		"$rmedium", "$riq0",    "$riq3", "$rmean",
+		"$rstd",    "$rmax",    "$rmin"
+	];
+
+	my @leader = [
+		"Date",
+		"Home Total Records",
+		"Percent Difference",
+		"", "", "", "", "",
+		"Roam Total Records",
+		"Percent Difference"
+	];
+	my $flip = 0;
+
+	@dates = @dates[ @dates - 8 .. @dates - 1 ];
+
+	foreach my $key (@dates) {
+
+		my @day = @{ $rawdata{$ip}{$key} };
+
+		my $homeUpper = $hmean + $hstd;
+		my $roamUpper = $rmean + $rstd;
+
+		my $homeLower = $hmean - $hstd;
+		my $roamLower = $rmean - $rstd;
+
+		if (   ( ( $day[0] > $homeUpper ) || ( $day[2] > $roamUpper ) )
+			|| ( ( ( $day[0] < $homeLower ) || ( $day[2] < $roamLower ) ) ) )
+		{
+			if ( $flip == 0 && $firstFlip == 1 ) {
+
+				# print "$header";
+				$cnt = $cnt + 2;
+				$worksheet->write_row( $cnt, 0, @header, $bold );
+				$flip = 1;
+			}
+			elsif ( $flip == 0 && $firstFlip == 0 ) {
+				$worksheet->write_row( $cnt, 0, @header );
+				$flip      = 1;
+				$firstFlip = 1;
+				$cnt       = $cnt + 2;
+				$worksheet->write_row( $cnt, 0, @leader, $bold );
+			}
+			else {
+
+				my $hpct = 0;
+				if ( $day[0] > $homeUpper ) {
+					$hpct =
+					  ( ( $day[0] - $homeUpper ) / abs($homeUpper) ) * 100;
+				}
+				elsif ( $day[0] < $homeLower ) {
+					$hpct =
+					  ( ( $day[0] - $homeLower ) / abs($homeLower) ) * 100;
+				}
+				else {
+					$hpct = 0;
+				}
+
+				my $rpct = 0;
+				if ( $day[2] > $roamUpper ) {
+					$rpct =
+					  ( ( $day[2] - $roamUpper ) / abs($roamUpper) ) * 100;
+				}
+				elsif ( $day[2] < $roamLower ) {
+					$rpct =
+					  ( ( $day[2] - $roamLower ) / abs($roamLower) ) * 100;
+				}
+				else {
+					$rpct = 0;
+				}
+
+				my @Out = [
+					"$key",    "$day[0]", "$hpct", "",
+					"",        "",        "",      "",
+					"$day[2]", "$rpct"
+				];
+
+				$cnt = $cnt + 1;
+
+				if ( $hpct > 30 || $hpct < -30 || $rpct > 30 || $rpct < -30 ) {
+					my $red = $workbook->add_format( bold => 1 );
+					$red->set_color('red');
+					$worksheet->write_row( $cnt, 0, @Out, $red );
+				}
+				else {
+					$worksheet->write_row( $cnt, 0, @Out );
+				}
+			}
+
+			#print "$key\t$day[0]\t\t\t\t\t\t\t$day[2]\n";
+		}
+	}
 }
 
 sub descStats {
@@ -195,17 +315,16 @@ sub descStats {
 
 	@data = sort { $a <=> $b } @data;
 
-	my $median = 0;
-	( my $int, my $frac ) =
-	  split( /\./, ( sprintf( "%1.5f", ( @data / 2 ) ) ), 2 );
+	my $median = $data[15];
+	my $iq0    = $data[7];
+	my $iq3    = $data[23];
 
-	if ( $frac > 0 ) {
-		$median = $data[$int];
-	}
-	else {
-		$median = ( $data[$int] + $data[ $int - 1 ] ) / 2;
-	}
-	print "$median\n";
+	my $max        = max(@data);
+	my $min        = min(@data);
+	my @small_data = @data[ 7 .. 23 ];
+	my ( $mean, $std ) = stdev( \@small_data );
+
+	return ( $median, $iq0, $iq3, $mean, $std, $max, $min );
 
 }
 
@@ -228,13 +347,7 @@ sub stdev {
 	my $ptr   = shift;
 	my @stats = @{$ptr};
 
-	@stats = uniq(@stats);
 	@stats = sort { $a <=> $b } @stats;
-
-	if ( @stats > 7 ) {
-		pop(@stats);
-		shift(@stats);
-	}
 
 	my $mean = &mean( \@stats );    # calculate the mean or average
 
@@ -285,9 +398,9 @@ sub sendMail {
 
 sub getBODSPRD {
 
-	#my $dbPwd = " BODS_SVC_BILLINGOPS ";
-	#my 	$dbods = (DBI->connect(" DBI : Oracle : $dbPwd ",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "5000#Reptar" );
+	my $dbPwd = " BODS_SVC_BILLINGOPS ";
+	my 	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "5000#Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

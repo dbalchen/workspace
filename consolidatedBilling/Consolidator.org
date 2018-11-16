@@ -1,0 +1,157 @@
+;; This buffer is for notes you don't want to save, and for Lisp evaluation.
+;; If you want to create a file, visit that file with C-x C-f,
+;; then enter the text in that file's own buffer.
+
+** Invoice Report
+select consolidator,
+         destination_desc,
+         contact_name,
+         contact_phone_number,
+         contact_email_address,
+         addr_attention,
+         addr_primary_ln,
+         addr_secondary_ln,
+         addr_city,
+         addr_state_code,
+         addr_zip,
+         addr_zip_4,
+         xmission_media_type,
+         mabel_version,
+         b2b_contact_name,
+         b2b_mkt_rep_email_addr,
+         b2b_contact_phone_number,
+         invrpt_dest_code
+    from mabel_destination
+   where     effective_date <= sysdate
+         and (expiration_date is null or expiration_date >= sysdate)
+order by consolidator
+
+
+  select a1.co,
+         a1.cc,
+         ba_no,
+         customer_no,
+         account_no,
+         a2.dn
+    from bl1_document b1,
+         (  select t1.account_no ac,
+                   t1.consolidator co,
+                   t1.cycle_code cc,
+                      t1.cycle_run_year
+                   || lpad (max (t1.cycle_run_month), 2, '0')
+                   || '01'
+                       cdate
+              from mabel_control t1
+             where     (t1.cycle_run_year =
+                            (select max (cycle_run_year)
+                               from mabel_control t2
+                              where     t1.consolidator in
+                                            (select consolidator
+                                               from mabel_destination
+                                              where     effective_date <= sysdate
+                                                    and (   expiration_date
+                                                                is null
+                                                         or expiration_date >=
+                                                                sysdate))
+                                    and t2.consolidator = t1.consolidator
+                                    and t2.cycle_run_year >=
+                                            (select (  to_number (
+                                                           to_char (sysdate,
+                                                                    'yyyy'))
+                                                     - 1)
+                                               from dual)))
+                   and t1.account_no is not null
+          group by t1.account_no,
+                   t1.consolidator,
+                   t1.cycle_code,
+                   t1.cycle_run_year) a1,
+         (  select consolidator co, destination_desc dn
+              from mabel_destination
+             where     effective_date <= sysdate
+                   and (expiration_date is null or expiration_date >= sysdate)
+          order by consolidator) a2
+   where     b1.account_no = a1.ac
+         and bill_date >= to_date (a1.cdate, 'yyyymmdd')
+         and a2.co = a1.co
+group by a1.co,
+         a1.cc,
+         ba_no,
+         customer_no,
+         account_no,
+         a2.dn
+order by a1.co, a1.cc, ba_no
+
+** MobileSense
+  select invrpt_dest_code,
+         dest_name,
+         addr_attention,
+         addr_primary_line,
+         addr_secondary_line,
+         addr_city,
+         addr_state,
+         addr_zip,
+         addr_country,
+         contact_name,
+         contact_phone,
+         contact_email,
+         xmission_type,
+         deliv_email_addr,
+         send_rpt_to_rep,
+         b2b_rep_name,
+         b2b_rep_phone,
+         b2b_rep_email
+    from invrpt_destination_mv
+   where eff_date <= sysdate and (exp_date is null or exp_date >= sysdate)
+order by invrpt_dest_code
+
+select a1.co,
+         a1.cc,
+         ba_no,
+         customer_no,
+         account_no,
+         a2.dn
+    from bl1_document b1,
+         (  select t1.account_no ac,
+                   t1.consolidator co,
+                   t1.cycle_code cc,
+                      t1.cycle_run_year
+                   || lpad (max (t1.cycle_run_month), 2, '0')
+                   || '01'
+                       cdate
+              from mabel_audit t1
+             where     (t1.cycle_run_year =
+                            (select max (cycle_run_year)
+                               from mabel_audit t2
+                              where     t1.consolidator in
+                                            (select invrpt_dest_code
+                                               from invrpt_destination_mv
+                                              where     eff_date <= sysdate
+                                                    and (   exp_date is null
+                                                         or exp_date >= sysdate))
+                                    and t2.consolidator = t1.consolidator
+                                    and t2.cycle_run_year >=
+                                            (select (  to_number (
+                                                           to_char (sysdate,
+                                                                    'yyyy'))
+                                                     - 1)
+                                               from dual)))
+                   and t1.account_no is not null
+          group by t1.account_no,
+                   t1.consolidator,
+                   t1.cycle_code,
+                   t1.cycle_run_year) a1,
+         (  select invrpt_dest_code co, dest_name dn
+              from invrpt_destination_mv
+             where     eff_date <= sysdate
+                   and (exp_date is null or exp_date >= sysdate)
+          order by invrpt_dest_code) a2
+   where     b1.account_no = a1.ac
+         and bill_date >= to_date (a1.cdate, 'yyyymmdd')
+         and a2.co = a1.co
+group by a1.co,
+         a1.cc,
+         ba_no,
+         customer_no,
+         account_no,
+         a2.dn
+order by a1.co, a1.cc, ba_no
