@@ -254,49 +254,49 @@ o.memSize = 2097152;
 
 
 		t.schedAbs((timeNow + (4*74)) - 0.01,{ // 00 = Time in beats
-		(
+			(
 				~bassDrum10.value;
 				~lowStrings10.value();
 				~viola10.value;
 				~violin10.value;
-		);
+			);
 
-		(
-		// If No put stuff here otherwise nil
-		nil
-		);
+			(
+				// If No put stuff here otherwise nil
+				nil
+			);
 		};	 // End of if statement
 		); // End of t.schedAbs
 
 
 		t.schedAbs((timeNow + (4*82)) - 0.01,{ // 00 = Time in beats
-		(
+			(
 				~bassDrum11.value;
 				~lowStrings11.value();
 				~viola11.value;
 				~violin11.value;
-		);
+			);
 
-		(
-		// If No put stuff here otherwise nil
-		nil
-		);
+			(
+				// If No put stuff here otherwise nil
+				nil
+			);
 		};	 // End of if statement
 		); // End of t.schedAbs
 
 
 		t.schedAbs((timeNow + (4*90)) - 0.01,{ // 00 = Time in beats
-		(
+			(
 				~bassDrum12.value;
 				~lowStrings12.value();
 				~viola12.value;
 				~violin12.value;
-		);
+			);
 
-		(
-		// If No put stuff here otherwise nil
-		nil
-		);
+			(
+				// If No put stuff here otherwise nil
+				nil
+			);
 		};	 // End of if statement
 		); // End of t.schedAbs
 

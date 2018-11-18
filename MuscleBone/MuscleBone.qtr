@@ -6,16 +6,18 @@
 MIDI file import "MANDB.mid" on May 28 2018 16:54:07.
 MIDI file import "MANDB.mid" on May 28 2018 16:58:15.
 MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
+Audio file import "00-Bass.wav" on Oct 31 2018 09:51:50.
+MIDI file import "MANDB.mid" on Oct 31 2018 09:54:08.
 </description>
   <sample-rate>48000</sample-rate>
   <tempo>120</tempo>
   <ticks-per-beat>960</ticks-per-beat>
   <beats-per-bar>4</beats-per-bar>
-  <beat-divisor>1</beat-divisor>
+  <beat-divisor>2</beat-divisor>
  </properties>
  <state>
-  <loop-start>186000</loop-start>
-  <loop-end>10464000</loop-end>
+  <loop-start>1776075</loop-start>
+  <loop-end>10320000</loop-end>
   <punch-in>0</punch-in>
   <punch-out>0</punch-out>
  </state>
@@ -30,15 +32,10 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
    <file name="07-violin1.wav">AudioFiles/07-violin1.wav</file>
    <file name="08-violin2.wav">AudioFiles/08-violin2.wav</file>
    <file name="09-Pink Noise.wav">AudioFiles/09-Pink Noise.wav</file>
+   <file name="00-Bass.wav">AudioFiles/00-Bass.wav</file>
   </audio-list>
   <midi-list>
    <file name="MANDB.mid">AudioFiles/MANDB.mid</file>
-   <file name="MuscleBone-BassDrum-3.mid">MuscleBone-BassDrum-3.mid</file>
-   <file name="MuscleBone-BassDrumNotes-1.mid">MuscleBone-BassDrumNotes-1.mid</file>
-   <file name="MuscleBone-LowStrings-3.mid">MuscleBone-LowStrings-3.mid</file>
-   <file name="MuscleBone-Viola-1.mid">MuscleBone-Viola-1.mid</file>
-   <file name="MuscleBone-Violin-1.mid">MuscleBone-Violin-1.mid</file>
-   <file name="MuscleBone-count-1.mid">MuscleBone-count-1.mid</file>
   </midi-list>
  </files>
  <devices>
@@ -55,22 +52,14 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
-    <output-gain>1.45278</output-gain>
+    <input-connects/>
+    <output-gain>0.865765</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins>
      <plugin type="LV2">
       <filename>http://calf.sourceforge.net/plugins/Equalizer12Band</filename>
+      <unique-id>12091972</unique-id>
       <index>0</index>
       <label>Calf_Equalizer_12_Band</label>
       <preset></preset>
@@ -83,11 +72,11 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
        <param index="5" name="Input Gain">1</param>
        <param index="6" name="Output Gain">1</param>
        <param index="15" name="HP Active">1</param>
-       <param index="16" name="HP Freq">50.0978</param>
+       <param index="16" name="HP Freq">30.9261</param>
        <param index="17" name="HP Mode">0</param>
        <param index="18" name="LP Active">1</param>
-       <param index="19" name="LP Freq">20000</param>
-       <param index="20" name="LP Mode">1</param>
+       <param index="19" name="LP Freq">11066.4</param>
+       <param index="20" name="LP Mode">0</param>
        <param index="21" name="LS Active">0</param>
        <param index="22" name="Level L">1</param>
        <param index="23" name="Freq L">100</param>
@@ -95,44 +84,111 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
        <param index="25" name="Level H">1</param>
        <param index="26" name="Freq H">5000</param>
        <param index="27" name="F1 Active">1</param>
-       <param index="28" name="Level 1">0.587231</param>
-       <param index="29" name="Freq 1">67.7591</param>
-       <param index="30" name="Q 1">6.48635</param>
+       <param index="28" name="Level 1">0.693515</param>
+       <param index="29" name="Freq 1">40.4108</param>
+       <param index="30" name="Q 1">54.4503</param>
        <param index="31" name="F2 Active">1</param>
        <param index="32" name="Level 2">0.627636</param>
-       <param index="33" name="Freq 2">103.077</param>
-       <param index="34" name="Q 2">3.7325</param>
+       <param index="33" name="Freq 2">116.406</param>
+       <param index="34" name="Q 2">20.1372</param>
        <param index="35" name="F3 Active">1</param>
-       <param index="36" name="Level 3">0.627636</param>
-       <param index="37" name="Freq 3">228.206</param>
-       <param index="38" name="Q 3">11.5878</param>
+       <param index="36" name="Level 3">0.312083</param>
+       <param index="37" name="Freq 3">173.576</param>
+       <param index="38" name="Q 3">62.5173</param>
        <param index="39" name="F4 Active">1</param>
-       <param index="40" name="Level 4">0.627636</param>
-       <param index="41" name="Freq 4">404.149</param>
-       <param index="42" name="Q 4">20.1372</param>
+       <param index="40" name="Level 4">0.312083</param>
+       <param index="41" name="Freq 4">248.471</param>
+       <param index="42" name="Q 4">34.9945</param>
        <param index="43" name="F5 Active">1</param>
-       <param index="44" name="Level 5">0.627636</param>
-       <param index="45" name="Freq 5">694.305</param>
-       <param index="46" name="Q 5">16.5959</param>
+       <param index="44" name="Level 5">0.322641</param>
+       <param index="45" name="Freq 5">970.054</param>
+       <param index="46" name="Q 5">43.6516</param>
        <param index="47" name="F6 Active">1</param>
-       <param index="48" name="Level 6">0.627636</param>
-       <param index="49" name="Freq 6">1347.03</param>
-       <param index="50" name="Q 6">7.65597</param>
+       <param index="48" name="Level 6">0.291992</param>
+       <param index="49" name="Freq 6">464.764</param>
+       <param index="50" name="Q 6">100</param>
        <param index="51" name="F7 Active">1</param>
-       <param index="52" name="Level 7">0.627636</param>
-       <param index="53" name="Freq 7">1987.77</param>
-       <param index="54" name="Q 7">17.0608</param>
+       <param index="52" name="Level 7">0.497235</param>
+       <param index="53" name="Freq 7">1380.12</param>
+       <param index="54" name="Q 7">62.5173</param>
        <param index="55" name="F8 Active">1</param>
-       <param index="56" name="Level 8">0.693515</param>
-       <param index="57" name="Freq 8">3740.99</param>
-       <param index="58" name="Q 8">34.0408</param>
+       <param index="56" name="Level 8">0.497235</param>
+       <param index="57" name="Freq 8">3312.61</param>
+       <param index="58" name="Q 8">44.8745</param>
        <param index="59" name="Individual Filters">0</param>
+       <param index="60" name="Zoom">1</param>
+       <param index="61" name="Analyzer Active">1</param>
+       <param index="62" name="Analyzer Mode">1</param>
+      </params>
+      <controllers/>
+      <editor-pos>226,224</editor-pos>
+      <form-pos>0,0</form-pos>
+     </plugin>
+     <plugin type="LV2">
+      <filename>http://calf.sourceforge.net/plugins/Equalizer12Band</filename>
+      <unique-id>12091973</unique-id>
+      <index>0</index>
+      <label>Calf_Equalizer_12_Band</label>
+      <preset></preset>
+      <direct-access-param>-1</direct-access-param>
+      <activate-subject-index>63</activate-subject-index>
+      <activated>1</activated>
+      <configs/>
+      <params>
+       <param index="4" name="Bypass">0</param>
+       <param index="5" name="Input Gain">1</param>
+       <param index="6" name="Output Gain">1</param>
+       <param index="15" name="HP Active">0</param>
+       <param index="16" name="HP Freq">30</param>
+       <param index="17" name="HP Mode">1</param>
+       <param index="18" name="LP Active">0</param>
+       <param index="19" name="LP Freq">18000</param>
+       <param index="20" name="LP Mode">1</param>
+       <param index="21" name="LS Active">0</param>
+       <param index="22" name="Level L">1</param>
+       <param index="23" name="Freq L">100</param>
+       <param index="24" name="HS Active">0</param>
+       <param index="25" name="Level H">1</param>
+       <param index="26" name="Freq H">5000</param>
+       <param index="27" name="F1 Active">0</param>
+       <param index="28" name="Level 1">1</param>
+       <param index="29" name="Freq 1">60</param>
+       <param index="30" name="Q 1">1</param>
+       <param index="31" name="F2 Active">0</param>
+       <param index="32" name="Level 2">1</param>
+       <param index="33" name="Freq 2">120</param>
+       <param index="34" name="Q 2">1</param>
+       <param index="35" name="F3 Active">0</param>
+       <param index="36" name="Level 3">1</param>
+       <param index="37" name="Freq 3">250</param>
+       <param index="38" name="Q 3">1</param>
+       <param index="39" name="F4 Active">1</param>
+       <param index="40" name="Level 4">1.82008</param>
+       <param index="41" name="Freq 4">2504.89</param>
+       <param index="42" name="Q 4">0.679204</param>
+       <param index="43" name="F5 Active">0</param>
+       <param index="44" name="Level 5">1</param>
+       <param index="45" name="Freq 5">1000</param>
+       <param index="46" name="Q 5">1</param>
+       <param index="47" name="F6 Active">0</param>
+       <param index="48" name="Level 6">1</param>
+       <param index="49" name="Freq 6">2000</param>
+       <param index="50" name="Q 6">1</param>
+       <param index="51" name="F7 Active">0</param>
+       <param index="52" name="Level 7">1</param>
+       <param index="53" name="Freq 7">4000</param>
+       <param index="54" name="Q 7">1</param>
+       <param index="55" name="F8 Active">0</param>
+       <param index="56" name="Level 8">1</param>
+       <param index="57" name="Freq 8">8000</param>
+       <param index="58" name="Q 8">1</param>
+       <param index="59" name="Individual Filters">1</param>
        <param index="60" name="Zoom">0.25</param>
        <param index="61" name="Analyzer Active">1</param>
        <param index="62" name="Analyzer Mode">1</param>
       </params>
       <controllers/>
-      <editor-pos>220,170</editor-pos>
+      <editor-pos>262,162</editor-pos>
       <form-pos>0,0</form-pos>
      </plugin>
      <plugin type="LV2">
@@ -152,38 +208,38 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
        <param index="16" name="Split 2/3">1000</param>
        <param index="17" name="Split 3/4">6000</param>
        <param index="18" name="Filter Mode">1</param>
-       <param index="19" name="Threshold 1">0.0236831</param>
-       <param index="20" name="Ratio 1">1.1199</param>
-       <param index="21" name="Attack 1">33.1043</param>
-       <param index="22" name="Release 1">182.822</param>
+       <param index="19" name="Threshold 1">0.0435858</param>
+       <param index="20" name="Ratio 1">2.56936</param>
+       <param index="21" name="Attack 1">0.0579894</param>
+       <param index="22" name="Release 1">68.8566</param>
        <param index="23" name="Makeup 1">1</param>
        <param index="24" name="Knee 1">2.82843</param>
        <param index="25" name="Detection 1">0</param>
        <param index="28" name="Bypass 1">0</param>
        <param index="29" name="Solo 1">0</param>
-       <param index="30" name="Threshold 2">0.0257372</param>
-       <param index="31" name="Ratio 2">1.06493</param>
-       <param index="32" name="Attack 2">6.60919</param>
-       <param index="33" name="Release 2">3.02609</param>
+       <param index="30" name="Threshold 2">0.0651541</param>
+       <param index="31" name="Ratio 2">1.97276</param>
+       <param index="32" name="Attack 2">2.25765</param>
+       <param index="33" name="Release 2">0.2167</param>
        <param index="34" name="Makeup 2">1</param>
        <param index="35" name="Knee 2">2.82843</param>
        <param index="36" name="Detection 2">0</param>
        <param index="39" name="Bypass 2">0</param>
        <param index="40" name="Solo 2">0</param>
-       <param index="41" name="Threshold 3">0.00501338</param>
-       <param index="42" name="Ratio 3">1.13408</param>
-       <param index="43" name="Attack 3">16.7119</param>
-       <param index="44" name="Release 3">6.60919</param>
+       <param index="41" name="Threshold 3">0.0390103</param>
+       <param index="42" name="Ratio 3">2.60189</param>
+       <param index="43" name="Attack 3">2.88189</param>
+       <param index="44" name="Release 3">0.13299</param>
        <param index="45" name="Makeup 3">1</param>
        <param index="46" name="Knee 3">2.82843</param>
        <param index="47" name="Detection 3">0</param>
        <param index="50" name="Bypass 3">0</param>
        <param index="51" name="Solo 3">0</param>
-       <param index="52" name="Threshold 4">0.0264608</param>
-       <param index="53" name="Ratio 4">1.31891</param>
-       <param index="54" name="Attack 4">0.0552261</param>
-       <param index="55" name="Release 4">0.01</param>
-       <param index="56" name="Makeup 4">1</param>
+       <param index="52" name="Threshold 4">0.00643431</param>
+       <param index="53" name="Ratio 4">3.94105</param>
+       <param index="54" name="Attack 4">2.25765</param>
+       <param index="55" name="Release 4">1.68435</param>
+       <param index="56" name="Makeup 4">1.30496</param>
        <param index="57" name="Knee 4">2.82843</param>
        <param index="58" name="Detection 4">0</param>
        <param index="61" name="Bypass 4">0</param>
@@ -191,7 +247,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
        <param index="63" name="Notebook">3</param>
       </params>
       <controllers/>
-      <editor-pos>376,155</editor-pos>
+      <editor-pos>512,133</editor-pos>
       <form-pos>0,0</form-pos>
      </plugin>
      <plugin type="LV2">
@@ -211,11 +267,11 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
        <param index="5" name="Input Gain">1</param>
        <param index="22" name="Oversampling">2</param>
        <param index="6" name="Output Gain">1</param>
-       <param index="15" name="Limit">0.151774</param>
+       <param index="15" name="Limit">0.156909</param>
        <param index="16" name="Lookahead">10</param>
       </params>
       <controllers/>
-      <editor-pos>477,366</editor-pos>
+      <editor-pos>481,402</editor-pos>
       <form-pos>0,0</form-pos>
      </plugin>
      <plugin type="LV2">
@@ -255,30 +311,12 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
+    <input-connects/>
     <output-gain>1</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>playback_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>playback_2</port>
-     </connect>
-    </output-connects>
+    <output-connects/>
    </audio-bus>
    <audio-bus mode="duplex" name="Viola1">
     <monitor>1</monitor>
@@ -288,30 +326,12 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
+    <input-connects/>
     <output-gain>1</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>playback_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>playback_2</port>
-     </connect>
-    </output-connects>
+    <output-connects/>
    </audio-bus>
    <audio-bus mode="duplex" name="Viola2">
     <monitor>1</monitor>
@@ -321,30 +341,12 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
+    <input-connects/>
     <output-gain>1</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>playback_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>playback_2</port>
-     </connect>
-    </output-connects>
+    <output-connects/>
    </audio-bus>
    <audio-bus mode="duplex" name="Violin1">
     <monitor>1</monitor>
@@ -354,30 +356,12 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
+    <input-connects/>
     <output-gain>1</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>playback_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>playback_2</port>
-     </connect>
-    </output-connects>
+    <output-connects/>
    </audio-bus>
    <audio-bus mode="duplex" name="Violin2">
     <monitor>1</monitor>
@@ -387,30 +371,12 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
+    <input-connects/>
     <output-gain>1</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>playback_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>playback_2</port>
-     </connect>
-    </output-connects>
+    <output-connects/>
    </audio-bus>
    <audio-bus mode="duplex" name="BassDrumNoise">
     <monitor>0</monitor>
@@ -420,30 +386,12 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
+    <input-connects/>
     <output-gain>1</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>playback_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>playback_2</port>
-     </connect>
-    </output-connects>
+    <output-connects/>
    </audio-bus>
    <audio-bus mode="duplex" name="BassDrumPulse">
     <monitor>0</monitor>
@@ -453,30 +401,12 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
+    <input-connects/>
     <output-gain>1</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>playback_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>playback_2</port>
-     </connect>
-    </output-connects>
+    <output-connects/>
    </audio-bus>
    <audio-bus mode="duplex" name="BassDrumSine">
     <monitor>0</monitor>
@@ -486,30 +416,12 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <input-panning>0</input-panning>
     <input-controllers/>
     <input-plugins/>
-    <input-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>capture_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>capture_2</port>
-     </connect>
-    </input-connects>
+    <input-connects/>
     <output-gain>1</output-gain>
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins/>
-    <output-connects>
-     <connect index="0">
-      <client>system</client>
-      <port>playback_1</port>
-     </connect>
-     <connect index="1">
-      <client>system</client>
-      <port>playback_2</port>
-     </connect>
-    </output-connects>
+    <output-connects/>
    </audio-bus>
   </audio-engine>
   <midi-engine>
@@ -534,313 +446,57 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <output-panning>0</output-panning>
     <output-controllers/>
     <output-plugins>
+     <bank>0</bank>
+     <program>41</program>
      <audio-output-bus-name></audio-output-bus-name>
      <audio-output-bus>0</audio-output-bus>
      <audio-output-auto-connect>1</audio-output-auto-connect>
     </output-plugins>
-    <output-connects>
-     <connect index="0">
-      <client>129:FLUID Synth (25005)</client>
-      <port>0:Synth input port (25005:0)</port>
-     </connect>
-    </output-connects>
-    <midi-map/>
+    <output-connects/>
+    <midi-map>
+     <midi-patch channel="0">
+      <midi-bank-sel-method>0</midi-bank-sel-method>
+      <midi-bank>0</midi-bank>
+      <midi-program>42</midi-program>
+     </midi-patch>
+     <midi-patch channel="2">
+      <midi-bank-sel-method>0</midi-bank-sel-method>
+      <midi-bank>0</midi-bank>
+      <midi-program>41</midi-program>
+     </midi-patch>
+     <midi-patch channel="3">
+      <midi-bank-sel-method>0</midi-bank-sel-method>
+      <midi-bank>0</midi-bank>
+      <midi-program>40</midi-program>
+     </midi-patch>
+     <midi-patch channel="4">
+      <midi-bank-sel-method>0</midi-bank-sel-method>
+      <midi-bank>0</midi-bank>
+      <midi-program>41</midi-program>
+     </midi-patch>
+     <midi-patch channel="5">
+      <midi-bank-sel-method>0</midi-bank-sel-method>
+      <midi-bank>0</midi-bank>
+      <midi-program>40</midi-program>
+     </midi-patch>
+     <midi-patch channel="10">
+      <midi-bank-sel-method>0</midi-bank-sel-method>
+      <midi-bank>0</midi-bank>
+      <midi-program>0</midi-program>
+     </midi-patch>
+    </midi-map>
    </midi-bus>
   </midi-engine>
  </devices>
  <tracks>
   <view>
    <pixels-per-beat>32</pixels-per-beat>
-   <horizontal-zoom>100</horizontal-zoom>
+   <horizontal-zoom>1000</horizontal-zoom>
    <vertical-zoom>100</vertical-zoom>
-   <snap-per-beat>4</snap-per-beat>
-   <edit-head>186000</edit-head>
-   <edit-tail>10464000</edit-tail>
+   <snap-per-beat>0</snap-per-beat>
+   <edit-head>1776075</edit-head>
+   <edit-tail>10320000</edit-tail>
   </view>
-  <track type="midi" name="count">
-   <properties>
-    <input-bus>Master</input-bus>
-    <output-bus>Master</output-bus>
-    <midi-omni>0</midi-omni>
-    <midi-channel>9</midi-channel>
-    <midi-bank-sel-method>0</midi-bank-sel-method>
-   </properties>
-   <state>
-    <mute>0</mute>
-    <solo>0</solo>
-    <record>0</record>
-    <monitor>1</monitor>
-    <gain>1</gain>
-    <panning>0</panning>
-   </state>
-   <view>
-    <height>72</height>
-    <background-color>#ff99cc</background-color>
-    <foreground-color>#7f4c66</foreground-color>
-   </view>
-   <controllers/>
-   <clips>
-    <clip name="count-1">
-     <properties>
-      <name>count-1</name>
-      <start>0</start>
-      <offset>0</offset>
-      <length>10278000</length>
-      <gain>1</gain>
-      <fade-in type="InQuad">0</fade-in>
-      <fade-out type="OutQuad">0</fade-out>
-     </properties>
-     <midi-clip>
-      <filename>MuscleBone-count-1.mid</filename>
-      <track-channel>1</track-channel>
-      <revision>3</revision>
-      <editor-pos>0,30</editor-pos>
-      <editor-size>1600,852</editor-size>
-     </midi-clip>
-    </clip>
-   </clips>
-   <plugins>
-    <audio-output-bus-name></audio-output-bus-name>
-    <audio-output-bus>0</audio-output-bus>
-    <audio-output-auto-connect>1</audio-output-auto-connect>
-   </plugins>
-  </track>
-  <track type="midi" name="BassDrum">
-   <properties>
-    <input-bus>Master</input-bus>
-    <output-bus>Master</output-bus>
-    <midi-omni>0</midi-omni>
-    <midi-channel>9</midi-channel>
-    <midi-bank-sel-method>0</midi-bank-sel-method>
-   </properties>
-   <state>
-    <mute>1</mute>
-    <solo>0</solo>
-    <record>0</record>
-    <monitor>0</monitor>
-    <gain>1</gain>
-    <panning>0</panning>
-   </state>
-   <view>
-    <height>72</height>
-    <background-color>#ffcccc</background-color>
-    <foreground-color>#7f6666</foreground-color>
-   </view>
-   <controllers/>
-   <clips>
-    <clip name="BassDrum">
-     <properties>
-      <name>BassDrum</name>
-      <start>0</start>
-      <offset>192000</offset>
-      <length>10656000</length>
-      <gain>1</gain>
-      <fade-in type="InQuad">0</fade-in>
-      <fade-out type="OutQuad">0</fade-out>
-     </properties>
-     <midi-clip>
-      <filename>MuscleBone-BassDrum-3.mid</filename>
-      <track-channel>1</track-channel>
-      <revision>2</revision>
-      <editor-pos>0,30</editor-pos>
-      <editor-size>1600,852</editor-size>
-     </midi-clip>
-    </clip>
-   </clips>
-   <plugins>
-    <audio-output-bus-name></audio-output-bus-name>
-    <audio-output-bus>0</audio-output-bus>
-    <audio-output-auto-connect>1</audio-output-auto-connect>
-   </plugins>
-  </track>
-  <track type="midi" name="BassDrumNotes">
-   <properties>
-    <input-bus>Master</input-bus>
-    <output-bus>Master</output-bus>
-    <midi-omni>0</midi-omni>
-    <midi-channel>0</midi-channel>
-   </properties>
-   <state>
-    <mute>1</mute>
-    <solo>0</solo>
-    <record>0</record>
-    <monitor>0</monitor>
-    <gain>1</gain>
-    <panning>0</panning>
-   </state>
-   <view>
-    <height>72</height>
-    <background-color>#cccccc</background-color>
-    <foreground-color>#666666</foreground-color>
-   </view>
-   <controllers/>
-   <clips>
-    <clip name="BassDrumNotes">
-     <properties>
-      <name>BassDrumNotes</name>
-      <start>0</start>
-      <offset>192000</offset>
-      <length>10272000</length>
-      <gain>1</gain>
-      <fade-in type="InQuad">0</fade-in>
-      <fade-out type="OutQuad">0</fade-out>
-     </properties>
-     <midi-clip>
-      <filename>MuscleBone-BassDrumNotes-1.mid</filename>
-      <track-channel>2</track-channel>
-      <revision>1</revision>
-      <editor-pos>0,0</editor-pos>
-      <editor-size>1600,852</editor-size>
-     </midi-clip>
-    </clip>
-   </clips>
-   <plugins>
-    <audio-output-bus-name></audio-output-bus-name>
-    <audio-output-bus>0</audio-output-bus>
-    <audio-output-auto-connect>1</audio-output-auto-connect>
-   </plugins>
-  </track>
-  <track type="midi" name="LowStrings">
-   <properties>
-    <input-bus>Master</input-bus>
-    <output-bus>Master</output-bus>
-    <midi-omni>0</midi-omni>
-    <midi-channel>0</midi-channel>
-   </properties>
-   <state>
-    <mute>1</mute>
-    <solo>0</solo>
-    <record>0</record>
-    <monitor>0</monitor>
-    <gain>1</gain>
-    <panning>0</panning>
-   </state>
-   <view>
-    <height>72</height>
-    <background-color>#99cccc</background-color>
-    <foreground-color>#4c6666</foreground-color>
-   </view>
-   <controllers/>
-   <clips>
-    <clip name="LowStrings">
-     <properties>
-      <name>LowStrings</name>
-      <start>0</start>
-      <offset>192000</offset>
-      <length>10272000</length>
-      <gain>1</gain>
-      <fade-in type="InQuad">0</fade-in>
-      <fade-out type="OutQuad">0</fade-out>
-     </properties>
-     <midi-clip>
-      <filename>MuscleBone-LowStrings-3.mid</filename>
-      <track-channel>3</track-channel>
-      <revision>1</revision>
-      <editor-pos>0,0</editor-pos>
-      <editor-size>1600,852</editor-size>
-     </midi-clip>
-    </clip>
-   </clips>
-   <plugins>
-    <audio-output-bus-name></audio-output-bus-name>
-    <audio-output-bus>0</audio-output-bus>
-    <audio-output-auto-connect>1</audio-output-auto-connect>
-   </plugins>
-  </track>
-  <track type="midi" name="Viola">
-   <properties>
-    <input-bus>Master</input-bus>
-    <output-bus>Master</output-bus>
-    <midi-omni>0</midi-omni>
-    <midi-channel>0</midi-channel>
-   </properties>
-   <state>
-    <mute>1</mute>
-    <solo>0</solo>
-    <record>0</record>
-    <monitor>0</monitor>
-    <gain>1</gain>
-    <panning>0</panning>
-   </state>
-   <view>
-    <height>72</height>
-    <background-color>#ff99cc</background-color>
-    <foreground-color>#7f4c66</foreground-color>
-   </view>
-   <controllers/>
-   <clips>
-    <clip name="Viola">
-     <properties>
-      <name>Viola</name>
-      <start>0</start>
-      <offset>192000</offset>
-      <length>10272000</length>
-      <gain>1</gain>
-      <fade-in type="InQuad">0</fade-in>
-      <fade-out type="OutQuad">0</fade-out>
-     </properties>
-     <midi-clip>
-      <filename>MuscleBone-Viola-1.mid</filename>
-      <track-channel>4</track-channel>
-      <revision>1</revision>
-      <editor-pos>0,0</editor-pos>
-      <editor-size>1600,852</editor-size>
-     </midi-clip>
-    </clip>
-   </clips>
-   <plugins>
-    <audio-output-bus-name></audio-output-bus-name>
-    <audio-output-bus>0</audio-output-bus>
-    <audio-output-auto-connect>1</audio-output-auto-connect>
-   </plugins>
-  </track>
-  <track type="midi" name="Violin">
-   <properties>
-    <input-bus>Master</input-bus>
-    <output-bus>Master</output-bus>
-    <midi-omni>0</midi-omni>
-    <midi-channel>0</midi-channel>
-   </properties>
-   <state>
-    <mute>1</mute>
-    <solo>0</solo>
-    <record>0</record>
-    <monitor>0</monitor>
-    <gain>1</gain>
-    <panning>0</panning>
-   </state>
-   <view>
-    <height>72</height>
-    <background-color>#cc99cc</background-color>
-    <foreground-color>#664c66</foreground-color>
-   </view>
-   <controllers/>
-   <clips>
-    <clip name="Violin">
-     <properties>
-      <name>Violin</name>
-      <start>0</start>
-      <offset>192000</offset>
-      <length>10272000</length>
-      <gain>1</gain>
-      <fade-in type="InQuad">0</fade-in>
-      <fade-out type="OutQuad">0</fade-out>
-     </properties>
-     <midi-clip>
-      <filename>MuscleBone-Violin-1.mid</filename>
-      <track-channel>5</track-channel>
-      <revision>1</revision>
-      <editor-pos>0,0</editor-pos>
-      <editor-size>1600,852</editor-size>
-     </midi-clip>
-    </clip>
-   </clips>
-   <plugins>
-    <audio-output-bus-name></audio-output-bus-name>
-    <audio-output-bus>0</audio-output-bus>
-    <audio-output-auto-connect>1</audio-output-auto-connect>
-   </plugins>
-  </track>
   <track type="audio" name="LowStrings">
    <properties>
     <input-bus>LowStrings</input-bus>
@@ -866,7 +522,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>04-LowStrings</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10626550</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -905,7 +561,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>05-viola1</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10626550</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -944,7 +600,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>06-viola2</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10560000</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -983,7 +639,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>07-violin1</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10560000</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -1022,7 +678,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>08-violin2</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10560000</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -1061,7 +717,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>01-BassDrum_Noise</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10560000</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -1100,7 +756,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>02-BassDrumPulse</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10560000</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -1128,7 +784,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     <panning>0</panning>
    </state>
    <view>
-    <height>72</height>
+    <height>108</height>
     <background-color>#99cccc</background-color>
     <foreground-color>#4c6666</foreground-color>
    </view>
@@ -1139,7 +795,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>03-BassDrumSine</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10626550</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -1178,7 +834,7 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
       <name>09-Pink Noise</name>
       <start>0</start>
       <offset>0</offset>
-      <length>10589900</length>
+      <length>10464000</length>
       <gain>1</gain>
       <fade-in type="InQuad">0</fade-in>
       <fade-out type="OutQuad">0</fade-out>
@@ -1191,6 +847,391 @@ MIDI file import "MANDB.mid" on May 28 2018 17:04:06.
     </clip>
    </clips>
    <plugins/>
+  </track>
+  <track type="audio" name="00-Bass">
+   <properties>
+    <input-bus>Master</input-bus>
+    <output-bus>Master</output-bus>
+   </properties>
+   <state>
+    <mute>0</mute>
+    <solo>0</solo>
+    <record>0</record>
+    <monitor>0</monitor>
+    <gain>0.0889713</gain>
+    <panning>0</panning>
+   </state>
+   <view>
+    <height>72</height>
+    <background-color>#ccffcc</background-color>
+    <foreground-color>#667f66</foreground-color>
+   </view>
+   <controllers/>
+   <clips>
+    <clip name="00-Bass">
+     <properties>
+      <name>00-Bass</name>
+      <start>0</start>
+      <offset>0</offset>
+      <length>10560076</length>
+      <gain>1</gain>
+      <fade-in type="InQuad">0</fade-in>
+      <fade-out type="OutQuad">0</fade-out>
+     </properties>
+     <audio-clip>
+      <filename>AudioFiles/00-Bass.wav</filename>
+      <time-stretch>1</time-stretch>
+      <pitch-shift>1</pitch-shift>
+     </audio-clip>
+    </clip>
+   </clips>
+   <plugins/>
+  </track>
+  <track type="midi" name="BassDrum-1">
+   <properties>
+    <input-bus>Master</input-bus>
+    <output-bus>Master</output-bus>
+    <midi-omni>0</midi-omni>
+    <midi-channel>9</midi-channel>
+   </properties>
+   <state>
+    <mute>1</mute>
+    <solo>0</solo>
+    <record>0</record>
+    <monitor>0</monitor>
+    <gain>1</gain>
+    <panning>0</panning>
+   </state>
+   <view>
+    <height>72</height>
+    <background-color>#ffcccc</background-color>
+    <foreground-color>#7f6666</foreground-color>
+   </view>
+   <controllers/>
+   <clips>
+    <clip name="BassDrum-1">
+     <properties>
+      <name>BassDrum-1</name>
+      <start>192000</start>
+      <offset>0</offset>
+      <length>10104000</length>
+      <gain>1</gain>
+      <fade-in type="InQuad">0</fade-in>
+      <fade-out type="OutQuad">0</fade-out>
+     </properties>
+     <midi-clip>
+      <filename>AudioFiles/MANDB.mid</filename>
+      <track-channel>1</track-channel>
+      <revision>0</revision>
+      <editor-pos>0,0</editor-pos>
+     </midi-clip>
+    </clip>
+   </clips>
+   <plugins>
+    <audio-output-bus-name></audio-output-bus-name>
+    <audio-output-bus>0</audio-output-bus>
+    <audio-output-auto-connect>1</audio-output-auto-connect>
+   </plugins>
+  </track>
+  <track type="midi" name="DrumNotes">
+   <properties>
+    <input-bus>Master</input-bus>
+    <output-bus>Master</output-bus>
+    <midi-omni>0</midi-omni>
+    <midi-channel>10</midi-channel>
+    <midi-bank>0</midi-bank>
+    <midi-program>0</midi-program>
+   </properties>
+   <state>
+    <mute>1</mute>
+    <solo>0</solo>
+    <record>0</record>
+    <monitor>0</monitor>
+    <gain>1</gain>
+    <panning>0</panning>
+   </state>
+   <view>
+    <height>72</height>
+    <background-color>#cccccc</background-color>
+    <foreground-color>#666666</foreground-color>
+   </view>
+   <controllers/>
+   <clips>
+    <clip name="DrumNotes">
+     <properties>
+      <name>DrumNotes</name>
+      <start>192000</start>
+      <offset>0</offset>
+      <length>10104000</length>
+      <gain>1</gain>
+      <fade-in type="InQuad">0</fade-in>
+      <fade-out type="OutQuad">0</fade-out>
+     </properties>
+     <midi-clip>
+      <filename>AudioFiles/MANDB.mid</filename>
+      <track-channel>2</track-channel>
+      <revision>0</revision>
+      <editor-pos>0,0</editor-pos>
+     </midi-clip>
+    </clip>
+   </clips>
+   <plugins>
+    <bank>0</bank>
+    <program>0</program>
+    <audio-output-bus-name></audio-output-bus-name>
+    <audio-output-bus>0</audio-output-bus>
+    <audio-output-auto-connect>1</audio-output-auto-connect>
+   </plugins>
+  </track>
+  <track type="midi" name="Violin">
+   <properties>
+    <input-bus>Master</input-bus>
+    <output-bus>Master</output-bus>
+    <midi-omni>0</midi-omni>
+    <midi-channel>3</midi-channel>
+    <midi-bank>0</midi-bank>
+    <midi-program>40</midi-program>
+   </properties>
+   <state>
+    <mute>1</mute>
+    <solo>0</solo>
+    <record>0</record>
+    <monitor>0</monitor>
+    <gain>1</gain>
+    <panning>0</panning>
+   </state>
+   <view>
+    <height>72</height>
+    <background-color>#99cccc</background-color>
+    <foreground-color>#4c6666</foreground-color>
+   </view>
+   <controllers/>
+   <clips>
+    <clip name="Violin">
+     <properties>
+      <name>Violin</name>
+      <start>192000</start>
+      <offset>0</offset>
+      <length>10080000</length>
+      <gain>1</gain>
+      <fade-in type="InQuad">0</fade-in>
+      <fade-out type="OutQuad">0</fade-out>
+     </properties>
+     <midi-clip>
+      <filename>AudioFiles/MANDB.mid</filename>
+      <track-channel>3</track-channel>
+      <revision>0</revision>
+      <editor-pos>0,0</editor-pos>
+     </midi-clip>
+    </clip>
+   </clips>
+   <plugins>
+    <bank>0</bank>
+    <program>40</program>
+    <audio-output-bus-name></audio-output-bus-name>
+    <audio-output-bus>0</audio-output-bus>
+    <audio-output-auto-connect>1</audio-output-auto-connect>
+   </plugins>
+  </track>
+  <track type="midi" name="LowStrings">
+   <properties>
+    <input-bus>Master</input-bus>
+    <output-bus>Master</output-bus>
+    <midi-omni>0</midi-omni>
+    <midi-channel>0</midi-channel>
+    <midi-bank>0</midi-bank>
+    <midi-program>42</midi-program>
+   </properties>
+   <state>
+    <mute>1</mute>
+    <solo>0</solo>
+    <record>0</record>
+    <monitor>0</monitor>
+    <gain>1</gain>
+    <panning>0</panning>
+   </state>
+   <view>
+    <height>72</height>
+    <background-color>#ff99cc</background-color>
+    <foreground-color>#7f4c66</foreground-color>
+   </view>
+   <controllers/>
+   <clips>
+    <clip name="LowStrings">
+     <properties>
+      <name>LowStrings</name>
+      <start>192000</start>
+      <offset>0</offset>
+      <length>10080000</length>
+      <gain>1</gain>
+      <fade-in type="InQuad">0</fade-in>
+      <fade-out type="OutQuad">0</fade-out>
+     </properties>
+     <midi-clip>
+      <filename>AudioFiles/MANDB.mid</filename>
+      <track-channel>4</track-channel>
+      <revision>0</revision>
+      <editor-pos>0,0</editor-pos>
+     </midi-clip>
+    </clip>
+   </clips>
+   <plugins>
+    <bank>0</bank>
+    <program>42</program>
+    <audio-output-bus-name></audio-output-bus-name>
+    <audio-output-bus>0</audio-output-bus>
+    <audio-output-auto-connect>1</audio-output-auto-connect>
+   </plugins>
+  </track>
+  <track type="midi" name="Viola">
+   <properties>
+    <input-bus>Master</input-bus>
+    <output-bus>Master</output-bus>
+    <midi-omni>0</midi-omni>
+    <midi-channel>2</midi-channel>
+    <midi-bank>0</midi-bank>
+    <midi-program>41</midi-program>
+   </properties>
+   <state>
+    <mute>1</mute>
+    <solo>0</solo>
+    <record>0</record>
+    <monitor>0</monitor>
+    <gain>1</gain>
+    <panning>0</panning>
+   </state>
+   <view>
+    <height>72</height>
+    <background-color>#cc99cc</background-color>
+    <foreground-color>#664c66</foreground-color>
+   </view>
+   <controllers/>
+   <clips>
+    <clip name="Viola">
+     <properties>
+      <name>Viola</name>
+      <start>192000</start>
+      <offset>0</offset>
+      <length>10080000</length>
+      <gain>1</gain>
+      <fade-in type="InQuad">0</fade-in>
+      <fade-out type="OutQuad">0</fade-out>
+     </properties>
+     <midi-clip>
+      <filename>AudioFiles/MANDB.mid</filename>
+      <track-channel>5</track-channel>
+      <revision>0</revision>
+      <editor-pos>0,0</editor-pos>
+     </midi-clip>
+    </clip>
+   </clips>
+   <plugins>
+    <bank>0</bank>
+    <program>41</program>
+    <audio-output-bus-name></audio-output-bus-name>
+    <audio-output-bus>0</audio-output-bus>
+    <audio-output-auto-connect>1</audio-output-auto-connect>
+   </plugins>
+  </track>
+  <track type="midi" name="violin2">
+   <properties>
+    <input-bus>Master</input-bus>
+    <output-bus>Master</output-bus>
+    <midi-omni>0</midi-omni>
+    <midi-channel>5</midi-channel>
+    <midi-bank>0</midi-bank>
+    <midi-program>40</midi-program>
+   </properties>
+   <state>
+    <mute>1</mute>
+    <solo>0</solo>
+    <record>0</record>
+    <monitor>0</monitor>
+    <gain>1</gain>
+    <panning>0</panning>
+   </state>
+   <view>
+    <height>72</height>
+    <background-color>#9999cc</background-color>
+    <foreground-color>#4c4c66</foreground-color>
+   </view>
+   <controllers/>
+   <clips>
+    <clip name="violin2">
+     <properties>
+      <name>violin2</name>
+      <start>192000</start>
+      <offset>0</offset>
+      <length>10080000</length>
+      <gain>1</gain>
+      <fade-in type="InQuad">0</fade-in>
+      <fade-out type="OutQuad">0</fade-out>
+     </properties>
+     <midi-clip>
+      <filename>AudioFiles/MANDB.mid</filename>
+      <track-channel>6</track-channel>
+      <revision>0</revision>
+      <editor-pos>0,0</editor-pos>
+     </midi-clip>
+    </clip>
+   </clips>
+   <plugins>
+    <bank>0</bank>
+    <program>40</program>
+    <audio-output-bus-name></audio-output-bus-name>
+    <audio-output-bus>0</audio-output-bus>
+    <audio-output-auto-connect>1</audio-output-auto-connect>
+   </plugins>
+  </track>
+  <track type="midi" name="viola2">
+   <properties>
+    <input-bus>Master</input-bus>
+    <output-bus>Master</output-bus>
+    <midi-omni>0</midi-omni>
+    <midi-channel>4</midi-channel>
+    <midi-bank>0</midi-bank>
+    <midi-program>41</midi-program>
+   </properties>
+   <state>
+    <mute>1</mute>
+    <solo>0</solo>
+    <record>0</record>
+    <monitor>0</monitor>
+    <gain>1</gain>
+    <panning>0</panning>
+   </state>
+   <view>
+    <height>72</height>
+    <background-color>#ffff99</background-color>
+    <foreground-color>#7f7f4c</foreground-color>
+   </view>
+   <controllers/>
+   <clips>
+    <clip name="viola2">
+     <properties>
+      <name>viola2</name>
+      <start>192000</start>
+      <offset>0</offset>
+      <length>10080000</length>
+      <gain>1</gain>
+      <fade-in type="InQuad">0</fade-in>
+      <fade-out type="OutQuad">0</fade-out>
+     </properties>
+     <midi-clip>
+      <filename>AudioFiles/MANDB.mid</filename>
+      <track-channel>7</track-channel>
+      <revision>0</revision>
+      <editor-pos>0,0</editor-pos>
+     </midi-clip>
+    </clip>
+   </clips>
+   <plugins>
+    <bank>0</bank>
+    <program>41</program>
+    <audio-output-bus-name></audio-output-bus-name>
+    <audio-output-bus>0</audio-output-bus>
+    <audio-output-auto-connect>1</audio-output-auto-connect>
+   </plugins>
   </track>
  </tracks>
 </session>

@@ -17,7 +17,8 @@
 
 	~lowStrings.notes.freqs = [46,47,46,44,46,47,46,44];
 	~lowStrings.notes.waits = [6.0,2.0,6.0,2.0,6.0,2.0,6.0,2.0];
-	~lowStrings.notes.durations = [6.0,2.0,6.0,2.0,6.0,2.0,6.0,2.0];
+	~lowStrings.notes.durations = [6.0,2.0,6.0,2.0,
+		6.0,2.0,6.0,2.0];
 	~lowStrings.notes.probs = [1,1,1,1,1,1,1,1];
 	~lowStrings.notes.lag =  1.2;
 
