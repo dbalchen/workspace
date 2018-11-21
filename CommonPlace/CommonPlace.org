@@ -1416,7 +1416,7 @@ subgraph cluster_3 {
  \newpage
 #+END_LaTeX 
 * Accounts Receivable
-      Handles Finance, Payments and credits as well Collections.
+   Handles Finance, Payments and credits as well Collections.
 ** AR Basics
     -  *Root Directory* - $ABP_AR_ROOT on kpr01batch
     -  *Collection Interface* -
@@ -4411,13 +4411,13 @@ hhh
 | File_Status       | Char (2 Byte)       |               |
 | File_Type         | Char (3 Byte)       |               |
 | Account_No        | Number (12)         |               |
-| Mabel_Id          | Varchar2 (100 Byte) |               |
+| *Mabel_Id*        | Varchar2 (100 Byte) |               |
 | Cycle_Code        | Number (4)          |               |
 | Cycle_Run_Month   | Number (2)          |               |
 | Cycle_Run_Year    | Number (4)          |               |
 | Bill_Method       | Char (1 Byte)       |               |
 | Mabel_Version     | Number (3,1)        |               |
-| Consolidator      | Number (5)          |               |
+| *Consolidator*    | Number (5)          |               |
 | File_Create_Date  | Date                |               |
 |-------------------+---------------------+---------------|
 
@@ -4682,19 +4682,19 @@ hhh
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|-------------------+---------------+---------------|
-| *Column Name*     | *Datatype*    | *Description* |
-|-------------------+---------------+---------------|
-| Ba_Account_No     | Number (12)   |               |
-| Invrpt_Dest_Code  | Char (5 Byte) |               |
-| Eff_Date          | Date          |               |
-| Sys_Creation_Date | Date          |               |
-| Sys_Update_Date   | Date          |               |
-| Operator_Id       | Number (9)    |               |
-| Application_Id    | Char (6 Byte) |               |
-| Exp_Date          | Date          |               |
-| Group_Id          | Number (9)    |               |
-|-------------------+---------------+---------------|
+|-------------------+---------------+--------------------------|
+| *Column Name*     | *Datatype*    | *Description*            |
+|-------------------+---------------+--------------------------|
+| Ba_Account_No     | Number (12)   | *FA* Finacial Account    |
+| Invrpt_Dest_Code  | Char (5 Byte) | The same as Consolidator |
+| Eff_Date          | Date          |                          |
+| Sys_Creation_Date | Date          |                          |
+| Sys_Update_Date   | Date          |                          |
+| Operator_Id       | Number (9)    |                          |
+| Application_Id    | Char (6 Byte) |                          |
+| Exp_Date          | Date          |                          |
+| Group_Id          | Number (9)    |                          |
+|-------------------+---------------+--------------------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -4704,41 +4704,41 @@ hhh
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|---------------------+----------------------+---------------|
-| *Column Name*       | *Datatype*           | *Description* |
-|---------------------+----------------------+---------------|
-| Invrpt_Dest_Code    | Char (5 Byte)        |               |
-| Dest_Name           | Varchar2 (30 Byte)   |               |
-| Dest_Status         | Char (2 Byte)        |               |
-| Addr_Attention      | Varchar2 (100 Byte)  |               |
-| Addr_Primary_Line   | Varchar2 (100 Byte)  |               |
-| Addr_Secondary_Line | Varchar2 (100 Byte)  |               |
-| Addr_City           | Varchar2 (50 Byte)   |               |
-| Addr_State          | Char (2 Byte)        |               |
-| Addr_Zip            | Char (5 Byte)        |               |
-| Addr_Zip_4          | Char (4 Byte)        |               |
-| Addr_Country        | Char (3 Byte)        |               |
-| Contact_Name        | Varchar2 (50 Byte)   |               |
-| Contact_Phone       | Varchar2 (20 Byte)   |               |
-| Contact_Email       | Varchar2 (50 Byte)   |               |
-| Xmission_Type       | Char (5 Byte)        |               |
-| Comments            | Varchar2 (2000 Byte) |               |
-| Deliv_Email_Addr    | Varchar2 (2000 Byte) |               |
-| Send_Rpt_To_Rep     | Char (1 Byte)        |               |
-| B2b_Rep_Name        | Varchar2 (100 Byte)  |               |
-| B2b_Rep_Phone       | Varchar2 (20 Byte)   |               |
-| B2b_Rep_Email       | Varchar2 (50 Byte)   |               |
-| Sys_Creation_Date   | Date                 |               |
-| Sys_Update_Date     | Date                 |               |
-| Curr_Record_Ind     | Varchar2 (1 Byte)    |               |
-| Bill_Method_Ind     | Char (1 Byte)        |               |
-| Operator_Id         | Number (9)           |               |
-| Application_Id      | Char (6 Byte)        |               |
-| Dl_Service_Code     | Char (5 Byte)        |               |
-| Dl_Update_Stamp     | Number (4)           |               |
-| Eff_Date            | Date                 |               |
-| Exp_Date            | Date                 |               |
-|---------------------+----------------------+---------------|
+|---------------------+----------------------+--------------------------|
+| *Column Name*       | *Datatype*           | *Description*            |
+|---------------------+----------------------+--------------------------|
+| Invrpt_Dest_Code    | Char (5 Byte)        | The same as Consolidator |
+| Dest_Name           | Varchar2 (30 Byte)   |                          |
+| Dest_Status         | Char (2 Byte)        |                          |
+| Addr_Attention      | Varchar2 (100 Byte)  |                          |
+| Addr_Primary_Line   | Varchar2 (100 Byte)  |                          |
+| Addr_Secondary_Line | Varchar2 (100 Byte)  |                          |
+| Addr_City           | Varchar2 (50 Byte)   |                          |
+| Addr_State          | Char (2 Byte)        |                          |
+| Addr_Zip            | Char (5 Byte)        |                          |
+| Addr_Zip_4          | Char (4 Byte)        |                          |
+| Addr_Country        | Char (3 Byte)        |                          |
+| Contact_Name        | Varchar2 (50 Byte)   |                          |
+| Contact_Phone       | Varchar2 (20 Byte)   |                          |
+| Contact_Email       | Varchar2 (50 Byte)   |                          |
+| Xmission_Type       | Char (5 Byte)        |                          |
+| Comments            | Varchar2 (2000 Byte) |                          |
+| Deliv_Email_Addr    | Varchar2 (2000 Byte) |                          |
+| Send_Rpt_To_Rep     | Char (1 Byte)        |                          |
+| B2b_Rep_Name        | Varchar2 (100 Byte)  |                          |
+| B2b_Rep_Phone       | Varchar2 (20 Byte)   |                          |
+| B2b_Rep_Email       | Varchar2 (50 Byte)   |                          |
+| Sys_Creation_Date   | Date                 |                          |
+| Sys_Update_Date     | Date                 |                          |
+| Curr_Record_Ind     | Varchar2 (1 Byte)    |                          |
+| Bill_Method_Ind     | Char (1 Byte)        |                          |
+| Operator_Id         | Number (9)           |                          |
+| Application_Id      | Char (6 Byte)        |                          |
+| Dl_Service_Code     | Char (5 Byte)        |                          |
+| Dl_Update_Stamp     | Number (4)           |                          |
+| Eff_Date            | Date                 |                          |
+| Exp_Date            | Date                 |                          |
+|---------------------+----------------------+--------------------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -4748,40 +4748,40 @@ hhh
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|--------------------------+---------------------+---------------|
-| *Name*                   | *Data Type*         | *Description* |
-|--------------------------+---------------------+---------------|
-| Addr_Attention           | Varchar2 (25 Byte)  |               |
-| Addr_City                | Varchar2 (40 Byte)  |               |
-| Addr_Country             | Char (3 Byte)       |               |
-| Addr_Primary_Ln          | Varchar2 (100 Byte) |               |
-| Addr_Secondary_Ln        | Varchar2 (100 Byte) |               |
-| Addr_State_Code          | Char (2 Byte)       |               |
-| Addr_Zip                 | Char (5 Byte)       |               |
-| Addr_Zip_4               | Char (4 Byte)       |               |
-| Application_Id           | Char (6 Byte)       |               |
-| B2b_Contact_Name         | Varchar2 (35 Byte)  |               |
-| B2b_Contact_Phone_Number | Varchar2 (20 Byte)  |               |
-| B2b_Mkt_Rep_Email_Addr   | Varchar2 (50 Byte)  |               |
-| Bill_Format_Ind          | Char (2 Byte)       |               |
-| Bill_Method_Ind          | Char (1 Byte)       |               |
-| Consolidator             | Number (5)          |               |
-| Contact_Email_Address    | Varchar2 (50 Byte)  |               |
-| Contact_Name             | Varchar2 (35 Byte)  |               |
-| Contact_Phone_Number     | Varchar2 (20 Byte)  |               |
-| Cust_Ip_Addr             | Varchar2 (30 Byte)  |               |
-| Destination_Desc         | Varchar2 (30 Byte)  |               |
-| Effective_Date           | Date                |               |
-| Expiration_Date          | Date                |               |
-| Invrpt_Dest_Code         | Number (5)          |               |
-| Mabel_Comments           | Varchar2 (255 Byte) |               |
-| Mabel_Version            | Number (3,1)        |               |
-| Operator_Id              | Number (9)          |               |
-| Sys_Creation_Date        | Date                |               |
-| Sys_Update_Date          | Date                |               |
-| Xmission_Media_Mode      | Varchar2 (4 Byte)   |               |
-| Xmission_Media_Type      | Char (4 Byte)       |               |
-|--------------------------+---------------------+---------------|
+|--------------------------+---------------------+----------------------|
+| *Name*                   | *Data Type*         | *Description*        |
+|--------------------------+---------------------+----------------------|
+| Addr_Attention           | Varchar2 (25 Byte)  |                      |
+| Addr_City                | Varchar2 (40 Byte)  |                      |
+| Addr_Country             | Char (3 Byte)       |                      |
+| Addr_Primary_Ln          | Varchar2 (100 Byte) |                      |
+| Addr_Secondary_Ln        | Varchar2 (100 Byte) |                      |
+| Addr_State_Code          | Char (2 Byte)       |                      |
+| Addr_Zip                 | Char (5 Byte)       |                      |
+| Addr_Zip_4               | Char (4 Byte)       |                      |
+| Application_Id           | Char (6 Byte)       |                      |
+| B2b_Contact_Name         | Varchar2 (35 Byte)  |                      |
+| B2b_Contact_Phone_Number | Varchar2 (20 Byte)  |                      |
+| B2b_Mkt_Rep_Email_Addr   | Varchar2 (50 Byte)  |                      |
+| Bill_Format_Ind          | Char (2 Byte)       |                      |
+| Bill_Method_Ind          | Char (1 Byte)       |                      |
+| *Consolidator*           | Number (5)          |                      |
+| Contact_Email_Address    | Varchar2 (50 Byte)  |                      |
+| Contact_Name             | Varchar2 (35 Byte)  |                      |
+| Contact_Phone_Number     | Varchar2 (20 Byte)  |                      |
+| Cust_Ip_Addr             | Varchar2 (30 Byte)  |                      |
+| Destination_Desc         | Varchar2 (30 Byte)  |                      |
+| Effective_Date           | Date                |                      |
+| Expiration_Date          | Date                |                      |
+| *Invrpt_Dest_Code*       | Number (5)          | Same as Consolidator |
+| Mabel_Comments           | Varchar2 (255 Byte) |                      |
+| Mabel_Version            | Number (3,1)        |                      |
+| Operator_Id              | Number (9)          |                      |
+| Sys_Creation_Date        | Date                |                      |
+| Sys_Update_Date          | Date                |                      |
+| Xmission_Media_Mode      | Varchar2 (4 Byte)   |                      |
+| Xmission_Media_Type      | Char (4 Byte)       |                      |
+|--------------------------+---------------------+----------------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -4918,36 +4918,26 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
-** DONE Add Monitors to EBI Business Server [100%]		    :ARCHIVE:
-   SCHEDULED: <2018-10-17 Wed>--<2018-11-21 Wed>
-   - [X] Add to the EBI Server
-   - [X] Do firewall request
-   - [X] Modify Dash script
-   - [X] Final configuration
-   
+** TODO Voice over WIFI
+   SCHEDULED: <2018-11-19 Mon>--<2018-12-21 Fri>
 ** TODO Check Code into GIT
    SCHEDULED: <2018-11-29 Thu>--<2018-12-21 Fri>
-   
-** TODO Consolidated Billing [33%]
+** DONE Consolidated Billing [100%] 				    :ARCHIVE:
    SCHEDULED: <2018-10-19 Fri>--<2018-11-21 Wed>
    
    - [X] Finish bogusDoc.pl [100%]
      - [X] Add Ban Information
      - [X] Add mailing Process
      - [X] Create spreadsheet
-   - [-] Start Janeen's new Report [75%]
+   - [X] Start Janeen's new Report [100%]
      - [X] Based on Daily Consolidation report.
      - [X] Develope Query [100%]
        - [X] Inventory Side
        - [X] MobileSense 
      - [X] Write program
-     - [ ] Modify program
-   - [ ] Ask Janeen about Sunset project
-** DONE Finish IP Check						    :ARCHIVE:
-   SCHEDULED: <2018-10-11 Thu>--<2018-11-21 Wed>
-** TODO Volte Roaming
-   Add a summary page
-   SCHEDULED: <2018-10-12 Fri>--<2018-11-21 Wed> 
+     - [X] Modify program
+** TODO Volte Roaming add a summary page
+   SCHEDULED: <2018-10-12 Fri>--<2018-12-21 Fri>
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 * Misc								   :noexport:

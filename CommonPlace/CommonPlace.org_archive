@@ -3721,3 +3721,30 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+
+* DONE Finish IP Check						    :ARCHIVE:
+  SCHEDULED: <2018-10-11 Thu>--<2018-11-21 Wed>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-11-19 Mon 10:46
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* DONE Add Monitors to EBI Business Server [100%]		    :ARCHIVE:
+  SCHEDULED: <2018-10-17 Wed>--<2018-11-21 Wed>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-11-19 Mon 10:47
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  - [X] Add to the EBI Server
+  - [X] Do firewall request
+  - [X] Modify Dash script
+  - [X] Final configuration
+   
