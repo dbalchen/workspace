@@ -3748,3 +3748,26 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   - [X] Modify Dash script
   - [X] Final configuration
    
+
+* DONE Consolidated Billing [100%]				    :ARCHIVE:
+  SCHEDULED: <2018-10-19 Fri>--<2018-11-21 Wed>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-11-26 Mon 11:20
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+   
+  - [X] Finish bogusDoc.pl [100%]
+    - [X] Add Ban Information
+    - [X] Add mailing Process
+    - [X] Create spreadsheet
+  - [X] Start Janeen's new Report [100%]
+    - [X] Based on Daily Consolidation report.
+    - [X] Develope Query [100%]
+      - [X] Inventory Side
+      - [X] MobileSense 
+    - [X] Write program
+    - [X] Modify program

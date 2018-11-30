@@ -7,7 +7,7 @@ use Time::Seconds;
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+#	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -21,7 +21,7 @@ $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
-$ARGV[0] =
+$ARG0 =
   "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
@@ -36,12 +36,12 @@ $ARGV[0] =
 #$ARGV[0] = "NLDLT";
 #$ARGV[0] = "NLDLT,CIBER_CIBER";
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
-$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # Setup Initial variables
-my $timeStamp = $ARGV[1];
+my $timeStamp = $ARGV[0];
 
 #$timeStamp = '20180805';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
@@ -411,7 +411,7 @@ where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_na
 ";
 
 # Get Roaming switches to check
-my @switches = split( ',', $ARGV[0] );
+my @switches = split( ',', $ARG0 );
 
 my $excel_file = "RORC_" . $timeStamp . '.xls';
 $workbook = Spreadsheet::WriteExcel->new($excel_file);
@@ -560,13 +560,13 @@ foreach my $switch (@switches) {
 
 $workbook->close;
 
-my @email = ('david.balchen@uscellular.com');
+#my @email = ('david.balchen@uscellular.com');
 
-#my @email = ('david.balchen@uscellular.com','Ilham.Elgarni@uscellular.com','USCDLISOps-BillingCycleManagement@uscellular.com');
+my @email = ('david.balchen@uscellular.com','Ilham.Elgarni@uscellular.com');
 
 foreach my $too (@email) {
 	print $msg;
-	#sendMsg( $too, $msg );
+	sendMsg( $too, $msg );
 }
 
 exit(0);
@@ -699,8 +699,8 @@ sub sendMsg() {
 sub getBODSPRD {
 
 	my $dbPwd = "BODS_DAV_BILLINGOPS";
-	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
-	# my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "9000#GooBoo" );
+	# my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Bo0Go09000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

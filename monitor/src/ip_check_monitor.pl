@@ -2,7 +2,7 @@
 #exit(0);
 
 BEGIN {
-#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 
 }
 
@@ -24,9 +24,6 @@ use Spreadsheet::WriteExcel;
 use FileHandle;
 use Cwd qw(abs_path);
 use POSIX;
-
-#use List::Uniq ':all';
-
 use List::Util qw(max maxstr min minstr product sum sum0);
 
 scheduledTask();

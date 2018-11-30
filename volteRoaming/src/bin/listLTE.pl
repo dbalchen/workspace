@@ -57,8 +57,8 @@ exit(0);
 
 sub getBRMPRD {
 	my $dbPwd = "BODS_DAV_BILLINGOPS";
-	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	#my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "9000#GooBoo" );
+	#my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Bo0Go09000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

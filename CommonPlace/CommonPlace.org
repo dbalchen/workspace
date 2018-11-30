@@ -1,4 +1,4 @@
-#+STARTUP: overview
+﻿#+STARTUP: overview
 #+OPTIONS: d:nil
 #+OPTIONS: toc:nil
 #+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
@@ -52,18 +52,19 @@
 * Statement of Principals						  
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
-   - /A PowerPoint presentation is like smoking a cigar, only the
+   - /A Power Point presentation is like smoking a cigar, only the
      person doing it likes it./
    - /Probability from a point./
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
 * TOPS Operations
 ** Acquisition and Formating (A&F)
    *A&F* is the first stage of the mediation process where the *UFF* or *CIBER* record is examined, enriched 
-   and transfered to an intermediatary /usage/ format. For *CIBER* records an extra rules step is 
+   and transfered to an intermediary /usage/ format. For *CIBER* records an extra rules step is 
    added to further mediate the records.
 
 ** TurboCharging
-   The most important /sub-system/ in *TOPS*. It is here that all usage is mediated and rated.\\
+   The most important /sub-system/ in *TOPS*. It is here that all usage is mediated and rated.
+\\
 \\
 #+ATTR_LaTeX: :width 16cm
       [[file:Pictures/TC.png]]
@@ -76,20 +77,19 @@
          2. Transforms data into a conical form which also includes the
             network element.
          3. Gets Rated
-            -  For *Pre-Pay* the HLR. is handled by the
-               *SCP*
-      -  *International Calls* Using rates from the *LD_COUNTRY_RATES* table international calls are rated by country.
+            -  For *Pre-Pay* the *HLR[fn:4]*. is handled by the *SCP[fn:2]*
       -  We convert everything to the *Home SID time* for bill
          presentment.
-      -  Limiting or /choking/ usage can be handled by *Diameter* for
-         real-time and *Turbo-Charging* for *Post-Pay*
+      -  Limiting or "/choking/" usage can be handled by *Diameter[fn:3]* for
+         *Pre-Pay* and *Turbo-Charging* for *Post-Pay*
+*** TODO Get answer to event server question
 *** Event Servers
     *Turbo-Charging* is not one application but multiple instances of *Event Servers*. Each event server corresponds to a bill cycle. Their status can be viewed using
          the following query on the *PRDAF* database.
 
          : SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
 
-         From the output if the column *event status = Y* then that
+         From the output, if the column *event status = Y* then that
          particular server is in use. If your job requires an event
          server that is already in use you can change it to one that is
          not by using *SQL* below on the *PRDCUST* database logged in as
@@ -114,7 +114,7 @@
 ** AEM
          *AEM* gets the Turbo-Charging errors from the
          *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
-         *EM1_RECORD* table. Since there are so many coulmns in the
+         *EM1_RECORD* table. Since there are so many columns in the
          *EM1_RECORD* table we must limit are query's to the following
          columns. [[file:docs/EM1%20Query's][EM1 Queries]]
 
@@ -154,7 +154,7 @@
 |              |            |           |           |           |         | Remedy 03416730                                                                    |
 |        10040 | X          | X         |           | X         | X       | Guiding error                                                                      |
 |        10037 | X          | X         |           | X         | X       | Guiding error                                                                      |
-|        10036 | X          | X         |           | X         | X       | NON-BAU are reguided and BAU are purged.                                           |
+|        10036 | X          | X         |           | X         | X       | NON-BAU are re-guided and BAU are purged.                                           |
 |              |            |           |           |           |         | See AEM Error Analysis History - TC Errors.docx  for rejected 'vali' events.       |
 |        10035 | X          | X         |           | X         | X       | Guiding error                                                                      |
 |        10025 |            | X         |           |           | X       | Events are rejected, because of failed prepaid replenishments                      |
@@ -166,7 +166,7 @@
 |         3000 | X          | X         | X         |           | X       | NON-BAU: Open Remedy against TOPS Configuration for "Event is rejected due to not  |
 |              |            |           |           |           |         | found value 175 in table Incol SID pair".  BAU:  There is also a known special     |
 |              |            |           |           |           |         | number issue that can be purged.                                                   |
-|         1083 | X          |           | X         |           | X       | Open Remedy against Intercarrier Services and recycle once added.                  |
+|         1083 | X          |           | X         |           | X       | Open Remedy against Inter-carrier Services and recycle once added.                  |
 |         1081 | X          | X         |           |           | X       | These are valid rejects and can be purged                                          |
 |         1032 |            | X         |           |           | X       | Never investigated                                                                 |
 |         1031 | X          | X         |           |           | X       | Check with Nidal Elhrisse then if needed Open Remedy against EPC.                  |
@@ -184,9 +184,9 @@
 |         1002 |            | X         |           |           | X       | Insufficient balance                                                               |
 |         1001 |            | X         |           |           | X       | Balance is expired                                                                 |
 |         1000 |            | X         |           |           | X       | Balance is closed                                                                  |
-|          103 | X          |           |           | X         | X       | System errors. Reguidedevery day.                                                  |
-|          102 | X          |           |           | X         | X       | System errors. Reguided every day.                                                 |
-|          101 | X          | X         |           | X         | X       | System errors. Postpaid reguided every day.  Prepaid purged every day.             |
+|          103 | X          |           |           | X         | X       | System errors. Re-guided every day.                                                  |
+|          102 | X          |           |           | X         | X       | System errors. Re-guided every day.                                                 |
+|          101 | X          | X         |           | X         | X       | System errors. Postpaid re-guided every day.  Prepaid purged every day.             |
 |              |            |           |           |           |         |                                                                                    |
 |--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
 #+BEGIN_LaTeX
@@ -243,7 +243,7 @@
 #+END_LaTeX
 *** Production Service Accounts
     - *prodtc1 - 6* (Operational production accounts)
-    - *prodwrk1 - 5* (Amdocs Production accounts that corespond in TOPS)
+    - *prodwrk1 - 5* (Amdocs Production accounts that correspond in TOPS)
 *** Operational Server Service Accounts
 #+BEGIN_LaTeX
 \footnotesize
@@ -269,6 +269,7 @@
 \footnotesize
 #+END_LaTeX
 #+ATTR_LaTeX: :environment longtable :align l|l
+
     |-----------------------+-------------------------|
     | *SERVER*              | *LOGIN*                 |
     |-----------------------+-------------------------|
@@ -353,6 +354,7 @@ label = "Event Servers";
 
 }
 :END:
+** TODO Investigate Overage protection				   :noexport:
 ** Overage Protection
       Overage notifications are detected on an event by event basis. As
       events are processed by *TC* and added to the *APE1_ACCUMULATORS*
@@ -379,7 +381,7 @@ label = "Event Servers";
 | *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
 
       -  Fields of Interest
-         S - SMS, M - MMS, V - Voice, D - Data, L - LTE =>
+         S - SMS,\\ M - MMS,\\ V - Voice,\\ D - Data,\\ L - LTE =>
          L3_CALL_SOURCE
 
 ** Billing Process
@@ -390,14 +392,15 @@ label = "Event Servers";
 
       [[file:Pictures/billing_tc_map-27124108.png]]
 
-** Log File Location
-   -  Alias
-      -  *cdlog* - cd to the logfile directory.
-      -  *cdswitch (Batch2 Only)* - cd to the switch directory.
-      -  *aprout* - cd to the *CIBER* out directories.
+** Aliases 
+   -  *cdlog* - cd to the logfile directory.
+   -  *cdswitch (Batch2 Only)* - cd to the switch directory.
+   -  *aprout* - cd to the *CIBER* out directories.
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
+** On Call Documentation
+   [[file:docs/ON%20CALL%20TASKS.docx][On Call Documentation]]
 * Usage Overview
    Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
    in two ways, *Voice* and *Data*.\\
@@ -1368,7 +1371,7 @@ subgraph cluster_3 {
 #+END_LaTeX
 ** Mable Query
    The queries that produce the daily consolidated report 
-   can be found in this perl script on the 
+   can be found in this Perl script on the 
    EBI server: */apps/ebi/mabel1/checks/jacob/allCNSLDTDRPT.pl*
 
 *** How to Manually Validate MABEL files
@@ -3200,7 +3203,6 @@ subgraph cluster_3 {
    :    FROM prm_app.PRM_REP_CARR_INFO
    :  ORDER BY carr_name;
 
-    
 *** M19_MIN_LR
          Contains the *USCC* MIN (MSID) block ranges and there *SID*
          code. The Block Ranges are listed in the *Technical Data Sheet*
@@ -4393,7 +4395,7 @@ hhh
 ** Consolidation Tables
 *** MABEL_CONTROL
     Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
-    : select * from mabel_control order by sys_creation_date desc;
+    : select * from Mabel_control order by sys_creation_date desc;
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -4427,7 +4429,7 @@ hhh
 
 *** MABEL_AUDIT
     Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
-    : select * from mabel_audit order by sent_date desc,sent_file_name;
+    : select * from Mabel_audit order by sent_date desc,sent_file_name;
 
 #+BEGIN_LaTeX
 \footnotesize
@@ -4922,22 +4924,11 @@ hhh
    SCHEDULED: <2018-11-19 Mon>--<2018-12-21 Fri>
 ** TODO Check Code into GIT
    SCHEDULED: <2018-11-29 Thu>--<2018-12-21 Fri>
-** DONE Consolidated Billing [100%] 				    :ARCHIVE:
-   SCHEDULED: <2018-10-19 Fri>--<2018-11-21 Wed>
-   
-   - [X] Finish bogusDoc.pl [100%]
-     - [X] Add Ban Information
-     - [X] Add mailing Process
-     - [X] Create spreadsheet
-   - [X] Start Janeen's new Report [100%]
-     - [X] Based on Daily Consolidation report.
-     - [X] Develope Query [100%]
-       - [X] Inventory Side
-       - [X] MobileSense 
-     - [X] Write program
-     - [X] Modify program
 ** TODO Volte Roaming add a summary page
    SCHEDULED: <2018-10-12 Fri>--<2018-12-21 Fri>
+** DONE Self-Assesment						    :ARCHIVE:
+   DEADLINE: <2018-12-03 Mon>
+   
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 * Misc								   :noexport:
@@ -4953,5 +4944,11 @@ hhh
     : (012468T)
 
 * Footnotes
+
+[fn:4] Home Location Resource
+
+[fn:3] Application which implements the *SCP* Protocol
+
+[fn:2] Service Control Protocol
 
 [fn:1] Transfer Account Data Interchange Group
