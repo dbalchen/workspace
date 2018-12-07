@@ -7,7 +7,8 @@ use Time::Seconds;
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-#	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+
+  #	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -37,13 +38,14 @@ $ARG0 =
 #$ARGV[0] = "NLDLT,CIBER_CIBER";
 
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+
 #$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # Setup Initial variables
 my $timeStamp = $ARGV[0];
 
-#$timeStamp = '20180805';
+$timeStamp = '20181205';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
@@ -560,9 +562,9 @@ foreach my $switch (@switches) {
 
 $workbook->close;
 
-#my @email = ('david.balchen@uscellular.com');
+my @email = ('david.balchen@uscellular.com');
 
-my @email = ('david.balchen@uscellular.com','Ilham.Elgarni@uscellular.com');
+#my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
 
 foreach my $too (@email) {
 	print $msg;
@@ -584,8 +586,17 @@ sub createExcel {
 	$sthb->execute() or sendErr();
 
 	my $cntrow = 1;
-    my $flag = 0;
-    
+	my $flag   = 0;
+
+	my $total_recs     = 0;
+	my $total_recs_dch = 0;
+
+	my $total_vol     = 0;
+	my $total_vol_dch = 0;
+
+	my $total_chrg     = 0;
+	my $total_chrg_dch = 0;
+
 	while ( my @rows = $sthb->fetchrow_array() ) {
 
 		my @fix_cols = [];
@@ -595,12 +606,24 @@ sub createExcel {
 			@fix_cols = grep( s/\s*$//g, @rows[ 0 .. $headcount - 1 ] );
 			$worksheet->write_row( $cntrow, 0, \@fix_cols );
 
+			(
+				$total_recs,    $total_recs_dch, $total_vol,
+				$total_vol_dch, $total_chrg,     $total_chrg_dch
+			  )
+			  = sumType(
+				$total_recs, $total_recs_dch, $total_vol, $total_vol_dch,
+				$total_chrg, $total_chrg_dch, $switch, \@fix_cols
+			  );
+
 			for ( my $a = $headcount ; $a < @rows ; $a = $a + 1 ) {
 				if ( $rows[$a] >= 1 ) {
 
-					if($flag == 0){$msg = $msg."$sheetname\n\n", $flag = 1;}
+					if ( $flag == 0 ) {
+						$msg = $msg . "$sheetname\n\n", $flag = 1;
+					}
 
-					$msg = $msg . "\tThe file $rows[0] has the following problem : \t";
+					$msg = $msg
+					  . "\tThe file $rows[0] has the following problem : \t";
 
 					if ( $a == $headcount ) {
 
@@ -613,14 +636,14 @@ sub createExcel {
 
 						$msg =
 						    $msg
-						   ."Total Volume VS DCH Volume = "
+						  . "Total Volume VS DCH Volume = "
 						  . sprintf( "%.2f", $rows[$a] ) . '%' . " \n\n";
 					}
 					elsif ( $a == $headcount + 2 ) {
 
 						$msg =
 						    $msg
-						   . "Total Charges VS DCH Charges = "
+						  . "Total Charges VS DCH Charges = "
 						  . sprintf( "%.2f", $rows[$a] ) . '%' . " \n\n";
 					}
 					elsif ( $a == $headcount + 3 ) {
@@ -648,6 +671,23 @@ sub createExcel {
 
 		$cntrow++;
 	}
+	
+	if($flag == 1)
+	{
+		
+		$msg = $msg."    Usage Type Summary - All Files :\n\n";
+		
+		$total_recs     = (($total_recs_dch - $total_recs)/($total_recs))*100;
+		$msg = $msg."        Total Record Difference    : ".sprintf( "%.2f", $total_recs ) . '%' . " \n\n";
+		
+		$total_vol  = (($total_vol_dch - $total_vol)/($total_vol))*100;
+		$msg = $msg."        Total Volume Difference    : ".sprintf( "%.2f", $total_vol ) . '%' . " \n\n";
+
+		$total_chrg  = (($total_chrg_dch - $total_chrg)/($total_chrg))*100;
+		$msg = $msg."        Total Charge Difference    : ".sprintf( "%.2f", $total_chrg ) . '%' . " \n\n\n";
+
+		
+	}
 
 }
 
@@ -657,6 +697,76 @@ sub getTotalProc {
 	my $total_proc = `$shh`;
 	chomp $total_proc;
 	return $total_proc;
+}
+
+sub sumType {
+	my ( $tr, $trd, $tv, $tvd, $tc, $tcd, $sht, $iptr ) = @_;
+
+	my @iInfo = @{$iptr};
+
+	if ( $sht eq "SDIRI_FCIBER" ) {
+		$tr  = $tr + $iInfo[5];
+		$trd = $trd + $iInfo[2];
+		$tv  = $tv + $iInfo[6];
+		$tvd = $tvd + $iInfo[3];
+		$tc  = $tc + $iInfo[21];
+		$tcd = $tcd + $iInfo[4];
+	}
+	if ( $sht eq "SDATACBR_FDATACBR" ) {
+		$tr  = $tr + $iInfo[7];
+		$trd = $trd + $iInfo[2];
+		$tv  = $tv + $iInfo[8];
+		$tvd = $tvd + $iInfo[3];
+		$tc  = $tc + $iInfo[25];
+		$tcd = $tcd + $iInfo[8];
+	}
+
+	if ( $sht eq "CIBER_CIBER" ) {
+		$tr  = $tr + $iInfo[4];
+		$trd = $trd + $iInfo[9];
+		$tv  = $tv + $iInfo[5];
+		$tvd = $tvd + $iInfo[10];
+		$tc  = $tc + $iInfo[6];
+		$tcd = $tcd + $iInfo[11];
+	}
+
+	if ( $sht eq "DATA_CIBER" ) {
+		$tr  = $tr + $iInfo[3];
+		$trd = $trd + $iInfo[8];
+		$tv  = $tv + $iInfo[4];
+		$tvd = $tvd + $iInfo[9];
+		$tc  = $tc + $iInfo[2];
+		$tcd = $tcd + $iInfo[10];
+	}
+
+	if ( $sht eq "LTE" ) {
+		$tr  = $tr + $iInfo[8];
+		$trd = $trd + $iInfo[3];
+		$tv  = $tv + $iInfo[9];
+		$tvd = $tvd + $iInfo[4];
+		$tc  = $tc + $iInfo[21];
+		$tcd = $tcd + $iInfo[7];
+	}
+
+	if ( $sht eq "NLDLT" ) {
+		$tr  = $tr + $iInfo[7];
+		$trd = $trd + $iInfo[4];
+		$tv  = $tv + $iInfo[8];
+		$tvd = $tvd + $iInfo[5];
+		$tc  = $tc + $iInfo[18];
+		$tcd = $tcd + $iInfo[6];
+	}
+
+	if ( $sht eq "DISP_RM" ) {
+		$tr  = $tr + $iInfo[7];
+		$trd = $trd + $iInfo[10];
+		$tv  = $tv + $iInfo[8];
+		$tvd = $tvd + $iInfo[11];
+		$tc  = $tc + $iInfo[9];
+		$tcd = $tcd + $iInfo[12];
+	}
+
+	return ( $tr, $trd, $tv, $tvd, $tc, $tcd );
 }
 
 sub sendMsg() {
@@ -699,6 +809,7 @@ sub sendMsg() {
 sub getBODSPRD {
 
 	my $dbPwd = "BODS_DAV_BILLINGOPS";
+
 	# my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Bo0Go09000#" );
 	unless ( defined $dbods ) {
@@ -710,8 +821,9 @@ sub getBODSPRD {
 sub getSNDPRD {
 
 	my $dbPwd = "SND_SVC_BILLINGOPS";
-	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	# my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
+   # my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

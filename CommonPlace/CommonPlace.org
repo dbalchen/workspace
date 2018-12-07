@@ -78,45 +78,49 @@
             network element.
          3. Gets Rated
             -  For *Pre-Pay* the *HLR[fn:4]*. is handled by the *SCP[fn:2]*
-      -  We convert everything to the *Home SID time* for bill
+      -  We convert everything to the customers *Home SID timezone* for bill
          presentment.
       -  Limiting or "/choking/" usage can be handled by *Diameter[fn:3]* for
          *Pre-Pay* and *Turbo-Charging* for *Post-Pay*
-*** TODO Get answer to event server question
 *** Event Servers
     *Turbo-Charging* is not one application but multiple instances of *Event Servers*. Each event server corresponds to a bill cycle. Their status can be viewed using
          the following query on the *PRDAF* database.
-
-         : SELECT * FROM ADJ3_JOBS_INST_CTRL WHERE JOB_NAME = 'ADJ1EVENTSRV';
-
-         From the output, if the column *event status = Y* then that
-         particular server is in use. If your job requires an event
-         server that is already in use you can change it to one that is
-         not by using *SQL* below on the *PRDCUST* database logged in as
-         *PRDOPRC*.
-
-         In this example we are setting the job rec to run using the
-         *ES_EOC1045* event server
-
-          :   Update OP_APP_DATA set data = 'ES_EOC1045'
-          :          where JOB_REC = '{Your Job Rec}' and field_seq_num = 1 
-          :          and table_NAME IN ('ADJ1EVENTSRV');
-
+    :  SELECT DISTINCT
+    :          A.PROCESS_GROUP_ID,
+    :          PROCESS_CODE,
+    :          DECODE (HOST_ID,
+    :                  2001, 'EVESRV1',
+    :                  2022, 'EVESRV2',
+    :                  2023, 'EVESRV3',
+    :                  2024, 'EVESRV4',
+    :                  2025, 'EVESRV5',
+    :                  2026, 'EVESRV6')
+    :              AS "MACHINE",
+    :          DESCRIPTION,
+    :          DECODE (PROCESS_GROUP_ROLE,  0, 'ACTIVE',  1, 'STANDBY') ES_STATUS
+    :     FROM AVM1_SEGMENT_TOPOLOGY A, GN1_SYS_PROC_INSTANCE_CFG B
+    :    WHERE     A.PROCESS_GROUP_ID = B.PROCESS_GROUP_ID
+    :          AND A.ACTIVE_PROCESS_ID = B.PROCESS_INSTANCE_ID
+    :          AND PROCESS_CODE LIKE '%ES1%'
+    : ORDER BY MACHINE ASC
 *** Rerate Servers
-         In addition we have three *Rerate Servers* they are:
-         1. *RRP_EOC1056*
-         2. *RRP_EOC1068*
-         3. *RRP_EOC1192*
+    In addition we have five *Rerate Servers* they are:
+        | 1. *RRP_EOC1056* | 4. *RRP_EOC1257* |
+        | 2. *RRP_EOC1068* | 5. *RRP_EOC1259* |
+        | 3. *RRP_EOC1192* |                  |
+     
 #+BEGIN_LaTeX
 \newpage 
 \begin{landscape}  
 #+END_LaTeX
 ** AEM
-         *AEM* gets the Turbo-Charging errors from the
-         *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
-         *EM1_RECORD* table. Since there are so many columns in the
-         *EM1_RECORD* table we must limit are query's to the following
-         columns. [[file:docs/EM1%20Query's][EM1 Queries]]
+   *AEM* gets the Turbo-Charging errors from the
+   *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
+   *EM1_RECORD* table. Since there are so many columns in the
+   *EM1_RECORD* table we must limit our query's to the following
+   columns:
+
+ [[file:docs/EM1%20Query's][EM1 Queries]]
 
 *** AEM Error Summary
 #+BEGIN_LaTeX
@@ -250,16 +254,16 @@
 #+END_LaTeX
 #+ATTR_LaTeX: :environment longtable :align l|l
 
-    |------------+-------------------------|
-    | *SERVER*   | *LOGIN*                 |
-    |------------+-------------------------|
-    | kpr01oprmn | sudo /bin/su - o_arapp1 |
-    | kpr01oprmn | sudo /bin/su - o_ebiap1 |
-    | kpr01oprmn | sudo /bin/su - o_invap1 |
-    | kpr01oprmn | sudo /bin/su - o_mabel1 |
-    | kpr01ebi01 | sudo /bin/su - o_mabel1 |
-    | kpr01oprmn | sudo /bin/su - o_usacq1 |
-    |------------+-------------------------|
+    |-----------------------+-------------------------|
+    | *SERVER*              | *LOGIN*                 |
+    |-----------------------+-------------------------|
+    | kpr01oprmn/kpr01ebi01 | sudo /bin/su - o_arapp1 |
+    | kpr01oprmn/kpr01ebi01 | sudo /bin/su - o_ebiap1 |
+    | kpr01oprmn/kpr01ebi01 | sudo /bin/su - o_invap1 |
+    | kpr01oprmn/kpr01ebi01 | sudo /bin/su - o_mabel1 |
+    | kpr01oprmn/kpr01ebi01 | sudo /bin/su - o_mabel1 |
+    | kpr01oprmn/kpr01ebi01 | sudo /bin/su - o_usacq1 |
+    |-----------------------+-------------------------|
 
 #+BEGIN_LaTeX
 \normalsize
@@ -321,8 +325,13 @@ node [shape=house];
 \newpage
 #+END_LaTeX
 ** EpsMonitor
+   The EpsMonitors are located on all production servers listed in the diagram below and can be found at
+   */apps/amduser/prodtc*/eps/EpsMonitors*, *where * = 1-6*
+
+
 #+ATTR_LaTeX: :width 10cm
    file:Pictures/EpsMonitors.png
+
 
 :PICTURE:
 digraph BI {
@@ -354,22 +363,22 @@ label = "Event Servers";
 
 }
 :END:
-** TODO Investigate Overage protection				   :noexport:
 ** Overage Protection
       Overage notifications are detected on an event by event basis. As
-      events are processed by *TC* and added to the *APE1_ACCUMULATORS*
+      events are processed by *TC* and added to the *Ape1_Accumulators*
       table a check is made against the
-      *L9_FIRST_THRESHOLD/L9_SECOND_THRESHOLD* fields. If an overage
-      is detected the ***FIELD*** CTN is added to file (segregated by
-      unique *TC* file?) in the NTF directory. MFT then pulls these
-      files and delivers to DMI for distribution. A note is added to the
-      NOTIFICATION_HUB.SMS_NOTIFICATION table (ODS) indicating the
-      message was sent by DMI.
+      *L9_(* /First/Second/ *)_Threshold* fields. If an overage
+      is detected the above fields, The *CTN[fn:5]* is added to a file 
+      in the *NTF (See below)* directory. *MFT[fn:6]* then pulls these
+      files and delivers to *DMI[fn:7]* for distribution. A note is added to the
+      *Notification_Hub.Sms_Notification* table (*ODS*) indicating the
+      message was sent by *DMI*.
 
-      - Overage process flow
+*** Overage process flow
+
          [[file:Pictures/overage.png]]
 
-      - Output Location
+*** Output Location
 |-----------------------------------------+-------------------------------------|
 | *NOTIF_DESC*                            | *FILE_PATH*                         |
 |-----------------------------------------+-------------------------------------|
@@ -377,13 +386,13 @@ label = "Event Servers";
 | Disclaimer notification on group level  | $ABP_APR_ROOT/interfaces/output/NTF |
 | Bucket notification on group level      | $ABP_APR_ROOT/interfaces/output/NTF |
 |-----------------------------------------+-------------------------------------|
-
-| *prdwrk1@kprl1batch:/pkgbl01/inf/aimsys/prdwrk1/var/usc/projs/apr/interfaces/output/NTF*   |
-
-      -  Fields of Interest
-         S - SMS,\\ M - MMS,\\ V - Voice,\\ D - Data,\\ L - LTE =>
-         L3_CALL_SOURCE
-
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+| *pr0dwrk1@kprl1batch:/pkgbl01/inf/aimsys/prodwrk1/var/usc/projs/apr/interfaces/output/NTF* |
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Billing Process
       The billing process follows a map which is created by the job
       *ADJ3_APR_CycleBillRun_Sh*. If it completes successfully it
@@ -396,11 +405,11 @@ label = "Event Servers";
    -  *cdlog* - cd to the logfile directory.
    -  *cdswitch (Batch2 Only)* - cd to the switch directory.
    -  *aprout* - cd to the *CIBER* out directories.
+** On Call Documentation
+   [[file:docs/ON%20CALL%20TASKS.docx][On Call Documentation]]
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
-** On Call Documentation
-   [[file:docs/ON%20CALL%20TASKS.docx][On Call Documentation]]
 * Usage Overview
    Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
    in two ways, *Voice* and *Data*.\\
@@ -431,7 +440,8 @@ label = "Event Servers";
    5. *MMSC* - Used for both pictures and picture messaging text only
       (treated as an *SMS* message in the system). Produces both /Mobile
       Originating and Terminating/ records with a possible one to many
-      relationships (multiple recipients).\\
+      relationships (multiple recipients).
+   6. *TAP* - Used for Incollect/Outcollect *4G* processing.
 #+BEGIN_LaTeX
 \newpage
 
@@ -497,6 +507,7 @@ label = "Event Servers";
 |-----------+------------+-----------------------------------------------------------------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
 ** Pre-Pay and Data Roaming
 
@@ -555,7 +566,9 @@ label = "Event Servers";
 | CIBER        | Switch Location |
 | GSMD/V/S     | GMT             |
 |--------------+-----------------|
-
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX
 ** Duplicate Record Keys
    Columns used to detect if a record is a duplicate.
 #+BEGIN_LaTeX
@@ -1300,8 +1313,8 @@ subgraph cluster_3 {
 \normalsize
 \newpage
 #+END_LaTeX
-** CIBERNET - Specification/Reference
-   https://www.one1clear.net/mxp/Login.asp
+** CIBERNET - Specification/Reference				   :noexport:
+   https://www.one1clear.net/mxp/Login.asp 
 * Consolidated Billing
   *MABEL* is an industry standard electronic method for a customer to receive their invoices.  
   The *MABEL* process will allow a customer with multiple accounts to have those accounts consolidated into one file following the *MABEL* standards. 
@@ -1636,8 +1649,8 @@ subgraph cluster_3 {
 #+END_LaTeX
 ** DB Preparation
       For each DB instance, except ODS and SIT, You need to alter the
-      session before you can use it.\\ For example for usage 1 type
-      : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C
+      session before you can use it.\\ 
+      : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C --- * Usage 1 Database *
 ** Usage Tables
 *** AGREEMENT_RESOURCE
 #+BEGIN_LaTeX
@@ -2612,6 +2625,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+
 ** AR Tables
 *** AR1_ACCOUNT
 #+BEGIN_LaTeX
@@ -3056,6 +3070,7 @@ subgraph cluster_3 {
     -  AR1_TRANSACTION_LOG
     -  AR1-JGL-CONTROL
 
+
 ** BPT Tables
       The *Business Process Tables* are the Tops equivalent to the
       reference tables in *CARES*. The following is the list of all
@@ -3315,7 +3330,6 @@ subgraph cluster_3 {
          or twice a month, no hotfix is needed unless it 
          needs to be in
          production right away.
-
 *** PC9_SID
             One of the most important reference tables used, contains
             all the information for all the *SIDS* for
@@ -3496,13 +3510,11 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 *** PC3_SERVICE_FILTER_LIST
-
-            This table as well and *PC3_SERVICE_FILTER* are used by
-            the *RLC*.
+    This table as well as *PC3_SERVICE_FILTER* are used by
+    the *RLC* to rate the event.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
-hhh
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------+-------------------+---------------|
 | *Column Name*  | *Data Type*       | *Description* |
@@ -3599,7 +3611,7 @@ hhh
 \normalsize
 #+END_LaTeX
 *** PC1_CHARGE_CODE
-            Lists and describes the supported charge codes.
+    Lists and describes the supported charge codes.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3621,10 +3633,9 @@ hhh
 *** PC9_NANP_NPA_LIST
     The NPA (Area Code) and the country description.
 *** PC9_LOCAL_TOLL_FREE_AREA
-            Lists the relationship between *SIDS* and NPA ranges where
-            the toll is free.
+    Lists the relationship between *SIDS* and NPA ranges where the toll is free.
 *** PC9_IP_ADDR_LIST
-            This needs to updated periodically.
+    This contains the list of all of the pre-paid IP's. When a new IP is going to be used for pre-pay, it needs to be added to this table. Otherwise it will show up as roaming.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3717,6 +3728,8 @@ hhh
 \normalsize
 #+END_LaTeX
 *** PRM_RAPOUT_ERR_MNGR
+    Keeps track of all the RAP out errors.
+:CLOSET:
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3927,6 +3940,7 @@ hhh
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+:END:
 ** APRM Tables
 *** CDMA USC_ROAM_EVNTS
     Used for CDMA Incollect/Outcollect Voice and data files.
@@ -4920,15 +4934,19 @@ hhh
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO eSIM
+   Provisioning eSIM
 ** TODO Voice over WIFI
    SCHEDULED: <2018-11-19 Mon>--<2018-12-21 Fri>
+** TODO Do SPLUNK Courses
+   SCHEDULED: <2018-12-04 Tue>--<2018-12-31 Mon>
 ** TODO Check Code into GIT
    SCHEDULED: <2018-11-29 Thu>--<2018-12-21 Fri>
+   - [ ] EpsMonitors
+   - [ ] runFilter.pl
+   - [ ] RoamingRecon
 ** TODO Volte Roaming add a summary page
    SCHEDULED: <2018-10-12 Fri>--<2018-12-21 Fri>
-** DONE Self-Assesment						    :ARCHIVE:
-   DEADLINE: <2018-12-03 Mon>
-   
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 * Misc								   :noexport:
@@ -4944,6 +4962,12 @@ hhh
     : (012468T)
 
 * Footnotes
+
+[fn:7] Data Managment and Intergration
+
+[fn:6] Mass File Transfer
+
+[fn:5] Customer Telephone Number
 
 [fn:4] Home Location Resource
 

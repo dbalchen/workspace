@@ -3771,3 +3771,120 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
       - [X] MobileSense 
     - [X] Write program
     - [X] Modify program
+
+* Event server (Old)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-03 Mon 12:35
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations/TurboCharging
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+       From the output, if the column *event status = Y* then that
+       particular server is in use. If your job requires an event
+       server that is already in use you can change it to one that is
+       not by using *SQL* below on the *PRDCUST* database logged in as
+       *PRDOPRC*.
+
+       In this example we are setting the job rec to run using the
+       *ES_EOC1045* event server
+
+        :   Update OP_APP_DATA set data = 'ES_EOC1045'
+        :          where JOB_REC = '{Your Job Rec}' and field_seq_num = 1 
+        :          and table_NAME IN ('ADJ1EVENTSRV');
+
+
+* Overage Protection
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-03 Mon 14:04
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+      Overage notifications are detected on an event by event basis. As
+      events are processed by *TC* and added to the *Ape1_Accumulators*
+      table a check is made against the
+      *L9_(* /First\/Second/ *)_Threshold* fields. If an overage
+      is detected the above fields, The *CTN[fn:5]* is added to a file 
+      in the *NTF (See below)* directory. *MFT[fn:6]* then pulls these
+      files and delivers to *DMI* for distribution. A note is added to the
+      *Notification_Hub.Sms_Notification* table (*ODS*) indicating the
+      message was sent by *DMI*.
+
+      - Overage process flow
+
+         [[file:Pictures/overage.png]]
+
+      - Output Location
+|-----------------------------------------+-------------------------------------|
+| *NOTIF_DESC*                            | *FILE_PATH*                         |
+|-----------------------------------------+-------------------------------------|
+| Overage cap notification on group level | $ABP_APR_ROOT/interfaces/output/NTF |
+| Disclaimer notification on group level  | $ABP_APR_ROOT/interfaces/output/NTF |
+| Bucket notification on group level      | $ABP_APR_ROOT/interfaces/output/NTF |
+|-----------------------------------------+-------------------------------------|
+#+BEGIN_LaTeX
+\scriptsize
+#+END_LaTeX
+| *pr0dwrk1@kprl1batch:/pkgbl01/inf/aimsys/prodwrk1/var/usc/projs/apr/interfaces/output/NTF* |
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+      -  Fields of Interest
+         S - SMS,\\ M - MMS,\\ V - Voice,\\ D - Data,\\ L - LTE =>
+         L3_CALL_SOURCE
+
+
+* From overage protection
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-03 Mon 14:05
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+     -  Fields of Interest
+        S - SMS,\\ M - MMS,\\ V - Voice,\\ D - Data,\\ L - LTE =>
+        L3_CALL_SOURCE
+
+
+* DONE Self-Assesment						    :ARCHIVE:
+  DEADLINE: <2018-12-03 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-03 Mon 17:05
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+   
+
+* TODO Investigate Overage protection				   :noexport:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-04 Tue 09:40
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+
+* TODO Get answer to rerate event server question		   :noexport:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-04 Tue 16:26
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: TOPS Operations/TurboCharging
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+
+* TODO APRM Report
+  DEADLINE: <2018-12-05 Wed>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-05 Wed 15:39
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+   

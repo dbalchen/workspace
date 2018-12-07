@@ -284,7 +284,7 @@ sub getBODSPRD {
 	my $dbPwd = "BODS_DAV_BILLINGOPS";
 	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
