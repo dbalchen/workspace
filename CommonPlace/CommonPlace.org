@@ -452,59 +452,59 @@ label = "Event Servers";
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|-----------+------------+-----------------------------------------------------------------------|
-| *Element* | *New Host* | *New Directory*                                                       |
-|-----------+------------+-----------------------------------------------------------------------|
-| APPL      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/APPL      |
-| ASHE      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/ASHE      |
-| CDP       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/CONT/CDP       |
-| CDR2      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CDR2      |
-| CIB_IC    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DIRI    |
-| CIB_OCR   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/SYNR    |
-| CLIN      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CLIN      |
-| COLU      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/COLU      |
-| CONG      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CONG      |
-| ECS       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/AAA/AAA1       |
-| EURE      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/EURE      |
-| GRAN      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/GRAN      |
-| GREE      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/GREE      |
-| GSM_IR    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMS      |
-| GSM_IR    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMV      |
-| JOHN      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/JOHN      |
-| JOPL      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/JOPL      |
-| KNOX      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/KNOX      |
-| LLYN      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/LLYN/     |
-| LROE      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/LROE/     |
-| LTE       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/PGW/PGW1       |
-| LTE       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMD      |
-| MADI      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/MADI      |
-| MEDF      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/MEDF      |
-| MMSC      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/PMG1   |
-| MMSC      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/PTX1   |
-| MORG      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/MORG/     |
-| NEWB      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/NEWB      |
-| OKLA      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/OKLA      |
-| OMAH      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/OMAH      |
-| OWAS      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/OWAS      |
-| PEO2      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/PEO2      |
-| ROC2      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/ROC2      |
-| SALI      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/SALI      |
-| SMS_NSN   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/MOT    |
-| SMS_NSN   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMT      |
-| TAS       | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/TAS/TAS1       |
-| VALISTA   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/CONT/VALI      |
-| YAKI      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/YAKI      |
-| TAP_IN    | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPIN/            |
-| TAP_OUT   | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPOUT/           |
-| APRM      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DATAIN  |
-| CIB_IC    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DATACBR |
-| CIB_IC    | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DIRI    |
-| CIB_ICR   | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/apr/interfaces/output      |
-| SGW       | kpr01bchl3 | /pkgbl03/inf/prdsys/operaprm/var/usc/LSN/input2                       |
-| GSM_IR    | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPIN/            |
-| RAP_IN    | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/RAPIN/            |
-| RAP_OUT   | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/RAPOUT/           |
-|-----------+------------+-----------------------------------------------------------------------|
+|-------------+------------+-----------------------------------------------------------------------|
+| *Element*   | *New Host* | *New Directory*                                                       |
+|-------------+------------+-----------------------------------------------------------------------|
+| APPL        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/APPL      |
+| ASHE        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/ASHE      |
+| CDP         | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/CONT/CDP       |
+| CDR2        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CDR2      |
+| CIB_IC      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DIRI    |
+| CIB_OCR     | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/SYNR    |
+| CLIN        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CLIN      |
+| COLU        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/COLU      |
+| CONG        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/CONG      |
+| ECS         | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/AAA/AAA1       |
+| EURE        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/EURE      |
+| GRAN        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/GRAN      |
+| GREE        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/GREE      |
+| GSM_IR      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMS      |
+| GSM_IR      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMV      |
+| JOHN        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/JOHN      |
+| JOPL        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/JOPL      |
+| KNOX        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/KNOX      |
+| LLYN        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/LLYN/     |
+| LROE        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/LROE/     |
+| LTE         | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/PGW/PGW1       |
+| LTE         | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMD      |
+| MADI        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/MADI      |
+| MEDF        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/MEDF      |
+| MMSC        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/PMG1   |
+| MMSC        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/PTX1   |
+| MORG        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/APLX/MORG/     |
+| NEWB        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/NEWB      |
+| OKLA        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/OKLA      |
+| OMAH        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI1/OMAH      |
+| OWAS        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/OWAS      |
+| PEO2        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/PEO2      |
+| ROC2        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/ROC2      |
+| SALI        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/SALI      |
+| SMS_NSN     | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/SMS_MMS/MOT    |
+| SMS_NSN     | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/GSMI/GSMT      |
+| TAS         | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/TAS/TAS1       |
+| VALISTA     | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/CONT/VALI      |
+| YAKI        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/NTI2/YAKI      |
+| TAP_IN      | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPIN/            |
+| TAP_OUT     | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPOUT/           |
+| APRM        | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DATAIN  |
+| CIB_IC      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DATACBR |
+| CIB_IC      | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DIRI    |
+| CIB_ICR     | kpr01bchl2 | /pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/apr/interfaces/output      |
+| SGW/DISP    | kpr01bchl3 | /pkgbl03/inf/prdsys/operaprm/var/usc/LSN/input2                       |
+| GSM_IR      | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/TAPIN/            |
+| RAP_IN      | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/RAPIN/            |
+| RAP_OUT     | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/RAPOUT/           |
+|-------------+------------+-----------------------------------------------------------------------|
 #+BEGIN_LaTeX
 \normalsize
 \newpage
@@ -4937,18 +4937,28 @@ subgraph cluster_3 {
 ** TODO eSIM
    Provisioning eSIM
 ** TODO Voice over WIFI
-   SCHEDULED: <2018-11-19 Mon>--<2018-12-21 Fri>
-** TODO Do SPLUNK Courses
-   SCHEDULED: <2018-12-04 Tue>--<2018-12-31 Mon>
-** TODO Check Code into GIT
-   SCHEDULED: <2018-11-29 Thu>--<2018-12-21 Fri>
-   - [ ] EpsMonitors
-   - [ ] runFilter.pl
-   - [ ] RoamingRecon
-** TODO Volte Roaming add a summary page
-   SCHEDULED: <2018-10-12 Fri>--<2018-12-21 Fri>
+   SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>   
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
+** TODO Sunset Consolidated Billing
+   SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>
+** TODO CallDump Queen
+   DEADLINE: <2018-12-21 Fri>
+** TODO SPLUNK Desktop
+   SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>
+   - [ ] Where is Splunk?
+     - Do we have access (mdr01oprmn
+     - what access user will we be?
+   - [ ] What do we want monitor
+     - Try different types
+** TODO PCRF Forklift
+   SCHEDULED: <2019-01-08 Tue>--<2019-01-09 Wed>
+** TODO Python Examples
+   SCHEDULED: <2018-12-17 Mon>--<2019-01-31 Thu>
+   - Add them to Git
+** TODO Teach team GIT
+   - Create Users for each development service user.
+   
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

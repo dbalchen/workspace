@@ -6,8 +6,8 @@ use Time::Piece;
 use Time::Seconds;
 
 BEGIN {
-	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
+#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+#	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -69,7 +69,7 @@ $dirs{'SDATACBR_FDATACBR'} =
   '/pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/up/physical/switch/DATACBR';
 $dirs{'CIBER_CIBER'} =
   '/pkgbl02/inf/prdsys/prodwrk2/var/usc/projs/apr/interfaces/output';
-$dirs{'DISP_RM'} = '/pkgbl03/inf/prdsys/operaprm/var/usc/LSN/input2';
+$dirs{'DISP_RM'} = '/pkgbl03/inf/prdsys/operaprm/var/usc/DISP';
 
 $jobs{'SDIRI_FCIBER'}      = 'getFileInfo.pl';
 $jobs{'SDATACBR_FDATACBR'} = 'getFileInfoData.pl';
@@ -937,3 +937,14 @@ sub getSNDPRD {
 	return $dbods;
 }
 
+sub pad {
+
+        my ( $padString, $padwith, $length ) = @_;
+
+        while ( length($padString) < $length ) {
+                $padString = $padwith . $padString;
+        }
+
+        return $padString;
+
+}

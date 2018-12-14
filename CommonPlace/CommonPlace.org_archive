@@ -3888,3 +3888,39 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :END:
 
    
+
+* TODO Do SPLUNK Courses
+  SCHEDULED: <2018-12-04 Tue>--<2018-12-31 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-13 Thu 09:56
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* TODO Volte Roaming add a summary page				    :ARCHIVE:
+  SCHEDULED: <2018-10-12 Fri>--<2018-12-21 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-13 Thu 09:57
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* DONE Check Code into GIT					    :ARCHIVE:
+  SCHEDULED: <2018-11-29 Thu>--<2018-12-21 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2018-12-13 Thu 15:13
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  - [X] EpsMonitors
+  - [X] runFilter.pl
+  - [X] RoamingRecon
