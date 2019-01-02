@@ -13,7 +13,7 @@ OSCdef(\stringLow, { |m|
 	~string_low_synth.set(\amp,	~lowStrings.amp);
 	~string_low_synth.set(\balance,	~lowStrings.balance);
 	~string_low_synth.set(\release,~string_low_vca_envelope.release);
-    ~string_low_synth.set(\out,	~lowStrings.out);
+	~string_low_synth.set(\out,	~lowStrings.out);
 
 
 	~stringLow_fenv = Synth("myADSRk",addAction: \addToHead);
@@ -70,42 +70,91 @@ OSCdef(\stringLow, { |m|
 	ret.set(\gate,1);
 	ret;
 };
+/*
+~channel2 = {arg num, vel = 1;
+var ret;
+num.postln;
+
+ret = Synth("Esampler");
+ret.set(\gate,0);
+
+~violaTemplate.value(ret,num,~violasounds);
+ret.set(\amp,~viola.amp);
+ret.set(\balance,~viola.balance);
+ret.set(\out,~viola.out);
+~string_viola_vcf_envelope.setfADSR(ret);
+~string_viola_vca_envelope.setADSR(ret);
+ret.set(\gate,1);
+ret;
+};
+*/
+
 
 ~channel2 = {arg num, vel = 1;
 	var ret;
 	num.postln;
 
-	ret = Synth("Esampler");
-	ret.set(\gate,0);
-
-	~violaTemplate.value(ret,num,~violasounds);
-	ret.set(\amp,~viola.amp);
-	ret.set(\balance,~viola.balance);
-	ret.set(\out,~viola.out);
-	~string_viola_vcf_envelope.setfADSR(ret);
-	~string_viola_vca_envelope.setADSR(ret);
+	ret = Synth("eViola");
+	ret.set(\num,num);
 	ret.set(\gate,1);
+
 	ret;
 };
+
+~channel2off = {arg num, vel = 1;
+	var ret = nil;
+
+	~string_viola_env.set(\gate,0);
+	~string_viola_fenv.set(\gate,0);
+	~string_viola.set(\gate,0);
+	ret;
+};
+
+
+
+
+/*
+~channel3 = {arg num, vel = 1;
+var ret;
+num.postln;
+ret = Synth("Esampler");
+ret.set(\gate,0);
+
+~violinTemplate.value(ret,num,~violinsounds);
+ret.set(\amp,~violin.amp);
+ret.set(\out,~violin.out);
+ret.set(\balance,~violin.balance);
+ret.set(\cutoff,4950);
+~string_violin_vcf_envelope.setfADSR(ret);
+~string_violin_vca_envelope.setADSR(ret);
+
+ret.set(\gate,1);
+ret;
+};
+*/
 
 
 ~channel3 = {arg num, vel = 1;
 	var ret;
 	num.postln;
-	ret = Synth("Esampler");
-	ret.set(\gate,0);
 
-	~violinTemplate.value(ret,num,~violinsounds);
-	ret.set(\amp,~violin.amp);
-	ret.set(\out,~violin.out);
-	ret.set(\balance,~violin.balance);
-	ret.set(\cutoff,4950);
-	~string_violin_vcf_envelope.setfADSR(ret);
-	~string_violin_vca_envelope.setADSR(ret);
-
+	ret = Synth("eViolin");
+	ret.set(\num,num);
 	ret.set(\gate,1);
+	~string_violin.set(\gate,0);
 	ret;
 };
+
+~channel3off = {arg num, vel = 1;
+	var ret = nil;
+
+	~string_violin_env.set(\gate,0);
+	~string_violin_fenv.set(\gate,0);
+	~string_violin.set(\gate,0);
+	ret;
+};
+
+
 
 ~channel4 = {arg num, vel = 1;
 	var ret;
@@ -127,13 +176,14 @@ OSCdef(\stringLow, { |m|
 	var ret;
 	num.postln;
 
-	ret = Synth("eStrings");
+	ret = Synth("eStrings16");
 	ret.set(\gate,0);
 	ret.set(\freq,num.midicps);
 	ret.set(\amp,~violin2.amp);
 	ret.set(\out,~violin2.out);
 	ret.set(\balance,~violin2.balance);
-
+	ret.set(\cutoff,15000);
+	ret.set(\hpf,328);
 	~string_violin_vcf_envelope.setfADSR(ret);
 	~string_violin_vca_envelope.setADSR(ret);
 

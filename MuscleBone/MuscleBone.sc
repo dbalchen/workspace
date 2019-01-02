@@ -22,34 +22,34 @@ o.memSize = 2097152;
 
 
 
+
 (
 
 "/home/dbalchen/Music/MuscleBone/include/synths/envelopes.sc".load;
 "/home/dbalchen/Music/MuscleBone/include/synths/kick.sc".load;
 "/home/dbalchen/Music/MuscleBone/include/synths/eStrings.sc".load;
-"/home/dbalchen/Music/MuscleBone/include/synths/eSampler.sc".load;
+//"/home/dbalchen/Music/MuscleBone/include/synths/eSampler.sc".load;
 
 "/home/dbalchen/Music/MuscleBone/include/events/bassDrum.sc".load;
-~bassDrum.out = 10;
+~bassDrum.out = 0;
 "/home/dbalchen/Music/MuscleBone/include/patch/bassDrum.sc".load;
 
 
 "/home/dbalchen/Music/MuscleBone/include/events/LowStrings.sc".load;
 "/home/dbalchen/Music/MuscleBone/include/patch/LowStrings.scd".load;
 
-"/home/dbalchen/Music/MuscleBone/include/events/viola.sc".load;
-"/home/dbalchen/Music/MuscleBone/include/patch/strings.sc".load;
 "/home/dbalchen/Music/MuscleBone/include/patch/viola.sc".load;
+"/home/dbalchen/Music/MuscleBone/include/events/viola.sc".load;
+//"/home/dbalchen/Music/MuscleBone/include/patch/strings.sc".load;
 
-"/home/dbalchen/Music/MuscleBone/include/events/violin.sc".load;
 "/home/dbalchen/Music/MuscleBone/include/patch/violin.sc".load;
-
+"/home/dbalchen/Music/MuscleBone/include/events/violin.sc".load;
 
 ~lowStrings.out = 0;
-~viola.out = 2;
-~viola2.out = 4;
-~violin.out = 6;
-~violin2.out = 8;
+~viola.out = 0;
+~viola2.out = 0;
+~violin.out = 0;
+~violin2.out = 0;
 
 
 "/home/dbalchen/Music/MuscleBone/include/midiDefs.sc".load;
@@ -58,11 +58,6 @@ o.memSize = 2097152;
 )
 
 ~startTimer.value(120);
-
-{
-	~lowStrings.notes.freq.next
-
-}
 
 ~bassDrum.transport.mute;~bassDrumNotes.transport.mute;
 
@@ -75,11 +70,16 @@ o.memSize = 2097152;
 
 ~violin2.transport.mute;~violin.transport.mute;
 ~violin2.transport.unmute;~violin.transport.unmute;
-
+~bassDrum.transport.mute;
 ~rp = {~lowStrings.transport.play;};
-
 ~rp = {~viola2.transport.play;~viola.transport.play;};
 ~rp = {~violin.transport.play;~violin2.transport.play;};
+
+
+~rp = {~violin.transport.play;~viola.transport.play;~lowStrings.transport.play;};
+
+
+
 ~rp = {~initialBassDrum.value;~bassDrum.transport.play;~bassDrumNotes.transport.play;};
 
 
@@ -155,7 +155,7 @@ o.memSize = 2097152;
 
 				~viola4.value;
 				~violin4.value;
-				~violaEnv2.value;
+				//				~violaEnv2.value;
 			);
 
 			(

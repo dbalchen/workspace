@@ -1,0 +1,691 @@
+/*
+#+STARTUP: overview
+#+OPTIONS: d:nil
+#+OPTIONS: toc:nil
+#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET
+#+PROPERTY: allocate_ALL dev doc test
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+#+TITLE: Song 7
+#+Author: David Balchen
+#+Email: dave@balchen.org
+#+BEGIN_LaTeX
+\clearpage
+\addtolength{\oddsidemargin}{-.25in}
+%\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+\newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{2}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+
+#+END_LaTeX
+:CLOSET:
+ : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+ : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
+ : weeks #+PROPERTY: Effort_ALL 1w 2w 3w 4w 5w 6w 7w 8w 9w
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+ : New Page
+ : \newpage
+:END:
+#+TOC: headlines 2
+#+BEGIN_LaTeX
+ \newpage
+\pagenumbering{arabic}
+#+END_LaTeX 
+*/
+/*
+* SuperCollider Init
+*/
+Help.gui
+Quarks.gui
+
+s.boot; 
+s.plotTree;
+s.meter;
+s.quit;
+
+Stethoscope.new(s);
+FreqScope.new(800, 400, 0, server: s);
+Server.default.makeGui;
+
+
+(
+ o = Server.local.options;
+ o.numOutputBusChannels = 24; // The next time it boots, this will take effect
+ o.memSize = 2097152;
+ )
+
+"/home/dbalchen/Music/setup.sc".load;
+
+/*
+* evenVCO
+  Sounds more like a pipe organ
+** TODO Whats up with that
+ */
+
+
+"/home/dbalchen/Music/MuscleBone/include/synths/envelopes.sc".load;
+"/home/dbalchen/workspace/SuperCollider/makeWaveTable.sc".load;
+
+/*
+** Wavetables
+*** Pulse wave like
+
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0002/AKWF_0197.wav");
+
+*** Organ Hammond Darker 
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0004/AKWF_0367.wav");
+
+*** +++Church Clean
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0005/AKWF_0488.wav");
+
+*** Dark Synth
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0010/AKWF_0908.wav");
+
+*** Good for lead
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0013/AKWF_1289.wav");
+
+*** I Don't know
+
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0013/AKWF_1296.wav");
+
+*** ++++EvenVco
+~even0  = ~makeWav.value("/home/dbalchen/Desktop/even2.wav");
+
+
+*/
+
+/*
+** Sample Directory
+[[file+emacs:/home/dbalchen/workspace/cleanLead/samples/][The chosen Ones ]]
+
+*/
+
+~even0  = ~makeWav.value("/home/dbalchen/workspace/cleanLead/samples/0-EvenVCO.wav");
+~even0  = ~makeWav.value("/home/dbalchen/workspace/cleanLead/samples/1-ChurchOrgan.wav");
+
+/*
+** mosc
+*/
+
+
+SynthDef("mosc", {
+    arg ss, freq = 55, out = 0, amp = 0.5, lagt = 0, da = 2, gate = 0,
+      attack = 0.2, decay = 0.5, sustain = 1, release = 0.5,
+      fattack = 0.2, fdecay = 0.5,fsustain = 1, frelease = 0.5, aoc = 1,
+      gain = 1, cutoff = 5000.00,
+      spread = 1, balance = 0, hpf = 128;
+
+    var sig, env, fenv;
+
+    env = Env.adsr(attack,decay,sustain,release);
+    env = EnvGen.kr(env, gate: gate, doneAction:da);
+
+    fenv = Env.adsr(fattack,fdecay,fsustain,frelease);
+    fenv = EnvGen.kr(fenv, gate,doneAction:da);
+    fenv = aoc*(fenv - 1) + 1;
+
+    freq = Lag.kr(freq,lagt);
+    freq = {freq * LFNoise2.kr(2.5,0.01,1)}!2;
+
+    sig = Osc.ar(ss,freq,0,mul:env*amp);
+
+    sig = MoogFF.ar
+      (
+       sig,
+       cutoff*fenv,
+       gain
+       );
+
+    sig = HPF.ar(sig,hpf);
+	
+    sig = LeakDC.ar(sig);
+	
+    sig = Splay.ar(sig,spread,center:balance);
+
+    Out.ar(out,sig * amp);
+
+  }).send(s);
+
+/*
+*** Setup midi channel mosc
+*/
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+	     ret = Synth("mosc");
+	     ret.set(\ss,~even0);
+	     ret.set(\freq,num.midicps);
+	     ret.set(\gate,1);
+	     ret;
+};
+
+/*
+
+** moscMono
+*/
+
+SynthDef(\moscMono, {arg ss, 
+      freq = 110, out = 0, amp = 0.5, aoc = 1.0,
+      vcfIn = 999, vcaIn = 999,cutoff = 15000, gain = 0.7,
+      release = 0.3, bend =0,hpf = 120, mul = 1,
+      lagtime = 0, spread = 1, balance = 0, gate = 0;
+
+    var sig,fenv, env;
+
+    release = release - 0.019;
+	
+    env = Env.new([0,0,1,0],[0.000001,0,release],0,2);
+    env = EnvGen.kr(env, gate);
+
+    fenv = In.kr(vcfIn);
+    fenv = aoc*((fenv - 1) + 1);
+
+    freq = Lag.kr(freq,lagtime);
+    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
+
+    sig = Osc.ar(ss,freq,0,mul:env*amp);
+
+    sig = BLowPass.ar
+      (
+       
+       sig,
+       cutoff*fenv,
+       gain
+       
+       );
+
+    sig = sig*((In.kr(vcaIn) - 1) + 1);
+
+    sig = LeakDC.ar(sig);
+
+    sig = HPF.ar(sig,hpf);
+
+    sig = Splay.ar(sig,spread,center:balance);
+    
+    Out.ar(out,amp*sig*env);
+  }
+  ).send(s);
+
+/*
+*** Setup midi for moscMono
+*/
+
+~moscMono = Synth("moscMono",addAction: \addToTail);
+~moscMono.set(\ss,~even0);
+~moscMono.set(\lagtime,0.2);
+
+~moscMono_vca_control_in = Bus.control(s, 1);
+~moscMono_vcf_control_in = Bus.control(s, 1);
+
+~moscMono.set(\vcfIn,~moscMono_vcf_control_in);
+~moscMono.set(\vcaIn,~moscMono_vca_control_in);
+
+~moscMono_vca_envelope = MyADSR.new;
+~moscMono_vca_envelope.init;
+~moscMono_vca_envelope.attack = 0.5;
+~moscMono_vca_envelope.decay = 1.5;
+~moscMono_vca_envelope.sustain = 0.7;
+~moscMono_vca_envelope.release = 0.2;
+
+~moscMono_vcf_envelope = MyADSR.new;
+~moscMono_vcf_envelope.init;
+~moscMono_vcf_envelope.attack = 0.5;
+~moscMono_vcf_envelope.decay = 2.5;
+~moscMono_vcf_envelope.sustain = 0.7;
+~moscMono_vcf_envelope.release = 0.4;
+
+
+
+/*
+
+  ~moscMono_vca_envelope.gui;
+  ~moscMono_vcf_envelope;
+  ~moscMono_vca_envelope;
+
+*/
+
+
+
+SynthDef(\mMosc, {arg num = 60,gate = 1;
+    var env = Env.asr(0,1,0);
+    var trig = EnvGen.kr(env, gate,doneAction:2);
+    SendReply.kr(trig, '/mMosc', num);
+  }).add;
+
+OSCdef(\mMosc, { |m|
+
+      var num = m[3].asInteger;
+
+    ~moscMono.set(\freq,num.midicps);
+    ~moscMono.set(\release,~moscMono_vca_envelope.release);
+
+    ~moscMono_fenv = Synth("myADSRk",addAction: \addToHead);
+    ~moscMono_fenv.set(\out,~moscMono_vcf_control_in);
+    ~moscMono_vcf_envelope.setADSR(~moscMono_fenv);
+	
+    ~moscMono_env  = Synth("myADSRk",addAction: \addToHead);
+    ~moscMono_vca_envelope.setADSR(~moscMono_env);
+    ~moscMono_env.set(\out,~moscMono_vca_control_in);
+
+    ~moscMono_env.set(\gate,1);
+    ~moscMono_fenv.set(\gate,1);
+    ~moscMono.set(\gate,1);
+
+
+  }, '/mMosc');
+
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+
+	     ret = Synth("mMosc");
+	     ret.set(\num,num);
+	     ret.set(\gate,1);
+
+	     ret;
+};
+
+~channel0off = {arg num, vel = 1;
+		var ret = nil;
+
+		~moscMono_env.set(\gate,0);
+		~moscMono_fenv.set(\gate,0);
+		~moscMono.set(\gate,0);
+		ret;
+};
+
+
+/*
+** vosc
+*/
+SynthDef("vosc", {
+    arg ss, freq = 55, out = 0, amp = 0.5, lagtime = 0, da = 2, gate = 0,
+      windex = 1,idx = 0.2,hpf = 128,bend = 0,
+      attack = 0.2, decay = 0.5, sustain = 1, release = 0.5,
+      fattack = 0.2, fdecay = 0.5,fsustain = 1, frelease = 0.5, 
+      aoc = 1, gain = 0.7,cutoff = 15000.00, spread = 0.0, balance = 0;
+
+    var sig, env, fenv;
+
+    windex = idx*(windex-1);
+
+    env = Env.adsr(attack,decay,sustain,release);
+    env = EnvGen.kr(env, gate: gate, doneAction:da);
+
+    fenv = Env.adsr(fattack,fdecay,fsustain,frelease);
+    fenv = EnvGen.kr(fenv, gate,doneAction:da);
+    fenv = aoc*(fenv - 1) + 1;
+	
+    freq = Lag.kr(freq,lagtime);
+    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
+
+    sig = VOsc.ar(ss+idx,freq,0,mul:env*amp);
+
+    sig = BLowPass.ar
+      (
+       sig,
+       cutoff*fenv,
+       gain
+       );
+
+    sig = HPF.ar(sig,hpf);
+
+    sig = LeakDC.ar(sig);
+
+    sig = Splay.ar(sig,spread,center:balance);	
+
+    Out.ar(out,sig * amp);
+
+  }).send(s);
+
+/*
+
+***  Setup midi channel vosc
+*/
+~wavetables.free;
+~wavetables = ~fileList.value("/home/dbalchen/workspace/cleanLead/samples");
+
+~windex = ~wavetables.size;
+
+~wavebuff = ~loadWaveTables.value(~wavetables);
+
+
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+
+	     ret = Synth("vosc");
+
+	     ret.set(\ss,~wavebuff);
+	     ret.set(\freq,num.midicps);
+	     ret.set(\windex, ~windex);
+	     ret.set(\idx,0.2);
+	     ret.set(\gate,1);
+
+	     ret;
+};
+
+/*
+** voscMono
+
+*/
+
+SynthDef("voscMono", {
+    arg ss, freq = 55, out = 0, amp = 0.5, lagtime = 0, windex = 1,idx = 0.25,
+      vcaIn = 9999, vcfIn = 9999,gate = 0,bend = 0,
+      aoc = 1, gain = 0.7, cutoff = 15000,hpf = 128, release = 0.3,
+      spread = 1, balance = 0;
+
+    var sig, env, fenv;
+
+    windex = idx*(windex-1);
+
+    release = release - 0.019;
+	
+    env = Env.new([0,0,1,0],[0.000001,0,release],0,2);
+    env = EnvGen.kr(env, gate);
+
+    fenv = In.kr(vcfIn);
+    fenv = aoc*((fenv - 1) + 1);
+
+    freq = Lag.kr(freq,lagtime);
+    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
+
+    sig = VOsc.ar(ss + windex,freq,0,mul:env);
+
+
+    sig = BLowPass.ar
+      (
+       sig,
+       cutoff*fenv,
+       gain
+       );
+
+
+    sig = sig*((In.kr(vcaIn) - 1) + 1);
+
+    sig = HPF.ar(sig,hpf);
+	
+    sig = LeakDC.ar(sig);
+
+    sig = Splay.ar(sig,spread,center:balance);
+
+    Out.ar(out,sig * amp);
+
+  }).send(s);
+
+/*
+*** voscMono midi setup
+*/
+
+~wavetables.free;
+~wavetables = ~fileList.value("/home/dbalchen/workspace/cleanLead/samples");
+~windex = ~wavetables.size;
+~wavebuff = ~loadWaveTables.value(~wavetables);
+
+
+~voscMono = Synth("voscMono",addAction: \addToTail);
+~voscMono.set(\cutoff,10038);
+~voscMono.set(\hpf,64);
+~voscMono.set(\aoc,0.4);
+~voscMono.set(\ss,~wavebuff);
+~voscMono.set(\windex, ~windex);
+~voscMono.set(\idx,0.2);
+~voscMono.set(\lagtime, 0.3);
+
+~voscMono_vca_control_in = Bus.control(s, 1);
+~voscMono_vcf_control_in = Bus.control(s, 1);
+
+~voscMono.set(\vcfIn,~voscMono_vcf_control_in);
+~voscMono.set(\vcaIn,~voscMono_vca_control_in);
+
+~voscMono_vca_envelope = MyADSR.new;
+~voscMono_vca_envelope.init;
+~voscMono_vca_envelope.attack = 0.5;
+~voscMono_vca_envelope.decay = 1.5;
+~voscMono_vca_envelope.sustain = 0.7;
+~voscMono_vca_envelope.release = 0.2;
+
+~voscMono_vcf_envelope = MyADSR.new;
+~voscMono_vcf_envelope.init;
+~voscMono_vcf_envelope.attack = 0.5;
+~voscMono_vcf_envelope.decay = 2.5;
+~voscMono_vcf_envelope.sustain = 0.7;
+~voscMono_vcf_envelope.release = 0.4;
+
+
+SynthDef(\voscmono, {arg num = 60,gate = 1;
+    var env = Env.asr(0,1,0);
+    var trig = EnvGen.kr(env, gate,doneAction:2);
+    SendReply.kr(trig, '/voscmono', num);
+  }).add;
+
+OSCdef(\voscmono, { |m|
+
+      var num = m[3].asInteger;
+
+    ~voscMono.set(\freq,num.midicps);
+    ~voscMono.set(\release,~voscMono_vca_envelope.release);
+	
+    ~voscMono_fenv = Synth("myADSRk",addAction: \addToHead);
+    ~voscMono_fenv.set(\out,~voscMono_vcf_control_in);
+	
+    ~voscMono_vcf_envelope.setADSR(~voscMono_fenv);
+
+    ~voscMono_env  = Synth("myADSRk",addAction: \addToHead);
+    ~voscMono_env.set(\out,~voscMono_vca_control_in);
+    ~voscMono_vca_envelope.setADSR(~voscMono_env);
+
+    ~voscMono_env.set(\gate,1);
+    ~voscMono_fenv.set(\gate,1);
+    ~voscMono.set(\gate,1);
+
+
+  }, '/voscmono');
+
+
+
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+
+	     ret = Synth("voscmono");
+	     ret.set(\num,num);
+	     ret.set(\gate,1);
+
+	     ret;
+};
+
+~channel0off = {arg num, vel = 1;
+		var ret = nil;
+
+		~voscMono_env.set(\gate,0);
+		~voscMono_fenv.set(\gate,0);
+		~voscMono.set(\gate,0);
+		ret;
+};
+/*
+
+/*
+* FM
+** TODO FM expairements
+
+SynthDef("frenchHorn",
+	  {
+	    arg out = 0, freq = 110, gate = 0, amp = 1.0, da = 2,hpf = 20,
+	        attack = 0.2, decay = 8.0, sustain = 0.6, release = 0.6,
+	        fattack = 0.2,fdecay = 8.0, fsustain = 0.8,frelease = 0.6,
+	        aoc = 0.9,gain = 0.7, cutoff = 5200.00,
+	        bend = 0, spread = 0, balance = 0;
+	
+	    var sig, fb1, op1, op2, op3, env, fenv,tmp;
+
+	    env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+	    env = EnvGen.kr(env, gate: gate,doneAction:da);
+
+	    fenv = Env.adsr(fattack,fdecay,fsustain,frelease,1,'sine');
+	    fenv = EnvGen.kr(fenv, gate);
+	    fenv = aoc*(fenv - 1) + 1;
+	    
+		op3 = SinOsc.ar(3*freq);
+	    op2 = SinOsc.ar(1*freq);
+
+		  //		tmp = MouseX.kr(0,2).poll;
+	    fb1 = FbNode(1);
+	    op1 = SinOsc.ar(freq,(op2*1.35) + fb1 + (0.0637501*op3));	  
+	    fb1.write(0.3* op1);	  	 
+	    sig = env*op1;
+
+		  
+	    sig = RLPF.ar
+	      (
+	       sig,
+	       cutoff*fenv,
+	       gain
+	       );
+			  
+	    sig = HPF.ar(sig,hpf);
+		  
+	    sig = FreeVerb.ar(sig,0.33); // fan out...
+		  
+	    sig = LeakDC.ar(sig);
+		  
+	    sig = Splay.ar(sig,spread,center:balance);
+
+	    Out.ar(out,amp*sig);
+		  
+	  }).send(s);
+
+
+
+/*
+* Read Midi file
+ */
+/* Sébastien Clara - Janvier 2016
+
+
+   Import a midi file on 3 Arrays : notes, durations & dates
+
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   Put or link this file in a specific directories
+   Typical user-specific extension directories :
+   OSX:	~/Library/Application Support/SuperCollider/Extensions/
+   Linux: 	~/.local/share/SuperCollider/Extensions/
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   Dependence : wslib on Quarks
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   typeMidi => For noteOn & noteOff information.
+   But with MuseScore, we don't have. So put typeMidi to 1.
+   See the examples below.
+
+*/
+
+ImportMidiFile {
+  *new {	arg file, typeMidi=0;
+
+    var midiFile;
+    var notes, durees, dates;
+    var on, off, datesIndex;
+
+    midiFile = SimpleMIDIFile.read(file);
+
+    if (typeMidi == 0,{
+	midiFile.noteEvents.do({ |i| if(i[2] == \noteOn,
+	  {on = on.add(i)},
+	  {off = off.add(i)})
+	      });
+      },{
+	midiFile.noteEvents.do({ |i| if(i[5] != 0,
+	  {on = on.add(i)},
+	  {off = off.add(i)})
+	      });
+      });
+
+
+    datesIndex = on.collect({|i| i[1]});
+
+    datesIndex.asSet.asArray.sort.do({|date|
+	  var indices;
+	indices =  datesIndex.indicesOfEqual(date);
+
+	notes = notes.add( indices.collect({|i| on[i][4]}) );
+
+	durees = durees.add( indices.collect({|i|
+		var offIndice, duree;
+	      offIndice = off.collect({|j| j[4]}).detectIndex({|j| j == on[i][4]});
+	      duree = off[offIndice][1] - on[i][1];
+	      off.removeAt(offIndice);
+	      duree;
+	    }) );
+
+	dates = dates.add( date );
+      });
+
+
+
+    ^[notes, durees, dates];
+  }
+}
+
+/*
+//////////////////////////////////////////////////////////////////////////
+//	Usage :
+
+m = SimpleMIDIFile.read("~/Desktop/bwv772.mid");
+m.noteEvents.collect({ |i| i.postln }); ""
+/*
+[ 1, 97, noteOn, 0, 60, 127 ]
+[ 1, 265, noteOff, 0, 60, 127 ]
+[ 1, 278, noteOn, 2, 62, 127 ]
+[ 1, 446, noteOff, 2, 62, 127 ]
+*/
+// => typeMidi by default
+
+// notes, durations, dates <=
+# n, d, t = ImportMidiFile("~/Desktop/bwv772.mid");
+
+n
+d
+t
+
+
+m = SimpleMIDIFile.read("~/Desktop/cadence.mid");
+m.noteEvents.collect({ |i| i.postln }); ""
+					/*
+					  [ 0, 0, noteOn, 0, 72, 73 ]
+					  [ 0, 479, noteOn, 0, 72, 0 ]
+					  [ 0, 480, noteOn, 0, 69, 69 ]
+					  [ 0, 959, noteOn, 0, 69, 0 ]
+					*/
+					// => typeMidi != 0 !!!!!!!!!!!!!!
+
+					// notes, durations, dates <=
+# n, d, t = ImportMidiFile("~/Desktop/cadence.mid", 1);
+
+n
+d
+t
+
+*/

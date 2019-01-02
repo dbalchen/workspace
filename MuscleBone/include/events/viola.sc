@@ -1,8 +1,3 @@
-~viola = MyTrack.new(~synth1,2);
-~viola2 = MyTrack.new(~synth1,4);
-~viola.amp = 0.24;
-~viola2.amp = 0.12;
-
 
 ~violaInit = {
 	~viola.notes.waits = [6.0,2.0,6.0,2.0,6.0,2.0,14.0,1.0,1.0];
@@ -14,6 +9,7 @@
 	~viola2.notes.freqs = [62,63,65,63,62,56,58,65,68];
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [6.0,2.0,6.0,2.0,5.96,2.0,11.96,1.0,1.0];
+
 };
 
 ~violaInit.value;
@@ -34,6 +30,9 @@
 	~viola2.notes.freqs = [70,68,63,65,68,67,65,68,61,63,67,60];
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [5.96,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0,4.0,2.0,2.0];
+
+
+	~viola.notes.lag = 0.14;
 };
 
 //Part 5
@@ -48,7 +47,7 @@
 	~viola2.notes.freqs = [62,63,65,68,67,62,60,56,58,62,58];
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [6.0,2.0,6.0,1.0,1.0,6.0,1.0,1.0,6.0,1.0,1.0];
-
+	~viola.notes.lag = 0.14;
 };
 
 
@@ -63,7 +62,8 @@
 	~viola2.notes.waits = [4.0,2.0,2.0,4.0,2.0,2.0,4.0,2.0,2.0,8.0];
 	~viola2.notes.freqs = [60,56,55,58,53,58,56,58,60,53];
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1,1];
-	~viola2.notes.durations = [4.0,2.0,2.0,4.0,2.0,2.0,4.01,2.0,2.0,8.0]
+	~viola2.notes.durations = [4.0,2.0,2.0,4.0,2.0,2.0,4.01,2.0,2.0,8.0];
+	~viola.notes.lag = 0.45;
 };
 
 
@@ -80,33 +80,9 @@
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [4.01,4.01,4.0,2.0,2.0,4.01,4.01,4.0,4.0];
 
+	~viola.notes.lag = 0.14;
+
 };
-
-//Part 6
-
-~violaVerse5 = {
-	~viola.notes.waits = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,6.0,2.0];
-	~viola.notes.freqs = [58,59,62,63,65,60,56,53,56];
-	~viola.notes.durations = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,6.0,2.0];
-
-	~viola2.notes.waits = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,6.0,2.0];
-	~viola2.notes.freqs = [58,59,62,63,65,60,56,53,56];
-	~viola2.notes.durations = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,6.0,2.0];
-};
-
-
-//Part 7
-
-~violaVerse6 = {
-	~viola.notes.waits = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,4.0,2.0,2.0];
-	~viola.notes.freqs = [58,59,62,63,65,60,56,58,53,56];
-	~viola.notes.durations = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,4.0,2.0,2.0];
-
-	~viola2.notes.waits = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,4.0,2.0,2.0];
-	~viola2.notes.freqs = [58,59,62,63,65,60,56,58,53,56];
-	~viola2.notes.durations = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,4.0,2.0,2.0];
-};
-
 
 //part 8
 
@@ -121,6 +97,8 @@
 	~viola2.notes.freqs = [58,59,62,63,65,60,56,53,56];
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,6.0,2.0];
+	~viola.notes.lag = 0.2;
+
 
 };
 
@@ -137,6 +115,9 @@
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [6.0,2.0,6.0,2.0,4.0,2.0,2.0,4.0,2.0,2.0];
 
+	~viola.notes.lag = 0.2;
+
+
 };
 
 
@@ -152,6 +133,7 @@
 	~viola2.notes.freqs = [60,56,53,56,58,53,58,56,58,60,53,53,60];
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [2.0,2.0,2.0,2.0,4.0,2,2.0,4,2,2.0,4,2.0,2];
+	~viola.notes.lag = 0.09;
 
 };
 
@@ -166,6 +148,8 @@
 	~viola2.notes.freqs = [62,63,65,68,70,72,68,65,68,70,71];
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [6.0,2.0,6.0,1.0,1.0,2.0,2.0,2.0,2.0,6.0,2.0];
+
+	~viola.notes.lag = 0.2;
 
 };
 
@@ -182,4 +166,5 @@
 	~viola2.notes.freqs = [70,65,70,71,70,65,70,71,70,65,70,68,70,0];
 	~viola2.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 	~viola2.notes.durations = [6.0,2.0,6.0,2.0,6.0,2.0,6.0,2.0,6.0,2.0,4.0,4.0,12.0,1.0];
+	~viola.notes.lag = 0.09;
 };

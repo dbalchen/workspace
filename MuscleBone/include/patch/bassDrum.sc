@@ -37,8 +37,8 @@
 ~pulseSaw.set(\dist, 0.0);
 ~pulseSaw.set(\gain, 0.75);
 ~pulseSaw.set(\idx, 0.25);
-~pulseSaw.set(\amp, 1);
-~pulseSaw.set(\out,~bassDrum.out + 2);
+~pulseSaw.set(\amp, 0.5);
+//~pulseSaw.set(\out,~bassDrum.out + 2);
 
 ~pulseSaw2 =  Synth("sawPulsekick",addAction: \addToTail);
 ~pulseSaw2.set(\e0In,~envout0);
@@ -49,13 +49,14 @@
 ~pulseSaw2.set(\dist, 0.3);
 ~pulseSaw2.set(\gain, 0.1);
 ~pulseSaw2.set(\idx, 0.35);
-~pulseSaw2.set(\amp, 1.2);
-~pulseSaw2.set(\out,~bassDrum.out + 2);
+~pulseSaw2.set(\amp, 0.15);
+//~pulseSaw2.set(\out,~bassDrum.out + 2);
 
 ~sine =  Synth("sinekick",addAction: \addToTail);
 ~sine.set(\e0In,~envout0);
 ~sine.set(\e1In,~envout1);
-~sine.set(\out,~bassDrum.out + 4);
+~sine.set(\amp,0.25);
+//~sine.set(\out,~bassDrum.out + 4);
 
 ~bassDrumPulseSaw = {arg bal = 0;
 
