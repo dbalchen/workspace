@@ -77,8 +77,8 @@ Server.default.makeGui;
 
 /*
 * evenVCO
-  Sounds more like a pipe organ
-** TODO Whats up with that
+** TODO Sounds more like a pipe Organ
+   - Check into remaking wave table
  */
 
 
@@ -523,11 +523,15 @@ OSCdef(\voscmono, { |m|
 		~voscMono.set(\gate,0);
 		ret;
 };
-/*
 
 /*
 * FM
-** TODO FM expairements
+** TODO FM Experiments
+*/
+
+/*
+*** French Horn
+*/
 
 SynthDef("frenchHorn",
 	  {
@@ -576,6 +580,109 @@ SynthDef("frenchHorn",
 	  }).send(s);
 
 
+/*
+*** Carriers and Modulators
+    Dividing the "fm" synth def into two pieces, a synthdef for a modulator and a 
+    synthdef for the carrier, gives more functionality - carrier signals can shaped by two 
+    or more modulators.
+
+*/
+
+
+
+(
+
+SynthDef("carrier", { arg inbus = 2, outbus = 0, freq = 440, carPartial = 1, index = 3, mul = 0.2;
+
+
+
+	// index values usually are between 0 and 24
+
+	// carPartial :: modPartial => car/mod ratio
+
+	
+
+	var mod;
+
+	var car;
+
+	
+
+	mod = In.ar(inbus, 1);
+
+
+
+	Out.ar(
+
+		outbus,
+
+		SinOsc.ar((freq * carPartial) + mod, 0, mul);
+
+	)
+
+}).load(s);
+
+
+
+SynthDef("modulator", { arg outbus = 2, freq, modPartial = 1, index = 3;
+
+	Out.ar(
+
+		outbus,
+
+		SinOsc.ar(freq * modPartial, 0, freq) 
+
+		* 
+
+		LFNoise1.kr(Rand(3, 6).reciprocal).abs 
+
+		* 
+
+		index
+
+	)
+
+}).load(s);
+
+)
+
+
+
+(
+
+var freq = 440;
+
+// modulators for the left channel
+
+Synth.head(s, "modulator", [\outbus, 2, \freq, freq, \modPartial, 0.649, \index, 2]);
+
+Synth.head(s, "modulator", [\outbus, 2, \freq, freq, \modPartial, 1.683, \index, 2.31]);
+
+
+
+// modulators for the right channel
+
+Synth.head(s, "modulator", [\outbus, 4, \freq, freq, \modPartial, 0.729, \index, 1.43]);
+
+Synth.head(s, "modulator", [\outbus, 4, \freq, freq, \modPartial, 2.19, \index, 1.76]);
+
+
+
+// left and right channel carriers
+
+Synth.tail(s, "carrier", [\inbus, 2, \outbus, 0, \freq, freq, \carPartial, 1]);
+
+Synth.tail(s, "carrier", [\inbus, 4, \outbus, 1, \freq, freq, \carPartial, 0.97]);
+
+)
+
+
+
+(
+
+s.queryAllNodes;
+
+)
 
 /*
 * Read Midi file
