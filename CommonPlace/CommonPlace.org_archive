@@ -3924,3 +3924,41 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   - [X] EpsMonitors
   - [X] runFilter.pl
   - [X] RoamingRecon
+
+* TODO CallDump Queen
+  DEADLINE: <2018-12-21 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-01-02 Wed 11:13
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+
+* TODO Python Examples
+  SCHEDULED: <2018-12-17 Mon>--<2019-01-31 Thu>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-01-04 Fri 12:25
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  - [X] Add them to Git
+  - [X] Do Excell Examples
+  - [ ] Email
+
+* TODO Teach team GIT
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-01-04 Fri 12:47
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport taskjuggler_project
+  :END:
+  - Create Users for each development service user.
+  - [[file:docs/git_cheat_sheet.pdf][GIT Cheat Sheet]]
+       

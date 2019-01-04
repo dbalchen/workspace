@@ -4940,19 +4940,24 @@ subgraph cluster_3 {
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List				       :noexport:taskjuggler_project:
+** TODO Sprint Outbound roaming
+   DEADLINE: <2019-03-31 Sun>
+** TODO International Service Revamp
+   [[file:docs/IR0XXX%20Solution%20Proposal_Intnl_Services_Revamp.docx][Initial Project Documentation]]
 ** TODO eSIM
    SCHEDULED: <2019-01-03 Thu>--<2019-01-31 Thu> 
    Provisioning eSIM
-   
+   [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.docx][Vision and Scope]]
+   [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.docx][Solution Proposal]]
+
 ** TODO Voice over WIFI
-   SCHEDULED: <2018-12-14 Fri>--<2019-02-11 Mon>  
-   - [ ] Planning sessions |
+   SCHEDULED: <2018-12-14 Fri>--<2019-06-22 Sat> 
+   [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.docx][Solution Architecture]]
+
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 ** TODO Sunset Consolidated Billing
    SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>
-** TODO CallDump Queen
-   DEADLINE: <2018-12-21 Fri>
 ** TODO SPLUNK Desktop
    SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>
    - [ ] Where is Splunk?
@@ -4962,12 +4967,6 @@ subgraph cluster_3 {
      - Try different types
 ** TODO PCRF Forklift
    SCHEDULED: <2019-01-08 Tue>--<2019-01-09 Wed>
-** TODO Python Examples
-   SCHEDULED: <2018-12-17 Mon>--<2019-01-31 Thu>
-   - Add them to Git
-** TODO Teach team GIT
-   - Create Users for each development service user.
-   
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
