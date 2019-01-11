@@ -77,8 +77,6 @@ Server.default.makeGui;
 
 /*
 * evenVCO
-** TODO Sounds more like a pipe Organ
-   - Check into remaking wave table
  */
 
 
@@ -592,57 +590,56 @@ SynthDef("frenchHorn",
 
 (
 
-SynthDef("carrier", { arg inbus = 2, outbus = 0, freq = 440, carPartial = 1, index = 3, mul = 0.2;
+ SynthDef("carrier", { arg inbus = 2, outbus = 0, freq = 440, carPartial = 1, mul = 0.2,
+       attack = 0, decay = 0, sustain = 1, release = 0, da = 2;
+
+     var mod,car,env;
+
+     env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+     
+     env = EnvGen.ar(env, gate: gate,doneAction:da);
+
+     mod = In.ar(inbus, 1);
+
+     Out.ar(
+
+	    outbus,
+
+	    SinOsc.ar((freq * carPartial) + mod, 0, mul*env);
+
+	    )
+
+       }).load(s);
 
 
 
-	// index values usually are between 0 and 24
+ SynthDef("modulator", { arg outbus = 2, freq, modPartial = 1, index = 3,
+       attack = 0, decay = 0, sustain = 1, release = 0, da = 2;
 
-	// carPartial :: modPartial => car/mod ratio
+     var env;
 
-	
+     env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+     
+     env = EnvGen.ar(env, gate: gate,doneAction:da);
 
-	var mod;
+     
+     Out.ar(
 
-	var car;
+	    outbus,
 
-	
+	    SinOsc.ar(freq * modPartial, 0, freq) 
 
-	mod = In.ar(inbus, 1);
+	    * 
 
+	    LFNoise1.kr(Rand(3, 6).reciprocal).abs 
 
+	    * 
 
-	Out.ar(
+	    index
 
-		outbus,
+	    )
 
-		SinOsc.ar((freq * carPartial) + mod, 0, mul);
-
-	)
-
-}).load(s);
-
-
-
-SynthDef("modulator", { arg outbus = 2, freq, modPartial = 1, index = 3;
-
-	Out.ar(
-
-		outbus,
-
-		SinOsc.ar(freq * modPartial, 0, freq) 
-
-		* 
-
-		LFNoise1.kr(Rand(3, 6).reciprocal).abs 
-
-		* 
-
-		index
-
-	)
-
-}).load(s);
+       }).load(s);
 
 )
 
