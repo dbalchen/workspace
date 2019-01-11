@@ -1340,7 +1340,7 @@ subgraph cluster_3 {
     3. Environment: *PROD*
     4. Request Type: Submit *Predefined*
     5. Additional Questions: *Run job – no paramenters needed*
-    6. No additional details needed
+CD    6. No additional details needed
     7. Execute job immediately
     8. Submit Query
    All of these reports are sent directly to the *IS Billing Operations* email.   
@@ -1365,7 +1365,6 @@ subgraph cluster_3 {
 *** PR-INVBO-CLD_LOOP_MON-TDS_MABEL
     This is a job that is part of the Closed Loop Monitors for *Raw MABEL* Billing. 
     This specific job monitors the *Mabel* data sent out thru *TDS* ftp
-
 *** PR-INVBO-CLD_LOOP_MON-USC_MABEL
     This is a job that is part of the Closed Loop Monitors for *Raw MABEL Billing*. 
     This specific job monitors the *Mabel* data sent out thru *USCC* FTP
@@ -3075,7 +3074,6 @@ subgraph cluster_3 {
     -  AR1_GL_DATA_INFO_V
     -  AR1_TRANSACTION_LOG
     -  AR1-JGL-CONTROL
-
 
 ** BPT Tables
       The *Business Process Tables* are the Tops equivalent to the
@@ -4939,25 +4937,46 @@ subgraph cluster_3 {
 |-----------------+--------------|
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
-* Task List				       :noexport:taskjuggler_project:
+* Task List 				       :noexport:taskjuggler_project:
+** TODO IR0600 - 5G Commercialization
+   [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Archecture]]
+   Almost a total repeat of voice over WIFI.
 ** TODO Sprint Outbound roaming
+   Had issues with e911 and testing is still taking place with the expected end time being
+   January 19th.
    DEADLINE: <2019-03-31 Sun>
+   [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.xlsx][Latest Doc]]
 ** TODO International Service Revamp
-   [[file:docs/IR0XXX%20Solution%20Proposal_Intnl_Services_Revamp.docx][Initial Project Documentation]]
+   [[file:docs/IR0XXX%20Solution%20Proposal_Intnl_Services_Revamp.pdf][Initial Project Documentation]]
+   This project is to provide extra services for our post-paid international customers which will include:
+   1. Package Offers for Roaming Services
+   2. Usage Notifications
+   3. Policy Controls
+   4. Day Passes for Roaming Services
 ** TODO eSIM
    SCHEDULED: <2019-01-03 Thu>--<2019-01-31 Thu> 
-   Provisioning eSIM
-   [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.docx][Vision and Scope]]
-   [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.docx][Solution Proposal]]
-
+   Devices during and beyond 2018 will have traditional SIM replaced by eSIM (GSMA based) for both Postpaid and
+   Prepaid. USCC currently has no solution to provision these devices in standalone mode. Within the next 5 years,
+   Device Marketing is forcasting that all devices (handsets, tablets, wearables, etc.) will only support eSIM.
+   This initiative will provide the ability to activate eSIM capable devices (either primary or secondary devices)
+   through the Point of Sale (PoS) system. When the eSIM is on a secondary device, the system will support the
+   provisioning and assignment of the “One Number” feature so that the secondary device and the primary device
+   that it is paired with can make and receive phone calls and messaging using the same mobile number for
+   Postpaid.
+   [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.pdf][Vision and Scope]]
+   
 ** TODO Voice over WIFI
    SCHEDULED: <2018-12-14 Fri>--<2019-06-22 Sat> 
-   [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.docx][Solution Architecture]]
+   [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
 
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
-** TODO Sunset Consolidated Billing
+** TODO Sunset Consolidated Billing [66%]
    SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>
+   1. [X] See who is still on TDS
+   2. [X] Get contact information (See Dan's spreadsheet)
+   3. [ ] Operational procedures for cutover
+
 ** TODO SPLUNK Desktop
    SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>
    - [ ] Where is Splunk?
@@ -4965,8 +4984,34 @@ subgraph cluster_3 {
      - what access user will we be?
    - [ ] What do we want monitor
      - Try different types
+
 ** TODO PCRF Forklift
-   SCHEDULED: <2019-01-08 Tue>--<2019-01-09 Wed>
+   *PCRF - Policy and Charging Rules Function* works along side  
+   *Charging Enforcement Function (PCEF)* and *Online Charging System (OCS)* 
+   interact and charge for subscriber services. These interactions include subscriber login, 
+   service updates to existing sessions, connection and monitoring, and subscriber 
+   termination and logout.
+
+   [[https://www.juniper.net/documentation/en_US/junos/topics/concept/pcrf-pcef-ocs-interactions-understanding.html][Understanding Interactions Between the PCRF, PCEF, and OCS]]
+
+
+*** TODO Get meeting Notes (PCRF)
+   SCHEDULED: <2019-01-08 Tue>--<2019-07-01 Mon>
+
+   This project will replace our current *PCRF* by *OpenNet* to a new version by *CISCO*.
+   The servers themselves are clustered linux environments and 
+   will deployed in Santa Clara, Atlanta, Schuamberg and Ashton starting in May and ending in July.
+   The software itself is broken up into components such as policy server/director, 
+   session managers. The configuration information held in a *MongoDB* document database.
+   The system configuration are done via Excel spreadsheets for the major options and a Web
+   frontend called *CPS* for finer tuning. There is also a monitoring tool called *Grafana* 
+   which provides system dashboards for monitoring.
+
+*** Cutover will start SCHEDULED: <2019-05-01 Wed>
+    It will start with LTE then move to VoLTE
+
+*** Need to monitor the Traffic when the switchover occurs.
+
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

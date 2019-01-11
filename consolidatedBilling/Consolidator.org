@@ -2,7 +2,7 @@
 ;; If you want to create a file, visit that file with C-x C-f,
 ;; then enter the text in that file's own buffer.
 
-** Invoice Report
+* Invoice Report
 select consolidator,
          destination_desc,
          contact_name,
@@ -81,7 +81,7 @@ group by a1.co,
          a2.dn
 order by a1.co, a1.cc, ba_no
 
-** MobileSense
+* MobileSense
   select invrpt_dest_code,
          dest_name,
          addr_attention,
@@ -155,3 +155,45 @@ group by a1.co,
          account_no,
          a2.dn
 order by a1.co, a1.cc, ba_no
+* TDS Sunset
+** Find Consolidation ID
+   Log into the following server:
+   : my $MFT_user = "sentinel_readonly_user";
+   : my $MFT_pass = "sent_4_read";
+   : my $MFT_host = "ovprd.uscc.com";
+   : my $MFT_servname = "ovprd_sentinel";
+   : my $mfth = DBI->connect("dbi:Oracle:$MFT_host:1530/$MFT_servname",$MFT_user,$MFT_pass);
+   
+   Then use the following query:
+   : SELECT -- unique(substr(protocolfilename,1,5))
+   :     protocolfilename,
+   :     userid,
+   :     receiverid,
+   :     finalreceiverid,
+   :     userid
+   : FROM historic_1159583914
+   : WHERE     1 = 1
+   : --and filename like '%99901.TOPS.10.DEC.20181215.01%'
+   :     AND userid LIKE '%MABEL%'
+   :     AND userid NOT LIKE '%MOBILSENSE4%'
+   :     AND (   finalreceiverid = 'babble.tds.local:22'
+   :          OR receiverid = 'babble.tds.local:22')
+   :     AND protocolfilename IS NOT NULL
+   :     AND eventdate > SYSDATE - 30
+   : ORDER BY protocolfilename
+   : -- order by substr(protocolfilename,1,5)
+
+Not Mobilesense
+
+79900, 80166, 80213, 80235, 80260, 80303, 80601, 85500, 89800, 90094, 91011 
+
+Mobilsense
+
+71600, 71602, 71902, 71903, 72002, 72102, 72104, 72105, 72202, 72203, 72204, 72205, 72400, 72401, 72502, 72602, 72701, 72801, 73901, 74000,
+74200, 75000, 75001, 76100, 76300, 77800, 78500, 78601, 79500, 80033, 80047, 80059, 80077, 80085, 80124, 80150, 80166, 80178, 80235, 80237,
+80240, 80242, 80272, 80309, 80314, 80341, 80342, 80359, 80439, 80487, 80502, 80513, 80526, 80535, 80566, 80573, 80575, 80602, 80605, 80606,
+80609, 80613, 80614, 80617, 80622, 80623, 81001, 81700, 84600, 86700, 87001, 89100, 89400, 89900, 90083, 90094, 90102, 90105, 90106, 90149,
+90154, 90155, 90160, 90163, 90164, 90171, 90186, 90189, 90190, 90201, 90205, 90219, 90222, 90228, 90230, 90408, 90415, 90416, 91009, 91017,
+91020, 96703, 96706, 96709, 96905, 96906, 96909, 96911, 96915, 96916, 97010, 97013, 97015, 97016, 97018, 97019, 97020, 97022, 97024, 97025,
+97028, 97103, 97106, 97107, 97108, 97109, 97110, 97112, 97115, 97201, 97202, 97205, 97207, 97304, 97305, 97306, 97308, 97311, 97313, 97314,
+97409, 97410, 97414, 97415, 97418, 97703, 97704, 97705, 97902, 99109, 99113, 99901, 99902

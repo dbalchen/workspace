@@ -39,8 +39,8 @@ select t2.*,count(unique(t1.account_no)) number_accounts,t1.cycle_code from mabe
 91000, 91011, 96900, 97700) and effective_date <= sysdate and (expiration_date <= sysdate or expiration_date is null)
 group by description,Mabel_Id,Consolidator,mabel_bill_format) t2
 where t2.mabel_id = t1.mabel_id
-group by  t2.description,t2.mabel_id,t2.consolidator,t2.mabel_bill_format,t1.cycle_code
-order by t2.description,t2.mabel_id,t2.consolidator,t2.mabel_bill_format,t1.cycle_code
+group by  t2.consolidator, t2.description,t2.mabel_id,t2.mabel_bill_format,t1.cycle_code
+order by t2.consolidator, t2.description,t2.mabel_id,t2.mabel_bill_format,t1.cycle_code
 
  
 
@@ -83,14 +83,6 @@ select * from  Mabel_Audit t1,  Add9_Mabel_Ids t2 where t1.CONSOLIDATOR = t2.CON
 and t1.SYS_CREATION_DATE in (
 
 select account_no, CONSOLIDATOR, max(sys_creation_date) from Mabel_Audit group by account_no,CONSOLIDATOR
-
-
-
-
-
-
-
-
 
 select t1.BA_NO,t1.customer_no,t1.account_no,to_char(t1.bill_date,'YYYYMMDD') "Bill Date",mabel.MABEL_ID,mabel.DESCRIPTION,mabel.CONS,t1.doc_produce_ind,t2.BA_STATUS 
 from Bl1_Document t1,  Bl1_Blng_Arrangement t2,
