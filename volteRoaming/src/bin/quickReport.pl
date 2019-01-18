@@ -45,7 +45,7 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 # Setup Initial variables
 my $timeStamp = $ARGV[0];
 
-$timeStamp = '20181205';
+#$timeStamp = '20190101';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
@@ -564,7 +564,7 @@ $workbook->close;
 
 my @email = ('david.balchen@uscellular.com');
 
-#my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
+my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
 
 foreach my $too (@email) {
 	print $msg;
@@ -821,9 +821,9 @@ sub getBODSPRD {
 sub getSNDPRD {
 
 	my $dbPwd = "SND_SVC_BILLINGOPS";
-	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+	#my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-   # my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
+   my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Bo0Go09000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

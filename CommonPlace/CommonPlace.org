@@ -44,6 +44,7 @@
  : New Page
  : \newpage
 :END:
+
 #+TOC: headlines 2
 #+BEGIN_LaTeX
  \newpage
@@ -1651,6 +1652,8 @@ CD    6. No additional details needed
 |-------------+------------+-------------------------------------------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
+
 #+END_LaTeX
 ** DB Preparation
       For each DB instance, except ODS and SIT, You need to alter the
@@ -2629,6 +2632,7 @@ CD    6. No additional details needed
 |---------------------------+---------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
 
 ** AR Tables
@@ -2910,6 +2914,10 @@ CD    6. No additional details needed
 \normalsize
 #+END_LaTeX
 :END:
+#+BEGIN_LaTeX
+\newpage
+
+#+END_LaTeX
 *** AR1_PAYMENT
 #+BEGIN_LaTeX
 \footnotesize
@@ -3074,7 +3082,10 @@ CD    6. No additional details needed
     -  AR1_GL_DATA_INFO_V
     -  AR1_TRANSACTION_LOG
     -  AR1-JGL-CONTROL
+#+BEGIN_LaTeX
+\newpage
 
+#+END_LaTeX
 ** BPT Tables
       The *Business Process Tables* are the Tops equivalent to the
       reference tables in *CARES*. The following is the list of all
@@ -3122,6 +3133,7 @@ CD    6. No additional details needed
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+-------------------+---------------|
 | *Column Name*         | *Data Type*       | *Description* |
 |-----------------------+-------------------+---------------|
@@ -3213,6 +3225,7 @@ CD    6. No additional details needed
 |-----------------------+-------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
 *** PRM_REP_CARR_INFO
     Defines the Carrier (TADIG[fn:1]) Code used in IN and OUTCOLLECTS.
@@ -3328,7 +3341,9 @@ CD    6. No additional details needed
 *** MI9_NA_CONV
          This maybe another version of the *ADJ9_TIME_ZONE_REF*
          table, very similar.
-
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX
 ** (BPT) EPC Tables
          These tables are included in the *EPC* dump which happens once
          or twice a month, no hotfix is needed unless it 
@@ -3576,6 +3591,7 @@ CD    6. No additional details needed
 
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
 
 *** PC9_ORIG_CATEGORY
@@ -3654,6 +3670,7 @@ CD    6. No additional details needed
 |---------------+--------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
 ** ARCM Tables
 *** SMM1_COLLECT_FILES_HIST
@@ -4000,6 +4017,7 @@ CD    6. No additional details needed
 |--------------------+--------------------+----------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
 *** (Both) USC_SAP_EXTRACT_V
     The SAP Extract table is a view of a view *IC_ACCUMULATED_USAGE* joined with table *USC_GL_ACC_LKP*. It is this table that is used create a report that is sent to *TDS* to be loaded into *SAP*
@@ -4368,6 +4386,7 @@ CD    6. No additional details needed
 |-------------------------+---------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
 ** CDMA Data Outcollects
 *** DATA_OUTCOLLECT
@@ -4937,22 +4956,50 @@ CD    6. No additional details needed
 |-----------------+--------------|
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
-* Task List 				       :noexport:taskjuggler_project:
+* Task List 				    
 ** TODO IR0600 - 5G Commercialization
+   Possible deployment date around the july 2019 timeframe, depending on the how the network upgrade
+   goes (/See PCRF Forklift/).
    [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Archecture]]
-   Almost a total repeat of voice over WIFI.
-** TODO Sprint Outbound roaming
-   Had issues with e911 and testing is still taking place with the expected end time being
-   January 19th.
-   DEADLINE: <2019-03-31 Sun>
-   [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.xlsx][Latest Doc]]
+   - Network enablement in Year 1 markets (Iowa and Wisconsin)
+   - New TOPS functionality to support 5G provisioning and Usage processing
+   - Launch of new 5G enabled devices (multiple platforms and device types)
+*** Possible Billing Impact
+    All of the below possible impacts were true for *Voice over WiFi.*
+    - *Reporting :* Depending on the detail reporting requirements, 5G usage must be separated 
+    from 4G usage. Mediation will make this separation and the system to process this usage
+    will depend on the detail requirements. This would require reading data from the CallDump.
+    - *WeDo reporting :* An attempt will be made to minimize impact to WeDo Rev Assurance tool
+    by keeping the *WeDo* feed as pure KB usage without separation of *4G vs 5G* CDRs. 
+    The same principle will be adopted when sending usage to TOPS. TOPS usage will be
+    combined 4G+5G Kb in the *UFF* records.
+    - *Turbocharging :* Validation will be required when the enhanced core is available 
+    for test. We need to ensure that the interface to the P/SGWs remains intact.
+
+** TODO Verizon LTE/VoLTE Outbound roaming
+   *Deployment Date March 31st 2019.*
+   - Had issues with e911 and testing is still taking place with the expected end time being January 19th. This has now been fixed but root cause unknown.
+   - Scheduled:  1/21 – 1/22 Complete testing
+   - Scheduled:  1/23 – 1/25 USCC/VZW perform analysis on results for a 1/25 approval
+   - Scheduled:  1/28 – Planning process/steps to obtain remaining MME’s & RCC’s completed
+   [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.pdf][Latest Doc]]
+*** Possible Billing Issues
+    - For any Ciber, Billing issues, Voice and Data Settlements, as well as
+    Non-net Settlement Payment Questions or Overcharges contact:
+      *RoamingSettlementsSprint@sprint.com*
+
 ** TODO International Service Revamp
+   *Deployment Date unknown*
    [[file:docs/IR0XXX%20Solution%20Proposal_Intnl_Services_Revamp.pdf][Initial Project Documentation]]
-   This project is to provide extra services for our post-paid international customers which will include:
+   This project is to provide extra services for our post-paid international
+   customers which will include:
    1. Package Offers for Roaming Services
    2. Usage Notifications
    3. Policy Controls
    4. Day Passes for Roaming Services
+   A project such as this would usually take between 6 to 8 months
+   to complete other than that no specific deployment date has been given.
+
 ** TODO eSIM
    SCHEDULED: <2019-01-03 Thu>--<2019-01-31 Thu> 
    Devices during and beyond 2018 will have traditional SIM replaced by eSIM (GSMA based) for both Postpaid and
@@ -4968,7 +5015,13 @@ CD    6. No additional details needed
 ** TODO Voice over WIFI
    SCHEDULED: <2018-12-14 Fri>--<2019-06-22 Sat> 
    [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
-
+   - All VoWiFi calls will be rated as VoLTE
+   - Calls will be rated based on customers calling plan
+   - Bill presentment will not differentiate between regular voice call and VoWiFi calls.
+   - Value of 3 in field 52 of the UFF signifies voice over WIFI.
+   - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
+*** Added Updates
+    - Read and approved USCC TOPS IA IR0411 VoWiFi Track 1.1
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 ** TODO Sunset Consolidated Billing [66%]
@@ -4995,7 +5048,6 @@ CD    6. No additional details needed
    [[https://www.juniper.net/documentation/en_US/junos/topics/concept/pcrf-pcef-ocs-interactions-understanding.html][Understanding Interactions Between the PCRF, PCEF, and OCS]]
 
 
-*** TODO Get meeting Notes (PCRF)
    SCHEDULED: <2019-01-08 Tue>--<2019-07-01 Mon>
 
    This project will replace our current *PCRF* by *OpenNet* to a new version by *CISCO*.

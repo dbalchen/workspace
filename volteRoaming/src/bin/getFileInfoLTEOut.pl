@@ -27,10 +27,27 @@ my $dbconn = getBODSPRD();
 my $dbconnb = $dbconn;
 
 my $sql =
-"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd,service_type  
+"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(nvl(TOT_NET_CHARGE_RC),0), carrier_cd,service_type  
 from prm_rom_outcol_events_ap
  where  tap_out_file_name in (select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME )
   group by TAP_OUT_FILE_NAME, carrier_cd,service_type ";
+  
+  my $sql = "
+    SELECT /*+ PARALLEL(t1,12) */
+        TAP_OUT_FILE_NAME,
+         COUNT (*),
+         SUM (nvl(Data_vol_incoming,0)) + SUM (nvl(Data_vol_outgoing,0)),
+         sum(nvl(TOT_NET_CHARGE_RC,0)),
+         carrier_cd,
+         service_type
+    FROM prm_rom_outcol_events_ap
+   WHERE tap_out_file_name IN (  SELECT /*+ PARALLEL(t1,12) */
+                                       TAP_OUT_FILE_NAME
+                                   FROM prm_rom_outcol_events_ap
+                                  WHERE disp_file_seq = $disp_file_seq
+                               GROUP BY TAP_OUT_FILE_NAME)
+GROUP BY TAP_OUT_FILE_NAME, carrier_cd, service_type
+  ";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();
@@ -49,7 +66,7 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 		
 		$sql =
-"delete from file_summary where FILE_NAME = '$rows[0]' and PROCESS_DATE = to_date($process_date,'YYYYMMDD') and usage_type = 'DISP_RM-$rows[5]'";
+"delete from file_summary where FILE_NAME = '$rows[0]' and PROCESS_DATE >= to_date($process_date,'YYYYMMDD') - 1 and usage_type = 'DISP_RM-$rows[5]'";
 		$sthb = $dbconnb->prepare($sql);
 		$sthb->execute() or sendErr();
 

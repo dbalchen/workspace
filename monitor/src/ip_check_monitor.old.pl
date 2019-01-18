@@ -2,21 +2,21 @@
 #exit(0);
 
 BEGIN {
-	 push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 #	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 
 }
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/monitor/src/';
 
-#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/IP_Check/';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/IP_Check/';
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 # use strict;
 use MIME::Lite;
@@ -327,9 +327,9 @@ sub sendMail() {
 
 sub getBODSPRD {
 
-	#my $dbPwd = "BODS_SVC_BILLINGOPS";
-	#my 	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "5000#Reptar" );
+	my $dbPwd = "BODS_SVC_BILLINGOPS";
+	my 	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "5000#Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
