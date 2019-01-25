@@ -4584,14 +4584,14 @@ CD    6. No additional details needed
 #+END_LaTeX
 
 *** BL1_BLNG_ARRANGEMENT
-    Table on the TOPS side that contains the populated Mabel ID in the perm_printing_cat column:
-    : select * from bl1_blng_arrangement where perm_printing_cat is not null;
+    Table on the TOPS side that contains the populated Mabel ID 
+    in the perm_printing_cat column:
+: select * from bl1_blng_arrangement where perm_printing_cat is not null;
 
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-
 |----------------------------+---------------------+---------------|
 | *Name*                     | *Data Type*         | *Description* |
 |----------------------------+---------------------+---------------|
@@ -4679,6 +4679,7 @@ CD    6. No additional details needed
 
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX
 *** CSM_BEN
 #+BEGIN_LaTeX
@@ -4890,6 +4891,7 @@ CD    6. No additional details needed
 |-------------------+---------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
+\newpage
 #+END_LaTeX   
 *** REJECTED_RECORDS
 #+BEGIN_LaTeX
@@ -4907,7 +4909,6 @@ CD    6. No additional details needed
     |-------------------+---------------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
-\newpage
 #+END_LaTeX   
 * CallDump
 ** Data Directories
@@ -4956,7 +4957,7 @@ CD    6. No additional details needed
 |-----------------+--------------|
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
-* Task List 				    
+* Task List							   :noexport:
 ** TODO IR0600 - 5G Commercialization
    Possible deployment date around the july 2019 timeframe, depending on the how the network upgrade
    goes (/See PCRF Forklift/).
@@ -5022,6 +5023,8 @@ CD    6. No additional details needed
    - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
 *** Added Updates
     - Read and approved USCC TOPS IA IR0411 VoWiFi Track 1.1
+    - Project is now in RED do to engineering resource contraint.
+
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 ** TODO Sunset Consolidated Billing [66%]
@@ -5064,6 +5067,10 @@ CD    6. No additional details needed
 
 *** Need to monitor the Traffic when the switchover occurs.
 
+** TODO EAGR Project
+*** TODO Fraud
+*** TODO Credit Decisioning
+** TODO Modify ARPM Report
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

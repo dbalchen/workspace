@@ -5,7 +5,7 @@ use Time::Piece;
 use Time::Seconds;
 
 BEGIN {
-  #	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -21,7 +21,7 @@ use MIME::Lite;
 $ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 
-#$ARGV[0] = '20181105';
+$ARGV[0] = '20190105';
 
 my $date = $ARGV[0];
 
@@ -34,12 +34,13 @@ $period -= ONE_MONTH;
 
 if ( substr( $date, 6, 2 ) eq '05' ) {
 
-  $period += ONE_WEEK;
-  $ldate = $period->strftime("%Y%m");
-  $sdate = substr( $date, 0, 6 );
-} else {
-  $ldate = $period->strftime("%Y%m");
-  $sdate = substr( $date, 0, 6 );
+	$period += ONE_WEEK;
+	$ldate = $period->strftime("%Y%m");
+	$sdate = substr( $date, 0, 6 );
+}
+else {
+	$ldate = $period->strftime("%Y%m");
+	$sdate = substr( $date, 0, 6 );
 }
 
 $period = $period->strftime("%Y%m");
@@ -47,7 +48,7 @@ $period = $period->strftime("%Y%m");
 my %sqls = {};
 
 $sqls{'LTE_INCOLLECT_SETTLEMENT'} =
-  "select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
+    "select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
   . '"Creation Date",'
   . " t1.nr_param_3_val "
   . '"Company Code",'
@@ -68,75 +69,233 @@ select sum(tot_net_usage_chrg) from IC_ACCUMULATED_USAGE  where prod_cat_id = 'I
   . "01','YYYYMMDD')"
   . " group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val order by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.nr_param_3_val";
 
+#$sqls{'LTE_INCOLLECT_CARRIER'} = '
+#  select nr_param_3_val "Company Code", decode(carrier_cd,'
+#  . "
+#'USAAT','ATT Mobility (USAAT)',
+#'USABS','ATT Mobility (USABS)',
+#'USACC','ATT Mobility (USACC)',
+#'USACG','ATT Mobility (USACG)',
+#'USAMF','ATT Mobility (USAMF)',
+#'USAPB','ATT Mobility (USAPB)',
+#'USAKY','Appalachian Wireless (USAKY)',
+#'USACM','C-Spire (USACM)',
+#'USA1E','Carolina West (USA1E)',
+#'USAXC','Inland (USAXC)',
+#'USAJV','James Valley (USAJV)',
+#'USA6G','Nex-Tech Wireless (USA6G)',
+#'USAPI','Pioneer Cellular (USAPI)',
+#'USASG','Sprint (USASG)',
+#'USASP','Sprint (USASP)',
+#'USASU','Sprint (USASU)',
+#'USATM','T-Mobile (USATM)',
+#'USAW6','T-Mobile (USAW6)',
+#'USAUW','United Wireless (USAUW)',
+#'USAVZ','Verizon (USAVZ)',
+#'AAZVF','Vodafone Malta (AAZVF)',
+#'MLTTL','Vodafone Malta (MLTTL)',
+#'NLDLT','Vodafone Netherlands (NLDLT)'
+#)"
+#  . ' "Carrier", sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" '
+#  . "from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = to_date('$period"
+#  . "01"
+#  . "','YYYYMMDD') group by nr_param_3_val, carrier_cd order by nr_param_3_val, carrier_cd";
+
 $sqls{'LTE_INCOLLECT_CARRIER'} = '
-  select nr_param_3_val "Company Code", decode(carrier_cd,'
-  #  . "'AAZVF','Vodafone Malta','USAXC','Inland','USASU','SPRINT','USAJV','James Valley Wireless','USAPI','Pioneer Cellular','USAKY','Appalachian Wireless','USAUW','United Wireless','USACM','C-SPIRE','USAXC','Inland','USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' )"
-  ."
-'USAAT','ATT Mobility (USAAT)',
-'USABS','ATT Mobility (USABS)',
-'USACC','ATT Mobility (USACC)',
-'USACG','ATT Mobility (USACG)',
-'USAMF','ATT Mobility (USAMF)',
-'USAPB','ATT Mobility (USAPB)',
-'USAKY','Appalachian Wireless (USAKY)',
-'USACM','C-Spire (USACM)',
-'USA1E','Carolina West (USA1E)',
-'USAXC','Inland (USAXC)',
-'USAJV','James Valley (USAJV)',
-'USA6G','Nex-Tech Wireless (USA6G)',
-'USAPI','Pioneer Cellular (USAPI)',
-'USASG','Sprint (USASG)',
-'USASP','Sprint (USASP)',
-'USASU','Sprint (USASU)',
-'USATM','T-Mobile (USATM)',
-'USAW6','T-Mobile (USAW6)',
-'USAUW','United Wireless (USAUW)',
-'USAVZ','Verizon (USAVZ)',
-'AAZVF','Vodafone Malta (AAZVF)',
-'MLTTL','Vodafone Malta (MLTTL)',
-'NLDLT','Vodafone Netherlands (NLDLT)'
-)"
-  . ' "Carrier", sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" '
-  . "from IC_ACCUMULATED_USAGE  where prod_cat_id = 'IS' and BP_START_DATE = to_date('$period"
-  . "01"
-  . "','YYYYMMDD') group by nr_param_3_val, carrier_cd order by nr_param_3_val, carrier_cd";
+  SELECT t1.nr_param_3_val "Company Code",
+         DECODE (t1.carrier_cd,'
+  . "            'USAAT', 'ATT Mobility (USAAT)',
+                 'USABS', 'ATT Mobility (USABS)',
+                 'USACC', 'ATT Mobility (USACC)',
+                 'USACG', 'ATT Mobility (USACG)',
+                 'USAMF', 'ATT Mobility (USAMF)',
+                 'USAPB', 'ATT Mobility (USAPB)',
+                 'USAKY', 'Appalachian Wireless (USAKY)',
+                 'USACM', 'C-Spire (USACM)',
+                 'USA1E', 'Carolina West (USA1E)',
+                 'USAXC', 'Inland (USAXC)',
+                 'USAJV', 'James Valley (USAJV)',
+                 'USA6G', 'Nex-Tech Wireless (USA6G)',
+                 'USAPI', 'Pioneer Cellular (USAPI)',
+                 'USASG', 'Sprint (USASG)',
+                 'USASP', 'Sprint (USASP)',
+                 'USASU', 'Sprint (USASU)',
+                 'USATM', 'T-Mobile (USATM)',
+                 'USAW6', 'T-Mobile (USAW6)',
+                 'USAUW', 'United Wireless (USAUW)',
+                 'USAVZ', 'Verizon (USAVZ)',
+                 'AAZVF', 'Vodafone Malta (AAZVF)',
+                 'MLTTL', 'Vodafone Malta (MLTTL)',
+                 'NLDLT', 'Vodafone Netherlands (NLDLT)')
+           " . ' "Carrier",
+         NVL (
+             (SELECT SUM ( (TOT_CHRG_PARAM_VAL / 1024) / 1024)
+                FROM IC_ACCUMULATED_USAGE t3
+               WHERE     prod_cat_id = ' . "'IS'" . "
+                     AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+                     AND rate_plan_cd != 'RPINCVoLTEDATCD'
+                     AND t1.carrier_cd = t3.carrier_cd
+                     AND t1.nr_param_3_val = t3.nr_param_3_val),
+             0)" . '
+             "Total LTE Usage MB",
+         NVL (
+             (SELECT SUM (tot_net_usage_chrg) tuc
+                FROM IC_ACCUMULATED_USAGE t4
+               WHERE     prod_cat_id = ' . "'IS'" . "
+                     AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+                     AND rate_plan_cd != 'RPINCVoLTEDATCD'
+                     AND t1.carrier_cd = t4.carrier_cd
+                     AND t1.nr_param_3_val = t4.nr_param_3_val),
+             0)" . '
+             "Total LTE Charges",
+         NVL (
+             (SELECT SUM ( (TOT_CHRG_PARAM_VAL / 1024) / 1024)
+                FROM IC_ACCUMULATED_USAGE t2
+               WHERE     prod_cat_id = ' . "'IS'" . "
+                     AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+                     AND rate_plan_cd = 'RPINCVoLTEDATCD'
+                     AND t1.carrier_cd = t2.carrier_cd
+                     AND t1.nr_param_3_val = t2.nr_param_3_val),
+             0)" . '
+             "Total VoLTE Usage MB",
+         NVL (
+             (SELECT SUM (tot_net_usage_chrg) tuc
+                FROM IC_ACCUMULATED_USAGE t3
+               WHERE     prod_cat_id = ' . "'IS'" . "
+                     AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+                     AND rate_plan_cd = 'RPINCVoLTEDATCD'
+                     AND t1.carrier_cd = t3.carrier_cd
+                     AND t1.nr_param_3_val = t3.nr_param_3_val),
+             0)" . '
+             "Total VoLTE Charges"
+    FROM IC_ACCUMULATED_USAGE t1
+   WHERE     prod_cat_id = ' . "'IS'" . "
+         AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+GROUP BY nr_param_3_val, carrier_cd
+ORDER BY nr_param_3_val, carrier_cd";
+
+#$sqls{'LTE_OUTCOLLECT_CARRIER'} = '
+#  select nr_param_3_val "Company Code", decode(carrier_cd,'
+#
+##  . "'AAZVF','Vodafone Malta','USAXC','Inland','USASU','SPRINT','USAJV','James Valley Wireless','USAPI','Pioneer Cellular','USAKY','Appalachian Wireless','USAUW','United Wireless','USACM','C-SPIRE','USAXC','Inland','USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' )"
+#  . "
+#'USAAT','ATT Mobility (USAAT)',
+#'USABS','ATT Mobility (USABS)',
+#'USACC','ATT Mobility (USACC)',
+#'USACG','ATT Mobility (USACG)',
+#'USAMF','ATT Mobility (USAMF)',
+#'USAPB','ATT Mobility (USAPB)',
+#'USAKY','Appalachian Wireless (USAKY)',
+#'USACM','C-Spire (USACM)',
+#'USA1E','Carolina West (USA1E)',
+#'USAXC','Inland (USAXC)',
+#'USAJV','James Valley (USAJV)',
+#'USA6G','Nex-Tech Wireless (USA6G)',
+#'USAPI','Pioneer Cellular (USAPI)',
+#'USASG','Sprint (USASG)',
+#'USASP','Sprint (USASP)',
+#'USASU','Sprint (USASU)',
+#'USATM','T-Mobile (USATM)',
+#'USAW6','T-Mobile (USAW6)',
+#'USAUW','United Wireless (USAUW)',
+#'USAVZ','Verizon (USAVZ)',
+#'AAZVF','Vodafone Malta (AAZVF)',
+#'MLTTL','Vodafone Malta (MLTTL)',
+#'NLDLT','Vodafone Netherlands (NLDLT)'
+#)"
+#  . ' "Carrier", sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" '
+#  . "from IC_ACCUMULATED_USAGE  where prod_cat_id = 'OS' and BP_START_DATE = to_date('$period"
+#  . "01"
+#  . "','YYYYMMDD') group by nr_param_3_val, carrier_cd order by nr_param_3_val, carrier_cd";
+#
+
 
 $sqls{'LTE_OUTCOLLECT_CARRIER'} = '
-  select nr_param_3_val "Company Code", decode(carrier_cd,'
-  #  . "'AAZVF','Vodafone Malta','USAXC','Inland','USASU','SPRINT','USAJV','James Valley Wireless','USAPI','Pioneer Cellular','USAKY','Appalachian Wireless','USAUW','United Wireless','USACM','C-SPIRE','USAXC','Inland','USA6G','NEX-TECH Wireless', 'USASG', 'SPRINT', 'USAW6', 'T-MOBILE', 'NLDLT','Vodofone Netherland','USACG','ATT','USAVZ','VERIZON' )"
-  ."
-'USAAT','ATT Mobility (USAAT)',
-'USABS','ATT Mobility (USABS)',
-'USACC','ATT Mobility (USACC)',
-'USACG','ATT Mobility (USACG)',
-'USAMF','ATT Mobility (USAMF)',
-'USAPB','ATT Mobility (USAPB)',
-'USAKY','Appalachian Wireless (USAKY)',
-'USACM','C-Spire (USACM)',
-'USA1E','Carolina West (USA1E)',
-'USAXC','Inland (USAXC)',
-'USAJV','James Valley (USAJV)',
-'USA6G','Nex-Tech Wireless (USA6G)',
-'USAPI','Pioneer Cellular (USAPI)',
-'USASG','Sprint (USASG)',
-'USASP','Sprint (USASP)',
-'USASU','Sprint (USASU)',
-'USATM','T-Mobile (USATM)',
-'USAW6','T-Mobile (USAW6)',
-'USAUW','United Wireless (USAUW)',
-'USAVZ','Verizon (USAVZ)',
-'AAZVF','Vodafone Malta (AAZVF)',
-'MLTTL','Vodafone Malta (MLTTL)',
-'NLDLT','Vodafone Netherlands (NLDLT)'
-)"
-  . ' "Carrier", sum((TOT_CHRG_PARAM_VAL/1024)/1024) "Total Usage MB", sum(tot_net_usage_chrg) "Total Charges" '
-  . "from IC_ACCUMULATED_USAGE  where prod_cat_id = 'OS' and BP_START_DATE = to_date('$period"
-  . "01"
-  . "','YYYYMMDD') group by nr_param_3_val, carrier_cd order by nr_param_3_val, carrier_cd";
+  SELECT t1.nr_param_3_val "Company Code",
+         DECODE (t1.carrier_cd,'
+  . "            'USAAT', 'ATT Mobility (USAAT)',
+                 'USABS', 'ATT Mobility (USABS)',
+                 'USACC', 'ATT Mobility (USACC)',
+                 'USACG', 'ATT Mobility (USACG)',
+                 'USAMF', 'ATT Mobility (USAMF)',
+                 'USAPB', 'ATT Mobility (USAPB)',
+                 'USAKY', 'Appalachian Wireless (USAKY)',
+                 'USACM', 'C-Spire (USACM)',
+                 'USA1E', 'Carolina West (USA1E)',
+                 'USAXC', 'Inland (USAXC)',
+                 'USAJV', 'James Valley (USAJV)',
+                 'USA6G', 'Nex-Tech Wireless (USA6G)',
+                 'USAPI', 'Pioneer Cellular (USAPI)',
+                 'USASG', 'Sprint (USASG)',
+                 'USASP', 'Sprint (USASP)',
+                 'USASU', 'Sprint (USASU)',
+                 'USATM', 'T-Mobile (USATM)',
+                 'USAW6', 'T-Mobile (USAW6)',
+                 'USAUW', 'United Wireless (USAUW)',
+                 'USAVZ', 'Verizon (USAVZ)',
+                 'AAZVF', 'Vodafone Malta (AAZVF)',
+                 'MLTTL', 'Vodafone Malta (MLTTL)',
+                 'NLDLT', 'Vodafone Netherlands (NLDLT)')
+           " . ' "Carrier",
+         NVL (
+             (SELECT SUM ( (TOT_CHRG_PARAM_VAL / 1024) / 1024)
+                FROM IC_ACCUMULATED_USAGE t3
+               WHERE     prod_cat_id = ' . "'OS'" . "
+                     AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+                     AND rate_plan_cd not like 'RPOUTSVoLTE%'
+                     AND t1.carrier_cd = t3.carrier_cd
+                     AND t1.nr_param_3_val = t3.nr_param_3_val),
+             0)" . '
+             "Total LTE Usage MB",
+         NVL (
+             (SELECT SUM (tot_net_usage_chrg) tuc
+                FROM IC_ACCUMULATED_USAGE t4
+               WHERE     prod_cat_id = ' . "'OS'" . "
+                     AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+                     AND rate_plan_cd not like 'RPOUTSVoLTE%'
+                     AND t1.carrier_cd = t4.carrier_cd
+                     AND t1.nr_param_3_val = t4.nr_param_3_val),
+             0)" . '
+             "Total LTE Charges",
+         NVL (
+             (SELECT SUM ( (TOT_CHRG_PARAM_VAL / 1024) / 1024)
+                FROM IC_ACCUMULATED_USAGE t2
+               WHERE     prod_cat_id = ' . "'OS'" . "
+                     AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+                     AND rate_plan_cd like 'RPOUTSVoLTE%'
+                     AND t1.carrier_cd = t2.carrier_cd
+                     AND t1.nr_param_3_val = t2.nr_param_3_val),
+             0)" . '
+             "Total VoLTE Usage MB",
+         NVL (
+             (SELECT SUM (tot_net_usage_chrg) tuc
+                FROM IC_ACCUMULATED_USAGE t3
+               WHERE     prod_cat_id = ' . "'OS'" . "
+                     AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+                     AND rate_plan_cd like 'RPOUTSVoLTE%'
+                     AND t1.carrier_cd = t3.carrier_cd
+                     AND t1.nr_param_3_val = t3.nr_param_3_val),
+             0)" . '
+             "Total VoLTE Charges"
+    FROM IC_ACCUMULATED_USAGE t1
+   WHERE     prod_cat_id = ' . "'OS'" . "
+         AND BP_START_DATE = to_date('$period"
+	  . "01','YYYYMMDD')" . "
+GROUP BY nr_param_3_val, carrier_cd
+ORDER BY nr_param_3_val, carrier_cd";
 
 
 $sqls{'LTE_OUTCOLLECT_SETTLEMENT'} =
-  "select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
+    "select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
   . '"Creation Date",'
   . " t1.nr_param_3_val "
   . '"Company Code",'
@@ -316,337 +475,339 @@ select to_char(t1.sys_creation_date,'YYYY-MM-DD') "
  group by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.carrier_cd   order by to_char(t1.sys_creation_date,'YYYY-MM-DD'),t1.carrier_cd";
 
 my $dbconn  = getBODSPRD();
-my $dbconnb = '';		# getBRMPRD();
+my $dbconnb = '';             # getBRMPRD();
 
 my @aprmArray = ();
 
 if ( substr( $date, 6, 2 ) eq '05' ) {
 
-  @aprmArray = (
+	@aprmArray = (
 
-		'LTE_INCOLLECT_SETTLEMENT',
-		'LTE_INCOLLECT_CARRIER'    ,
-		'LTE_OUTCOLLECT_SETTLEMENT',
-		'LTE_OUTCOLLECT_CARRIER' ,
-		'GSM_INCOLLECT_SETTLEMENT',
-		'CDMA_INCOLLECT_DATA_ACCRUAL',
-		'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER',
-		'CDMA_INCOLLECT_VOICE_ACCRUAL',
-		'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER',
-		'CDMA_OUTCOLLECT_VOICE_ACCRUAL',
-		'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'
-	       );
+				'LTE_INCOLLECT_SETTLEMENT',
+				'LTE_INCOLLECT_CARRIER',
+				'LTE_OUTCOLLECT_SETTLEMENT',
+		 		'LTE_OUTCOLLECT_CARRIER' ,
+				'GSM_INCOLLECT_SETTLEMENT',
+				'CDMA_INCOLLECT_DATA_ACCRUAL',
+				'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER',
+				'CDMA_INCOLLECT_VOICE_ACCRUAL',
+				'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER',
+				'CDMA_OUTCOLLECT_VOICE_ACCRUAL',
+				'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'
+	);
 
-} else {
-  @aprmArray = (
+}
+else {
+	@aprmArray = (
 		'CDMA_INCOLLECT_VOICE_SETTLEMENT',
 		'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER',
 		'CDMA_INCOLLECT_DATA_SETTLEMENT',
 		'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER',
 		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT',
 		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'
-	       );
+	);
 }
 
 readAprm( \@aprmArray, $dbconn, $dbconnb, $date );
 
 $dbconn->disconnect();
+
 #$dbconnb->disconnect();
-
-
-
 
 exit(0);
 
 sub readAprm {
-  my ( $sqlList, $conn, $conn2, $timeStamp ) = @_;
+	my ( $sqlList, $conn, $conn2, $timeStamp ) = @_;
 
-  my $excel_file = "Aprm_" . $timeStamp . '.xls';
-  my $workbook   = Spreadsheet::WriteExcel->new($excel_file);
+	my $excel_file = "Aprm_" . $timeStamp . '.xls';
+	my $workbook   = Spreadsheet::WriteExcel->new($excel_file);
 
-  my %tab = {};
+	my %tab = {};
 
-  $tab{'CDMA_INCOLLECT_VOICE_SETTLEMENT'} = "CDMA Voice Incollect Settlement";
+	$tab{'CDMA_INCOLLECT_VOICE_SETTLEMENT'} = "CDMA Voice Incollect Settlement";
 
-  $tab{'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER'} =
-    "CDMA Voice Incollect by Carrier";
+	$tab{'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER'} =
+	  "CDMA Voice Incollect by Carrier";
 
-  $tab{'CDMA_INCOLLECT_DATA_SETTLEMENT'} = "CDMA Data Incollect Settlement";
+	$tab{'CDMA_INCOLLECT_DATA_SETTLEMENT'} = "CDMA Data Incollect Settlement";
 
-  $tab{'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER'} =
-    "CDMA Data Incollect by Carrier";
+	$tab{'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER'} =
+	  "CDMA Data Incollect by Carrier";
 
-  $tab{'CDMA_OUTCOLLECT_VOICE_SETTLEMENT'} =
-    "CDMA Voice Outcollect Settlment";
+	$tab{'CDMA_OUTCOLLECT_VOICE_SETTLEMENT'} =
+	  "CDMA Voice Outcollect Settlment";
 
-  $tab{'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'} =
-    "Voice Outcollect by Carrier";
+	$tab{'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'} =
+	  "Voice Outcollect by Carrier";
 
-  $tab{'LTE_INCOLLECT_SETTLEMENT'} = "LTE Incollect Settlement";
+	$tab{'LTE_INCOLLECT_SETTLEMENT'} = "LTE Incollect Settlement";
 
-  $tab{'LTE_INCOLLECT_CARRIER'} = "LTE Incollect by Carrier";
+	$tab{'LTE_INCOLLECT_CARRIER'} = "LTE Incollect by Carrier";
 
-  $tab{'LTE_OUTCOLLECT_SETTLEMENT'} = "LTE Outcollect Settlement";
+	$tab{'LTE_OUTCOLLECT_SETTLEMENT'} = "LTE Outcollect Settlement";
 
-  $tab{'LTE_OUTCOLLECT_CARRIER'} = "LTE Outcollect by Carrier";
+	$tab{'LTE_OUTCOLLECT_CARRIER'} = "LTE Outcollect by Carrier";
 
-  $tab{'GSM_INCOLLECT_SETTLEMENT'} = "GSM Incollect Settlement";
+	$tab{'GSM_INCOLLECT_SETTLEMENT'} = "GSM Incollect Settlement";
 
-  $tab{'CDMA_INCOLLECT_VOICE_ACCRUAL'} = "CDMA Voice Incollect Accrual";
+	$tab{'CDMA_INCOLLECT_VOICE_ACCRUAL'} = "CDMA Voice Incollect Accrual";
 
-  $tab{'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER'} =
-    "CDMA Voice Incollect by Carrier";
+	$tab{'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER'} =
+	  "CDMA Voice Incollect by Carrier";
 
-  $tab{'CDMA_INCOLLECT_DATA_ACCRUAL'} = "CDMA Data Incollect Accrual";
+	$tab{'CDMA_INCOLLECT_DATA_ACCRUAL'} = "CDMA Data Incollect Accrual";
 
-  $tab{'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER'} =
-    "CDMA Data Incollect by Carrier";
+	$tab{'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER'} =
+	  "CDMA Data Incollect by Carrier";
 
-  $tab{'CDMA_OUTCOLLECT_VOICE_ACCRUAL'} = "CDMA Voice Outcollect Accrual";
+	$tab{'CDMA_OUTCOLLECT_VOICE_ACCRUAL'} = "CDMA Voice Outcollect Accrual";
 
-  $tab{'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'} =
-    "Voice Outcollect by Carrier";
+	$tab{'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'} =
+	  "Voice Outcollect by Carrier";
 
-  my %headings = {};
+	my %headings = {};
 
-  $headings{'CDMA_INCOLLECT_VOICE_SETTLEMENT'} = [
-						  'Creation Date',
-						  'Carrier Code',
-						  'GL Account',
-						  'Total Usage Minutes',
-						  'Total Charges'
-						 ];
+	$headings{'CDMA_INCOLLECT_VOICE_SETTLEMENT'} = [
+		'Creation Date',
+		'Carrier Code',
+		'GL Account',
+		'Total Usage Minutes',
+		'Total Charges'
+	];
 
-  $headings{'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER'} =
-    [ 'Carrier Code', 'Carrier Name', 'Total Usage Minutes',
-      'Total Charges' ];
+	$headings{'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER'} =
+	  [ 'Carrier Code', 'Carrier Name', 'Total Usage Minutes',
+		'Total Charges' ];
 
-  $headings{'CDMA_INCOLLECT_DATA_SETTLEMENT'} = [
-						 'Creation Date',
-						 'Carrier Code',
-						 'GL Account',
-						 'Total Usage MB',
-						 'Total Charges'
-						];
+	$headings{'CDMA_INCOLLECT_DATA_SETTLEMENT'} = [
+		'Creation Date',
+		'Carrier Code',
+		'GL Account',
+		'Total Usage MB',
+		'Total Charges'
+	];
 
-  $headings{'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER'} =
-    [ 'Carrier Code', 'Carrier Name', 'Total Usage MB', 'Total Charges' ];
+	$headings{'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER'} =
+	  [ 'Carrier Code', 'Carrier Name', 'Total Usage MB', 'Total Charges' ];
 
-  $headings{'CDMA_OUTCOLLECT_VOICE_SETTLEMENT'} = [
-						   'Creation Date',
-						   'Carrier Code',
-						   'GL Account',
-						   'Total Usage Minutes',
-						   'Total Charges Air',
-						   'GL Account Toll',
-						   'Total Charges Toll',
-						   'GL Account Tax',
-						   'Total Charges Tax'
-						  ];
+	$headings{'CDMA_OUTCOLLECT_VOICE_SETTLEMENT'} = [
+		'Creation Date',
+		'Carrier Code',
+		'GL Account',
+		'Total Usage Minutes',
+		'Total Charges Air',
+		'GL Account Toll',
+		'Total Charges Toll',
+		'GL Account Tax',
+		'Total Charges Tax'
+	];
 
-  $headings{'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'} = [
-							   'Carrier Code',
-							   'CARRIER_NAME',
-							   'Rate Plan',
-							   'GL Account',
-							   'Total Usage Minutes',
-							   'Total Charges'
-							  ];
+	$headings{'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'} = [
+		'Carrier Code',
+		'CARRIER_NAME',
+		'Rate Plan',
+		'GL Account',
+		'Total Usage Minutes',
+		'Total Charges'
+	];
 
-  $headings{'CDMA_INCOLLECT_VOICE_ACCRUAL'} = [
-					       'Creation Date',
-					       'Carrier Code',
-					       'GL Account',
-					       'Total Usage Minutes',
-					       'Total Charges'
-					      ];
+	$headings{'CDMA_INCOLLECT_VOICE_ACCRUAL'} = [
+		'Creation Date',
+		'Carrier Code',
+		'GL Account',
+		'Total Usage Minutes',
+		'Total Charges'
+	];
 
-  $headings{'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER'} =
-    [ 'Carrier Code', 'Carrier Name', 'Total Usage Minutes',
-      'Total Charges' ];
+	$headings{'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER'} =
+	  [ 'Carrier Code', 'Carrier Name', 'Total Usage Minutes',
+		'Total Charges' ];
 
-  $headings{'CDMA_INCOLLECT_DATA_ACCRUAL'} = [
-					      'Creation Date',
-					      'Carrier Code',
-					      'GL Account',
-					      'Total Usage MB',
-					      'Total Charges'
-					     ];
+	$headings{'CDMA_INCOLLECT_DATA_ACCRUAL'} = [
+		'Creation Date',
+		'Carrier Code',
+		'GL Account',
+		'Total Usage MB',
+		'Total Charges'
+	];
 
-  $headings{'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER'} =
-    [ 'Carrier Code', 'Carrier Name', 'Total Usage MB', 'Total Charges' ];
+	$headings{'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER'} =
+	  [ 'Carrier Code', 'Carrier Name', 'Total Usage MB', 'Total Charges' ];
 
-  $headings{'CDMA_OUTCOLLECT_VOICE_ACCRUAL'} = [
-						'Creation Date',
-						'Carrier Code',
-						'GL Account',
-						'Total Usage Minutes',
-						'Total Charges Air',
-						'GL Account Toll',
-						'Total Charges Toll',
-						'GL Account Tax',
-						'Total Charges Tax'
-					       ];
+	$headings{'CDMA_OUTCOLLECT_VOICE_ACCRUAL'} = [
+		'Creation Date',
+		'Carrier Code',
+		'GL Account',
+		'Total Usage Minutes',
+		'Total Charges Air',
+		'GL Account Toll',
+		'Total Charges Toll',
+		'GL Account Tax',
+		'Total Charges Tax'
+	];
 
-  $headings{'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'} = [
-							'Carrier Code',
-							'CARRIER_NAME',
-							'Rate Plan',
-							'GL Account',
-							'Total Usage Minutes',
-							'Total Charges'
-						       ];
+	$headings{'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'} = [
+		'Carrier Code',
+		'CARRIER_NAME',
+		'Rate Plan',
+		'GL Account',
+		'Total Usage Minutes',
+		'Total Charges'
+	];
 
-  $headings{'GSM_INCOLLECT_SETTLEMENT'} = [
-					   'Creation Date',
-					   'Company Code',
-					   'Carrier',
-					   'DATA GL',
-					   'Total Usage MB',
-					   'Data Charges',
-					   'TEXT GL',
-					   'Total Texts',
-					   'Text Charges',
-					   'VOICE GL',
-					   'Total Minutes',
-					   'Voice Charges'
-					  ];
+	$headings{'GSM_INCOLLECT_SETTLEMENT'} = [
+		'Creation Date',
+		'Company Code',
+		'Carrier',
+		'DATA GL',
+		'Total Usage MB',
+		'Data Charges',
+		'TEXT GL',
+		'Total Texts',
+		'Text Charges',
+		'VOICE GL',
+		'Total Minutes',
+		'Voice Charges'
+	];
 
-  $headings{'LTE_INCOLLECT_SETTLEMENT'} = [
-					   'Creation Date',
-					   'Carrier Code',
-					   'Total Usage MB',
-					   'Total Charges',
-					   'GL Data',
-					   'Data Charges',
-					   'GL VoLTE',
-					   'VoLTE Charges'
-					  ];
-  $headings{'LTE_INCOLLECT_CARRIER'} =
-    [ 'Carrier Code', 'Carrier', 'Total Usage MB', 'Total Charges' ];
+	$headings{'LTE_INCOLLECT_SETTLEMENT'} = [
+		'Creation Date',
+		'Carrier Code',
+		'Total Usage MB',
+		'Total Charges',
+		'GL Data',
+		'Data Charges',
+		'GL VoLTE',
+		'VoLTE Charges'
+	];
+	$headings{'LTE_INCOLLECT_CARRIER'} =
+	  [ 'Carrier Code', 'Carrier', 'Total LTE Usage MB', 'Total LTE Charges','Total VoLTE Usage MB', 'Total VoLTE Charges' ];
 
-  $headings{'LTE_OUTCOLLECT_SETTLEMENT'} = [
-					    'Creation Date',
-					    'Carrier Code',
-					    'Total Usage MB',
-					    'Total Charges',
-					    'GL Data',
-					    'Data Charges',
-					    'GL VoLTE',
-					    'Total Charges'
-					   ];
-  $headings{'LTE_OUTCOLLECT_CARRIER'} =
-    [ 'Carrier Code', 'Carrier', 'Total Usage MB', 'Total Charges' ];
+	$headings{'LTE_OUTCOLLECT_SETTLEMENT'} = [
+		'Creation Date',
+		'Carrier Code',
+		'Total Usage MB',
+		'Total Charges',
+		'GL Data',
+		'Data Charges',
+		'GL VoLTE',
+		'Total Charges'
+	];
+	$headings{'LTE_OUTCOLLECT_CARRIER'} =
+	  [ 'Carrier Code', 'Carrier', 'Total LTE Usage MB', 'Total LTE Charges','Total VoLTE Usage MB', 'Total VoLTE Charges' ];
 
-  foreach my $wsql ( @{$sqlList} ) {
+	foreach my $wsql ( @{$sqlList} ) {
 
-    my $worksheet = $workbook->add_worksheet( $tab{$wsql} );
-    my $bold = $workbook->add_format( bold => 1 );
-    $worksheet->write( 'A1', $headings{$wsql}, $bold );
+		my $worksheet = $workbook->add_worksheet( $tab{$wsql} );
+		my $bold = $workbook->add_format( bold => 1 );
+		$worksheet->write( 'A1', $headings{$wsql}, $bold );
 
-    my $sth = '';
-    my $sql = $sqls{$wsql};
+		my $sth = '';
+		my $sql = $sqls{$wsql};
 
-    print "$sql\n";
+		print "$sql\n";
 
-    if (   ( $wsql eq 'CDMA_A_OUT_DATA' )
-	   || ( $wsql eq 'CDMA_S_OUT_DATA' ) ) {
-      $sth = $conn2->prepare($sql);
-      $sth->execute() or sendErr();
-    } else {
+		if (   ( $wsql eq 'CDMA_A_OUT_DATA' )
+			|| ( $wsql eq 'CDMA_S_OUT_DATA' ) )
+		{
+			$sth = $conn2->prepare($sql);
+			$sth->execute() or sendErr();
+		}
+		else {
 
-      $sth = $conn->prepare($sql);
-      $sth->execute() or sendErr();
+			$sth = $conn->prepare($sql);
+			$sth->execute() or sendErr();
 
-    }
+		}
 
-    my $cntrow = 1;
-    while ( my @rows = $sth->fetchrow_array() ) {
-      my @fix_cols = grep( s/\s*$//g, @rows );
+		my $cntrow = 1;
+		while ( my @rows = $sth->fetchrow_array() ) {
+			my @fix_cols = grep( s/\s*$//g, @rows );
 
-      $worksheet->write_row( $cntrow, 0, \@fix_cols );
-      $cntrow++;
-    }
+			$worksheet->write_row( $cntrow, 0, \@fix_cols );
+			$cntrow++;
+		}
 
-  }
-  $workbook->close;
-	
-  my @email = ('david.balchen@uscellular.com');
-  foreach my $too (@email) {
+	}
+	$workbook->close;
 
-    sendMsg( $too,"APRM Report for $date\n",$excel_file );
-  }
+	my @email = ('david.balchen@uscellular.com');
+	foreach my $too (@email) {
+
+		sendMsg( $too, "APRM Report for $date\n", $excel_file );
+	}
 
 }
 
 sub getBODSPRD {
 
-  my $dbPwd = "BODS_SVC_BILLINGOPS";
-  my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  #	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "5000#Reptar" );
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+	my $dbPwd = "BODS_SVC_BILLINGOPS";
+    my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	# my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Bo0Go09000#" );
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }
 
 sub getBRMPRD {
 
-  #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
-  #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-  #   my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooGoo900#" );'
-	
-  my $dbPwd = "BODS_SVC_BILLINGOPS";
-  my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	 
-  unless ( defined $dbods ) {
-    sendErr();
-  }
-  return $dbods;
+ #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+ #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+ #   my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooGoo900#" );'
+
+	my $dbPwd = "BODS_SVC_BILLINGOPS";
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
+	unless ( defined $dbods ) {
+		sendErr();
+	}
+	return $dbods;
 }
 
 sub pad {
 
-  my ( $padString, $padwith, $length ) = @_;
+	my ( $padString, $padwith, $length ) = @_;
 
-  while ( length($padString) < $length ) {
-    $padString = $padwith . $padString;
-  }
+	while ( length($padString) < $length ) {
+		$padString = $padwith . $padString;
+	}
 
-  return $padString;
+	return $padString;
 
 }
 
 sub sendMsg() {
 
-  my ( $to, $message, $excel_file ) = @_;
-  my $mime_type = 'multipart/mixed';
-  my $from      = "david.balchen\@uscellular.com";
-  my $subject   = "APRM Report for $date";
-  my $cc        = '';
+	my ( $to, $message, $excel_file ) = @_;
+	my $mime_type = 'multipart/mixed';
+	my $from      = "david.balchen\@uscellular.com";
+	my $subject   = "APRM Report for $date";
+	my $cc        = '';
 
-  $message = "You'll find the report attached to this email\n\n" . $message;
+	$message = "You'll find the report attached to this email\n\n" . $message;
 
-  my $msg = MIME::Lite->new(
-			    From    => $from,
-			    To      => $to,
-			    Cc      => $cc,
-			    Subject => $subject,
-			    Type    => $mime_type
-			   ) or die "Error creat
+	my $msg = MIME::Lite->new(
+		From    => $from,
+		To      => $to,
+		Cc      => $cc,
+		Subject => $subject,
+		Type    => $mime_type
+	  )
+	  or die "Error creat
 ing " . "MIME body: $!\n";
 
-  $msg->attach(
-	       Type => 'TEXT',
-	       Data => $message
-	      ) or die "Error adding text message: $!\n";
+	$msg->attach(
+		Type => 'TEXT',
+		Data => $message
+	) or die "Error adding text message: $!\n";
 
-  $msg->attach(
-	       Type     => 'application/octet-stream',
-	       Encoding => 'base64',
-	       Path     => $ENV{'REC_HOME'} . $excel_file,
-	       Filename => $excel_file
-	      ) or die "Error attaching file: $!\n";
+	$msg->attach(
+		Type     => 'application/octet-stream',
+		Encoding => 'base64',
+		Path     => $ENV{'REC_HOME'} . $excel_file,
+		Filename => $excel_file
+	) or die "Error attaching file: $!\n";
 
-  $msg->send();
+	$msg->send();
 }
