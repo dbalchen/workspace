@@ -2,7 +2,7 @@
 #exit(0);
 
 BEGIN {
-	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+	#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 
 }
 
@@ -159,7 +159,7 @@ sub scheduledTask {
 
 	$workbook->close;
 
-    sendMail( $excel_file, $timeStamp );
+	sendMail( $excel_file, $timeStamp );
 
 }
 
@@ -396,8 +396,9 @@ sub sendMail {
 sub getBODSPRD {
 
 	my $dbPwd = " BODS_SVC_BILLINGOPS ";
-	my 	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "5000#Reptar" );
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
+   #my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "5000#Reptar" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

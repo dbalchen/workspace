@@ -4959,38 +4959,42 @@ CD    6. No additional details needed
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List							   :noexport:
 ** TODO IR0600 - 5G Commercialization
-   Possible deployment date around the july 2019 timeframe, depending on the how the network upgrade
-   goes (/See PCRF Forklift/).
-   [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Archecture]]
-   - Network enablement in Year 1 markets (Iowa and Wisconsin)
-   - New TOPS functionality to support 5G provisioning and Usage processing
-   - Launch of new 5G enabled devices (multiple platforms and device types)
-*** Possible Billing Impact
+    [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Archecture]]
+*** Project Description
+    The commercialization of *5G* is part of the following:
+    - Network enablement in Year 1 markets (Iowa and Wisconsin)
+    - New *TOPS* functionality to support *5G* Provisioning and Usage processing
+    - Launch of new *5G* enabled devices (multiple platforms and device types)
+*** Go Live Dates
+    Depending on how the network upgrade goes (/See PCRF Forklift/), roll out should start around *July 2019*
+*** Billing and Revenue impacts:  
     All of the below possible impacts were true for *Voice over WiFi.*
-    - *Reporting :* Depending on the detail reporting requirements, 5G usage must be separated 
-    from 4G usage. Mediation will make this separation and the system to process this usage
+    - *Reporting :* Depending on the detail reporting requirements, *5G* usage must be separated 
+    from *4G* usage. Mediation will make this separation and the system to process this usage
     will depend on the detail requirements. This would require reading data from the CallDump.
-    - *WeDo reporting :* An attempt will be made to minimize impact to WeDo Rev Assurance tool
-    by keeping the *WeDo* feed as pure KB usage without separation of *4G vs 5G* CDRs. 
-    The same principle will be adopted when sending usage to TOPS. TOPS usage will be
-    combined 4G+5G Kb in the *UFF* records.
+    - *WeDo reporting :* An attempt will be made to minimize impact to the *WeDo Rev Assurance tool*
+    by keeping the *WeDo* feed as pure *KB* usage without separation of *4G vs 5G* CDRs. 
+    The same principle will be adopted when sending usage to *TOPS*. TOPS usage will be
+    combined *4G+5G Kb* in the *UFF* records.
     - *Turbocharging :* Validation will be required when the enhanced core is available 
-    for test. We need to ensure that the interface to the P/SGWs remains intact.
+    for test. We need to ensure that the interface to the *P/SGWs* remains intact.
+*** Monitors/Controls/Alerts and Ownership
+    We already monitor usage by type and this would be another type.
 
 ** TODO Verizon LTE/VoLTE Outbound roaming
-   *Deployment Date March 31st 2019.*
-   - Had issues with e911 and testing is still taking place with the expected end time being January 19th. This has now been fixed but root cause unknown.
-   - Scheduled:  1/21 – 1/22 Complete testing
-   - Scheduled:  1/23 – 1/25 USCC/VZW perform analysis on results for a 1/25 approval
-   - Scheduled:  1/28 – Planning process/steps to obtain remaining MME’s & RCC’s completed
-   [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.pdf][Latest Doc]]
+    [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.pdf][Latest Doc]]
+*** Project Description
+    Enable *LTE/VoLTE* roaming for *Verizon* customers on our network.
+*** Go Live Date
+    *Deployment Date March 31st 2019.*
 *** Possible Billing Issues
-    - For any Ciber, Billing issues, Voice and Data Settlements, as well as
-    Non-net Settlement Payment Questions or Overcharges contact:
-      *RoamingSettlementsSprint@sprint.com*
+    - Whenever a new feed is added to the system a number of issues can pop up.
+*** Monitors/Controls/Alerts and Ownership
+    The roaming reconciliation reports will and have picked up LTE/VoLTE (test calls) from *Verizon*. 
+    So we are already covered on the monitoring department.
 
 ** TODO International Service Revamp
-   *Deployment Date unknown*
+*** Project Description
    [[file:docs/IR0XXX%20Solution%20Proposal_Intnl_Services_Revamp.pdf][Initial Project Documentation]]
    This project is to provide extra services for our post-paid international
    customers which will include:
@@ -5000,9 +5004,16 @@ CD    6. No additional details needed
    4. Day Passes for Roaming Services
    A project such as this would usually take between 6 to 8 months
    to complete other than that no specific deployment date has been given.
+*** Go Live Dates
+    *Deployment Date unknown*
+*** Possible Billing Issues
+    - No impact to billing since we process this data already. 
+*** Monitors/Controls/Alerts and Ownership
+    The roaming reconciliation reports will and have picked up LTE/VoLTE (test calls) from *Verizon*. 
+    So we are already covered on the monitoring department.
 
-** TODO eSIM
-   SCHEDULED: <2019-01-03 Thu>--<2019-01-31 Thu> 
+** TODO eSIM for Standalone devices
+*** Project Description
    Devices during and beyond 2018 will have traditional SIM replaced by eSIM (GSMA based) for both Postpaid and
    Prepaid. USCC currently has no solution to provision these devices in standalone mode. Within the next 5 years,
    Device Marketing is forcasting that all devices (handsets, tablets, wearables, etc.) will only support eSIM.
@@ -5012,23 +5023,33 @@ CD    6. No additional details needed
    that it is paired with can make and receive phone calls and messaging using the same mobile number for
    Postpaid.
    [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.pdf][Vision and Scope]]
-   
+*** Go Live Dates
+    *Deployment Date unknown*
+*** Possible Billing Issues
+    It all depends on the range of the eSIM devices. We already support eSIM for secondary devices, Apple Watch, 
+    and if the eSIM range is within the range for those watches, usage will be dropped.
+*** Monitors/Controls/Alerts and Ownership 
+    Need to watch for any drop in usage for Apple devices.
+
 ** TODO Voice over WIFI
-   SCHEDULED: <2018-12-14 Fri>--<2019-06-22 Sat> 
-   [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
+*** Project Description
+    [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
    - All VoWiFi calls will be rated as VoLTE
    - Calls will be rated based on customers calling plan
    - Bill presentment will not differentiate between regular voice call and VoWiFi calls.
    - Value of 3 in field 52 of the UFF signifies voice over WIFI.
    - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
-*** Added Updates
-    - Read and approved USCC TOPS IA IR0411 VoWiFi Track 1.1
-    - Project is now in RED do to engineering resource contraint.
+*** Go Live Dates
+    Project is currently on hold until further notice.
+*** Possible Billing Issues
+    - Since the usage will come in as VoLTE/LTE there will be no impact
+*** Monitors/Controls/Alerts and Ownership
+    The roaming reconciliation reports will pick up any anomalies. 
 
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
+
 ** TODO Sunset Consolidated Billing [66%]
-   SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>
    1. [X] See who is still on TDS
    2. [X] Get contact information (See Dan's spreadsheet)
    3. [ ] Operational procedures for cutover
@@ -5042,6 +5063,7 @@ CD    6. No additional details needed
      - Try different types
 
 ** TODO PCRF Forklift
+*** Project Description
    *PCRF - Policy and Charging Rules Function* works along side  
    *Charging Enforcement Function (PCEF)* and *Online Charging System (OCS)* 
    interact and charge for subscriber services. These interactions include subscriber login, 
@@ -5049,9 +5071,6 @@ CD    6. No additional details needed
    termination and logout.
 
    [[https://www.juniper.net/documentation/en_US/junos/topics/concept/pcrf-pcef-ocs-interactions-understanding.html][Understanding Interactions Between the PCRF, PCEF, and OCS]]
-
-
-   SCHEDULED: <2019-01-08 Tue>--<2019-07-01 Mon>
 
    This project will replace our current *PCRF* by *OpenNet* to a new version by *CISCO*.
    The servers themselves are clustered linux environments and 
@@ -5061,16 +5080,20 @@ CD    6. No additional details needed
    The system configuration are done via Excel spreadsheets for the major options and a Web
    frontend called *CPS* for finer tuning. There is also a monitoring tool called *Grafana* 
    which provides system dashboards for monitoring.
-
-*** Cutover will start SCHEDULED: <2019-05-01 Wed>
-    It will start with LTE then move to VoLTE
-
-*** Need to monitor the Traffic when the switchover occurs.
+*** Go Live Dates
+    5/01/2019 - 7/01/2019
+*** Monitors/Controls/Alerts and Ownership
+    Need to monitor the network traffic when the switchover occurs to make sure usage does not drop.
 
 ** TODO EAGR Project
 *** TODO Fraud
 *** TODO Credit Decisioning
-** TODO Modify ARPM Report
+** TODO Look at Collaborator
+   DEADLINE: <2019-02-08 Fri>
+   Talk to Logan
+   https://smartbear.com/product/collaborator/overview/
+** TODO fix usage.pl
+** TODO Do Goals
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

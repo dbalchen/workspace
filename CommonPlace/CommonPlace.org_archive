@@ -3962,3 +3962,26 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   - Create Users for each development service user.
   - [[file:docs/git_cheat_sheet.pdf][GIT Cheat Sheet]]
        
+
+* TODO Modify ARPM Report
+  DEADLINE: <2019-02-04 Mon>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-02-05 Tue 15:36
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+  Move it to Production and update GITHUB
+
+* TODO Ilham's Outcollect Issue
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-02-07 Thu 14:47
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+  Since 2019... Greater then average descrepency..
