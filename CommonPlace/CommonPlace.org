@@ -14,10 +14,14 @@
 \pagenumbering{gobble}
 #+END_LaTeX 
 #+TITLE: Notes
+#+ATTR_LaTeX: :width 16cm
+      file:Pictures/Andrejevi1.jpg
 #+Author: David Balchen
 #+Email: dave@balchen.org
+\newpage 
+#+ATTR_LaTeX: :width 13cm
+[[file:Pictures/postal5.png]]
 #+BEGIN_LaTeX
-\clearpage
 %\addtolength{\oddsidemargin}{-.25in}
 \addtolength{\oddsidemargin}{0in}
 \addtolength{\evensidemargin}{-01.25in}
@@ -203,7 +207,7 @@
 ** APRM
    *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
 ** Create Wallets 						   :noexport:
- : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
+   cat .ts : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
  : Service Account SVC_BILLINGOPS    lXmWKh5pJsGxr!nIl_GQl0Db
  : TSP Production Password prmAPPC!PHAV1
  :                         PRMAPPC!22 - Starting tomorrow
@@ -407,7 +411,7 @@ label = "Event Servers";
    -  *cdswitch (Batch2 Only)* - cd to the switch directory.
    -  *aprout* - cd to the *CIBER* out directories.
 ** On Call Documentation
-   [[file:docs/ON%20CALL%20TASKS.docx][On Call Documentation]]
+   [[file:docs/ON%20CALL%20TASKS.pdf][On Call Documentation]]
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
@@ -729,7 +733,8 @@ subgraph cluster_3 {
     3. *NTI ONLY*
        - *Both*  \newline *(NTI Mobile to Mobile)* in which for every voice event, two records are created, a *Mobile Originated* and *Mobile Terminated* record. For *APLX* this is taken care of automatically. In the case of an *NTI* switch, depending on the call scenario, it is up to the mediation platform to create one if needed.
        - *Neither* \newline (per example *L-L* )
-
+#+ATTR_LaTeX: :width 11cm
+[[file:Pictures/white-charles-harvest_talk.jpg]]
 #+BEGIN_LaTeX
 \newpage 
 \begin{landscape}  
@@ -1434,6 +1439,8 @@ CD    6. No additional details needed
           Mabel_Consolidation scripts start here:\\
            /apps/ebi/mabel1/bin/mabelCon.sh
 ** Invoice 
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/workingfamily.jpg]]
 #+BEGIN_LaTeX
  \newpage
 #+END_LaTeX 
@@ -1581,6 +1588,9 @@ CD    6. No additional details needed
 
     -   APRM Queries
     :  [[docs/APRM%20Queries][AprmQuery.sql]]
+
+#+ATTR_LaTeX: :width 18cm
+[[file:Pictures/ironsmall.jpg]]
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
@@ -3082,6 +3092,9 @@ CD    6. No additional details needed
     -  AR1_GL_DATA_INFO_V
     -  AR1_TRANSACTION_LOG
     -  AR1-JGL-CONTROL
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/coalminer.jpg]]
+
 #+BEGIN_LaTeX
 \newpage
 
@@ -4956,6 +4969,10 @@ CD    6. No additional details needed
 | Soly            | 630-285-8386 |
 |-----------------+--------------|
 
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/Meissner_War_Bulletins.jpg]]
+ 
+
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List							   :noexport:
 ** TODO IR0600 - 5G Commercialization
@@ -4982,6 +4999,8 @@ CD    6. No additional details needed
     We already monitor usage by type and this would be another type.
 
 ** TODO Verizon LTE/VoLTE Outbound roaming
+*** Project Manager
+    Dennis Render
     [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.pdf][Latest Doc]]
 *** Project Description
     Enable *LTE/VoLTE* roaming for *Verizon* customers on our network.
@@ -4992,8 +5011,12 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     The roaming reconciliation reports will and have picked up LTE/VoLTE (test calls) from *Verizon*. 
     So we are already covered on the monitoring department.
+*** Current Status
+    On Track
 
 ** TODO International Service Revamp
+*** Project Manager
+    Rebecca Class
 *** Project Description
    [[file:docs/IR0XXX%20Solution%20Proposal_Intnl_Services_Revamp.pdf][Initial Project Documentation]]
    This project is to provide extra services for our post-paid international
@@ -5002,15 +5025,17 @@ CD    6. No additional details needed
    2. Usage Notifications
    3. Policy Controls
    4. Day Passes for Roaming Services
+   5. Country Code Rezoning
    A project such as this would usually take between 6 to 8 months
    to complete other than that no specific deployment date has been given.
 *** Go Live Dates
-    *Deployment Date unknown*
+    Phase 1 targeting June release.
 *** Possible Billing Issues
     - No impact to billing since we process this data already. 
 *** Monitors/Controls/Alerts and Ownership
-    The roaming reconciliation reports will and have picked up LTE/VoLTE (test calls) from *Verizon*. 
-    So we are already covered on the monitoring department.
+    I believe this will be business as usual but it is to early to tell.
+*** Current Status
+    In the meeting today usage was dicussed. Baring anything unforeseen, it will be BAU. 
 
 ** TODO eSIM for Standalone devices
 *** Project Description
@@ -5051,7 +5076,7 @@ CD    6. No additional details needed
 
 ** TODO Sunset Consolidated Billing [66%]
    1. [X] See who is still on TDS
-   2. [X] Get contact information (See Dan's spreadsheet)
+   2. [X] Get contact information
    3. [ ] Operational procedures for cutover
 
 ** TODO SPLUNK Desktop
@@ -5085,15 +5110,25 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     Need to monitor the network traffic when the switchover occurs to make sure usage does not drop.
 
-** TODO EAGR Project
+** EAGR Project
 *** TODO Fraud
-*** TODO Credit Decisioning
+*** Credit Decisioning
+    [[file:docs/CDC_Operational%20Support%20Guide%20-%20v1.0.pdf][Operational Support Guide]]
+**** Go Live March 7th
+**** Archetecture
+**** TODO What machine does the OSB reside??? 
+**** TODO Is Splunk the only way to read the logs
+**** TODO Where are the reports kept
+**** TODO Find those OSB Query's
+**** TODO Log into the Tops Databases.
 ** TODO Look at Collaborator
-   DEADLINE: <2019-02-08 Fri>
-   Talk to Logan
    https://smartbear.com/product/collaborator/overview/
+*** [[http://collaborator:8080/ui][Collaborator Web site:]]
+*** Training Videos
+    - [[https://support.smartbear.com/collaborator/videos/smartbear-academy-collaborator-101-training][Training Vid #1]]
+    - [[https://support.smartbear.com/collaborator/videos/smartbear-academy-collaborator-201-training][Training Vid #2]]
+*** [[file:docs/Collaborator%20OnBoarding%20Guide_10.0%20August%202016.pdf][Collaborator OnBoarding Doc]]
 ** TODO fix usage.pl
-** TODO Do Goals
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

@@ -5,23 +5,24 @@ use Time::Piece;
 use Time::Seconds;
 
 BEGIN {
-	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+	#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
-$ARGV[0] = '20190205';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+
+#$ARGV[0] = '20190205';
 
 my $date = $ARGV[0];
 
@@ -29,11 +30,10 @@ my $sdate  = 0;
 my $ldate  = 0;
 my $period = '';
 
-
 $period = Time::Piece->strptime( $date, "%Y%m%d" );
 
 my $monthname = $period->strftime("%B");
-my $yearname = $period->strftime("%Y");
+my $yearname  = $period->strftime("%Y");
 my $yearmonth = $period->strftime("%Y-%m");
 
 $period -= ONE_MONTH;
@@ -51,10 +51,7 @@ else {
 	$sdate = substr( $date, 0, 6 );
 }
 
-
 $period = $period->strftime("%Y%m");
-
-
 
 my %sqls = {};
 
@@ -422,14 +419,15 @@ my $dbconnb = '';             # getBRMPRD();
 my @aprmArray = ();
 
 my $message = "Everyone,\n\nAttached is the";
-my $title = "";
+my $title   = "";
 
 if ( substr( $date, 6, 2 ) eq '05' ) {
 
-	$message = $message.
-" APRM CDMA Accrual and 4G Settlement Report for $monthname 5th  $yearname.\nThe report covers the Billing Period Start Date of $yearmonthOld-01 and $yearmonthOld-16.\n\nDave";
+	$message = $message
+	  . " APRM CDMA Accrual and 4G Settlement Report for $monthname 5th  $yearname.\nThe report covers the Billing Period Start Date of $yearmonthOld-01 and $yearmonthOld-16.\n\nDave";
 
-$title = "APRM CDMA Accrual and 4G Settlement Report for $monthname 5th $yearname";
+	$title =
+	  "APRM CDMA Accrual and 4G Settlement Report for $monthname 5th $yearname";
 
 	@aprmArray = (
 
@@ -449,39 +447,51 @@ $title = "APRM CDMA Accrual and 4G Settlement Report for $monthname 5th $yearnam
 }
 else {
 
-	$message = $message.
-" APRM CDMA Settlement Report for $monthname 22nd  $yearname.\nThe report covers the Billing Period Start Date of $yearmonthOld-16.\n\nDave";
+	$message = $message
+	  . " APRM CDMA Settlement Report for $monthname 22nd  $yearname.\nThe report covers the Billing Period Start Date of $yearmonthOld-16.\n\nDave";
 
-$title = "APRM CDMA Settlement Report for $monthname 22nd $yearname";
-
+	$title = "APRM CDMA Settlement Report for $monthname 22nd $yearname";
 
 	@aprmArray = (
-		'CDMA_INCOLLECT_VOICE_SETTLEMENT',
-		'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER',
-		'CDMA_INCOLLECT_DATA_SETTLEMENT',
-		'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER',
-		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT',
+#		'CDMA_INCOLLECT_VOICE_SETTLEMENT',
+#		'CDMA_INCOLLECT_VOICE_SETTLEMENT_CARRIER',
+#		'CDMA_INCOLLECT_DATA_SETTLEMENT',
+#		'CDMA_INCOLLECT_DATA_SETTLEMENT_CARRIER',
+#		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT',
 		'CDMA_OUTCOLLECT_VOICE_SETTLEMENT_CARRIER'
 	);
 }
 
-my $excel_file = readAprm( \@aprmArray, $dbconn, $title);
+my $excel_file = readAprm( \@aprmArray, $dbconn, $title );
 
 $dbconn->disconnect();
 
 #$dbconnb->disconnect();
 
-my @email = ('david.balchen@uscellular.com');
+my @email = (
+	'david.balchen@uscellular.com',
+	'ISBillingOperations@uscellular.com',
+	'Ilham.Elgarni@uscellular.com',
+	'Heather.Jeschke@uscellular.com',
+	'david.smith@uscellular.com',
+	'Miguel.Jones@uscellular.com'
+);
+
+my @email = (
+	'david.balchen@uscellular.com',
+	'david.smith@uscellular.com'
+);
+
 foreach my $too (@email) {
-	sendMsg( $too, "APRM Report for $date\n", $excel_file );
+	sendMsg( $too, $message, $title, $excel_file );
 }
 
 exit(0);
 
 sub readAprm {
-	my ( $sqlList, $conn, $title) = @_;
+	my ( $sqlList, $conn, $title ) = @_;
 
-	my $excel_file = $title. '.xls';
+	my $excel_file = $title . '.xls';
 	my $workbook   = Spreadsheet::WriteExcel->new($excel_file);
 
 	my %tab = {};
@@ -712,9 +722,10 @@ sub readAprm {
 sub getBODSPRD {
 
 	my $dbPwd = "BODS_SVC_BILLINGOPS";
-#	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-    my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Bo0Go09000#" );
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
+	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Bo0Go09000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -723,9 +734,9 @@ sub getBODSPRD {
 
 sub getBRMPRD {
 
- #	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
- #	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
- #   my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "Bo0Go09000#" );'
+#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
+#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+#   my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "Bo0Go09000#" );'
 
 	my $dbPwd = "BODS_SVC_BILLINGOPS";
 	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
@@ -750,10 +761,10 @@ sub pad {
 
 sub sendMsg() {
 
-	my ( $to, $message, $excel_file ) = @_;
+	my ( $to, $message, $title, $excel_file ) = @_;
 	my $mime_type = 'multipart/mixed';
 	my $from      = "david.balchen\@uscellular.com";
-	my $subject   = "APRM Report for $date";
+	my $subject   = $title;
 	my $cc        = '';
 
    #  $message = "You'll find the report attached to this email\n\n" . $message;

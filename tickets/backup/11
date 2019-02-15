@@ -1,0 +1,503 @@
+Cycle code for 200139226 is 10
+Connected to Usage 3
+Last voice was on 09-NOV-13
+Voice offers for customer 200139226:
+	6024564: B2B POOLED 500_BIZPOX002_PP
+	6605775: Postpaid Market Level Offers
+Voice Usage for subscriber: 80759675
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	756		687		69		27.6
+	Incoming      	92		83		9		3.6
+	N/W           	19		19		0		0
+	M2M           	160		126		34		13.6
+	Charged usage 	485		459		26		10.4
+Voice Usage for subscriber: 80759690
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1655		1440		215		86
+	Incoming      	517		453		64		25.6
+	N/W           	151		127		24		9.6
+	M2M           	121		107		14		5.6
+	Charged usage 	866		753		113		45.2
+Voice Usage for subscriber: 80841092
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	212		157		55		22
+	Incoming      	60		47		13		5.2
+	N/W           	27		25		2		.8
+	M2M           	39		26		13		5.2
+	Charged usage 	86		59		27		10.8
+Voice Usage for subscriber: 80858926
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	255		230		25		10
+	Incoming      	15		13		2		.8
+	M2M           	81		76		5		2
+	Charged usage 	159		141		18		7.2
+Voice Usage for subscriber: 81528675
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1707		1269		438		175.2
+	Incoming      	806		618		188		75.2
+	M2M           	449		305		144		57.6
+	Charged usage 	452		346		106		42.4
+Voice Usage for subscriber: 81677851
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	532		422		110		44
+	Incoming      	42		39		3		1.2
+	M2M           	214		158		56		22.4
+	Charged usage 	276		225		51		20.4
+Voice Usage for subscriber: 81731832
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	297		257		40		16
+	Incoming      	11		9		2		.8
+	N/W           	56		56		0		0
+	M2M           	53		44		9		3.6
+	Charged usage 	177		148		29		11.6
+Voice Usage for subscriber: 81731843
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	741		564		177		70.8
+	Incoming      	69		41		28		11.2
+	M2M           	397		313		84		33.6
+	Charged usage 	275		210		65		26
+Voice Usage for subscriber: 81732405
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1256		1130		126		50.4
+	Incoming      	190		176		14		5.6
+	N/W           	639		560		79		31.6
+	M2M           	415		389		26		10.4
+	Charged usage 	12		5		7		2.8
+Voice Usage for subscriber: 81732421
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1142		900		242		96.8
+	Incoming      	71		56		15		6
+	N/W           	89		82		7		2.8
+	M2M           	635		463		172		68.8
+	Charged usage 	347		299		48		19.2
+Voice Usage for subscriber: 81776553
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	277		197		80		32
+	Incoming      	51		19		32		12.8
+	N/W           	2		2		0		0
+	M2M           	100		61		39		15.6
+	Charged usage 	124		115		9		3.6
+Voice Usage for subscriber: 81866987
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1216		1097		119		47.6
+	Incoming      	289		260		29		11.6
+	N/W           	11		11		0		0
+	M2M           	812		725		87		34.8
+	Charged usage 	104		101		3		1.2
+Voice Usage for subscriber: 81866995
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1061		895		166		66.4
+	Incoming      	158		147		11		4.4
+	N/W           	42		42		0		0
+	M2M           	419		328		91		36.4
+	Charged usage 	442		378		64		25.6
+Voice Usage for subscriber: 81884444
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	346		288		58		23.2
+	Incoming      	176		146		30		12
+	M2M           	99		83		16		6.4
+	Charged usage 	71		59		12		4.8
+Voice Usage for subscriber: 81884456
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	210		144		66		26.4
+	Incoming      	17		11		6		2.4
+	N/W           	13		11		2		.8
+	M2M           	50		27		23		9.2
+	Charged usage 	130		95		35		14
+Voice Usage for subscriber: 81917192
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1291		1090		201		80.4
+	Incoming      	348		335		13		5.2
+	N/W           	100		99		1		.4
+	M2M           	381		274		107		42.8
+	Charged usage 	462		382		80		32
+Voice Usage for subscriber: 81945543
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	817		678		139		55.6
+	Incoming      	64		38		26		10.4
+	N/W           	99		94		5		2
+	M2M           	278		228		50		20
+	Charged usage 	376		318		58		23.2
+Voice Usage for subscriber: 81948911
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	355		330		25		10
+	Incoming      	7		7		0		0
+	N/W           	40		34		6		2.4
+	M2M           	34		32		2		.8
+	Charged usage 	274		257		17		6.8
+Voice Usage for subscriber: 81948988
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	811		735		76		30.4
+	Incoming      	65		61		4		1.6
+	N/W           	81		76		5		2
+	M2M           	57		52		5		2
+	Charged usage 	608		546		62		24.8
+Voice Usage for subscriber: 81948994
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	74		74		0		0
+	Incoming      	5		5		0		0
+	N/W           	3		3		0		0
+	Charged usage 	66		66		0		0
+Voice Usage for subscriber: 82664324
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	914		804		110		44
+	Incoming      	55		53		2		.8
+	N/W           	99		83		16		6.4
+	M2M           	493		436		57		22.8
+	Charged usage 	267		232		35		14
+Voice Usage for subscriber: 83081833
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	361		358		3		1.2
+	Incoming      	47		47		0		0
+	M2M           	12		12		0		0
+	Charged usage 	302		299		3		1.2
+Voice Usage for subscriber: 83081850
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	190		133		57		22.8
+	Incoming      	3		2		1		.4
+	N/W           	50		29		21		8.4
+	M2M           	37		20		17		6.8
+	Charged usage 	100		82		18		7.2
+Voice Usage for subscriber: 83173343
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	395		368		27		10.8
+	Incoming      	100		100		0		0
+	N/W           	20		20		0		0
+	M2M           	150		126		24		9.6
+	Charged usage 	125		122		3		1.2
+Voice Usage for subscriber: 83279206
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	391		282		109		43.6
+	Incoming      	53		38		15		6
+	N/W           	6		5		1		.4
+	M2M           	55		42		13		5.2
+	Charged usage 	277		197		80		32
+Voice Usage for subscriber: 83531225
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1389		1167		222		88.8
+	Incoming      	146		135		11		4.4
+	N/W           	197		158		39		15.6
+	M2M           	372		322		50		20
+	Charged usage 	674		552		122		48.8
+Voice Usage for subscriber: 83773777
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	2223		1729		494		197.6
+	Incoming      	409		335		74		29.6
+	N/W           	195		139		56		22.4
+	M2M           	897		657		240		96
+	Charged usage 	722		598		124		49.6
+Voice Usage for subscriber: 83839669
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	5		5		0		0
+	M2M           	3		3		0		0
+	Charged usage 	2		2		0		0
+Voice Usage for subscriber: 83865395
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	460		371		89		36.1
+	Incoming      	67		65		2		.8
+	N/W           	159		130		29		11.6
+	M2M           	88		58		30		12
+	Charged usage 	146		118		28		11.7
+Voice Usage for subscriber: 83976168
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	492		360		132		52.8
+	Incoming      	43		35		8		3.2
+	N/W           	120		103		17		6.8
+	M2M           	229		161		68		27.2
+	Charged usage 	100		61		39		15.6
+Voice Usage for subscriber: 83976545
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	106		72		34		13.6
+	Incoming      	21		12		9		3.6
+	M2M           	16		11		5		2
+	Charged usage 	69		49		20		8
+Voice Usage for subscriber: 84395464
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	668		585		83		33.2
+	Incoming      	280		258		22		8.8
+	N/W           	66		46		20		8
+	M2M           	173		154		19		7.6
+	Charged usage 	149		127		22		8.8
+Voice Usage for subscriber: 84395465
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	435		400		35		14
+	Incoming      	23		20		3		1.2
+	N/W           	55		55		0		0
+	M2M           	100		91		9		3.6
+	Charged usage 	257		234		23		9.2
+Voice Usage for subscriber: 84395466
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1105		939		166		66.4
+	Incoming      	49		43		6		2.4
+	N/W           	41		41		0		0
+	M2M           	656		545		111		44.4
+	Charged usage 	359		310		49		19.6
+Voice Usage for subscriber: 84574842
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	745		716		29		11.6
+	Incoming      	115		108		7		2.8
+	N/W           	17		17		0		0
+	M2M           	113		111		2		.8
+	Charged usage 	500		480		20		8
+Voice Usage for subscriber: 84650332
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	2760		2340		420		168
+	Incoming      	60		54		6		2.4
+	N/W           	291		279		12		4.8
+	M2M           	1661		1379		282		112.8
+	Charged usage 	748		628		120		48
+Voice Usage for subscriber: 84650338
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	972		886		86		34.4
+	Incoming      	307		266		41		16.4
+	M2M           	113		105		8		3.2
+	Charged usage 	552		515		37		14.8
+Voice Usage for subscriber: 84769314
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1		1		0		0
+	M2M           	1		1		0		0
+Voice Usage for subscriber: 84789173
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	143		143		0		0
+	Incoming      	22		22		0		0
+	N/W           	72		72		0		0
+	M2M           	43		43		0		0
+	Charged usage 	6		6		0		0
+Voice Usage for subscriber: 84789175
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	626		471		155		62
+	Incoming      	103		56		47		18.8
+	N/W           	51		50		1		.4
+	M2M           	162		120		42		16.8
+	Charged usage 	310		245		65		26
+Voice Usage for subscriber: 84789176
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1142		1088		54		35.53
+	Incoming      	71		66		5		2
+	N/W           	342		342		0		7.96
+	M2M           	338		319		19		7.6
+	Charged usage 	391		361		30		17.97
+Voice Usage for subscriber: 84789177
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	196		134		62		24.8
+	Incoming      	27		17		10		4
+	N/W           	5		5		0		0
+	M2M           	155		109		46		18.4
+	Charged usage 	9		3		6		2.4
+Voice Usage for subscriber: 84850499
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	1248		1029		219		87.6
+	Incoming      	50		45		5		2
+	N/W           	164		156		8		3.2
+	M2M           	535		413		122		48.8
+	Charged usage 	499		415		84		33.6
+Voice Usage for subscriber: 84920305
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	349		289		60		24
+	Incoming      	32		30		2		.8
+	N/W           	30		28		2		.8
+	M2M           	55		47		8		3.2
+	Charged usage 	232		184		48		19.2
+Voice Usage for subscriber: 84920309
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	6		3		3		1.2
+	Charged usage 	6		3		3		1.2
+Voice Usage for subscriber: 84920311
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	374		329		45		18
+	Incoming      	29		24		5		2
+	N/W           	84		84		0		0
+	M2M           	69		69		0		0
+	Charged usage 	192		152		40		16
+Voice Usage for subscriber: 84924116
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	345		322		23		9.2
+	Incoming      	17		15		2		.8
+	N/W           	41		41		0		0
+	M2M           	57		53		4		1.6
+	Charged usage 	230		213		17		6.8
+Voice Usage for subscriber: 85007857
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	881		775		106		42.4
+	Incoming      	140		117		23		9.2
+	N/W           	176		153		23		9.2
+	M2M           	258		241		17		6.8
+	Charged usage 	307		264		43		17.2
+Voice Usage for subscriber: 85386625
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	945		812		133		53.2
+	Incoming      	301		255		46		18.4
+	N/W           	83		81		2		.8
+	M2M           	74		63		11		4.4
+	Charged usage 	487		413		74		29.6
+Voice Usage for subscriber: 86031517
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	10		10		0		0
+	N/W           	2		2		0		0
+	M2M           	8		8		0		0
+Voice Usage for subscriber: 86080187
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	194		173		21		8.4
+	Incoming      	17		17		0		0
+	N/W           	7		7		0		0
+	M2M           	72		53		19		7.6
+	Charged usage 	98		96		2		.8
+Voice Usage for subscriber: 86085462
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	598		495		103		41.2
+	Incoming      	33		32		1		.4
+	N/W           	73		49		24		9.6
+	M2M           	41		38		3		1.2
+	Charged usage 	451		376		75		30
+Voice Usage for subscriber: 86085464
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	602		552		50		20
+	Incoming      	77		66		11		4.4
+	N/W           	76		76		0		0
+	M2M           	56		50		6		2.4
+	Charged usage 	393		360		33		13.2
+Voice Usage for subscriber: 86085465
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	323		289		34		13.6
+	Incoming      	21		18		3		1.2
+	N/W           	128		121		7		2.8
+	M2M           	98		92		6		2.4
+	Charged usage 	76		58		18		7.2
+Voice Usage for subscriber: 86085466
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	457		392		65		26
+	Incoming      	129		116		13		5.2
+	N/W           	102		96		6		2.4
+	M2M           	86		65		21		8.4
+	Charged usage 	140		115		25		10
+Voice Usage for subscriber: 86085468
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	315		276		39		15.6
+	Incoming      	21		17		4		1.6
+	N/W           	39		35		4		1.6
+	M2M           	34		33		1		.4
+	Charged usage 	221		191		30		12
+Voice Usage for subscriber: 86085469
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	485		485		0		0
+	Incoming      	16		16		0		0
+	N/W           	204		204		0		0
+	M2M           	215		215		0		0
+	Charged usage 	50		50		0		0
+Voice Usage for subscriber: 86085470
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	363		246		117		46.8
+	Incoming      	42		24		18		7.2
+	N/W           	4		4		0		0
+	M2M           	162		127		35		14
+	Charged usage 	155		91		64		25.6
+Voice Usage for subscriber: 86085472
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	272		219		53		21.2
+	Incoming      	58		52		6		2.4
+	N/W           	11		10		1		.4
+	M2M           	40		22		18		7.2
+	Charged usage 	163		135		28		11.2
+Voice Usage for subscriber: 86085473
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	835		702		133		53.2
+	Incoming      	57		31		26		10.4
+	N/W           	124		95		29		11.6
+	M2M           	331		316		15		6
+	Charged usage 	323		260		63		25.2
+Voice Usage for subscriber: 86085476
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	2386		1955		431		172.4
+	Incoming      	395		324		71		28.4
+	N/W           	235		222		13		5.2
+	M2M           	1201		973		228		91.2
+	Charged usage 	555		436		119		47.6
+Voice Usage for subscriber: 86186009
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	11		11		0		0
+	N/W           	11		11		0		0
+Voice Usage for subscriber: 86229381
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	16		16		0		0
+	Charged usage 	16		16		0		0
+Voice Usage for subscriber: 86493391
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	275		245		30		12
+	Incoming      	127		104		23		9.2
+	N/W           	10		9		1		.4
+	M2M           	95		89		6		2.4
+	Charged usage 	43		43		0		0
+Voice Usage for subscriber: 86606779
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	602		602		0		0
+	Incoming      	73		73		0		0
+	M2M           	96		96		0		0
+	Charged usage 	433		433		0		0
+Voice Usage for subscriber: 86640189
+	Usage Type	Used Mins	Free Mins	Charged Mins	Charge Amount
+	All           	916		837		79		31.6
+	Incoming      	45		45		0		0
+	N/W           	283		262		21		8.4
+	M2M           	233		203		30		12
+	Charged usage 	355		327		28		11.2
+Last data was on 09-NOV-13
+Data offers for customer 200139226:
+	6030244: DAILY DATA_DTDLYX001
+Data Usage for subscriber: 83865395
+	Usage Type	Used MB		Free MB		Charged MB	Charge Amount
+	3G            	0.40		0.00		0.40		93.00
+	Total         	0.40		0.00		0.40		93.00
+Message offers for customer 200139226:
+	6030214: PAY-AS-YOU-GO MESSAGING_DTBNDX001
+Message Usage for subscriber: 81528675
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	9		2.25
+Message Usage for subscriber: 81866987
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	17		4.25
+Message Usage for subscriber: 81884444
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	4		1
+Message Usage for subscriber: 81917192
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	19		4.75
+Message Usage for subscriber: 83173343
+	Usage Type	Sent Messages	Charge Amount
+	MMS           	1		.25
+	SMS           	121		30.25
+Message Usage for subscriber: 83279206
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	3		.75
+Message Usage for subscriber: 83773777
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	5		1.25
+Message Usage for subscriber: 83865395
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	1		.25
+Message Usage for subscriber: 84789176
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	8		2
+Message Usage for subscriber: 84789177
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	253		63.25
+Message Usage for subscriber: 85386625
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	12		3
+Message Usage for subscriber: 86080187
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	5		1.25
+Message Usage for subscriber: 86085464
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	4		1
+Message Usage for subscriber: 86085465
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	19		4.75
+Message Usage for subscriber: 86085473
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	3		.75
+Message Usage for subscriber: 86085476
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	5		1.25
+Message Usage for subscriber: 86493391
+	Usage Type	Sent Messages	Charge Amount
+	SMS           	4		1

@@ -207,6 +207,7 @@ for ip_number in sorted(set(map(lambda x:x[1], results))):
             max_row = max_row + 1  
                   
         sheet.append([""])
+        
 cursor.close
 
 conn.close()

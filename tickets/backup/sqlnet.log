@@ -1,0 +1,57 @@
+
+
+***********************************************************************
+Fatal NI connect error 12502, connecting to:
+ (description=(address=(protocol=tcp)(host=kpabilscan)(port=1521))(connect_data=(service_name=prdcustap)(server=dedicated)(CID=(PROGRAM=perl@kpr02batch)(HOST=kpr02batch)(USER=prdwrk2))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 11.2.0.2.0 - Production
+	TCP/IP NT Protocol Adapter for Linux: Version 11.2.0.2.0 - Production
+  Time: 18-DEC-2013 10:49:01
+  Tracing not turned on.
+  Tns error struct:
+    ns main err code: 12564
+    TNS-12564: TNS:connection refused
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Operation timed out
+    nt secondary err code: 110
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12502, connecting to:
+ (description=(address=(protocol=tcp)(host=kpabilscan)(port=1521))(connect_data=(service_name=prdcustap)(server=dedicated)(CID=(PROGRAM=perl@kpr02batch)(HOST=kpr02batch)(USER=prdwrk2))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 11.2.0.2.0 - Production
+	TCP/IP NT Protocol Adapter for Linux: Version 11.2.0.2.0 - Production
+  Time: 18-DEC-2013 10:49:26
+  Tracing not turned on.
+  Tns error struct:
+    ns main err code: 12564
+    TNS-12564: TNS:connection refused
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Operation timed out
+    nt secondary err code: 110
+    nt OS err code: 0
+
+
+***********************************************************************
+Fatal NI connect error 12502, connecting to:
+ (description=(address=(protocol=tcp)(host=kpabilscan)(port=1521))(connect_data=(service_name=prdcustap)(server=dedicated)(CID=(PROGRAM=sqlplus)(HOST=kpr02batch)(USER=prdwrk2))))
+
+  VERSION INFORMATION:
+	TNS for Linux: Version 11.2.0.2.0 - Production
+	TCP/IP NT Protocol Adapter for Linux: Version 11.2.0.2.0 - Production
+  Time: 18-DEC-2013 10:50:11
+  Tracing not turned on.
+  Tns error struct:
+    ns main err code: 12564
+    TNS-12564: TNS:connection refused
+    ns secondary err code: 12560
+    nt main err code: 505
+    TNS-00505: Operation timed out
+    nt secondary err code: 110
+    nt OS err code: 0

@@ -3985,3 +3985,165 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_ITAGS: noexport
   :END:
   Since 2019... Greater then average descrepency..
+
+* Goals								   :noexport:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-02-15 Fri 14:26
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+** Security - Cybersecurity
+   We are all responsible for security while implementing new and changing existing apps.
+   - Invest consistent with our assessment of the threat landscape
+   - Assuring our network, applications and data are secured at all times.
+   - Individual and personal responsibility – physical security, desktop locking, to emails sent
+   - Logfiles, sensitive information, cpni audits, access and role reviews
+   Within the Collaborate tool ensure that there is acknowledgement from the person that is 
+   reviewing the code or data change, that all security risks have been addressed.
+
+   To use Collaborate we must learn Collaborate. Luckily there are many free videos on how to do 
+   just that.
+
+   When writing software keep in mind any possible bugs that can be exploited such as, SQL injection,
+   man in the middle, etc.
+
+   Have your code reviewed by the team and follow the Open Source mantra,
+   "Many eyes make all bugs shallow".
+** DevSecOps
+   - Growing as a team to build the agile framework for our teams.
+   - Moving our teams to be agile.
+   - Using the agile tools where applicable.
+
+   Ensure that everyone leader has at least one DevOps or Agile goal within their IDPs.
+   Ensure that our teams have the needed Agile training and knowledge to support our 
+   organization moving toward a more Agile framework.
+
+   Need to learn and master the following Agile tools:
+   - Git
+   - Jira
+   - Collaborate
+
+** Stability
+
+   Maintain high availability of customer and front-line facing systems:
+   Continue to deliver accurate and on-time bills
+   The total Billing Timeliness and Accuracy metric will be the weighted average of the 
+   two components, with timeliness being capped at the midpoint percentage for EE and FE ratings.
+
+   - Timeliness
+    - FE = 99.99-100% Delivered on Time
+    - EE = 99.97-99.99% Delivered on Time
+    - ME = 99.95 - 99.97% Delivered on Time
+    - PM = <99.95 % Delivered on Time
+   - Accuracy
+    - FE = 99.97-100% Accurate Invoices
+    - EE = 99.91-99.97% Accurate Invoices
+    - ME = 99.69-99.91% Accurate Invoices
+    - PM = <99.69% Accurate Invoices
+
+   1. Ensure critical billing issues are handled via Incident bridge to ensure Billing 
+   timeliness and Accuracy
+   2. Participate in daily Billing calls, monthly meetings with Amdocs and IMC.
+   3. Ensure all defects are fully resolved and deployed successfully in production.
+
+   Drive stability through faster issue/incident resolution through Service Ownership (EAGR):
+   - Create Playbooks and Operational Support Guides for all team owned services including:
+    - Credit Decisioning
+    - Fraud Management
+    - Billing
+    - Payment Processing
+    - Usage Processing
+    - EOD/EOM and Journaling
+    - Credits Processing
+    - MCO Processes for Financial Services
+    - On-Call
+    - Collections Processing
+
+   Rigorous Change Management:
+   Reduce the number of changes that are brought to CAB for approval.  
+   In 2018 there was 88 changes brought to CAB for approval.  In 2019, this number should 
+   be reduced by 10% to 79 changes.
+
+   Help and assist in defect management as well as building monitors to gain insight into a 
+   process and to provide better and more useful information. Make sure all code in GITHUB is up to date with the latest changes.
+   
+
+** Speed to Market
+   Rapid enablement of new products and services using the “fastest time to value” approach.
+
+   Continued focus on delivering faster with a concentration on improving quality.
+
+   Implement a DevOps "Shifting Left" Concept - For the development work that the 
+   IS Billing and Revenue Dev Ops team are doing (for monitors, controls, altering, 
+   reporting, and automation) we should start with building test cases first, then 
+   build functionality are that. 
+
+   Rollout the use of the Collaborator tool and the supporting processes.  This tool will be used 
+   to automate and facilitate some of the Quality Assurance processes for new or updated code 
+   and data changes.
+
+   Ensure that the IS Billing and Revenue Dev Ops team provides all requested audit documentation 
+   or surveys to the auditors within the stated deadlines for the following SOX controls:  
+   Compliance met for all 4 quarters testing of following controls :
+   - CP1001 - Application of Credits vs. Charges
+   - CP1003 - Pre-paid Customer Processing Configuration/ Mapping
+   - CP2002 - AR Payment Processing Validations
+   - CP2003 - Duplicate Payment - Batch Processing
+   - CP2004 - Write off of Uncollectable AR
+   - CP2007 - AR Payment Processing Error Flagging
+   - CP2018 - Duplicate Payment Processing - Real-time Payments
+
+   I will learn and implement Collaborator and Jira and use the Agile processes. Since I've been using agile for quite a while, back when there were known as iterative processes, It should
+   be no problem for me to adjust. The only issue I see is that we may take the process to seriously and can handcuff development.
+
+** Savings
+   Know the budget for projects.
+   Resource investment that adds value.
+   Responsible for managing project delivery and operating expenses based on forecasted budgets.
+   Responsible for ensuring projects and IRs do not negatively impact operations and increase costs.
+
+   Ensure that operational cost are evaluated for each project that impacts the billing and revenue domains.
+
+   Participate in projects to ensure Operational Excellence including:
+
+   - Trans Union Credit Decisioning (EAGR) 
+   - Fraud for Web Evolution (EAGR)
+   - VISA and Discover Mandate 
+   - Prepaid Evolution 
+   - Web Evolution 
+   - Replace Nokia/Aeris M2M/CDP 
+   - Voice over WiFi 
+   - Fixed Wireless 
+   - IR430.3 - New First Page of the Bill
+   - Paper to Paperless Initiative 
+   - Remedy Upgrade 
+   - IR0583 – Stand-Alone ESIM Provisioning 
+   - PCRF Forklift Project  
+   - IR0600 – 5G Commercialization 
+   - IR0596 – International Services Revamp 
+   - IR0597 – Proxy Identity Access Management 
+   - IR0549/CR258 – RCRF for Secondary Device 
+   - Verizon VoLTE/LTE Outbound Roaming
+
+   The following projects are mine:
+    - Trans Union Credit Decisioning (EAGR) 
+    - Voice over WiFi 
+    - IR0583 – Stand-Alone ESIM Provisioning 
+    - PCRF Forklift Project  
+    - IR0600 – 5G Commercialization 
+    - IR0596 – International Services Revamp 
+    - Verizon VoLTE/LTE Outbound Roaming
+  
+  I will attend all meetings, ask questions, confer with my Peers and keep my leader updated on the ongoing progress.
+
+* TODO Do Goals (See email Cindy Sent)
+  DEADLINE: <2019-02-22 Fri>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-02-15 Fri 15:35
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+   
