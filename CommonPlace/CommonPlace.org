@@ -20,6 +20,7 @@
 #+Email: dave@balchen.org
 \newpage 
 #+ATTR_LaTeX: :width 13cm
+
 [[file:Pictures/postal5.png]]
 #+BEGIN_LaTeX
 %\addtolength{\oddsidemargin}{-.25in}
@@ -1438,7 +1439,7 @@ CD    6. No additional details needed
            /apps/ebi/mabel1/MABEL_validation/mabelValidation.sh\\
           Mabel_Consolidation scripts start here:\\
            /apps/ebi/mabel1/bin/mabelCon.sh
-** Invoice 
+
 #+ATTR_LaTeX: :width 16cm
 [[file:Pictures/workingfamily.jpg]]
 #+BEGIN_LaTeX
@@ -2640,6 +2641,11 @@ CD    6. No additional details needed
 | Ods_Insert_Date           | Date                |               |
 | Ods_Last_Update_Date      | Date                |               |
 |---------------------------+---------------------+---------------|
+
+
+#+ATTR_LaTeX: :width 14cm
+      [[file:Pictures/shahn.jpg]]
+
 #+BEGIN_LaTeX
 \normalsize
 \newpage
@@ -4969,12 +4975,14 @@ CD    6. No additional details needed
 | Soly            | 630-285-8386 |
 |-----------------+--------------|
 
-#+ATTR_LaTeX: :width 16cm
-[[file:Pictures/Meissner_War_Bulletins.jpg]]
- 
+#+ATTR_LaTeX: :width 10cm
+[[file:Pictures/7-1.jpg]]
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List							   :noexport:
+** APPT Doctor Appt
+   SCHEDULED: <2019-03-25 Mon 09:20>--<2019-03-25 Mon 10:30>
+   
 ** TODO IR0600 - 5G Commercialization
     [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Archecture]]
 *** Project Description
@@ -5019,6 +5027,7 @@ CD    6. No additional details needed
     Rebecca Class
 *** Project Description
    [[file:docs/IR0XXX%20Solution%20Proposal_Intnl_Services_Revamp.pdf][Initial Project Documentation]]
+   [[file:Pictures/IR0596%20-%20International%20Services%20Revamp%20Mind%20map.pdf][Project Mind Map]]
    This project is to provide extra services for our post-paid international
    customers which will include:
    1. Package Offers for Roaming Services
@@ -5035,7 +5044,37 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     I believe this will be business as usual but it is to early to tell.
 *** Current Status
-    In the meeting today usage was dicussed. Baring anything unforeseen, it will be BAU. 
+    1. API enhancements:
+     - Syniverse API is EOL and we will need to enhance our API’s to support the newly upgraded Syniverse API
+       - Implement this with proper validations and ensure proper upgrade/migration strategy to minimize the current business flows.
+     - Roam Monitor notifications can be removed with proper assessment but not the Welcome notification
+       - Welcome notification will still function as BAU
+     - Amdocs work will mostly be Compilation change with proper assessment and recoding of API.
+    2. Policy Controls:
+     - Currently, international data captured by Vodafone and Syniverse measures this data after receiving from Vodafone. 
+       - A batch file will be sent to USCC from Syniverse with the measured data
+     - We will need policy controls for Voice and SMS in addition to data
+       - TAP records from Syniverse will come in a batch feed and Mediation team processes these batch files
+     - The voice batch feed will be sent every 4 hours
+     - *The usage file received from Syniverse must be compared TOPS usage by USCC IS team(s) and trigger a notification to the customer based on the business rules*
+       - Data throttling will also be dependent on the policies that will be defined and the notifications to the customer will be sent accordingly.
+     - There are no Revenue Impacts
+     - Once the customer completes the data as defined in their package, they will have to move into pay as you go rates. There will be no throttling at this time but after certain business triggering events, we need to start throttling.
+       - Need to send notifications as applicable and based on current systems technical flows
+       - These need to be part of BRD and IS user stories
+     - Barring of voice and SMS and the triggering events needs to be expanded.
+    3. PITS/PRITS
+     - We need to accumulate Voice and SMS usages in addition to Data
+     - There is a  Data PIT that we can leverage for this project
+     - There is an existing PIT for voice as well but we need to confirm to make sure on this  and if feasibility exists perform some testing to validate 
+    4. Plans and Offers
+     - New $15 and $35 plans will be created for respective countries
+     - No new enhancements or charge codes or tax impacts or revenue recognition impacts for Accounting and Revenue Assurance teams
+    5. Country Code rezoning
+     -  Rezoning of country codes will be implemented based on business definitions.
+    6. Reporting
+     -  We need to regression test *Roaming Reconciliation Report*
+     -  Any new reporting requirements will need to flow through business teams (Enterprise BA)
 
 ** TODO eSIM for Standalone devices
 *** Project Description
@@ -5080,7 +5119,6 @@ CD    6. No additional details needed
    3. [ ] Operational procedures for cutover
 
 ** TODO SPLUNK Desktop
-   SCHEDULED: <2018-12-14 Fri>--<2019-02-01 Fri>
    - [ ] Where is Splunk?
      - Do we have access (mdr01oprmn
      - what access user will we be?
@@ -5121,14 +5159,23 @@ CD    6. No additional details needed
 **** TODO Where are the reports kept
 **** TODO Find those OSB Query's
 **** TODO Log into the Tops Databases.
-** TODO Look at Collaborator
+** Look at Collaborator
    https://smartbear.com/product/collaborator/overview/
 *** [[http://collaborator:8080/ui][Collaborator Web site:]]
 *** Training Videos
     - [[https://support.smartbear.com/collaborator/videos/smartbear-academy-collaborator-101-training][Training Vid #1]]
     - [[https://support.smartbear.com/collaborator/videos/smartbear-academy-collaborator-201-training][Training Vid #2]]
 *** [[file:docs/Collaborator%20OnBoarding%20Guide_10.0%20August%202016.pdf][Collaborator OnBoarding Doc]]
-** TODO fix usage.pl
+*** Quick Walkthrough
+    - Structure
+      - Open New Project
+      - Define who can review
+      - Upload Document to review
+	- If code, need to be in text format    
+*** TODO Get Bret to setup other users.
+*** TODO Watch Videos
+    - 
+
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
@@ -5158,3 +5205,12 @@ CD    6. No additional details needed
 [fn:2] Service Control Protocol
 
 [fn:1] Transfer Account Data Interchange Group
+* IDP
+  - Learn EGAR
+    - Fraud
+    - Credit Decisioning
+  - Learn Python
+    - Use python were appropriate 
+  - Create some more monitors and add them to the EPS monitors
+  - Learn GITHUB
+    Though I'm pretty well versed with GIT, I need to better learn GITHUB especially its collaboration functions.

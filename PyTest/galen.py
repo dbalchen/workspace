@@ -3,6 +3,7 @@
 import cx_Oracle
 
 # This is how you define a Hash Table
+
 CONN_INFO = {
     'host': '10.176.199.19', # info from tnsnames.ora
     'port': 1530, # info from tnsnames.ora

@@ -148,12 +148,14 @@ group by to_char(start_time,'YYYYMMDD'),l9_ip_address, L9_NT_ROAMING_IND order b
 cursor.execute(sql)
 
 results = []
+
 # with open("/home/dbalchen/workspace/monitor/src/ipTest.csv", "rb") as fp:
 #     for i in fp.readlines():
 #         tmp = i.split("\t")
 #         try:
 #             results.append((tmp[0], tmp[1], tmp[2], float(tmp[3]), float(tmp[4])))
 #         except:pass
+
 results = cursor.fetchall()
 
 for ip_number in sorted(set(map(lambda x:x[1], results))):

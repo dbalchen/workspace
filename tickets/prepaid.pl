@@ -1,10 +1,10 @@
 #!/usr/bin/env perl
 
-use lib '/pkgbl01/inf/aimsys/prdwrk1/steve/lib/site_perl/5.10.0/x86_64-linux-thread-multi';
+# use lib '/pkgbl01/inf/aimsys/prdwrk1/steve/lib/site_perl/5.10.0/x86_64-linux-thread-multi';
 use DBI;
 use Carp qw (croak);
 
-checkArgs();
+#checkArgs();
 
 my $mdn=$ARGV[0];
 my $instance=$ARGV[1];
