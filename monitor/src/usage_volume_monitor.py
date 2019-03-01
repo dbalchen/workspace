@@ -5,7 +5,15 @@ import cx_Oracle
 
 # Libraries used for Statistical functions
 import pandas as pd
+
+from scipy import stats
+
+import numpy as np
+
+import matplotlib.pyplot as plt
+
 from __builtin__ import int, str
+
 from cx_Oracle import Date
 
 
@@ -26,18 +34,100 @@ def dbConnect ():
     
     return tconn;
 
+
+def returnSums (results, ipDate, payType, eveType):
+ 
+    try:
+        
+        hrecsum = sum([x[4] for x in results if x[3] == ip_date and x[2] == payType and x[6] == eveType and x[1] == 'N'])
+        hvolsum = sum([x[5] for x in results if x[3] == ip_date and x[2] == payType and x[6] == eveType and x[1] == 'N'])
+    
+        rrecsum = sum([x[4] for x in results if x[3] == ip_date and x[2] == payType and x[6] == eveType and x[1] == 'Y'])
+        rvolsum = sum([x[5] for x in results if x[3] == ip_date and x[2] == payType and x[6] == eveType and x[1] == 'Y'])
+        
+    except: pass
+    
+    return (ipDate, hrecsum + rrecsum, hvolsum + rvolsum, hrecsum, hvolsum, rrecsum, rvolsum)
+
+
+def plotIt (usage, usageType, title, ylabel, filename):
+    
+    filenameL = filename + "L.png"
+    filenameS = filename + "S.png"
+    
+    xAx = [x[0] for x in usage]
+    yAx = [x[usageType] for x in usage]
+    
+    fig = None
+    fig = plt.figure()    
+    ax = plt.axes()
+    
+    # Plot the Picture
+    ax.plot(xAx, yAx, linestyle=':', marker='p', color='b', label='Records')
+
+    # Calculate Least Squares for linear regression
+    xxAxx = np.asarray(xAx, dtype=np.float64)
+    slope, intercept, poop, poop2, poop3 = stats.linregress(xxAxx, yAx)
+     
+    mn = np.min(xxAxx)
+    mx = np.max(xxAxx)
+    x1 = np.linspace(mn, mx, len(xAx))
+    y1 = slope * x1 + intercept
+    # Plot
+    ax.plot(xAx, y1, color='r', label='Linear Regression')
+
+    # Calculate moving average
+    mavg = pd.DataFrame(yAx)     
+    mavg = mavg.rolling(7, center=True).mean()
+    # Plot
+    ax.plot(xAx, mavg, color='g', label='7 Day Moving Average')
+
+    # Print the Legend
+    ax.legend(loc='best')
+    
+    # Label the X Axis
+    ax.set_xlabel('Date')
+
+    # Turn on Grids
+    ax.grid(True)
+
+    ax.set_ylabel(ylabel)
+    
+    # Rotate Axis 90 degrees
+    ax.tick_params(axis='x', rotation=90)
+    # Expand size of
+    fig.set_size_inches(18.5, 11.5)    
+
+    # Picture Title
+    ax.set_title(title)
+    
+    fig.savefig(filenameL)
+
+    # Save a smaller version
+    ax.xaxis.set_major_locator(plt.MaxNLocator(5))
+    
+    ax.tick_params(axis='x', rotation=0)
+    
+    fig.set_size_inches(6, 4)
+    
+    fig.savefig(filenameS)
+    
+    return
+    
 ##############  Main Program  ###################
+
 
 conn = dbConnect()
 cursor = conn.cursor() 
 
-results = []
-
 sql = """
-SELECT /*+ parallel (t1,16) */
-        t1.l3_payment_category,
+  SELECT /*+ parallel (t1,16) */
+        t1.l9_ip_address,
+         t1.L9_NT_ROAMING_IND,
+         t1.l3_payment_category,
          TO_CHAR (TRUNC (t1.sys_creation_date), 'YYYYMMDD'),
-         ROUND (SUM (t1.l3_volume / 1024 / 1024 / 1024), 8),
+         (COUNT (*)/10000) AS RECORDS,
+         ROUND (SUM (t1.l3_volume / 1024 / 1024 / 1024 / 1024), 8),
          t1.l9_volume_type,
          t1.event_type_id
     FROM ape1_rated_event t1
@@ -46,26 +136,49 @@ SELECT /*+ parallel (t1,16) */
          AND t1.l9_volume_type IN ('2G', '3G', '4G')
          AND TRUNC (t1.sys_creation_date) BETWEEN TRUNC (SYSDATE - 90)
                                               AND TRUNC (SYSDATE - 1)
-GROUP BY t1.l3_payment_category,
-         TO_CHAR (TRUNC (t1.sys_creation_date), 'YYYYMMDD'),t1.l9_volume_type,
+GROUP BY t1.l9_ip_address,
+         t1.L9_NT_ROAMING_IND,
+         t1.l3_payment_category,
+         TO_CHAR (TRUNC (t1.sys_creation_date), 'YYYYMMDD'),
+         t1.l9_volume_type,
          t1.event_type_id
 ORDER BY 2 ASC
 """
 
-with open("/home/dbalchen/workspace/monitor/src/Test.csv", "rb") as fp:
-    for i in fp.readlines():
-        tmp = i.split("\t")
-        try:
-            results.append((str(tmp[0]), str(tmp[1]), float(tmp[2]), str(tmp[3]), int(tmp[4])))
-        except:pass
+results = []
 
-# cursor.execute(sql)
-# 
-# results = cursor.fetchall()
+# with open("/home/dbalchen/workspace/monitor/src/Test.csv", "rb") as fp:
+#     for i in fp.readlines():
+#         tmp = i.split("\t")
+#         try:
+#             results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
+#         except:
+#             print("ouch")
 
+cursor.execute(sql)
 
-prePay = [x for x in results if x[0] == 'PRE']
+results = cursor.fetchall()
 
+pre3G = []
+pre4G = []
+post3G = []
+post4G = []
+
+for ip_date in sorted(set(map(lambda x:x[3], results))):
+    pre3G.append(returnSums(results, ip_date, 'PRE', '3G'))
+    pre4G.append(returnSums(results, ip_date, 'PRE', '4G'))
+    post3G.append(returnSums(results, ip_date, 'POST', '3G'))
+    post4G.append(returnSums(results, ip_date, 'POST', '4G'))
+
+plotIt(pre3G, 1, "Pre-Paid 3G Data - Records", "Records / 10000", "pp3G_Records")
+plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records")
+plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
+plotIt(post4G, 1, "Post-Paid 4G Data - Records", "Records / 10000", "postp4G_Records")
+
+plotIt(pre3G, 2, "Pre-Paid 3G Data - Volume", "Volume", "pp3G_Volume")
+plotIt(pre4G, 2, "Pre-Paid 4G Data - Volume", "Volume", "pp4G_Volume")
+plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume", "postp3G_Volume")
+plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume", "postp4G_Volume")
 cursor.close
 
 conn.close()

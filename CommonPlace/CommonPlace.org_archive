@@ -4157,3 +4157,52 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: TODO
   :ARCHIVE_ITAGS: noexport
   :END:
+
+* TODO Watch Videos
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-02-25 Mon 10:50
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List/Look at Collaborator
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+  - 
+
+
+* Look at Collaborator
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-02-27 Wed 13:58
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport
+  :END:
+  https://smartbear.com/product/collaborator/overview/
+** [[http://collaborator:8080/ui][Collaborator Web site:]]
+** Training Videos
+   - [[https://support.smartbear.com/collaborator/videos/smartbear-academy-collaborator-101-training][Training Vid #1]]
+   - [[https://support.smartbear.com/collaborator/videos/smartbear-academy-collaborator-201-training][Training Vid #2]]
+** [[file:docs/Collaborator%20OnBoarding%20Guide_10.0%20August%202016.pdf][Collaborator OnBoarding Doc]]
+** Quick Walkthrough
+   - Structure
+     - Open New Project
+     - Define who can review
+     - Upload Document to review
+       - If code, need to be in text format    
+** TODO Get Bret to setup other users.
+
+* IDP								   :noexport:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-03-01 Fri 14:17
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+  - EGAR
+    Become the go to person for both Trans-Union and Fraud. This will be done by studying existing documentation and careful analysis of the logs (including OSB) and reports and help with the playbook if asked. 
+  - Learn Python by creating monitors (if appropiate), self study and mentoring.  
+  - Create more monitors and add them to the EPS monitors. Some ideas I have is the following:
+    - IP usage Check :: Combine both Mr. Smith's and my monitors together to create a graphic that shows the IP prepay usage.
+    - Usage Check :: A screen to query an MDN which brings back all information for the customer associated to to that MDN.
+    We have a lot of good monitors that are buried in emails and I would like to take some and give them grater visability.
+  - Expand knowledge in GITHUB by giving a presentation and cheet sheet on how to use GITHUB for both source control and collaboration.

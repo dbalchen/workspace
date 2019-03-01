@@ -15,12 +15,11 @@
 #+END_LaTeX 
 #+TITLE: Notes
 #+ATTR_LaTeX: :width 16cm
-      file:Pictures/Andrejevi1.jpg
+file:Pictures/Andrejevi1.jpg
 #+Author: David Balchen
 #+Email: dave@balchen.org
 \newpage 
 #+ATTR_LaTeX: :width 13cm
-
 [[file:Pictures/postal5.png]]
 #+BEGIN_LaTeX
 %\addtolength{\oddsidemargin}{-.25in}
@@ -49,7 +48,6 @@
  : New Page
  : \newpage
 :END:
-
 #+TOC: headlines 2
 #+BEGIN_LaTeX
  \newpage
@@ -4985,6 +4983,8 @@ CD    6. No additional details needed
    
 ** TODO IR0600 - 5G Commercialization
     [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Archecture]]
+*** Project Manager
+    Kirti Parikh
 *** Project Description
     The commercialization of *5G* is part of the following:
     - Network enablement in Year 1 markets (Iowa and Wisconsin)
@@ -5004,7 +5004,7 @@ CD    6. No additional details needed
     - *Turbocharging :* Validation will be required when the enhanced core is available 
     for test. We need to ensure that the interface to the *P/SGWs* remains intact.
 *** Monitors/Controls/Alerts and Ownership
-    We already monitor usage by type and this would be another type.
+    Mr. Smith's IP monitors may need to be changed to look for 5G.
 
 ** TODO Verizon LTE/VoLTE Outbound roaming
 *** Project Manager
@@ -5077,6 +5077,8 @@ CD    6. No additional details needed
      -  Any new reporting requirements will need to flow through business teams (Enterprise BA)
 
 ** TODO eSIM for Standalone devices
+*** Project Manager
+    Sara Singh
 *** Project Description
    Devices during and beyond 2018 will have traditional SIM replaced by eSIM (GSMA based) for both Postpaid and
    Prepaid. USCC currently has no solution to provision these devices in standalone mode. Within the next 5 years,
@@ -5096,6 +5098,8 @@ CD    6. No additional details needed
     Need to watch for any drop in usage for Apple devices.
 
 ** TODO Voice over WIFI
+*** Project Manager
+    Rachelle Funderburg 
 *** Project Description
     [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
    - All VoWiFi calls will be rated as VoLTE
@@ -5113,10 +5117,11 @@ CD    6. No additional details needed
 ** HOLD IME Upgrade
    SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
 
-** TODO Sunset Consolidated Billing [66%]
+** TODO Sunset Consolidated Billing [75%]
    1. [X] See who is still on TDS
    2. [X] Get contact information
-   3. [ ] Operational procedures for cutover
+   3. [X] Operational procedures for cutover
+   4. [ ] Odds and ends
 
 ** TODO SPLUNK Desktop
    - [ ] Where is Splunk?
@@ -5159,23 +5164,7 @@ CD    6. No additional details needed
 **** TODO Where are the reports kept
 **** TODO Find those OSB Query's
 **** TODO Log into the Tops Databases.
-** Look at Collaborator
-   https://smartbear.com/product/collaborator/overview/
-*** [[http://collaborator:8080/ui][Collaborator Web site:]]
-*** Training Videos
-    - [[https://support.smartbear.com/collaborator/videos/smartbear-academy-collaborator-101-training][Training Vid #1]]
-    - [[https://support.smartbear.com/collaborator/videos/smartbear-academy-collaborator-201-training][Training Vid #2]]
-*** [[file:docs/Collaborator%20OnBoarding%20Guide_10.0%20August%202016.pdf][Collaborator OnBoarding Doc]]
-*** Quick Walkthrough
-    - Structure
-      - Open New Project
-      - Define who can review
-      - Upload Document to review
-	- If code, need to be in text format    
-*** TODO Get Bret to setup other users.
-*** TODO Watch Videos
-    - 
-
+** TODO Come up with GITHUB Training
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
@@ -5205,12 +5194,3 @@ CD    6. No additional details needed
 [fn:2] Service Control Protocol
 
 [fn:1] Transfer Account Data Interchange Group
-* IDP
-  - Learn EGAR
-    - Fraud
-    - Credit Decisioning
-  - Learn Python
-    - Use python were appropriate 
-  - Create some more monitors and add them to the EPS monitors
-  - Learn GITHUB
-    Though I'm pretty well versed with GIT, I need to better learn GITHUB especially its collaboration functions.
