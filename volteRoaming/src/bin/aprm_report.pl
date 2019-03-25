@@ -5,24 +5,24 @@ use Time::Piece;
 use Time::Seconds;
 
 BEGIN {
-	#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+		push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#my $ORACLE_SID  = "bodsprd";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
+#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 
-#$ARGV[0] = '20190205';
+$ARGV[0] = '20190305';
 
 my $date = $ARGV[0];
 
@@ -431,17 +431,17 @@ if ( substr( $date, 6, 2 ) eq '05' ) {
 
 	@aprmArray = (
 
-		'LTE_INCOLLECT_SETTLEMENT',
-		'LTE_INCOLLECT_CARRIER',
-		'LTE_OUTCOLLECT_SETTLEMENT',
-		'LTE_OUTCOLLECT_CARRIER',
-		'GSM_INCOLLECT_SETTLEMENT',
-		'CDMA_INCOLLECT_DATA_ACCRUAL',
-		'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER',
-		'CDMA_INCOLLECT_VOICE_ACCRUAL',
-		'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER',
-		'CDMA_OUTCOLLECT_VOICE_ACCRUAL',
-		'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'
+#		'LTE_INCOLLECT_SETTLEMENT',
+		'LTE_INCOLLECT_CARRIER' #,
+#		'LTE_OUTCOLLECT_SETTLEMENT',
+#		'LTE_OUTCOLLECT_CARRIER',
+#		'GSM_INCOLLECT_SETTLEMENT',
+#		'CDMA_INCOLLECT_DATA_ACCRUAL',
+#		'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER',
+#		'CDMA_INCOLLECT_VOICE_ACCRUAL',
+#		'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER',
+#		'CDMA_OUTCOLLECT_VOICE_ACCRUAL',
+#		'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'
 	);
 
 }
@@ -725,7 +725,8 @@ sub getBODSPRD {
 
 	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Bo0Go09000#" );
+	$dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Potat000#" );
+	
 	unless ( defined $dbods ) {
 		sendErr();
 	}

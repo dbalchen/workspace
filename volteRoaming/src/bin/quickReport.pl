@@ -22,19 +22,19 @@ $ENV{ORACLE_SID}  = $ORACLE_SID;
 $ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
-$ARG0 =
-  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+#$ARG0 =
+#  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 
 #$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
 #$ARGV[0] = "SDIRI_FCIBER";
 #$ARGV[0] = "SDATACBR_FDATACBR";
-#$ARGV[0] = "CIBER_CIBER";
+$ARG0 = "CIBER_CIBER";
 #$ARGV[0] = "DATA_CIBER";
 #$ARGV[0] = "DISP_RM,NLDLT";
 #$ARGV[0] = "DISP_RM";
-#$ARGV[0] = "LTE";
+#$ARG0 = "LTE";
 #$ARGV[0] = "DATA_CIBER,CIBER_CIBER";
-#$ARGV[0] = "NLDLT";
+#$ARG0 = "NLDLT";
 #$ARGV[0] = "NLDLT,CIBER_CIBER";
 
 $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
@@ -43,9 +43,9 @@ $ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 # Setup Initial variables
-my $timeStamp = $ARGV[0];
+#my $timeStamp = $ARGV[0];
 
-#$timeStamp = '20190101';
+$timeStamp = '20190318';
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
@@ -336,11 +336,12 @@ sum(TOTAL_CHARGES) - sum(APRM_TOTAL_CHARGES),
 (select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type 
 like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
 (select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')),
-	abs((sum(total_records_dch) - sum(Total_Records))/sum(total_records))*100,
-	abs((sum(total_volume_dch) - sum(Total_volume))/sum(total_volume))*100,
-	abs((sum(total_charges_dch) - sum(Total_charges))/sum(total_charges))*100,
-	abs((sum(total_records) - sum(aprm_total_records))/sum(total_records))*100,
-	abs((sum(total_charges_dch) - sum(aprm_total_charges))/sum(aprm_total_charges))	*100 
+
+	abs((sum(total_records_dch) - sum(Total_Records))/NULLIF(sum(total_records),0))*100,
+	abs((sum(total_volume_dch) - sum(Total_volume))/NULLIF(sum(total_volume),0))*100,
+	abs((sum(total_charges_dch) - sum(Total_charges))/NULLIF(sum(total_charges),0))*100,
+	abs((sum(total_records) - sum(aprm_total_records))/NULLIF(sum(total_records),0))*100,
+	abs((sum(total_charges_dch) - sum(aprm_total_charges))/NULLIF(sum(aprm_total_charges),0))	*100 
 from file_summary t1 
   where t1.usage_type like 'LTE%' and t1.process_date = to_date($timeStamp,'YYYYMMDD')
 group by FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, SENDER";
@@ -564,7 +565,7 @@ $workbook->close;
 
 my @email = ('david.balchen@uscellular.com');
 
-my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
+#my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
 
 foreach my $too (@email) {
 	print $msg;
@@ -811,7 +812,7 @@ sub getBODSPRD {
 	my $dbPwd = "BODS_DAV_BILLINGOPS";
 
 	# my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Bo0Go09000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Potat000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

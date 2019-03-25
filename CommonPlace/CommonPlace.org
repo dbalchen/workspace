@@ -4982,7 +4982,7 @@ CD    6. No additional details needed
    SCHEDULED: <2019-03-25 Mon 09:20>--<2019-03-25 Mon 10:30>
    
 ** TODO IR0600 - 5G Commercialization
-    [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Archecture]]
+    [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Architecture]]
 *** Project Manager
     Kirti Parikh
 *** Project Description
@@ -5005,8 +5005,11 @@ CD    6. No additional details needed
     for test. We need to ensure that the interface to the *P/SGWs* remains intact.
 *** Monitors/Controls/Alerts and Ownership
     Mr. Smith's IP monitors may need to be changed to look for 5G.
+*** Current Status
+    Working on User stories which at this point is mostly about provisioning.
 
 ** TODO Verizon LTE/VoLTE Outbound roaming
+   DEADLINE: <2019-03-31 Sun>   
 *** Project Manager
     Dennis Render
     [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.pdf][Latest Doc]]
@@ -5020,9 +5023,10 @@ CD    6. No additional details needed
     The roaming reconciliation reports will and have picked up LTE/VoLTE (test calls) from *Verizon*. 
     So we are already covered on the monitoring department.
 *** Current Status
-    On Track
+    Having issues with e911. If not resolved this week the project may be put on hold.
 
 ** TODO International Service Revamp
+   DEADLINE: <2019-06-01 Sat>--<2019-06-30 Sun>  
 *** Project Manager
     Rebecca Class
 *** Project Description
@@ -5037,19 +5041,12 @@ CD    6. No additional details needed
    5. Country Code Rezoning
    A project such as this would usually take between 6 to 8 months
    to complete other than that no specific deployment date has been given.
-*** Go Live Dates
-    Phase 1 targeting June release.
-*** Possible Billing Issues
-    - No impact to billing since we process this data already. 
-*** Monitors/Controls/Alerts and Ownership
-    I believe this will be business as usual but it is to early to tell.
-*** Current Status
     1. API enhancements:
      - Syniverse API is EOL and we will need to enhance our API’s to support the newly upgraded Syniverse API
        - Implement this with proper validations and ensure proper upgrade/migration strategy to minimize the current business flows.
      - Roam Monitor notifications can be removed with proper assessment but not the Welcome notification
        - Welcome notification will still function as BAU
-     - Amdocs work will mostly be Compilation change with proper assessment and recoding of API.
+     - Amdocs work will mostly be Compilation change with proper assessment and re-coding of API.
     2. Policy Controls:
      - Currently, international data captured by Vodafone and Syniverse measures this data after receiving from Vodafone. 
        - A batch file will be sent to USCC from Syniverse with the measured data
@@ -5075,6 +5072,14 @@ CD    6. No additional details needed
     6. Reporting
      -  We need to regression test *Roaming Reconciliation Report*
      -  Any new reporting requirements will need to flow through business teams (Enterprise BA)
+*** Go Live Dates
+    Phase 1 targeting June release.
+*** Possible Billing Issues
+    - No impact to billing since we process this data already. 
+*** Monitors/Controls/Alerts and Ownership
+    I believe this will be business as usual but it is to early to tell.
+*** Current Status
+    On Track
 
 ** TODO eSIM for Standalone devices
 *** Project Manager
@@ -5082,7 +5087,7 @@ CD    6. No additional details needed
 *** Project Description
    Devices during and beyond 2018 will have traditional SIM replaced by eSIM (GSMA based) for both Postpaid and
    Prepaid. USCC currently has no solution to provision these devices in standalone mode. Within the next 5 years,
-   Device Marketing is forcasting that all devices (handsets, tablets, wearables, etc.) will only support eSIM.
+   Device Marketing is forecasting that all devices (handsets, tablets, wearables, etc.) will only support eSIM.
    This initiative will provide the ability to activate eSIM capable devices (either primary or secondary devices)
    through the Point of Sale (PoS) system. When the eSIM is on a secondary device, the system will support the
    provisioning and assignment of the “One Number” feature so that the secondary device and the primary device
@@ -5090,12 +5095,14 @@ CD    6. No additional details needed
    Postpaid.
    [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.pdf][Vision and Scope]]
 *** Go Live Dates
-    *Deployment Date unknown*
+    SCHEDULED: <2019-06-23 Sun>
 *** Possible Billing Issues
     It all depends on the range of the eSIM devices. We already support eSIM for secondary devices, Apple Watch, 
     and if the eSIM range is within the range for those watches, usage will be dropped.
 *** Monitors/Controls/Alerts and Ownership 
     Need to watch for any drop in usage for Apple devices.
+*** Current Status 
+    On Track
 
 ** TODO Voice over WIFI
 *** Project Manager
@@ -5114,9 +5121,6 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     The roaming reconciliation reports will pick up any anomalies. 
 
-** HOLD IME Upgrade
-   SCHEDULED: <2019-03-01 Fri>--<2019-03-31 Sun>
-
 ** TODO Sunset Consolidated Billing [75%]
    1. [X] See who is still on TDS
    2. [X] Get contact information
@@ -5131,6 +5135,8 @@ CD    6. No additional details needed
      - Try different types
 
 ** TODO PCRF Forklift
+   DEADLINE: <2019-05-01 Wed>--<2019-06-30 Sun>
+   
 *** Project Description
    *PCRF - Policy and Charging Rules Function* works along side  
    *Charging Enforcement Function (PCEF)* and *Online Charging System (OCS)* 
@@ -5142,7 +5148,7 @@ CD    6. No additional details needed
 
    This project will replace our current *PCRF* by *OpenNet* to a new version by *CISCO*.
    The servers themselves are clustered linux environments and 
-   will deployed in Santa Clara, Atlanta, Schuamberg and Ashton starting in May and ending in July.
+   will deployed in *Santa Clara, Atlanta, Schuamberg and Ashton* starting in May and ending in July.
    The software itself is broken up into components such as policy server/director, 
    session managers. The configuration information held in a *MongoDB* document database.
    The system configuration are done via Excel spreadsheets for the major options and a Web
@@ -5165,6 +5171,7 @@ CD    6. No additional details needed
 **** TODO Find those OSB Query's
 **** TODO Log into the Tops Databases.
 ** TODO Come up with GITHUB Training
+   DEADLINE: <2019-03-19 Tue>
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

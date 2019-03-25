@@ -3,25 +3,28 @@
 use DBI;
 
 #Test parameters remove when going to production.
-$ARGV[0] = "CDUSASGUSAUD34126,34126,Sprint (USASG),25000,718.08133,0,0,20180805";
+$ARGV[0] =
+  "CDNLDLTIWB5102026,2026,Vodafone Netherland (NLDLT),0,0,0,0,20190318";
 #
 ## For test only.....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
+
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 
 my @argv = split( /,/, $ARGV[0] );
 
-my $dbconn  = getBODSPRD();
+my $dbconn = getBODSPRD();
+
 #my $dbconnb = getSNDPRD();
 my $dbconnb = $dbconn;
 
-my $sql = '';
+my $sql    = '';
 my $prefix = "LTE";
 my $flag   = 0;
 
@@ -34,12 +37,14 @@ if ( index( $argv[0], "NLDLT" ) >= 0 ) {
 $sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
 
 my $sthb = $dbconnb->prepare($sql);
-#$sthb->execute() or sendErr();
+
+$sthb->execute() or sendErr();
 
 $sql = "delete from rejected_records where FILE_NAME = '$argv[0]'";
 
 $sthb = $dbconnb->prepare($sql);
-#$sthb->execute() or sendErr();
+
+$sthb->execute() or sendErr();
 
 $sql =
 "select s_444, error_code, error_desc,cast(S_402 as decimal(19,9)) from em1_record where stream_name='INC' and record_status<>55 and s_444='$argv[0]'";
@@ -58,7 +63,8 @@ VALUES (
  '$rows[1]')";
 
 	$sthb = $dbconnb->prepare($sql);
-#	$sthb->execute() or sendErr();
+
+	$sthb->execute() or sendErr();
 }
 
 if ( $prefix eq "NLDLT" ) {
@@ -89,14 +95,14 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 	my $dropped = ( $argv[3] - $argv[5] );
 
-	my $usage_type        = $prefix . '-' . $rows[3];
-	my $file_name_dch     = 0;
-	my $total_charges_dch = 0;
-	my $total_records_dch = 0;
-	my $total_volume_dch  = 0;
-	my $total_rejected  =   0;
-	my $total_rejected_cost  =   0;	
-	my $grep = "";
+	my $usage_type          = $prefix . '-' . $rows[3];
+	my $file_name_dch       = 0;
+	my $total_charges_dch   = 0;
+	my $total_records_dch   = 0;
+	my $total_volume_dch    = 0;
+	my $total_rejected      = 0;
+	my $total_rejected_cost = 0;
+	my $grep                = "";
 
 	if ( $prefix eq "NLDLT" ) {
 
@@ -120,10 +126,10 @@ while ( my @rows = $sth->fetchrow_array() ) {
 
 		my @dchValues = split( "\t", $output );
 		chomp(@dchValues);
-		$total_rejected  =   $argv[5];
-	    $total_rejected_cost  =   $argv[6];	
-		$total_charges_dch = $dchValues[2];
-		$total_records_dch = $dchValues[3];
+		$total_rejected      = $argv[5];
+		$total_rejected_cost = $argv[6];
+		$total_charges_dch   = $dchValues[2];
+		$total_records_dch   = $dchValues[3];
 
 		if ( index( $usage_type, "-C" ) >= 0 ) {
 			$total_volume_dch = $rows[2];
@@ -141,9 +147,9 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		$file_name_dch = $argv[0];
 
 		if ( $flag == 0 ) {
-			$total_rejected  =   $argv[5];
-	        $total_rejected_cost  =   $argv[6];	
-	        
+			$total_rejected      = $argv[5];
+			$total_rejected_cost = $argv[6];
+
 			$grep = " grep $file_name_dch ";
 			my $hh =
 			  "cat $ENV{'REC_HOME'}/tnsIncollect.csv | $grep | cut -f 9,10,24";
@@ -234,10 +240,12 @@ VALUES (
  $rows[1],
  $dropped
 )";
-	#print $sql. "\n";
+
+	print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);
-#	$sthb->execute() or sendErr();
+
+	$sthb->execute() or sendErr();
 }
 
 $dbconnb->disconnect();
@@ -246,10 +254,10 @@ $dbconn->disconnect();
 exit(0);
 
 sub getBODSPRD {
-	my $dbPwd = "BODS_DAV_BILLINGOPS";
-	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
+	#	my $dbPwd = "BODS_DAV_BILLINGOPS";
+	#	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Potat000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -259,7 +267,8 @@ sub getBODSPRD {
 sub getSNDPRD {
 
 	my $dbPwd = "SND_SVC_BILLINGOPS";
-	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
 	# my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo");
 	unless ( defined $dbods ) {
 		sendErr();

@@ -34,11 +34,11 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
   $switch       = "";
   $exact = 0;
 
-  @backdoor = `cat /home/calldmp/CallDumpTest/config/backdoor.db`;
+  @backdoor = `cat /home/dbalchen/Desktop/backdoor.db`;
 
   #---INPUTS-------------------------------------------
-  #$inputfile = $ARGV[0];
-  #$inputfile =~ s/ //g;
+  $inputfile = "/home/dbalchen/Desktop/SCDR2_FUFF_ID060000_T20190318050500.DAT";
+  $inputfile =~ s/ //g;
 
   for ( $a = 0 ; $a < @ARGV ; $a++ ) {
 
@@ -83,7 +83,7 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
   #print STDOUT "\n\n$inputfile, $searchstring, $cellsite, $callgnbr, $calldnbr, $dialdnbr\n\n";
 
   #---OPEN FILE----------------------------------------
-  # open( STDIN, $ARGV[0] ) || die "cannot open $ARGV[0]\n\n";
+  open( STDIN, $inputfile ) || die "cannot open $inputfile\n\n";
 
   #---LOOP THROUGH INPUT FILE AND WRITE DATA RECORDS---
 
