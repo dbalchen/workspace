@@ -1,55 +1,14 @@
 /*
-#+STARTUP: overview
-#+OPTIONS: d:nil
-#+OPTIONS: toc:nil
-#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
-#+DRAWERS: PICTURE CLOSET
-#+PROPERTY: allocate_ALL dev doc test
-#+STARTUP: hidestars hideblocks 
-#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
-#+LATEX_HEADER: \usepackage{lscape} 
-#+LATEX_HEADER: \usepackage{fancyhdr} 
-#+LATEX_HEADER: \usepackage{multirow}
-#+LATEX_HEADER: \usepackage{multicol}
-#+BEGIN_LaTeX
-\pagenumbering{}
-#+END_LaTeX 
-#+TITLE: Song 7
-#+Author: David Balchen
-#+Email: dave@balchen.org
-#+BEGIN_LaTeX
-\clearpage
-\addtolength{\oddsidemargin}{-.25in}
-%\addtolength{\oddsidemargin}{-.5in}
-\addtolength{\evensidemargin}{-01.25in}
-\addtolength{\textwidth}{1.4in}
-\addtolength{\topmargin}{-1.25in}
-\addtolength{\textheight}{2.45in}
-\setcounter{tocdepth}{3}
-\vspace*{1cm} 
-\newpage
-\pagenumbering{roman}
-\setcounter{tocdepth}{2}
-\pagestyle{fancy}
-\fancyhf[ROF,LEF]{\bf\thepage}
-\fancyhf[C]{}
+* Notes
 
-#+END_LaTeX
-:CLOSET:
- : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
- : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
- : weeks #+PROPERTY: Effort_ALL 1w 2w 3w 4w 5w 6w 7w 8w 9w
- : Add a Picture
- :   #+ATTR_LaTeX: width=13cm
- :   [[file:example_picture.png]]
- : New Page
- : \newpage
-:END:
-#+TOC: headlines 2
-#+BEGIN_LaTeX
- \newpage
-\pagenumbering{arabic}
-#+END_LaTeX 
+| a  | 0 |
+| b  | 1 |
+| c# | 2 |
+| d  | 3 |
+| e  | 4 |
+| f# | 5 |
+| g# | 6 |
+
 */
 /*
 * SuperCollider Init
@@ -76,6 +35,40 @@ Server.default.makeGui;
 "/home/dbalchen/Music/setup.sc".load;
 
 /*
+* Basic SynthDef
+** Osc
+*/
+
+SynthDef("BasicSynth" { arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0
+      spread = 1, balance = 0, hpf = 128;
+
+
+    var sig;
+
+    sig = HPF.ar(sig,hpf);
+	
+    sig = LeakDC.ar(sig);
+	
+    sig = Splay.ar(sig,spread,center:balance);
+
+    Out.ar(out,sig * amp);
+
+  }).send(s);
+/*
+** Midi Setup
+*/
+
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+	     ret = Synth("BasicSynth");
+	     ret.set(\freq,num.midicps);
+	     ret.set(\gate,1);
+	     ret;
+};
+
+
+/*
 * evenVCO
  */
 
@@ -84,43 +77,14 @@ Server.default.makeGui;
 "/home/dbalchen/workspace/SuperCollider/makeWaveTable.sc".load;
 
 /*
-** Wavetables
-*** Pulse wave like
-
-~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0002/AKWF_0197.wav");
-
-*** Organ Hammond Darker 
-~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0004/AKWF_0367.wav");
-
-*** +++Church Clean
-~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0005/AKWF_0488.wav");
-
-*** Dark Synth
-~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0010/AKWF_0908.wav");
-
-*** Good for lead
-~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0013/AKWF_1289.wav");
-
-*** I Don't know
-
-~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0013/AKWF_1296.wav");
-
-*** ++++EvenVco
-~even0  = ~makeWav.value("/home/dbalchen/Desktop/even2.wav");
-
-
-*/
-
-/*
 ** Sample Directory
 [[file+emacs:/home/dbalchen/workspace/cleanLead/samples/][The chosen Ones ]]
 
 */
 
-~even0  = ~makeWav.value("/home/dbalchen/workspace/cleanLead/samples/0-EvenVCO.wav");
-~even0  = ~makeWav.value("/home/dbalchen/workspace/cleanLead/samples/1-ChurchOrgan.wav");
+~even0  = ~makeWav.value("/home/dbalchen/Music/song7/include/samples/04-EVCO.wav");
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0002/AKWF_0170.wav");
 
-/*
 ** mosc
 */
 
@@ -142,7 +106,7 @@ SynthDef("mosc", {
     fenv = aoc*(fenv - 1) + 1;
 
     freq = Lag.kr(freq,lagt);
-    freq = {freq * LFNoise2.kr(2.5,0.01,1)}!2;
+	//    freq = {freq * LFNoise2.kr(1.5,0.003,1)}!3;
 
     sig = Osc.ar(ss,freq,0,mul:env*amp);
 
@@ -334,17 +298,19 @@ SynthDef("vosc", {
     fenv = aoc*(fenv - 1) + 1;
 	
     freq = Lag.kr(freq,lagtime);
-    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
+	//    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
 
     sig = VOsc.ar(ss+idx,freq,0,mul:env*amp);
 
+	/*
     sig = BLowPass.ar
       (
        sig,
        cutoff*fenv,
        gain
        );
-
+	*/
+	
     sig = HPF.ar(sig,hpf);
 
     sig = LeakDC.ar(sig);
@@ -360,7 +326,7 @@ SynthDef("vosc", {
 ***  Setup midi channel vosc
 */
 ~wavetables.free;
-~wavetables = ~fileList.value("/home/dbalchen/workspace/cleanLead/samples");
+~wavetables = ~fileList.value("/home/dbalchen/Music/song7/include/samples/");
 
 ~windex = ~wavetables.size;
 
@@ -376,7 +342,7 @@ SynthDef("vosc", {
 	     ret.set(\ss,~wavebuff);
 	     ret.set(\freq,num.midicps);
 	     ret.set(\windex, ~windex);
-	     ret.set(\idx,0.2);
+	     ret.set(\idx,0.0);
 	     ret.set(\gate,1);
 
 	     ret;
@@ -526,6 +492,94 @@ OSCdef(\voscmono, { |m|
 * FM
 ** TODO FM Experiments
 */
+/*
+*** Saxaphone
+*/
+
+// =====================================================================
+// Sad Saxaphone
+// =====================================================================
+
+(
+SynthDef("sadSax",
+	{
+		arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,hpf = 20,
+		attack = 0.5, decay = 2.0, sustain = 0.0, release = 0.6,
+		fattack = 0.5,fdecay = 0.5, fsustain = 0.8,
+		frelease = 0.6, aoc = 0.9, gain = 0.7, cutoff = 5200.00,
+		bend = 0, spread = 1, balance = 0;
+
+		var env, fenv, op1, op2, op3, op4, op5, op6,
+		fb1, fb2, fb3, fb4, fb5, fb6, freq2, tmp,
+		sig;
+
+		env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+		env = EnvGen.kr(env, gate: gate,doneAction:da);
+
+		fenv = Env.adsr(fattack,fdecay,fsustain,frelease,1,'sine');
+		fenv = EnvGen.kr(fenv, gate);
+
+		fenv = aoc*(fenv - 1) + 1;
+
+		//		freq = {freq * LFNoise2.kr(2.5,0.01,1)}!2;
+		/*
+		tmp = MouseX.kr(0,10);
+		fb4 = FbNode(1);
+		op4 = 0.7*(SinOsc.ar((freq+tmp)*1.0,fb4, mul: env));
+		fb4.write((0.47*Saw.ar(freq+tmp)) + op4);
+
+		fb3 = FbNode(1);
+		op3 = 0.95*SinOsc.ar((freq+tmp)*1,(fb3) + (op4), mul: env);
+		fb3.write((0.01*Saw.ar(freq+tmp)) + op3);
+		*/
+		fb2 = FbNode(1);
+		op2 = 0.7*(SinOsc.ar(freq*1.0,fb2, mul: env));
+		fb2.write((0.47*Saw.ar(freq)) + op2);
+
+		fb1 = FbNode(1);
+		op1 = 0.95*SinOsc.ar(freq*1,(fb1) + (op2), mul: env);
+		fb1.write((0.01*Saw.ar(freq)) + op1);
+
+		sig = (op1);// + (0.5*op3);
+
+		sig = RLPF.ar
+		(
+			sig,
+			cutoff*fenv,
+			gain
+		);
+
+		//		sig = DelayL.ar(sig, 0.2, 0.3,1,sig);
+		sig = HPF.ar(sig,hpf);
+
+		sig = FreeVerb.ar(sig,0.33,0.7); // fan out...
+
+		sig = LeakDC.ar(sig);
+
+		sig = Splay.ar(sig,spread,center:balance);
+
+		Out.ar(out,amp*sig);
+
+}).send(s);
+
+)
+
+
+
+/*
+*** Setup midi channel Sax
+*/
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+	     ret = Synth("sadSax");
+	     ret.set(\freq,num.midicps);
+	     ret.set(\gate,1);
+	     ret;
+};
+
+
+
 
 /*
 *** French Horn
@@ -533,7 +587,7 @@ OSCdef(\voscmono, { |m|
 
 SynthDef("frenchHorn",
 	  {
-	    arg out = 0, freq = 110, gate = 0, amp = 1.0, da = 2,hpf = 20,
+	    arg out = 0, freq = 110, gate = 0, amp = 0.50, da = 2,hpf = 20,
 	        attack = 0.2, decay = 8.0, sustain = 0.6, release = 0.6,
 	        fattack = 0.2,fdecay = 8.0, fsustain = 0.8,frelease = 0.6,
 	        aoc = 0.9,gain = 0.7, cutoff = 5200.00,
@@ -567,7 +621,7 @@ SynthDef("frenchHorn",
 			  
 	    sig = HPF.ar(sig,hpf);
 		  
-	    sig = FreeVerb.ar(sig,0.33); // fan out...
+		  //	    sig = FreeVerb.ar(sig,0.33); // fan out...
 		  
 	    sig = LeakDC.ar(sig);
 		  
@@ -576,6 +630,23 @@ SynthDef("frenchHorn",
 	    Out.ar(out,amp*sig);
 		  
 	  }).send(s);
+
+
+
+/*
+*** Setup midi channel Sax
+*/
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+	     ret = Synth("frenchHorn");
+	     ret.set(\freq,num.midicps);
+	     ret.set(\gate,1);
+	     ret;
+};
+
+
+
 
 
 /*
@@ -682,6 +753,78 @@ s.queryAllNodes;
 )
 
 /*
+/*
+* Formants
+*/
+** Osc
+*/
+
+SynthDef("formant", {
+    arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0,
+      spread = 1, balance = 0, hpf = 156,bend = 0,
+      attack = 0.5, decay = 0.750, sustain = 0.25, release = 0.1,
+      fattack = 0.5, fsustain = 0.25,gain = 2,
+      frelease = 0.1, aoc = 0.6, cutoff = 7400.00;
+
+    var sig,sig2, env,fenv,  fb1, freq2;
+
+    env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+	
+    fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
+    fenv = EnvGen.kr(fenv, gate: gate,doneAction:da);
+    fenv = aoc*(fenv - 1) + 1;
+
+	freq2 = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!8;
+    freq = {freq  * bend.midiratio * LFNoise2.kr(1.0,0.0035,1)}!2;
+
+    fb1 = FbNode(1);
+    sig = Formant.ar(freq, freq*3, freq*3.75) + (0.15*fb1);
+	
+    fb1.write(sig);
+
+	//    sig = LPF.ar((0.15 * SawDPW.ar(freq))  + sig,800);
+
+	    sig2 = (0.55 * SawDPW.ar(freq2));
+
+	sig = Mix([sig2,sig]);
+	
+    sig = sig*EnvGen.kr(env, gate: gate,doneAction:da);
+	
+    sig = MoogFF.ar
+      (
+       sig,
+       cutoff*fenv,
+       gain
+       );
+	
+    sig = HPF.ar(sig,hpf);
+	
+    sig = LeakDC.ar(sig);
+	
+    sig = Splay.ar(sig,spread,center:balance);
+
+    Out.ar(out,sig * amp);
+
+  }).send(s);
+
+
+
+/*
+** Midi Setup
+*/
+
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+	     ret = Synth("formant");
+	     ret.set(\freq,num.midicps);
+	     ret.set(\gate,1);
+	     ret;
+};
+
+
+~channel0off = {arg num,vel;^nil;};
+
 * Read Midi file
  */
 /* Sébastien Clara - Janvier 2016

@@ -332,3 +332,38 @@ Pdef(\dfam_play, Ppar([
 
 
 /*
+
+* Wavetables
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-01-27 Sun 15:06
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: evenVCO
+  :ARCHIVE_CATEGORY: song7
+  :END:
+** Pulse wave like
+
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0002/AKWF_0197.wav");
+
+** Organ Hammond Darker 
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0004/AKWF_0367.wav");
+
+** +++Church Clean
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0005/AKWF_0488.wav");
+
+** Dark Synth
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0010/AKWF_0908.wav");
+
+** Good for lead
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0013/AKWF_1289.wav");
+
+** I Don't know
+
+~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0013/AKWF_1296.wav");
+
+** ++++EvenVco
+~even0  = ~makeWav.value("/home/dbalchen/Desktop/even2.wav");
+
+
+*/
+
+/*
