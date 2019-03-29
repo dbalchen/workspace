@@ -11,7 +11,11 @@
 
 */
 /*
-* SuperCollider Init
+
+/*
+* SuperCollider
+*/
+** SuperCollider Init
 */
 Help.gui
 Quarks.gui
@@ -35,8 +39,7 @@ Server.default.makeGui;
 "/home/dbalchen/Music/setup.sc".load;
 
 /*
-* Basic SynthDef
-** Osc
+** Basic SynthDef
 */
 
 SynthDef("BasicSynth" { arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0
@@ -55,7 +58,7 @@ SynthDef("BasicSynth" { arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0
 
   }).send(s);
 /*
-** Midi Setup
+*** Midi Setup
 */
 
 ~channel0 = {arg num, vel = 1;
@@ -69,7 +72,7 @@ SynthDef("BasicSynth" { arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0
 
 
 /*
-* evenVCO
+** evenVCO
  */
 
 
@@ -77,7 +80,7 @@ SynthDef("BasicSynth" { arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0
 "/home/dbalchen/workspace/SuperCollider/makeWaveTable.sc".load;
 
 /*
-** Sample Directory
+*** Sample Directory
 [[file+emacs:/home/dbalchen/workspace/cleanLead/samples/][The chosen Ones ]]
 
 */
@@ -85,7 +88,7 @@ SynthDef("BasicSynth" { arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0
 ~even0  = ~makeWav.value("/home/dbalchen/Music/song7/include/samples/04-EVCO.wav");
 ~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0002/AKWF_0170.wav");
 
-** mosc
+*** mosc
 */
 
 
@@ -128,7 +131,7 @@ SynthDef("mosc", {
   }).send(s);
 
 /*
-*** Setup midi channel mosc
+**** Setup midi channel mosc
 */
 ~channel0 = {arg num, vel = 1;
 	     var ret;
@@ -142,7 +145,7 @@ SynthDef("mosc", {
 
 /*
 
-** moscMono
+*** moscMono
 */
 
 SynthDef(\moscMono, {arg ss, 
@@ -188,7 +191,7 @@ SynthDef(\moscMono, {arg ss,
   ).send(s);
 
 /*
-*** Setup midi for moscMono
+**** Setup midi for moscMono
 */
 
 ~moscMono = Synth("moscMono",addAction: \addToTail);
@@ -277,7 +280,7 @@ OSCdef(\mMosc, { |m|
 
 
 /*
-** vosc
+*** vosc
 */
 SynthDef("vosc", {
     arg ss, freq = 55, out = 0, amp = 0.5, lagtime = 0, da = 2, gate = 0,
@@ -323,7 +326,7 @@ SynthDef("vosc", {
 
 /*
 
-***  Setup midi channel vosc
+****  Setup midi channel vosc
 */
 ~wavetables.free;
 ~wavetables = ~fileList.value("/home/dbalchen/Music/song7/include/samples/");
@@ -349,7 +352,7 @@ SynthDef("vosc", {
 };
 
 /*
-** voscMono
+*** voscMono
 
 */
 
@@ -398,7 +401,7 @@ SynthDef("voscMono", {
   }).send(s);
 
 /*
-*** voscMono midi setup
+**** voscMono midi setup
 */
 
 ~wavetables.free;
@@ -489,8 +492,8 @@ OSCdef(\voscmono, { |m|
 };
 
 /*
-* FM
-** TODO FM Experiments
+** FM
+
 */
 /*
 *** Saxaphone
@@ -567,7 +570,7 @@ SynthDef("sadSax",
 
 
 /*
-*** Setup midi channel Sax
+**** Setup midi channel Sax
 */
 ~channel0 = {arg num, vel = 1;
 	     var ret;
@@ -634,7 +637,7 @@ SynthDef("frenchHorn",
 
 
 /*
-*** Setup midi channel Sax
+**** Setup midi channel Sax
 */
 ~channel0 = {arg num, vel = 1;
 	     var ret;
@@ -754,9 +757,7 @@ s.queryAllNodes;
 
 /*
 /*
-* Formants
-*/
-** Osc
+** Formants
 */
 
 SynthDef("formant", {
@@ -810,7 +811,7 @@ SynthDef("formant", {
 
 
 /*
-** Midi Setup
+*** Midi Setup
 */
 
 ~channel0 = {arg num, vel = 1;
@@ -825,7 +826,7 @@ SynthDef("formant", {
 
 ~channel0off = {arg num,vel;^nil;};
 
-* Read Midi file
+** Read Midi file
  */
 /* Sébastien Clara - Janvier 2016
 
