@@ -63,7 +63,7 @@ def plotIt (usage, usageType, title, ylabel, filename):
     ax = plt.axes()
     
     # Plot the Picture
-    ax.plot(xAx, yAx, linestyle=':', marker='p', color='b', label='Records')
+    ax.plot(xAx, yAx, linestyle=':', marker='p', color='b', label=ylabel)
 
     # Calculate Least Squares for linear regression
     xxAxx = np.asarray(xAx, dtype=np.float64)
@@ -113,9 +113,55 @@ def plotIt (usage, usageType, title, ylabel, filename):
     fig.savefig(filenameS)
     
     return
-    
-##############  Main Program  ###################
 
+def perDif (dval, iq0, iq3):
+    
+    pdl = []
+    
+    for x in dval:
+
+        if x > iq3:
+            pdl.append(((x - iq3) / iq3) * 100)
+        elif x < iq0:
+            pdl.append(((x - iq0) / iq0) * 100)
+        else:
+            pdl.append(0.00)
+
+    return pdl;
+
+def analyse (aip, ahome, aroam, aipDate):
+    
+    row = []
+    
+    try:
+        bl = [''] * 7
+    
+        home_desc = list(((pd.DataFrame(ahome)).describe())[0])
+        roam_desc = list(((pd.DataFrame(aroam)).describe())[0])
+    
+        home_last_min = min(ahome[-5:])
+        home_last_max = max(ahome[-5:])
+    
+        aroam_last_min = min(aroam[-5:])
+        aroam_last_max = max(aroam[-5:])
+    
+        if (home_desc[7] > 1000 or roam_desc[7] > 1000) and ((home_last_min < home_desc[4] 
+            or roam_last_min < roam_desc[4]) or (home_last_max > home_desc[6] or roam_last_max > roam_desc[6])) :
+        
+            row.append((aip, float(home_desc[5]), float(home_desc[4]), float(home_desc[6]), float(home_desc[1]), float(home_desc[2]), float(home_desc[7]), float(home_desc[3]),
+                float(roam_desc[5]), float(roam_desc[4]), float(roam_desc[6]), float(roam_desc[1]), float(roam_desc[2]), float(roam_desc[7]), float(roam_desc[3])))
+            
+            homeDif = perDif(ahome[-5:], home_desc[4], home_desc[6])
+            roamDif = perDif(aroam[-5:], roam_desc[4], roam_desc[6])
+            
+            row = row + list(zip(aipDate[-5:], ahome[-5:], homeDif, bl, bl, bl, bl, bl, aroam[-5:], roamDif, bl, bl, bl, bl))
+                 
+    except:pass
+    
+    return row;
+
+   
+##############  Main Program  ###################
 
 conn = dbConnect()
 cursor = conn.cursor() 
@@ -146,18 +192,18 @@ ORDER BY 2 ASC
 """
 
 results = []
+ 
+with open("/home/dbalchen/Desktop/Test.csv", "rb") as fp:
+    for i in fp.readlines():
+        tmp = i.split("\t")
+        try:
+            results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
+        except:
+            print("ouch")
 
-# with open("/home/dbalchen/workspace/monitor/src/Test.csv", "rb") as fp:
-#     for i in fp.readlines():
-#         tmp = i.split("\t")
-#         try:
-#             results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
-#         except:
-#             print("ouch")
-
-cursor.execute(sql)
-
-results = cursor.fetchall()
+# cursor.execute(sql)
+# 
+# results = cursor.fetchall()
 
 pre3G = []
 pre4G = []
@@ -175,10 +221,11 @@ plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records"
 plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
 plotIt(post4G, 1, "Post-Paid 4G Data - Records", "Records / 10000", "postp4G_Records")
 
-plotIt(pre3G, 2, "Pre-Paid 3G Data - Volume", "Volume", "pp3G_Volume")
-plotIt(pre4G, 2, "Pre-Paid 4G Data - Volume", "Volume", "pp4G_Volume")
-plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume", "postp3G_Volume")
-plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume", "postp4G_Volume")
+plotIt(pre3G, 2, "Pre-Paid 3G Data - Volume", "Volume TB", "pp3G_Volume")
+plotIt(pre4G, 2, "Pre-Paid 4G Data - Volume", "Volume TB", "pp4G_Volume",)
+plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume TB", "postp3G_Volume")
+plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume TB", "postp4G_Volume")
+
 cursor.close
 
 conn.close()

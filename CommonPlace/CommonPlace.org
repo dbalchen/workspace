@@ -53,7 +53,7 @@ file:Pictures/Andrejevi1.jpg
  \newpage
 \pagenumbering{arabic}
 #+END_LaTeX 
-* Statement of Principals						  
+* Statement of Principals					   :noexport:
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
    - /A Power Point presentation is like smoking a cigar, only the
@@ -206,7 +206,7 @@ file:Pictures/Andrejevi1.jpg
 ** APRM
    *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
 ** Create Wallets 						   :noexport:
-   cat .ts : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
+ : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
  : Service Account SVC_BILLINGOPS    lXmWKh5pJsGxr!nIl_GQl0Db
  : TSP Production Password prmAPPC!PHAV1
  :                         PRMAPPC!22 - Starting tomorrow
@@ -4978,9 +4978,6 @@ CD    6. No additional details needed
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List							   :noexport:
-** APPT Doctor Appt
-   SCHEDULED: <2019-03-25 Mon 09:20>--<2019-03-25 Mon 10:30>
-   
 ** TODO IR0600 - 5G Commercialization
     [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Architecture]]
 *** Project Manager
@@ -5007,6 +5004,7 @@ CD    6. No additional details needed
     Mr. Smith's IP monitors may need to be changed to look for 5G.
 *** Current Status
     Working on User stories which at this point is mostly about provisioning.
+    Release around October.
 
 ** TODO Verizon LTE/VoLTE Outbound roaming
    DEADLINE: <2019-03-31 Sun>   
@@ -5102,7 +5100,7 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership 
     Need to watch for any drop in usage for Apple devices.
 *** Current Status 
-    On Track
+    Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
 
 ** TODO Voice over WIFI
 *** Project Manager
@@ -5115,17 +5113,21 @@ CD    6. No additional details needed
    - Value of 3 in field 52 of the UFF signifies voice over WIFI.
    - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
 *** Go Live Dates
-    Project is currently on hold until further notice.
+    No date given
 *** Possible Billing Issues
     - Since the usage will come in as VoLTE/LTE there will be no impact
 *** Monitors/Controls/Alerts and Ownership
     The roaming reconciliation reports will pick up any anomalies. 
+*** Current status
+    All IA's should be complete by end of April.
+    Track 1.1 complete except for provisioning
 
-** TODO Sunset Consolidated Billing [75%]
+** TODO Sunset Consolidated Billing [80%]
    1. [X] See who is still on TDS
    2. [X] Get contact information
    3. [X] Operational procedures for cutover
-   4. [ ] Odds and ends
+   4. [X] Shutoff MobileSense
+   5. [ ] odds and ends
 
 ** TODO SPLUNK Desktop
    - [ ] Where is Splunk?
@@ -5169,9 +5171,66 @@ CD    6. No additional details needed
 **** TODO Is Splunk the only way to read the logs
 **** TODO Where are the reports kept
 **** TODO Find those OSB Query's
+***** Connection String
+      - Connection Name :: PROD ESB DB
+      - Username :: FES_SUPPORT_READ
+      - Password :: praKetuCREbe9eS
+      - Hostname :: besbprd.uscc.com
+      - Port :: 1530
+      - Service Name :: besbprd_esb
 **** TODO Log into the Tops Databases.
-** TODO Come up with GITHUB Training
-   DEADLINE: <2019-03-19 Tue>
+***** TABLE_CCLASS_IN
+      Main table for current credit for a customer. Need
+      to use *Active_Crdt2customer* value and look up
+      customer by objid in *Table_Customer*.
+     |-------------------------+--------------------+---------------|
+     | *Name*                  | *Data Type*        | *Description* |
+     |-------------------------+--------------------+---------------|
+     | Active_Crdt2customer    | Number             |               |
+     | Actv_Cclass2bus_Org     | Number             |               |
+     | Auth_Id                 | Varchar2 (20 Byte) |               |
+     | Cclass_Inst2cclass_Def  | Number             |               |
+     | Cclass_Inst2currency    | Number             |               |
+     | Cclass_Inst2user        | Number             |               |
+     | Class_Inst2credit_Ref   | Number             |               |
+     | Create_Dt               | Date               |               |
+     | Dev                     | Number             |               |
+     | Dpst_Amt                | Number             |               |
+     | Expiry_Dt               | Date               |               |
+     | Hist_Crdt2customer      | Number             |               |
+     | Inactv_Cclass2bus_Org   | Number             |               |
+     | Is_Overriden            | Number             |               |
+     | Last_Updated            | Date               |               |
+     | Max_Subscrn             | Number             |               |
+     | Objid                   | Number             |               |
+     | Ods_Insert_Date         | Date               |               |
+     | Ods_Last_Update_Date    | Date               |               |
+     | Score                   | Number             |               |
+     | Verify_Dt               | Date               |               |
+     | X_Approved_Limit        | Varchar2 (70 Byte) |               |
+     | X_Cclass_Eval2hgbst_Elm | Number             |               |
+     | X_Cclass2hgbst_Elm      | Number             |               |
+     | X_Dec_Comment1          | Varchar2 (70 Byte) |               |
+     | X_Dec_Comment2          | Varchar2 (70 Byte) |               |
+     | X_Dec_Comment3          | Varchar2 (70 Byte) |               |
+     | X_Dec_Comment4          | Varchar2 (70 Byte) |               |
+     | X_Dec_Comment5          | Varchar2 (70 Byte) |               |
+     | X_Is_Cust_Auth          | Number             |               |
+     | X_Req_No_Lines          | Number             |               |
+     | X_Status                | Varchar2 (1 Byte)  |               |
+     |-------------------------+--------------------+---------------|
+** TODO Usage Playbook
+   SCHEDULED: <2019-03-25 Mon>--<2019-12-31 Tue>
+   
+** APPT Communication Class
+   SCHEDULED: <2019-03-28 Thu 08:00>--<2019-03-28 Thu 12:00>
+
+** TODO CDP Replacement - Billing PoC
+*** Project Manager
+    /None/
+*** Project Description
+    Getting a new CDP feed from another vendor. 
+*** 
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

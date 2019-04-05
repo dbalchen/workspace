@@ -4218,3 +4218,39 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_ITAGS: noexport
   :END:
 
+
+* APPT Doctor Appt
+  SCHEDULED: <2019-03-25 Mon 09:20>--<2019-03-25 Mon 10:30>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-03-25 Mon 13:35
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: APPT
+  :ARCHIVE_ITAGS: noexport
+  :END:
+   
+
+* Set-Up Wallet on CallDump
+  SCHEDULED: <2019-04-03 Wed>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-04-03 Wed 13:51
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_ITAGS: noexport
+  :END:
+   
+   
+
+* TODO Come up with GITHUB Training
+  SCHEDULED: <2019-04-01 Mon 13:00>--<2019-04-01 Mon 14:00>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-04-03 Wed 13:52
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+
