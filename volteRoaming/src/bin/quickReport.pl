@@ -7,45 +7,43 @@ use Time::Seconds;
 
 BEGIN {
 	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
-
-  #	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
-#$ARG0 =
-#  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+$ARG0 =
+  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 
-#$ARGV[0] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
-#$ARGV[0] = "SDIRI_FCIBER";
-#$ARGV[0] = "SDATACBR_FDATACBR";
-$ARG0 = "CIBER_CIBER";
-#$ARGV[0] = "DATA_CIBER";
-#$ARGV[0] = "DISP_RM,NLDLT";
-#$ARGV[0] = "DISP_RM";
+#$ARG0 = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER";
+#$ARG0 = "SDIRI_FCIBER";
+#$ARG0 = "SDATACBR_FDATACBR";
+#$ARG0 = "CIBER_CIBER";
+#$ARG0 = "DATA_CIBER";
+#$ARG0 = "DISP_RM,NLDLT";
+#$ARG0 = "DISP_RM";
 #$ARG0 = "LTE";
-#$ARGV[0] = "DATA_CIBER,CIBER_CIBER";
+#$ARG0 = "DATA_CIBER,CIBER_CIBER";
 #$ARG0 = "NLDLT";
-#$ARGV[0] = "NLDLT,CIBER_CIBER";
+#$ARG0 = "NLDLT,CIBER_CIBER";
 
-$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 
-#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
-#$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
+$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
 # Setup Initial variables
-#my $timeStamp = $ARGV[0];
+my $timeStamp = $ARGV[0];
 
-$timeStamp = '20190318';
+#$timeStamp = '20190318';
+
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
 $outTimeStamp =
@@ -565,7 +563,7 @@ $workbook->close;
 
 my @email = ('david.balchen@uscellular.com');
 
-#my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
+@email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
 
 foreach my $too (@email) {
 	print $msg;
@@ -613,7 +611,7 @@ sub createExcel {
 			  )
 			  = sumType(
 				$total_recs, $total_recs_dch, $total_vol, $total_vol_dch,
-				$total_chrg, $total_chrg_dch, $switch, \@fix_cols
+				$total_chrg, $total_chrg_dch, $switch,    \@fix_cols
 			  );
 
 			for ( my $a = $headcount ; $a < @rows ; $a = $a + 1 ) {
@@ -672,22 +670,32 @@ sub createExcel {
 
 		$cntrow++;
 	}
-	
-	if($flag == 1)
-	{
-		
-		$msg = $msg."    Usage Type Summary - All Files :\n\n";
-		
-		$total_recs     = (($total_recs_dch - $total_recs)/($total_recs))*100;
-		$msg = $msg."        Total Record Difference    : ".sprintf( "%.2f", $total_recs ) . '%' . " \n\n";
-		
-		$total_vol  = (($total_vol_dch - $total_vol)/($total_vol))*100;
-		$msg = $msg."        Total Volume Difference    : ".sprintf( "%.2f", $total_vol ) . '%' . " \n\n";
 
-		$total_chrg  = (($total_chrg_dch - $total_chrg)/($total_chrg))*100;
-		$msg = $msg."        Total Charge Difference    : ".sprintf( "%.2f", $total_chrg ) . '%' . " \n\n\n";
+	if ( $flag == 1 ) {
 
-		
+		$msg = $msg . "    Usage Type Summary - All Files :\n\n";
+
+		$total_recs =
+		  ( ( $total_recs_dch - $total_recs ) / ($total_recs) ) * 100;
+		$msg =
+		    $msg
+		  . "        Total Record Difference    : "
+		  . sprintf( "%.2f", $total_recs ) . '%' . " \n\n";
+
+		$total_vol = ( ( $total_vol_dch - $total_vol ) / ($total_vol) ) * 100;
+		$msg =
+		    $msg
+		  . "        Total Volume Difference    : "
+		  . sprintf( "%.2f", $total_vol ) . '%' . " \n\n";
+
+		$total_chrg =
+		  ( ( $total_chrg_dch - $total_chrg ) / ($total_chrg) ) * 100;
+		$msg =
+		    $msg
+		  . "        Total Charge Difference    : "
+		  . sprintf( "%.2f", $total_chrg ) . '%'
+		  . " \n\n\n";
+
 	}
 
 }
@@ -811,8 +819,8 @@ sub getBODSPRD {
 
 	my $dbPwd = "BODS_DAV_BILLINGOPS";
 
-	# my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
-	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Potat000#" );
+    my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+#	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Password" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -822,9 +830,8 @@ sub getBODSPRD {
 sub getSNDPRD {
 
 	my $dbPwd = "SND_SVC_BILLINGOPS";
-	#my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-   my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "Bo0Go09000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

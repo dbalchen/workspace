@@ -4988,7 +4988,7 @@ CD    6. No additional details needed
     - New *TOPS* functionality to support *5G* Provisioning and Usage processing
     - Launch of new *5G* enabled devices (multiple platforms and device types)
 *** Go Live Dates
-    Depending on how the network upgrade goes (/See PCRF Forklift/), roll out should start around *July 2019*
+    Depending on how the network upgrade goes (/See PCRF Forklift/), roll out should start around *October 2019*
 *** Billing and Revenue impacts:  
     All of the below possible impacts were true for *Voice over WiFi.*
     - *Reporting :* Depending on the detail reporting requirements, *5G* usage must be separated 
@@ -5077,7 +5077,7 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     I believe this will be business as usual but it is to early to tell.
 *** Current Status
-    On Track
+    When the project is launched there will be new $25-35 price plans 
 
 ** TODO eSIM for Standalone devices
 *** Project Manager
@@ -5113,7 +5113,7 @@ CD    6. No additional details needed
    - Value of 3 in field 52 of the UFF signifies voice over WIFI.
    - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
 *** Go Live Dates
-    No date given
+    August release with marketing piece starting first quarter 2020.
 *** Possible Billing Issues
     - Since the usage will come in as VoLTE/LTE there will be no impact
 *** Monitors/Controls/Alerts and Ownership
@@ -5121,6 +5121,7 @@ CD    6. No additional details needed
 *** Current status
     All IA's should be complete by end of April.
     Track 1.1 complete except for provisioning
+    - We now have the go ahead for Acme provisioning.
 
 ** TODO Sunset Consolidated Billing [80%]
    1. [X] See who is still on TDS
@@ -5230,7 +5231,7 @@ CD    6. No additional details needed
     /None/
 *** Project Description
     Getting a new CDP feed from another vendor. 
-*** 
+** Come up with GitHUB document for Collabortive Process
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
