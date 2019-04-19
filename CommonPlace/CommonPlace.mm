@@ -126,7 +126,7 @@
 </html>
 </richcontent>
 <hook NAME="MapStyle" zoom="0.623">
-    <properties show_note_icons="true" show_icon_for_attributes="true"/>
+    <properties show_icon_for_attributes="true" show_note_icons="true"/>
 
 <map_styles>
 <stylenode LOCALIZED_TEXT="styles.root_node">
@@ -188,913 +188,6 @@
 </richcontent>
 <font NAME="SansSerif" SIZE="18"/>
 <edge STYLE="sharp_bezier" WIDTH="8"/>
-<node ID="sec-1-1" CREATED="1553536041429" MODIFIED="1553536041429" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>Acquisition and Formating (A&amp;F)
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-<b>A&amp;F</b> is the first stage of the mediation process where the <b>UFF</b> or <b>CIBER</b> record is examined, enriched 
-and transfered to an intermediary <i>usage</i> format. For <b>CIBER</b> records an extra rules step is 
-added to further mediate the records.
-</p>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-1-2" CREATED="1553536041430" MODIFIED="1553536041430" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>TurboCharging
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-   The most important <i>sub-system</i> in <b>TOPS</b>. It is here that all usage is mediated and rated.
-<br  />
-<br  />
-</p>
-
-<div class="figure">
-<p><img src="Pictures/TC.png" alt="TC.png" />
-</p>
-</div>
-
-<ul class="org-ul">
-<li><b>Event flow:</b>
-<ol class="org-ol">
-<li>An event comes in to via a network element</li>
-<li>Transforms data into a conical form which also includes the
-network element.</li>
-<li>Gets Rated
-<ul class="org-ul">
-<li>For <b>Pre-Pay</b> the <b>HLR<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup></b>. is handled by the <b>SCP<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup></b></li>
-</ul></li>
-</ol></li>
-<li>We convert everything to the customers <b>Home SID timezone</b> for bill
-presentment.</li>
-<li>Limiting or "<i>choking</i>" usage can be handled by <b>Diameter<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup></b> for
-<b>Pre-Pay</b> and <b>Turbo-Charging</b> for <b>Post-Pay</b></li>
-</ul>
-</body>
-</html>
-</richcontent>
-<node ID="sec-1-2-1" CREATED="1553536041430" MODIFIED="1553536041430" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>Event Servers
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-<b>Turbo-Charging</b> is not one application but multiple instances of <b>Event Servers</b>. Each event server corresponds to a bill cycle. Their status can be viewed using
-     the following query on the <b>PRDAF</b> database.
-</p>
-<pre class="example">
- SELECT DISTINCT
-         A.PROCESS_GROUP_ID,
-         PROCESS_CODE,
-         DECODE (HOST_ID,
-                 2001, 'EVESRV1',
-                 2022, 'EVESRV2',
-                 2023, 'EVESRV3',
-                 2024, 'EVESRV4',
-                 2025, 'EVESRV5',
-                 2026, 'EVESRV6')
-             AS "MACHINE",
-         DESCRIPTION,
-         DECODE (PROCESS_GROUP_ROLE,  0, 'ACTIVE',  1, 'STANDBY') ES_STATUS
-    FROM AVM1_SEGMENT_TOPOLOGY A, GN1_SYS_PROC_INSTANCE_CFG B
-   WHERE     A.PROCESS_GROUP_ID = B.PROCESS_GROUP_ID
-         AND A.ACTIVE_PROCESS_ID = B.PROCESS_INSTANCE_ID
-         AND PROCESS_CODE LIKE '%ES1%'
-ORDER BY MACHINE ASC
-</pre>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-1-2-2" CREATED="1553536041430" MODIFIED="1553536041430" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>Rerate Servers
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-In addition we have five <b>Rerate Servers</b> they are:
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<tbody>
-<tr>
-<td class="org-left">1. <b>RRP_EOC1056</b></td>
-<td class="org-left">4. <b>RRP_EOC1257</b></td>
-</tr>
-
-<tr>
-<td class="org-left">2. <b>RRP_EOC1068</b></td>
-<td class="org-left">5. <b>RRP_EOC1259</b></td>
-</tr>
-
-<tr>
-<td class="org-left">3. <b>RRP_EOC1192</b></td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-</richcontent>
-</node>
-</node>
-<node ID="sec-1-3" CREATED="1553536041430" MODIFIED="1553536041430" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>AEM
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-<b>AEM</b> gets the Turbo-Charging errors from the
-<b>APE1_REJECTED_EVENTS</b> table. For <b>A&amp;F</b> they are in the
-<b>EM1_RECORD</b> table. Since there are so many columns in the
-<b>EM1_RECORD</b> table we must limit our query's to the following
-columns:
-</p>
-
-<p>
-<a href="docs/EM1%20Query's">EM1 Queries</a>
-</p>
-</body>
-</html>
-</richcontent>
-<node ID="sec-1-3-1" CREATED="1553536041430" MODIFIED="1553536041430" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>AEM Error Summary
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-right" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-right"><b>ERROR CODE</b></th>
-<th scope="col" class="org-left"><b>POSTPAID</b></th>
-<th scope="col" class="org-left"><b>PREPAID</b></th>
-<th scope="col" class="org-left"><b>RECYCLE</b></th>
-<th scope="col" class="org-left"><b>REGUIDE</b></th>
-<th scope="col" class="org-left"><b>PURGE</b></th>
-<th scope="col" class="org-left"><b>COMMENTS</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-right">30728</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Cannot be fixed WA in place.</td>
-</tr>
-
-<tr>
-<td class="org-right">30724</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Technical non-usage events.</td>
-</tr>
-
-<tr>
-<td class="org-right">30712</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">Guiding error.</td>
-</tr>
-
-<tr>
-<td class="org-right">30263</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Open Remedy against Amdocs to handle error as NON-BAU or against</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">IS Ops - Bill Cycle Management when handled by Incident Management.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">Large charge issue where TC is not down during EPC dump.</td>
-</tr>
-
-<tr>
-<td class="org-right">30257</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Open Remedy against Amdocs for NON-BAU postpaid errors.  BAU prepaid</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">events with junk in l9_called_number can be purged, because that is</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">what the user dialed, ref  textjunk in the called number field.msg</td>
-</tr>
-
-<tr>
-<td class="org-right">30249</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Can be caused by recycling non-recyclable errors.  See error analysis.</td>
-</tr>
-
-<tr>
-<td class="org-right">30232</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Valid reject that cannot be fixed by a WA.</td>
-</tr>
-
-<tr>
-<td class="org-right">30219</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Postpaid are recycled until purged.  Prepaid are purged.</td>
-</tr>
-
-<tr>
-<td class="org-right">30218</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Postpaid are recycled until purged.  Prepaid are purged.</td>
-</tr>
-
-<tr>
-<td class="org-right">30209</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">Open Remedy against Amdocs to handle error as NON-BAU or against</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">IS Ops - Bill Cycle Management when handled by Incident Management.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">Large charge issue where TC is not down during EPC dump.</td>
-</tr>
-
-<tr>
-<td class="org-right">30206</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Open Remedy against Amdocs to handle error as NON-BAU or against</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">IS Ops - Bill Cycle Management when handled by Incident Management.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">Large charge issue where TC is not down during EPC dump.</td>
-</tr>
-
-<tr>
-<td class="org-right">30203</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Zero byte LTE events.  None since 03/2015</td>
-</tr>
-
-<tr>
-<td class="org-right">30109</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">IF offer is missing from CSM_OFFER open RT for EPC,</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">if not open Remedy against Amdocs.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-right">10060</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">First received on 20170116:  Open Remedy against Amdocs.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">Prepaid online event rejected due to the EOD maintenance.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">Remedy 03416730</td>
-</tr>
-
-<tr>
-<td class="org-right">10040</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">Guiding error</td>
-</tr>
-
-<tr>
-<td class="org-right">10037</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">Guiding error</td>
-</tr>
-
-<tr>
-<td class="org-right">10036</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">NON-BAU are re-guided and BAU are purged.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">See AEM Error Analysis History - TC Errors.docx  for rejected 'vali' events.</td>
-</tr>
-
-<tr>
-<td class="org-right">10035</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">Guiding error</td>
-</tr>
-
-<tr>
-<td class="org-right">10025</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Events are rejected, because of failed prepaid replenishments</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">and cannot be recycled.</td>
-</tr>
-
-<tr>
-<td class="org-right">6001</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Follow AEM Error Analysis History steps.  Recycle when carrier id is added by EPC.</td>
-</tr>
-
-<tr>
-<td class="org-right">6000</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Open Remedy against NDCII-DCS - Switch Data Coll (Mediation) for postpaid.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">Prepaid can be purged.  Recycle when fix is deployed.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-right">3000</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">NON-BAU: Open Remedy against TOPS Configuration for "Event is rejected due to not</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">found value 175 in table Incol SID pair".  BAU:  There is also a known special</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">number issue that can be purged.</td>
-</tr>
-
-<tr>
-<td class="org-right">1083</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Open Remedy against Inter-carrier Services and recycle once added.</td>
-</tr>
-
-<tr>
-<td class="org-right">1081</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">These are valid rejects and can be purged</td>
-</tr>
-
-<tr>
-<td class="org-right">1032</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Never investigated</td>
-</tr>
-
-<tr>
-<td class="org-right">1031</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Check with Nidal Elhrisse then if needed Open Remedy against EPC.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">See AEM Error Analysis History - TC Errors.docx  Events with google-content etc.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">can be ignored, because the project ended on 11/20/2015.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">See   EOL spreadsheet 102915.xlsx</td>
-</tr>
-
-<tr>
-<td class="org-right">1030</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Insufficient balance</td>
-</tr>
-
-<tr>
-<td class="org-right">1019</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Technical non-usage events</td>
-</tr>
-
-<tr>
-<td class="org-right">1013</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Balance is already opened</td>
-</tr>
-
-<tr>
-<td class="org-right">1012</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">Open Remedy against Amdocs for postpaid usage charge event types for active</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">subscribers and purged the rest.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-right">1007</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Balance is not yet open</td>
-</tr>
-
-<tr>
-<td class="org-right">1003</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Insufficient balance</td>
-</tr>
-
-<tr>
-<td class="org-right">1002</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Insufficient balance</td>
-</tr>
-
-<tr>
-<td class="org-right">1001</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Balance is expired</td>
-</tr>
-
-<tr>
-<td class="org-right">1000</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">Balance is closed</td>
-</tr>
-
-<tr>
-<td class="org-right">103</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">System errors. Re-guided every day.</td>
-</tr>
-
-<tr>
-<td class="org-right">102</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">System errors. Re-guided every day.</td>
-</tr>
-
-<tr>
-<td class="org-right">101</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">X</td>
-<td class="org-left">X</td>
-<td class="org-left">System errors. Postpaid re-guided every day.  Prepaid purged every day.</td>
-</tr>
-
-<tr>
-<td class="org-right">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-</richcontent>
-</node>
-</node>
-<node ID="sec-1-4" CREATED="1553536041431" MODIFIED="1553536041431" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>APRM
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-<b>Amdocs Partner Relationship Module</b> is a <b>TC</b> submodule that handles all <i>Incollect</i> and <i>Outcollect</i> wholesale rating. See <b>APRM</b> tables for further information.
-</p>
-</body>
-</html>
-</richcontent>
-</node>
 <node ID="sec-1-5" CREATED="1553536041431" MODIFIED="1553536041431" COLOR="#00b439"><richcontent TYPE="NODE">
 
 <html>
@@ -1696,97 +789,10 @@ ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C --- * Usage 1 Database *
 </html>
 </richcontent>
 </node>
-<node ID="sec-8" CREATED="1553536041504" MODIFIED="1553536965552" COLOR="#0033ff" HGAP="2"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>CallDump
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="18"/>
-<edge STYLE="sharp_bezier" WIDTH="8"/>
-<node ID="sec-8-1" CREATED="1553536041504" MODIFIED="1553536041504" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>Data Directories
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<ul class="org-ul">
-<li><b>/m04/switchb/ecs</b> - <b>(aaa1)</b> 3G or lower data usage guide by <b>#19</b>.</li>
-<li><b>/m06/switch/MMS</b> - Picture Messaging</li>
-<li><b>/m06/switch/MMSText</b> - Picture Messaging Text only.</li>
-<li><b>/m06/switch/sms_nsn</b> - SMS Motorola</li>
-<li><b>/m06/switchb/sms_alu</b> - SMS ALU</li>
-<li><b>/m04/switch/lte</b> - <b>(aaa3)</b> P-Gateway 4G usage</li>
-<li><b>/m04/switchb/valista</b> - Premium SMS</li>
-<li><b>/m05/switch/brew</b> - Brew and Brew data <b>(aaa2)</b></li>
-<li><b>/m01/switchb/tas</b> - Volte</li>
-</ul>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-8-2" CREATED="1553536041506" MODIFIED="1553536041506" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>WEDO (Switch to bill)
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-The <b>WEDO</b> process pulls usage files, tar's them up and places them
-into a directory so that <b>MFT</b> can pick them up. The operational
-jobs are as follows:
-</p>
-
-<ol class="org-ol">
-<li>Job <b>PR-BOD-S2B_TO_WED</b> is running this script:
-<b>/m01/switch/to_wedo.sh</b></li>
-<li>Job <b>PR-BOD-S2B_CREATE_WEDO_ARCH</b> is running this script:
-<b>/m01/switch/wedo/create_wedo_archive.sh</b></li>
-</ol>
-
-<p>
-\newpage
-</p>
-</body>
-</html>
-</richcontent>
-</node>
-</node>
 </node>
 <node TEXT="Usage Overview" POSITION="left" ID="ID_172728150" CREATED="1553540072156" MODIFIED="1553540082849" COLOR="#0033ff" LINK="UsageOverview.mm">
-<edge STYLE="sharp_bezier" COLOR="#808080" WIDTH="8"/>
 <font NAME="SansSerif" SIZE="18"/>
+<edge STYLE="sharp_bezier" COLOR="#808080" WIDTH="8"/>
 </node>
 <node POSITION="right" ID="sec-5" CREATED="1553536041445" MODIFIED="1553536041445" COLOR="#0033ff"><richcontent TYPE="NODE">
 
@@ -5579,6 +4585,410 @@ Used in the <b>Paid and Prepaid</b> reports.
 </body>
 </html>
 </richcontent>
+</node>
+<node POSITION="left" ID="sec-7-13" CREATED="1553536041504" MODIFIED="1553536041504" COLOR="#00b439"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>Roaming Reconciliation Tables
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="16"/>
+<edge STYLE="bezier" WIDTH="thin"/>
+<node ID="sec-7-13-1" CREATED="1553536041504" MODIFIED="1553536041504" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>FILE_SUMMARY
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<p>
+Used to hold data for all the roaming files.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">File_Name</td>
+<td class="org-left">Not Null Varchar2(255)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Identifier</td>
+<td class="org-left">Not Null Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">File_Type</td>
+<td class="org-left">Varchar2(255)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Usage_Type</td>
+<td class="org-left">Varchar2(255)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sender</td>
+<td class="org-left">Varchar2(255)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Receiver</td>
+<td class="org-left">Varchar2(255)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Records_Dch</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Volume_Dch</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Charges_Dch</td>
+<td class="org-left">Number(38,2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Records</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Volume</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Charges</td>
+<td class="org-left">Number(38,2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dropped_Records</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Duplicates</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tc_Send</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dropped_Tc</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rejected_Count</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rejected_Charges</td>
+<td class="org-left">Number(38,2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dropped_Aprm</td>
+<td class="org-left">Number(10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dropped_Aprm_Charges</td>
+<td class="org-left">Number(38,2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Aprm_Difference</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Aprm_Total_Records</td>
+<td class="org-left">Number(38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Aprm_Total_Charges</td>
+<td class="org-left">Number(38,2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Process_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">File_Name_Dch</td>
+<td class="org-left">Varchar2(100)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-13-2" CREATED="1553536041504" MODIFIED="1553536041504" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>APRM
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Carrier_Code</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Market_Code</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">File_Type</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Bp_Start_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Date_Processed</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Clearinghouse</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Record_Count</td>
+<td class="org-left">Number (38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Volume</td>
+<td class="org-left">Number (38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Charges</td>
+<td class="org-left">Number (38,2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Usage_Type</td>
+<td class="org-left">Varchar2 (100 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Record_Count_Dch</td>
+<td class="org-left">Number (38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Volume_Dch</td>
+<td class="org-left">Number (38)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Charges_Dch</td>
+<td class="org-left">Number (38,2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Serve_Bid</td>
+<td class="org-left">Varchar2 (100 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-13-3" CREATED="1553536041504" MODIFIED="1553536041504" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>REJECTED_RECORDS
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">File_Name</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Error_Code</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Error_Type</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Error_Description</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Total_Charge</td>
+<td class="org-left">Number (38,2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
 </node>
 </node>
 </map>

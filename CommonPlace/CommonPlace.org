@@ -704,7 +704,6 @@ subgraph cluster_3 {
 
    [[file:Pictures/usage_flow.jpg]]
 
-
 #+BEGIN_LaTeX
 \end{landscape} 
 \newpage
@@ -713,6 +712,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \begin{landscape}  
 #+END_LaTeX
+
 #+ATTR_LaTeX: width=23cm
     [[file:Pictures/roamingPrePay.png]]
 #+BEGIN_LaTeX
@@ -5223,9 +5223,6 @@ CD    6. No additional details needed
 ** TODO Usage Playbook
    SCHEDULED: <2019-03-25 Mon>--<2019-12-31 Tue>
    
-** APPT Communication Class
-   SCHEDULED: <2019-03-28 Thu 08:00>--<2019-03-28 Thu 12:00>
-
 ** TODO CDP Replacement - Billing PoC
 *** Project Manager
     /None/

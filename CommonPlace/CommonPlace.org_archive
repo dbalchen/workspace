@@ -4254,3 +4254,15 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_ITAGS: noexport
   :END:
 
+
+* APPT Communication Class
+  SCHEDULED: <2019-03-28 Thu 08:00>--<2019-03-28 Thu 12:00>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-04-15 Mon 09:43
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: APPT
+  :ARCHIVE_ITAGS: noexport
+  :END:
+
