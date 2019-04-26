@@ -245,19 +245,20 @@ def sendMail (xfile, mesg, subject, who):
 
 def dbConnect ():
     
-#     CONN_INFO = {
-#         'host': '10.176.199.19',  # info from tnsnames.ora
-#         'port': 1530,  # info from tnsnames.ora
-#         'user': 'md1dbal1',
-#         'psw': 'Potat000#',
-#         'service': 'bodsprd_adhoc'  # info from tnsnames.ora
-#     }
-#     CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
-#   
-#     tconn = cx_Oracle.connect(CONN_STR)
+    CONN_INFO = {
+         'host': '10.176.199.19',  # info from tnsnames.ora
+         'port': 1530,  # info from tnsnames.ora
+         'user': 'md1dbal1',
+         'psw': 'Potat000#',
+         'service': 'bodsprd_adhoc'  # info from tnsnames.ora
+    }
 
-    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
-    
+    CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
+
+    tconn = cx_Oracle.connect(CONN_STR)
+
+#    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
+
     return tconn;
 
 
@@ -474,9 +475,13 @@ wb.save(excel_file)
 
 message = mess
 subject = title
-sendTo = ["david.balchen@uscellular.com",    'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','Heather.Jeschke@uscellular.com','david.smith@uscellular.com','Miguel.Jones@uscellular.com']
+#sendTo = ["david.balchen@uscellular.com",    'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','Heather.Jeschke@uscellular.com','david.smith@uscellular.com','Miguel.Jones@uscellular.com']
+
+sendTo = ["david.balchen@uscellular.com"]
 
 for who in sendTo:
     sendMail(excel_file, message, subject, who)
     
 SystemExit(0);
+
+

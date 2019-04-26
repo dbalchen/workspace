@@ -67,7 +67,7 @@ def plotIt (usage, usageType, title, ylabel, filename):
 
     # Calculate Least Squares for linear regression
     xxAxx = np.asarray(xAx, dtype=np.float64)
-    slope, intercept, poop, poop2, poop3 = stats.linregress(xxAxx, yAx)
+    slope, intercept, poop, poop, poop = stats.linregress(xxAxx, yAx)
      
     mn = np.min(xxAxx)
     mx = np.max(xxAxx)
@@ -193,17 +193,17 @@ ORDER BY 2 ASC
 
 results = []
  
-with open("/home/dbalchen/Desktop/Test.csv", "rb") as fp:
-    for i in fp.readlines():
-        tmp = i.split("\t")
-        try:
-            results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
-        except:
-            print("ouch")
+# with open("/home/dbalchen/Desktop/Test.csv", "rb") as fp:
+#     for i in fp.readlines():
+#         tmp = i.split("\t")
+#         try:
+#             results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
+#         except:
+#             print("ouch")
 
-# cursor.execute(sql)
+cursor.execute(sql)
 # 
-# results = cursor.fetchall()
+results = cursor.fetchall()
 
 pre3G = []
 pre4G = []

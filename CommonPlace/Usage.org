@@ -968,7 +968,7 @@ subgraph cluster_3 {
    added to further mediate the records.
 
 * TurboCharging
-   The most important /sub-system/ in *TOPS*. It is here that all usage is mediated and rated.
+   The most important /sub-system/ in *TOPS*. It is here that all usage is guided and rated.
 \\
 \\
 #+ATTR_LaTeX: :width 16cm

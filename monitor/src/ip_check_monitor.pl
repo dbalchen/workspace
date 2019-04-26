@@ -2,13 +2,13 @@
 #exit(0);
 
 BEGIN {
-	#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+		push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 
 }
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/monitor/src/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/monitor/src/';
 
-$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/IP_Check/';
+#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/IP_Check/';
 
 # For test only....
 #my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";

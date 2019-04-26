@@ -17,6 +17,7 @@
 #+ATTR_LaTeX: :width 16cm
 file:Pictures/Andrejevi1.jpg
 #+Author: David Balchen
+
 #+Email: dave@balchen.org
 \newpage 
 #+ATTR_LaTeX: :width 13cm
@@ -4988,7 +4989,19 @@ CD    6. No additional details needed
     - New *TOPS* functionality to support *5G* Provisioning and Usage processing
     - Launch of new *5G* enabled devices (multiple platforms and device types)
 *** Go Live Dates
-    Depending on how the network upgrade goes (/See PCRF Forklift/), roll out should start around *October 2019*
+    Delivery Schedule (Kirti)
+    - Track1 – TOPS Provisioning changes (Amdocs) – 1 PI effort – 1 User story –  target August, 2019
+    - Track2 – TOPS Charging changes (PDC) – TBD – dependency on data refinery – target Oct, 2019
+    - Track3 – TOPS MOA changes – Per user stories, MOA will be needed on demand basis, there is dependency on Engineering.
+    - Reporting Enablement for 5G will be part of future track of work as aligned with Business.
+*** Open Issues
+    Open items we are tracking (Team)
+    - Network Modernization -  5G Data Usage Report, IS has dependency on data refinery for this report
+    - 5G capable (device) reporting and charging will be part of track 2.2 work scope. Dave Smith and Dave Balchen from Billing Operations will be engaged. SANDS team will be engaged as well.
+    - WE (Web Evolve project) changes to 5G (MyAcoount)
+    - Suspension of VoLTE Subscriptions  email from Brian(attached below): "Very recently on CDMALESS project we identified that in specific cases there will be a negative customer experience because of our approach for suspending VoLTE.  As a reminder, current state is when we suspend a VoLTE enabled subscription VoLTE is disabled and deleted from all related VoLTE elements and the device relies on CDMA for calls to 611 and financial services hot lining.
+    In the case of 5G we are systematically preventing disablement of VoLTE, it would seem in current solution approach 5G has same issue (when a customer is suspended they will not have the ability to call 611/Customer Service from suspended device)."  We will discuss and assess impact at the team meeting.
+ 
 *** Billing and Revenue impacts:  
     All of the below possible impacts were true for *Voice over WiFi.*
     - *Reporting :* Depending on the detail reporting requirements, *5G* usage must be separated 
@@ -5003,11 +5016,12 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     Mr. Smith's IP monitors may need to be changed to look for 5G.
 *** Current Status
-    Working on User stories which at this point is mostly about provisioning.
-    Release around October.
+    At this point the big issue is that we can't distinquesh between 4 and 5G. So until that is fixed 5G will come in as 4G. Another issue is the switchwing between the feeds 
+    which could create thousands of records per session. The current plan is to combine these records before being sent to TOPS.
+    
 
 ** TODO Verizon LTE/VoLTE Outbound roaming
-   DEADLINE: <2019-03-31 Sun>   
+   DEADLINE: <2019-07-16 Tue>   
 *** Project Manager
     Dennis Render
     [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.pdf][Latest Doc]]
@@ -5021,7 +5035,7 @@ CD    6. No additional details needed
     The roaming reconciliation reports will and have picked up LTE/VoLTE (test calls) from *Verizon*. 
     So we are already covered on the monitoring department.
 *** Current Status
-    Having issues with e911. If not resolved this week the project may be put on hold.
+    Incollects are in but Outcollects are still having issues with e911. Official launch for Incollects is July 16, 2019, Outcollects is May 31st, 2019.
 
 ** TODO International Service Revamp
    DEADLINE: <2019-06-01 Sat>--<2019-06-30 Sun>  
@@ -5101,7 +5115,12 @@ CD    6. No additional details needed
     Need to watch for any drop in usage for Apple devices.
 *** Current Status 
     Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
-
+    
+** TODO VoLTE Prepaid
+*** Project Manager
+    Rachelle Funderburg 
+*** Project Description
+    Enable are customers 
 ** TODO Voice over WIFI
 *** Project Manager
     Rachelle Funderburg 
@@ -5119,9 +5138,12 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     The roaming reconciliation reports will pick up any anomalies. 
 *** Current status
-    All IA's should be complete by end of April.
-    Track 1.1 complete except for provisioning
-    - We now have the go ahead for Acme provisioning.
+    - Track 1.1 June test frame
+    - Track 1.2 May 25th delivery
+    - Engineering/Nokia Android device provisioning specs and MDM solution for E911 Address Collection required are gating 
+    completion of the Provisioning Impact Assessment (IA). Provisioning IA remains on hold awaiting Android specs. 
+    Discussion underway to track IS development for Acme/iOS and Android separately. Amdocs targeting PI29 and August release 
+    for the Acme provisioning. Nokia projecting 4/30 to provide USCC with Android provisioning specs. Non-Provisioning IA and E3 are complete.
 
 ** TODO Sunset Consolidated Billing [80%]
    1. [X] See who is still on TDS
@@ -5228,7 +5250,7 @@ CD    6. No additional details needed
     /None/
 *** Project Description
     Getting a new CDP feed from another vendor. 
-** Come up with GitHUB document for Collabortive Process
+** TODO Come up with GitHUB document for Collabortive Process
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
