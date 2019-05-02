@@ -639,6 +639,35 @@ subgraph cluster_3 {
 \newpage
 #+END_LaTeX
 * CIBER File Format
+** MF1_CIBER_BATCH_SEQ
+         The table used to keep the CIBER Outcollect sequences in sync
+         with Syniverse. Every once a while we need to update it to keep
+         in sync.
+
+        [[file:///home/dbalchen/workspace/Outcollects/updateSeq.pl][Sequence Creation Job]]
+
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------+---------------+---------------|
+| *Column Name*     | *Data Type*   | *Description* |
+|-------------------+---------------+---------------|
+| Application_Id    | Char (6 Byte) |               |
+| Dl_Service_Code   | Char (5 Byte) |               |
+| Dl_Update_Stamp   | Number (4)    |               |
+| *Home_Sid*        | Char (5 Byte) |               |
+| Locked_Sid        | Number (10)   |               |
+| Operator_Id       | Number (9)    |               |
+| Seq_No            | Number (3)    |               |
+| *Serve_Sid*       | Char (5 Byte) |               |
+| Status_Ind        | Char (2 Byte) |               |
+| Sys_Creation_Date | Date          |               |
+| Sys_Update_Date   | Date          |               |
+|-------------------+---------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
 ** Ciber Record Types
    The *Ciber* standard defines the following record Types:
       -  *01* Header
@@ -966,6 +995,174 @@ subgraph cluster_3 {
    *A&F* is the first stage of the mediation process where the *UFF* or *CIBER* record is examined, enriched 
    and transfered to an intermediary /usage/ format. For *CIBER* records an extra rules step is 
    added to further mediate the records.
+*** AC_PHYSICAL_FILES
+         Provides information for the physical files that were processed.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------------+--------------------+---------------|
+| *Column Name*       | *Data Type*        | *Description* |
+|---------------------+--------------------+---------------|
+| *Identifier*        | Number(15,0)       |               |
+| *Sys_Creation_Date* | Date               |               |
+| Sys_Update_Date     | Date               |               |
+| Operator_Id         | Number(9,0)        |               |
+| Application_Id      | Char(6 Byte)       |               |
+| Dl_Service_Code     | Char(5 Byte)       |               |
+| Dl_Update_Stamp     | Number(4,0)        |               |
+| *File_Name*         | Varchar2(200 Byte) |               |
+| Host_Name           | Varchar2(50 Byte)  |               |
+| *File_Path*         | Varchar2(512 Byte) |               |
+| Serial_Number       | Varchar2(8 Byte)   |               |
+| System_Rcv_Date     | Date               |               |
+| Fsrc_Src_Type       | Char(10 Byte)      |               |
+| Fsrc_Type_Id        | Char(10 Byte)      |               |
+| Rcrdng_Start_Date   | Date               |               |
+| Rcrdng_End_Date     | Date               |               |
+| *Trlr_Record_Count* | Number(9,0)        |               |
+| Trlr_Block_Count    | Number(9,0)        |               |
+| Trlr_L_File_Count   | Number(9,0)        |               |
+| Pgm_L_File_Count    | Number(9,0)        |               |
+| Pgm_Tracer_Ind      | Char(1 Byte)       |               |
+| Dupl_Entry_Ind      | Char(1 Byte)       |               |
+| Entry_Status        | Char(2 Byte)       |               |
+| Old_Age_Ind         | Char(1 Byte)       |               |
+| End_Of_Tree_Seq     | Number(9,0)        |               |
+| *Balance_Date*      | Date               |               |
+|---------------------+--------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** AC_SOURCE
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------+-------------------+---------------|
+| *Column Name*     | *Data Type*       | *Description* |
+|-------------------+-------------------+---------------|
+| Source_Type       | Char(10 Byte)     |               |
+| *File_Type*       | Char(10 Byte)     |               |
+| Switch_Id         | Varchar2(32 Byte) |               |
+| Sys_Creation_Date | Date              |               |
+| Sys_Update_Date   | Date              |               |
+| Operator_Id       | Number(9,0)       |               |
+| Application_Id    | Char(6 Byte)      |               |
+| Dl_Service_Code   | Char(5 Byte)      |               |
+| Dl_Update_Stamp   | Number(4,0)       |               |
+| File_Seq_No       | Number(6,0)       |               |
+| Max_File_Seq_No   | Number(6,0)       |               |
+| Max_Time          | Number(10,0)      |               |
+| Min_Time          | Number(10,0)      |               |
+| Last_Cycle_Procd  | Date              |               |
+| Next_Cycle_Expect | Date              |               |
+| Status_Ind        | Char(2 Byte)      |               |
+| Dupl_Entry_Ind    | Char(1 Byte)      |               |
+| Ho_From_Time      | Date              |               |
+| Ho_From_Seq       | Number(6,0)       |               |
+| Days_Bfr_Phy_Cln  | Number(4,0)       |               |
+| Gap_Permitted     | Number(6,0)       |               |
+|-------------------+-------------------+---------------|
+
+*** AC1_CONTROL (-HIST)
+         Similar to *ac_processing_accounting* there are two tables
+         with the same name but in different databases, *PRDAF* (Usage)
+         and *PRDCUST* (AR).
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|------------------------+--------------------+-------------|
+| *Column Name*          | *Data Type*        | Description |
+|------------------------+--------------------+-------------|
+| *Identifier*           | Number(15,0)       |             |
+| Sys_Creation_Date      | Date               |             |
+| Sys_Update_Date        | Date               |             |
+| Operator_Id            | Number(9,0)        |             |
+| Application_Id         | Char(6 Byte)       |             |
+| Dl_Service_Code        | Char(5 Byte)       |             |
+| Dl_Update_Stamp        | Number(4,0)        |             |
+| *File_Name*            | Varchar2(200 Byte) |             |
+| *File_Path*            | Varchar2(512 Byte) |             |
+| File_Seq_No            | Number(6,0)        |             |
+| Host_Name              | Varchar2(50 Byte)  |             |
+| Data_Group             | Varchar2(64 Byte)  |             |
+| File_Create_Date       | Date               |             |
+| *File_Status*          | Varchar2(2 Byte)   |             |
+| *Origin_File_Ident*    | Number(15,0)       |             |
+| *Phy_File_Ident*       | Number(15,0)       |             |
+| Cur_Pgm_Name           | Varchar2(32 Byte)  |             |
+| Cur_File_Alias         | Varchar2(10 Byte)  |             |
+| Nxt_Pgm_Name           | Varchar2(32 Byte)  |             |
+| Nxt_File_Alias         | Varchar2(10 Byte)  |             |
+| File_Format            | Varchar2(10 Byte)  |             |
+| File_Group             | Char(1 Byte)       |             |
+| File_Type              | Char(2 Byte)       |             |
+| Repro_Ind              | Char(1 Byte)       |             |
+| Source_Type            | Char(10 Byte)      |             |
+| Source_File_Type       | Char(10 Byte)      |             |
+| File_Deleted_Ind       | Char(1 Byte)       |             |
+| System_Id              | Char(5 Byte)       |             |
+| Abp_Var                | Varchar2(512 Byte) |             |
+| Priority               | Char(1 Byte)       |             |
+| Wr_Rec_Quantity        | Number(9,0)        |             |
+| Wr_Time_Quantity       | Number(13,2)       |             |
+| Wr_Money_Quantity      | Number(13,2)       |             |
+| Wr_Euro_Quantity       | Number(13,2)       |             |
+| In_Rec_Quantity        | Number(9,0)        |             |
+| In_Time_Quantity       | Number(13,2)       |             |
+| In_Money_Quantity      | Number(13,2)       |             |
+| In_Euro_Quantity       | Number(13,2)       |             |
+| Gn_Rec_Quantity        | Number(9,0)        |             |
+| Gn_Time_Quantity       | Number(13,2)       |             |
+| Gn_Money_Quantity      | Number(13,2)       |             |
+| Gn_Euro_Quantity       | Number(13,2)       |             |
+| Dr_Rec_Quantity        | Number(9,0)        |             |
+| Dr_Time_Quantity       | Number(13,2)       |             |
+| Dr_Money_Quantity      | Number(13,2)       |             |
+| Dr_Euro_Quantity       | Number(13,2)       |             |
+| Processed_Rec_No       | Number(9,0)        |             |
+| Rejected_Reason_Cd     | Char(3 Byte)       |             |
+| Owner_Name             | Varchar2(50 Byte)  |             |
+| Table_Alias            | Number(5,0)        |             |
+| Nxt_Process_Id         | Number(9,0)        |             |
+| Nxt_Process_Start_Time | Date               |             |
+| Cur_Process_Id         | Number(9,0)        |             |
+| Max_Event_Time         | Date               |             |
+| Logical_File_Ident     | Number(15,0)       |             |
+| Table_Issue_Code       | Number(9,0)        |             |
+| External_Id            | Varchar2(32 Byte)  |             |
+| Dest_Rout_Crtria       | Varchar2(24 Byte)  |             |
+| Status_Category        | Varchar2(20 Byte)  |             |
+| Status_Code            | Varchar2(200 Byte) |             |
+| Application_Code       | Varchar2(50 Byte)  |             |
+| File_Size              | Number(15,0)       |             |
+| Recycle_Counter        | Number(15,0)       |             |
+| Group_Sequence         | Number(15,0)       |             |
+| Out_Req_Quantity       | Number(9,0)        |             |
+| Bulk_Id                | Number(9,0)        |             |
+| Store_Mode             | Char(2 Byte)       |             |
+| Session_Id             | Number(15,0)       |             |
+| Target_File_Path       | Varchar2(512 Byte) |             |
+| Target_Host            | Varchar2(50 Byte)  |             |
+| Ext_Identifier         | Number(9,0)        |             |
+| Ext_Orig_Ident         | Number(9,0)        |             |
+| Additional_Attr        | Varchar2(300 Byte) |             |
+| Group_Size             | Number(4,0)        |             |
+| Monitor_Data           | Varchar2(50 Byte)  |             |
+| Wr_Volume_Quantity     | Number(15,2)       |             |
+| In_Volume_Quantity     | Number(15,2)       |             |
+| Gn_Volume_Quantity     | Number(15,2)       |             |
+| Dr_Volume_Quantity     | Number(15,2)       |             |
+| End_Process_Time       | Date               |             |
+| Fr_Time                | Date               |             |
+| Eng_Priority           | Number(1,0)        |             |
+|------------------------+--------------------+-------------|
+
 
 * TurboCharging
    The most important /sub-system/ in *TOPS*. It is here that all usage is guided and rated.
@@ -1013,11 +1210,1100 @@ subgraph cluster_3 {
         | 1. *RRP_EOC1056* | 4. *RRP_EOC1257* |
         | 2. *RRP_EOC1068* | 5. *RRP_EOC1259* |
         | 3. *RRP_EOC1192* |                  |
-     
+
+
+
+*** AGREEMENT_RESOURCE
 #+BEGIN_LaTeX
-\newpage 
-\begin{landscape}  
+\footnotesize
 #+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------+---------------------+---------------|
+| *Column Name*     | *Data Type*         | *Description* |
+|-------------------+---------------------+---------------|
+| Trx_Id            | Number (10)         |               |
+| To_Resource_Val   | Varchar2 (200 Byte) |               |
+| Sys_Update_Date   | Date                |               |
+| Sys_Creation_Date | Date                |               |
+| Resrc_Seq_No      | Number (10)         |               |
+| Resource_Value    | Varchar2 (200 Byte) |               |
+| Resource_Type     | Varchar2 (4 Byte)   |               |
+| Resource_State    | Char (1 Byte)       |               |
+| Resource_Scope_Id | Varchar2 (15 Byte)  |               |
+| Resource_Prm_Cd   | Varchar2 (255 Byte) |               |
+| Resource_Category | Char (1 Byte)       |               |
+| Range_Ind         | Char (1 Byte)       |               |
+| Operator_Id       | Number (9)          |               |
+| Offer_Instance_Id | Number (10)         |               |
+| Ins_Trx_Id        | Number (10)         |               |
+| From_Resource_Val | Varchar2 (200 Byte) |               |
+| Expiration_Date   | Date                |               |
+| Exp_Issue_Date    | Date                |               |
+| Effective_Date    | Date                |               |
+| Eff_Issue_Date    | Date                |               |
+| Dl_Update_Stamp   | Number (4)          |               |
+| Dl_Service_Code   | Char (5 Byte)       |               |
+| Conv_Run_No       | Number (3)          |               |
+| Base_Param_Name   | Varchar2 (255 Byte) |               |
+| Application_Id    | Char (6 Byte)       |               |
+| Agreement_No      | Number (10)         |               |
+| Agreement_Key     | Number (9)          |               |
+|-------------------+---------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** CM1_AGREEMENT_PARAM
+    In the PRDCUST database. 
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------+----------------------+-------------------|
+| *Name*            | *Data Type*          | *Description*     |
+|-------------------+----------------------+-------------------|
+| Agreement_Key     | Number (9)           |                   |
+| Agreement_No      | Number (10)          | Is Equal To The   |
+|                   |                      | Subscriber Number |
+| Param_Seq_No      | Number (10)          |                   |
+| Sys_Creation_Date | Date                 |                   |
+| Sys_Update_Date   | Date                 |                   |
+| Operator_Id       | Number (9)           |                   |
+| Application_Id    | Char (6 Byte)        |                   |
+| Dl_Service_Code   | Char (5 Byte)        |                   |
+| Dl_Update_Stamp   | Number (4)           |                   |
+| Param_Name        | Varchar2 (255 Byte)  |                   |
+| Param_Values      | Varchar2 (4000 Byte) |                   |
+| *Effective_Date*  | Date                 |                   |
+| *Expiration_Date* | Date                 |                   |
+| Agr_Level         | Char (1 Byte)        |                   |
+| Source_Agr_No     | Number (10)          |                   |
+| Trx_Id            | Number (10)          |                   |
+| Ins_Trx_Id        | Number (10)          |                   |
+| Eff_Issue_Date    | Date                 |                   |
+| Exp_Issue_Date    | Date                 |                   |
+| Conv_Run_No       | Number (10)          |                   |
+| Offer_Instance_Id | Number (10)          |                   |
+|-------------------+----------------------+-------------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** AGD1_RESOURCES
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------------------+-------------------+------------------|
+| *Column Name*         | *Data Type*       | *Description*    |
+|-----------------------+-------------------+------------------|
+| Resource_Segment      | Number(4,0)       |                  |
+| Resource_Value        | Varchar2(63 Byte) | Contains         |
+| *Resource_Type*       | Number(4,0)       | 0 - Mdn          |
+|                       |                   | 19 - Min         |
+|                       |                   | 21 - Outcollects |
+|                       |                   | 23 - Timsi       |
+| *Effective_Date*      | Date              |                  |
+| Sys_Creation_Date     | Date              |                  |
+| Sys_Update_Date       | Date              |                  |
+| Operator_Id           | Number(9,0)       |                  |
+| Application_Id        | Char(6 Byte)      |                  |
+| Dl_Service_Code       | Char(5 Byte)      |                  |
+| Dl_Update_Stamp       | Number(4,0)       |                  |
+| Update_Id             | Number(18,0)      |                  |
+| *Expiration_Date*     | Date              |                  |
+| *Subscriber_Id*       | Number(10,0)      | The Subscriber   |
+| Sub_Status            | Char(1 Byte)      |                  |
+| Routing_Policy_Id     | Number(9,0)       |                  |
+| Payment_Category      | Char(4 Byte)      |                  |
+| *Customer_Id*         | Number(10,0)      | Customer ID      |
+| *Bill_Cycle*          | Number(4,0)       |                  |
+| New_Bill_Cycle        | Number(4,0)       |                  |
+| Chg_Cyc_Req_Date      | Date              |                  |
+| Large_Cust_Ind        | Char(1 Byte)      |                  |
+| Resource_Hash_Value   | Number(10,0)      |                  |
+| Subscriber_Hash_Value | Number(10,0)      |                  |
+| Load_Ind              | Char(1 Byte)      |                  |
+|-----------------------+-------------------+------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+         -  Subscriber Table Status
+            -  A = Active
+            -  C = Canceled
+            -  S = Suspended
+            -  U = Collection Suspend
+            -  L = Collection Canceled
+            -  D = Collection Suspend
+
+
+*** APE1_RATED_EVENT
+         Where all the rateable events are contained. Most data inquires
+         usually wind up here.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|------------------------------+---------------------+-----------------------|
+| *Column Name*                | *Data Type*         | *Description*         |
+|------------------------------+---------------------+-----------------------|
+| *Cycle_Code*                 | Number (4)          | See Usage Db By Cycle |
+|                              |                     | For Complete List.    |
+| *Cycle_Instance*             | Number (2)          | Cycle Month           |
+| Customer_Segment             | Number (4)          |                       |
+| *Customer_Id*                | Number (10)         |                       |
+| Event_Id                     | Number (18)         |                       |
+| *Subscriber_Id*              | Number (10)         |                       |
+| Start_Time                   | Date                |                       |
+| *Event_Type_Id*              | Number (9)          | The Event Type        |
+|                              |                     | Voice - 62            |
+|                              |                     | Data - 51             |
+|                              |                     | Lte - 69              |
+|                              |                     | Sms - 54              |
+|                              |                     | Mms - 60              |
+|                              |                     | Volte - 69            |
+|                              |                     | /See Wiki Table/      |
+|                              |                     | /For Complete List/   |
+| Target_Cycle_Code            | Number (4)          |                       |
+| Cycle_Year                   | Number (4)          |                       |
+| Billing_Arrangement          | Number (18)         |                       |
+| Source_Id                    | Number (15)         |                       |
+| Event_State                  | Char (1 Byte)       | X = Stripped          |
+| Event_State_Reason_Code      | Char (5 Byte)       |                       |
+| Rerate_Type                  | Char (1 Byte)       |                       |
+| Original_Event_Id            | Number (18)         |                       |
+| Resource_Value               | Varchar2 (63 Byte)  |                       |
+| *Resource_Type*              | Varchar2 (16 Byte)  | 0 - Mdn               |
+|                              |                     | 19 - Min              |
+|                              |                     | 21 - Outcollects      |
+|                              |                     | 23 - Imsi             |
+| Sys_Creation_Date            | Date                |                       |
+| Sys_Update_Date              | Date                |                       |
+| Operator_Id                  | Number (9)          |                       |
+| Application_Id               | Char (6 Byte)       |                       |
+| Dl_Service_Code              | Char (5 Byte)       |                       |
+| Dl_Update_Stamp              | Number (4)          |                       |
+| Update_Id                    | Number (9)          |                       |
+| Version_Id                   | Number (9)          |                       |
+| Network_Start_Time           | Date                |                       |
+| Event_Status                 | Char (1 Byte)       |                       |
+| Event_Counters               | Number (20)         |                       |
+| Token_Id                     | Number (20)         |                       |
+| L3_Account                   | Number              |                       |
+| L3_Additional_Chg_Amt        | Number              |                       |
+| L3_Airtime_Chg_Amt           | Number              |                       |
+| L3_Basic_Service_Code        | Varchar2 (2 Byte)   |                       |
+| *L3_Calling_Country_Code*    | Varchar2 (3 Byte)   |                       |
+| *L3_Call_Category*           | Varchar2 (1 Byte)   | Volte = 'V'           |
+| *L3_Call_Direction*          | Varchar2 (1 Byte)   | 1 = Incoming          |
+|                              |                     | 2 = Outgoing          |
+| L3_Call_Source               | Varchar2 (4 Byte)   |                       |
+| *L3_Charge_Amount*           | Number              | The Amount Charged    |
+| L3_Charge_Code               | Varchar2 (15 Byte)  |                       |
+| L3_Chg_Amt_Inc_Free_Allow    | Number              |                       |
+| L3_Customer_Offer_Currency   | Varchar2 (3 Byte)   |                       |
+| L3_Discount_Amount           | Number              |                       |
+| *L3_Duration*                | Number              |                       |
+| *L3_Imsi*                    | Varchar2 (15 Byte)  |                       |
+| *L3_Offer_Id*                | Number              | The Price Plan        |
+|                              |                     | The Event Was         |
+|                              |                     | Rated Against.        |
+| L3_Original_Charge_Amount    | Number              |                       |
+| L3_Payment_Category          | Varchar2 (4 Byte)   |                       |
+| L3_Pay_Channel               | Number              |                       |
+| *L3_Physical_File_Id*        | Number              |                       |
+| L3_Pricing_Item_Id           | Number              |                       |
+| L3_Rounded_Unit              | Number              |                       |
+| L3_Special_Number_Group      | Varchar2 (10 Byte)  |                       |
+| L3_Starting_Period           | Varchar2 (10 Byte)  |                       |
+| L3_Target_Customer_Id        | Number              |                       |
+| L3_Unapplied_Amount          | Number              |                       |
+| L3_Uom                       | Varchar2 (1 Byte)   |                       |
+| L3_Volume                    | Number              |                       |
+| *Service_Filter*             | Varchar2 (15 Byte)  |                       |
+| L9_Call_Tax_Indicator        | Varchar2 (2 Byte)   |                       |
+| L9_Originating_Cell_Id       | Varchar2 (16 Byte)  |                       |
+| L9_Number_Of_Recipients      | Number              |                       |
+| L9_Cross_Toll_Period_Ind     | Varchar2 (1 Byte)   |                       |
+| L9_Charge_Type               | Varchar2 (4 Byte)   |                       |
+| L9_File_Number               | Varchar2 (24 Byte)  |                       |
+| L9_Air_Tax                   | Number              |                       |
+| L9_Surcharge_Indicator       | Varchar2 (1 Byte)   |                       |
+| L9_Special_Features_Used     | Varchar2 (2 Byte)   |                       |
+| L9_Original_Toll_Charge      | Number              |                       |
+| *L9_Called_Number*           | Varchar2 (256 Byte) |                       |
+| L9_Originating_Category      | Varchar2 (6 Byte)   |                       |
+| L9_Volume_Type               | Varchar2 (2 Byte)   |                       |
+| L9_Toll_Type_Indicator       | Varchar2 (2 Byte)   |                       |
+| L9_Original_Add_Chrg_Amt     | Number              |                       |
+| L9_Termination_Reason        | Varchar2 (8 Byte)   |                       |
+| L9_Toll_Chrg_Amt_Inc_Alwnce  | Number              |                       |
+| L9_Air_Rerate_Ind            | Varchar2 (1 Byte)   |                       |
+| L9_Network_Flag              | Varchar2 (1 Byte)   |                       |
+| *L9_Called_Place*            | Varchar2 (10 Byte)  |                       |
+| L9_Surcharge_Type            | Varchar2 (1 Byte)   |                       |
+| L9_Special_Number_Type       | Varchar2 (32 Byte)  |                       |
+| L9_Period_Name               | Varchar2 (10 Byte)  |                       |
+| L9_Correlation_Id            | Varchar2 (14 Byte)  |                       |
+| L9_Additional_Rate_Offer_Id  | Number              |                       |
+| L9_Cross_Period_Ind          | Varchar2 (1 Byte)   |                       |
+| L9_Price_Plan_Offer_Id       | Number              |                       |
+| L9_Toll_Rerate_Ind           | Varchar2 (1 Byte)   |                       |
+| L9_Serving_Place             | Varchar2 (26 Byte)  |                       |
+| L9_Original_Tax              | Number              |                       |
+| L9_Toll_Offer_Instance       | Number              |                       |
+| L9_Terminating_Cell_Id       | Varchar2 (16 Byte)  |                       |
+| L9_Visitor_Indicator         | Varchar2 (1 Byte)   |                       |
+| *L9_Band_Code*               | Varchar2 (1 Byte)   |                       |
+| L9_Validity_Time             | Number              |                       |
+| L9_Toll_Offer_Id             | Number              |                       |
+| L9_Rounded_Toll_Duration     | Number              |                       |
+| *L9_Carrier_Id*              | Varchar2 (16 Byte)  |                       |
+| L9_Special_Number            | Varchar2 (32 Byte)  |                       |
+| L9_Toll_Charge_Amount        | Number              |                       |
+| L9_Toll_Duration             | Number              |                       |
+| L9_Air_Time_Ind              | Varchar2 (1 Byte)   |                       |
+| L9_Event_Type_Name           | Varchar2 (50 Byte)  |                       |
+| L9_Record_Sequence_Number    | Number              |                       |
+| *L9_Serve_Sid*               | Varchar2 (5 Byte)   |                       |
+| *L9_Downlink_Volume*         | Number              |                       |
+| *L9_Calling_Number*          | Varchar2 (256 Byte) |                       |
+| L9_Call_Completion_Code      | Number              |                       |
+| *L9_Uplink_Volume*           | Number              |                       |
+| *L9_Dialed_Digits*           | Varchar2 (32 Byte)  |                       |
+| L9_Toll_Rate_Class           | Varchar2 (1 Byte)   |                       |
+| L9_Eha_Indicator             | Varchar2 (1 Byte)   |                       |
+| *L9_Ring_Time*               | Number              |                       |
+| L9_Toll_Tax                  | Number              |                       |
+| L9_Currency_Type             | Varchar2 (2 Byte)   |                       |
+| L9_Calling_State             | Varchar2 (2 Byte)   |                       |
+| L9_Toll_Item_Id              | Number              |                       |
+| L9_Customer_Sub_Type         | Varchar2 (15 Byte)  |                       |
+| *L9_Application_Id*          | Varchar2 (64 Byte)  | Used For Brew         |
+| L9_Orig_Trans_Id             | Varchar2 (64 Byte)  |                       |
+| *L9_Call_Answered_Indicator* | Varchar2 (1 Byte)   |                       |
+| L9_Destination_Category      | Varchar2 (6 Byte)   |INTNL = International  |
+| L9_Surcharge_Amount          | Number              |                       |
+| L9_Destination_State_Code    | Varchar2 (2 Byte)   |                       |
+| L9_Redirect_Number           | Varchar2 (32 Byte)  |                       |
+| L9_Toll_Charge_Code          | Varchar2 (15 Byte)  |                       |
+| L9_Customer_Type             | Varchar2 (1 Byte)   |                       |
+| *L9_Home_Sid*                | Varchar2 (5 Byte)   |                       |
+| L9_Starting_Call_Toll_Period | Varchar2 (10 Byte)  |                       |
+| L9_Called_Country            | Varchar2 (3 Byte)   |                       |
+| L9_Air_Elapsed_Time          | Number              |                       |
+| *L9_Originating_Address*     | Varchar2 (26 Byte)  | Orig Address From Uff |
+| L9_Additional_Charge_Tax     | Number              |                       |
+| L9_Destination_City_Name     | Varchar2 (30 Byte)  |                       |
+| L9_Media_Type                | Varchar2 (1 Byte)   |                       |
+| L9_Toll_Period_Name          | Varchar2 (10 Byte)  |                       |
+| *L9_Call_Type*               | Varchar2 (1 Byte)   | 1 = International     |
+|                              |                     | L= Local (Sms Only)   |
+| L9_Rerate_Indicator          | Varchar2 (1 Byte)   |                       |
+| L9_Nt_Roaming_Ind            | Varchar2 (1 Byte)   |                       |
+| L9_Offer_Instance            | Number              |                       |
+| L9_Daily_Surcharge_Ind       | Varchar2 (1 Byte)   |                       |
+| *L9_Incollect_Indicator*     | Varchar2 (1 Byte)   | If True Then Its      |
+|                              |                     | An Incollect.         |
+| L9_Session_Identifier        | Varchar2 (128 Byte) |                       |
+| L9_Free_Unit                 | Number              |                       |
+| L9_Ext_Trx_Id                | Varchar2 (18 Byte)  |                       |
+| *L9_Roaming_Ind*             | Varchar2 (1 Byte)   | Used For Data         |
+|                              |                     | 2 = Roaming           |
+| L9_Balance_Exp_Date          | Date                |                       |
+| L9_Orig_Additional_Chg_Tax   | Number              |                       |
+| L9_Method                    | Varchar2 (50 Byte)  |                       |
+| L9_Recharge_Id               | Number              |                       |
+| L9_Announcement_Param        | Varchar2 (50 Byte)  |                       |
+| L9_Reason                    | Varchar2 (10 Byte)  |                       |
+| L9_Activity_Amount           | Number              |                       |
+| L9_Channel                   | Varchar2 (100 Byte) |                       |
+| L9_Blocked_Number_Ind        | Varchar2 (1 Byte)   |                       |
+| L9_Remaining_Balance_Amt     | Number              |                       |
+| *L9_Min*                     | Varchar2 (10 Byte)  | Msid                  |
+| *L9_Equipment_Id*            | Varchar2 (32 Byte)  | Postpaid = Esn        |
+|                              |                     | Prepaid = 0           |
+| L9_Threshold_Amount          | Number              |                       |
+| *L9_Service_Feature*         | Varchar2 (128 Byte) |                       |
+| L9_Original_Air_Time_Chg_Amt | Number              |                       |
+| L9_Be                        | Number              |                       |
+| L9_Charg_Beyond_Cap          | Number              |                       |
+| *L9_Is_Online*               | Varchar2 (1 Byte)   | Y = *Pre-Pay*         |
+| L9_Volume_Per_Type           | Varchar2 (512 Byte) |                       |
+| L9_Units_Beyond_Cap          | Number              |                       |
+| L9_Volume_Complex            | Varchar2 (512 Byte) |                       |
+| *L9_M2m_Ind*                 | Varchar2 (2 Byte)   | Mobile To Mobile      |
+| L9_Balance_Amount            | Number              |                       |
+| L9_Calling_Area_Name         | Varchar2 (50 Byte)  |                       |
+| *L9_Toll_Free_Ind*           | Varchar2 (1 Byte)   | Y = Toll Free         |
+| *L9_Partner_Id*              | Varchar2 (64 Byte)  |                       |
+| L9_Ext_Ref_Id                | Varchar2 (64 Byte)  |                       |
+| L9_Campaign_Id               | Varchar2 (64 Byte)  |                       |
+| L9_Application_Type          | Varchar2 (64 Byte)  |                       |
+| L9_Application_Description   | Varchar2 (193 Byte) |                       |
+| L9_Charge_Code_Description   | Varchar2 (193 Byte) |                       |
+| L9_System_Service            | Varchar2 (4 Byte)   |                       |
+| L9_Initiator_Id              | Varchar2 (64 Byte)  |                       |
+| L9_Adj_Reason_Cd             | Varchar2 (64 Byte)  |                       |
+| L9_Initiator_Type            | Varchar2 (19 Byte)  |                       |
+|------------------------------+---------------------+-----------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** APE1_ACCUMULATORS
+         The accumulation tables this is what is presented on the bill.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|--------------------------------+---------------------+------------------------|
+| *Column Name*                  | *Data Type*         | *Description*          |
+|--------------------------------+---------------------+------------------------|
+| *Cycle_Code*                   | Number(4,0)         |                        |
+| *Cycle_Instance*               | Number(2,0)         | /Cycle Instance = 0/   |
+|                                |                     | /Pre-Paid Subscriber/  |
+| Customer_Segment               | Number(4,0)         |                        |
+| *Customer_Id*                  | Number(10,0)        |                        |
+| *Accum_Type_Id*                | Number(9,0)         |                        |
+| *Owner_Id*                     | Number(10,0)        | /Same as Subsciber_id/ |
+| Owner_Type                     | Char(1 Byte)        |                        |
+| Item_Id                        | Number(9,0)         |                        |
+| Offer_Instance                 | Number(10,0)        |                        |
+| Dimension_Id                   | Number(5,0)         |                        |
+| *Cycle_Year*                   | Number(4,0)         |                        |
+| Sys_Creation_Date              | Date                |                        |
+| Sys_Update_Date                | Date                |                        |
+| Operator_Id                    | Number(9,0)         |                        |
+| Application_Id                 | Char(6 Byte)        |                        |
+| Dl_Service_Code                | Char(5 Byte)        |                        |
+| Dl_Update_Stamp                | Number(4,0)         |                        |
+| Update_Id                      | Number(9,0)         |                        |
+| Version_Id                     | Number(9,0)         |                        |
+| Global_Accum_Ind               | Char(1 Byte)        |                        |
+| Cross_Cycle_Ind                | Char(1 Byte)        |                        |
+| *Accum_Id*                     | Number(9,0)         |                        |
+| Rerate_Type                    | Char(1 Byte)        |                        |
+| Account                        | Number              |                        |
+| *Accum_Charge*                 | Number              |                        |
+| *Accum_Chg_Incl_Free_Allw*     | Number              |                        |
+| *Accum_Free_Unit*              | Number              |                        |
+| *Accum_Unit*                   | Number              |                        |
+| Billing_Arrangement            | Number              |                        |
+| *Currency_Code*                | Varchar2(3 Byte)    |                        |
+| First_Event_Date               | Date                |                        |
+| L3_Balance_Amount              | Number              |                        |
+| L3_Balance_Status              | Varchar2(1 Byte)    |                        |
+| Last_Event_Date                | Date                |                        |
+| *Number_Of_Events*             | Number              |                        |
+| *Number_Of_Free_Events*        | Number              |                        |
+| *Number_Of_Rolled_Cycles*      | Number              |                        |
+| Offer_Id                       | Number              |                        |
+| Pi_Role                        | Number              |                        |
+| Pi_Status                      | Number              |                        |
+| Quota                          | Number              |                        |
+| Quota_Per_Period               | Varchar2(512 Byte)  |                        |
+| Remaining_Quota_Per_Period     | Varchar2(512 Byte)  |                        |
+| Remain_Quota_Per_Month_Period  | Varchar2(512 Byte)  |                        |
+| Rolled_Previous_Cyc_Per_Period | Varchar2(512 Byte)  |                        |
+| Rolled_Quota_From_Previous_Cyc | Number              |                        |
+| Uom                            | Varchar2(1 Byte)    |                        |
+| Utilized_Quota_Per_Period      | Varchar2(512 Byte)  |                        |
+| Utilize_Quota_Per_Month_Period | Varchar2(512 Byte)  |                        |
+| Billing_Resource_Type          | Varchar2(16 Byte)   |                        |
+| Billing_Resource_Id            | Varchar2(63 Byte)   |                        |
+| Toll_Tax                       | Number              |                        |
+| L9_Accum_Chg_Incl_Allw_Cmplx   | Varchar2(512 Byte)  |                        |
+| L9_Accum_Credit                | Number              |                        |
+| L9_Accumulated_Chg_Cmplx       | Varchar2(512 Byte)  |                        |
+| L9_Overage_Cap                 | Number              |                        |
+| L9_Accum_Free_Unit_Cmplx       | Varchar2(512 Byte)  |                        |
+| L9_Number_Of_Events_Cmplx      | Varchar2(512 Byte)  |                        |
+| L9_Number_Free_Events_Cmplx    | Varchar2(512 Byte)  |                        |
+| L9_Accum_Unit_Cmplx            | Varchar2(512 Byte)  |                        |
+| L9_Cap_Exceed                  | Varchar2(1 Byte)    |                        |
+| L9_Number_Of_Credit_Events     | Number              |                        |
+| Air_Tax                        | Number              |                        |
+| L9_Tot_Units_Above_Cap         | Varchar2(512 Byte)  |                        |
+| Accum_Duration                 | Number              |                        |
+| L9_Call_Direction              | Varchar2(1 Byte)    |                        |
+| L9_Roaming_Ind                 | Varchar2(1 Byte)    |                        |
+| L9_Tax_Change_Date             | Varchar2(25 Byte)   |                        |
+| L9_Serve_Sid                   | Varchar2(5 Byte)    |                        |
+| L9_Eha_Indicator               | Varchar2(1 Byte)    |                        |
+| L9_Pay_Channel                 | Number              |                        |
+| L9_Customer_Sub_Type           | Varchar2(15 Byte)   |                        |
+| L9_Be                          | Number              |                        |
+| L9_Customer_Type               | Varchar2(1 Byte)    |                        |
+| L9_Called_Country              | Varchar2(3 Byte)    |                        |
+| *L9_Payment_Category*          | Varchar2(4 Byte)    | /Post Or Pre/          |
+| L9_Billing_Arrangement         | Number              |                        |
+| L9_Volume_Accumulation         | Number              |                        |
+| L9_Offer_Level                 | Varchar2(1 Byte)    |                        |
+| L9_Full_Cap                    | Number              |                        |
+| L9_Charge_Type                 | Varchar2(3 Byte)    |                        |
+| L9_Prev_Add_Chg_Cmplx2         | Varchar2(512 Byte)  |                        |
+| L9_Prev_Add_Chg_Cmplx1         | Varchar2(512 Byte)  |                        |
+| L9_Prev_Add_Chg_Cmplx3         | Varchar2(512 Byte)  |                        |
+| L9_Prev_Add_Chg_Cmplx          | Varchar2(4000 Byte) |                        |
+| L9_Acc_Usage_Before_Eom        | Number              |                        |
+| L9_Acc_Usage_After_Eom         | Number              |                        |
+| L9_Msisdn                      | Varchar2(256 Byte)  |                        |
+| L9_Cap_To_Be_Used              | Number              |                        |
+| L9_Charge_Code                 | Varchar2(15 Byte)   |                        |
+| L9_Offer_Type                  | Varchar2(255 Byte)  |                        |
+| L9_Accum_Chg_Beyo_Cap_Cmplx    | Varchar2(512 Byte)  |                        |
+| *L9_Ctn*                       | Varchar2(10 Byte)   |                        |
+| L9_Media_Type                  | Varchar2(1 Byte)    |                        |
+| L9_Utilized_Quota_Cmplx        | Varchar2(512 Byte)  |                        |
+| L9_First_Threshold_Sent_Ind    | Varchar2(1 Byte)    |                        |
+| L9_Remain_Quota_Cmplx          | Varchar2(512 Byte)  |                        |
+| L9_Used_Quota                  | Number              |                        |
+| L9_Last_Threshold_Sent         | Number              |                        |
+| L9_Charge_Rev_Code             | Varchar2(2 Byte)    |                        |
+| L9_Is_New_Scale                | Varchar2(1 Byte)    |                        |
+| L9_Is_First_Notif              | Varchar2(1 Byte)    |                        |
+| L9_Notified_Ctn                | Varchar2(32 Byte)   |                        |
+| L9_Unlimited_Ind               | Varchar2(1 Byte)    |                        |
+| Proration_Factor               | Number              |                        |
+| L9_Curr_Leg                    | Number              |                        |
+| L9_Num_Of_Period               | Number              |                        |
+| L9_Is_Notif_Sent               | Varchar2(1 Byte)    |                        |
+| L9_Period_Name                 | Varchar2(255 Byte)  |                        |
+| L9_Volume_Per_Leg              | Varchar2(4000 Byte) |                        |
+| L9_Cycle_Start_Date_Cmplx      | Varchar2(512 Byte)  |                        |
+| Disable_Notif_Ind              | Varchar2(1 Byte)    |                        |
+| L9_Notif_Elig                  | Varchar2(1 Byte)    |                        |
+| L9_Is_Second_Notif             | Varchar2(1 Byte)    |                        |
+| L9_Limit_Quota_Change_Cmplx    | Varchar2(512 Byte)  |                        |
+| Agr_Level_Offer_Inst           | Varchar2(512 Byte)  |                        |
+| L9_Last_Notif_Index            | Number              |                        |
+| L9_Second_Notif_Thresh         | Number              |                        |
+| Offer_Exp_Date                 | Date                |                        |
+| L9_Second_Threshold            | Number              |                        |
+| L9_Accum_Free_Unts_Beyo_Cap    | Number              |                        |
+| Offer_Eff_Date                 | Date                |                        |
+| L9_First_Threshold             | Number              |                        |
+| L9_Second_Threshold_Sent_Ind   | Varchar2(1 Byte)    |                        |
+| L9_Limit_Quota_Cmplx           | Varchar2(512 Byte)  |                        |
+| L9_First_Notif_Thresh          | Number              |                        |
+| L9_Remaining_Bucket            | Number              |                        |
+| L9_Class_Code                  | Varchar2(12 Byte)   |                        |
+| L9_Ivr_Ann_Code                | Varchar2(50 Byte)   |                        |
+| L9_Accum_Add_Tax_Amt           | Number              |                        |
+| L9_Accum_Tax_Amt               | Number              |                        |
+| L9_Days_Of_Daily_Data          | Number              |                        |
+| L9_Calling_Area_Name           | Varchar2(50 Byte)   |                        |
+| Expiration_Date                | Date                |                        |
+| L9_Disclaimer_Sent             | Varchar2(1 Byte)    |                        |
+| L9_Is_Roam_Data_Speed_Notif    | Varchar2(1 Byte)    |                        |
+| L9_Geocode                     | Varchar2(10 Byte)   |                        |
+| L9_Is_Total_Data_Speed_Notif   | Varchar2(1 Byte)    |                        |
+| L9_Roam_Volume_Accumulation    | Number              |                        |
+| L9_Roam_Speed_Limit            | Number              |                        |
+| L9_Indicator                   | Varchar2(1 Byte)    |                        |
+| L9_Charge_Accumulation         | Number              |                        |
+| L9_Pp_Changed_Ind              | Varchar2(1 Byte)    |                        |
+| L9_First_Level                 | Varchar2(512 Byte)  |                        |
+| L9_Grp_Level_Offer_Inst        | Number              |                        |
+| L9_Group_Offer_Id              | Number              |                        |
+|--------------------------------+---------------------+------------------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+** BPT Tables
+      The *Business Process Tables* are the Tops equivalent to the
+      reference tables in *CARES*. The following is the list of all
+      *BPT* tables that we are responsible for:
+
+*** ADJ1_OUTCOL_PROVIDER
+    A list of all vendors we have an agreement with for out-collects.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+
+|-------------------+--------------------+---------------|
+| *Column Name*     | *Data Type*        | *Description* |
+|-------------------+--------------------+---------------|
+| Provider_Id       | Number(18,0)       |               |
+| Customer_Id       | Number(10,0)       |               |
+| Sys_Creation_Date | Date               |               |
+| Sys_Update_Date   | Date               |               |
+| Operator_Id       | Number(9,0)        |               |
+| Application_Id    | Char(6 Byte)       |               |
+| Dl_Service_Code   | Char(5 Byte)       |               |
+| Dl_Update_Stamp   | Number(4,0)        |               |
+| Cycle_Code        | Number(4,0)        |               |
+| Group_Id          | Number(9,0)        |               |
+| Min_Time_To_Send  | Number(4,0)        |               |
+| Max_Recs_In_File  | Number(9,0)        |               |
+| Send_Empty_Notif  | Char(1 Byte)       |               |
+| Expiration_Date   | Date               |               |
+| Effective_Date    | Date               |               |
+| Provider_Desc     | Varchar2(256 Byte) |               |
+| Resource_Type     | Number(4,0)        |               |
+|-------------------+--------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** ADJ9_TIME_ZONE_REF
+    Time zone parameters.
+
+*** AGD1_RESOURCES_REF
+    Lists *TOPS* resources used by Turbo charging very important to map *SIDS* to there offers.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------------------+-------------------+---------------|
+| *Column Name*         | *Data Type*       | *Description* |
+|-----------------------+-------------------+---------------|
+| Resource_Segment      | Number(4,0)       |               |
+| Resource_Value        | Varchar2(63 Byte) |               |
+| Resource_Type         | Number(4,0)       |               |
+| Effective_Date        | Date              |               |
+| Sys_Creation_Date     | Date              |               |
+| Sys_Update_Date       | Date              |               |
+| Operator_Id           | Number(9,0)       |               |
+| Application_Id        | Char(6 Byte)      |               |
+| Dl_Service_Code       | Char(5 Byte)      |               |
+| Dl_Update_Stamp       | Number(4,0)       |               |
+| Update_Id             | Number(18,0)      |               |
+| Expiration_Date       | Date              |               |
+| Subscriber_Id         | Number(10,0)      |               |
+| Sub_Status            | Char(1 Byte)      |               |
+| Routing_Policy_Id     | Number(9,0)       |               |
+| Payment_Category      | Char(4 Byte)      |               |
+| Customer_Id           | Number(10,0)      |               |
+| Bill_Cycle            | Number(4,0)       |               |
+| New_Bill_Cycle        | Number(4,0)       |               |
+| Chg_Cyc_Req_Date      | Date              |               |
+| Large_Cust_Ind        | Char(1 Byte)      |               |
+| Resource_Hash_Value   | Number(10,0)      |               |
+| Subscriber_Hash_Value | Number(10,0)      |               |
+|-----------------------+-------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** APE1_SUBSCR_DATA_REF
+    List subscriber reference data. (Customer data)
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------------------+--------------+---------------|
+| *Column Name*         | *Data Type*  | *Description* |
+|-----------------------+--------------+---------------|
+| Cycle_Code            | Number(4,0)  |               |
+| Customer_Segment      | Number(4,0)  |               |
+| Subscriber_Id         | Number(10,0) |               |
+| Sys_Creation_Date     | Date         |               |
+| Sys_Update_Date       | Date         |               |
+| Operator_Id           | Number(9,0)  |               |
+| Application_Id        | Char(6 Byte) |               |
+| Dl_Service_Code       | Char(5 Byte) |               |
+| Dl_Update_Stamp       | Number(4,0)  |               |
+| Update_Id             | Number(18,0) |               |
+| Customer_Id           | Number(10,0) |               |
+| Be                    | Number(9,0)  |               |
+| Currency_Id           | Char(3 Byte) |               |
+| Subscriber_Hash_Value | Number(10,0) |               |
+|-----------------------+--------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** APE1_SUBSCR_OFFERS_REF
+         List subscriber offers. (Customer data)
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------------------+-------------------+---------------|
+| *Column Name*         | *Data Type*       | *Description* |
+|-----------------------+-------------------+---------------|
+| Cycle_Code            | Number(4,0)       |               |
+| Customer_Segment      | Number(4,0)       |               |
+| Subscriber_Id         | Number(10,0)      |               |
+| Offer_Id              | Number(9,0)       |               |
+| Offer_Instance        | Number(10,0)      |               |
+| Offer_Eff_Date        | Date              |               |
+| Sys_Creation_Date     | Date              |               |
+| Sys_Update_Date       | Date              |               |
+| Operator_Id           | Number(9,0)       |               |
+| Application_Id        | Char(6 Byte)      |               |
+| Dl_Service_Code       | Char(5 Byte)      |               |
+| Dl_Update_Stamp       | Number(4,0)       |               |
+| Update_Id             | Number(18,0)      |               |
+| Offer_Exp_Date        | Date              |               |
+| Source_Offer_Agr_Id   | Number(10,0)      |               |
+| Source_Offer_Instance | Number(10,0)      |               |
+| Eff_Act_Code_Pror     | Varchar2(25 Byte) |               |
+| Exp_Act_Code_Pror     | Varchar2(25 Byte) |               |
+|-----------------------+-------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+\newpage
+#+END_LaTeX
+*** PRM_REP_CARR_INFO
+    Defines the Carrier (TADIG[fn:1]) Code used in IN and OUTCOLLECTS.
+    The below query shows the company name and carrier code.
+
+   :  SELECT DISTINCT carr_name, carr_cd
+   :    FROM prm_app.PRM_REP_CARR_INFO
+   :  ORDER BY carr_name;
+
+*** M19_MIN_LR
+         Contains the *USCC* MIN (MSID) block ranges and there *SID*
+         code. The Block Ranges are listed in the *Technical Data Sheet*
+         from *Syniverse*. This only contains *USCC* MINS only. For
+         foreign carriers see the *VISITOR_MIN_LR*.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------+------------------+---------------|
+| *Column Name*     | *Data Type*      | *Description* |
+|-------------------+------------------+---------------|
+| *Min_Blk*         | Number(6,0)      |               |
+| *From_Line_Range* | Number(4,0)      |               |
+| *To_Line_Range*   | Number(4,0)      |               |
+| Effective_Date    | Date             |               |
+| Sys_Creation_Date | Date             |               |
+| Sys_Update_Date   | Date             |               |
+| Operator_Id       | Number(9,0)      |               |
+| Application_Id    | Char(6 Byte)     |               |
+| Dl_Service_Code   | Char(5 Byte)     |               |
+| Dl_Update_Stamp   | Number(4,0)      |               |
+| *Npa_Type*        | Char(1 Byte)     | C = Postpaid  |
+|                   |                  | T = Prepaid   |
+| *Sids*            | Varchar2(5 Byte) |               |
+| Expiration_Date   | Date             |               |
+|-------------------+------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** VISITOR_MIN_LR
+         This table is created via a program and contains all of our
+         roaming partners MIN/SID block ranges. It is located on the
+         *BRMPRD* database.
+
+*** MI1_STLMNT_CONTRACT
+         The Settlement Contracts table contains one record for each
+         contract. A contract is defined as the entity to which a group
+         of *SIDS* belongs, whose common attribute is the
+         clearinghouse-related Net Settlement bank account. This usually
+         means that all the *SIDS* that belong to a settlement contract
+         are part of one operating company.
+
+*** MF1_OUTCOL_DESTINATION
+         This table includes detailed information on every destination.
+         A destination represents a target of Out-collect calls (such as
+         a clearinghouse). The destination of every roamer call is
+         determined according to the Home *SID* value of that call.
+
+*** MF1_OUTCOL_SID_PAIR
+         Defines out-collect roaming agreement between *SID* pair.
+         Originating category is retrieve from the table that is used
+         later on for service filter determination. *INCOL_SID_PAIR*
+         and *SID* tables are also used by Acquisition & Formatting.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------------------+-------------------+---------------|
+| *Column Name*         | *Data Type*       | *Description* |
+|-----------------------+-------------------+---------------|
+| Serve_Sid             | Char(5 Byte)      |               |
+| Home_Sid              | Char(5 Byte)      |               |
+| Effective_Date        | Date              |               |
+| Sys_Creation_Date     | Date              |               |
+| Sys_Update_Date       | Date              |               |
+| Operator_Id           | Number(9,0)       |               |
+| Application_Id        | Char(6 Byte)      |               |
+| Dl_Service_Code       | Char(5 Byte)      |               |
+| Dl_Update_Stamp       | Number(4,0)       |               |
+| Expiration_Date       | Date              |               |
+| Outcol_Dest_Cd        | Char(6 Byte)      |               |
+| Cre_Daily_Surcg_Ind   | Char(1 Byte)      |               |
+| Daily_Surcharge_Amt   | Number(18,3)      |               |
+| Misc_Schg_Ind         | Char(1 Byte)      |               |
+| Misc_Schg_Rate        | Number(18,3)      |               |
+| Misc_Schg_Measure_Ind | Char(1 Byte)      |               |
+| Misc_Descriptor       | Char(2 Byte)      |               |
+| Misc_Schg_Desc        | Varchar2(50 Byte) |               |
+| Cycle_Code            | Number(4,0)       |               |
+| Priority              | Number(5,0)       |               |
+| Num_Of_Rec_To_Commit  | Number(9,0)       |               |
+| Partition_Id          | Number(4,0)       |               |
+| Group_Id              | Number(4,0)       |               |
+| Agreement_Id          | Number(9,0)       |               |
+|-----------------------+-------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** MI1_RETURN_RRC
+         Used for *InCollect* *CIBER* processing. Contains the various
+         reasons why an *InCollect* file can be returned.
+
+*** MI1_REJECT_RRC
+         Used for *InCollect* *CIBER* processing. Contains the various
+         reasons why an *InCollect* file can be rejected.
+
+*** MI9_NA_CONV
+         This maybe another version of the *ADJ9_TIME_ZONE_REF*
+         table, very similar.
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX
+** (BPT) EPC Tables
+         These tables are included in the *EPC* dump which happens once
+         or twice a month, no hotfix is needed unless it 
+         needs to be in
+         production right away.
+*** PC9_SID
+            One of the most important reference tables used, contains
+            all the information for all the *SIDS* for
+            all the companies we have a contract with.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------+-------------------+---------------|
+| *Column Name*        | *Data Type*       | *Description* |
+|----------------------+-------------------+---------------|
+| Cindex               | Number(9,0)       |               |
+| *Sids*               | Varchar2(5 Byte)  |               |
+| Effective_Date       | Date              |               |
+| Sid_Desc             | Varchar2(50 Byte) |               |
+| Sid_Commercial_Name  | Varchar2(50 Byte) |               |
+| Time_Zone_Code       | Varchar2(2 Byte)  |               |
+| Setlmnt_Contract_Cd  | Varchar2(3 Byte)  |               |
+| Intracomp_Ind        | Varchar2(3 Byte)  |               |
+| Sid_State            | Varchar2(2 Byte)  |               |
+| Sid_Country          | Varchar2(3 Byte)  |               |
+| Sid_City             | Varchar2(30 Byte) |               |
+| Sid_Location_Cd      | Char(1 Byte)      |               |
+| Outcol_Dest_Cd       | Varchar2(6 Byte)  |               |
+| Currency_Code        | Varchar2(2 Byte)  |               |
+| Band_Code            | Char(1 Byte)      |               |
+| Geo_Code             | Varchar2(9 Byte)  |               |
+| Originating_Category | Varchar2(6 Byte)  |               |
+| Expiration_Date      | Date              |               |
+| Incorporate_Ind      | Char(1 Byte)      |               |
+|----------------------+-------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** PC9_SID_LIST
+            A description of each *SID* found in the *PC9_SID* table.
+            When the *SID* table is updated this table needs to be
+            updated as well.
+
+*** PC9_SPECIAL_NUMBER
+            Contains a list of all the special numbers, numbers that can
+            be dropped (no charge), toll or air time free.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------------------+--------------------+-----------------|
+| *Column Name*             | *Data Type*        | *Description*   |
+|---------------------------+--------------------+-----------------|
+| Special_Number            | Varchar2(10 Byte)  |                 |
+| Call_Direction            | Char(1 Byte)       | 1 = Incoming    |
+|                           |                    | 2 = Outgoing    |
+|                           |                    | 5 = Both        |
+| Home_Roam_Ind             | Char(1 Byte)       | 1 = Home        |
+|                           |                    | 2 = Roam        |
+|                           |                    | 3 = Both        |
+| Call_Source               | Varchar2(4 Byte)   | V = Voice       |
+| Effective_Date            | Date               |                 |
+| *Air_Time_Ind*            | Char(1 Byte)       | N = Air Time    |
+|                           |                    | Is Free         |
+| Toll_Special_Number_Group | Varchar2(255 Byte) |                 |
+| *Drop_Call_Ind*           | Char(1 Byte)       | Y = This Record |
+|                           |                    | Will Be Dropped |
+| Special_Number_Type       | Char(1 Byte)       |                 |
+| Service_Filter            | Varchar2(15 Byte)  |                 |
+| *Toll_Free_Ind*           | Char(1 Byte)       | Y = No Toll     |
+|                           |                    | Will Be Charged |
+| Bl_Call_Dest_State        | Varchar2(2 Byte)   |                 |
+| Bl_Call_Dest_City         | Varchar2(30 Byte)  |                 |
+| Automatically_Authorized  | Char(1 Byte)       |                 |
+| Description               | Varchar2(50 Byte)  |                 |
+| Expiration_Date           | Date               |                 |
+|---------------------------+--------------------+-----------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** PC9_SERVE_AREA_TO_SID
+            Maps the service area to (/all maybe to strong a term/)
+            supported *SIDS*.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------------+-------------------+---------------|
+| *Column Name*   | *Data Type*       | *Description* |
+|-----------------+-------------------+---------------|
+| Serve_Area      | Varchar2(50 Byte) |               |
+| *Sids*          | Varchar2(5 Byte)  |               |
+| Effective_Date  | Date              |               |
+| Expiration_Date | Date              |               |
+|-----------------+-------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** PC9_COUNTRY_CODE
+            List of country code, country description, NANP indicator.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------+-------------------+---------------|
+| *Column Name* | *Data Type*       | *Description* |
+|---------------+-------------------+---------------|
+| Cindex        | Number(9,0)       |               |
+| Country_Code  | Varchar2(3 Byte)  |               |
+| Description   | Varchar2(30 Byte) |               |
+| Nanp_Ind      | Char(1 Byte)      |               |
+|---------------+-------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** PC9_INCOL_SID_PAIR
+            Defines *InCollect* roaming agreement between *SID* pair.
+            Originating category is retrieve from the table that is used
+            later on for service filter determination. INCOL_SID_PAIR
+            and *SID* tables are also used by Acquisition & Formatting.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------------+------------------+---------------|
+| *Column Name*              | *Data Type*      | *Description* |
+|----------------------------+------------------+---------------|
+| Serve_Sid                  | Varchar2(5 Byte) |               |
+| Home_Sid                   | Varchar2(5 Byte) |               |
+| Effective_Date             | Date             |               |
+| Originating_Category       | Varchar2(6 Byte) |               |
+| Incol_Not_Valid_Act        | Char(1 Byte)     |               |
+| Agr_Peak_Rate              | Number(18,3)     |               |
+| Agr_Off_Peak_Rate          | Number(18,3)     |               |
+| Agr_Schg_Amt               | Number(18,3)     |               |
+| Toll_Agr_Type              | Char(1 Byte)     |               |
+| Agr_Toll_Rate              | Number(18,3)     |               |
+| Incol_Tl_Nvalid_Ac         | Char(1 Byte)     |               |
+| Daily_Surcharge_Indication | Char(1 Byte)     |               |
+| Expiration_Date            | Date             |               |
+|----------------------------+------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** PC9_CELL_SITE_TO_CELL_ID
+    Cell site name to number ID.
+
+*** PC9_SERVICE_FILTER
+    This table as well and *PC3_SERVICE_FILTER_LIST* are used by the *RLC*.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------+-------------------+---------------|
+| *Column Name*        | *Data Type*       | *Description* |
+|----------------------+-------------------+---------------|
+| Be                   | Number(2,0)       |               |
+| Call_Source          | Varchar2(4 Byte)  |               |
+| Service_Type         | Char(1 Byte)      |               |
+| Originating_Category | Varchar2(5 Byte)  |               |
+| Destination_Category | Varchar2(5 Byte)  |               |
+| Call_Direction       | Char(1 Byte)      |               |
+| Effective_Date       | Date              |               |
+| Service_Filter       | Varchar2(15 Byte) |               |
+| Description          | Varchar2(30 Byte) |               |
+| Expiration_Date      | Date              |               |
+|----------------------+-------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** PC3_SERVICE_FILTER_LIST
+    This table as well as *PC3_SERVICE_FILTER* are used by
+    the *RLC* to rate the event.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------+-------------------+---------------|
+| *Column Name*  | *Data Type*       | *Description* |
+|----------------+-------------------+---------------|
+| Service_Index  | Number(9,0)       |               |
+| Service_Filter | Varchar2(15 Byte) |               |
+| Description    | Varchar2(50 Byte) |               |
+|----------------+-------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+            
+*** PC9_DEST_CATEGORY
+            Lists all the possible destination categories.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------+--------------------+---------------|
+| *Column Name*        | *Data Type*        | *Description* |
+|----------------------+--------------------+---------------|
+| Cindex               | Number(9,0)        |               |
+| Destination_Category | Varchar2(6 Byte)   |               |
+| Description          | Varchar2(101 Byte) |               |
+|----------------------+--------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+           
+*** PC9_NUMBER_ANALYSIS
+            Used to analyze telephone prefix's. Mostly used to determine
+            International calls.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|--------------------------+-------------------+---------------|
+| *Column Name*            | *Data Type*       | *Description* |
+|--------------------------+-------------------+---------------|
+| Prefix                   | Varchar2(30 Byte) |               |
+| Station_Type             | Varchar2(30 Byte) |               |
+| Effective_Date           | Date              |               |
+| Destination_Category     | Varchar2(6 Byte)  |               |
+| Automatically_Authorized | Char(1 Byte)      |               |
+| Roaming_Dest_Category    | Varchar2(6 Byte)  |               |
+| Drop_Ind                 | Char(1 Byte)      |               |
+| Country_Code             | Varchar2(3 Byte)  |               |
+| Description              | Varchar2(30 Byte) |               |
+| Network_Call_Type        | Char(1 Byte)      |               |
+| Expiration_Date          | Date              |               |
+|--------------------------+-------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+\newpage
+#+END_LaTeX
+
+*** PC9_ORIG_CATEGORY
+    List all possible originating categories.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|----------------------+--------------------+---------------|
+| *Column Name*        | *Data Type*        | *Description* |
+|----------------------+--------------------+---------------|
+| Cindex               | Number(9,0)        |               |
+| Originating_Category | Varchar2(6 Byte)   |               |
+| Description          | Varchar2(101 Byte) |               |
+|----------------------+--------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** PC9_ROAMING_DEST_CATEGORY
+     List all roaming destination categories.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------------------+--------------------+---------------|
+| *Column Name*         | *Data Type*        | *Description* |
+|-----------------------+--------------------+---------------|
+| Cindex                | Number(9,0)        |               |
+| Roaming_Dest_Category | Varchar2(6 Byte)   |               |
+| Description           | Varchar2(101 Byte) |               |
+|-----------------------+--------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** PC1_CHARGE_CODE
+    Lists and describes the supported charge codes.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-----------------+---------------------+---------------|
+| *Column Name*   | *Data Type*         | *Description* |
+|-----------------+---------------------+---------------|
+| Charge_Code_Seq | Number(5,0)         |               |
+| Charge_Code     | Varchar2(15 Byte)   |               |
+| Description     | Varchar2(4000 Byte) |               |
+| Charge_Entity   | Varchar2(60 Byte)   |               |
+| Revenue_Type    | Char(2 Byte)        |               |
+|-----------------+---------------------+---------------|
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** PC9_NANP_NPA_LIST
+    The NPA (Area Code) and the country description.
+*** PC9_LOCAL_TOLL_FREE_AREA
+    Lists the relationship between *SIDS* and NPA ranges where the toll is free.
+*** PC9_IP_ADDR_LIST
+    This contains the list of all of the pre-paid IP's. When a new IP is going to be used for pre-pay, it needs to be added to this table. Otherwise it will show up as roaming.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------+--------------------+---------------|
+| *Column Name* | *Data Type*        | *Description* |
+|---------------+--------------------+---------------|
+| cindex        | number(9,0)        |               |
+| address       | varchar2(256 byte) | i.p address   |
+| description   | varchar2(101 byte) |               |
+|---------------+--------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+\newpage
+#+END_LaTeX 
+
 * AEM
    *AEM* gets the Turbo-Charging errors from the
    *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
@@ -1104,10 +2390,15 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 
+*** EM1_RECORD
+    The EM1 record database is the database used by *AEM*, To see the columns within the EM1_RECORD look at the *EM1_STREAM_STREAM_MAP@PTE2AEM* table.
+    Click on the link provided below to see an example on how to query this table.
+	 [[file:///home/dbalchen/workspace/CommonPlace/docs/em1_example.sql][EM1_RECORD Example]]
+
 * APRM
    *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
 ** APRM Tables
-** CDMA Data Outcollects
+*** CDMA Data Outcollects
 *** DATA_OUTCOLLECT
     Event table used for CDMA data Outcollects.
 #+BEGIN_LaTeX
@@ -1204,40 +2495,7 @@ subgraph cluster_3 {
 \normalsize
 \newpage
 #+END_LaTeX
-*** (Both) USC_SAP_EXTRACT_V
-    The SAP Extract table is a view of a view *IC_ACCUMULATED_USAGE* joined with table *USC_GL_ACC_LKP*. It is this table that is used create a report that is sent to *TDS* to be loaded into *SAP*
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
 
-#+ATTR_LaTeX: :environment longtable :align l|l|l
-|------------------+--------------------+-------------------------|
-| *Name*           | *Data Type*        | *Descritption*          |
-|------------------+--------------------+-------------------------|
-| Au_Id            | Number (9)         |                         |
-| Carrier_Cd       | Varchar2 (20 Byte) |                         |
-| Other_Partner    | Varchar2 (20 Byte) |                         |
-| Au_Prod_Id       | Number (4)         |                         |
-| Au_Evt_Id        | Number (4)         |                         |
-| Au_Prod_Cat_Id   | Char (2 Byte)      | IR - Intra Roaming      |
-|                  |                    | IN - Incollect Roaming  |
-|                  |                    | RO - Outcollect Roaming |
-|                  |                    | IS - TAPIN              |
-|                  |                    | OS - TAPOUT             |
-|                  |                    | II - GSM                |
-| Au_Bp_Start_Date | Date               | Billing Period Start    |
-| Au_Charge        | Number             |                         |
-| Gl_Account       | Number             |                         |
-| Crdr_Ind         | Char (2 Byte)      |                         |
-| Cost_Center      | Char (10 Byte)     |                         |
-| Product          | Char (18 Byte)     |                         |
-| Tax_Code         | Char (2 Byte)      |                         |
-| Tax_Jur_Cd       | Char (15 Byte)     |                         |
-| Line_Order       | Number             |                         |
-|------------------+--------------------+-------------------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
 *** 4G IC_ACCUMULATED_USAGE
     One of the tables that is part of *USC_SAP_EXTRACT_V* useful for usage totals and file names. This is a view of the *PRM_EVENT_DTL_PARAM* and *IC_ACCUMULATED_CHRG* tables.
 #+BEGIN_LaTeX
@@ -1572,6 +2830,40 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 \newpage
+#+END_LaTeX
+*** (Both) USC_SAP_EXTRACT_V
+    The SAP Extract table is a view of a view *IC_ACCUMULATED_USAGE* joined with table *USC_GL_ACC_LKP*. It is this table that is used create a report that is sent to *TDS* to be loaded into *SAP*
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|------------------+--------------------+-------------------------|
+| *Name*           | *Data Type*        | *Descritption*          |
+|------------------+--------------------+-------------------------|
+| Au_Id            | Number (9)         |                         |
+| Carrier_Cd       | Varchar2 (20 Byte) |                         |
+| Other_Partner    | Varchar2 (20 Byte) |                         |
+| Au_Prod_Id       | Number (4)         |                         |
+| Au_Evt_Id        | Number (4)         |                         |
+| Au_Prod_Cat_Id   | Char (2 Byte)      | IR - Intra Roaming      |
+|                  |                    | IN - Incollect Roaming  |
+|                  |                    | RO - Outcollect Roaming |
+|                  |                    | IS - TAPIN              |
+|                  |                    | OS - TAPOUT             |
+|                  |                    | II - GSM                |
+| Au_Bp_Start_Date | Date               | Billing Period Start    |
+| Au_Charge        | Number             |                         |
+| Gl_Account       | Number             |                         |
+| Crdr_Ind         | Char (2 Byte)      |                         |
+| Cost_Center      | Char (10 Byte)     |                         |
+| Product          | Char (18 Byte)     |                         |
+| Tax_Code         | Char (2 Byte)      |                         |
+| Tax_Jur_Cd       | Char (15 Byte)     |                         |
+| Line_Order       | Number             |                         |
+|------------------+--------------------+-------------------------|
+#+BEGIN_LaTeX
+\normalsize
 #+END_LaTeX
 * ARCM
 ** ARCM Tables

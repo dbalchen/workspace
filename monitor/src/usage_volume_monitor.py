@@ -49,6 +49,18 @@ def returnSums (results, ipDate, payType, eveType):
     
     return (ipDate, hrecsum + rrecsum, hvolsum + rvolsum, hrecsum, hvolsum, rrecsum, rvolsum)
 
+def analysis(usage,column):
+    
+    row = []
+    
+    data = [x[column] for x in usage]
+    
+    try:
+       row = list(((pd.DataFrame(data)).describe())[0]) 
+                 
+    except:pass
+    
+    return row;
 
 def plotIt (usage, usageType, title, ylabel, filename):
     
@@ -57,6 +69,8 @@ def plotIt (usage, usageType, title, ylabel, filename):
     
     xAx = [x[0] for x in usage]
     yAx = [x[usageType] for x in usage]
+    
+    st = analysis(usage,usageType)
     
     fig = None
     fig = plt.figure()    
@@ -101,6 +115,8 @@ def plotIt (usage, usageType, title, ylabel, filename):
     # Picture Title
     ax.set_title(title)
     
+    ax.axhspan(st[4],st[6], facecolor='0.5', alpha=0.4)
+    
     fig.savefig(filenameL)
 
     # Save a smaller version
@@ -129,38 +145,32 @@ def perDif (dval, iq0, iq3):
 
     return pdl;
 
-def analyse (aip, ahome, aroam, aipDate):
+def printIt (usage, usageType, payType): 
     
-    row = []
+    subset = [x for x in results if x[2] == payType and x[6] == usageType]
     
-    try:
-        bl = [''] * 7
+    all_dates = sorted(set(map(lambda x:x[3], subset)))[-5:]
     
-        home_desc = list(((pd.DataFrame(ahome)).describe())[0])
-        roam_desc = list(((pd.DataFrame(aroam)).describe())[0])
-    
-        home_last_min = min(ahome[-5:])
-        home_last_max = max(ahome[-5:])
-    
-        aroam_last_min = min(aroam[-5:])
-        aroam_last_max = max(aroam[-5:])
-    
-        if (home_desc[7] > 1000 or roam_desc[7] > 1000) and ((home_last_min < home_desc[4] 
-            or roam_last_min < roam_desc[4]) or (home_last_max > home_desc[6] or roam_last_max > roam_desc[6])) :
+    for ip_number in sorted(set(map(lambda x:x[0], subset))):
         
-            row.append((aip, float(home_desc[5]), float(home_desc[4]), float(home_desc[6]), float(home_desc[1]), float(home_desc[2]), float(home_desc[7]), float(home_desc[3]),
-                float(roam_desc[5]), float(roam_desc[4]), float(roam_desc[6]), float(roam_desc[1]), float(roam_desc[2]), float(roam_desc[7]), float(roam_desc[3])))
+        ipList = [x for x in subset if x[0] == ip_number]
+        
+        inter = set(sorted(map(lambda x:x[3], ipList))).intersection(all_dates)
+        
+        try :
+            maxRecs = 10000*(max([x[4] for x in ipList if x[3] in inter]))
+         
+            if((len(inter) >= 2) and (maxRecs > 100)) : # and (maxRecs >= 500)) :
             
-            homeDif = perDif(ahome[-5:], home_desc[4], home_desc[6])
-            roamDif = perDif(aroam[-5:], roam_desc[4], roam_desc[6])
-            
-            row = row + list(zip(aipDate[-5:], ahome[-5:], homeDif, bl, bl, bl, bl, bl, aroam[-5:], roamDif, bl, bl, bl, bl))
-                 
-    except:pass
+                print("YIP")
+          
+        except:pass   
     
-    return row;
-
-   
+         
+#        print("Yerp") 
+    
+    
+    
 ##############  Main Program  ###################
 
 conn = dbConnect()
@@ -193,17 +203,17 @@ ORDER BY 2 ASC
 
 results = []
  
-# with open("/home/dbalchen/Desktop/Test.csv", "rb") as fp:
-#     for i in fp.readlines():
-#         tmp = i.split("\t")
-#         try:
-#             results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
-#         except:
-#             print("ouch")
+with open("/home/dbalchen/Desktop/Test.csv", "rb") as fp:
+    for i in fp.readlines():
+        tmp = i.split("\t")
+        try:
+            results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
+        except:
+            print("ouch")
 
-cursor.execute(sql)
+#cursor.execute(sql)
 # 
-results = cursor.fetchall()
+#results = cursor.fetchall()
 
 pre3G = []
 pre4G = []
@@ -216,15 +226,26 @@ for ip_date in sorted(set(map(lambda x:x[3], results))):
     post3G.append(returnSums(results, ip_date, 'POST', '3G'))
     post4G.append(returnSums(results, ip_date, 'POST', '4G'))
 
-plotIt(pre3G, 1, "Pre-Paid 3G Data - Records", "Records / 10000", "pp3G_Records")
-plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records")
-plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
-plotIt(post4G, 1, "Post-Paid 4G Data - Records", "Records / 10000", "postp4G_Records")
 
-plotIt(pre3G, 2, "Pre-Paid 3G Data - Volume", "Volume TB", "pp3G_Volume")
-plotIt(pre4G, 2, "Pre-Paid 4G Data - Volume", "Volume TB", "pp4G_Volume",)
-plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume TB", "postp3G_Volume")
-plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume TB", "postp4G_Volume")
+# low_dates = [x[0] for x in  pre3G if x[1] < home_desc[4]]
+# 
+# ip_by_date = [x for x in  results if x[3] in low_dates and x[2] == 'PRE' and x[6] == '3G' and x[1] == 'N']
+# 
+# for ip_number in sorted(set(map(lambda x:x[0], ip_by_date))):  
+#     get_ip  = [x for x in  results if x[0] == ip_number]
+
+
+# plotIt(pre3G, 1, "Pre-Paid 3G Data - Records", "Records / 10000", "pp3G_Records")
+# plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records")
+# plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
+# plotIt(post4G, 1, "Post-Paid 4G Data - Records", "Records / 10000", "postp4G_Records")
+# 
+# plotIt(pre3G, 2, "Pre-Paid 3G Data - Volume", "Volume TB", "pp3G_Volume")
+# plotIt(pre4G, 2, "Pre-Paid 4G Data - Volume", "Volume TB", "pp4G_Volume",)
+# plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume TB", "postp3G_Volume")
+# plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume TB", "postp4G_Volume")
+
+printIt(results,"3G","PRE")
 
 cursor.close
 

@@ -1119,2384 +1119,6 @@ An <b>outgoing</b> call is a <i>mobile originating</i> call from a <b>USCC</b> c
 </richcontent>
 </node>
 </node>
-<node POSITION="left" ID="sec-7-4" CREATED="1553536041452" MODIFIED="1555696396985" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>Usage Tables
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<node ID="sec-7-4-1" CREATED="1553536041452" MODIFIED="1553536041452" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>AGREEMENT_RESOURCE
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Column Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Trx_Id</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">To_Resource_Val</td>
-<td class="org-left">Varchar2 (200 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Creation_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resrc_Seq_No</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resource_Value</td>
-<td class="org-left">Varchar2 (200 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resource_Type</td>
-<td class="org-left">Varchar2 (4 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resource_State</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resource_Scope_Id</td>
-<td class="org-left">Varchar2 (15 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resource_Prm_Cd</td>
-<td class="org-left">Varchar2 (255 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resource_Category</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Range_Ind</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Operator_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Offer_Instance_Id</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Ins_Trx_Id</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">From_Resource_Val</td>
-<td class="org-left">Varchar2 (200 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Expiration_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Exp_Issue_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Effective_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Eff_Issue_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Update_Stamp</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Service_Code</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Conv_Run_No</td>
-<td class="org-left">Number (3)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Base_Param_Name</td>
-<td class="org-left">Varchar2 (255 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Application_Id</td>
-<td class="org-left">Char (6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Agreement_No</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Agreement_Key</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-7-4-2" CREATED="1553536041453" MODIFIED="1553536041453" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>CM1_AGREEMENT_PARAM
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-In the PRDCUST database. 
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Agreement_Key</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Agreement_No</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">Is Equal To The</td>
-</tr>
-
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">Subscriber Number</td>
-</tr>
-
-<tr>
-<td class="org-left">Param_Seq_No</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Creation_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Operator_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Application_Id</td>
-<td class="org-left">Char (6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Service_Code</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Update_Stamp</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Param_Name</td>
-<td class="org-left">Varchar2 (255 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Param_Values</td>
-<td class="org-left">Varchar2 (4000 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Effective_Date</b></td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Expiration_Date</b></td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Agr_Level</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Source_Agr_No</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Trx_Id</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Ins_Trx_Id</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Eff_Issue_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Exp_Issue_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Conv_Run_No</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Offer_Instance_Id</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-7-4-6" CREATED="1553536041456" MODIFIED="1553536041456" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>AGD1_RESOURCES
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Column Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Resource_Segment</td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resource_Value</td>
-<td class="org-left">Varchar2(63 Byte)</td>
-<td class="org-left">Contains</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Resource_Type</b></td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">0 - Mdn</td>
-</tr>
-
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">19 - Min</td>
-</tr>
-
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">21 - Outcollects</td>
-</tr>
-
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">23 - Timsi</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Effective_Date</b></td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Creation_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Operator_Id</td>
-<td class="org-left">Number(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Application_Id</td>
-<td class="org-left">Char(6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Service_Code</td>
-<td class="org-left">Char(5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Update_Stamp</td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Update_Id</td>
-<td class="org-left">Number(18,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Expiration_Date</b></td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Subscriber_Id</b></td>
-<td class="org-left">Number(10,0)</td>
-<td class="org-left">The Subscriber</td>
-</tr>
-
-<tr>
-<td class="org-left">Sub_Status</td>
-<td class="org-left">Char(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Routing_Policy_Id</td>
-<td class="org-left">Number(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Payment_Category</td>
-<td class="org-left">Char(4 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Customer_Id</b></td>
-<td class="org-left">Number(10,0)</td>
-<td class="org-left">Customer ID</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Bill_Cycle</b></td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">New_Bill_Cycle</td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Chg_Cyc_Req_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Large_Cust_Ind</td>
-<td class="org-left">Char(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Resource_Hash_Value</td>
-<td class="org-left">Number(10,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Subscriber_Hash_Value</td>
-<td class="org-left">Number(10,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Load_Ind</td>
-<td class="org-left">Char(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-<ul class="org-ul">
-<li>Subscriber Table Status
-<ul class="org-ul">
-<li>A = Active</li>
-<li>C = Canceled</li>
-<li>S = Suspended</li>
-<li>U = Collection Suspend</li>
-<li>L = Collection Canceled</li>
-<li>D = Collection Suspend</li>
-</ul></li>
-</ul>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-7-4-9" CREATED="1553536041457" MODIFIED="1553536041457" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>APE1_SUBSCRIBER_RERATE
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-Customers in this table are scheduled to be re-rated. Then they
-should be removed once re-rating is complete.
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Column Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left"><b>Cycle_Code</b></td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Cycle_Instance</td>
-<td class="org-left">Number (2)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Customer_Segment</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Customer_Id</b></td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Subscriber_Id</b></td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Creation_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Operator_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Application_Id</td>
-<td class="org-left">Char (6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Service_Code</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Update_Stamp</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Cycle_Year</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rerate_Source</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Mark_Type</td>
-<td class="org-left">Number (1)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Status</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Activity_Source</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Num_Of_Rerate_Tries</td>
-<td class="org-left">Number (2)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-
-<p>
-Once re-rating starts you can check the progress with the
-following query:
-</p>
-
-<pre class="example">
-select * from ape1_rerate_population 
- where cycle_code=2 and cycle_instance=5 
-  and cycle_year=2014 and activity_source='R3'
-</pre>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-7-4-10" CREATED="1553536041458" MODIFIED="1553536041458" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>MF1_CIBER_BATCH_SEQ
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-The table used to keep the CIBER Outcollect sequences in sync
-with Syniverse. Every once a while we need to update it to keep
-in sync.
-</p>
-
-<p>
-<a href="file:///home/dbalchen/workspace/Outcollects/updateSeq.pl">Sequence Creation Job</a>
-</p>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Column Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Application_Id</td>
-<td class="org-left">Char (6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Service_Code</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Update_Stamp</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Home_Sid</b></td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Locked_Sid</td>
-<td class="org-left">Number (10)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Operator_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Seq_No</td>
-<td class="org-left">Number (3)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Serve_Sid</b></td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Status_Ind</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Creation_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-7-4-11" CREATED="1553536041458" MODIFIED="1553536041458" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>EM1_RECORD
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-The EM1 record database is the database used by <b>AEM</b>, To see the columns within the EM1_RECORD look at the <b>EM1_STREAM_STREAM_MAP@PTE2AEM</b> table.
-Click on the link provided below to see an example on how to query this table.
-     <a href="file:///home/dbalchen/workspace/CommonPlace/docs/em1_example.sql">EM1_RECORD Example</a>
-</p>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-7-4-12" CREATED="1553536041459" MODIFIED="1553536041459" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>PRM_ROM_OUTCOL_EVENTS_AP
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Column Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Edr_Id</td>
-<td class="org-left">Number (11)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Generated_Rec</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Event_Start_Datetime</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Creation_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Operator_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Application_Id</td>
-<td class="org-left">Char (6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Service_Code</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Update_Stamp</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Bp_Start_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Bp_End_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Carrier_Cd</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Process_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tap_File_Seq</td>
-<td class="org-left">Number (5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Air_Toll_Ind</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rating_Curr</td>
-<td class="org-left">Char (3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tap_Trx_Curr</td>
-<td class="org-left">Char (3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">File_Identifier</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Globalrefnumber</td>
-<td class="org-left">Varchar2 (42 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Charging_Param</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Uom</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Ext_File_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Extract_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Processed_Ind</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Charge_Units</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Set_Cd</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Jurisdiction</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Code_1</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Tp_1</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Rate_1</td>
-<td class="org-left">Number (6,3)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Amount_1</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Code_2</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Tp_2</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Rate_2</td>
-<td class="org-left">Number (6,3)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Amount_2</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Code_3</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Tp_3</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Rate_3</td>
-<td class="org-left">Number (6,3)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Amount_3</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Code_4</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Tp_4</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Rate_4</td>
-<td class="org-left">Number (6,3)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Amount_4</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Net_Charge_Lc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Tax_Amount_Lc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Gross_Amt_Lc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Net_Charge_Sdr</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Tax_Amount_Sdr</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Gross_Amt_Sdr</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Cross_Rate</td>
-<td class="org-left">Number (11,6)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Service_Type</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Norm_Src_Number</td>
-<td class="org-left">Char (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Norm_Dest_Number</td>
-<td class="org-left">Char (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dest_Number</td>
-<td class="org-left">Char (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Call_Direction</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Country_Code</td>
-<td class="org-left">Char (3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Orig_Province</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Term_Province</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Home_Province</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Event_End_Datetime</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Net_Rec_Entity_Id</td>
-<td class="org-left">Varchar2 (50 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Net_Loc_Area_Code</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Geo_Serv_Bid</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Geo_Serv_Loc_Desc</td>
-<td class="org-left">Varchar2 (30 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Equipment_Id</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Bearer_Serv_Code</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tele_Serv_Code</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Supp_Service</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Call_Tp_Level_1</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Call_Tp_Level_2</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Call_Tp_Level_3</td>
-<td class="org-left">Char (4 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Camel_Serv_Level</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Camel_Serv_Key</td>
-<td class="org-left">Varchar2 (10 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Camel_Invoc_Fee</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Camel_Dflt_Hndl</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Camel_Dest_Num</td>
-<td class="org-left">Char (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Camel_Cse_Info</td>
-<td class="org-left">Char (40 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Home_Bid</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Cell_Id</td>
-<td class="org-left">Varchar2 (10 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Utc_Offset</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rec_Entity_Tp</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Chrg_Id</td>
-<td class="org-left">Varchar2 (10 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Src_Number</td>
-<td class="org-left">Char (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Pdp_Address</td>
-<td class="org-left">Varchar2 (50 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Ggsn_Address</td>
-<td class="org-left">Varchar2 (50 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Gprs_Dest_Apn_Ni</td>
-<td class="org-left">Varchar2 (64 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Gprs_Dest_Apn_Oi</td>
-<td class="org-left">Varchar2 (38 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Data_Vol_Incoming</td>
-<td class="org-left">Varchar2 (12 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Data_Vol_Outgoing</td>
-<td class="org-left">Varchar2 (12 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Termination_Cause</td>
-<td class="org-left">Varchar2 (8 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Partial_Type_Ind</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Imsi</td>
-<td class="org-left">Varchar2 (15 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Msisdn</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Disp_File_Seq</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Net_Sgsnid</td>
-<td class="org-left">Varchar2 (50 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Future</td>
-<td class="org-left">Varchar2 (100 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Amount_1_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Amount_2_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Amount_3_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Amount_4_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Net_Charge_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Tax_Amount_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Gross_Amt_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Net_Charge_Lc1</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Tax_Amount_Lc1</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tot_Gross_Amt_Lc1</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Au_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Usg_Net_Charge_Lc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Usg_Net_Charge_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Usg_Net_Charge_Sdr</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Acc_Net_Charge_Lc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Acc_Net_Charge_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Acc_Net_Charge_Sdr</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tap_Out_File_Name</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rap_File_Seq</td>
-<td class="org-left">Number (5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Taxable_Amount1</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Taxable_Amount2</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Taxable_Amount3</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Taxable_Amount4</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tenant_Cd</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Network_Element_Type</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Network_Element_Id</td>
-<td class="org-left">Char (50 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Chr_Prt_Pub_User_Id</td>
-<td class="org-left">Char (64 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Non_Chr_Prt_Pub_User_Id</td>
-<td class="org-left">Char (64 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Event_Reference</td>
-<td class="org-left">Char (64 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sim_Toolkit_Ind</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Message_Event_Service</td>
-<td class="org-left">Char (17 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Ods_Insert_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Ods_Last_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-7-4-13" CREATED="1553536041460" MODIFIED="1553536041460" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>PRM_ROM_INCOL_EVENTS_AP
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Column Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left">Edr_Id</td>
-<td class="org-left">Number (11)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Generated_Rec</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rerate_Cnt</td>
-<td class="org-left">Number (3)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Creation_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Operator_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Application_Id</td>
-<td class="org-left">Char (6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Service_Code</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Update_Stamp</td>
-<td class="org-left">Number (4)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Record_Type</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tap_In_File_Name</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tap_In_File_Seq_Number</td>
-<td class="org-left">Number (5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tadig_File_Type</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Record_Position</td>
-<td class="org-left">Varchar2 (6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Charge_Type</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Charge_Parameter</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Uom</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Charge_Amount</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Charge_Amount_Rc</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Charge_Amount_Sdr</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Currency_Code</td>
-<td class="org-left">Char (3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rap_File_Sequence</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Carrier_Cd</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Service_Type</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Normalized_Calling_Number</td>
-<td class="org-left">Char (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Normalized_Called_Number</td>
-<td class="org-left">Char (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Call_Direction</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Country_Code</td>
-<td class="org-left">Char (3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Serving_Bid</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Event_Start_Date_Time</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Process_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Bp_Start_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Bp_End_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Local_Currency</td>
-<td class="org-left">Char (3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rating_Curr</td>
-<td class="org-left">Char (3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Exchange_Rate</td>
-<td class="org-left">Number (18,5)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Call_Type_Level_1</td>
-<td class="org-left">Char (3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Call_Type_Level_2</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Call_Type_Level_3</td>
-<td class="org-left">Varchar2 (11 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tax_Type</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Future_Buff</td>
-<td class="org-left">Varchar2 (443 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Au_Id</td>
-<td class="org-left">Number (9)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Teleservicecode</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Supp_Serv_Cd</td>
-<td class="org-left">Char (2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Validation_Sts</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Aprm_Edr_Id</td>
-<td class="org-left">Number (20)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Orig_Brok_Filename</td>
-<td class="org-left">Varchar2 (24 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">File_Avail_Ts</td>
-<td class="org-left">Char (14 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">File_Avail_Ts_Offst</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Transcut_Ts</td>
-<td class="org-left">Char (14 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Transcut_Ts_Offst</td>
-<td class="org-left">Char (5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Tenant_Cd</td>
-<td class="org-left">Varchar2 (20 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Network_Element_Type</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Network_Element_Id</td>
-<td class="org-left">Char (50 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Chr_Prt_Pub_User_Id</td>
-<td class="org-left">Char (64 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Non_Chr_Prt_Pub_User_Id</td>
-<td class="org-left">Char (64 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Event_Reference</td>
-<td class="org-left">Char (64 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sim_Toolkit_Ind</td>
-<td class="org-left">Char (1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Message_Event_Service</td>
-<td class="org-left">Char (17 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Mobile_Session_Service</td>
-<td class="org-left">Char (17 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Non_Chrg_Party_Num</td>
-<td class="org-left">Char (17 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Ods_Insert_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Ods_Last_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-
-
-
-<div class="figure">
-<p><img src="Pictures/shahn.jpg" alt="shahn.jpg" />
-</p>
-</div>
-</body>
-</html>
-</richcontent>
-</node>
-<node ID="sec-7-2" CREATED="1553536041451" MODIFIED="1553536041451" COLOR="#00b439"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>Usage DB by cycle
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="16"/>
-<edge STYLE="bezier" WIDTH="thin"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-right" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-right"><b>CycleCode</b></th>
-<th scope="col" class="org-left"><b>Database</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-right">2</td>
-<td class="org-left">TC1PRD</td>
-<td class="org-left">General Cycle close on the 1st</td>
-</tr>
-
-<tr>
-<td class="org-right">4</td>
-<td class="org-left">TC4PRD</td>
-<td class="org-left">General Cycle close on the 3rd</td>
-</tr>
-
-<tr>
-<td class="org-right">6</td>
-<td class="org-left">TC4PRD</td>
-<td class="org-left">General Cycle close on the 5th</td>
-</tr>
-
-<tr>
-<td class="org-right">8</td>
-<td class="org-left">TC1PRD</td>
-<td class="org-left">General Cycle close on the 7th</td>
-</tr>
-
-<tr>
-<td class="org-right">10</td>
-<td class="org-left">TC3PRD</td>
-<td class="org-left">General Cycle close on the 9th</td>
-</tr>
-
-<tr>
-<td class="org-right">12</td>
-<td class="org-left">TC2PRD</td>
-<td class="org-left">General Cycle close on the 11th</td>
-</tr>
-
-<tr>
-<td class="org-right">14</td>
-<td class="org-left">TC4PRD</td>
-<td class="org-left">General Cycle close on the 13th</td>
-</tr>
-
-<tr>
-<td class="org-right">16</td>
-<td class="org-left">TC3PRD</td>
-<td class="org-left">General Cycle close on the 15th</td>
-</tr>
-
-<tr>
-<td class="org-right">18</td>
-<td class="org-left">TC2PRD</td>
-<td class="org-left">General Cycle close on the 17th</td>
-</tr>
-
-<tr>
-<td class="org-right">20</td>
-<td class="org-left">TC1PRD</td>
-<td class="org-left">General Cycle close on the 19th</td>
-</tr>
-
-<tr>
-<td class="org-right">22</td>
-<td class="org-left">TC2PRD</td>
-<td class="org-left">General Cycle close on the 21st</td>
-</tr>
-
-<tr>
-<td class="org-right">24</td>
-<td class="org-left">TC3PRD</td>
-<td class="org-left">General Cycle close on the 23rd</td>
-</tr>
-
-<tr>
-<td class="org-right">26</td>
-<td class="org-left">TC4PRD</td>
-<td class="org-left">General Cycle close on the 25th</td>
-</tr>
-
-<tr>
-<td class="org-right">28</td>
-<td class="org-left">TC3PRD</td>
-<td class="org-left">General Cycle close on the 27th</td>
-</tr>
-
-<tr>
-<td class="org-right">77</td>
-<td class="org-left">TC1PRD</td>
-<td class="org-left">Dropped events cycle</td>
-</tr>
-
-<tr>
-<td class="org-right">80</td>
-<td class="org-left">TC3PRD</td>
-<td class="org-left">Rejected events cycle</td>
-</tr>
-
-<tr>
-<td class="org-right">99</td>
-<td class="org-left">TC2PRD</td>
-<td class="org-left">Reserved for OutCollect Cycle close on the 31th</td>
-</tr>
-
-<tr>
-<td class="org-right">1002</td>
-<td class="org-left">TC2PRD</td>
-<td class="org-left">Reseller Cycle close on the 1st</td>
-</tr>
-
-<tr>
-<td class="org-right">1004</td>
-<td class="org-left">TC1PRD</td>
-<td class="org-left">Reseller Cycle close on the 3rd</td>
-</tr>
-
-<tr>
-<td class="org-right">1006</td>
-<td class="org-left">TC1PRD</td>
-<td class="org-left">Reseller Cycle close on the 5th</td>
-</tr>
-
-<tr>
-<td class="org-right">1008</td>
-<td class="org-left">TC3PRD</td>
-<td class="org-left">Reseller Cycle close on the 7th</td>
-</tr>
-
-<tr>
-<td class="org-right">1010</td>
-<td class="org-left">TC2PRD</td>
-<td class="org-left">Reseller Cycle close on the 9th</td>
-</tr>
-
-<tr>
-<td class="org-right">1012</td>
-<td class="org-left">TC4PRD</td>
-<td class="org-left">Reseller Cycle close on the 11th</td>
-</tr>
-
-<tr>
-<td class="org-right">1014</td>
-<td class="org-left">TC1PRD</td>
-<td class="org-left">Reseller Cycle close on the 13th</td>
-</tr>
-
-<tr>
-<td class="org-right">1016</td>
-<td class="org-left">TC2PRD</td>
-<td class="org-left">Reseller Cycle close on the 15th</td>
-</tr>
-
-<tr>
-<td class="org-right">1018</td>
-<td class="org-left">TC4PRD</td>
-<td class="org-left">Reseller Cycle close on the 17th</td>
-</tr>
-
-<tr>
-<td class="org-right">1020</td>
-<td class="org-left">TC3PRD</td>
-<td class="org-left">Reseller Cycle close on the 19th</td>
-</tr>
-
-<tr>
-<td class="org-right">1022</td>
-<td class="org-left">TC3PRD</td>
-<td class="org-left">Reseller Cycle close on the 21st</td>
-</tr>
-
-<tr>
-<td class="org-right">1024</td>
-<td class="org-left">TC1PRD</td>
-<td class="org-left">Reseller Cycle close on the 23rd</td>
-</tr>
-
-<tr>
-<td class="org-right">1026</td>
-<td class="org-left">TC4PRD</td>
-<td class="org-left">Reseller Cycle close on the 25th</td>
-</tr>
-
-<tr>
-<td class="org-right">1028</td>
-<td class="org-left">TC2PRD</td>
-<td class="org-left">Reseller Cycle close on the 27th</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-</richcontent>
-</node>
-</node>
 <node POSITION="left" ID="sec-3" CREATED="1553536041438" MODIFIED="1553620741496" COLOR="#0033ff"><richcontent TYPE="NODE">
 
 <html>
@@ -6593,6 +4215,1105 @@ In addition we have five <b>Rerate Servers</b> they are:
 </html>
 </richcontent>
 </node>
+<node TEXT="TC Tables" ID="sec-7-4" CREATED="1553536041452" MODIFIED="1556571214058" COLOR="#00b439">
+<font NAME="SansSerif" SIZE="16"/>
+<edge STYLE="bezier" WIDTH="thin"/>
+<node ID="sec-7-4-1" CREATED="1553536041452" MODIFIED="1553536041452" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>AGREEMENT_RESOURCE
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Column Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Trx_Id</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">To_Resource_Val</td>
+<td class="org-left">Varchar2 (200 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Creation_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resrc_Seq_No</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resource_Value</td>
+<td class="org-left">Varchar2 (200 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resource_Type</td>
+<td class="org-left">Varchar2 (4 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resource_State</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resource_Scope_Id</td>
+<td class="org-left">Varchar2 (15 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resource_Prm_Cd</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resource_Category</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Range_Ind</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Operator_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Offer_Instance_Id</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ins_Trx_Id</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">From_Resource_Val</td>
+<td class="org-left">Varchar2 (200 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Expiration_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Exp_Issue_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Effective_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Eff_Issue_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Update_Stamp</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Service_Code</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Conv_Run_No</td>
+<td class="org-left">Number (3)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Base_Param_Name</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Application_Id</td>
+<td class="org-left">Char (6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Agreement_No</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Agreement_Key</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-4-2" CREATED="1553536041453" MODIFIED="1553536041453" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>CM1_AGREEMENT_PARAM
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<p>
+In the PRDCUST database. 
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Agreement_Key</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Agreement_No</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">Is Equal To The</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Subscriber Number</td>
+</tr>
+
+<tr>
+<td class="org-left">Param_Seq_No</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Creation_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Operator_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Application_Id</td>
+<td class="org-left">Char (6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Service_Code</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Update_Stamp</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Param_Name</td>
+<td class="org-left">Varchar2 (255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Param_Values</td>
+<td class="org-left">Varchar2 (4000 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Effective_Date</b></td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Expiration_Date</b></td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Agr_Level</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Source_Agr_No</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Trx_Id</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ins_Trx_Id</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Eff_Issue_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Exp_Issue_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Conv_Run_No</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Offer_Instance_Id</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-4-6" CREATED="1553536041456" MODIFIED="1553536041456" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>AGD1_RESOURCES
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Column Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Resource_Segment</td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resource_Value</td>
+<td class="org-left">Varchar2(63 Byte)</td>
+<td class="org-left">Contains</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Resource_Type</b></td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">0 - Mdn</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">19 - Min</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">21 - Outcollects</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">23 - Timsi</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Effective_Date</b></td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Creation_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Operator_Id</td>
+<td class="org-left">Number(9,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Application_Id</td>
+<td class="org-left">Char(6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Service_Code</td>
+<td class="org-left">Char(5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Update_Stamp</td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Update_Id</td>
+<td class="org-left">Number(18,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Expiration_Date</b></td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Subscriber_Id</b></td>
+<td class="org-left">Number(10,0)</td>
+<td class="org-left">The Subscriber</td>
+</tr>
+
+<tr>
+<td class="org-left">Sub_Status</td>
+<td class="org-left">Char(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Routing_Policy_Id</td>
+<td class="org-left">Number(9,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Payment_Category</td>
+<td class="org-left">Char(4 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Customer_Id</b></td>
+<td class="org-left">Number(10,0)</td>
+<td class="org-left">Customer ID</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Bill_Cycle</b></td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">New_Bill_Cycle</td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Chg_Cyc_Req_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Large_Cust_Ind</td>
+<td class="org-left">Char(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Resource_Hash_Value</td>
+<td class="org-left">Number(10,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Subscriber_Hash_Value</td>
+<td class="org-left">Number(10,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Load_Ind</td>
+<td class="org-left">Char(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+<ul class="org-ul">
+<li>Subscriber Table Status
+<ul class="org-ul">
+<li>A = Active</li>
+<li>C = Canceled</li>
+<li>S = Suspended</li>
+<li>U = Collection Suspend</li>
+<li>L = Collection Canceled</li>
+<li>D = Collection Suspend</li>
+</ul></li>
+</ul>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-4-9" CREATED="1553536041457" MODIFIED="1553536041457" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>APE1_SUBSCRIBER_RERATE
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<p>
+Customers in this table are scheduled to be re-rated. Then they
+should be removed once re-rating is complete.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Column Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Cycle_Code</b></td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Cycle_Instance</td>
+<td class="org-left">Number (2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Customer_Segment</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Customer_Id</b></td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Subscriber_Id</b></td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Creation_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Operator_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Application_Id</td>
+<td class="org-left">Char (6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Service_Code</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Update_Stamp</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Cycle_Year</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rerate_Source</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Mark_Type</td>
+<td class="org-left">Number (1)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Status</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Activity_Source</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Num_Of_Rerate_Tries</td>
+<td class="org-left">Number (2)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Once re-rating starts you can check the progress with the
+following query:
+</p>
+
+<pre class="example">
+select * from ape1_rerate_population 
+ where cycle_code=2 and cycle_instance=5 
+  and cycle_year=2014 and activity_source='R3'
+</pre>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-4-10" CREATED="1553536041458" MODIFIED="1553536041458" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>MF1_CIBER_BATCH_SEQ
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<p>
+The table used to keep the CIBER Outcollect sequences in sync
+with Syniverse. Every once a while we need to update it to keep
+in sync.
+</p>
+
+<p>
+<a href="file:///home/dbalchen/workspace/Outcollects/updateSeq.pl">Sequence Creation Job</a>
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Column Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Application_Id</td>
+<td class="org-left">Char (6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Service_Code</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Update_Stamp</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Home_Sid</b></td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Locked_Sid</td>
+<td class="org-left">Number (10)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Operator_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Seq_No</td>
+<td class="org-left">Number (3)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Serve_Sid</b></td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Status_Ind</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Creation_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-2" CREATED="1553536041451" MODIFIED="1553536041451" COLOR="#00b439"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>Usage DB by cycle
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="16"/>
+<edge STYLE="bezier" WIDTH="thin"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right"><b>CycleCode</b></th>
+<th scope="col" class="org-left"><b>Database</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">TC1PRD</td>
+<td class="org-left">General Cycle close on the 1st</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">TC4PRD</td>
+<td class="org-left">General Cycle close on the 3rd</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">TC4PRD</td>
+<td class="org-left">General Cycle close on the 5th</td>
+</tr>
+
+<tr>
+<td class="org-right">8</td>
+<td class="org-left">TC1PRD</td>
+<td class="org-left">General Cycle close on the 7th</td>
+</tr>
+
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">TC3PRD</td>
+<td class="org-left">General Cycle close on the 9th</td>
+</tr>
+
+<tr>
+<td class="org-right">12</td>
+<td class="org-left">TC2PRD</td>
+<td class="org-left">General Cycle close on the 11th</td>
+</tr>
+
+<tr>
+<td class="org-right">14</td>
+<td class="org-left">TC4PRD</td>
+<td class="org-left">General Cycle close on the 13th</td>
+</tr>
+
+<tr>
+<td class="org-right">16</td>
+<td class="org-left">TC3PRD</td>
+<td class="org-left">General Cycle close on the 15th</td>
+</tr>
+
+<tr>
+<td class="org-right">18</td>
+<td class="org-left">TC2PRD</td>
+<td class="org-left">General Cycle close on the 17th</td>
+</tr>
+
+<tr>
+<td class="org-right">20</td>
+<td class="org-left">TC1PRD</td>
+<td class="org-left">General Cycle close on the 19th</td>
+</tr>
+
+<tr>
+<td class="org-right">22</td>
+<td class="org-left">TC2PRD</td>
+<td class="org-left">General Cycle close on the 21st</td>
+</tr>
+
+<tr>
+<td class="org-right">24</td>
+<td class="org-left">TC3PRD</td>
+<td class="org-left">General Cycle close on the 23rd</td>
+</tr>
+
+<tr>
+<td class="org-right">26</td>
+<td class="org-left">TC4PRD</td>
+<td class="org-left">General Cycle close on the 25th</td>
+</tr>
+
+<tr>
+<td class="org-right">28</td>
+<td class="org-left">TC3PRD</td>
+<td class="org-left">General Cycle close on the 27th</td>
+</tr>
+
+<tr>
+<td class="org-right">77</td>
+<td class="org-left">TC1PRD</td>
+<td class="org-left">Dropped events cycle</td>
+</tr>
+
+<tr>
+<td class="org-right">80</td>
+<td class="org-left">TC3PRD</td>
+<td class="org-left">Rejected events cycle</td>
+</tr>
+
+<tr>
+<td class="org-right">99</td>
+<td class="org-left">TC2PRD</td>
+<td class="org-left">Reserved for OutCollect Cycle close on the 31th</td>
+</tr>
+
+<tr>
+<td class="org-right">1002</td>
+<td class="org-left">TC2PRD</td>
+<td class="org-left">Reseller Cycle close on the 1st</td>
+</tr>
+
+<tr>
+<td class="org-right">1004</td>
+<td class="org-left">TC1PRD</td>
+<td class="org-left">Reseller Cycle close on the 3rd</td>
+</tr>
+
+<tr>
+<td class="org-right">1006</td>
+<td class="org-left">TC1PRD</td>
+<td class="org-left">Reseller Cycle close on the 5th</td>
+</tr>
+
+<tr>
+<td class="org-right">1008</td>
+<td class="org-left">TC3PRD</td>
+<td class="org-left">Reseller Cycle close on the 7th</td>
+</tr>
+
+<tr>
+<td class="org-right">1010</td>
+<td class="org-left">TC2PRD</td>
+<td class="org-left">Reseller Cycle close on the 9th</td>
+</tr>
+
+<tr>
+<td class="org-right">1012</td>
+<td class="org-left">TC4PRD</td>
+<td class="org-left">Reseller Cycle close on the 11th</td>
+</tr>
+
+<tr>
+<td class="org-right">1014</td>
+<td class="org-left">TC1PRD</td>
+<td class="org-left">Reseller Cycle close on the 13th</td>
+</tr>
+
+<tr>
+<td class="org-right">1016</td>
+<td class="org-left">TC2PRD</td>
+<td class="org-left">Reseller Cycle close on the 15th</td>
+</tr>
+
+<tr>
+<td class="org-right">1018</td>
+<td class="org-left">TC4PRD</td>
+<td class="org-left">Reseller Cycle close on the 17th</td>
+</tr>
+
+<tr>
+<td class="org-right">1020</td>
+<td class="org-left">TC3PRD</td>
+<td class="org-left">Reseller Cycle close on the 19th</td>
+</tr>
+
+<tr>
+<td class="org-right">1022</td>
+<td class="org-left">TC3PRD</td>
+<td class="org-left">Reseller Cycle close on the 21st</td>
+</tr>
+
+<tr>
+<td class="org-right">1024</td>
+<td class="org-left">TC1PRD</td>
+<td class="org-left">Reseller Cycle close on the 23rd</td>
+</tr>
+
+<tr>
+<td class="org-right">1026</td>
+<td class="org-left">TC4PRD</td>
+<td class="org-left">Reseller Cycle close on the 25th</td>
+</tr>
+
+<tr>
+<td class="org-right">1028</td>
+<td class="org-left">TC2PRD</td>
+<td class="org-left">Reseller Cycle close on the 27th</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
 <node ID="sec-7-4-4" CREATED="1553536041454" MODIFIED="1553536041454" COLOR="#990000"><richcontent TYPE="NODE">
 
 <html>
@@ -7824,6 +6545,932 @@ usually wind up here.
 <tr>
 <td class="org-left">L9_Initiator_Type</td>
 <td class="org-left">Varchar2 (19 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-4-5" CREATED="1553536041455" MODIFIED="1553536041455" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>APE1_ACCUMULATORS
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<p>
+The accumulation tables this is what is presented on the bill.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Column Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Cycle_Code</b></td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Cycle_Instance</b></td>
+<td class="org-left">Number(2,0)</td>
+<td class="org-left"><i>Cycle Instance = 0</i></td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><i>Pre-Paid Subscriber</i></td>
+</tr>
+
+<tr>
+<td class="org-left">Customer_Segment</td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Customer_Id</b></td>
+<td class="org-left">Number(10,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Accum_Type_Id</b></td>
+<td class="org-left">Number(9,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Owner_Id</b></td>
+<td class="org-left">Number(10,0)</td>
+<td class="org-left"><i>Same as Subsciber_id</i></td>
+</tr>
+
+<tr>
+<td class="org-left">Owner_Type</td>
+<td class="org-left">Char(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Item_Id</td>
+<td class="org-left">Number(9,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Offer_Instance</td>
+<td class="org-left">Number(10,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dimension_Id</td>
+<td class="org-left">Number(5,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Cycle_Year</b></td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Creation_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Operator_Id</td>
+<td class="org-left">Number(9,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Application_Id</td>
+<td class="org-left">Char(6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Service_Code</td>
+<td class="org-left">Char(5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Update_Stamp</td>
+<td class="org-left">Number(4,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Update_Id</td>
+<td class="org-left">Number(9,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Version_Id</td>
+<td class="org-left">Number(9,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Global_Accum_Ind</td>
+<td class="org-left">Char(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Cross_Cycle_Ind</td>
+<td class="org-left">Char(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Accum_Id</b></td>
+<td class="org-left">Number(9,0)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rerate_Type</td>
+<td class="org-left">Char(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Account</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Accum_Charge</b></td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Accum_Chg_Incl_Free_Allw</b></td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Accum_Free_Unit</b></td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Accum_Unit</b></td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Billing_Arrangement</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Currency_Code</b></td>
+<td class="org-left">Varchar2(3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">First_Event_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L3_Balance_Amount</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L3_Balance_Status</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Last_Event_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Number_Of_Events</b></td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Number_Of_Free_Events</b></td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Number_Of_Rolled_Cycles</b></td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Offer_Id</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Pi_Role</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Pi_Status</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Quota</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Quota_Per_Period</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Remaining_Quota_Per_Period</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Remain_Quota_Per_Month_Period</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rolled_Previous_Cyc_Per_Period</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rolled_Quota_From_Previous_Cyc</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Uom</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Utilized_Quota_Per_Period</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Utilize_Quota_Per_Month_Period</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Billing_Resource_Type</td>
+<td class="org-left">Varchar2(16 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Billing_Resource_Id</td>
+<td class="org-left">Varchar2(63 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Toll_Tax</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accum_Chg_Incl_Allw_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accum_Credit</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accumulated_Chg_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Overage_Cap</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accum_Free_Unit_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Number_Of_Events_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Number_Free_Events_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accum_Unit_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Cap_Exceed</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Number_Of_Credit_Events</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Air_Tax</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Tot_Units_Above_Cap</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Accum_Duration</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Call_Direction</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Roaming_Ind</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Tax_Change_Date</td>
+<td class="org-left">Varchar2(25 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Serve_Sid</td>
+<td class="org-left">Varchar2(5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Eha_Indicator</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Pay_Channel</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Customer_Sub_Type</td>
+<td class="org-left">Varchar2(15 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Be</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Customer_Type</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Called_Country</td>
+<td class="org-left">Varchar2(3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>L9_Payment_Category</b></td>
+<td class="org-left">Varchar2(4 Byte)</td>
+<td class="org-left"><i>Post Or Pre</i></td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Billing_Arrangement</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Volume_Accumulation</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Offer_Level</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Full_Cap</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Charge_Type</td>
+<td class="org-left">Varchar2(3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Prev_Add_Chg_Cmplx2</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Prev_Add_Chg_Cmplx1</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Prev_Add_Chg_Cmplx3</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Prev_Add_Chg_Cmplx</td>
+<td class="org-left">Varchar2(4000 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Acc_Usage_Before_Eom</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Acc_Usage_After_Eom</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Msisdn</td>
+<td class="org-left">Varchar2(256 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Cap_To_Be_Used</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Charge_Code</td>
+<td class="org-left">Varchar2(15 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Offer_Type</td>
+<td class="org-left">Varchar2(255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accum_Chg_Beyo_Cap_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>L9_Ctn</b></td>
+<td class="org-left">Varchar2(10 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Media_Type</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Utilized_Quota_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_First_Threshold_Sent_Ind</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Remain_Quota_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Used_Quota</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Last_Threshold_Sent</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Charge_Rev_Code</td>
+<td class="org-left">Varchar2(2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Is_New_Scale</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Is_First_Notif</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Notified_Ctn</td>
+<td class="org-left">Varchar2(32 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Unlimited_Ind</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Proration_Factor</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Curr_Leg</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Num_Of_Period</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Is_Notif_Sent</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Period_Name</td>
+<td class="org-left">Varchar2(255 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Volume_Per_Leg</td>
+<td class="org-left">Varchar2(4000 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Cycle_Start_Date_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Disable_Notif_Ind</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Notif_Elig</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Is_Second_Notif</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Limit_Quota_Change_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Agr_Level_Offer_Inst</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Last_Notif_Index</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Second_Notif_Thresh</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Offer_Exp_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Second_Threshold</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accum_Free_Unts_Beyo_Cap</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Offer_Eff_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_First_Threshold</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Second_Threshold_Sent_Ind</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Limit_Quota_Cmplx</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_First_Notif_Thresh</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Remaining_Bucket</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Class_Code</td>
+<td class="org-left">Varchar2(12 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Ivr_Ann_Code</td>
+<td class="org-left">Varchar2(50 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accum_Add_Tax_Amt</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Accum_Tax_Amt</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Days_Of_Daily_Data</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Calling_Area_Name</td>
+<td class="org-left">Varchar2(50 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Expiration_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Disclaimer_Sent</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Is_Roam_Data_Speed_Notif</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Geocode</td>
+<td class="org-left">Varchar2(10 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Is_Total_Data_Speed_Notif</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Roam_Volume_Accumulation</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Roam_Speed_Limit</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Indicator</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Charge_Accumulation</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Pp_Changed_Ind</td>
+<td class="org-left">Varchar2(1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_First_Level</td>
+<td class="org-left">Varchar2(512 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Grp_Level_Offer_Inst</td>
+<td class="org-left">Number</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">L9_Group_Offer_Id</td>
+<td class="org-left">Number</td>
 <td class="org-left">&#xa0;</td>
 </tr>
 </tbody>
@@ -10346,931 +9993,6 @@ table, very similar.
 </richcontent>
 </node>
 </node>
-<node ID="sec-7-4-5" CREATED="1553536041455" MODIFIED="1553536041455" COLOR="#990000"><richcontent TYPE="NODE">
-
-<html>
-<head>
-</head>
-<body>
-<p>APE1_ACCUMULATORS
-</p>
-</body>
-</html>
-</richcontent>
-<font NAME="SansSerif" SIZE="14"/>
-<richcontent TYPE="NOTE">
-
-<html>
-<head>
-</head>
-<body>
-<p>
-The accumulation tables this is what is presented on the bill.
-</p>
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-left"><b>Column Name</b></th>
-<th scope="col" class="org-left"><b>Data Type</b></th>
-<th scope="col" class="org-left"><b>Description</b></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-left"><b>Cycle_Code</b></td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Cycle_Instance</b></td>
-<td class="org-left">Number(2,0)</td>
-<td class="org-left"><i>Cycle Instance = 0</i></td>
-</tr>
-
-<tr>
-<td class="org-left">&#xa0;</td>
-<td class="org-left">&#xa0;</td>
-<td class="org-left"><i>Pre-Paid Subscriber</i></td>
-</tr>
-
-<tr>
-<td class="org-left">Customer_Segment</td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Customer_Id</b></td>
-<td class="org-left">Number(10,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Accum_Type_Id</b></td>
-<td class="org-left">Number(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Owner_Id</b></td>
-<td class="org-left">Number(10,0)</td>
-<td class="org-left"><i>Same as Subsciber_id</i></td>
-</tr>
-
-<tr>
-<td class="org-left">Owner_Type</td>
-<td class="org-left">Char(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Item_Id</td>
-<td class="org-left">Number(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Offer_Instance</td>
-<td class="org-left">Number(10,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dimension_Id</td>
-<td class="org-left">Number(5,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Cycle_Year</b></td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Creation_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Sys_Update_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Operator_Id</td>
-<td class="org-left">Number(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Application_Id</td>
-<td class="org-left">Char(6 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Service_Code</td>
-<td class="org-left">Char(5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Dl_Update_Stamp</td>
-<td class="org-left">Number(4,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Update_Id</td>
-<td class="org-left">Number(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Version_Id</td>
-<td class="org-left">Number(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Global_Accum_Ind</td>
-<td class="org-left">Char(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Cross_Cycle_Ind</td>
-<td class="org-left">Char(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Accum_Id</b></td>
-<td class="org-left">Number(9,0)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rerate_Type</td>
-<td class="org-left">Char(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Account</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Accum_Charge</b></td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Accum_Chg_Incl_Free_Allw</b></td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Accum_Free_Unit</b></td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Accum_Unit</b></td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Billing_Arrangement</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Currency_Code</b></td>
-<td class="org-left">Varchar2(3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">First_Event_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L3_Balance_Amount</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L3_Balance_Status</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Last_Event_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Number_Of_Events</b></td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Number_Of_Free_Events</b></td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>Number_Of_Rolled_Cycles</b></td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Offer_Id</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Pi_Role</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Pi_Status</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Quota</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Quota_Per_Period</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Remaining_Quota_Per_Period</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Remain_Quota_Per_Month_Period</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rolled_Previous_Cyc_Per_Period</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Rolled_Quota_From_Previous_Cyc</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Uom</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Utilized_Quota_Per_Period</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Utilize_Quota_Per_Month_Period</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Billing_Resource_Type</td>
-<td class="org-left">Varchar2(16 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Billing_Resource_Id</td>
-<td class="org-left">Varchar2(63 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Toll_Tax</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accum_Chg_Incl_Allw_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accum_Credit</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accumulated_Chg_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Overage_Cap</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accum_Free_Unit_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Number_Of_Events_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Number_Free_Events_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accum_Unit_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Cap_Exceed</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Number_Of_Credit_Events</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Air_Tax</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Tot_Units_Above_Cap</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Accum_Duration</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Call_Direction</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Roaming_Ind</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Tax_Change_Date</td>
-<td class="org-left">Varchar2(25 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Serve_Sid</td>
-<td class="org-left">Varchar2(5 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Eha_Indicator</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Pay_Channel</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Customer_Sub_Type</td>
-<td class="org-left">Varchar2(15 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Be</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Customer_Type</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Called_Country</td>
-<td class="org-left">Varchar2(3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>L9_Payment_Category</b></td>
-<td class="org-left">Varchar2(4 Byte)</td>
-<td class="org-left"><i>Post Or Pre</i></td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Billing_Arrangement</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Volume_Accumulation</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Offer_Level</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Full_Cap</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Charge_Type</td>
-<td class="org-left">Varchar2(3 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Prev_Add_Chg_Cmplx2</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Prev_Add_Chg_Cmplx1</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Prev_Add_Chg_Cmplx3</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Prev_Add_Chg_Cmplx</td>
-<td class="org-left">Varchar2(4000 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Acc_Usage_Before_Eom</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Acc_Usage_After_Eom</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Msisdn</td>
-<td class="org-left">Varchar2(256 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Cap_To_Be_Used</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Charge_Code</td>
-<td class="org-left">Varchar2(15 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Offer_Type</td>
-<td class="org-left">Varchar2(255 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accum_Chg_Beyo_Cap_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left"><b>L9_Ctn</b></td>
-<td class="org-left">Varchar2(10 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Media_Type</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Utilized_Quota_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_First_Threshold_Sent_Ind</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Remain_Quota_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Used_Quota</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Last_Threshold_Sent</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Charge_Rev_Code</td>
-<td class="org-left">Varchar2(2 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Is_New_Scale</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Is_First_Notif</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Notified_Ctn</td>
-<td class="org-left">Varchar2(32 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Unlimited_Ind</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Proration_Factor</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Curr_Leg</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Num_Of_Period</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Is_Notif_Sent</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Period_Name</td>
-<td class="org-left">Varchar2(255 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Volume_Per_Leg</td>
-<td class="org-left">Varchar2(4000 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Cycle_Start_Date_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Disable_Notif_Ind</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Notif_Elig</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Is_Second_Notif</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Limit_Quota_Change_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Agr_Level_Offer_Inst</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Last_Notif_Index</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Second_Notif_Thresh</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Offer_Exp_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Second_Threshold</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accum_Free_Unts_Beyo_Cap</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Offer_Eff_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_First_Threshold</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Second_Threshold_Sent_Ind</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Limit_Quota_Cmplx</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_First_Notif_Thresh</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Remaining_Bucket</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Class_Code</td>
-<td class="org-left">Varchar2(12 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Ivr_Ann_Code</td>
-<td class="org-left">Varchar2(50 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accum_Add_Tax_Amt</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Accum_Tax_Amt</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Days_Of_Daily_Data</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Calling_Area_Name</td>
-<td class="org-left">Varchar2(50 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">Expiration_Date</td>
-<td class="org-left">Date</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Disclaimer_Sent</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Is_Roam_Data_Speed_Notif</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Geocode</td>
-<td class="org-left">Varchar2(10 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Is_Total_Data_Speed_Notif</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Roam_Volume_Accumulation</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Roam_Speed_Limit</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Indicator</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Charge_Accumulation</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Pp_Changed_Ind</td>
-<td class="org-left">Varchar2(1 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_First_Level</td>
-<td class="org-left">Varchar2(512 Byte)</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Grp_Level_Offer_Inst</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-
-<tr>
-<td class="org-left">L9_Group_Offer_Id</td>
-<td class="org-left">Number</td>
-<td class="org-left">&#xa0;</td>
-</tr>
-</tbody>
-</table>
-</body>
-</html>
-</richcontent>
 </node>
 </node>
 <node POSITION="right" ID="sec-1-1" CREATED="1553536041429" MODIFIED="1553536041429" COLOR="#00b439"><richcontent TYPE="NODE">
@@ -12908,6 +11630,33 @@ columns:
 </tr>
 </tbody>
 </table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-4-11" CREATED="1553536041458" MODIFIED="1553536041458" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>EM1_RECORD
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<p>
+The EM1 record database is the database used by <b>AEM</b>, To see the columns within the EM1_RECORD look at the <b>EM1_STREAM_STREAM_MAP@PTE2AEM</b> table.
+Click on the link provided below to see an example on how to query this table.
+     <a href="file:///home/dbalchen/workspace/CommonPlace/docs/em1_example.sql">EM1_RECORD Example</a>
+</p>
 </body>
 </html>
 </richcontent>
@@ -15279,6 +14028,1247 @@ Used for CDMA Incollect/Outcollect Voice and data files.
 </tr>
 </tbody>
 </table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-4-12" CREATED="1553536041459" MODIFIED="1553536041459" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>PRM_ROM_OUTCOL_EVENTS_AP
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Column Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Edr_Id</td>
+<td class="org-left">Number (11)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Generated_Rec</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Event_Start_Datetime</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Creation_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Operator_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Application_Id</td>
+<td class="org-left">Char (6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Service_Code</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Update_Stamp</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Bp_Start_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Bp_End_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Carrier_Cd</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Process_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tap_File_Seq</td>
+<td class="org-left">Number (5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Air_Toll_Ind</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rating_Curr</td>
+<td class="org-left">Char (3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tap_Trx_Curr</td>
+<td class="org-left">Char (3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">File_Identifier</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Globalrefnumber</td>
+<td class="org-left">Varchar2 (42 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Charging_Param</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Uom</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ext_File_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Extract_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Processed_Ind</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Charge_Units</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Set_Cd</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Jurisdiction</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Code_1</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Tp_1</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Rate_1</td>
+<td class="org-left">Number (6,3)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Amount_1</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Code_2</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Tp_2</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Rate_2</td>
+<td class="org-left">Number (6,3)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Amount_2</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Code_3</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Tp_3</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Rate_3</td>
+<td class="org-left">Number (6,3)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Amount_3</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Code_4</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Tp_4</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Rate_4</td>
+<td class="org-left">Number (6,3)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Amount_4</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Net_Charge_Lc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Tax_Amount_Lc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Gross_Amt_Lc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Net_Charge_Sdr</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Tax_Amount_Sdr</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Gross_Amt_Sdr</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Cross_Rate</td>
+<td class="org-left">Number (11,6)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Service_Type</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Norm_Src_Number</td>
+<td class="org-left">Char (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Norm_Dest_Number</td>
+<td class="org-left">Char (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dest_Number</td>
+<td class="org-left">Char (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Call_Direction</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Country_Code</td>
+<td class="org-left">Char (3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Orig_Province</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Term_Province</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Home_Province</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Event_End_Datetime</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Net_Rec_Entity_Id</td>
+<td class="org-left">Varchar2 (50 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Net_Loc_Area_Code</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Geo_Serv_Bid</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Geo_Serv_Loc_Desc</td>
+<td class="org-left">Varchar2 (30 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Equipment_Id</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Bearer_Serv_Code</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tele_Serv_Code</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Supp_Service</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Call_Tp_Level_1</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Call_Tp_Level_2</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Call_Tp_Level_3</td>
+<td class="org-left">Char (4 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Camel_Serv_Level</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Camel_Serv_Key</td>
+<td class="org-left">Varchar2 (10 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Camel_Invoc_Fee</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Camel_Dflt_Hndl</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Camel_Dest_Num</td>
+<td class="org-left">Char (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Camel_Cse_Info</td>
+<td class="org-left">Char (40 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Home_Bid</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Cell_Id</td>
+<td class="org-left">Varchar2 (10 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Utc_Offset</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rec_Entity_Tp</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Chrg_Id</td>
+<td class="org-left">Varchar2 (10 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Src_Number</td>
+<td class="org-left">Char (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Pdp_Address</td>
+<td class="org-left">Varchar2 (50 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ggsn_Address</td>
+<td class="org-left">Varchar2 (50 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Gprs_Dest_Apn_Ni</td>
+<td class="org-left">Varchar2 (64 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Gprs_Dest_Apn_Oi</td>
+<td class="org-left">Varchar2 (38 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Data_Vol_Incoming</td>
+<td class="org-left">Varchar2 (12 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Data_Vol_Outgoing</td>
+<td class="org-left">Varchar2 (12 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Termination_Cause</td>
+<td class="org-left">Varchar2 (8 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Partial_Type_Ind</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Imsi</td>
+<td class="org-left">Varchar2 (15 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Msisdn</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Disp_File_Seq</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Net_Sgsnid</td>
+<td class="org-left">Varchar2 (50 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Future</td>
+<td class="org-left">Varchar2 (100 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Amount_1_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Amount_2_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Amount_3_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Amount_4_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Net_Charge_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Tax_Amount_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Gross_Amt_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Net_Charge_Lc1</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Tax_Amount_Lc1</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tot_Gross_Amt_Lc1</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Au_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Usg_Net_Charge_Lc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Usg_Net_Charge_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Usg_Net_Charge_Sdr</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Acc_Net_Charge_Lc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Acc_Net_Charge_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Acc_Net_Charge_Sdr</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tap_Out_File_Name</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rap_File_Seq</td>
+<td class="org-left">Number (5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Taxable_Amount1</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Taxable_Amount2</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Taxable_Amount3</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Taxable_Amount4</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tenant_Cd</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Network_Element_Type</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Network_Element_Id</td>
+<td class="org-left">Char (50 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Chr_Prt_Pub_User_Id</td>
+<td class="org-left">Char (64 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Non_Chr_Prt_Pub_User_Id</td>
+<td class="org-left">Char (64 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Event_Reference</td>
+<td class="org-left">Char (64 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sim_Toolkit_Ind</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Message_Event_Service</td>
+<td class="org-left">Char (17 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ods_Insert_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ods_Last_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>
+</richcontent>
+</node>
+<node ID="sec-7-4-13" CREATED="1553536041460" MODIFIED="1553536041460" COLOR="#990000"><richcontent TYPE="NODE">
+
+<html>
+<head>
+</head>
+<body>
+<p>PRM_ROM_INCOL_EVENTS_AP
+</p>
+</body>
+</html>
+</richcontent>
+<font NAME="SansSerif" SIZE="14"/>
+<richcontent TYPE="NOTE">
+
+<html>
+<head>
+</head>
+<body>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Column Name</b></th>
+<th scope="col" class="org-left"><b>Data Type</b></th>
+<th scope="col" class="org-left"><b>Description</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Edr_Id</td>
+<td class="org-left">Number (11)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Generated_Rec</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rerate_Cnt</td>
+<td class="org-left">Number (3)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Creation_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sys_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Operator_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Application_Id</td>
+<td class="org-left">Char (6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Service_Code</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Dl_Update_Stamp</td>
+<td class="org-left">Number (4)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Record_Type</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tap_In_File_Name</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tap_In_File_Seq_Number</td>
+<td class="org-left">Number (5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tadig_File_Type</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Record_Position</td>
+<td class="org-left">Varchar2 (6 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Charge_Type</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Charge_Parameter</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Uom</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Charge_Amount</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Charge_Amount_Rc</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Charge_Amount_Sdr</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Currency_Code</td>
+<td class="org-left">Char (3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rap_File_Sequence</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Carrier_Cd</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Service_Type</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Normalized_Calling_Number</td>
+<td class="org-left">Char (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Normalized_Called_Number</td>
+<td class="org-left">Char (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Call_Direction</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Country_Code</td>
+<td class="org-left">Char (3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Serving_Bid</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Event_Start_Date_Time</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Process_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Bp_Start_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Bp_End_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Local_Currency</td>
+<td class="org-left">Char (3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Rating_Curr</td>
+<td class="org-left">Char (3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Exchange_Rate</td>
+<td class="org-left">Number (18,5)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Call_Type_Level_1</td>
+<td class="org-left">Char (3 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Call_Type_Level_2</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Call_Type_Level_3</td>
+<td class="org-left">Varchar2 (11 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tax_Type</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Future_Buff</td>
+<td class="org-left">Varchar2 (443 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Au_Id</td>
+<td class="org-left">Number (9)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Teleservicecode</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Supp_Serv_Cd</td>
+<td class="org-left">Char (2 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Validation_Sts</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Aprm_Edr_Id</td>
+<td class="org-left">Number (20)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Orig_Brok_Filename</td>
+<td class="org-left">Varchar2 (24 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">File_Avail_Ts</td>
+<td class="org-left">Char (14 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">File_Avail_Ts_Offst</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Transcut_Ts</td>
+<td class="org-left">Char (14 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Transcut_Ts_Offst</td>
+<td class="org-left">Char (5 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Tenant_Cd</td>
+<td class="org-left">Varchar2 (20 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Network_Element_Type</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Network_Element_Id</td>
+<td class="org-left">Char (50 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Chr_Prt_Pub_User_Id</td>
+<td class="org-left">Char (64 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Non_Chr_Prt_Pub_User_Id</td>
+<td class="org-left">Char (64 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Event_Reference</td>
+<td class="org-left">Char (64 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Sim_Toolkit_Ind</td>
+<td class="org-left">Char (1 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Message_Event_Service</td>
+<td class="org-left">Char (17 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Mobile_Session_Service</td>
+<td class="org-left">Char (17 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Non_Chrg_Party_Num</td>
+<td class="org-left">Char (17 Byte)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ods_Insert_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Ods_Last_Update_Date</td>
+<td class="org-left">Date</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<div class="figure">
+<p><img src="Pictures/shahn.jpg" alt="shahn.jpg" />
+</p>
+</div>
 </body>
 </html>
 </richcontent>

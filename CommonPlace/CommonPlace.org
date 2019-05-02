@@ -5019,7 +5019,6 @@ CD    6. No additional details needed
     At this point the big issue is that we can't distinquesh between 4 and 5G. So until that is fixed 5G will come in as 4G. Another issue is the switchwing between the feeds 
     which could create thousands of records per session. The current plan is to combine these records before being sent to TOPS.
     
-
 ** TODO Verizon LTE/VoLTE Outbound roaming
    DEADLINE: <2019-07-16 Tue>   
 *** Project Manager
