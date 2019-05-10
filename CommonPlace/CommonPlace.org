@@ -5144,22 +5144,8 @@ CD    6. No additional details needed
     Discussion underway to track IS development for Acme/iOS and Android separately. Amdocs targeting PI29 and August release 
     for the Acme provisioning. Nokia projecting 4/30 to provide USCC with Android provisioning specs. Non-Provisioning IA and E3 are complete.
 
-** TODO Sunset Consolidated Billing [80%]
-   1. [X] See who is still on TDS
-   2. [X] Get contact information
-   3. [X] Operational procedures for cutover
-   4. [X] Shutoff MobileSense
-   5. [ ] odds and ends
-
-** TODO SPLUNK Desktop
-   - [ ] Where is Splunk?
-     - Do we have access (mdr01oprmn
-     - what access user will we be?
-   - [ ] What do we want monitor
-     - Try different types
-
 ** TODO PCRF Forklift
-   DEADLINE: <2019-05-01 Wed>--<2019-06-30 Sun>
+   DEADLINE: <2019-06-30 Sun>
    
 *** Project Description
    *PCRF - Policy and Charging Rules Function* works along side  
@@ -5187,12 +5173,12 @@ CD    6. No additional details needed
 *** TODO Fraud
 *** Credit Decisioning
     [[file:docs/CDC_Operational%20Support%20Guide%20-%20v1.0.pdf][Operational Support Guide]]
-**** Go Live March 7th
-**** Archetecture
-**** TODO What machine does the OSB reside??? 
-**** TODO Is Splunk the only way to read the logs
-**** TODO Where are the reports kept
-**** TODO Find those OSB Query's
+**** Architecture
+**** TODO Unanswered questions [0%]
+     - [ ] What machine does the OSB reside???
+     - [ ] Is Splunk the only way to read the logs
+     - [ ] Where are the reports kept
+     - [ ] Find those OSB Query's
 ***** Connection String
       - Connection Name :: PROD ESB DB
       - Username :: FES_SUPPORT_READ
@@ -5200,7 +5186,7 @@ CD    6. No additional details needed
       - Hostname :: besbprd.uscc.com
       - Port :: 1530
       - Service Name :: besbprd_esb
-**** TODO Log into the Tops Databases.
+**** Log into the Tops Databases.
 ***** TABLE_CCLASS_IN
       Main table for current credit for a customer. Need
       to use *Active_Crdt2customer* value and look up
@@ -5242,14 +5228,12 @@ CD    6. No additional details needed
      | X_Status                | Varchar2 (1 Byte)  |               |
      |-------------------------+--------------------+---------------|
 ** TODO Usage Playbook
-   SCHEDULED: <2019-03-25 Mon>--<2019-12-31 Tue>
+   DEADLINE: <2019-12-31 Tue>
    
-** TODO CDP Replacement - Billing PoC
-*** Project Manager
-    /None/
-*** Project Description
-    Getting a new CDP feed from another vendor. 
 ** TODO Come up with GitHUB document for Collabortive Process
+** TODO Finish new EPS Monitors for Data 
+** TODO Come up with documentation standards
+** TODO Knowledge Transfer for usage.pl
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

@@ -4266,3 +4266,49 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_ITAGS: noexport
   :END:
 
+
+* DONE Sunset Consolidated Billing [80%]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 14:33
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport
+  :END:
+  1. [X] See who is still on TDS
+  2. [X] Get contact information
+  3. [X] Operational procedures for cutover
+  4. [X] Shutoff MobileSense
+  5. [ ] odds and ends
+
+
+* TODO SPLUNK Desktop
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 14:33
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+  - [ ] Where is Splunk?
+    - Do we have access (mdr01oprmn
+    - what access user will we be?
+  - [ ] What do we want monitor
+    - Try different types
+
+
+* TODO CDP Replacement - Billing PoC
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 14:34
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+** Project Manager
+   /None/
+** Project Description
+   Getting a new CDP feed from another vendor. 

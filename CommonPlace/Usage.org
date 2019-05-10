@@ -53,9 +53,6 @@ file:Pictures/Andrejevi1.jpg
 \pagenumbering{arabic}
 #+END_LaTeX 
 * Usage Overview
-
-  [[file:Pictures/usage_flow.jpg]]
-
    Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
    in two ways, *Voice* and *Data*.\\
 
@@ -1163,7 +1160,6 @@ subgraph cluster_3 {
 | Eng_Priority           | Number(1,0)        |             |
 |------------------------+--------------------+-------------|
 
-
 * TurboCharging
    The most important /sub-system/ in *TOPS*. It is here that all usage is guided and rated.
 \\
@@ -1339,7 +1335,6 @@ subgraph cluster_3 {
             -  U = Collection Suspend
             -  L = Collection Canceled
             -  D = Collection Suspend
-
 
 *** APE1_RATED_EVENT
          Where all the rateable events are contained. Most data inquires

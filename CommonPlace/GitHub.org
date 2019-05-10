@@ -1,0 +1,82 @@
+Collaboration tools with GitHub
+
+From this point forward whenever we need to add something to GitHub
+It is always a good practice to have someone check your work. With USCC going Agile 
+The following is a procedure on how to use the GitHubs collaboration tools.
+For there original code input it would be best to use the Git command line.
+
+Go to the USCC GITHUB site 
+
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/git1.jpg]]
+
+
+Go to the repository and directory you wish to place or update the file.
+
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/git2.jpg]]
+
+
+List of the collaboration tools in GitHub
+How to Checkout
+
+When to clone and when to checkout
+
+Part of Agile is to evolve the processes not to carve anything to be carved in stone but to evolve the process as more information becomes available.
+That is why we will start using GitHUb a productive way to change control. One thing I like is the mixture of collaborative tools, the WIKI for instance and code review.
+
+On the left hand corner is where you can find a repositories
+go to the repository of choice and when you want to check in 
+
+code... It is here you can go through the source tree and look at the various 
+Issues.. You can create issue assign it to whatever
+
+Pull Request.. For code reviews this is where you can look at the reviews, comments, whatever 
+- Check in the Code
+
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/git3.jpg]] (could be replaced by 4)
+
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/git4.jpg]] 
+
+
+
+Create Pull Request
+
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/git5.jpg]]
+
+
+- Assigners
+  An assigner is the person who is in charge of this change
+- Appoint reviewers
+  A reviewer is someone who will review the code.
+- make a comment
+
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/git7.jpg]]
+
+  - Make a comment within the code
+
+#+ATTR_LaTeX: :width 16cm
+    [[file:Pictures/git8.jpg]]
+
+- Merge
+#+ATTR_LaTeX: :width 16cm
+[[file:Pictures/git6.jpg]]
+
+
+
+Projects... You define projects
+
+Wiki... Use markdown / markup language
+
+Insights is an overview of all activity for this repository.
+
+Settings define the overall settings for the repository
+
+
+
+
+
