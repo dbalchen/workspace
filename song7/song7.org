@@ -1,6 +1,6 @@
 /*
 * Notes
-
+** Key
 | a  | 0 |
 | b  | 1 |
 | c# | 2 |
@@ -9,489 +9,147 @@
 | f# | 5 |
 | g# | 6 |
 
+|----+----+----+----+----|
+| a  |  9 |  0 |  0 |  1 |
+| b  | 11 |  2 |  1 |  2 |
+| c# |  1 |  4 |  2 |  3 |
+| d  |  2 |  5 |  3 |  4 |
+| d# |  3 |  6 | #3 | #4 |
+| e  |  4 |  7 |  4 |  5 |
+| f  |  5 |  8 | b5 | b6 |
+| f# |  6 |  9 |  5 |  6 |
+| g  |  7 | 10 | b6 | b7 |
+| g# |  8 | 11 |  6 |  7 |
+|----+----+----+----+----|
+
+
+** 
+|----+----+----+----+----+----+----+----|
+|    |  8 |  9 | 11 |  1 |  2 |  4 |  6 |
+|----+----+----+----+----+----+----+----|
+|  8 |  0 |  1 |  3 |  5 |  6 |  8 | 10 |
+|  9 | 11 |  0 |  2 |  4 |  5 |  7 |  9 |
+| 11 |  9 | 10 |  0 |  2 |  3 |  5 |  7 |
+|  1 |  7 |  8 | 10 |  0 |  1 |  3 |  5 |
+|  2 |  6 |  7 |  9 | 11 |  0 |  2 |  4 |
+|  4 |  4 |  5 |  7 |  9 | 10 |  0 |  2 |
+|  6 |  2 |  3 |  5 |  7 |  8 | 10 |  0 |
+|----+----+----+----+----+----+----+----|
+
+** T-Matrix A Based
+|----+----+----+----+----+----+----+----|
+|    | 11 |  0 |  2 |  4 |  5 |  7 |  9 |
+|----+----+----+----+----+----+----+----|
+| 11 |  3 |  4 |  6 |  8 |  9 | 11 |  1 |
+|  0 |  2 |  3 |  5 |  7 |  8 | 10 |  0 |
+|  2 |  0 |  1 |  3 |  5 |  6 |  8 | 10 |
+|  4 | 10 | 11 |  1 |  3 |  4 |  6 |  8 |
+|  5 |  9 | 10 |  0 |  2 |  3 |  5 |  7 |
+|  7 |  7 |  8 | 10 |  0 |  1 |  3 |  5 |
+|  9 |  5 |  6 |  8 | 10 | 11 |  1 |  3 |
+|----+----+----+----+----+----+----+----|
+
+
+* Track Class
+
+// =====================================================================
+// MyTrack Class
+// =====================================================================
+
 */
-/*
+
+MyTrack {
+  var <>notes = nil,     <>synth = nil, <>out = 0,
+    <>chan = 0,  <>balance = 0, <>spread = 0,
+    <>amp = 1.0, <>transport = nil,
+    <>volCC,<>ballCC;
+
+  *new {arg syn,chn = 0, nts = nil;
+    ^super.new.init(syn,chn,nts);
+  }
+
+  init {arg syn,chn,nts;
+
+    chan = chn;
+
+    if(nts == nil,
+      {
+	notes = MyNotes.new;
+	notes.init;
+      });
+
+    synth = syn;
+    this.setup();
+  }
+
+
+  setup {
+
+    if(transport != nil,
+      {transport.stop;transport = nil; });
+
+    transport = Pbind(\type, \midi,
+		      \midiout, synth,
+		      \midicmd, \noteOn,
+		      \note,  Pfunc.new({notes.freq.next}- 60),
+		      \amp, amp,
+		      \chan, chan,
+		      \sustain, Pfunc.new({notes.duration.next}),
+		      \dur, Pfunc.new({notes.wait.next})
+		      ).play;
+
+    transport.stop;
+
+    volCC = MIDIdef.cc(\volume, this.ccvolume, 7,chan);
+
+    ballCC.free;
+    ballCC = MIDIdef.cc(\pan, this.ccpan,10);
+    
+  }
+
+  ccvolume {
+    arg vol,cc,chan,src;
+    vol = vol/127;
+    vol.postln;
+
+    synth.amp = vol;
+
+  }
+
+  ccpan {
+    arg vol,cc,chan,src;
+    vol = (2*(vol/127))-1;
+
+    vol.postln;
+
+    synth.balance = vol;
+  }
+
+
+}
+
+
+
 
 /*
 * SuperCollider
 */
-** SuperCollider Init
-*/
-Help.gui
-Quarks.gui
-
-s.boot; 
-s.plotTree;
-s.meter;
-s.quit;
-
-Stethoscope.new(s);
-FreqScope.new(800, 400, 0, server: s);
-Server.default.makeGui;
-
-
-(
- o = Server.local.options;
- o.numOutputBusChannels = 24; // The next time it boots, this will take effect
- o.memSize = 2097152;
- )
-
-"/home/dbalchen/Music/setup.sc".load;
-
-/*
-** Basic SynthDef
+** [[file:include/superInit.sc][SuperColliderInit]]
 */
 
-SynthDef("BasicSynth" { arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0
-      spread = 1, balance = 0, hpf = 128;
-
-
-    var sig;
-
-    sig = HPF.ar(sig,hpf);
-	
-    sig = LeakDC.ar(sig);
-	
-    sig = Splay.ar(sig,spread,center:balance);
-
-    Out.ar(out,sig * amp);
-
-  }).send(s);
 /*
-*** Midi Setup
+** [[file:include/synths/basic.sc][Basic SynthDef]]
 */
-
-~channel0 = {arg num, vel = 1;
-	     var ret;
-	     num.postln;
-	     ret = Synth("BasicSynth");
-	     ret.set(\freq,num.midicps);
-	     ret.set(\gate,1);
-	     ret;
-};
-
-
 /*
-** evenVCO
+** [[file:include/synths/evenVCO.sc][evenVCO]]
+** [[file:include/synths/mono_evenVCO.sc][Mono evenVCO]]
+** [[file:include/synths/eCello.sc][eCello]]
  */
 
 
-"/home/dbalchen/Music/MuscleBone/include/synths/envelopes.sc".load;
-"/home/dbalchen/workspace/SuperCollider/makeWaveTable.sc".load;
-
 /*
-*** Sample Directory
-[[file+emacs:/home/dbalchen/workspace/cleanLead/samples/][The chosen Ones ]]
+** [[file:include/synths/mono_eCello.sc][Mono_eCello]]
 
-*/
-
-~even0  = ~makeWav.value("/home/dbalchen/Music/song7/include/samples/04-EVCO.wav");
-~even0  = ~makeWav.value("/home/dbalchen/Music/Samples/wavetables/AKWF_0002/AKWF_0170.wav");
-
-*** mosc
-*/
-
-
-SynthDef("mosc", {
-    arg ss, freq = 55, out = 0, amp = 0.5, lagt = 0, da = 2, gate = 0,
-      attack = 0.2, decay = 0.5, sustain = 1, release = 0.5,
-      fattack = 0.2, fdecay = 0.5,fsustain = 1, frelease = 0.5, aoc = 1,
-      gain = 1, cutoff = 5000.00,
-      spread = 1, balance = 0, hpf = 128;
-
-    var sig, env, fenv;
-
-    env = Env.adsr(attack,decay,sustain,release);
-    env = EnvGen.kr(env, gate: gate, doneAction:da);
-
-    fenv = Env.adsr(fattack,fdecay,fsustain,frelease);
-    fenv = EnvGen.kr(fenv, gate,doneAction:da);
-    fenv = aoc*(fenv - 1) + 1;
-
-    freq = Lag.kr(freq,lagt);
-	//    freq = {freq * LFNoise2.kr(1.5,0.003,1)}!3;
-
-    sig = Osc.ar(ss,freq,0,mul:env*amp);
-
-    sig = MoogFF.ar
-      (
-       sig,
-       cutoff*fenv,
-       gain
-       );
-
-    sig = HPF.ar(sig,hpf);
-	
-    sig = LeakDC.ar(sig);
-	
-    sig = Splay.ar(sig,spread,center:balance);
-
-    Out.ar(out,sig * amp);
-
-  }).send(s);
-
-/*
-**** Setup midi channel mosc
-*/
-~channel0 = {arg num, vel = 1;
-	     var ret;
-	     num.postln;
-	     ret = Synth("mosc");
-	     ret.set(\ss,~even0);
-	     ret.set(\freq,num.midicps);
-	     ret.set(\gate,1);
-	     ret;
-};
-
-/*
-
-*** moscMono
-*/
-
-SynthDef(\moscMono, {arg ss, 
-      freq = 110, out = 0, amp = 0.5, aoc = 1.0,
-      vcfIn = 999, vcaIn = 999,cutoff = 15000, gain = 0.7,
-      release = 0.3, bend =0,hpf = 120, mul = 1,
-      lagtime = 0, spread = 1, balance = 0, gate = 0;
-
-    var sig,fenv, env;
-
-    release = release - 0.019;
-	
-    env = Env.new([0,0,1,0],[0.000001,0,release],0,2);
-    env = EnvGen.kr(env, gate);
-
-    fenv = In.kr(vcfIn);
-    fenv = aoc*((fenv - 1) + 1);
-
-    freq = Lag.kr(freq,lagtime);
-    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
-
-    sig = Osc.ar(ss,freq,0,mul:env*amp);
-
-    sig = BLowPass.ar
-      (
-       
-       sig,
-       cutoff*fenv,
-       gain
-       
-       );
-
-    sig = sig*((In.kr(vcaIn) - 1) + 1);
-
-    sig = LeakDC.ar(sig);
-
-    sig = HPF.ar(sig,hpf);
-
-    sig = Splay.ar(sig,spread,center:balance);
-    
-    Out.ar(out,amp*sig*env);
-  }
-  ).send(s);
-
-/*
-**** Setup midi for moscMono
-*/
-
-~moscMono = Synth("moscMono",addAction: \addToTail);
-~moscMono.set(\ss,~even0);
-~moscMono.set(\lagtime,0.2);
-
-~moscMono_vca_control_in = Bus.control(s, 1);
-~moscMono_vcf_control_in = Bus.control(s, 1);
-
-~moscMono.set(\vcfIn,~moscMono_vcf_control_in);
-~moscMono.set(\vcaIn,~moscMono_vca_control_in);
-
-~moscMono_vca_envelope = MyADSR.new;
-~moscMono_vca_envelope.init;
-~moscMono_vca_envelope.attack = 0.5;
-~moscMono_vca_envelope.decay = 1.5;
-~moscMono_vca_envelope.sustain = 0.7;
-~moscMono_vca_envelope.release = 0.2;
-
-~moscMono_vcf_envelope = MyADSR.new;
-~moscMono_vcf_envelope.init;
-~moscMono_vcf_envelope.attack = 0.5;
-~moscMono_vcf_envelope.decay = 2.5;
-~moscMono_vcf_envelope.sustain = 0.7;
-~moscMono_vcf_envelope.release = 0.4;
-
-
-
-/*
-
-  ~moscMono_vca_envelope.gui;
-  ~moscMono_vcf_envelope;
-  ~moscMono_vca_envelope;
-
-*/
-
-
-
-SynthDef(\mMosc, {arg num = 60,gate = 1;
-    var env = Env.asr(0,1,0);
-    var trig = EnvGen.kr(env, gate,doneAction:2);
-    SendReply.kr(trig, '/mMosc', num);
-  }).add;
-
-OSCdef(\mMosc, { |m|
-
-      var num = m[3].asInteger;
-
-    ~moscMono.set(\freq,num.midicps);
-    ~moscMono.set(\release,~moscMono_vca_envelope.release);
-
-    ~moscMono_fenv = Synth("myADSRk",addAction: \addToHead);
-    ~moscMono_fenv.set(\out,~moscMono_vcf_control_in);
-    ~moscMono_vcf_envelope.setADSR(~moscMono_fenv);
-	
-    ~moscMono_env  = Synth("myADSRk",addAction: \addToHead);
-    ~moscMono_vca_envelope.setADSR(~moscMono_env);
-    ~moscMono_env.set(\out,~moscMono_vca_control_in);
-
-    ~moscMono_env.set(\gate,1);
-    ~moscMono_fenv.set(\gate,1);
-    ~moscMono.set(\gate,1);
-
-
-  }, '/mMosc');
-
-~channel0 = {arg num, vel = 1;
-	     var ret;
-	     num.postln;
-
-	     ret = Synth("mMosc");
-	     ret.set(\num,num);
-	     ret.set(\gate,1);
-
-	     ret;
-};
-
-~channel0off = {arg num, vel = 1;
-		var ret = nil;
-
-		~moscMono_env.set(\gate,0);
-		~moscMono_fenv.set(\gate,0);
-		~moscMono.set(\gate,0);
-		ret;
-};
-
-
-/*
-*** vosc
-*/
-SynthDef("vosc", {
-    arg ss, freq = 55, out = 0, amp = 0.5, lagtime = 0, da = 2, gate = 0,
-      windex = 1,idx = 0.2,hpf = 128,bend = 0,
-      attack = 0.2, decay = 0.5, sustain = 1, release = 0.5,
-      fattack = 0.2, fdecay = 0.5,fsustain = 1, frelease = 0.5, 
-      aoc = 1, gain = 0.7,cutoff = 15000.00, spread = 0.0, balance = 0;
-
-    var sig, env, fenv;
-
-    windex = idx*(windex-1);
-
-    env = Env.adsr(attack,decay,sustain,release);
-    env = EnvGen.kr(env, gate: gate, doneAction:da);
-
-    fenv = Env.adsr(fattack,fdecay,fsustain,frelease);
-    fenv = EnvGen.kr(fenv, gate,doneAction:da);
-    fenv = aoc*(fenv - 1) + 1;
-	
-    freq = Lag.kr(freq,lagtime);
-	//    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
-
-    sig = VOsc.ar(ss+idx,freq,0,mul:env*amp);
-
-	/*
-    sig = BLowPass.ar
-      (
-       sig,
-       cutoff*fenv,
-       gain
-       );
-	*/
-	
-    sig = HPF.ar(sig,hpf);
-
-    sig = LeakDC.ar(sig);
-
-    sig = Splay.ar(sig,spread,center:balance);	
-
-    Out.ar(out,sig * amp);
-
-  }).send(s);
-
-/*
-
-****  Setup midi channel vosc
-*/
-~wavetables.free;
-~wavetables = ~fileList.value("/home/dbalchen/Music/song7/include/samples/");
-
-~windex = ~wavetables.size;
-
-~wavebuff = ~loadWaveTables.value(~wavetables);
-
-
-~channel0 = {arg num, vel = 1;
-	     var ret;
-	     num.postln;
-
-	     ret = Synth("vosc");
-
-	     ret.set(\ss,~wavebuff);
-	     ret.set(\freq,num.midicps);
-	     ret.set(\windex, ~windex);
-	     ret.set(\idx,0.0);
-	     ret.set(\gate,1);
-
-	     ret;
-};
-
-/*
-*** voscMono
-
-*/
-
-SynthDef("voscMono", {
-    arg ss, freq = 55, out = 0, amp = 0.5, lagtime = 0, windex = 1,idx = 0.25,
-      vcaIn = 9999, vcfIn = 9999,gate = 0,bend = 0,
-      aoc = 1, gain = 0.7, cutoff = 15000,hpf = 128, release = 0.3,
-      spread = 1, balance = 0;
-
-    var sig, env, fenv;
-
-    windex = idx*(windex-1);
-
-    release = release - 0.019;
-	
-    env = Env.new([0,0,1,0],[0.000001,0,release],0,2);
-    env = EnvGen.kr(env, gate);
-
-    fenv = In.kr(vcfIn);
-    fenv = aoc*((fenv - 1) + 1);
-
-    freq = Lag.kr(freq,lagtime);
-    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
-
-    sig = VOsc.ar(ss + windex,freq,0,mul:env);
-
-
-    sig = BLowPass.ar
-      (
-       sig,
-       cutoff*fenv,
-       gain
-       );
-
-
-    sig = sig*((In.kr(vcaIn) - 1) + 1);
-
-    sig = HPF.ar(sig,hpf);
-	
-    sig = LeakDC.ar(sig);
-
-    sig = Splay.ar(sig,spread,center:balance);
-
-    Out.ar(out,sig * amp);
-
-  }).send(s);
-
-/*
-**** voscMono midi setup
-*/
-
-~wavetables.free;
-~wavetables = ~fileList.value("/home/dbalchen/workspace/cleanLead/samples");
-~windex = ~wavetables.size;
-~wavebuff = ~loadWaveTables.value(~wavetables);
-
-
-~voscMono = Synth("voscMono",addAction: \addToTail);
-~voscMono.set(\cutoff,10038);
-~voscMono.set(\hpf,64);
-~voscMono.set(\aoc,0.4);
-~voscMono.set(\ss,~wavebuff);
-~voscMono.set(\windex, ~windex);
-~voscMono.set(\idx,0.2);
-~voscMono.set(\lagtime, 0.3);
-
-~voscMono_vca_control_in = Bus.control(s, 1);
-~voscMono_vcf_control_in = Bus.control(s, 1);
-
-~voscMono.set(\vcfIn,~voscMono_vcf_control_in);
-~voscMono.set(\vcaIn,~voscMono_vca_control_in);
-
-~voscMono_vca_envelope = MyADSR.new;
-~voscMono_vca_envelope.init;
-~voscMono_vca_envelope.attack = 0.5;
-~voscMono_vca_envelope.decay = 1.5;
-~voscMono_vca_envelope.sustain = 0.7;
-~voscMono_vca_envelope.release = 0.2;
-
-~voscMono_vcf_envelope = MyADSR.new;
-~voscMono_vcf_envelope.init;
-~voscMono_vcf_envelope.attack = 0.5;
-~voscMono_vcf_envelope.decay = 2.5;
-~voscMono_vcf_envelope.sustain = 0.7;
-~voscMono_vcf_envelope.release = 0.4;
-
-
-SynthDef(\voscmono, {arg num = 60,gate = 1;
-    var env = Env.asr(0,1,0);
-    var trig = EnvGen.kr(env, gate,doneAction:2);
-    SendReply.kr(trig, '/voscmono', num);
-  }).add;
-
-OSCdef(\voscmono, { |m|
-
-      var num = m[3].asInteger;
-
-    ~voscMono.set(\freq,num.midicps);
-    ~voscMono.set(\release,~voscMono_vca_envelope.release);
-	
-    ~voscMono_fenv = Synth("myADSRk",addAction: \addToHead);
-    ~voscMono_fenv.set(\out,~voscMono_vcf_control_in);
-	
-    ~voscMono_vcf_envelope.setADSR(~voscMono_fenv);
-
-    ~voscMono_env  = Synth("myADSRk",addAction: \addToHead);
-    ~voscMono_env.set(\out,~voscMono_vca_control_in);
-    ~voscMono_vca_envelope.setADSR(~voscMono_env);
-
-    ~voscMono_env.set(\gate,1);
-    ~voscMono_fenv.set(\gate,1);
-    ~voscMono.set(\gate,1);
-
-
-  }, '/voscmono');
-
-
-
-~channel0 = {arg num, vel = 1;
-	     var ret;
-	     num.postln;
-
-	     ret = Synth("voscmono");
-	     ret.set(\num,num);
-	     ret.set(\gate,1);
-
-	     ret;
-};
-
-~channel0off = {arg num, vel = 1;
-		var ret = nil;
-
-		~voscMono_env.set(\gate,0);
-		~voscMono_fenv.set(\gate,0);
-		~voscMono.set(\gate,0);
-		ret;
-};
-
-/*
 ** FM
 
 */
@@ -506,10 +164,10 @@ OSCdef(\voscmono, { |m|
 (
 SynthDef("sadSax",
 	{
-		arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,hpf = 20,
-		attack = 0.5, decay = 2.0, sustain = 0.0, release = 0.6,
-		fattack = 0.5,fdecay = 0.5, fsustain = 0.8,
-		frelease = 0.6, aoc = 0.9, gain = 0.7, cutoff = 5200.00,
+		arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,hpf = 590,
+		attack = 0.5, decay = 2.0, sustain = 0.0, release = 0.2,
+		fattack = 0.5,fdecay = 2.0, fsustain = 0.0,
+		frelease = 0.1, aoc = 0.7, gain = 1, cutoff = 12200.00,
 		bend = 0, spread = 1, balance = 0;
 
 		var env, fenv, op1, op2, op3, op4, op5, op6,
@@ -523,18 +181,8 @@ SynthDef("sadSax",
 		fenv = EnvGen.kr(fenv, gate);
 
 		fenv = aoc*(fenv - 1) + 1;
-
-		//		freq = {freq * LFNoise2.kr(2.5,0.01,1)}!2;
-		/*
-		tmp = MouseX.kr(0,10);
-		fb4 = FbNode(1);
-		op4 = 0.7*(SinOsc.ar((freq+tmp)*1.0,fb4, mul: env));
-		fb4.write((0.47*Saw.ar(freq+tmp)) + op4);
-
-		fb3 = FbNode(1);
-		op3 = 0.95*SinOsc.ar((freq+tmp)*1,(fb3) + (op4), mul: env);
-		fb3.write((0.01*Saw.ar(freq+tmp)) + op3);
-		*/
+	    freq = {freq * LFNoise2.kr(2.5,0.01,1)}!1;
+		
 		fb2 = FbNode(1);
 		op2 = 0.7*(SinOsc.ar(freq*1.0,fb2, mul: env));
 		fb2.write((0.47*Saw.ar(freq)) + op2);
@@ -543,19 +191,16 @@ SynthDef("sadSax",
 		op1 = 0.95*SinOsc.ar(freq*1,(fb1) + (op2), mul: env);
 		fb1.write((0.01*Saw.ar(freq)) + op1);
 
-		sig = (op1);// + (0.5*op3);
+		sig = (op1);
+		
+	sig = MoogFF.ar
+	(
+		sig,
+		cutoff*fenv,
+		gain
+	);
 
-		sig = RLPF.ar
-		(
-			sig,
-			cutoff*fenv,
-			gain
-		);
-
-		//		sig = DelayL.ar(sig, 0.2, 0.3,1,sig);
 		sig = HPF.ar(sig,hpf);
-
-		sig = FreeVerb.ar(sig,0.33,0.7); // fan out...
 
 		sig = LeakDC.ar(sig);
 
@@ -590,10 +235,10 @@ SynthDef("sadSax",
 
 SynthDef("frenchHorn",
 	  {
-	    arg out = 0, freq = 110, gate = 0, amp = 0.50, da = 2,hpf = 20,
+	    arg out = 0, freq = 110, gate = 0, amp = 0.250, da = 2,hpf = 20,
 	        attack = 0.2, decay = 8.0, sustain = 0.6, release = 0.6,
 	        fattack = 0.2,fdecay = 8.0, fsustain = 0.8,frelease = 0.6,
-	        aoc = 0.9,gain = 0.7, cutoff = 5200.00,
+	        aoc = 0.9,gain = 0.7, cutoff = 10200.00,
 	        bend = 0, spread = 0, balance = 0;
 	
 	    var sig, fb1, op1, op2, op3, env, fenv,tmp;
@@ -755,39 +400,32 @@ s.queryAllNodes;
 
 )
 
-/*
+*/
 /*
 ** Formants
 */
 
 SynthDef("formant", {
     arg freq = 55, out = 0, amp = 0.5, da = 2, gate = 0,
-      spread = 1, balance = 0, hpf = 156,bend = 0,
-      attack = 0.5, decay = 0.750, sustain = 0.25, release = 0.1,
-      fattack = 0.5, fsustain = 0.25,gain = 2,
-      frelease = 0.1, aoc = 0.6, cutoff = 7400.00;
+      spread = 1, balance = 0, hpf = 420,bend = 0,
+      attack = 1, decay = 2.50, sustain = 0.4, release = 0.75,
+      fattack = 1, fdecay= 2.5,fsustain = 0.4,gain = 1,
+      frelease = 0.5, aoc = 0.5, cutoff = 1500.00;
 
     var sig,sig2, env,fenv,  fb1, freq2;
 
-    env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+    env  = Env.adsr(attack,decay,sustain,release);
 	
-    fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
+    fenv = Env.adsr(fattack,fdecay,fsustain,frelease);
     fenv = EnvGen.kr(fenv, gate: gate,doneAction:da);
     fenv = aoc*(fenv - 1) + 1;
 
-	freq2 = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!8;
-    freq = {freq  * bend.midiratio * LFNoise2.kr(1.0,0.0035,1)}!2;
+	//    freq = {freq  * bend.midiratio * LFNoise2.kr(1.0,0.0035,1)}!1;
 
     fb1 = FbNode(1);
     sig = Formant.ar(freq, freq*3, freq*3.75) + (0.15*fb1);
 	
     fb1.write(sig);
-
-	//    sig = LPF.ar((0.15 * SawDPW.ar(freq))  + sig,800);
-
-	    sig2 = (0.55 * SawDPW.ar(freq2));
-
-	sig = Mix([sig2,sig]);
 	
     sig = sig*EnvGen.kr(env, gate: gate,doneAction:da);
 	
@@ -827,6 +465,7 @@ SynthDef("formant", {
 ~channel0off = {arg num,vel;^nil;};
 
 ** Read Midi file
+   SCHEDULED: <2019-05-07 Tue>
  */
 /* Sébastien Clara - Janvier 2016
 

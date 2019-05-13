@@ -367,3 +367,388 @@ Pdef(\dfam_play, Ppar([
 */
 
 /*
+
+* mosc
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-04-14 Sun 19:09
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: SuperCollider/[[file:include/synths/evenVCO.sc][evenVCO]]
+  :ARCHIVE_CATEGORY: song7
+  :END:
+*/
+
+~even0  = ~makeWav.value("/home/dbalchen/Music/song7/include/samples/07-EVCO.wav");
+~even0  = ~makeWav.value("/home/dbalchen/Desktop/SoloCello.wav");
+
+
+SynthDef("mosc", {
+arg ss, freq = 55, out = 0, amp = 0.5, lagt = 0, da = 2, gate = 0,
+	attack = 1.5, decay = 2.5, sustain = 0.4, release = 0.75,
+	fattack = 1.5, fdecay = 2.5,fsustain = 0.4, frelease = 0.5,
+     aoc = 0,
+      gain = 0.5, cutoff = 8000.00,
+      spread = 1, balance = 0, hpf = 0;
+
+    var sig, env, fenv;
+
+    env = Env.adsr(attack,decay,sustain,release);
+    env = EnvGen.kr(env, gate: gate, doneAction:da);
+
+    fenv = Env.adsr(fattack,fdecay,fsustain,frelease);
+    fenv = EnvGen.kr(fenv, gate,doneAction:da);
+    fenv = aoc*(fenv - 1) + 1;
+
+    freq = Lag.kr(freq,lagt);
+	//    freq = {freq * LFNoise2.kr(1.5,0.003,1)}!3;
+
+    sig = Osc.ar(ss,freq,0,mul:env*amp);
+
+    sig = MoogFF.ar
+      (
+       sig,
+       cutoff*fenv,
+       gain
+       );
+
+    sig = HPF.ar(sig,hpf);
+	
+    sig = LeakDC.ar(sig);
+	
+    sig = Splay.ar(sig,spread,center:balance);
+
+    Out.ar(out,sig * amp);
+
+  }).send(s);
+
+/*
+** Setup midi channel mosc
+*/
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+	     ret = Synth("mosc");
+	     ret.set(\ss,~even0);
+	     ret.set(\freq,num.midicps);
+	     ret.set(\gate,1);
+	     ret;
+};
+
+/*
+
+
+* voscMono
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 07:50
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: SuperCollider
+  :ARCHIVE_CATEGORY: song7
+  :END:
+
+*/
+
+
+"/home/dbalchen/workspace/SuperCollider/makeWaveTable.sc".load;
+"/home/dbalchen/Music/song7/include/synths/envelopes.sc".load;
+
+SynthDef("voscMono", {
+    arg ss, freq = 55, out = 0, amp = 0.45, lagtime = 0, idx = 0.25,
+      vcaIn = 9999, vcfIn = 9999,gate = 0,bend = 0,
+      aoc = 1, gain = 0.7, cutoff = 15000,hpf = 128,
+      spread = 1, balance = 0;
+
+    var sig, env, fenv;
+
+    fenv = In.kr(vcfIn);
+    fenv = aoc*((fenv - 1) + 1);
+
+    freq = Lag.kr(freq,lagtime);
+    freq = {freq *  LFNoise2.kr(2.5,0.01,1)}!16;
+
+    sig = VOsc.ar(ss + idx,freq,0);
+	
+    sig = MoogFF.ar
+      (
+       sig,
+       cutoff*fenv,
+       gain
+       );
+	
+    sig = sig*((In.kr(vcaIn) - 1) + 1);
+
+    sig = HPF.ar(sig,hpf);
+	
+    sig = LeakDC.ar(sig);
+
+    sig = Splay.ar(sig,spread,center:balance);
+
+    Out.ar(out,sig * amp);
+
+  }).send(s);
+
+/*
+** voscMono midi setup
+*/
+
+~wavetables.free;
+~wavetables = ~fileList.value("/home/dbalchen/Music/song7/include/samples/evenVCO");
+~windex = ~wavetables.size;
+
+~wavebuff = ~loadWaveTables.value(~wavetables);
+
+
+
+~voscMono = Synth("voscMono",addAction: \addToTail);
+~voscMono.set(\cutoff,10038);
+~voscMono.set(\hpf,220);
+~voscMono.set(\aoc,0.6);
+~voscMono.set(\ss,~wavebuff);
+~voscMono.set(\windex, ~windex);
+~voscMono.set(\idx,0.6);
+~voscMono.set(\lagtime, 0.2);
+
+
+~voscMono_vca_control_in = Bus.control(s, 1);
+~voscMono_vcf_control_in = Bus.control(s, 1);
+
+~voscMono.set(\vcfIn,~voscMono_vcf_control_in);
+~voscMono.set(\vcaIn,~voscMono_vca_control_in);
+
+~voscMono_vca_envelope = MyADSR.new;
+~voscMono_vca_envelope.init;
+~voscMono_vca_envelope.attack = 1.5;
+~voscMono_vca_envelope.decay = 2.5;
+~voscMono_vca_envelope.sustain = 0.4;
+~voscMono_vca_envelope.release = 0.75;
+
+~voscMono_vcf_envelope = MyADSR.new;
+~voscMono_vcf_envelope.init;
+~voscMono_vcf_envelope.attack = 1.5;
+~voscMono_vcf_envelope.decay = 2.5;
+~voscMono_vcf_envelope.sustain = 0.4;
+~voscMono_vcf_envelope.release = 0.75;
+
+
+SynthDef(\voscmono, {arg num = 60,gate = 1;
+    var env = Env.asr(0,1,0);
+    var trig = EnvGen.kr(env, gate,doneAction:2);
+    SendReply.kr(trig, '/voscmono', num);
+  }).add;
+
+OSCdef(\voscmono, { |m|
+
+      var num = m[3].asInteger;
+
+    ~voscMono.set(\freq,num.midicps);
+	
+    ~voscMono.set(\release,~voscMono_vca_envelope.release);
+	
+    ~voscMono_fenv = Synth("myADSRk",addAction: \addToHead);
+    ~voscMono_fenv.set(\out,~voscMono_vcf_control_in);
+	
+    ~voscMono_vcf_envelope.setADSR(~voscMono_fenv);
+
+    ~voscMono_env  = Synth("myADSRk",addAction: \addToHead);
+    ~voscMono_env.set(\out,~voscMono_vca_control_in);
+    ~voscMono_vca_envelope.setADSR(~voscMono_env);
+
+    ~voscMono_env.set(\gate,1);
+    ~voscMono_fenv.set(\gate,1);
+    ~voscMono.set(\gate,1);
+
+
+  }, '/voscmono');
+
+
+
+~channel0 = {arg num, vel = 1;
+	     var ret,tdx;
+	     num.postln;
+	     tdx = (~wavetables.size/120)* num;
+	     ret = Synth("voscmono");
+	     ret.set(\num,num);
+	     ~voscMono.set(\idx,tdx);
+
+	
+	     ret.set(\gate,1);
+
+
+	
+
+	     ret;
+};
+
+~channel0off = {arg num, vel = 1;
+		var ret = nil,tdx = 0;
+
+		~voscMono_env.set(\gate,0);
+		~voscMono_fenv.set(\gate,0);
+		//		~voscMono.set(\gate,0);
+};
+
+
+
+~channel0 = {arg num, vel = 1;
+	     var ret,tidx;
+
+	     tidx = (~wavetables.size/120)* num;
+	     ~voscMono.set(\freq,num.midicps);
+	     ~voscMono.set(\idx,tidx);
+	
+	     ~voscMono_fenv = Synth("myADSRk",addAction: \addToHead);
+	     ~voscMono_fenv.set(\out,~voscMono_vcf_control_in);
+	     ~voscMono_vcf_envelope.setADSR(~voscMono_fenv);
+
+	     ~voscMono_env  = Synth("myADSRk",addAction: \addToHead);
+	     ~voscMono_env.set(\out,~voscMono_vca_control_in);
+	     ~voscMono_vca_envelope.setADSR(~voscMono_env);
+
+	     ~voscMono_env.set(\gate,1);
+	     ~voscMono_fenv.set(\gate,1);
+	     ~voscMono.set(\gate,1);
+
+};
+
+/*
+
+* moscMono
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-05-09 Thu 07:52
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: SuperCollider
+  :ARCHIVE_CATEGORY: song7
+  :END:
+*/
+
+SynthDef(\moscMono, {arg ss, 
+      freq = 110, out = 0, amp = 0.5, aoc = 1.0,
+      vcfIn = 999, vcaIn = 999,cutoff = 15000, gain = 0.7,
+      release = 0.3, bend =0,hpf = 120, mul = 1,
+      lagtime = 0, spread = 1, balance = 0, gate = 0;
+
+    var sig,fenv, env;
+
+    release = release - 0.019;
+	
+    env = Env.new([0,0,1,0],[0.000001,0,release],0,2);
+    env = EnvGen.kr(env, gate);
+
+    fenv = In.kr(vcfIn);
+    fenv = aoc*((fenv - 1) + 1);
+
+    freq = Lag.kr(freq,lagtime);
+    freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!4;
+
+    sig = Osc.ar(ss,freq,0,mul:env*amp);
+
+    sig = BLowPass.ar
+      (
+       
+       sig,
+       cutoff*fenv,
+       gain
+       
+       );
+
+    sig = sig*((In.kr(vcaIn) - 1) + 1);
+
+    sig = LeakDC.ar(sig);
+
+    sig = HPF.ar(sig,hpf);
+
+    sig = Splay.ar(sig,spread,center:balance);
+    
+    Out.ar(out,amp*sig*env);
+  }
+  ).send(s);
+
+/*
+*** Setup midi for moscMono
+*/
+
+~moscMono = Synth("moscMono",addAction: \addToTail);
+~moscMono.set(\ss,~even0);
+~moscMono.set(\lagtime,0.2);
+
+~moscMono_vca_control_in = Bus.control(s, 1);
+~moscMono_vcf_control_in = Bus.control(s, 1);
+
+~moscMono.set(\vcfIn,~moscMono_vcf_control_in);
+~moscMono.set(\vcaIn,~moscMono_vca_control_in);
+
+~moscMono_vca_envelope = MyADSR.new;
+~moscMono_vca_envelope.init;
+~moscMono_vca_envelope.attack = 0.5;
+~moscMono_vca_envelope.decay = 1.5;
+~moscMono_vca_envelope.sustain = 0.7;
+~moscMono_vca_envelope.release = 0.2;
+
+~moscMono_vcf_envelope = MyADSR.new;
+~moscMono_vcf_envelope.init;
+~moscMono_vcf_envelope.attack = 0.5;
+~moscMono_vcf_envelope.decay = 2.5;
+~moscMono_vcf_envelope.sustain = 0.7;
+~moscMono_vcf_envelope.release = 0.4;
+
+
+
+/*
+
+  ~moscMono_vca_envelope.gui;
+  ~moscMono_vcf_envelope;
+  ~moscMono_vca_envelope;
+
+*/
+
+
+
+SynthDef(\mMosc, {arg num = 60,gate = 1;
+    var env = Env.asr(0,1,0);
+    var trig = EnvGen.kr(env, gate,doneAction:2);
+    SendReply.kr(trig, '/mMosc', num);
+  }).add;
+
+OSCdef(\mMosc, { |m|
+
+      var num = m[3].asInteger;
+
+    ~moscMono.set(\freq,num.midicps);
+    ~moscMono.set(\release,~moscMono_vca_envelope.release);
+
+    ~moscMono_fenv = Synth("myADSRk",addAction: \addToHead);
+    ~moscMono_fenv.set(\out,~moscMono_vcf_control_in);
+    ~moscMono_vcf_envelope.setADSR(~moscMono_fenv);
+	
+    ~moscMono_env  = Synth("myADSRk",addAction: \addToHead);
+    ~moscMono_vca_envelope.setADSR(~moscMono_env);
+    ~moscMono_env.set(\out,~moscMono_vca_control_in);
+
+    ~moscMono_env.set(\gate,1);
+    ~moscMono_fenv.set(\gate,1);
+    ~moscMono.set(\gate,1);
+
+
+  }, '/mMosc');
+
+~channel0 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+
+	     ret = Synth("mMosc");
+	     ret.set(\num,num);
+	     ret.set(\gate,1);
+
+	     ret;
+};
+
+~channel0off = {arg num, vel = 1;
+		var ret = nil;
+
+		~moscMono_env.set(\gate,0);
+		~moscMono_fenv.set(\gate,0);
+		~moscMono.set(\gate,0);
+		ret;
+};
+
+
+
+/*
