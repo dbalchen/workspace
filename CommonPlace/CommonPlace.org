@@ -5171,10 +5171,10 @@ CD    6. No additional details needed
 
 ** EAGR Project
 *** TODO Fraud
-*** Credit Decisioning
+*** TODO Credit Decisioning
     [[file:docs/CDC_Operational%20Support%20Guide%20-%20v1.0.pdf][Operational Support Guide]]
 **** Architecture
-**** TODO Unanswered questions [0%]
+**** Unanswered questions [0%]
      - [ ] What machine does the OSB reside???
      - [ ] Is Splunk the only way to read the logs
      - [ ] Where are the reports kept
@@ -5227,13 +5227,20 @@ CD    6. No additional details needed
      | X_Req_No_Lines          | Number             |               |
      | X_Status                | Varchar2 (1 Byte)  |               |
      |-------------------------+--------------------+---------------|
-** TODO Usage Playbook
+** TODO Usage Bible
    DEADLINE: <2019-12-31 Tue>
    
 ** TODO Come up with GitHUB document for Collabortive Process
 ** TODO Finish new EPS Monitors for Data 
 ** TODO Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
+** TODO Setup CallDump Server [16%]
+   - [X] Finish Server Doc
+   - [ ] Open ports request
+   - [ ] recompile applications
+   - [ ] copy files
+   - [ ] Setup Tomcat
+   - [ ] What about WEDO?
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

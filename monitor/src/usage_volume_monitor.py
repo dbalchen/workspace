@@ -23,7 +23,7 @@ def dbConnect ():
         'host': '10.176.199.19',  # info from tnsnames.ora
         'port': 1530,  # info from tnsnames.ora
         'user': 'md1dbal1',
-        'psw': 'Potat000#',
+        'psw': 'BooGoo9000#',
         'service': 'bodsprd_adhoc'  # info from tnsnames.ora
     }
     CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
@@ -147,6 +147,7 @@ def perDif (dval, iq0, iq3):
 
 def printIt (usage, usageType, payType): 
     
+    output = []
     subset = [x for x in results if x[2] == payType and x[6] == usageType]
     
     all_dates = sorted(set(map(lambda x:x[3], subset)))[-5:]
@@ -157,17 +158,35 @@ def printIt (usage, usageType, payType):
         
         inter = set(sorted(map(lambda x:x[3], ipList))).intersection(all_dates)
         
-        try :
+        try : 
             maxRecs = 10000*(max([x[4] for x in ipList if x[3] in inter]))
          
-            if((len(inter) >= 2) and (maxRecs > 100)) : # and (maxRecs >= 500)) :
+            if((len(inter) >= 2) and (maxRecs > 1000)) : # and (maxRecs >= 500)) :
             
-                print("YIP")
-          
+                bl = [''] * len(inter)
+                
+                home = [x for x in ipList if x[1] == "N"]
+                slist = analysis(home, 4)
+                slist2 = analysis(home, 5)   
+                             
+                tmp = (ip_number,round(10000*slist[1],2),round(10000 * slist[2],2),round(1024 * 1024 * slist2[1],2),round(1024 * 1024 * slist2[2],2))
+                
+                roam = [x for x in ipList if x[1]  == "Y"]
+                slist = analysis(roam, 4)
+                slist2 = analysis(roam, 5) 
+                   
+                output.append(tmp + ( round(10000*slist[1],2), round(10000 * slist[2],2), round(1024 * 1024 * slist2[1],2), round(1024 * 1024 * slist2[2],2)))
+                
+                for inte in sorted(inter):
+                    date_row_home = [x for x in home if x[3] == inte]
+                    date_row_roam = [x for x in roam if x[3] == inte]
+                
+                    tmp = ""
+                                
         except:pass   
     
          
-#        print("Yerp") 
+    return output
     
     
     
@@ -227,14 +246,6 @@ for ip_date in sorted(set(map(lambda x:x[3], results))):
     post4G.append(returnSums(results, ip_date, 'POST', '4G'))
 
 
-# low_dates = [x[0] for x in  pre3G if x[1] < home_desc[4]]
-# 
-# ip_by_date = [x for x in  results if x[3] in low_dates and x[2] == 'PRE' and x[6] == '3G' and x[1] == 'N']
-# 
-# for ip_number in sorted(set(map(lambda x:x[0], ip_by_date))):  
-#     get_ip  = [x for x in  results if x[0] == ip_number]
-
-
 # plotIt(pre3G, 1, "Pre-Paid 3G Data - Records", "Records / 10000", "pp3G_Records")
 # plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records")
 # plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
@@ -245,11 +256,15 @@ for ip_date in sorted(set(map(lambda x:x[3], results))):
 # plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume TB", "postp3G_Volume")
 # plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume TB", "postp4G_Volume")
 
-printIt(results,"3G","PRE")
+output = printIt(results,"3G","PRE")
+output = pd.DataFrame(output) 
+output.columns = ['','','','','','','','','']
+
+
+output = output.to_html("Test.html",index=False,border=0,col_space=130)
 
 cursor.close
 
 conn.close()
 
 SystemExit(0);
-
