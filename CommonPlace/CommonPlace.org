@@ -4078,6 +4078,7 @@ CD    6. No additional details needed
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
+
 |----------------------+--------------------+--------------------------|
 | *Column Name*        | *Data Type*        | *Description*            |
 |----------------------+--------------------+--------------------------|
@@ -4182,6 +4183,7 @@ CD    6. No additional details needed
 | Core_Reserved_3      | Varchar2 (20 Byte) |                          |
 | Event_Direction      | Char (1 Byte)      |                          |
 |----------------------+--------------------+--------------------------|
+
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -4979,7 +4981,7 @@ CD    6. No additional details needed
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List							   :noexport:
-** TODO IR0600 - 5G Commercialization
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0600/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0600 - 5G Commercialization]]
     [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Architecture]]
 *** Project Manager
     Kirti Parikh
@@ -5016,10 +5018,11 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     Mr. Smith's IP monitors may need to be changed to look for 5G.
 *** Current Status
-    At this point the big issue is that we can't distinquesh between 4 and 5G. So until that is fixed 5G will come in as 4G. Another issue is the switchwing between the feeds 
-    which could create thousands of records per session. The current plan is to combine these records before being sent to TOPS.
+    NDC will be rolling out a new version of there mediation software which will help with some of the issues with being able
+    to distinguish between 5G and 4G.
+    The introduction documents have been disseminated out in the field.
     
-** TODO Verizon LTE/VoLTE Outbound roaming
+** DONE Verizon LTE/VoLTE Outbound roaming
    DEADLINE: <2019-07-16 Tue>   
 *** Project Manager
     Dennis Render
@@ -5036,7 +5039,7 @@ CD    6. No additional details needed
 *** Current Status
     Incollects are in but Outcollects are still having issues with e911. Official launch for Incollects is July 16, 2019, Outcollects is May 31st, 2019.
 
-** TODO International Service Revamp
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
    DEADLINE: <2019-06-01 Sat>--<2019-06-30 Sun>  
 *** Project Manager
     Rebecca Class
@@ -5084,15 +5087,16 @@ CD    6. No additional details needed
      -  We need to regression test *Roaming Reconciliation Report*
      -  Any new reporting requirements will need to flow through business teams (Enterprise BA)
 *** Go Live Dates
-    Phase 1 targeting June release.
+    - Track 1 GSM Country Code Rezoning June 23rd
+    - Track 2 API Upgrade August 18th
 *** Possible Billing Issues
     - No impact to billing since we process this data already. 
 *** Monitors/Controls/Alerts and Ownership
     I believe this will be business as usual but it is to early to tell.
 *** Current Status
     When the project is launched there will be new $25-35 price plans 
-
-** TODO eSIM for Standalone devices
+    Syniverse will be sending files 4 times daily, instead of once.
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0583/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0583 eSIM for Standalone devices]]
 *** Project Manager
     Sara Singh
 *** Project Description
@@ -5106,7 +5110,8 @@ CD    6. No additional details needed
    Postpaid.
    [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.pdf][Vision and Scope]]
 *** Go Live Dates
-    SCHEDULED: <2019-06-23 Sun>
+    - Apple 09/20/2019
+    - Samsung 09/09/2019
 *** Possible Billing Issues
     It all depends on the range of the eSIM devices. We already support eSIM for secondary devices, Apple Watch, 
     and if the eSIM range is within the range for those watches, usage will be dropped.
@@ -5114,13 +5119,14 @@ CD    6. No additional details needed
     Need to watch for any drop in usage for Apple devices.
 *** Current Status 
     Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
+    *UAT in Progress*
     
 ** TODO VoLTE Prepaid
 *** Project Manager
     Rachelle Funderburg 
 *** Project Description
     Enable are customers 
-** TODO Voice over WIFI
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
     Rachelle Funderburg 
 *** Project Description
@@ -5144,7 +5150,9 @@ CD    6. No additional details needed
     Discussion underway to track IS development for Acme/iOS and Android separately. Amdocs targeting PI29 and August release 
     for the Acme provisioning. Nokia projecting 4/30 to provide USCC with Android provisioning specs. Non-Provisioning IA and E3 are complete.
 
-** TODO PCRF Forklift
+    Received the [[https://usc.intranet.teldta.com/sites/EPR/IR0411/Documents/USCC%2520Phase1%2520-%2520A%2520and%2520F%2520-%2520Unified%2520Format%2520-%2520IDD.docx][UFF file format]] changes and I'm reviewing it now.
+
+** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
    
 *** Project Description
@@ -5230,7 +5238,7 @@ CD    6. No additional details needed
 ** TODO Usage Bible
    DEADLINE: <2019-12-31 Tue>
    
-** TODO Come up with GitHUB document for Collabortive Process
+** DONE Come up with GitHUB document for Collabortive Process
 ** TODO Finish new EPS Monitors for Data 
 ** TODO Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl

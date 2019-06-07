@@ -1,82 +1,119 @@
-Collaboration tools with GitHub
+#+STARTUP: overview
+#+OPTIONS: d:nil
+#+OPTIONS: toc:nil
+#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET
+#+PROPERTY: allocate_ALL dev doc test
+#+STARTUP: hidestars hideblocks
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{gobble}
+#+END_LaTeX 
+#+TITLE: Collaboration tools with GitHub - How To
+\newpage 
+#+BEGIN_LaTeX
+%\addtolength{\oddsidemargin}{-.25in}
+\addtolength{\oddsidemargin}{0in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+\newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{2}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
 
-From this point forward whenever we need to add something to GitHub
-It is always a good practice to have someone check your work. With USCC going Agile 
-The following is a procedure on how to use the GitHubs collaboration tools.
-For there original code input it would be best to use the Git command line.
+#+END_LaTeX
+:CLOSET:
+ : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+ : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
+ : weeks #+PROPERTY: Effort_ALL 1w 2w 3w 4w 5w 6w 7w 8w 9w
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+ : New Page
+ : \newpage
+:END:
+#+TOC: headlines 2
+#+BEGIN_LaTeX
+ \newpage
+\pagenumbering{arabic}
+#+END_LaTeX 
+* Introduction
+		  /Many eyes make all bugs shallow/
 
-Go to the USCC GITHUB site 
-
-#+ATTR_LaTeX: :width 16cm
-[[file:Pictures/git1.jpg]]
-
-
-Go to the repository and directory you wish to place or update the file.
-
-#+ATTR_LaTeX: :width 16cm
-[[file:Pictures/git2.jpg]]
-
-
-List of the collaboration tools in GitHub
-How to Checkout
-
-When to clone and when to checkout
-
-Part of Agile is to evolve the processes not to carve anything to be carved in stone but to evolve the process as more information becomes available.
-That is why we will start using GitHUb a productive way to change control. One thing I like is the mixture of collaborative tools, the WIKI for instance and code review.
-
-On the left hand corner is where you can find a repositories
-go to the repository of choice and when you want to check in 
-
-code... It is here you can go through the source tree and look at the various 
-Issues.. You can create issue assign it to whatever
-
-Pull Request.. For code reviews this is where you can look at the reviews, comments, whatever 
-- Check in the Code
-
-#+ATTR_LaTeX: :width 16cm
-[[file:Pictures/git3.jpg]] (could be replaced by 4)
-
-#+ATTR_LaTeX: :width 16cm
-[[file:Pictures/git4.jpg]] 
+	   /Linus Trovalds (The creator of Linux and GIT)/
 
 
+ In that spirit the following is a quick overview on how to use the *GitHub* collaboration tools as it pertains to code reviews..
 
-Create Pull Request
+* USCC GITHUB site 
+  Bring up *GitHUB* in a browser then go to the repository and directory you wish to place or update a file.
 
-#+ATTR_LaTeX: :width 16cm
+
+  /In this example I'm in the RoamingReconciliation directory of the ISBillingandRevenueOperations repository/
+
+
+#+ATTR_LaTeX: :width 13cm
+[[file:Pictures/GitHUB1.jpg]]
+
+* Up load a file
+  Underneath the blue line on the right hand side click on the *Upload files* icon where you'll be presented with the files screen.
+  Upload your file, add your comments. At he bottom of the page click on the radio button with the words 
+  *Create a new branch for this commit and start a pull request.*
+
+  This automatically creates a new branch with your user-id as part of the patch name and the *Commit Change* button is now the *Propose Change.* 
+#+ATTR_LaTeX: :width 13cm
+[[file:Pictures/git4.jpg]]  
+
+* Create Pull Request
+  When you hit the *Propose Change* button you will enter into the *Open a pull request*. On this page you need do the following:
+
+  1. Give a Title
+  2. Write a comment /This would be a good place to put instructions to your reviewers/
+  3. Assign the Reviewers /Click the wheel on the reviewers section, found on the right hand side of the page, to pick your reviewers/
+  4. Assign the Assignee /Right below the reviewers tab. This should be You.
+
+#+ATTR_LaTeX: :width 13cm
 [[file:Pictures/git5.jpg]]
 
+** Conversation View
+   After you hit the *Create pull request* you Will thrown into the *Conversation* sub-tab of the
+   *Pull requests* tab. It is from here that you can attach files, keep tabs and communicate with your reviewers.
+   This is where you will spend the majority of your time until your reviewers approve the change.
 
-- Assigners
-  An assigner is the person who is in charge of this change
-- Appoint reviewers
-  A reviewer is someone who will review the code.
-- make a comment
+#+ATTR_LaTeX: :width 13cm
+[[file:Pictures/GitHUB2.jpg]]
 
-#+ATTR_LaTeX: :width 16cm
+** Files changed
+   You can reach this tab by clicking on the *Files changed* sub-tab under the *Pull requests* tab. If you are a *Reviewer* you will receive an
+   email with a link to the tab. It is here that you review, make comments, approve or request changes to the change being reviewed. 
+
+#+ATTR_LaTeX: :width 13cm
 [[file:Pictures/git7.jpg]]
+   
+   While reviewing you can also place a comment within the source itself. These comments as well as the overall reviewer comments will be displayed
+   in the *Conversation View* described previously.
 
-  - Make a comment within the code
-
-#+ATTR_LaTeX: :width 16cm
-    [[file:Pictures/git8.jpg]]
-
-- Merge
-#+ATTR_LaTeX: :width 16cm
-[[file:Pictures/git6.jpg]]
+#+ATTR_LaTeX: :width 13cm
+[[file:Pictures/git8.jpg]]
 
 
+** Back to the conversation view
+   After reviewers are done and they have approved the change you can now merge the change. After hitting the merge button you will presented with 3 options. 
+   At this point just use the first one, *Create a merge commit*, then your changes will be moved into the first branch.
 
-Projects... You define projects
+#+ATTR_LaTeX: :width 13cm
+[[file:Pictures/GiHub4.jpg]]
 
-Wiki... Use markdown / markup language
-
-Insights is an overview of all activity for this repository.
-
-Settings define the overall settings for the repository
-
-
-
-
-
+* Conclusion
+  This document does not scratch the surface of what you can do with *GitHub*,it provides many features besides it collaboration tools to learn more about the application
+  poke around and if you need more information consult the Internet.

@@ -1,4 +1,4 @@
-#! /usr/bin/python
+#! /usr/bin/python3.5
 
 # Oracle Libraries
 import cx_Oracle
@@ -49,7 +49,8 @@ def returnSums (results, ipDate, payType, eveType):
     
     return (ipDate, hrecsum + rrecsum, hvolsum + rvolsum, hrecsum, hvolsum, rrecsum, rvolsum)
 
-def analysis(usage,column):
+
+def analysis(usage, column):
     
     row = []
     
@@ -62,6 +63,7 @@ def analysis(usage,column):
     
     return row;
 
+
 def plotIt (usage, usageType, title, ylabel, filename):
     
     filenameL = filename + "L.png"
@@ -70,7 +72,7 @@ def plotIt (usage, usageType, title, ylabel, filename):
     xAx = [x[0] for x in usage]
     yAx = [x[usageType] for x in usage]
     
-    st = analysis(usage,usageType)
+    st = analysis(usage, usageType)
     
     fig = None
     fig = plt.figure()    
@@ -115,7 +117,7 @@ def plotIt (usage, usageType, title, ylabel, filename):
     # Picture Title
     ax.set_title(title)
     
-    ax.axhspan(st[4],st[6], facecolor='0.5', alpha=0.4)
+    ax.axhspan(st[4], st[6], facecolor='0.5', alpha=0.4)
     
     fig.savefig(filenameL)
 
@@ -129,6 +131,7 @@ def plotIt (usage, usageType, title, ylabel, filename):
     fig.savefig(filenameS)
     
     return
+
 
 def perDif (dval, iq0, iq3):
     
@@ -145,10 +148,13 @@ def perDif (dval, iq0, iq3):
 
     return pdl;
 
-def printIt (usage, usageType, payType): 
-    
+
+def printIt (usage, usageType, payType, recVol=4): 
+       
     output = []
     subset = [x for x in results if x[2] == payType and x[6] == usageType]
+    
+    flag = 0;
     
     all_dates = sorted(set(map(lambda x:x[3], subset)))[-5:]
     
@@ -159,38 +165,67 @@ def printIt (usage, usageType, payType):
         inter = set(sorted(map(lambda x:x[3], ipList))).intersection(all_dates)
         
         try : 
-            maxRecs = 10000*(max([x[4] for x in ipList if x[3] in inter]))
+            maxRecs = 10000 * (max([x[4] for x in ipList if x[3] in inter]))
          
-            if((len(inter) >= 2) and (maxRecs > 1000)) : # and (maxRecs >= 500)) :
+            if((len(inter) >= 2) and (maxRecs > 1000)) :  # and (maxRecs >= 500)) :
             
                 bl = [''] * len(inter)
                 
-                home = [x for x in ipList if x[1] == "N"]
-                slist = analysis(home, 4)
-                slist2 = analysis(home, 5)   
-                             
-                tmp = (ip_number,round(10000*slist[1],2),round(10000 * slist[2],2),round(1024 * 1024 * slist2[1],2),round(1024 * 1024 * slist2[2],2))
+                inter = sorted(inter,key=int)
                 
-                roam = [x for x in ipList if x[1]  == "Y"]
-                slist = analysis(roam, 4)
-                slist2 = analysis(roam, 5) 
+                home = analysis([x for x in ipList if x[1] == "N"], recVol)
+                
+                roam = analysis([x for x in ipList if x[1] == "Y"], recVol)
                    
-                output.append(tmp + ( round(10000*slist[1],2), round(10000 * slist[2],2), round(1024 * 1024 * slist2[1],2), round(1024 * 1024 * slist2[2],2)))
+                if(flag==0):
+                   output.append(('IP Address','Home Medium','IQ0','IQ3','Home Mean','Home STD','Home Max','Home Min','Roam Medium','IQ0','IQ3','Roam Mean','Roam STD','Roam Max','Roam Min'))
+                                    
+                output.append((ip_number, format(float(home[5]),'.2f'), format(float(home[4]),'.2f'), format(float(home[6]),'.2f'), format(float(home[1]),'.2f'),
+                                format(float(home[2]),'.2f'), format(float(home[3]),'.2f'), format(float(home[7]),'.2f'), format(float(roam[5]),'.2f'), format(float(roam[4]),'.2f'), format(float(roam[6]),'.2f'), 
+                                format(float(roam[1]),'.2f'), format(float(roam[2]),'.2f'), format(float(roam[3]),'.2f'), format(float(roam[7]),'.2f')))
+
+                ahome = []
+                aroam = []
                 
-                for inte in sorted(inter):
-                    date_row_home = [x for x in home if x[3] == inte]
-                    date_row_roam = [x for x in roam if x[3] == inte]
+                if(flag==0):
+                    output.append(('','','', '','','','','','','', '', '', '' ,'', ''))          
+                    output.append( ('Date','Home Total Records','Percent Difference','','','','','','Roam Total Records','Percent Difference','','','','',''))
+                    flag=1
                 
-                    tmp = ""
-                                
+                
+                for inte in inter:
+                    data = [x for x in ipList if x[3] == inte and x[1] == 'Y']
+                            
+                    if len(data) > 0:
+                        aroam.append((data[0])[4])
+                    else :
+                        aroam.append(float(0))  
+                        
+                    data = [x for x in ipList if x[3] == inte and x[1] == 'N']
+                    
+                    if len(data) > 0:
+                        ahome.append((data[0])[4])
+                    else :
+                        ahome.append(float(0))    
+                
+                
+                homeDif = perDif(ahome, home[4], home[6])
+                homeDif = ["%.2f"%item for item in homeDif]
+                
+                roamDif = perDif(aroam, roam[4], roam[6])
+                roamDif = ["%.2f"%item for item in roamDif]
+                
+                ahome = ["%.2f"%item for item in ahome]
+                aroam = ["%.2f"%item for item in aroam]
+                                    
+                output = output + list(zip(inter, ahome, homeDif, bl, bl, bl, bl, bl, aroam, roamDif, bl, bl, bl, bl,bl))
+                output.append(('','','', '','','','','','','', '', '', '' ,'', ''))           
         except:pass   
-    
-         
+        
     return output
-    
-    
-    
+
 ##############  Main Program  ###################
+
 
 conn = dbConnect()
 cursor = conn.cursor() 
@@ -230,9 +265,9 @@ with open("/home/dbalchen/Desktop/Test.csv", "rb") as fp:
         except:
             print("ouch")
 
-#cursor.execute(sql)
+# cursor.execute(sql)
 # 
-#results = cursor.fetchall()
+# results = cursor.fetchall()
 
 pre3G = []
 pre4G = []
@@ -245,7 +280,6 @@ for ip_date in sorted(set(map(lambda x:x[3], results))):
     post3G.append(returnSums(results, ip_date, 'POST', '3G'))
     post4G.append(returnSums(results, ip_date, 'POST', '4G'))
 
-
 # plotIt(pre3G, 1, "Pre-Paid 3G Data - Records", "Records / 10000", "pp3G_Records")
 # plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records")
 # plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
@@ -256,15 +290,47 @@ for ip_date in sorted(set(map(lambda x:x[3], results))):
 # plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume TB", "postp3G_Volume")
 # plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume TB", "postp4G_Volume")
 
-output = printIt(results,"3G","PRE")
-output = pd.DataFrame(output) 
-output.columns = ['','','','','','','','','']
+output = printIt(results, "3G", "PRE")
 
+htmlHeader = """
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-output = output.to_html("Test.html",index=False,border=0,col_space=130)
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=us-ascii" />
+<link rel="stylesheet" type="text/css" href="ipH2.css"/>
+<title></title>
+</head>
 
+<body>
+    <div style="overflow-x: auto;">
+    <table>
+"""
+
+htmlFoot = """
+</table>
+</div>
+</body>
+</html>
+"""
+
+html = htmlHeader
+
+for row in output:
+    html = html + "\n<tr>"
+    
+    for col in row:
+        html = html + "\n<td> %s </td>" % col
+    
+    html = html + "\n</tr>"   
+    
+html = html + htmlFoot
+
+print(html)
+# 
 cursor.close
-
+# 
 conn.close()
 
 SystemExit(0);
