@@ -13,11 +13,11 @@ use Spreadsheet::WriteExcel;
 use MIME::Lite;
 
 # For test only....
-#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-#my $ORACLE_SID  = "bodsprd";
-#$ENV{ORACLE_HOME} = $ORACLE_HOME;
-#$ENV{ORACLE_SID}  = $ORACLE_SID;
-#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+my $ORACLE_SID  = "bodsprd";
+$ENV{ORACLE_HOME} = $ORACLE_HOME;
+$ENV{ORACLE_SID}  = $ORACLE_SID;
+$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 #Test parameters remove when going to production.
 $ARG0 =
@@ -35,14 +35,14 @@ $ARG0 =
 #$ARG0 = "NLDLT";
 #$ARG0 = "NLDLT,CIBER_CIBER";
 
-#$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
+$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 
-$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
+#$ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
 # Setup Initial variables
 my $timeStamp = $ARGV[0];
 
-#$timeStamp = '20190318';
+$timeStamp = '20190522';
 
 my $outTimeStamp = Time::Piece->strptime( "$timeStamp", "%Y%m%d" );
 $outTimeStamp = $outTimeStamp - ONE_DAY;
@@ -563,7 +563,7 @@ $workbook->close;
 
 my @email = ('david.balchen@uscellular.com');
 
-@email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
+#@email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com' );
 
 foreach my $too (@email) {
 	print $msg;
@@ -817,10 +817,10 @@ sub sendMsg() {
 
 sub getBODSPRD {
 
-	my $dbPwd = "BODS_DAV_BILLINGOPS";
+#	my $dbPwd = "BODS_DAV_BILLINGOPS";
 
-    my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
-#	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "Password" );
+#    my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+	my $dbods = DBI->connect( "dbi:Oracle:BODSPRD", "md1dbal1", "BooGoo9000#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}

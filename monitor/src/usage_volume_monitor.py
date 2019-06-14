@@ -1,4 +1,4 @@
-#! /usr/bin/python3.5
+#! /usr/bin/python
 
 # Oracle Libraries
 import cx_Oracle
@@ -61,6 +61,9 @@ def analysis(usage, column):
                  
     except:pass
     
+    if len(row) == 0:
+        row = [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00]
+                
     return row;
 
 
@@ -149,10 +152,51 @@ def perDif (dval, iq0, iq3):
     return pdl;
 
 
-def printIt (usage, usageType, payType, recVol=4): 
-       
-    output = []
-    subset = [x for x in results if x[2] == payType and x[6] == usageType]
+def tuple2html (tupIn, classCSS):
+
+    html = ""
+    
+    html = html + "\n<tr %s>" % classCSS
+    
+    for col in tupIn:
+        html = html + "\n<td> %s </td>" % col
+    
+    html = html + "\n</tr>"  
+    
+    return html 
+
+
+def printIt (usage, usageType, payType, picture, recVol=4): 
+    
+    html = """
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+    <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=us-ascii" />
+    <link rel="stylesheet" type="text/css" href="ipH.css"/>
+    <title></title>
+    </head>
+
+    <body>
+        <div style="overflow-x: auto;">
+                <img
+            src="http://kpr01scdap.uscc.com:8080/WebMonitor/images/""" + picture + """L.png" class="image"  />
+        <table class="center">
+    """
+
+    htmlFoot = """
+        </table>
+        </div>
+    </body>
+    </html>
+        """
+        
+    output = tuple2html (('IP Address', 'Home Medium', 'IQ0', 'IQ3', 'Home Mean', 'Home STD', 'Home Max', 'Home Min', 'Roam Medium', 'IQ0', 'IQ3', 'Roam Mean', 'Roam STD', 'Roam Max', 'Roam Min'), 'class="c1"')
+    classCSS = ''
+    
+    subset = [x for x in usage if x[2] == payType and x[6] == usageType]
     
     flag = 0;
     
@@ -169,58 +213,99 @@ def printIt (usage, usageType, payType, recVol=4):
          
             if((len(inter) >= 2) and (maxRecs > 1000)) :  # and (maxRecs >= 500)) :
             
+                classCSS = 'class="c1"' 
+                
                 bl = [''] * len(inter)
                 
-                inter = sorted(inter,key=int)
+                inter = sorted(inter, key=int)
                 
                 home = analysis([x for x in ipList if x[1] == "N"], recVol)
                 
                 roam = analysis([x for x in ipList if x[1] == "Y"], recVol)
-                   
-                if(flag==0):
-                   output.append(('IP Address','Home Medium','IQ0','IQ3','Home Mean','Home STD','Home Max','Home Min','Roam Medium','IQ0','IQ3','Roam Mean','Roam STD','Roam Max','Roam Min'))
-                                    
-                output.append((ip_number, format(float(home[5]),'.2f'), format(float(home[4]),'.2f'), format(float(home[6]),'.2f'), format(float(home[1]),'.2f'),
-                                format(float(home[2]),'.2f'), format(float(home[3]),'.2f'), format(float(home[7]),'.2f'), format(float(roam[5]),'.2f'), format(float(roam[4]),'.2f'), format(float(roam[6]),'.2f'), 
-                                format(float(roam[1]),'.2f'), format(float(roam[2]),'.2f'), format(float(roam[3]),'.2f'), format(float(roam[7]),'.2f')))
+                
+                if(flag == 0):
+                    classCSS = '' 
+                
+                output = output + tuple2html((ip_number, format(float(home[5]), '.3f'), format(float(home[4]), '.3f'), format(float(home[6]), '.3f'), format(float(home[1]), '.3f'),
+                                format(float(home[2]), '.3f'), format(float(home[3]), '.3f'), format(float(home[7]), '.3f'), format(float(roam[5]), '.3f'), format(float(roam[4]), '.3f'),
+                                format(float(roam[6]), '.3f'), format(float(roam[1]), '.3f'), format(float(roam[2]), '.3f'), format(float(roam[3]), '.3f'),
+                                format(float(roam[7]), '.3f')), classCSS)
 
                 ahome = []
                 aroam = []
                 
-                if(flag==0):
-                    output.append(('','','', '','','','','','','', '', '', '' ,'', ''))          
-                    output.append( ('Date','Home Total Records','Percent Difference','','','','','','Roam Total Records','Percent Difference','','','','',''))
-                    flag=1
+                if(flag == 0):
+                    output = output + tuple2html(('', '', '', '', '', '', '', '', '', '', '', '', '' , '', ''), 'class="c3"')    
+                    
+                    if recVol == 5:
+                        output = output + tuple2html(('Date', 'Home Total Volume', 'Percent Difference', '', '', '', '', '', 'Roam Total Volume', 'Percent Difference', '', '', '', '', ''), 'class="c1"') 
+                    else:
+                        output = output + tuple2html(('Date', 'Home Total Records', 'Percent Difference', '', '', '', '', '', 'Roam Total Records', 'Percent Difference', '', '', '', '', ''), 'class="c1"')
+                    flag = 1
                 
+                classCSS = ''
                 
                 for inte in inter:
                     data = [x for x in ipList if x[3] == inte and x[1] == 'Y']
                             
                     if len(data) > 0:
-                        aroam.append((data[0])[4])
+                        aroam.append((data[0])[recVol])
                     else :
                         aroam.append(float(0))  
                         
                     data = [x for x in ipList if x[3] == inte and x[1] == 'N']
                     
                     if len(data) > 0:
-                        ahome.append((data[0])[4])
+                        ahome.append((data[0])[recVol])
                     else :
                         ahome.append(float(0))    
                 
-                
                 homeDif = perDif(ahome, home[4], home[6])
-                homeDif = ["%.2f"%item for item in homeDif]
+                homeDif = ["%.3f" % item for item in homeDif]
                 
                 roamDif = perDif(aroam, roam[4], roam[6])
-                roamDif = ["%.2f"%item for item in roamDif]
+                roamDif = ["%.3f" % item for item in roamDif]
                 
-                ahome = ["%.2f"%item for item in ahome]
-                aroam = ["%.2f"%item for item in aroam]
+                ahome = ["%.3f" % item for item in ahome]
+                aroam = ["%.3f" % item for item in aroam]
                                     
-                output = output + list(zip(inter, ahome, homeDif, bl, bl, bl, bl, bl, aroam, roamDif, bl, bl, bl, bl,bl))
-                output.append(('','','', '','','','','','','', '', '', '' ,'', ''))           
+                dateList = list(zip(inter, ahome, homeDif, bl, bl, bl, bl, bl, aroam, roamDif, bl, bl, bl, bl, bl))
+                
+                if ip_number == '66.1.68.193':
+                    pass
+                
+                for dl in dateList:
+                    
+                    dl2 = abs(float(dl[2]))
+                    dl9 = abs(float(dl[9]))
+                    
+                    dll = list(dl)
+                    
+                    if (dl[1] == '0.000') and (dl2 > 0.00):
+                        dll[2] = "0.000"
+                        dl2 = 0.000
+                            
+                    if (dl[8] == '0.000') and (dl9 > 0.00):
+                        dll[9] = "0.000" 
+                        dl9 = 0.000         
+                    
+                    if (dl2 >= 30.00) or (dl9 >= 30.00):
+                        classCSS = 'class="c2"'
+                    else:
+                        classCSS = ''
+                        
+                    output = output + tuple2html(tuple(dll), classCSS)
+                    
+                output = output + tuple2html(('', '', '', '', '', '', '', '', '', '', '', '', '' , '', ''), 'class="c3"')   
+                      
         except:pass   
+        
+    html = html + output + htmlFoot
+    
+    picture = picture + '.html'
+    file = open(picture, "w")
+    file.write(html)
+    file.close()
         
     return output
 
@@ -257,78 +342,52 @@ ORDER BY 2 ASC
 
 results = []
  
-with open("/home/dbalchen/Desktop/Test.csv", "rb") as fp:
+with open("/home/dbalchen/Desktop/newTest.csv", "rb") as fp:
     for i in fp.readlines():
         tmp = i.split("\t")
         try:
             results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
-        except:
-            print("ouch")
+        except:pass
 
-# cursor.execute(sql)
+# print(sql)
 # 
+# cursor.execute(sql)
+#  
 # results = cursor.fetchall()
 
-pre3G = []
-pre4G = []
-post3G = []
-post4G = []
-
-for ip_date in sorted(set(map(lambda x:x[3], results))):
-    pre3G.append(returnSums(results, ip_date, 'PRE', '3G'))
-    pre4G.append(returnSums(results, ip_date, 'PRE', '4G'))
-    post3G.append(returnSums(results, ip_date, 'POST', '3G'))
-    post4G.append(returnSums(results, ip_date, 'POST', '4G'))
-
+# pre3G = []
+# pre4G = []
+# post3G = []
+# post4G = []
+#  
+# for ip_date in sorted(set(map(lambda x:x[3], results))):
+#     pre3G.append(returnSums(results, ip_date, 'PRE', '3G'))
+#     pre4G.append(returnSums(results, ip_date, 'PRE', '4G'))
+#     post3G.append(returnSums(results, ip_date, 'POST', '3G'))
+#     post4G.append(returnSums(results, ip_date, 'POST', '4G'))
+#  
 # plotIt(pre3G, 1, "Pre-Paid 3G Data - Records", "Records / 10000", "pp3G_Records")
 # plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records")
 # plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
 # plotIt(post4G, 1, "Post-Paid 4G Data - Records", "Records / 10000", "postp4G_Records")
-# 
+#   
 # plotIt(pre3G, 2, "Pre-Paid 3G Data - Volume", "Volume TB", "pp3G_Volume")
 # plotIt(pre4G, 2, "Pre-Paid 4G Data - Volume", "Volume TB", "pp4G_Volume",)
 # plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume TB", "postp3G_Volume")
 # plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume TB", "postp4G_Volume")
 
-output = printIt(results, "3G", "PRE")
+printIt(results, "3G", "PRE", "pp3G_Records", 4)
+printIt(results, "3G", "PRE", "pp3G_Volume", 5)
+ 
+printIt(results, "4G", "PRE", "pp4G_Records", 4)
+printIt(results, "4G", "PRE", "pp4G_Volume", 5)
 
-htmlHeader = """
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+printIt(results, "3G", "POST", "postp3G_Records", 4)
+printIt(results, "3G", "POST", "postp3G_Volume", 5)
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=us-ascii" />
-<link rel="stylesheet" type="text/css" href="ipH2.css"/>
-<title></title>
-</head>
+printIt(results, "4G", "POST", "postp4G_Records", 4)
+printIt(results, "4G", "POST", "postp4G_Volume", 5)
 
-<body>
-    <div style="overflow-x: auto;">
-    <table>
-"""
-
-htmlFoot = """
-</table>
-</div>
-</body>
-</html>
-"""
-
-html = htmlHeader
-
-for row in output:
-    html = html + "\n<tr>"
-    
-    for col in row:
-        html = html + "\n<td> %s </td>" % col
-    
-    html = html + "\n</tr>"   
-    
-html = html + htmlFoot
-
-print(html)
-# 
 cursor.close
 # 
 conn.close()

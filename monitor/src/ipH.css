@@ -1,0 +1,66 @@
+body, div, table, thead, tbody, tfoot, tr, th, td, p {
+	font-family: "Calibri";
+	font-size: 13px;
+
+}
+
+td.c5 {
+	font-style: italic;
+	font-weight: bold
+}
+
+span.c4 {
+	color: #FF0000;
+	font-family: Arial
+}
+
+span.c3 {
+	color: #000000
+}
+
+
+table {
+	border-spacing: 0px;
+	width: 75%;
+}
+
+td {
+	padding: 7px;
+	height: 10px;
+	text-align: center;
+	vertical-align: bottom;
+
+	font-family: Arial
+}
+
+th {
+  height: 50px;
+}
+tr:hover {
+	background-color: #d3dbe3;
+}
+
+tr.c1 {
+	font-weight: bold;
+	font-style: italic;
+}
+
+tr.c2 {
+	font-weight: bold;
+	font-style: italic;
+	color: #FF0000;
+}
+
+tr.c3 {
+	background-color: #eafae2
+}
+
+table.center {
+    margin-left:auto; 
+    margin-right:auto;
+  }
+  
+img {
+    max-width:97%;
+    height:97%;
+}

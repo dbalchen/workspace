@@ -352,11 +352,11 @@ sum(TOTAL_CHARGES) - sum(APRM_TOTAL_CHARGES),
 (select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type 
 like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
 (select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')),
-	abs((sum(total_records_dch) - sum(Total_Records))/sum(total_records))*100,
-	abs((sum(total_volume_dch) - sum(Total_volume))/sum(total_volume))*100,
-	abs((sum(total_charges_dch) - sum(Total_charges))/sum(total_charges))*100,
-	abs((sum(total_records) - sum(aprm_total_records))/sum(total_records))*100,
-	abs((sum(total_charges_dch) - sum(aprm_total_charges))/sum(aprm_total_charges))	*100 
+	abs((sum(total_records_dch) - sum(Total_Records))/NULLIF(sum(total_records),0))*100,
+	abs((sum(total_volume_dch) - sum(Total_volume))/NULLIF(sum(total_volume),0))*100,
+	abs((sum(total_charges_dch) - sum(Total_charges))/NULLIF(sum(total_charges),0))*100,
+	abs((sum(total_records) - sum(aprm_total_records))/NULLIF(sum(total_records),0))*100,
+	abs((sum(total_charges_dch) - sum(aprm_total_charges))/NULLIF(sum(aprm_total_charges),0))	*100 
 from file_summary t1 
   where t1.usage_type like 'LTE%' and t1.process_date = to_date($timeStamp,'YYYYMMDD')
 group by FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, SENDER";
@@ -660,11 +660,8 @@ $workbook->close;
 #my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
 my @email = ('david.balchen@uscellular.com');
 
-my @email = (
-	'david.balchen@uscellular.com',
-	'Ilham.Elgarni@uscellular.com',
-	'USCDLISOps-BillingCycleManagement@uscellular.com'
-);
+ my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'USCDLISOps-BillingCycleManagement@uscellular.com');
+
 foreach my $too (@email) {
 	print $msg;
 	sendMsg( $too, $msg );
@@ -741,6 +738,11 @@ sub createExcel {
 					elsif ( $a == $headcount + 2 ) {
 
 						$msg =
+ 
+
+
+
+
 						    $msg
 						  . "Total Charges VS DCH Charges = "
 						  . sprintf( "%.2f", $rows[$a] ) . '%' . " \n\n";
@@ -936,7 +938,6 @@ sub getSNDPRD {
 	}
 	return $dbods;
 }
-
 sub pad {
 
         my ( $padString, $padwith, $length ) = @_;
@@ -948,3 +949,4 @@ sub pad {
         return $padString;
 
 }
+

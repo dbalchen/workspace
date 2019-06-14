@@ -9,12 +9,12 @@ use DBI;
 # $ENV{ORACLE_HOME} = $ORACLE_HOME;
 # $ENV{ORACLE_SID}  = $ORACLE_SID;
 # $ENV{PATH}  = "$ENV{PATH}:$ORACLE_HOME/bin";
-# 
+#
 #$ARGV[0] = 'NLDLT';
 #$ARGV[1] = '20170707';
 
 my $clearinghouse = 'TNS';
-my %sqls = {};
+my %sqls          = {};
 
 $sqls{'LTE'} = "
 select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),
@@ -22,7 +22,6 @@ charge_type,max(exchange_rate) from prm_rom_incol_events_ap t1 where tap_in_file
 select unique(file_name) from file_summary where usage_type like '%LTE%' and process_date = to_date($ARGV[1],'YYYYMMDD'))
 and bp_start_date >= add_months(to_date(substr($ARGV[1],0,6),'YYYYMM'),-1)
 group by carrier_cd, bp_start_date,charge_type";
-
 
 $sqls{'NLDLT'} = "
 select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type, max(exchange_rate) 
@@ -44,7 +43,8 @@ if ( $ARGV[0] eq "NLDLT" ) {
 	$clearinghouse = 'Syniverse';
 }
 
-my $dbconn  = getBODSPRD();
+my $dbconn = getBODSPRD();
+
 #my $dbconnb = getSNDPRD();
 my $dbconnb = $dbconn;
 
@@ -66,11 +66,10 @@ while ( my @rows = $sth->fetchrow_array() ) {
 	my $usage_type        = $ARGV[0] . "-" . $rows[5];
 
 	my $exrate = 1;
-	if($ARGV[0] ne 'DISP_RM')
-	{
+	if ( $ARGV[0] ne 'DISP_RM' ) {
 		$exrate = $rows[6];
 	}
-	
+
 	$sql = "
   INSERT INTO APRM (
    USAGE_TYPE,
@@ -120,7 +119,7 @@ sub getBODSPRD {
 	my $dbPwd = "BODS_DAV_BILLINGOPS";
 	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-	#my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
+   #my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -130,12 +129,12 @@ sub getBODSPRD {
 sub getSNDPRD {
 
 	my $dbPwd = "SND_SVC_BILLINGOPS";
-	my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+	my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+
 	# my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo");
 	unless ( defined $dbods ) {
 		sendErr();
 	}
 	return $dbods;
 }
-
 

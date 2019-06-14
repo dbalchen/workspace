@@ -22,7 +22,7 @@ import sys
 
 ######## Argument Date SQL Setup
 
-date = sys.argv[1]
+date = "20190522" #sys.argv[1]
 
 day = date[6:8]
 month = date[4:6]
@@ -141,6 +141,7 @@ SELECT TO_CHAR (sys_creation_date, 'YYYY-MM-DD')"Create Date",
          CASE
              WHEN t1.rate_plan_cd = 'RPROINDATA' THEN '6008001'
              WHEN t1.rate_plan_cd = 'RPROINVOIC' THEN '6002201'
+             WHEN t1.rate_plan_cd = 'RPROINSRCHG' THEN '6002201'
              ELSE '0000000'
          END
              AS glcode,
@@ -249,7 +250,7 @@ def dbConnect ():
          'host': '10.176.199.19',  # info from tnsnames.ora
          'port': 1530,  # info from tnsnames.ora
          'user': 'md1dbal1',
-         'psw': 'Potat000#',
+         'psw': 'BooGoo9000#',
          'service': 'bodsprd_adhoc'  # info from tnsnames.ora
     }
 
@@ -281,6 +282,8 @@ def processTableDate (res, gl_codes):
     
     out = []
     all_dates = sorted(set(map(lambda x:x[0], res)))
+    
+    
     
     for date in all_dates:
     
@@ -338,6 +341,8 @@ def processTable (res, filterby='IS', processType='sum'):
     ires = [x for x in res if x[5] == filterby]
     
     gl_codes = sorted(set(map(lambda x:x[3], ires)))
+    
+#    gl_codes = [ x for x in gl_codes if "0000000" not in x ]
     
     if processType == 'sum':
         out = processTableDate (ires, gl_codes)
@@ -438,12 +443,14 @@ elif day == '22':
     print("Retrieve CDMA Incollect data from Database\n")    
     cursor.execute(sqlDictionary["CDMA_In"])
     
+    print(sqlDictionary["CDMA_In"])
+    
     results = cursor.fetchall()
     
     print("Processing CDMA Data Incollect Settlement\n")   
     output = processTable(results, 'ID', 'sum')
     printSheet('CDMA Data Incollect Settlement', ['Creation Date', 'Carrier Code', 'GL Account', 'Total Usage MB', 'Total Charges'], wb.active, output)
-    
+     
     print("Processing CDMA Data Incollect by Carrier\n")     
     output = processTable(results, 'ID', 'carrier')
     printSheet('CDMA Data Incollect by Carrier', ['Carrier Code', 'Carrier Name', 'Total Usage MB', 'Total Charges'], wb.create_sheet("CDMA Data Incollect by Carrier"), output)
@@ -459,15 +466,15 @@ elif day == '22':
     print("Retrieve CDMA Outcollect data from Database\n") 
     cursor.execute(sqlDictionary["CDMA_Out"])
     results = cursor.fetchall()
-
+ 
     print("Processing CDMA Voice Outcollect Settle\n") 
     output = processTable(results, 'RO', 'sum')
     printSheet('CDMA Voice Outcollect Settle', ['Creation Date', 'Carrier Code', 'GL Account', 'Total Usage Minutes', 'Total Charges Air', 'GL Account Toll', 'Total Charges Toll', 'GL Account Tax', 'Total Charges Tax'], wb.create_sheet("CDMA Voice Outcollect Settlem"), output)
-
+ 
     print("Processing CDMA Voice Outcollect Carrier\n")   
     output = processTable(results, 'RO', 'carrier')
     printSheet('CDMA Voice Outcollect Carrier', ['Carrier Code', 'Carrier Name', 'Total Usage Minutes', 'Air GL Code', 'Total Air Charges', 'Toll GL Code', 'Total Toll Charges', 'Tax GL Code', 'Total Tax Charges'], wb.create_sheet("CDMA Voice Outcollect Carrier"), output)
-    
+     
 cursor.close
 conn.close()
 
