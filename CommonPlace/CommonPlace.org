@@ -5238,8 +5238,12 @@ CD    6. No additional details needed
 ** TODO Usage Bible
    DEADLINE: <2019-12-31 Tue>
    
-** DONE Come up with GitHUB document for Collabortive Process
 ** TODO Finish new EPS Monitors for Data 
+   - [ ] Write Code
+   - [ ] Add to CallDump
+   - [ ] refresh code in EpsMonitors/Git
+   - [ ] Make changes to dash,html and dash.js (maybe)
+   - [ ] Talk to Dave about triggers for Oncall
 ** TODO Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
 ** TODO Setup CallDump Server [16%]
