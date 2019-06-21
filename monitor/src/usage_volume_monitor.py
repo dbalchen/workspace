@@ -19,18 +19,18 @@ from cx_Oracle import Date
 
 def dbConnect ():
     
-    CONN_INFO = {
-        'host': '10.176.199.19',  # info from tnsnames.ora
-        'port': 1530,  # info from tnsnames.ora
-        'user': 'md1dbal1',
-        'psw': 'BooGoo9000#',
-        'service': 'bodsprd_adhoc'  # info from tnsnames.ora
-    }
-    CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
-  
-    tconn = cx_Oracle.connect(CONN_STR)
+#     CONN_INFO = {
+#         'host': '10.176.199.19',  # info from tnsnames.ora
+#         'port': 1530,  # info from tnsnames.ora
+#         'user': 'md1dbal1',
+#         'psw': 'xxxxxxxxxxxxx',
+#         'service': 'bodsprd_adhoc'  # info from tnsnames.ora
+#     }
+#     CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
+#   
+#     tconn = cx_Oracle.connect(CONN_STR)
 
-#    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
+    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
     
     return tconn;
 
@@ -342,39 +342,39 @@ ORDER BY 2 ASC
 
 results = []
  
-with open("/home/dbalchen/Desktop/newTest.csv", "rb") as fp:
-    for i in fp.readlines():
-        tmp = i.split("\t")
-        try:
-            results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
-        except:pass
+# with open("/home/dbalchen/Desktop/newTest.csv", "rb") as fp:
+#     for i in fp.readlines():
+#         tmp = i.split("\t")
+#         try:
+#             results.append((str(tmp[0]), str(tmp[1]), str(tmp[2]), str(tmp[3]), float(tmp[4]), float(tmp[5]), str(tmp[6]), int(tmp[7])))
+#         except:pass
 
-# print(sql)
-# 
-# cursor.execute(sql)
-#  
-# results = cursor.fetchall()
+print(sql)
+ 
+cursor.execute(sql)
+  
+results = cursor.fetchall()
 
-# pre3G = []
-# pre4G = []
-# post3G = []
-# post4G = []
-#  
-# for ip_date in sorted(set(map(lambda x:x[3], results))):
-#     pre3G.append(returnSums(results, ip_date, 'PRE', '3G'))
-#     pre4G.append(returnSums(results, ip_date, 'PRE', '4G'))
-#     post3G.append(returnSums(results, ip_date, 'POST', '3G'))
-#     post4G.append(returnSums(results, ip_date, 'POST', '4G'))
-#  
-# plotIt(pre3G, 1, "Pre-Paid 3G Data - Records", "Records / 10000", "pp3G_Records")
-# plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records")
-# plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
-# plotIt(post4G, 1, "Post-Paid 4G Data - Records", "Records / 10000", "postp4G_Records")
-#   
-# plotIt(pre3G, 2, "Pre-Paid 3G Data - Volume", "Volume TB", "pp3G_Volume")
-# plotIt(pre4G, 2, "Pre-Paid 4G Data - Volume", "Volume TB", "pp4G_Volume",)
-# plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume TB", "postp3G_Volume")
-# plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume TB", "postp4G_Volume")
+pre3G = []
+pre4G = []
+post3G = []
+post4G = []
+  
+for ip_date in sorted(set(map(lambda x:x[3], results))):
+    pre3G.append(returnSums(results, ip_date, 'PRE', '3G'))
+    pre4G.append(returnSums(results, ip_date, 'PRE', '4G'))
+    post3G.append(returnSums(results, ip_date, 'POST', '3G'))
+    post4G.append(returnSums(results, ip_date, 'POST', '4G'))
+  
+plotIt(pre3G, 1, "Pre-Paid 3G Data - Records", "Records / 10000", "pp3G_Records")
+plotIt(pre4G, 1, "Pre-Paid 4G Data - Records", "Records / 10000", "pp4G_Records")
+plotIt(post3G, 1, "Post-Paid 3G Data - Records", "Records / 10000", "postp3G_Records")
+plotIt(post4G, 1, "Post-Paid 4G Data - Records", "Records / 10000", "postp4G_Records")
+   
+plotIt(pre3G, 2, "Pre-Paid 3G Data - Volume", "Volume TB", "pp3G_Volume")
+plotIt(pre4G, 2, "Pre-Paid 4G Data - Volume", "Volume TB", "pp4G_Volume",)
+plotIt(post3G, 2, "Post-Paid 3G Data - Volume", "Volume TB", "postp3G_Volume")
+plotIt(post4G, 2, "Post-Paid 4G Data - Volume", "Volume TB", "postp4G_Volume")
 
 printIt(results, "3G", "PRE", "pp3G_Records", 4)
 printIt(results, "3G", "PRE", "pp3G_Volume", 5)

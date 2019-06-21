@@ -5022,23 +5022,6 @@ CD    6. No additional details needed
     to distinguish between 5G and 4G.
     The introduction documents have been disseminated out in the field.
     
-** DONE Verizon LTE/VoLTE Outbound roaming
-   DEADLINE: <2019-07-16 Tue>   
-*** Project Manager
-    Dennis Render
-    [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.pdf][Latest Doc]]
-*** Project Description
-    Enable *LTE/VoLTE* roaming for *Verizon* customers on our network.
-*** Go Live Date
-    *Deployment Date March 31st 2019.*
-*** Possible Billing Issues
-    - Whenever a new feed is added to the system a number of issues can pop up.
-*** Monitors/Controls/Alerts and Ownership
-    The roaming reconciliation reports will and have picked up LTE/VoLTE (test calls) from *Verizon*. 
-    So we are already covered on the monitoring department.
-*** Current Status
-    Incollects are in but Outcollects are still having issues with e911. Official launch for Incollects is July 16, 2019, Outcollects is May 31st, 2019.
-
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
    DEADLINE: <2019-06-01 Sat>--<2019-06-30 Sun>  
 *** Project Manager
@@ -5121,11 +5104,11 @@ CD    6. No additional details needed
     Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
     *UAT in Progress*
     
-** TODO VoLTE Prepaid
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][VoLTE Prepaid]]
 *** Project Manager
     Rachelle Funderburg 
 *** Project Description
-    Enable are customers 
+    Enable prepaid customers to use VoLTE.
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
     Rachelle Funderburg 
@@ -5149,9 +5132,13 @@ CD    6. No additional details needed
     completion of the Provisioning Impact Assessment (IA). Provisioning IA remains on hold awaiting Android specs. 
     Discussion underway to track IS development for Acme/iOS and Android separately. Amdocs targeting PI29 and August release 
     for the Acme provisioning. Nokia projecting 4/30 to provide USCC with Android provisioning specs. Non-Provisioning IA and E3 are complete.
+    - New project tracks for provisioning:
+      1. *1.2a ACME*
+      2. *1.2b Android*
 
     Received the [[https://usc.intranet.teldta.com/sites/EPR/IR0411/Documents/USCC%2520Phase1%2520-%2520A%2520and%2520F%2520-%2520Unified%2520Format%2520-%2520IDD.docx][UFF file format]] changes and I'm reviewing it now.
-
+** TODO IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming 
+*** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
    
@@ -5239,20 +5226,23 @@ CD    6. No additional details needed
    DEADLINE: <2019-12-31 Tue>
    
 ** TODO Finish new EPS Monitors for Data 
-   - [ ] Write Code
+   - [X] Write Code
    - [ ] Add to CallDump
    - [ ] refresh code in EpsMonitors/Git
    - [ ] Make changes to dash,html and dash.js (maybe)
    - [ ] Talk to Dave about triggers for Oncall
 ** TODO Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
-** TODO Setup CallDump Server [16%]
+** TODO Setup CallDump Server [66%]
    - [X] Finish Server Doc
-   - [ ] Open ports request
-   - [ ] recompile applications
+   - [X] Open ports request
+   - [X] recompile applications
    - [ ] copy files
-   - [ ] Setup Tomcat
-   - [ ] What about WEDO?
+   - [ ] Setup Tomcat [0%]
+     - [ ] Check Database Connection
+     - [ ] Get CallDump working (try using old tomcat_prod)
+   - [X] What about WEDO?
+   - [ ] Check Perl/Python
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

@@ -4322,3 +4322,29 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_TODO: DONE
   :ARCHIVE_ITAGS: noexport
   :END:
+
+* DONE Verizon LTE/VoLTE Outbound roaming
+  DEADLINE: <2019-07-16 Tue>   
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-20 Thu 11:27
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport
+  :END:
+** Project Manager
+   Dennis Render
+   [[file:docs/Sprint%20WDR%20TDS%20(Special%20Select)%202018.12.21.pdf][Latest Doc]]
+** Project Description
+   Enable *LTE/VoLTE* roaming for *Verizon* customers on our network.
+** Go Live Date
+   *Deployment Date March 31st 2019.*
+** Possible Billing Issues
+   - Whenever a new feed is added to the system a number of issues can pop up.
+** Monitors/Controls/Alerts and Ownership
+   The roaming reconciliation reports will and have picked up LTE/VoLTE (test calls) from *Verizon*. 
+   So we are already covered on the monitoring department.
+** Current Status
+   Incollects are in but Outcollects are still having issues with e911. Official launch for Incollects is July 16, 2019, Outcollects is May 31st, 2019.
+
