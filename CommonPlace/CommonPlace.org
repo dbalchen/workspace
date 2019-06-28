@@ -5015,12 +5015,16 @@ CD    6. No additional details needed
     combined *4G+5G Kb* in the *UFF* records.
     - *Turbocharging :* Validation will be required when the enhanced core is available 
     for test. We need to ensure that the interface to the *P/SGWs* remains intact.
+    - *5G Phones* Must be *VoLTE* enabled.
 *** Monitors/Controls/Alerts and Ownership
     Mr. Smith's IP monitors may need to be changed to look for 5G.
 *** Current Status
     NDC will be rolling out a new version of there mediation software which will help with some of the issues with being able
     to distinguish between 5G and 4G.
     The introduction documents have been disseminated out in the field.
+**** <2019-06-24 Mon>
+     5G Phase 2 Business requirements first draft is complete. This will cover reporting and data varification (We will have a bigger roll).
+     Solution Document for phase 1 has been updated.
     
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
    DEADLINE: <2019-06-01 Sat>--<2019-06-30 Sun>  

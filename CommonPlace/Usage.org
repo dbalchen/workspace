@@ -53,41 +53,47 @@ file:Pictures/Andrejevi1.jpg
 \pagenumbering{arabic}
 #+END_LaTeX 
 * Usage Overview
-   Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
-   in two ways, *Voice* and *Data*.\\
-
-*Voice*
+   Usage is a broad term used to refer to network event records that are used for rating and charging our customers. In telephony we tend to think of usage
+   in two ways, *Voice* or *Data*.\\
+** Usage Record Formats
+   Usage records come from the switch in a verity of formats depending on the equipment used.
+#+BEGIN_LaTeX
+\mbox{} \\
+\mbox{} \\
+#+END_LaTeX 
+*Voice*\\
+   Voice usage can come in one of two formats:
    1. *Alcatel Lucent (APLX)* - The *Alcatel Lucent APLX* switch record
-      are found mostly in the Maine market. This switch produces both
-      /Mobile Originating and Mobile Terminated/ records.
+      are found mostly in the Maine market. 
    2. *Nortel (NTI)* - The *NORTEL NTI* switch record is the most common
-      voice record format and since an NTI record contains both the
-      /originating and terminating features/ certain call types may
-      result in a record being generated.
-   3. *CIBER* - For /InCollect and OutCollect/ processing.\\
-
-*Data*
-   1. *SMSC Server* - Both *Motorola* and *Acatel-Lucent SMS* records
-      that can be either a /Mobile Originating or Terminating/ record
-      type.
-   2. *AAA Server* - Produces one record for each complete data session.
+      voice record format. 
+   3. *CIBER* - For /InCollect and OutCollect/ processing.
+#+BEGIN_LaTeX
+\mbox{} \\
+#+END_LaTeX 
+*Data*\\
+   For data there is a format for each type:
+   1. *SMSC* - The *SMS* record type comes in the *Motorola* format.
+   2. *AAA Server* - 
       - *PGW* - P-Gateway *LTE* data usage
       - *ECS* - ECS *3G and lower* data usage.
       - *AAA* - Raw AAA usage found on the CallDump only.
       - *TAS* - /Volte/ Voice over *LTE*.
-   3. *VALI* - /Premium SMS (Valista)/ pre-rated records one record per
-      event.
+   3. *VALI* - /Premium SMS (Valista)/ pre-rated records.
    4. *GSM Roaming* - Voice and data records from our customers who are
       roaming in Europe and other *GSM* countries.
    5. *MMSC* - Used for both pictures and picture messaging text only
-      (treated as an *SMS* message in the system). Produces both /Mobile
-      Originating and Terminating/ records with a possible one to many
-      relationships (multiple recipients).
-   6. *TAP* - Used for Incollect/Outcollect *4G* processing.
+      (treated as an *SMS* message in the system). 
+   6. *TAP* - Used for *Incollect/Outcollect 4G* processing.
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
 ** Network Elements
+   The list below is the name of *switches/network elements* that produce usage and where that usage is stored in *TOPS*.
+   Except for the *TAP* files, all are readable as either *CIBER* of *UFF*.
+#+BEGIN_LaTeX
+\mbox{} \\
+#+END_LaTeX 
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -158,11 +164,11 @@ file:Pictures/Andrejevi1.jpg
       interface* is described as follows:
 
       -  *Diameter* is a *AAA* protocol, a type of computer networking
-         protocol for authentication, authorization and accounting, and
-         is a successor to *RADIUS*. *Diameter* controls communication
+         protocol for authentication, authorization and accounting *(AAA)*. 
+         *Diameter* controls communication
          between the authenticator (Secure Ticket Authority, STA) and
-         any network entity requesting authentication. *Diameter
-         Applications* extend the base protocol by adding new commands
+         any network entity requesting authentication. *Diameter Applications* 
+         extend the base protocol by adding new commands
          and/or attributes, such as those for use of the Extensible
          Authentication Protocol (*EAP*).
 ** Carrier Code and Names
@@ -241,20 +247,7 @@ file:Pictures/Andrejevi1.jpg
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-** Guide By Criteria
 
-|--------------+------------|
-| *Data Types* | *Guide By* |
-|--------------+------------|
-| voice        | MSID       |
-| GSM          | *IMSI*     |
-| SMS          | MDN        |
-| VOLTE/TAS    | IMSI       |
-| PMG/PTX      | MSID       |
-| AAA          | MSID       |
-| *PGW/LTE*    | *MDN/IMSI* |
-| Vali         | MDN        |
-|--------------+------------|
 
 ** US Territories
       These calls are identified as international but are charged
@@ -343,7 +336,7 @@ subgraph cluster_3 {
 }
 :END:
 
-   [[file:Pictures/usage_flow.jpg]]
+   [[file:Pictures/uf.png]]
 
 #+BEGIN_LaTeX
 \end{landscape} 
@@ -404,9 +397,9 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 * Unified File Format (UFF)
-   In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
+   In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect TAP or CIBER*,
    will be reformatted into a /Unified File Format/ (*UFF*). This format
-   will be a standard *Unix/ASCII* formatted *CSV* file using '|'
+   is a standard *Unix/ASCII* formatted *CSV* file using '|'
    *(pipe)* as the delimiter.
 ** UFF File Record Format
 #+BEGIN_LaTeX
@@ -462,7 +455,7 @@ subgraph cluster_3 {
 |      26 | Dialed Digits           | The untranslated dialed number /(e.g. 441 instead of 555-1212)/   |
 |      27 | Terminating Address     | IP Address/Email Name Client IP for *PMG*                         |
 |      28 | Termination Code        | *SMS.CALL_TERMINATION_CODE*                                       |
-|      29 | Service Feature         | MPS Service feature codes                                         |
+|      29 | Service Feature         | MPS Service feature codes (See the list below)                    |
 |      30 | Call Forwarding Ind     | If the call has been forwarded than true, false otherwise.        |
 |         |                         | 0 = False                                                         |
 |         |                         | 1 = True                                                          |
@@ -611,6 +604,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 ** Service Feature Codes
+   Description of the service feature codes found in field 29 of the *UFF*
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -635,40 +629,13 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 ** [[file:docs/Drop%20Reason%20Codes.pdf][Drop Reason Codes]]
+   There many many reasons why a record can be dropped and are to numerous to list. The complete list can forwarded upon request.
 
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
 * CIBER File Format
-** MF1_CIBER_BATCH_SEQ
-         The table used to keep the CIBER Outcollect sequences in sync
-         with Syniverse. Every once a while we need to update it to keep
-         in sync.
-
-        [[file:///home/dbalchen/workspace/Outcollects/updateSeq.pl][Sequence Creation Job]]
-
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-#+ATTR_LaTeX: :environment longtable :align l|l|l
-|-------------------+---------------+---------------|
-| *Column Name*     | *Data Type*   | *Description* |
-|-------------------+---------------+---------------|
-| Application_Id    | Char (6 Byte) |               |
-| Dl_Service_Code   | Char (5 Byte) |               |
-| Dl_Update_Stamp   | Number (4)    |               |
-| *Home_Sid*        | Char (5 Byte) |               |
-| Locked_Sid        | Number (10)   |               |
-| Operator_Id       | Number (9)    |               |
-| Seq_No            | Number (3)    |               |
-| *Serve_Sid*       | Char (5 Byte) |               |
-| Status_Ind        | Char (2 Byte) |               |
-| Sys_Creation_Date | Date          |               |
-| Sys_Update_Date   | Date          |               |
-|-------------------+---------------+---------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX
+  Incollect and Outcollect *CDMA* files are come in the *CIBER* File format which is a fixed length record format described below.
 ** Ciber Record Types
    The *Ciber* standard defines the following record Types:
       -  *01* Header
@@ -705,8 +672,11 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+#+BEGIN_LaTeX
+\newpage 
+#+END_LaTeX
 *** CIBER 22 Record
+    Voice roaming record.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -800,6 +770,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 *** CIBER 32 Record
+    Data roaming record.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -958,7 +929,9 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-
+#+BEGIN_LaTeX
+\newpage
+#+END_LaTeX
 *** CIBER 98 Record
 #+BEGIN_LaTeX
 \footnotesize
@@ -987,183 +960,219 @@ subgraph cluster_3 {
 |----------------------------------+------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
-\newpage
 #+END_LaTeX
-** CIBERNET - Specification/Reference				   :noexport:
-   https://www.one1clear.net/mxp/Login.asp 
+** MF1_CIBER_BATCH_SEQ
+         The table used to keep the CIBER Outcollect sequences in sync
+         with Syniverse. Every once a while we need to update it to keep
+         in sync.
 
-* Acquisition and Formating (A&F)
-   *A&F* is the first stage of the mediation process where the *UFF* or *CIBER* record is examined, enriched 
-   and transfered to an intermediary /usage/ format. For *CIBER* records an extra rules step is 
-   added to further mediate the records.
-*** AC_PHYSICAL_FILES
-         Provides information for the physical files that were processed.
+        [[file:///home/dbalchen/workspace/Outcollects/updateSeq.pl][Sequence Creation Job]]
+
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
-
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|---------------------+--------------------+---------------|
-| *Column Name*       | *Data Type*        | *Description* |
-|---------------------+--------------------+---------------|
-| *Identifier*        | Number(15,0)       |               |
-| *Sys_Creation_Date* | Date               |               |
-| Sys_Update_Date     | Date               |               |
-| Operator_Id         | Number(9,0)        |               |
-| Application_Id      | Char(6 Byte)       |               |
-| Dl_Service_Code     | Char(5 Byte)       |               |
-| Dl_Update_Stamp     | Number(4,0)        |               |
-| *File_Name*         | Varchar2(200 Byte) |               |
-| Host_Name           | Varchar2(50 Byte)  |               |
-| *File_Path*         | Varchar2(512 Byte) |               |
-| Serial_Number       | Varchar2(8 Byte)   |               |
-| System_Rcv_Date     | Date               |               |
-| Fsrc_Src_Type       | Char(10 Byte)      |               |
-| Fsrc_Type_Id        | Char(10 Byte)      |               |
-| Rcrdng_Start_Date   | Date               |               |
-| Rcrdng_End_Date     | Date               |               |
-| *Trlr_Record_Count* | Number(9,0)        |               |
-| Trlr_Block_Count    | Number(9,0)        |               |
-| Trlr_L_File_Count   | Number(9,0)        |               |
-| Pgm_L_File_Count    | Number(9,0)        |               |
-| Pgm_Tracer_Ind      | Char(1 Byte)       |               |
-| Dupl_Entry_Ind      | Char(1 Byte)       |               |
-| Entry_Status        | Char(2 Byte)       |               |
-| Old_Age_Ind         | Char(1 Byte)       |               |
-| End_Of_Tree_Seq     | Number(9,0)        |               |
-| *Balance_Date*      | Date               |               |
-|---------------------+--------------------+---------------|
+|-------------------+---------------+---------------|
+| *Column Name*     | *Data Type*   | *Description* |
+|-------------------+---------------+---------------|
+| Application_Id    | Char (6 Byte) |               |
+| Dl_Service_Code   | Char (5 Byte) |               |
+| Dl_Update_Stamp   | Number (4)    |               |
+| *Home_Sid*        | Char (5 Byte) |               |
+| Locked_Sid        | Number (10)   |               |
+| Operator_Id       | Number (9)    |               |
+| Seq_No            | Number (3)    |               |
+| *Serve_Sid*       | Char (5 Byte) |               |
+| Status_Ind        | Char (2 Byte) |               |
+| Sys_Creation_Date | Date          |               |
+| Sys_Update_Date   | Date          |               |
+|-------------------+---------------+---------------|
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** AC_SOURCE
+** CIBERNET - Specification/Reference	
+   https://www.one1clear.net/mxp/Login.asp 
+
+#+BEGIN_LaTeX
+\newpage 
+#+END_LaTeX
+
+* Acquisition and Formating (A&F)
+   *A&F* is the first stage of the *TOPS* mediation process where the *UFF* or *CIBER* record is examined, enriched 
+   and transfered to an intermediary /usage/ format. For *CIBER* records an extra rules step is 
+   added to further mediate the records.
+** AC_PHYSICAL_FILES
+   Provides information for the physical files that were processed.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|-------------------+-------------------+---------------|
-| *Column Name*     | *Data Type*       | *Description* |
-|-------------------+-------------------+---------------|
-| Source_Type       | Char(10 Byte)     |               |
-| *File_Type*       | Char(10 Byte)     |               |
-| Switch_Id         | Varchar2(32 Byte) |               |
-| Sys_Creation_Date | Date              |               |
-| Sys_Update_Date   | Date              |               |
-| Operator_Id       | Number(9,0)       |               |
-| Application_Id    | Char(6 Byte)      |               |
-| Dl_Service_Code   | Char(5 Byte)      |               |
-| Dl_Update_Stamp   | Number(4,0)       |               |
-| File_Seq_No       | Number(6,0)       |               |
-| Max_File_Seq_No   | Number(6,0)       |               |
-| Max_Time          | Number(10,0)      |               |
-| Min_Time          | Number(10,0)      |               |
-| Last_Cycle_Procd  | Date              |               |
-| Next_Cycle_Expect | Date              |               |
-| Status_Ind        | Char(2 Byte)      |               |
-| Dupl_Entry_Ind    | Char(1 Byte)      |               |
-| Ho_From_Time      | Date              |               |
-| Ho_From_Seq       | Number(6,0)       |               |
-| Days_Bfr_Phy_Cln  | Number(4,0)       |               |
-| Gap_Permitted     | Number(6,0)       |               |
-|-------------------+-------------------+---------------|
-
-*** AC1_CONTROL (-HIST)
-         Similar to *ac_processing_accounting* there are two tables
-         with the same name but in different databases, *PRDAF* (Usage)
-         and *PRDCUST* (AR).
+|---------------------+--------------------+-----------------|
+| *Column Name*       | *Data Type*        | *Description*   |
+|---------------------+--------------------+-----------------|
+| *Identifier*        | Number(15,0)       | file Identifier |
+| *Sys_Creation_Date* | Date               |                 |
+| Sys_Update_Date     | Date               |                 |
+| Operator_Id         | Number(9,0)        |                 |
+| Application_Id      | Char(6 Byte)       |                 |
+| Dl_Service_Code     | Char(5 Byte)       |                 |
+| Dl_Update_Stamp     | Number(4,0)        |                 |
+| *File_Name*         | Varchar2(200 Byte) |                 |
+| Host_Name           | Varchar2(50 Byte)  |                 |
+| *File_Path*         | Varchar2(512 Byte) |                 |
+| Serial_Number       | Varchar2(8 Byte)   |                 |
+| System_Rcv_Date     | Date               |                 |
+| Fsrc_Src_Type       | Char(10 Byte)      |                 |
+| Fsrc_Type_Id        | Char(10 Byte)      |                 |
+| Rcrdng_Start_Date   | Date               |                 |
+| Rcrdng_End_Date     | Date               |                 |
+| *Trlr_Record_Count* | Number(9,0)        |                 |
+| Trlr_Block_Count    | Number(9,0)        |                 |
+| Trlr_L_File_Count   | Number(9,0)        |                 |
+| Pgm_L_File_Count    | Number(9,0)        |                 |
+| Pgm_Tracer_Ind      | Char(1 Byte)       |                 |
+| Dupl_Entry_Ind      | Char(1 Byte)       |                 |
+| Entry_Status        | Char(2 Byte)       |                 |
+| Old_Age_Ind         | Char(1 Byte)       |                 |
+| End_Of_Tree_Seq     | Number(9,0)        |                 |
+| *Balance_Date*      | Date               |                 |
+|---------------------+--------------------+-----------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+** AC_SOURCE
+   This table lists the *network elements* and the file type processed. When a new network element is created, an entry describing it must be created.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
-|------------------------+--------------------+-------------|
-| *Column Name*          | *Data Type*        | Description |
-|------------------------+--------------------+-------------|
-| *Identifier*           | Number(15,0)       |             |
-| Sys_Creation_Date      | Date               |             |
-| Sys_Update_Date        | Date               |             |
-| Operator_Id            | Number(9,0)        |             |
-| Application_Id         | Char(6 Byte)       |             |
-| Dl_Service_Code        | Char(5 Byte)       |             |
-| Dl_Update_Stamp        | Number(4,0)        |             |
-| *File_Name*            | Varchar2(200 Byte) |             |
-| *File_Path*            | Varchar2(512 Byte) |             |
-| File_Seq_No            | Number(6,0)        |             |
-| Host_Name              | Varchar2(50 Byte)  |             |
-| Data_Group             | Varchar2(64 Byte)  |             |
-| File_Create_Date       | Date               |             |
-| *File_Status*          | Varchar2(2 Byte)   |             |
-| *Origin_File_Ident*    | Number(15,0)       |             |
-| *Phy_File_Ident*       | Number(15,0)       |             |
-| Cur_Pgm_Name           | Varchar2(32 Byte)  |             |
-| Cur_File_Alias         | Varchar2(10 Byte)  |             |
-| Nxt_Pgm_Name           | Varchar2(32 Byte)  |             |
-| Nxt_File_Alias         | Varchar2(10 Byte)  |             |
-| File_Format            | Varchar2(10 Byte)  |             |
-| File_Group             | Char(1 Byte)       |             |
-| File_Type              | Char(2 Byte)       |             |
-| Repro_Ind              | Char(1 Byte)       |             |
-| Source_Type            | Char(10 Byte)      |             |
-| Source_File_Type       | Char(10 Byte)      |             |
-| File_Deleted_Ind       | Char(1 Byte)       |             |
-| System_Id              | Char(5 Byte)       |             |
-| Abp_Var                | Varchar2(512 Byte) |             |
-| Priority               | Char(1 Byte)       |             |
-| Wr_Rec_Quantity        | Number(9,0)        |             |
-| Wr_Time_Quantity       | Number(13,2)       |             |
-| Wr_Money_Quantity      | Number(13,2)       |             |
-| Wr_Euro_Quantity       | Number(13,2)       |             |
-| In_Rec_Quantity        | Number(9,0)        |             |
-| In_Time_Quantity       | Number(13,2)       |             |
-| In_Money_Quantity      | Number(13,2)       |             |
-| In_Euro_Quantity       | Number(13,2)       |             |
-| Gn_Rec_Quantity        | Number(9,0)        |             |
-| Gn_Time_Quantity       | Number(13,2)       |             |
-| Gn_Money_Quantity      | Number(13,2)       |             |
-| Gn_Euro_Quantity       | Number(13,2)       |             |
-| Dr_Rec_Quantity        | Number(9,0)        |             |
-| Dr_Time_Quantity       | Number(13,2)       |             |
-| Dr_Money_Quantity      | Number(13,2)       |             |
-| Dr_Euro_Quantity       | Number(13,2)       |             |
-| Processed_Rec_No       | Number(9,0)        |             |
-| Rejected_Reason_Cd     | Char(3 Byte)       |             |
-| Owner_Name             | Varchar2(50 Byte)  |             |
-| Table_Alias            | Number(5,0)        |             |
-| Nxt_Process_Id         | Number(9,0)        |             |
-| Nxt_Process_Start_Time | Date               |             |
-| Cur_Process_Id         | Number(9,0)        |             |
-| Max_Event_Time         | Date               |             |
-| Logical_File_Ident     | Number(15,0)       |             |
-| Table_Issue_Code       | Number(9,0)        |             |
-| External_Id            | Varchar2(32 Byte)  |             |
-| Dest_Rout_Crtria       | Varchar2(24 Byte)  |             |
-| Status_Category        | Varchar2(20 Byte)  |             |
-| Status_Code            | Varchar2(200 Byte) |             |
-| Application_Code       | Varchar2(50 Byte)  |             |
-| File_Size              | Number(15,0)       |             |
-| Recycle_Counter        | Number(15,0)       |             |
-| Group_Sequence         | Number(15,0)       |             |
-| Out_Req_Quantity       | Number(9,0)        |             |
-| Bulk_Id                | Number(9,0)        |             |
-| Store_Mode             | Char(2 Byte)       |             |
-| Session_Id             | Number(15,0)       |             |
-| Target_File_Path       | Varchar2(512 Byte) |             |
-| Target_Host            | Varchar2(50 Byte)  |             |
-| Ext_Identifier         | Number(9,0)        |             |
-| Ext_Orig_Ident         | Number(9,0)        |             |
-| Additional_Attr        | Varchar2(300 Byte) |             |
-| Group_Size             | Number(4,0)        |             |
-| Monitor_Data           | Varchar2(50 Byte)  |             |
-| Wr_Volume_Quantity     | Number(15,2)       |             |
-| In_Volume_Quantity     | Number(15,2)       |             |
-| Gn_Volume_Quantity     | Number(15,2)       |             |
-| Dr_Volume_Quantity     | Number(15,2)       |             |
-| End_Process_Time       | Date               |             |
-| Fr_Time                | Date               |             |
-| Eng_Priority           | Number(1,0)        |             |
-|------------------------+--------------------+-------------|
+|-------------------+-------------------+-----------------|
+| *Column Name*     | *Data Type*       | *Description*   |
+|-------------------+-------------------+-----------------|
+| Source_Type       | Char(10 Byte)     |                 |
+| *File_Type*       | Char(10 Byte)     | UFF/CIBER etc.  |
+| *Switch_Id*       | Varchar2(32 Byte) | Network Element |
+| Sys_Creation_Date | Date              |                 |
+| Sys_Update_Date   | Date              |                 |
+| Operator_Id       | Number(9,0)       |                 |
+| Application_Id    | Char(6 Byte)      |                 |
+| Dl_Service_Code   | Char(5 Byte)      |                 |
+| Dl_Update_Stamp   | Number(4,0)       |                 |
+| File_Seq_No       | Number(6,0)       |                 |
+| Max_File_Seq_No   | Number(6,0)       |                 |
+| Max_Time          | Number(10,0)      |                 |
+| Min_Time          | Number(10,0)      |                 |
+| Last_Cycle_Procd  | Date              |                 |
+| Next_Cycle_Expect | Date              |                 |
+| Status_Ind        | Char(2 Byte)      |                 |
+| Dupl_Entry_Ind    | Char(1 Byte)      |                 |
+| Ho_From_Time      | Date              |                 |
+| Ho_From_Seq       | Number(6,0)       |                 |
+| Days_Bfr_Phy_Cln  | Number(4,0)       |                 |
+| Gap_Permitted     | Number(6,0)       |                 |
+|-------------------+-------------------+-----------------|
 
+** AC1_CONTROL (-HIST)
+   When it comes to investigating usage issues *AC1_CONTROL_HIST* in both *PRDAF* (Usage) *PRDCUST* (AR) is usually the first stop for any file issues.
+
+
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|------------------------+--------------------+--------------------|
+| *Column Name*          | *Data Type*        | Description        |
+|------------------------+--------------------+--------------------|
+| *Identifier*           | Number(15,0)       |                    |
+| Sys_Creation_Date      | Date               |                    |
+| Sys_Update_Date        | Date               |                    |
+| Operator_Id            | Number(9,0)        |                    |
+| Application_Id         | Char(6 Byte)       |                    |
+| Dl_Service_Code        | Char(5 Byte)       |                    |
+| Dl_Update_Stamp        | Number(4,0)        |                    |
+| *File_Name*            | Varchar2(200 Byte) |                    |
+| *File_Path*            | Varchar2(512 Byte) |                    |
+| File_Seq_No            | Number(6,0)        |                    |
+| Host_Name              | Varchar2(50 Byte)  |                    |
+| Data_Group             | Varchar2(64 Byte)  |                    |
+| File_Create_Date       | Date               |                    |
+| *File_Status*          | Varchar2(2 Byte)   |                    |
+| *Origin_File_Ident*    | Number(15,0)       | The Identifier of  |
+|                        |                    | the original file. |
+| *Phy_File_Ident*       | Number(15,0)       |                    |
+| Cur_Pgm_Name           | Varchar2(32 Byte)  |                    |
+| Cur_File_Alias         | Varchar2(10 Byte)  |                    |
+| Nxt_Pgm_Name           | Varchar2(32 Byte)  |                    |
+| Nxt_File_Alias         | Varchar2(10 Byte)  |                    |
+| File_Format            | Varchar2(10 Byte)  |                    |
+| File_Group             | Char(1 Byte)       |                    |
+| File_Type              | Char(2 Byte)       |                    |
+| Repro_Ind              | Char(1 Byte)       |                    |
+| Source_Type            | Char(10 Byte)      |                    |
+| Source_File_Type       | Char(10 Byte)      |                    |
+| File_Deleted_Ind       | Char(1 Byte)       |                    |
+| System_Id              | Char(5 Byte)       |                    |
+| Abp_Var                | Varchar2(512 Byte) |                    |
+| Priority               | Char(1 Byte)       |                    |
+| Wr_Rec_Quantity        | Number(9,0)        |                    |
+| Wr_Time_Quantity       | Number(13,2)       |                    |
+| Wr_Money_Quantity      | Number(13,2)       |                    |
+| Wr_Euro_Quantity       | Number(13,2)       |                    |
+| In_Rec_Quantity        | Number(9,0)        |                    |
+| In_Time_Quantity       | Number(13,2)       |                    |
+| In_Money_Quantity      | Number(13,2)       |                    |
+| In_Euro_Quantity       | Number(13,2)       |                    |
+| Gn_Rec_Quantity        | Number(9,0)        |                    |
+| Gn_Time_Quantity       | Number(13,2)       |                    |
+| Gn_Money_Quantity      | Number(13,2)       |                    |
+| Gn_Euro_Quantity       | Number(13,2)       |                    |
+| Dr_Rec_Quantity        | Number(9,0)        |                    |
+| Dr_Time_Quantity       | Number(13,2)       |                    |
+| Dr_Money_Quantity      | Number(13,2)       |                    |
+| Dr_Euro_Quantity       | Number(13,2)       |                    |
+| Processed_Rec_No       | Number(9,0)        |                    |
+| Rejected_Reason_Cd     | Char(3 Byte)       |                    |
+| Owner_Name             | Varchar2(50 Byte)  |                    |
+| Table_Alias            | Number(5,0)        |                    |
+| Nxt_Process_Id         | Number(9,0)        |                    |
+| Nxt_Process_Start_Time | Date               |                    |
+| Cur_Process_Id         | Number(9,0)        |                    |
+| Max_Event_Time         | Date               |                    |
+| Logical_File_Ident     | Number(15,0)       |                    |
+| Table_Issue_Code       | Number(9,0)        |                    |
+| External_Id            | Varchar2(32 Byte)  |                    |
+| Dest_Rout_Crtria       | Varchar2(24 Byte)  |                    |
+| Status_Category        | Varchar2(20 Byte)  |                    |
+| Status_Code            | Varchar2(200 Byte) |                    |
+| Application_Code       | Varchar2(50 Byte)  |                    |
+| File_Size              | Number(15,0)       |                    |
+| Recycle_Counter        | Number(15,0)       |                    |
+| Group_Sequence         | Number(15,0)       |                    |
+| Out_Req_Quantity       | Number(9,0)        |                    |
+| Bulk_Id                | Number(9,0)        |                    |
+| Store_Mode             | Char(2 Byte)       |                    |
+| Session_Id             | Number(15,0)       |                    |
+| Target_File_Path       | Varchar2(512 Byte) |                    |
+| Target_Host            | Varchar2(50 Byte)  |                    |
+| Ext_Identifier         | Number(9,0)        |                    |
+| Ext_Orig_Ident         | Number(9,0)        |                    |
+| Additional_Attr        | Varchar2(300 Byte) |                    |
+| Group_Size             | Number(4,0)        |                    |
+| Monitor_Data           | Varchar2(50 Byte)  |                    |
+| Wr_Volume_Quantity     | Number(15,2)       |                    |
+| In_Volume_Quantity     | Number(15,2)       |                    |
+| Gn_Volume_Quantity     | Number(15,2)       |                    |
+| Dr_Volume_Quantity     | Number(15,2)       |                    |
+| End_Process_Time       | Date               |                    |
+| Fr_Time                | Date               |                    |
+| Eng_Priority           | Number(1,0)        |                    |
+|------------------------+--------------------+--------------------|
+#+BEGIN_LaTeX
+\newpage 
+#+END_LaTeX
 * TurboCharging
    The most important /sub-system/ in *TOPS*. It is here that all usage is guided and rated.
 \\
@@ -1171,9 +1180,7 @@ subgraph cluster_3 {
 #+ATTR_LaTeX: :width 16cm
       [[file:Pictures/TC.png]]
 
-#+BEGIN_LaTeX
-\newpage 
-#+END_LaTeX
+
       -  *Event flow:*
          1. An event comes in to via a network element
          2. Transforms data into a conical form which also includes the
@@ -1184,7 +1191,21 @@ subgraph cluster_3 {
          presentment.
       -  Limiting or "/choking/" usage can be handled by *Diameter[fn:3]* for
          *Pre-Pay* and *Turbo-Charging* for *Post-Pay*
-*** Event Servers
+** Guide By Criteria
+   The value used for each usage type to find the customer information. 
+|--------------+------------|
+| *Data Types* | *Guide By* |
+|--------------+------------|
+| voice        | MSID       |
+| GSM          | *IMSI*     |
+| SMS          | MDN        |
+| VOLTE/TAS    | IMSI       |
+| PMG/PTX      | MSID       |
+| AAA          | MSID       |
+| *PGW/LTE*    | *MDN/IMSI* |
+| Vali         | MDN        |
+|--------------+------------|
+** Event Servers
     *Turbo-Charging* is not one application but multiple instances of *Event Servers*. Each event server corresponds to a bill cycle. Their status can be viewed using
          the following query on the *PRDAF* database.
     :  SELECT DISTINCT
@@ -1205,15 +1226,15 @@ subgraph cluster_3 {
     :          AND A.ACTIVE_PROCESS_ID = B.PROCESS_INSTANCE_ID
     :          AND PROCESS_CODE LIKE '%ES1%'
     : ORDER BY MACHINE ASC
-*** Rerate Servers
+** Rerate Servers
     In addition we have five *Rerate Servers* they are:
         | 1. *RRP_EOC1056* | 4. *RRP_EOC1257* |
         | 2. *RRP_EOC1068* | 5. *RRP_EOC1259* |
         | 3. *RRP_EOC1192* |                  |
 
 
-
-*** AGREEMENT_RESOURCE
+:CLOSET:
+ *** AGREEMENT_RESOURCE
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -1255,7 +1276,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 
-*** CM1_AGREEMENT_PARAM
+ *** CM1_AGREEMENT_PARAM
     In the PRDCUST database. 
 #+BEGIN_LaTeX
 \footnotesize
@@ -1288,11 +1309,15 @@ subgraph cluster_3 {
 | Conv_Run_No       | Number (10)          |                   |
 | Offer_Instance_Id | Number (10)          |                   |
 |-------------------+----------------------+-------------------|
-
+:END:
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** AGD1_RESOURCES
+#+BEGIN_LaTeX
+\newpage 
+#+END_LaTeX
+** AGD1_RESOURCES
+   Given a customer attribute, use this table to find the rest of the customer information.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -1340,9 +1365,11 @@ subgraph cluster_3 {
             -  L = Collection Canceled
             -  D = Collection Suspend
 
-*** APE1_RATED_EVENT
-         Where all the rateable events are contained. Most data inquires
-         usually wind up here.
+#+BEGIN_LaTeX
+\newpage 
+#+END_LaTeX
+** APE1_RATED_EVENT
+   Where all the rateable non-roaming events are contained. For roaming events look at *APRM*.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -1554,8 +1581,11 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-*** APE1_ACCUMULATORS
-         The accumulation tables this is what is presented on the bill.
+#+BEGIN_LaTeX
+\newpage 
+#+END_LaTeX
+** APE1_ACCUMULATORS
+   The accumulation tables sums by event type by customer.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -1716,6 +1746,9 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+#+BEGIN_LaTeX
+\newpage 
+#+END_LaTeX
 ** BPT Tables
       The *Business Process Tables* are the Tops equivalent to the
       reference tables in *CARES*. The following is the list of all
@@ -1866,7 +1899,7 @@ subgraph cluster_3 {
    :  ORDER BY carr_name;
 
 *** M19_MIN_LR
-         Contains the *USCC* MIN (MSID) block ranges and there *SID*
+         Contains the *USCC* MIN (MSID) block ranges and their *SID*
          code. The Block Ranges are listed in the *Technical Data Sheet*
          from *Syniverse*. This only contains *USCC* MINS only. For
          foreign carriers see the *VISITOR_MIN_LR*.
@@ -1967,16 +2000,17 @@ subgraph cluster_3 {
 *** MI1_REJECT_RRC
          Used for *InCollect* *CIBER* processing. Contains the various
          reasons why an *InCollect* file can be rejected.
-
-*** MI9_NA_CONV
+:CLOSET:
+ *** MI9_NA_CONV
          This maybe another version of the *ADJ9_TIME_ZONE_REF*
          table, very similar.
+:END:
 #+BEGIN_LaTeX
 \newpage
 #+END_LaTeX
 ** (BPT) EPC Tables
          These tables are included in the *EPC* dump which happens once
-         or twice a month, no hotfix is needed unless it 
+         or twice a month, no hot-fix is needed unless it 
          needs to be in
          production right away.
 *** PC9_SID
@@ -2100,7 +2134,7 @@ subgraph cluster_3 {
 #+END_LaTeX
 *** PC9_INCOL_SID_PAIR
             Defines *InCollect* roaming agreement between *SID* pair.
-            Originating category is retrieve from the table that is used
+            Originating category is retrieved from the table and that is used
             later on for service filter determination. INCOL_SID_PAIR
             and *SID* tables are also used by Acquisition & Formatting.
 #+BEGIN_LaTeX
@@ -2133,7 +2167,7 @@ subgraph cluster_3 {
     Cell site name to number ID.
 
 *** PC9_SERVICE_FILTER
-    This table as well and *PC3_SERVICE_FILTER_LIST* are used by the *RLC*.
+    This table as well and *PC3_SERVICE_FILTER_LIST* are used by the *RLC*, to define the service filter 
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2176,8 +2210,8 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
-            
-*** PC9_DEST_CATEGORY
+:CLOSET:            
+ *** PC9_DEST_CATEGORY
             Lists all the possible destination categories.
 #+BEGIN_LaTeX
 \footnotesize
@@ -2191,6 +2225,8 @@ subgraph cluster_3 {
 | Destination_Category | Varchar2(6 Byte)   |               |
 | Description          | Varchar2(101 Byte) |               |
 |----------------------+--------------------+---------------|
+:END:
+
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -2221,10 +2257,9 @@ subgraph cluster_3 {
 
 #+BEGIN_LaTeX
 \normalsize
-\newpage
 #+END_LaTeX
-
-*** PC9_ORIG_CATEGORY
+:CLOSET:
+ *** PC9_ORIG_CATEGORY
     List all possible originating categories.
 #+BEGIN_LaTeX
 \footnotesize
@@ -2243,7 +2278,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 
-*** PC9_ROAMING_DEST_CATEGORY
+ *** PC9_ROAMING_DEST_CATEGORY
      List all roaming destination categories.
 #+BEGIN_LaTeX
 \footnotesize
@@ -2260,6 +2295,7 @@ subgraph cluster_3 {
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+:END:
 *** PC1_CHARGE_CODE
     Lists and describes the supported charge codes.
 #+BEGIN_LaTeX
@@ -2303,6 +2339,10 @@ subgraph cluster_3 {
 \newpage
 #+END_LaTeX 
 
+#+BEGIN_LaTeX
+\newpage 
+\begin{landscape}  
+#+END_LaTeX
 * AEM
    *AEM* gets the Turbo-Charging errors from the
    *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
@@ -2313,6 +2353,8 @@ subgraph cluster_3 {
  [[file:docs/EM1%20Query's][EM1 Queries]]
 
 *** AEM Error Summary
+    List of error codes.
+ 
 #+BEGIN_LaTeX
 \scriptsize
 #+END_LaTeX
@@ -2384,8 +2426,6 @@ subgraph cluster_3 {
 |              |            |           |           |           |         |                                                                                    |
 |--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
 #+BEGIN_LaTeX
-\end{landscape} 
-\newpage
 \normalsize
 #+END_LaTeX
 
@@ -2394,50 +2434,13 @@ subgraph cluster_3 {
     Click on the link provided below to see an example on how to query this table.
 	 [[file:///home/dbalchen/workspace/CommonPlace/docs/em1_example.sql][EM1_RECORD Example]]
 
+#+BEGIN_LaTeX
+\end{landscape} 
+\newpage
+#+END_LaTeX
 * APRM
    *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
 ** APRM Tables
-*** CDMA Data Outcollects
-*** DATA_OUTCOLLECT
-    Event table used for CDMA data Outcollects.
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-#+ATTR_LaTeX: :environment longtable :align l|l|l
-    |---------------------------+--------------------+---------------|
-    | *Name*                    | *Data Type*        | *Description* |
-    |---------------------------+--------------------+---------------|
-    | Actual_Data_Volume        | Number             |               |
-    | Actual_Usage_Volume       | Number             |               |
-    | Amount                    | Number (9,2)       |               |
-    | Bsid                      | Char (12 Byte)     |               |
-    | Home_Carrier              | Varchar2 (40 Byte) |               |
-    | Home_Sid                  | Char (5 Byte)      |               |
-    | Message_Accounting_Digits | Number             |               |
-    | Partner                   | Varchar2 (40 Byte) |               |
-    | Process_Date              | Date               |               |
-    | Settlement_Date           | Date               |               |
-    |---------------------------+--------------------+---------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX  
-*** ROAMING_PARTNER 
-    A table that contains all the CDMA Data Outcollect roaming partners.
-#+BEGIN_LaTeX
-\footnotesize
-#+END_LaTeX
-#+ATTR_LaTeX: :environment longtable :align l|l|l
-    |---------------+--------------------+---------------|
-    | *Name*        | *Data Type*        | *Description* |
-    |---------------+--------------------+---------------|
-    | Bsid_Type     | Char (5 Byte)      |               |
-    | Clearinghouse | Varchar2 (40 Byte) |               |
-    | Partner       | Varchar2 (40 Byte) |               |
-    | Roaming_Type  | Char (1 Byte)      |               |
-    |---------------+--------------------+---------------|
-#+BEGIN_LaTeX
-\normalsize
-#+END_LaTeX   
 *** CDMA USC_ROAM_EVNTS
     Used for CDMA Incollect/Outcollect Voice and data files.
 #+BEGIN_LaTeX
@@ -2494,9 +2497,53 @@ subgraph cluster_3 {
 \normalsize
 \newpage
 #+END_LaTeX
+*** DATA_OUTCOLLECT
+    Event table used for CDMA data Outcollects which run totally outside *TOPS*.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+    |---------------------------+--------------------+---------------|
+    | *Name*                    | *Data Type*        | *Description* |
+    |---------------------------+--------------------+---------------|
+    | Actual_Data_Volume        | Number             |               |
+    | Actual_Usage_Volume       | Number             |               |
+    | Amount                    | Number (9,2)       |               |
+    | Bsid                      | Char (12 Byte)     |               |
+    | Home_Carrier              | Varchar2 (40 Byte) |               |
+    | Home_Sid                  | Char (5 Byte)      |               |
+    | Message_Accounting_Digits | Number             |               |
+    | Partner                   | Varchar2 (40 Byte) |               |
+    | Process_Date              | Date               |               |
+    | Settlement_Date           | Date               |               |
+    |---------------------------+--------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX  
+*** ROAMING_PARTNER 
+    A table that contains all the CDMA Data Outcollect roaming partners. This table
+    works in tandom with the *DATA_OUTCOLLECT* table.
 
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+    |---------------+--------------------+---------------|
+    | *Name*        | *Data Type*        | *Description* |
+    |---------------+--------------------+---------------|
+    | Bsid_Type     | Char (5 Byte)      |               |
+    | Clearinghouse | Varchar2 (40 Byte) |               |
+    | Partner       | Varchar2 (40 Byte) |               |
+    | Roaming_Type  | Char (1 Byte)      |               |
+    |---------------+--------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX   
 *** 4G IC_ACCUMULATED_USAGE
-    One of the tables that is part of *USC_SAP_EXTRACT_V* useful for usage totals and file names. This is a view of the *PRM_EVENT_DTL_PARAM* and *IC_ACCUMULATED_CHRG* tables.
+    This is the equivalent to the *APE1_ACCUMULATORS* for wholesale 4G roaming usage and
+   is a view of the *PRM_EVENT_DTL_PARAM* and *IC_ACCUMULATED_CHRG* tables.
+    One of the tables that is part of *USC_SAP_EXTRACT_V* useful for usage totals and
+    file names. 
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2588,6 +2635,7 @@ subgraph cluster_3 {
 | Nr_Param_3_Id        | Number (4)         |                          |
 | Nr_Param_4_Id        | Number (4)         |                          |
 | Tax_Set_Cd           | Char (2 Byte)      |                          |
+BooGoo9000#
 | Uom                  | Char (2 Byte)      |                          |
 | Num_Of_Events        | Number (9)         |                          |
 | Event_Chrg_Tp        | Char (1 Byte)      |                          |
@@ -2611,6 +2659,7 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 *** 4G PRM_ROM_INCOL_EVENTS_AP
+    APRM table that contains the events for wholesale 4G Incollects.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2688,6 +2737,7 @@ subgraph cluster_3 {
 #+END_LaTeX
 
 *** 4G PRM_ROM_OUTCOL_EVENTS_AP
+    APRM table that contains the events for wholesale 4G Outcollects.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2865,8 +2915,11 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 * ARCM
+  Thw whole purpose of *ARCM* is to convert wholesale IN/OUT Collect *TAP* files into usage records
+  that could then put into *APRM*. 
 ** ARCM Tables
 *** SMM1_COLLECT_FILES_HIST
+    The *TAP* file equivalent to *AC1_CONTROL_HIST*. 
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -2902,6 +2955,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 *** SMM1_ARCM_FILE_REPOSITORY 
+    Used in conjunction with *SMM1_COLLECT_FILES_HIST* to get more detailed information.
 #+BEGIN_LaTeX
 \footnotesize
 #+END_LaTeX
@@ -3159,7 +3213,7 @@ subgraph cluster_3 {
 
 [fn:8] *TWS* Job
 
-[fn:7] Data Managment and Intergration
+[fn:7] Data Management and Integration
 
 [fn:6] Mass File Transfer
 

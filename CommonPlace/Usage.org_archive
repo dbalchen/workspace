@@ -1,0 +1,68 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/dbalchen/workspace/CommonPlace/Usage.org
+
+
+* CDMA *In and Outcollects*
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-27 Thu 12:01
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/Usage.org
+  :ARCHIVE_OLPATH: APRM/APRM Tables
+  :ARCHIVE_CATEGORY: Usage
+  :END:
+    Used for CDMA Incollect/Outcollect Voice and data files.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|--------------------+--------------------+----------------|
+| *Name*             | *Data Type*        | *Description*  |
+|--------------------+--------------------+----------------|
+| Air_Chrg_Amt       | Number (18,5)      |                |
+| Application_Id     | Char (6 Byte)      |                |
+| Au_Id              | Number (9)         |                |
+| Bp_Start_Date      | Date               |                |
+| Carrier_Cd         | Varchar2 (20 Byte) |                |
+| Ciber_File_Name_1  | Varchar2 (50 Byte) |                |
+| Ciber_File_Name_2  | Varchar2 (50 Byte) |                |
+| Dl_Service_Code    | Char (5 Byte)      |                |
+| Dl_Update_Stamp    | Number (4)         |                |
+| Edr_Id             | Number (11)        |                |
+| Event_Date         | Date               |                |
+| Event_Id           | Number (4)         |                |
+| Event_Type         | Varchar2 (20 Byte) |                |
+| File_Report_Period | Date               |                |
+| Generated_Rec      | Number (4)         |                |
+| Geo_Code           | Varchar2 (10 Byte) |                |
+| Home_Company       | Varchar2 (20 Byte) |                |
+| Home_Sid           | Char (5 Byte)      |                |
+| Ntwrk_Roam_Ind     | Char (1 Byte)      |                |
+| Operator_Id        | Number (9)         |                |
+| Orig_Bp            | Date               |                |
+| Originating_Id     | Char (20 Byte)     |                |
+| Other_Company      | Varchar2 (20 Byte) |                |
+| Prod_Id            | Number (4)         |                |
+| Serve_Company      | Varchar2 (20 Byte) |                |
+| Serve_Sid          | Char (5 Byte)      |                |
+| Subscriber_Id      | Char (10 Byte)     |                |
+| Surcharge_Amount   | Number (18,5)      |                |
+| Surcharge_Ind      | Char (1 Byte)      |                |
+| Sys_Creation_Date  | Date               |                |
+| Sys_Update_Date    | Date               |                |
+| Terminating_Id     | Char (20 Byte)     |                |
+| Toll_Chrg          | Number (18,5)      |                |
+| Toll_Duration      | Number (11)        |                |
+| Toll_Tp_Ind        | Varchar2 (20 Byte) |                |
+| Total_Chrg_Amount  | Number (18,5)      |                |
+| Total_Tax          | Number (18,5)      |                |
+| Usage              | Number (18,5)      |                |
+| Usc_Uom            | Char (1 Byte)      |                |
+| Visit_Ind          | Char (1 Byte)      |                |
+| Volume_Type        | Char (2 Byte)      |                |
+|--------------------+--------------------+----------------|
+#+BEGIN_LaTeX
+\normalsize
+\newpage
+#+END_LaTeX
