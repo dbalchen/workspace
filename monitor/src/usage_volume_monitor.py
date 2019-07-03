@@ -19,18 +19,18 @@ from cx_Oracle import Date
 
 def dbConnect ():
     
-#     CONN_INFO = {
-#         'host': '10.176.199.19',  # info from tnsnames.ora
-#         'port': 1530,  # info from tnsnames.ora
-#         'user': 'md1dbal1',
-#         'psw': 'xxxxxxxxxxxxx',
-#         'service': 'bodsprd_adhoc'  # info from tnsnames.ora
-#     }
-#     CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
-#   
-#     tconn = cx_Oracle.connect(CONN_STR)
+    CONN_INFO = {
+        'host': '10.176.199.19',  # info from tnsnames.ora
+        'port': 1530,  # info from tnsnames.ora
+        'user': 'md1dbal1',
+        'psw': 'BooGoo9000#',
+        'service': 'bodsprd_adhoc'  # info from tnsnames.ora
+    }
+    CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
+   
+    tconn = cx_Oracle.connect(CONN_STR)
 
-    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
+#    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
     
     return tconn;
 

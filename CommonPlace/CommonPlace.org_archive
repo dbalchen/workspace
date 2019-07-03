@@ -4348,3 +4348,15 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
 ** Current Status
    Incollects are in but Outcollects are still having issues with e911. Official launch for Incollects is July 16, 2019, Outcollects is May 31st, 2019.
 
+
+* TODO Usage Bible
+  DEADLINE: <2019-12-31 Tue>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-01 Mon 16:15
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+   

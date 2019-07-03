@@ -5108,6 +5108,7 @@ CD    6. No additional details needed
     Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
     *UAT in Progress*
     
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0506/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0506 Fixed Wireless Track 5.1]]
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][VoLTE Prepaid]]
 *** Project Manager
     Rachelle Funderburg 
@@ -5141,8 +5142,23 @@ CD    6. No additional details needed
       2. *1.2b Android*
 
     Received the [[https://usc.intranet.teldta.com/sites/EPR/IR0411/Documents/USCC%2520Phase1%2520-%2520A%2520and%2520F%2520-%2520Unified%2520Format%2520-%2520IDD.docx][UFF file format]] changes and I'm reviewing it now.
-** TODO IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming 
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
+   Initial stages: No documents or timeline but they do have a Sharepoint site now.
 *** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
+*** Project Manager
+    Christopher Barton
+*** Project Description
+    The objective of this project is to implement WPS (Wireless  Priority Service) on USCC ‘s LTE network with a limited capability (LC) by September 13th , 2019.
+*** Go Live Date
+    September 13th, 2019
+*** Open Issues
+    None
+*** Billing and Revenue impacts
+    None that I can see but the project is just begining.
+
+** TODO Mediation Upgrade
+   Should be complete by the end of next week.
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
    
@@ -5226,9 +5242,6 @@ CD    6. No additional details needed
      | X_Req_No_Lines          | Number             |               |
      | X_Status                | Varchar2 (1 Byte)  |               |
      |-------------------------+--------------------+---------------|
-** TODO Usage Bible
-   DEADLINE: <2019-12-31 Tue>
-   
 ** TODO Finish new EPS Monitors for Data 
    - [X] Write Code
    - [ ] Add to CallDump
@@ -5247,6 +5260,7 @@ CD    6. No additional details needed
      - [ ] Get CallDump working (try using old tomcat_prod)
    - [X] What about WEDO?
    - [ ] Check Perl/Python
+** TODO Usage Playbook
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
