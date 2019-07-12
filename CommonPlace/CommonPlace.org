@@ -227,7 +227,9 @@ file:Pictures/Andrejevi1.jpg
  : mkstore -wrl <wallet_location>  -createCredential <db_connect_string> <username> <password>
  : mkstore -wrl  <wallet_location> -deleteCredential <db_connect_string> <username> <password>
  : mkstore -wrl  <wallet_location> -modifyCredential <db_connect_string> <username> <password>
- : mkstore -wrl .wallet  -createCredential ANF_SVC_BILLINGOPS SVC_BILLINGOPS 'lXmWKh5pJsGxr!nIl_GQl0Db'
+ : mkstore -wrl .wallet  -createCredential ANF_SVC_BILLINGOPS SVC_BILLINGOPS 'xDzEikowgeQLcjfoKHXsawuu'
+
+ : New Password xDzEikowgeQLcjfoKHXsawuu
 
 ** Production Servers/EpsMonitors
 #+BEGIN_LaTeX
@@ -4990,6 +4992,8 @@ CD    6. No additional details needed
     - Network enablement in Year 1 markets (Iowa and Wisconsin)
     - New *TOPS* functionality to support *5G* Provisioning and Usage processing
     - Launch of new *5G* enabled devices (multiple platforms and device types)
+    - NDC will be rolling out a new version of there mediation software which will help with some of the issues with being able to distinguish between 5G and 4G.
+    - The introduction documents have been disseminated out in the field.
 *** Go Live Dates
     Delivery Schedule (Kirti)
     - Track1 – TOPS Provisioning changes (Amdocs) – 1 PI effort – 1 User story –  target August, 2019
@@ -5019,15 +5023,13 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     Mr. Smith's IP monitors may need to be changed to look for 5G.
 *** Current Status
-    NDC will be rolling out a new version of there mediation software which will help with some of the issues with being able
-    to distinguish between 5G and 4G.
-    The introduction documents have been disseminated out in the field.
+    USCC TOPS IA IR0600 - 5G Commercialization has been Approved.
+
 **** <2019-06-24 Mon>
      5G Phase 2 Business requirements first draft is complete. This will cover reporting and data varification (We will have a bigger roll).
      Solution Document for phase 1 has been updated.
     
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
-   DEADLINE: <2019-06-01 Sat>--<2019-06-30 Sun>  
 *** Project Manager
     Rebecca Class
 *** Project Description
@@ -5111,9 +5113,12 @@ CD    6. No additional details needed
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0506/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0506 Fixed Wireless Track 5.1]]
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][VoLTE Prepaid]]
 *** Project Manager
-    Rachelle Funderburg 
+    Mala Rao
 *** Project Description
     Enable prepaid customers to use VoLTE.
+*** Go Live dates
+    September 2019
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
     Rachelle Funderburg 
@@ -5157,8 +5162,6 @@ CD    6. No additional details needed
 *** Billing and Revenue impacts
     None that I can see but the project is just begining.
 
-** TODO Mediation Upgrade
-   Should be complete by the end of next week.
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
    
@@ -5250,16 +5253,18 @@ CD    6. No additional details needed
    - [ ] Talk to Dave about triggers for Oncall
 ** TODO Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
-** TODO Setup CallDump Server [66%]
+** TODO Setup CallDump Server [57%]
+   - [ ] Setup Wallets
    - [X] Finish Server Doc
-   - [X] Open ports request
+   - [ ] Open ports request [0%]
+     - [ ] Waiting for ports to be open.
    - [X] recompile applications
    - [ ] copy files
-   - [ ] Setup Tomcat [0%]
-     - [ ] Check Database Connection
+   - [-] Setup Tomcat [50%]
+     - [X] Check Database Connection
      - [ ] Get CallDump working (try using old tomcat_prod)
    - [X] What about WEDO?
-   - [ ] Check Perl/Python
+   - [X] Check Perl/Python
 ** TODO Usage Playbook
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 

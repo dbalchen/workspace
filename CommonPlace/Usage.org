@@ -1386,14 +1386,14 @@ subgraph cluster_3 {
 | Event_Id                     | Number (18)         |                       |
 | *Subscriber_Id*              | Number (10)         |                       |
 | Start_Time                   | Date                |                       |
-| *Event_Type_Id*              | Number (9)          | The Event Type        |
+| *Event_Type_Id*              | Number (9)          | [[https://usc.intranet.teldta.com/sites/is/operations/IS_Billing_Ops/_layouts/15/start.aspx#/oneNoteTest/Turbo%2520Charge%2520-%2520Event%2520Types.aspx][The Event Type]]        |
 |                              |                     | Voice - 62            |
 |                              |                     | Data - 51             |
 |                              |                     | Lte - 69              |
 |                              |                     | Sms - 54              |
 |                              |                     | Mms - 60              |
 |                              |                     | Volte - 69            |
-|                              |                     | /See Wiki Table/      |
+|                              |                     | /Click above link/    |
 |                              |                     | /For Complete List/   |
 | Target_Cycle_Code            | Number (4)          |                       |
 | Cycle_Year                   | Number (4)          |                       |
@@ -1513,7 +1513,7 @@ subgraph cluster_3 {
 | *L9_Application_Id*          | Varchar2 (64 Byte)  | Used For Brew         |
 | L9_Orig_Trans_Id             | Varchar2 (64 Byte)  |                       |
 | *L9_Call_Answered_Indicator* | Varchar2 (1 Byte)   |                       |
-| L9_Destination_Category      | Varchar2 (6 Byte)   |INTNL = International  |
+| L9_Destination_Category      | Varchar2 (6 Byte)   | INTNL = International |
 | L9_Surcharge_Amount          | Number              |                       |
 | L9_Destination_State_Code    | Varchar2 (2 Byte)   |                       |
 | L9_Redirect_Number           | Varchar2 (32 Byte)  |                       |
@@ -3208,6 +3208,45 @@ BooGoo9000#
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
+:END:
+* EpsMonitor
+   The EpsMonitors are located on all production servers listed in the diagram below and can be found at
+   */apps/amduser/prodtc*/eps/EpsMonitors*, *where * = 1-6*
+
+
+#+ATTR_LaTeX: :width 10cm
+   file:Pictures/EpsMonitors.png
+
+
+:PICTURE:
+digraph BI {
+	
+graph [splines=ortho nodesep=0.8  rankdir=LR  constraint=false overlap=false style=bold];
+
+
+
+subgraph cluster_2 {
+	 {rank = same; "EpsMonitor\nkpr01bch01" "EpsMonitor\nkpr01bch05" }
+	 "WebMonitor\nCallDump" -> "EpsMonitor\nkpr01bch05" [dir=both ];
+	 "WebMonitor\nCallDump" -> "EpsMonitor\nkpr01bch01" [dir=both];	
+	 "EpsMonitor\nkpr01bch05" -> "EpsMonitor\nkpr01bch01" [style=dashed arrowhead=none xlabel="Includes Servers\n2,3,4"];
+	color="#FFFFFF";
+	label = "Batch Servers";
+}
+
+subgraph cluster_3 {
+		 {rank = same; "EpsMonitor\nkpr01eve01" "EpsMonitor\nkpr01eve06" }
+"EpsMonitor\nkpr01eve06" -> "EpsMonitor\nkpr01eve01"[style=dashed arrowhead=none splines=true xlabel="Includes Servers\n2,3,4,5"];
+"WebMonitor\nCallDump" -> "EpsMonitor\nkpr01eve01"[dir=both];
+"WebMonitor\nCallDump" -> "EpsMonitor\nkpr01eve06"[dir=both];
+color="#FFFFFF";
+label = "Event Servers";		
+}
+
+"Joe/Jane \n Ops" -> "WebMonitor\nCallDump"[dir=both];	
+"WebMonitor\nCallDump" -> "EpsMonitor\nkpr01oprmn"[dir=both];
+
+}
 :END:
 * Footnotes
 
