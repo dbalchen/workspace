@@ -1,13 +1,14 @@
 /*
+* [[file:song7.sc][song7 workspace]]
 * Notes
-** Key
-| a  | 0 |
-| b  | 1 |
-| c# | 2 |
-| d  | 3 |
-| e  | 4 |
-| f# | 5 |
-| g# | 6 |
+** Key A Major
+| a  | 1 |
+| b  | 2 |
+| c# | 3 |
+| d  | 4 |
+| e  | 5 |
+| f# | 6 |
+| g# | 7 |
 
 |----+----+----+----+----|
 | a  |  9 |  0 |  0 |  1 |
@@ -22,8 +23,7 @@
 | g# |  8 | 11 |  6 |  7 |
 |----+----+----+----+----|
 
-
-** 
+** T-Matrix 
 |----+----+----+----+----+----+----+----|
 |    |  8 |  9 | 11 |  1 |  2 |  4 |  6 |
 |----+----+----+----+----+----+----+----|
@@ -49,89 +49,40 @@
 |  9 |  5 |  6 |  8 | 10 | 11 |  1 |  3 |
 |----+----+----+----+----+----+----+----|
 
-
-* Track Class
-
-// =====================================================================
-// MyTrack Class
-// =====================================================================
-
-*/
-
-MyTrack {
-  var <>notes = nil,     <>synth = nil, <>out = 0,
-    <>chan = 0,  <>balance = 0, <>spread = 0,
-    <>amp = 1.0, <>transport = nil,
-    <>volCC,<>ballCC;
-
-  *new {arg syn,chn = 0, nts = nil;
-    ^super.new.init(syn,chn,nts);
-  }
-
-  init {arg syn,chn,nts;
-
-    chan = chn;
-
-    if(nts == nil,
-      {
-	notes = MyNotes.new;
-	notes.init;
-      });
-
-    synth = syn;
-    this.setup();
-  }
-
-
-  setup {
-
-    if(transport != nil,
-      {transport.stop;transport = nil; });
-
-    transport = Pbind(\type, \midi,
-		      \midiout, synth,
-		      \midicmd, \noteOn,
-		      \note,  Pfunc.new({notes.freq.next}- 60),
-		      \amp, amp,
-		      \chan, chan,
-		      \sustain, Pfunc.new({notes.duration.next}),
-		      \dur, Pfunc.new({notes.wait.next})
-		      ).play;
-
-    transport.stop;
-
-    volCC = MIDIdef.cc(\volume, this.ccvolume, 7,chan);
-
-    ballCC.free;
-    ballCC = MIDIdef.cc(\pan, this.ccpan,10);
-    
-  }
-
-  ccvolume {
-    arg vol,cc,chan,src;
-    vol = vol/127;
-    vol.postln;
-
-    synth.amp = vol;
-
-  }
-
-  ccpan {
-    arg vol,cc,chan,src;
-    vol = (2*(vol/127))-1;
-
-    vol.postln;
-
-    synth.balance = vol;
-  }
-
-
-}
-
-
-
-
+* Classes
+** [[file:include/classes/Track.sc][Track Class]]
+*** TODO Figure out how to add midi controls
+ 
 /*
+** [[file:include/classes/Notes.sc][Notes]]
+** [[file:include/classes/PitchClass.sc][PitchClass]]
+** Fix Durations
+~fixDurations = { arg notes;
+
+	notes.freqs.do({arg item, i;
+
+		var dur = 0, count = i+1;
+
+		if (item != 0,{
+			dur = notes.waits[i];
+			while({(notes.freqs[count] == 0) && (count < notes.freqs.size)},{
+				dur = dur + notes.waits[count];
+				count = count + 1;
+			});
+
+			notes.durations[i] = dur;
+		},
+		{
+			notes.durations[i] = 0;
+		}
+		);
+
+
+	});
+
+	notes;
+};
+
 * SuperCollider
 */
 ** [[file:include/superInit.sc][SuperColliderInit]]
@@ -142,17 +93,52 @@ MyTrack {
 */
 /*
 ** [[file:include/synths/evenVCO.sc][evenVCO]]
-** [[file:include/synths/mono_evenVCO.sc][Mono evenVCO]]
 ** [[file:include/synths/eCello.sc][eCello]]
  */
 
 
 /*
-** [[file:include/synths/mono_eCello.sc][Mono_eCello]]
-
+** [[file:include/synths/eStrings.sc][eStrings]]
 ** FM
 
 */
+/*
+*** Raw FM
+*/
+(
+ SynthDef(\rawFM, { |out, amp=1, attack=0.25, decay=0.5, sustain=1,  release=2,balance = 0,spread = 1, accelerate=0, hpf = 128,gate = 0, da = 2,
+       freq=440, carP=1, modP=0.66, moduP =0.33, index=3, mul=0.1, detune=0.8, modAttack=0.15, modDecay=2, modSustain=1, modRelease=0.5|
+
+       var env = EnvGen.ar(Env.adsr(attack, decay, sustain, release), gate: gate, doneAction:da);
+
+     var mod = SinOsc.ar(freq * modP * EnvGen.kr(Env.adsr(modAttack, modDecay,modSustain,modRelease,2,-4,0)), 0, freq * index * LFNoise1.kr(5.reciprocal).abs);
+
+     var modu = SinOsc.ar(freq * moduP * EnvGen.kr(Env.adsr(modAttack, modDecay,modSustain,modRelease,2,-4,0)), 0, freq * index * LFNoise1.kr(5.reciprocal).abs);
+
+     var sig = (SinOsc.ar(([freq, freq+detune] * carP) + [mod + modu], 0, mul)) * env;
+
+     sig = HPF.ar(sig,hpf);
+
+     sig = LeakDC.ar(sig);
+
+	 sig = Splay.ar(sig); 
+
+     sig = Splay.ar(sig,spread,center:balance);
+
+     OffsetOut.ar(out, sig * amp);
+
+   }).add;
+)
+
+
+~channel4 = {arg num, vel = 1;
+	     var ret;
+	     num.postln;
+	     ret = Synth("rawFM");
+	     ret.set(\freq,num.midicps);
+	     ret.set(\gate,1);
+	     ret;
+};
 /*
 *** Saxaphone
 */
@@ -164,7 +150,7 @@ MyTrack {
 (
 SynthDef("sadSax",
 	{
-		arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,hpf = 590,
+		arg out = 0, freq = 110, gate = 0, amp = 1.0, da = 2,hpf = 590,
 		attack = 0.5, decay = 2.0, sustain = 0.0, release = 0.2,
 		fattack = 0.5,fdecay = 2.0, fsustain = 0.0,
 		frelease = 0.1, aoc = 0.7, gain = 1, cutoff = 12200.00,
@@ -217,7 +203,7 @@ SynthDef("sadSax",
 /*
 **** Setup midi channel Sax
 */
-~channel0 = {arg num, vel = 1;
+~channel4 = {arg num, vel = 1;
 	     var ret;
 	     num.postln;
 	     ret = Synth("sadSax");
@@ -236,8 +222,8 @@ SynthDef("sadSax",
 SynthDef("frenchHorn",
 	  {
 	    arg out = 0, freq = 110, gate = 0, amp = 0.250, da = 2,hpf = 20,
-	        attack = 0.2, decay = 8.0, sustain = 0.6, release = 0.6,
-	        fattack = 0.2,fdecay = 8.0, fsustain = 0.8,frelease = 0.6,
+	        attack = 0.2, decay = 1.5, sustain = 0.6, release = 0.3,
+	        fattack = 0.2,fdecay = 1.5, fsustain = 0.8,frelease = 0.3,
 	        aoc = 0.9,gain = 0.7, cutoff = 10200.00,
 	        bend = 0, spread = 0, balance = 0;
 	
@@ -284,7 +270,7 @@ SynthDef("frenchHorn",
 /*
 **** Setup midi channel Sax
 */
-~channel0 = {arg num, vel = 1;
+~channel5 = {arg num, vel = 1;
 	     var ret;
 	     num.postln;
 	     ret = Synth("frenchHorn");
@@ -297,110 +283,6 @@ SynthDef("frenchHorn",
 
 
 
-/*
-*** Carriers and Modulators
-    Dividing the "fm" synth def into two pieces, a synthdef for a modulator and a 
-    synthdef for the carrier, gives more functionality - carrier signals can shaped by two 
-    or more modulators.
-
-*/
-
-
-
-(
-
- SynthDef("carrier", { arg inbus = 2, outbus = 0, freq = 440, carPartial = 1, mul = 0.2,
-       attack = 0, decay = 0, sustain = 1, release = 0, da = 2;
-
-     var mod,car,env;
-
-     env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
-     
-     env = EnvGen.ar(env, gate: gate,doneAction:da);
-
-     mod = In.ar(inbus, 1);
-
-     Out.ar(
-
-	    outbus,
-
-	    SinOsc.ar((freq * carPartial) + mod, 0, mul*env);
-
-	    )
-
-       }).load(s);
-
-
-
- SynthDef("modulator", { arg outbus = 2, freq, modPartial = 1, index = 3,
-       attack = 0, decay = 0, sustain = 1, release = 0, da = 2;
-
-     var env;
-
-     env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
-     
-     env = EnvGen.ar(env, gate: gate,doneAction:da);
-
-     
-     Out.ar(
-
-	    outbus,
-
-	    SinOsc.ar(freq * modPartial, 0, freq) 
-
-	    * 
-
-	    LFNoise1.kr(Rand(3, 6).reciprocal).abs 
-
-	    * 
-
-	    index
-
-	    )
-
-       }).load(s);
-
-)
-
-
-
-(
-
-var freq = 440;
-
-// modulators for the left channel
-
-Synth.head(s, "modulator", [\outbus, 2, \freq, freq, \modPartial, 0.649, \index, 2]);
-
-Synth.head(s, "modulator", [\outbus, 2, \freq, freq, \modPartial, 1.683, \index, 2.31]);
-
-
-
-// modulators for the right channel
-
-Synth.head(s, "modulator", [\outbus, 4, \freq, freq, \modPartial, 0.729, \index, 1.43]);
-
-Synth.head(s, "modulator", [\outbus, 4, \freq, freq, \modPartial, 2.19, \index, 1.76]);
-
-
-
-// left and right channel carriers
-
-Synth.tail(s, "carrier", [\inbus, 2, \outbus, 0, \freq, freq, \carPartial, 1]);
-
-Synth.tail(s, "carrier", [\inbus, 4, \outbus, 1, \freq, freq, \carPartial, 0.97]);
-
-)
-
-
-
-(
-
-s.queryAllNodes;
-
-)
-
-*/
 /*
 ** Formants
 */
@@ -576,3 +458,7 @@ d
 t
 
 */
+
+
+
+

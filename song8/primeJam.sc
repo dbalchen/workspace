@@ -1,101 +1,111 @@
+Help.gui
+Quarks.gui
 
 s.boot;
 s.plotTree;
 s.meter;
 s.quit;
 
-"/home/dbalchen/Music/setup.sc".load;
-
-~startTimer.value(100);
+Stethoscope.new(s);
+FreqScope.new(800, 400, 0, server: s);
+Server.default.makeGui
 
 
 (
+o = Server.local.options;
+o.numOutputBusChannels = 24; // The next time it boots, this will take effect
+o.memSize = 2097152;
+s.latency = 0.04
+)
 
-~allTimes = [0.25,0.5,0.25,0.25,0.25,0.5,0.5,0.06,0.44,0.25,0.5,0.25,0.5,0.5,0.25,0.5,0.25,0.5,1.0,0.25,0.25,0.5,0.25,0.25,0.5,0.5,0.5,0.25,0.25,0.25,0.25,0.5,0.5,0.25,0.25,0.25,0.5,0.25,0.5,0.5,0.25,0.25,0.25,0.25];
-
-~chimeLong = MyTrack.new(~synth1,0);
-~chimeLong.notes.waits = ~allTimes.deepCopy;
-~chimeLong.notes.freqs = [73,0,0,0,0,0,0,69,0,0,0,0,76,0,0,0,0,0,71,0,0,73,0,0,0,0,0,69,0,0,0,0,76,0,0,0,0,0,0,71,0,0,0,0];
-~chimeLong.notes.probs = [1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0];
-~chimeLong.notes.durations = [2.43,0,0,0,0,0,0,1.44,0,0,0,0,2.44,0,0,0,0,0,1.44,0,0,2.44,0,0,0,0,0,1.44,0,0,0,0,2.44,0,0,0,0,0,0,1.44,0,0,0,0] * 0.5;
-~chimeLong.notes.init;
-
-~chimeLong = MyTrack.new(~synth1,0);
-~chimeLong.notes.waits = [2.5,1.5,2.5,1.5,2.5,1.5,2.5,1.5];
-
-~chimeLong.notes.freqs = [73,69,76,71,73,69,76,71] - 12;
-~chimeLong.notes.probs = [1,1,1,1,1,1,1,1];
-~chimeLong.notes.durations = [2.44,1.44,2.44,1.44,2.44,1.44,2.44,1.44];
-~chimeLong.notes.init;
-
-~chime = MyTrack.new(~synth1,1);
-~chime.notes.waits = ~allTimes.deepCopy;
-~chime.notes.freqs = [73,73,73,73,73,73,73,69,69,69,69,69,76,76,76,76,76,76,[71,71],71,71,73,73,73,73,73,73,69,69,69,69,69,76,76,76,76,76,76,76,71,71,71,71,71];
-~chime.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-~chime.notes.durations = [0.13,0.13,0.12,0.13,0.13,0.13,0.12,0.13,0.13,0.13,0.12,0.12,0.13,0.12,0.12,0.13,0.12,0.13,0.13,0.13,0.13,0.13,0.12,0.13,0.13,0.13,0.13,0.13,0.13,0.12,0.13,0.13,0.13,0.13,0.13,0.13,0.13,0.12,0.13,0.13,0.12,0.13,0.13,0.13] * 0.8;
-~chime.notes.init;
+"/home/dbalchen/Music/setup.sc".load;
 
 
-~verse = MyTrack.new(~synth1,2);
-~verse.notes.waits = ~allTimes.deepCopy;
-~verse.notes.probs = [1000,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] * 0.5;
-~verse.notes.freqs = [ 69, 69, 69, 69, 68, 64, 57, 64, 64, 64, 68, 68, 66, 69, 69, 66, 64, 64, 68, 76, 68, 69, 68, 66, 68, 57, 68, 64, 64, 68, 66, 68, 66, 66, 57, 57, 64, 66, 66, 64, 66, 66, 68, 76 ];
-~verse.notes.durations = nil;//~allTimes.deepCopy;
-~verse.notes.init;
-~verse.notes.durMult = 0.9;
+(
+~allTimesWaits = [1.0,1.0,0.5,1.0,0.5,1.0,0.75,0.75,1.0,0.5,1.0,1.0,0.5,1.0,0.5,1.0,0.75,0.75,1.0,0.5];
+
+~probs1 = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+
+~verse = MyTrack.new(~synth1,0);
+//~verse.notes.freqs = [69,0,0,71,0,68,0,0,64,0,62,0,0,64,0,65,0,0,64,0];
+//~verse.notes.freqs = [69,[68,69].choose,[66,68].choose,71,[68,69].choose,68,66,62,64,61,62,64,62,64,[68,69].choose,65,[68,71].choose,64,64,68];
+
+~verse.notes.freqs = [ 69, 69, 66, 71, 68, 68, 66, 62, 64, 61, 62, 64, 62, 64, 69, 65, 71, 64, 64, 68 ];
+
+~verse.notes.waits = ~allTimesWaits.deepCopy * 1;
+//~verse.notes.probs = [1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0];
 ~verse.notes.fixdurs = 1;
-~verse.notes.persistProbs = 1;
-
-
-~bassdrum = MyTrack.new(~synth1,9);
-~bassdrum.notes.waits = [0.25,0.5,0.25,0.25,0.25,0.5,0.5,0.06,0.44,0.25,0.5,0.25,0.5,0.5,0.25,0.5,0.25,0.5,0.5,0.5,0.25,0.25,0.5,0.25,0.25,0.5,0.5,0.5,0.25,0.25,0.25,0.25,0.5,0.5,0.25,0.25,0.25,0.5,0.25,0.5,0.5,0.25,0.25,0.25,0.25];
-~bassdrum.notes.freqs = [36,0,0,36,0,0,36,0,0,36,0,0,36,0,36,0,0,36,0,36,0,0,36,0,0,36,0,36,0,0,36,0,0,36,0,0,36,0,0,36,0,36,0,0,0];
-~bassdrum.notes.probs = [1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,1,0,0,0];
-~bassdrum.notes.durations = [1.0,0,0,1.0,0,0,1.0,0,0,1.0,0,0,1.0,0,1.0,0,0,1.0,0,1.0,0,0,1.0,0,0,1.0,0,1.0,0,0,1.0,0,0,1.0,0,0,1.0,0,0,1.0,0,1.0,0,0,0] * 0.1;
-~bassdrum.notes.init;
-
-
-~snare = MyTrack.new(~synth2,9);
-~snare.notes.waits = [1.75,0.75,0.66,0.59,1.75,0.5,0.25,1.25,1.75,0.75,1.25,1.75,0.75,1.25,1.0];
-~snare.notes.freqs = [38,38,38,38,38,38,38,38,38,38,38,38,38,38,38];
-~snare.notes.probs = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
-~snare.notes.durations = [1.75,0.75,0.91,0.59,1.75,0.5,0.25,1.25,1.75,0.75,1.25,1.75,0.75,1.25,1.0];
-
-~snare.notes.init;
-
+// ~verse.notes.durMult = 0.95;
+~newNotes =  ~verse.notes;
+~verse.notes.init;
 )
 
 ~startTimer.value(100);
-
-~rp = {~chime.transport.play;~chimeLong.transport.play;~verse.transport.play;~bassdrum.transport.play;~snare.transport.play;}
-
-~verse.notes.fixdurs = 1;
-~verse.notes.persistProbs = 1;
-
-~verse.notes.probs = [ 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1 ];
-
-~verse.notes.freqs = [ 69, 69, 69, 69, 68, 64, 57, 64, 64, 64, 68, 68, 66, 69, 69, 66, 64, 64, 68, 76, 68, 69, 68, 66, 68, 57, 68, 64, 64, 68, 66, 68, 66, 66, 57, 57, 64, 66, 66, 64, 66, 66, 68, 76 ];
-
-~verse.notes.durations;
-
-
-~chime.transport.mute;
-~chimeLong.transport.mute;
-~verse.transport.mute;
-~bassdrum.transport.mute;
-
-~chime.transport.unmute;
-~chimeLong.transport.unmute;
-~verse.transport.unmute;
-~bassdrum.transport.mute;
-
-
+~verse.notes.freqs;
+~verse.notes.waits;
 ~verse.notes.probs;
 ~verse.notes.durations;
-~verse.notes.freqs;
-~verse.notes.init;
-~verse.notes.waits;
 
+~verse.transport.play;
+~verse.transport.stop;
+~verse.transport.mute;
+~verse.transport.unmute;
+
+
+~tonerow = ~pcset.value(Scale.major.degrees.collect({ arg item, i; item; item}) + 57);
+~tonerow = ~createScale.value(~tonerow);
+
+~newNotes = ~melCurves.value(~verse.notes,~tonerow);
+~newNotes.waits = ~allTimesWaits.deepCopy * 1;
+~newNotes.probs =  ~probs1;
+
+~newNotes.probs = ((5 * [1,0,0,1,0,1,0,0,1,0,1,0,0,1,0,1,0,0,1,0]) + ~probs1) * 0.33;
+~newNotes.waits = ~allTimesWaits.deepCopy * 1;
+
+~newNotes.freqs = ~newNotes.freqs * ~newNotes.probs;
+
+~newNotes.freqs;
+~newNotes.probs;
+
+~newNotes.freqs =[ 69, 68, 73, 71, 69, 68, 66, 62, 64, 62, 62, 62, 62, 64, 64, 65, 62, 64, 64, 64 ]
+
+~newNotes.freqs =[ 69, 68, 66, 71, 68, 64, 66, 62, 64, 61, 62, 71, 73, 64, 69, 65, 71, 69, 64, 71 ]
+
+~newNotes.freqs =[ 69, 69, 71, 71, 68, 68, 66, 66, 64, 66, 62, 64, 62, 64, 68, 65, 68, 64, 64, 68 ]
+
+~newNotes.freqs =[ 69, 68, 66, 71, 68, 64, 66, 62, 64, 61, 62, 71, 73, 64, 69, 65, 71, 69, 64, 68]
+
+~newNotes.freqs = [ 69, 69, 68, 71, 69, 68, 66, 62, 64, 61, 62, 64, 62, 64, 66, 65, 68, 64, 64, 68 ]
+
+
+~newNotes.freqs = [69, 69, 68, 71, 69, 68, 69, 66, 64, 61, 62, 64, 62, 64, 68, 65, 64, 64, 64, 68 ];
+
+
+///////  futher refined
+~newNotes.freqs = [ 69, 69, 66, 71, 68, 68, 66, 62, 64, 61, 62, 64, 62, 64, 69, 65, 71, 64, 64, 68 ]
+
+~newNotes.freqs = [ 69, 69, 66, 71, 68, 68, 66, 62, 64, 61, 62, 64, 62, 64, 69, 65, 68, 64, 64, 68 ]
+
+// Probs
+[ 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+[ 1, 1, 1, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1 ]
+[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+[ 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1 ]
+
+~newNotes.probs = [ 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1 ]
+
+[ 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0 ]
+[ 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0 ]
+[ 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1 ]
+[ 1, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0 ]
+
+~newNotes.probs = [ 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0 ];
+
+~newNotes.probs = [ 1, 0, 0, 1, 0, 1, 1, [0,1].choose, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0 ]
+~newNotes.probs = [ 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0 ]
+
+
+~rp = {~verse.transport.play;}; // Example
 
 (
 ~start = {
@@ -109,9 +119,8 @@ s.quit;
 
 		t.schedAbs(timeNow + 00,{ // 00 = Time in beats
 			(
-				//~chime.transport.play;~chimeLong.transport.play;
+				// If yes put stuff Here
 				~verse.transport.play;
-				//~bassdrum.transport.play;~snare.transport.play;
 			);
 
 			(
@@ -130,5 +139,6 @@ s.quit;
 }; //End of Start
 
 )
+
 
 ~rp = {~start.value;};

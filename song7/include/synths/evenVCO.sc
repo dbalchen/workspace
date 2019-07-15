@@ -1,5 +1,5 @@
 /*
-*** vosc
+*** evenVCO
 */
 
 "/home/dbalchen/Music/MuscleBone/include/synths/envelopes.sc".load;
@@ -8,10 +8,10 @@
 
 
 SynthDef("evenVCO", {
-	arg ss, freq = 55, out = 0, amp = 0.45, lagtime = 0, da = 2, gate = 0,
+	arg ss, freq = 55, out = 0, amp = 1, lagtime = 0, da = 2, gate = 0,
 	idx = 0.2,hpf = 520,bend = 0,
 	attack = 1.5, decay = 2.5, sustain = 0.4, release = 0.75,
-	fattack = 1.5, fdecay = 2.5,fsustain = 0.4, frelease = 0.5,
+	fattack = 1.5, fdecay = 2.5,fsustain = 0.4, frelease = 0.75,
 	aoc = 0.6, gain = 0.25,cutoff = 12000.00, spread = 1, balance = 0;
 
 	var sig, env, fenv;
@@ -35,11 +35,11 @@ SynthDef("evenVCO", {
 		gain
 	);
 
-
-
 	sig = HPF.ar(sig,hpf);
 
 	sig = LeakDC.ar(sig);
+
+	sig = Splay.ar(sig);
 
 	sig = Splay.ar(sig,spread,center:balance);
 
@@ -58,14 +58,11 @@ SynthDef("evenVCO", {
 ~wavebuff = ~loadWaveTables.value(~wavetables);
 
 
-~channel0 = {arg num, vel = 1;
+~evenVCOpoly = {arg num, vel = 1;
 	var ret,tidx;
 	num.postln;
 	tidx = (~wavetables.size/120)* num;
-
 	ret = Synth("evenVCO");
-
-
 	ret.set(\ss,~wavebuff);
 	ret.set(\freq,num.midicps);
 	ret.set(\idx,tidx);
@@ -75,19 +72,46 @@ SynthDef("evenVCO", {
 	ret;
 };
 
-~channel1 = {arg num, vel = 1;
+
+SynthDef("evoOsc", { arg ss, freq = 55, out = 0, bend = 0, lagtime = 0.15, idx = 0;
+	var sig;
+
+	freq = Lag.kr(freq,lagtime);
+
+	freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
+
+	sig = VOsc.ar(ss+idx,freq,0);
+
+	sig = Splay.ar(sig);
+
+	Out.ar(out,sig);
+
+}).send(s);
+
+
+
+~evo = Synth("evoOsc",addAction: \addToTail);
+~evoOut = Bus.audio(s, 2);
+~evo.set(\out,~evoOut);
+
+
+
+~evenVCOmono = {arg num,chan, vel = 1,out;
 	var ret,tidx;
 	num.postln;
 	tidx = (~wavetables.size/120)* num;
 
-	ret = Synth("evenVCO");
+	~evo.set(\freq,num.midicps);
+	~evo.set(\idx,tidx);
+	~evo.set(\ss,~wavebuff);
+	~evo.set(\lagtime,0.1);
 
+	ret = Synth("monoPolySynth",addAction: \addToTail);
 
-	ret.set(\ss,~wavebuff);
-	ret.set(\freq,num.midicps);
-	ret.set(\idx,tidx);
 	ret.set(\gate,1);
 	ret.set(\hpf,120);
-
+	ret.set(\attack,1.5);
+	ret.set(\sigIn,~evoOut);
+	ret.set(\out,out);
 	ret;
 };

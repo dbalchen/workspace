@@ -752,3 +752,306 @@ OSCdef(\mMosc, { |m|
 
 
 /*
+
+* Carriers and Modulators
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-09 Sun 09:47
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: SuperCollider/FM
+  :ARCHIVE_CATEGORY: song7
+  :END:
+    Dividing the "fm" synth def into two pieces, a synthdef for a modulator and a 
+    synthdef for the carrier, gives more functionality - carrier signals can shaped by two 
+    or more modulators.
+
+*/
+
+
+
+(
+
+ SynthDef("carrier", { arg inbus = 2, outbus = 0, freq = 440, carPartial = 1, mul = 0.2,
+       attack = 0, decay = 0, sustain = 1, release = 0, da = 2;
+
+     var mod,car,env;
+
+     env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+     
+     env = EnvGen.ar(env, gate: gate,doneAction:da);
+
+     mod = In.ar(inbus, 1);
+
+     Out.ar(
+
+	    outbus,
+
+	    SinOsc.ar((freq * carPartial) + mod, 0, mul*env);
+
+	    )
+
+       }).load(s);
+
+
+
+ SynthDef("modulator", { arg outbus = 2, freq, modPartial = 1, index = 3,
+       attack = 0, decay = 0, sustain = 1, release = 0, da = 2;
+
+     var env;
+
+     env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+     
+     env = EnvGen.ar(env, gate: gate,doneAction:da);
+
+     
+     Out.ar(
+
+	    outbus,
+
+	    SinOsc.ar(freq * modPartial, 0, freq) 
+
+	    * 
+
+	    LFNoise1.kr(Rand(3, 6).reciprocal).abs 
+
+	    * 
+
+	    index
+
+	    )
+
+       }).load(s);
+
+)
+
+
+
+(
+
+var freq = 440;
+
+// modulators for the left channel
+
+Synth.head(s, "modulator", [\outbus, 2, \freq, freq, \modPartial, 0.649, \index, 2]);
+
+Synth.head(s, "modulator", [\outbus, 2, \freq, freq, \modPartial, 1.683, \index, 2.31]);
+
+
+
+// modulators for the right channel
+
+Synth.head(s, "modulator", [\outbus, 4, \freq, freq, \modPartial, 0.729, \index, 1.43]);
+
+Synth.head(s, "modulator", [\outbus, 4, \freq, freq, \modPartial, 2.19, \index, 1.76]);
+
+
+
+// left and right channel carriers
+
+Synth.tail(s, "carrier", [\inbus, 2, \outbus, 0, \freq, freq, \carPartial, 1]);
+
+Synth.tail(s, "carrier", [\inbus, 4, \outbus, 1, \freq, freq, \carPartial, 0.97]);
+
+)
+
+
+
+(
+
+s.queryAllNodes;
+
+)
+
+*/
+/*
+
+* Read Midi file
+   SCHEDULED: <2019-05-07 Tue>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-22 Sat 22:31
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: SuperCollider
+  :ARCHIVE_CATEGORY: song7
+  :END:
+ */
+/* Sébastien Clara - Janvier 2016
+
+
+   Import a midi file on 3 Arrays : notes, durations & dates
+
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   Put or link this file in a specific directories
+   Typical user-specific extension directories :
+   OSX:	~/Library/Application Support/SuperCollider/Extensions/
+   Linux: 	~/.local/share/SuperCollider/Extensions/
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   Dependence : wslib on Quarks
+
+   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   typeMidi => For noteOn & noteOff information.
+   But with MuseScore, we don't have. So put typeMidi to 1.
+   See the examples below.
+
+*/
+
+ImportMidiFile {
+  *new {	arg file, typeMidi=0;
+
+    var midiFile;
+    var notes, durees, dates;
+    var on, off, datesIndex;
+
+    midiFile = SimpleMIDIFile.read(file);
+
+    if (typeMidi == 0,{
+	midiFile.noteEvents.do({ |i| if(i[2] == \noteOn,
+	  {on = on.add(i)},
+	  {off = off.add(i)})
+	      });
+      },{
+	midiFile.noteEvents.do({ |i| if(i[5] != 0,
+	  {on = on.add(i)},
+	  {off = off.add(i)})
+	      });
+      });
+
+
+    datesIndex = on.collect({|i| i[1]});
+
+    datesIndex.asSet.asArray.sort.do({|date|
+	  var indices;
+	indices =  datesIndex.indicesOfEqual(date);
+
+	notes = notes.add( indices.collect({|i| on[i][4]}) );
+
+	durees = durees.add( indices.collect({|i|
+		var offIndice, duree;
+	      offIndice = off.collect({|j| j[4]}).detectIndex({|j| j == on[i][4]});
+	      duree = off[offIndice][1] - on[i][1];
+	      off.removeAt(offIndice);
+	      duree;
+	    }) );
+
+	dates = dates.add( date );
+      });
+
+
+
+    ^[notes, durees, dates];
+  }
+}
+
+/*
+//////////////////////////////////////////////////////////////////////////
+//	Usage :
+
+m = SimpleMIDIFile.read("~/Desktop/bwv772.mid");
+m.noteEvents.collect({ |i| i.postln }); ""
+/*
+[ 1, 97, noteOn, 0, 60, 127 ]
+[ 1, 265, noteOff, 0, 60, 127 ]
+[ 1, 278, noteOn, 2, 62, 127 ]
+[ 1, 446, noteOff, 2, 62, 127 ]
+*/
+// => typeMidi by default
+
+// notes, durations, dates <=
+# n, d, t = ImportMidiFile("~/Desktop/bwv772.mid");
+
+n
+d
+t
+
+
+m = SimpleMIDIFile.read("~/Desktop/cadence.mid");
+m.noteEvents.collect({ |i| i.postln }); ""
+					/*
+					  [ 0, 0, noteOn, 0, 72, 73 ]
+					  [ 0, 479, noteOn, 0, 72, 0 ]
+					  [ 0, 480, noteOn, 0, 69, 69 ]
+					  [ 0, 959, noteOn, 0, 69, 0 ]
+					*/
+					// => typeMidi != 0 !!!!!!!!!!!!!!
+
+					// notes, durations, dates <=
+# n, d, t = ImportMidiFile("~/Desktop/cadence.mid", 1);
+
+n
+d
+t
+
+*/
+
+* [[file:include/synths/mono_evenVCO.sc][Mono evenVCO]]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-22 Sat 22:31
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: SuperCollider
+  :ARCHIVE_CATEGORY: song7
+  :END:
+
+* [[file:include/synths/mono_eCello.sc][Mono_eCello]]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-22 Sat 22:32
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: SuperCollider
+  :ARCHIVE_CATEGORY: song7
+  :END:
+
+
+* Note Factory
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-13 Sat 09:17
+  :ARCHIVE_FILE: ~/Music/song7/song7.org
+  :ARCHIVE_OLPATH: Classes
+  :ARCHIVE_CATEGORY: song7
+  :END:
+
+	       if(tonerow == nil,
+		       {tonerow = [0,1,2,3,4,5,6,7,8,9,10,11];});
+
+       createScale {
+
+	       for(0,12,
+		       { arg i;
+			       tonerow.do({arg item, ii;
+
+				       var point;
+
+				       point = item + (i*12);
+
+				       if((point >=0) && (point <= 120),{
+
+					       scale = scale.add(point);
+
+			       };)});
+	       });
+	       scale = scale.sort;
+       }
+
+
+       fixDurs {arg proby = probs;
+
+	       proby.do({arg item, i;
+
+		       var dur = 0, count = i+1;
+
+		       if ((item != 0),{
+			       dur = waits[i];
+			       while({(proby[count] == 0) && (count < proby.size)},{
+				       dur = dur + waits[count];
+				       count = count + 1;
+			       });
+
+			       durations[i] = dur;
+		       },
+		       {
+			       durations[i] = 0;
+		       }
+
+	       )});
+
+	       durations.postln;
+       }
+
