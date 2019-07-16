@@ -1,0 +1,4 @@
+ps aux | egrep 'jack|java|fluid' | grep -v 'gconf-helper' | sed 's/  */ /g' | cut -d" " -f2 | xargs -i kill -9 {}
+alsactl restore
+sudo alsactl restore
+pulseaudio -k && sudo alsa force-reload
