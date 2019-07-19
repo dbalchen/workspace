@@ -5150,6 +5150,15 @@ CD    6. No additional details needed
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
    Initial stages: No documents or timeline but they do have a Sharepoint site now.
 *** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
+*** Current Status
+    *On Track*
+** TODO  IR0XXX Robocall
+*** Project Manager   
+    Frank Novak
+*** [[file:docs/RoboCallSolutionProposal.docx][Solution Proposal]]
+    
+*** Current Status
+    No IS solution possible until 2020, so it becomes an engineering problem.
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
     Christopher Barton
@@ -5164,6 +5173,7 @@ CD    6. No additional details needed
 
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
+   Ask Mr. Hauk on how is this going
    
 *** Project Description
    *PCRF - Policy and Charging Rules Function* works along side  
@@ -5245,12 +5255,12 @@ CD    6. No additional details needed
      | X_Req_No_Lines          | Number             |               |
      | X_Status                | Varchar2 (1 Byte)  |               |
      |-------------------------+--------------------+---------------|
-** TODO Finish new EPS Monitors for Data 
+** TODO Finish new EPS Monitors for Data [60%]
    - [X] Write Code
-   - [ ] Add to CallDump
+   - [X] Add to CallDump
    - [ ] refresh code in EpsMonitors/Git
    - [ ] Make changes to dash,html and dash.js (maybe)
-   - [ ] Talk to Dave about triggers for Oncall
+   - [X] Talk to Dave about triggers for Oncall
 ** TODO Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
 ** TODO Setup CallDump Server [57%]
