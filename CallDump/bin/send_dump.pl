@@ -48,9 +48,9 @@
 
 
 use strict;
-use lib "./Spreadsheet:WriteExcel/lib";
+use lib "/home/calldmp/CallDump2.0/bin/Spreadsheet:WriteExcel/lib";
 use Spreadsheet::WriteExcel;  # Used to create .xls files.
-use lib "./MIME";  # Library where the MIME::Lite package is located
+use lib "/home/calldmp/CallDump2.0/bin/MIME";  # Library where the MIME::Lite package is located
 use MIME::Lite;  # For sending email.
 
 use constant MAX_ROWS => 33000;
@@ -449,7 +449,7 @@ sub processLinePMG {
 #
 ###############################################################################
 sub processTAS{
-  setCellWidth(11,10,8,11,17,17,3,3,3,3,3,3,20,7,32);
+  setCellWidth(11,10,8,11,17,17,3,3,3,3,3,3,19,8,32);
   # Loop through the input file records:
   #   Detect if record is a title or a a data line.
   #   Print the record to the excel worksheet.
@@ -481,7 +481,7 @@ sub processTAS{
           emailSpreadsheet($excelFile,$email);
           unlink("$excelFile");
           getNewWB();
-          setCellWidth(11,10,8,11,17,17,3,3,3,3,3,3,20,7,32);
+          setCellWidth(11,10,8,11,17,17,3,3,3,3,3,3,19,8,32);
           $row = 0;
      }
   }#end for
@@ -502,7 +502,7 @@ sub processTAS{
 sub processLineTAS {
   my $line = shift;
   # Define length of each consecutive field in a data record.
-  my @idx = (0,11,10,8,11,17,17,3,3,3,3,3,3,20,7,32);
+  my @idx = (0,11,10,8,11,17,17,3,3,3,3,3,3,19,8,32);
   my @rec = ();
   my $strt_pos = 0;
   for(my $i=0; $i<$#idx; $i++){

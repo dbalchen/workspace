@@ -4371,3 +4371,28 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   :ARCHIVE_ITAGS: noexport
   :END:
   Should be complete by the end of next week.
+
+* DONE Usage Playbook
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-26 Fri 13:46
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport
+  :END:
+
+* DONE Finish new EPS Monitors for Data [100%]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-07-26 Fri 17:16
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport
+  :END:
+  - [X] Write Code
+  - [X] Add to CallDump
+  - [X] refresh code in EpsMonitors/Git
+  - [X] Make changes to dash,html and dash.js (maybe)
+  - [X] Talk to Dave about triggers for Oncall

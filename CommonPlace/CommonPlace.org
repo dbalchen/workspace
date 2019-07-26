@@ -5023,7 +5023,12 @@ CD    6. No additional details needed
 *** Monitors/Controls/Alerts and Ownership
     Mr. Smith's IP monitors may need to be changed to look for 5G.
 *** Current Status
-    USCC TOPS IA IR0600 - 5G Commercialization has been Approved.
+    - USCC TOPS IA IR0600 - 5G Commercialization has been Approved.
+    - Mr. Hauk has sent out the various proposels on the 5G usage which includes:
+      - *No changes* 5G and 4G together indistinguishable from each other.
+      - *5G based on 4G* Take the 4G LTE record and modify for 5G
+      - *5G Usage in 5G-NR Record Type* Where 2 records are produced 1 for 4G and 1 fro 5G.
+    
 
 **** <2019-06-24 Mon>
      5G Phase 2 Business requirements first draft is complete. This will cover reporting and data varification (We will have a bigger roll).
@@ -5085,6 +5090,7 @@ CD    6. No additional details needed
 *** Current Status
     When the project is launched there will be new $25-35 price plans 
     Syniverse will be sending files 4 times daily, instead of once.
+    - New company and leader documentation has been created explaining the implications of this project.
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0583/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0583 eSIM for Standalone devices]]
 *** Project Manager
     Sara Singh
@@ -5109,16 +5115,29 @@ CD    6. No additional details needed
 *** Current Status 
     Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
     *UAT in Progress*
+    - A IR0583 – eSIM Consumer Enablement Track 2 - Secondary Device Activation Impact Assessment (IA) is waiting approval.
     
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0506/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0506 Fixed Wireless Track 5.1]]
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][VoLTE Prepaid]]
+*** Project Manager
+*** Project Description
+    On July 29, U.S. Cellular will begin offering High-Speed Internet Fixed Service, supported by the 
+    Outdoor High-Speed Internet (HSI) D-Link Unit, to eligible customers in Wisconsin, Illinois and Iowa markets. 
+    This device is a professionally installed, externally mounted outdoor unit. Paired with the Google Wi-Fi Mesh 
+    indoor router, it provides 2X faster speeds compared to the internal D-Link Router and provides an extended 
+    range even at the edge of U.S. Cellular’s coverage areas.
+*** Currant Status
+    - No updates since April 7th
+
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
 *** Project Manager
     Mala Rao
 *** Project Description
     Enable prepaid customers to use VoLTE.
 *** Go Live dates
     September 2019
-
+*** Current Status
+    User stories for provisioning to suspend and restore customers is complete.
+    
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
     Rachelle Funderburg 
@@ -5147,29 +5166,38 @@ CD    6. No additional details needed
       2. *1.2b Android*
 
     Received the [[https://usc.intranet.teldta.com/sites/EPR/IR0411/Documents/USCC%2520Phase1%2520-%2520A%2520and%2520F%2520-%2520Unified%2520Format%2520-%2520IDD.docx][UFF file format]] changes and I'm reviewing it now.
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
-   Initial stages: No documents or timeline but they do have a Sharepoint site now.
+*** Project Manager
+    Eric Dian 
 *** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
 *** Current Status
     *On Track*
-** TODO  IR0XXX Robocall
+
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
 *** Project Manager   
     Frank Novak
 *** [[file:docs/RoboCallSolutionProposal.docx][Solution Proposal]]
     
 *** Current Status
     No IS solution possible until 2020, so it becomes an engineering problem.
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
     Christopher Barton
 *** Project Description
-    The objective of this project is to implement WPS (Wireless  Priority Service) on USCC ‘s LTE network with a limited capability (LC) by September 13th , 2019.
+    The objective of this project is to implement WPS
+    (Wireless  Priority Service) on USCC ‘s LTE network with a
+    limited capability (LC) by September 13th , 2019.
 *** Go Live Date
-    September 13th, 2019
+    January 19, 2020
 *** Open Issues
     None
 *** Billing and Revenue impacts
     None that I can see but the project is just begining.
+*** Current Status
+    Deployment date has been delayed until January 2020.
+    
 
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
@@ -5255,13 +5283,8 @@ CD    6. No additional details needed
      | X_Req_No_Lines          | Number             |               |
      | X_Status                | Varchar2 (1 Byte)  |               |
      |-------------------------+--------------------+---------------|
-** TODO Finish new EPS Monitors for Data [60%]
-   - [X] Write Code
-   - [X] Add to CallDump
-   - [ ] refresh code in EpsMonitors/Git
-   - [ ] Make changes to dash,html and dash.js (maybe)
-   - [X] Talk to Dave about triggers for Oncall
-** TODO Come up with documentation standards
+** TODO Work on Dan's Java program
+** HOLD Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
 ** TODO Setup CallDump Server [57%]
    - [ ] Setup Wallets
@@ -5275,7 +5298,6 @@ CD    6. No additional details needed
      - [ ] Get CallDump working (try using old tomcat_prod)
    - [X] What about WEDO?
    - [X] Check Perl/Python
-** TODO Usage Playbook
 * Misc								   :noexport:
   : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
   : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 

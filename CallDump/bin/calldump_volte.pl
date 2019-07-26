@@ -225,13 +225,13 @@ sub report12 {
 		  . hex( substr( $enodeb, -2, 2 ) );
 	}
 	elsif (( $carId == 311580 ) && ( length($enodeb) == 4 ) && ($enodeb ne "0000")) {
-		$enodeb = "VCDMA $ocli/$tcli";
+		$enodeb = "VCDMA-$ocli/$tcli";
 	}
 	elsif (( $carId == 311580 ) && ($recDisp != 0)) {
 		$enodeb = "";
 	}
 	elsif (( $carId != 311580 )) {
-		$enodeb = "Roam $carId/$ocli/$tcli";
+		$enodeb = "Roam-$carId/$ocli/$tcli";
 	}
 	else {
 		$enodeb = "";
