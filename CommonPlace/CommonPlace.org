@@ -5184,7 +5184,7 @@ CD    6. No additional details needed
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
-    Christopher Barton
+    Frank Larose
 *** Project Description
     The objective of this project is to implement WPS
     (Wireless  Priority Service) on USCC ‘s LTE network with a
@@ -5196,8 +5196,27 @@ CD    6. No additional details needed
 *** Billing and Revenue impacts
     None that I can see but the project is just begining.
 *** Current Status
-    Deployment date has been delayed until January 2020.
+    We are working thru the logistics now and we will identify who will need to attend the testing as required or on call.  More to come…
     
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
+*** Project Manager
+    Michelle Vaiana
+*** Current status
+    1. Two new Company Codes created in SAP. (808 and 809)
+       - Accounting needs to decide if new markets get the new Company Codes. – (Renee) 
+         - Waiting on Validated List of Counties. – Jim Wright (GIS) – Kevin Confirm delivery date. 
+           - AR_9_ account_ State Table needs to be updated with the company codes. – 
+           - Marcia sent list of the table updates needed for tax. 
+       - EDW reference tables will need to be updated if we use new company codes. (Company_Code_to_dos)
+         - OPEN ITEM: Hierarchy of company codes needs to be defined. 
+       - Update BPT Tables associated with New Company Code – Amdocs can confirm what needs to be updated. 
+    2. Will there be any new Switches? – If Yes, Provisioning impacts – (Jim and Christian) 
+       - New SIDS - 
+       - What is required to add new SIDs? 
+    3. Are there any impacts to WE? Ravi will follow-up.
+    4. Number Porting and Roaming Impacts? – PRM Module tables. – Ravi will followup
+    5. Commissions Impacts – Lisa will follow-up
+    6. Supply Chain – Lisa will follow-up
 
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
