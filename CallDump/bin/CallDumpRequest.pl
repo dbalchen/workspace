@@ -15,6 +15,8 @@ $numberOfFiles = 0;
 
 $total_files_atOnce = 500;
 
+$app_base = "/home/calldmp/bin/CallDump2.0/";
+
 $localCnt   = 0;
 
 @localVec   = ();
@@ -36,10 +38,10 @@ $EndDate = substr($enddate,0,8);
 $PWD = `pwd`;
 chomp($PWD);
 
-# Open Log file and Create pid file
+#nn Open Log file and Create pid file
 
-$logfile = "../log/CallDumpRequest." . $timestamp . ".log";
-$pidfile = "../run/pid." . "$timestamp";
+$logfile = $app_base."log/CallDumpRequest." . $timestamp . ".log";
+$pidfile = $app_base."run/pid." . "$timestamp";
 
 open( LOG, ">$logfile" )
   || errorExit("Could not open log file.... CallDump Failed!!!!");
@@ -183,7 +185,7 @@ sub formatAndEmailReport {
 
   for ( my $b = 0 ; $b < @keyz ; $b++ ) {
 
-    chdir("../reports");
+    chdir($app_base."reports");
 
     my $Key = $keyz[$b];
 
@@ -304,7 +306,7 @@ sub formatAndEmailReport {
 
       for ( my $a = 0 ; $a < @splitfiles ; $a++ ) {
 
-	chdir("../reports");
+	chdir($app_base."reports");
 
 	my $cnt         = $a + 1;
 	my $report_name =
@@ -318,10 +320,10 @@ sub formatAndEmailReport {
 		  . $report_name;
 	$rc = system($hh);
 
-	chdir("../bin");
+	chdir($app_base."bin");
 
 	$hh = $PWD
-	  . "/send_dump.pl $Key ../reports/"
+	  . "/send_dump.pl $Key $app_base/reports/"
 	    . $report_name
 	      . " $email";
 	$rc = system($hh);
@@ -345,7 +347,7 @@ sub emailNotice {
   my $message_body =
     "Call Dump Details:\n\nDate:\t\t\t$mon/$mday/$year\nRequestor:\t\t$email\nFrom:\t\t\t$startdate\nTo:\t\t\t$enddate\nSwitches:\t\t$switches\nString:\t\t$searchandtype\nMessage:\t$msg...\n";
 
-  chdir("../bin");
+  chdir($app_base."bin");
   ### Create the multipart container
   my $mess = new MIME::Lite(
 			    From    => $from_address,
@@ -422,10 +424,10 @@ sub RunGetInfo {
     $file = $file.'.'.$timestamp;
 
     symlink $rfiles[$a],
-      '../work/' . $file || errorExit( "Cannot link to" . '/' . "$file\n" );
+      $app_base.'work/' . $file || errorExit( "Cannot link to" . '/' . "$file\n" );
 
     my $hh = $pwd
-      . '/GetInfo -w ../work'
+      . '/GetInfo -w '.$app_base.'work'
 	. " -dd  -f $file -s $searchstring -sw $switch -st $searchtype $ftype &";
 
     # Check to see how many GetInfo processes are running.
@@ -451,7 +453,7 @@ sub RunGetInfo {
   }
 
   # Wait till complete
-  chdir("../work");
+  chdir($app_base."work");
   sleep 7;
 
   # Get total number of files loop until finished.
@@ -461,7 +463,7 @@ sub RunGetInfo {
     $NumPro = 0;
     $hh = 'ls -alt *'.$timestamp.'.TMP | wc -l ';
     $NumPro = `$hh`;chomp($NumPro);
-    checkPid();
+    # checkPid();
     sleep 10;
   }
 
@@ -494,7 +496,7 @@ sub RunGetInfo {
     }
   }
 
-  chdir("../bin");
+  chdir($app_base."bin");
 
 }
 
@@ -513,7 +515,7 @@ sub buildCat {
 
   my $catkey = 
     "cat *" . $key2
-      . "*$timestamp*Out >> ../reports/"
+      . "*$timestamp*Out >> ".$app_base."reports/"
 	. $key . "_"
 	  .$searchstring."_"
 	    .$timestamp.".utmp";
@@ -540,7 +542,7 @@ sub cleanUp {
   unlink($pidfile);
 
   my $rmdir =
-    "rm ../work/*$timestamp*; rm ../restore/*$timestamp*; rm ../reports/*$timestamp*tmp;";
+    "rm ".$app_base."work/*$timestamp*; rm ".$app_base."reports/*$timestamp*tmp;";
   system($rmdir);
 
 }
@@ -554,9 +556,9 @@ sub checkPid {
 
   print LOG "Pid file does not exist... Exiting the program\n";
 
-  cleanUp();
+  #cleanUp();
 
-  exit(0);
+  #exit(0);
 }
 
 sub checkAndLoad {

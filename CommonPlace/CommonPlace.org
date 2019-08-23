@@ -64,7 +64,7 @@ file:Pictures/Andrejevi1.jpg
 * TOPS Operations
 ** Acquisition and Formating (A&F)
    *A&F* is the first stage of the mediation process where the *UFF* or *CIBER* record is examined, enriched 
-   and transfered to an intermediary /usage/ format. For *CIBER* records an extra rules step is 
+   and transferred to an intermediary /usage/ format. For *CIBER* records an extra rules step is 
    added to further mediate the records.
 
 ** TurboCharging
@@ -143,7 +143,7 @@ file:Pictures/Andrejevi1.jpg
 |              |            |           |           |           |         | Large charge issue where TC is not down during EPC dump.                           |
 |        30257 | X          | X         |           |           | X       | Open Remedy against Amdocs for NON-BAU postpaid errors.  BAU prepaid               |
 |              |            |           |           |           |         | events with junk in l9_called_number can be purged, because that is                |
-|              |            |           |           |           |         | what the user dialed, ref  textjunk in the called number field.msg                 |
+|              |            |           |           |           |         | what the user dialed, ref  text junk in the called number field.msg                 |
 |        30249 |            | X         |           |           | X       | Can be caused by recycling non-recyclable errors.  See error analysis.             |
 |        30232 |            | X         |           |           | X       | Valid reject that cannot be fixed by a WA.                                         |
 |        30219 | X          | X         | X         |           | X       | Postpaid are recycled until purged.  Prepaid are purged.                           |
@@ -205,7 +205,7 @@ file:Pictures/Andrejevi1.jpg
 #+END_LaTeX
 
 ** APRM
-   *Amdocs Partner Relationship Module* is a *TC* submodule that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
+   *Amdocs Partner Relationship Module* is a *TC* sub-module that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
 ** Create Wallets 						   :noexport:
  : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
  : Service Account SVC_BILLINGOPS    lXmWKh5pJsGxr!nIl_GQl0Db
@@ -278,7 +278,7 @@ file:Pictures/Andrejevi1.jpg
 *** Development Server Service Accounts
 #+BEGIN_LaTeX
 \footnotesize
-#+END_LaTeX
+#+END_LaTeX  
 #+ATTR_LaTeX: :environment longtable :align l|l
 
     |-----------------------+-------------------------|
@@ -5027,12 +5027,13 @@ CD    6. No additional details needed
     - Mr. Hauk has sent out the various proposels on the 5G usage which includes:
       - *No changes* 5G and 4G together indistinguishable from each other.
       - *5G based on 4G* Take the 4G LTE record and modify for 5G
-      - *5G Usage in 5G-NR Record Type* Where 2 records are produced 1 for 4G and 1 fro 5G.
-    
-
+      - *5G Usage in 5G-NR Record Type* Where 2 records are produced 1 for 4G and 1 to 5G.    
 **** <2019-06-24 Mon>
      5G Phase 2 Business requirements first draft is complete. This will cover reporting and data varification (We will have a bigger roll).
      Solution Document for phase 1 has been updated.
+
+*** Current Status
+    No updates this week
     
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
 *** Project Manager
@@ -5087,10 +5088,15 @@ CD    6. No additional details needed
     - No impact to billing since we process this data already. 
 *** Monitors/Controls/Alerts and Ownership
     I believe this will be business as usual but it is to early to tell.
-*** Current Status
+*** Older Status
     When the project is launched there will be new $25-35 price plans 
     Syniverse will be sending files 4 times daily, instead of once.
     - New company and leader documentation has been created explaining the implications of this project.
+    - Track 3 IA pending Approval
+    - Track 2 IA is now final
+*** Current Status
+    No updates this week
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0583/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0583 eSIM for Standalone devices]]
 *** Project Manager
     Sara Singh
@@ -5112,11 +5118,14 @@ CD    6. No additional details needed
     and if the eSIM range is within the range for those watches, usage will be dropped.
 *** Monitors/Controls/Alerts and Ownership 
     Need to watch for any drop in usage for Apple devices.
-*** Current Status 
+*** Previous Status 
     Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
     *UAT in Progress*
-    - A IR0583 – eSIM Consumer Enablement Track 2 - Secondary Device Activation Impact Assessment (IA) is waiting approval.
-    
+    - A IR0583 – eSIM Consumer Enablement Track 2 - Secondary Device Activation Impact Assessment (IA) is waiting approval (Still Waiting).
+    - Reporting, what to report on, was this weeks hot topic.
+*** Current Status    
+    eSIM Consumer Enablement Track 2 document  has been released and ready for review.
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0506/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0506 Fixed Wireless Track 5.1]]
 *** Project Manager
 *** Project Description
@@ -5128,6 +5137,7 @@ CD    6. No additional details needed
 *** Currant Status
     - No updates since April 7th
 
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
 *** Project Manager
     Mala Rao
@@ -5135,9 +5145,24 @@ CD    6. No additional details needed
     Enable prepaid customers to use VoLTE.
 *** Go Live dates
     September 2019
-*** Current Status
+*** Previous Status
     User stories for provisioning to suspend and restore customers is complete.
-    
+*** Current Status   
+|---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
+| # | Description                                                    | Owner           | Date Identified | Commit to Complete    | Status      | Notes                                                |
+|---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
+| 1 | CR971 IA                                                       | Amdocs          | 7/23/2019       | Based on ROM approval | Not Started | ROM is due from Amdocs this week                     |
+|   |                                                                |                 |                 |                       |             |                                                      |
+| 2 | Functional testing for Aug release                             | Amdocs/ETQA     | 7/20/2019       | 8/23/2019             | In progress | Delay to testing caused due to connectivity issues.  |
+|   |                                                                |                 |                 |                       |             | Eng is troubleshooting                               |
+| 3 | Commercialization date in Q1 2020                              | EPM             | 8/1/2019        | TBD                   | In progress | Commercialization was delayed due to delivery of     |
+|   |                                                                |                 |                 |                       |             | Suspend/Resume/Refresh which is targeted for Jan 19, |
+|   |                                                                |                 |                 |                       |             | 2020 release                                         |
+| 4 | PDC manual solution for provisioning after Aug release for BVT | PDC/ Frank Lenz | 8/6/2019        | 9/13/2019             | In progress | Frank is waiting for test environment to be          |
+|   |                                                                |                 |                 |                       |             | upgraded in early Sept                               |
+|---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
+
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
     Rachelle Funderburg 
@@ -5154,7 +5179,7 @@ CD    6. No additional details needed
     - Since the usage will come in as VoLTE/LTE there will be no impact
 *** Monitors/Controls/Alerts and Ownership
     The roaming reconciliation reports will pick up any anomalies. 
-*** Current status
+*** Older status
     - Track 1.1 June test frame
     - Track 1.2 May 25th delivery
     - Engineering/Nokia Android device provisioning specs and MDM solution for E911 Address Collection required are gating 
@@ -5164,23 +5189,60 @@ CD    6. No additional details needed
     - New project tracks for provisioning:
       1. *1.2a ACME*
       2. *1.2b Android*
-
     Received the [[https://usc.intranet.teldta.com/sites/EPR/IR0411/Documents/USCC%2520Phase1%2520-%2520A%2520and%2520F%2520-%2520Unified%2520Format%2520-%2520IDD.docx][UFF file format]] changes and I'm reviewing it now.
+*** Current Status
+    No updates
+
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
 *** Project Manager
     Eric Dian 
 *** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
+*** Previous Status
+    A capacity analysis with TNS (roaming vendor) determined new circuits 
+    are required to support the project (order was submitted to TNS on 8/7 
+    and installation is scheduled to be completed within 45 business days). 
+    Assessments of 'steering tool' remain ongoing. Inbound/Outbound IREG/TADIG 
+    testing complete and ready for ETQA. BRD still being finalized following review on 7/29.
 *** Current Status
-    *On Track*
-
+    a.	Ongoing Activities
+        - Capacity analysis results receives – no further action required (Bill)
+        - Received security assessment on 8/19 (Sherri Jo)
+        - TNS confirmed business 45 days after order submission on 8/7 (for awareness: 10/10 would be Day 45)
+          - Meeting with TNS 8/20 – targeting 9/27 for capacity links in place and tested (Sherri Jo)
+          - USCC needs to confirm date to migrate live traffic onto new circuits (Bill)
+    b. Inbound (AT&T on USCC network)
+       - IREG/TADIG (Network/Billing)
+         - IREG testing and validation of TAP files for TADIG complete (Jody)
+       - TAC exceptions for Ericsson – date for the fix for the remaining MMEs to put TACs in place for AT&T on our network TBD (Bill)
+       - Confirmed with AT&T that the specific locations used for whitelisting entire USCC test range also include any MME within that same pool, which provides a lot of different areas to test in (Jody)
+       - USCC whitelisted + completed test call + shipped devices to Iowa for the team to begin the deployment (Sherri Jo)
+       - DEG – Ryan was working on devices to ship to Teleworld (shipped half on 8/14 to be there by 8/15)
+       - OEM
+         - Motorola had all devices up to start testing
+         - Drive test routes for Google – sent coverage information from AT&T’s map so they could find an area to test VoLTE roaming to VoLTE home (awaiting feedback from Google to see if was useful or if they prefer drive test route information) (Dan)
+         - Google targeting 9/6 to complete testing (Dan)
+       - Teleworld
+         - ETQA inbound testing – will need to work with Accounting to determine way forward (targeting early next week for decision)
+    c. Outbound (USCC on AT&T network)
+       - IREG/TADIG (Network/Billing)
+       - Testing for IREG/TADIG complete (ETQA testing started 8/19)
+       - Teleworld has two testers that are scheduled to complete testing by 9/6 (9/13 at the latest)
+         - Should be wrapping up 8/21 on the first devices that went out
+         - Set to receive additional devices 8/21 and final batch on 8/23
+         - To date: one device failure (S4 mini – Ryan will need to retest)
+    d. Miscellaneous
+       - Continue to work on assessments for CR1020 – steering tool – before it can be submitted for approval
+    
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
 *** Project Manager   
     Frank Novak
 *** [[file:docs/RoboCallSolutionProposal.docx][Solution Proposal]]
     
-*** Current Status
+*** Old Status
     No IS solution possible until 2020, so it becomes an engineering problem.
+*** Current Status
+    No updates except the solution proposal was updated with minor adjustments.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
@@ -5195,13 +5257,19 @@ CD    6. No additional details needed
     None
 *** Billing and Revenue impacts
     None that I can see but the project is just begining.
-*** Current Status
-    We are working thru the logistics now and we will identify who will need to attend the testing as required or on call.  More to come…
+*** Old Status
+    We are working thru the logistics now and we will identify who will need to attend the testing as required or on call.
+    Traceability matrix has been created.
+*** Previous Status    
+    Due to outstanding issues involving Engineering, this project is now off track and will jeopardize the planned 9/13 release.
+*** Current Status 
+    HLD v1.0 has been just released and being reviewed.
     
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
 *** Project Manager
-    Michelle Vaiana
-*** Current status
+    Kevin McInerney
+*** Old Status
+    User stories started with the same topics as last time.
     1. Two new Company Codes created in SAP. (808 and 809)
        - Accounting needs to decide if new markets get the new Company Codes. – (Renee) 
          - Waiting on Validated List of Counties. – Jim Wright (GIS) – Kevin Confirm delivery date. 
@@ -5217,7 +5285,18 @@ CD    6. No additional details needed
     4. Number Porting and Roaming Impacts? – PRM Module tables. – Ravi will followup
     5. Commissions Impacts – Lisa will follow-up
     6. Supply Chain – Lisa will follow-up
-
+**** Previous Status
+    1. References to Market areas should Include Northern Wisonsin, Iowa, South Dakota, and Nebraska.
+    2. The Agent Location is not going live until May (or later).
+    3. We may need the ability to load new number ranges for the new markets (Number Management).
+    4. ME-3 Add statement that new subscribers are assigned a local MDN.
+    5. ME-3 The CDRS will include the SID.
+    6. ME-4 Acceptance Criteria #1 is redundant with #2. 
+    7. Need the Company mapping in TOPS to complete this User Story. 
+    8. ME-5 E-commerce uses the GIS Coverage Maps from the Vendor.  Dave/Kevin will follow-up with Jim Wright.
+    9. State that the new Market areas will support VOLTE only. Has tax implications
+*** Current Status
+    Part 2 of the user stories has been completed.
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
    Ask Mr. Hauk on how is this going
@@ -5305,29 +5384,25 @@ CD    6. No additional details needed
 ** TODO Work on Dan's Java program
 ** HOLD Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
-** TODO Setup CallDump Server [57%]
+** TODO Fix Goals
+** TODO Setup CallDump Server [87%]
    - [ ] Setup Wallets
    - [X] Finish Server Doc
-   - [ ] Open ports request [0%]
-     - [ ] Waiting for ports to be open.
+   - [X] Open ports request [100%]
+     - [X] Waiting for ports to be open.
    - [X] recompile applications
-   - [ ] copy files
-   - [-] Setup Tomcat [50%]
+   - [X] copy files
+   - [X] Setup Tomcat [100%]
      - [X] Check Database Connection
-     - [ ] Get CallDump working (try using old tomcat_prod)
+     - [X] Get CallDump working (try using old tomcat_prod)
+     - [ ] Fix Create user TAB
    - [X] What about WEDO?
    - [X] Check Perl/Python
-* Misc								   :noexport:
-  : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
-  : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
-  : and start_time >= to_date('20180821040058','YYYYMMDDHH24miss') and start_time < to_date('20180823170434','YYYYMMDDHH24miss')
-  : group by customer_id,subscriber_id,cycle_code
-  : order by customer_id,subscriber_id,cycle_code
-** Arabic Scales
-*** Major
-    : C, D, E, F, F#, G#, Bb, C
-    : [4,5,6,8,10,0,2]
-    : (012468T)
+
+1 - To unlock the situation
+
+sudo vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
+and replace the 1 inside by a 0 (zero).
 
 * Footnotes
 

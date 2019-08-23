@@ -4396,3 +4396,21 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
   - [X] refresh code in EpsMonitors/Git
   - [X] Make changes to dash,html and dash.js (maybe)
   - [X] Talk to Dave about triggers for Oncall
+
+* Misc								   :noexport:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-08-15 Thu 15:49
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+  : select customer_id,subscriber_id,cycle_code, count(*) from ape1_rated_event where substr(l9_ecid,1,6) in 
+  : (select enodeb from enodeb_to_serve_sid_mv where switch_id in ('EURE','MEDF','YAKI')) 
+  : and start_time >= to_date('20180821040058','YYYYMMDDHH24miss') and start_time < to_date('20180823170434','YYYYMMDDHH24miss')
+  : group by customer_id,subscriber_id,cycle_code
+  : order by customer_id,subscriber_id,cycle_code
+** Arabic Scales
+*** Major
+    : C, D, E, F, F#, G#, Bb, C
+    : [4,5,6,8,10,0,2]
+    : (012468T)
+

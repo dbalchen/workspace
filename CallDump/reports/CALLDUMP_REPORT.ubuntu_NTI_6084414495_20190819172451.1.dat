@@ -1,0 +1,20 @@
+Switch : NTI                                      NTI Formatted Record Dump                                  Date: 08/19/2019
+Time Frame - 20190601      to 20190610           Translated Usage From Switch                                Time: 17.24.51
+
+Start      Connect   Duration     ESN         MSID   Orig       Dialed         Terminating    Called          Call DR AN 3W CW CF MS   Orig Term Switch Service
+Date       Time      (Sec)                           Number     Digits         MSID           Number          Type                     CLLI CLLI        Feature
+06/03/2019 14:44:54  000123  08955755590  6083578667 6082195832 4414495                       6084414495      M-L  O  Y  N  N  N  N    4263 0660 MADI   ARM
+06/04/2019 14:21:54  000000  27011318590             8158618235 6082068169     6084414495     6083856314      L-M  I  N  N  N  N  N    1119 3C21 MADI
+06/04/2019 14:24:57  000114  27011318590  6084414495 6083856314 18158618235                   8158618235      M-L  O  Y  N  N  N  N    3C21 0066 MADI   ARM
+06/04/2019 14:53:50  001278  27011318590             6083582273 6082068088     6084414495     6083856314      L-M  I  Y  N  N  N  N    1522 3C21 MADI
+
+AN:  Call Answered                     CF: Call Forwarding
+3W:  Three way calling                 MS: Multiple switches
+CW:  Call Waiting
+
+Service Features:
+ARM:    Automatic Roaming     CDLX:   Call Delivery Interconnect          CFW:    Call Forward Immediate
+CFB:    Call Forward Busy     CFWTRN: Call Forward No Answer Transfer     HT:     Calls to/from hotline
+ISH:    Inter system handoff  OPA:    Operator assisted call              VFF:    Vertical feature flag
+VMD:    Voice-mail delivery   VMR:    Voice-mail retrieval                CIR:    Caller ID Restriction
+

@@ -185,7 +185,7 @@ public class CallDumpServer {
 	 * @param args: The XML configuration file.
 	 */
 	public static void main(String[] args) {
-		
+		String testarg = "/home/dbalchen/workspace/CallDump/config/calldump.xml";
 		CallDumpServer cds = new CallDumpServer(args[0]);
 	}
 

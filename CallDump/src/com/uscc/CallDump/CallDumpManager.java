@@ -197,7 +197,7 @@ public class CallDumpManager extends Thread {
 						
 						writeLog("Putting request in IU Status");
 						dbhandler.validateConnection();
-						//dao.updateStatus(request.getId(), "IU");				
+						dao.updateStatus(request.getId(), "IU");				
 
 						cds.start();
 						CallDumpThreads.add(cds);

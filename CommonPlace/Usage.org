@@ -1178,15 +1178,13 @@ subgraph cluster_3 {
 \\
 \\
 #+ATTR_LaTeX: :width 16cm
-      [[file:Pictures/TC.png]]
-
-
-      -  *Event flow:*
-         1. An event comes in to via a network element
-         2. Transforms data into a conical form which also includes the
-            network element.
-         3. Gets Rated
-            -  For *Pre-Pay* the *HLR[fn:4]*. is handled by the *SCP[fn:2]*
+ [[file:Pictures/TC.png]]
+ -  *Event flow:*
+     1. An event comes in to via a network element
+     2. Transforms data into a conical form which also includes the
+         network element.
+     3. Gets Rated
+      -  For *Pre-Pay* the *HLR[fn:4]*. is handled by the *SCP[fn:2]*
       -  We convert everything to the customers *Home SID timezone* for bill
          presentment.
       -  Limiting or "/choking/" usage can be handled by *Diameter[fn:3]* for
@@ -1753,7 +1751,6 @@ subgraph cluster_3 {
       The *Business Process Tables* are the Tops equivalent to the
       reference tables in *CARES*. The following is the list of all
       *BPT* tables that we are responsible for:
-
 *** ADJ1_OUTCOL_PROVIDER
     A list of all vendors we have an agreement with for out-collects.
 #+BEGIN_LaTeX
@@ -2352,7 +2349,7 @@ subgraph cluster_3 {
 
  [[file:docs/EM1%20Query's][EM1 Queries]]
 
-*** AEM Error Summary
+** AEM Error Summary
     List of error codes.
  
 #+BEGIN_LaTeX
@@ -2429,7 +2426,7 @@ subgraph cluster_3 {
 \normalsize
 #+END_LaTeX
 
-*** EM1_RECORD
+** EM1_RECORD
     The EM1 record database is the database used by *AEM*, To see the columns within the EM1_RECORD look at the *EM1_STREAM_STREAM_MAP@PTE2AEM* table.
     Click on the link provided below to see an example on how to query this table.
 	 [[file:///home/dbalchen/workspace/CommonPlace/docs/em1_example.sql][EM1_RECORD Example]]
@@ -3209,6 +3206,229 @@ BooGoo9000#
 \normalsize
 #+END_LaTeX
 :END:
+*** PRM_ROM_OUTCOL_EVENTS_AP
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|-------------------------+---------------------+---------------|
+| *Column Name*           | *Data Type*         | *Description* |
+|-------------------------+---------------------+---------------|
+| Edr_Id                  | Number (11)         |               |
+| Generated_Rec           | Number (4)          |               |
+| Event_Start_Datetime    | Date                |               |
+| Sys_Creation_Date       | Date                |               |
+| Sys_Update_Date         | Date                |               |
+| Operator_Id             | Number (9)          |               |
+| Application_Id          | Char (6 Byte)       |               |
+| Dl_Service_Code         | Char (5 Byte)       |               |
+| Dl_Update_Stamp         | Number (4)          |               |
+| Bp_Start_Date           | Date                |               |
+| Bp_End_Date             | Date                |               |
+| Carrier_Cd              | Varchar2 (20 Byte)  |               |
+| Process_Date            | Date                |               |
+| Tap_File_Seq            | Number (5)          |               |
+| Air_Toll_Ind            | Char (1 Byte)       |               |
+| Rating_Curr             | Char (3 Byte)       |               |
+| Tap_Trx_Curr            | Char (3 Byte)       |               |
+| File_Identifier         | Number (9)          |               |
+| Globalrefnumber         | Varchar2 (42 Byte)  |               |
+| Charging_Param          | Number (18,5)       |               |
+| Uom                     | Char (2 Byte)       |               |
+| Ext_File_Id             | Number (9)          |               |
+| Extract_Date            | Date                |               |
+| Processed_Ind           | Char (1 Byte)       |               |
+| Charge_Units            | Number (18,5)       |               |
+| Tax_Set_Cd              | Char (2 Byte)       |               |
+| Tax_Jurisdiction        | Char (2 Byte)       |               |
+| Tax_Code_1              | Char (2 Byte)       |               |
+| Tax_Tp_1                | Char (2 Byte)       |               |
+| Tax_Rate_1              | Number (6,3)        |               |
+| Tax_Amount_1            | Number (18,5)       |               |
+| Tax_Code_2              | Char (2 Byte)       |               |
+| Tax_Tp_2                | Char (2 Byte)       |               |
+| Tax_Rate_2              | Number (6,3)        |               |
+| Tax_Amount_2            | Number (18,5)       |               |
+| Tax_Code_3              | Char (2 Byte)       |               |
+| Tax_Tp_3                | Char (2 Byte)       |               |
+| Tax_Rate_3              | Number (6,3)        |               |
+| Tax_Amount_3            | Number (18,5)       |               |
+| Tax_Code_4              | Char (2 Byte)       |               |
+| Tax_Tp_4                | Char (2 Byte)       |               |
+| Tax_Rate_4              | Number (6,3)        |               |
+| Tax_Amount_4            | Number (18,5)       |               |
+| Tot_Net_Charge_Lc       | Number (18,5)       |               |
+| Tot_Tax_Amount_Lc       | Number (18,5)       |               |
+| Tot_Gross_Amt_Lc        | Number (18,5)       |               |
+| Tot_Net_Charge_Sdr      | Number (18,5)       |               |
+| Tot_Tax_Amount_Sdr      | Number (18,5)       |               |
+| Tot_Gross_Amt_Sdr       | Number (18,5)       |               |
+| Cross_Rate              | Number (11,6)       |               |
+| Service_Type            | Char (1 Byte)       |               |
+| Norm_Src_Number         | Char (20 Byte)      |               |
+| Norm_Dest_Number        | Char (20 Byte)      |               |
+| Dest_Number             | Char (20 Byte)      |               |
+| Call_Direction          | Char (1 Byte)       |               |
+| Country_Code            | Char (3 Byte)       |               |
+| Orig_Province           | Char (2 Byte)       |               |
+| Term_Province           | Char (2 Byte)       |               |
+| Home_Province           | Char (2 Byte)       |               |
+| Event_End_Datetime      | Date                |               |
+| Net_Rec_Entity_Id       | Varchar2 (50 Byte)  |               |
+| Net_Loc_Area_Code       | Varchar2 (20 Byte)  |               |
+| Geo_Serv_Bid            | Char (5 Byte)       |               |
+| Geo_Serv_Loc_Desc       | Varchar2 (30 Byte)  |               |
+| Equipment_Id            | Varchar2 (20 Byte)  |               |
+| Bearer_Serv_Code        | Char (2 Byte)       |               |
+| Tele_Serv_Code          | Char (2 Byte)       |               |
+| Supp_Service            | Char (2 Byte)       |               |
+| Call_Tp_Level_1         | Char (2 Byte)       |               |
+| Call_Tp_Level_2         | Char (2 Byte)       |               |
+| Call_Tp_Level_3         | Char (4 Byte)       |               |
+| Camel_Serv_Level        | Char (2 Byte)       |               |
+| Camel_Serv_Key          | Varchar2 (10 Byte)  |               |
+| Camel_Invoc_Fee         | Number (18,5)       |               |
+| Camel_Dflt_Hndl         | Char (2 Byte)       |               |
+| Camel_Dest_Num          | Char (20 Byte)      |               |
+| Camel_Cse_Info          | Char (40 Byte)      |               |
+| Home_Bid                | Char (5 Byte)       |               |
+| Cell_Id                 | Varchar2 (10 Byte)  |               |
+| Utc_Offset              | Char (5 Byte)       |               |
+| Rec_Entity_Tp           | Char (1 Byte)       |               |
+| Chrg_Id                 | Varchar2 (10 Byte)  |               |
+| Src_Number              | Char (20 Byte)      |               |
+| Pdp_Address             | Varchar2 (50 Byte)  |               |
+| Ggsn_Address            | Varchar2 (50 Byte)  |               |
+| Gprs_Dest_Apn_Ni        | Varchar2 (64 Byte)  |               |
+| Gprs_Dest_Apn_Oi        | Varchar2 (38 Byte)  |               |
+| Data_Vol_Incoming       | Varchar2 (12 Byte)  |               |
+| Data_Vol_Outgoing       | Varchar2 (12 Byte)  |               |
+| Termination_Cause       | Varchar2 (8 Byte)   |               |
+| Partial_Type_Ind        | Char (1 Byte)       |               |
+| Imsi                    | Varchar2 (15 Byte)  |               |
+| Msisdn                  | Varchar2 (20 Byte)  |               |
+| Disp_File_Seq           | Number (9)          |               |
+| Net_Sgsnid              | Varchar2 (50 Byte)  |               |
+| Future                  | Varchar2 (100 Byte) |               |
+| Tax_Amount_1_Rc         | Number (18,5)       |               |
+| Tax_Amount_2_Rc         | Number (18,5)       |               |
+| Tax_Amount_3_Rc         | Number (18,5)       |               |
+| Tax_Amount_4_Rc         | Number (18,5)       |               |
+| Tot_Net_Charge_Rc       | Number (18,5)       |               |
+| Tot_Tax_Amount_Rc       | Number (18,5)       |               |
+| Tot_Gross_Amt_Rc        | Number (18,5)       |               |
+| Tot_Net_Charge_Lc1      | Number (18,5)       |               |
+| Tot_Tax_Amount_Lc1      | Number (18,5)       |               |
+| Tot_Gross_Amt_Lc1       | Number (18,5)       |               |
+| Au_Id                   | Number (9)          |               |
+| Usg_Net_Charge_Lc       | Number (18,5)       |               |
+| Usg_Net_Charge_Rc       | Number (18,5)       |               |
+| Usg_Net_Charge_Sdr      | Number (18,5)       |               |
+| Acc_Net_Charge_Lc       | Number (18,5)       |               |
+| Acc_Net_Charge_Rc       | Number (18,5)       |               |
+| Acc_Net_Charge_Sdr      | Number (18,5)       |               |
+| Tap_Out_File_Name       | Varchar2 (20 Byte)  |               |
+| Rap_File_Seq            | Number (5)          |               |
+| Taxable_Amount1         | Number (18,5)       |               |
+| Taxable_Amount2         | Number (18,5)       |               |
+| Taxable_Amount3         | Number (18,5)       |               |
+| Taxable_Amount4         | Number (18,5)       |               |
+| Tenant_Cd               | Varchar2 (20 Byte)  |               |
+| Network_Element_Type    | Char (1 Byte)       |               |
+| Network_Element_Id      | Char (50 Byte)      |               |
+| Chr_Prt_Pub_User_Id     | Char (64 Byte)      |               |
+| Non_Chr_Prt_Pub_User_Id | Char (64 Byte)      |               |
+| Event_Reference         | Char (64 Byte)      |               |
+| Sim_Toolkit_Ind         | Char (1 Byte)       |               |
+| Message_Event_Service   | Char (17 Byte)      |               |
+| Ods_Insert_Date         | Date                |               |
+| Ods_Last_Update_Date    | Date                |               |
+|-------------------------+---------------------+---------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+*** PRM_ROM_INCOL_EVENTS_AP
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|---------------------------+---------------------+---------------|
+| *Column Name*             | *Data Type*         | *Description* |
+|---------------------------+---------------------+---------------|
+| Edr_Id                    | Number (11)         |               |
+| Generated_Rec             | Number (4)          |               |
+| Rerate_Cnt                | Number (3)          |               |
+| Sys_Creation_Date         | Date                |               |
+| Sys_Update_Date           | Date                |               |
+| Operator_Id               | Number (9)          |               |
+| Application_Id            | Char (6 Byte)       |               |
+| Dl_Service_Code           | Char (5 Byte)       |               |
+| Dl_Update_Stamp           | Number (4)          |               |
+| Record_Type               | Char (1 Byte)       |               |
+| Tap_In_File_Name          | Varchar2 (20 Byte)  |               |
+| Tap_In_File_Seq_Number    | Number (5)          |               |
+| Tadig_File_Type           | Char (2 Byte)       |               |
+| Record_Position           | Varchar2 (6 Byte)   |               |
+| Charge_Type               | Char (1 Byte)       |               |
+| Charge_Parameter          | Number (18,5)       |               |
+| Uom                       | Char (2 Byte)       |               |
+| Charge_Amount             | Number (18,5)       |               |
+| Charge_Amount_Rc          | Number (18,5)       |               |
+| Charge_Amount_Sdr         | Number (18,5)       |               |
+| Currency_Code             | Char (3 Byte)       |               |
+| Rap_File_Sequence         | Varchar2 (20 Byte)  |               |
+| Carrier_Cd                | Varchar2 (20 Byte)  |               |
+| Service_Type              | Char (1 Byte)       |               |
+| Normalized_Calling_Number | Char (20 Byte)      |               |
+| Normalized_Called_Number  | Char (20 Byte)      |               |
+| Call_Direction            | Char (1 Byte)       |               |
+| Country_Code              | Char (3 Byte)       |               |
+| Serving_Bid               | Char (5 Byte)       |               |
+| Event_Start_Date_Time     | Date                |               |
+| Process_Date              | Date                |               |
+| Bp_Start_Date             | Date                |               |
+| Bp_End_Date               | Date                |               |
+| Local_Currency            | Char (3 Byte)       |               |
+| Rating_Curr               | Char (3 Byte)       |               |
+| Exchange_Rate             | Number (18,5)       |               |
+| Call_Type_Level_1         | Char (3 Byte)       |               |
+| Call_Type_Level_2         | Char (2 Byte)       |               |
+| Call_Type_Level_3         | Varchar2 (11 Byte)  |               |
+| Tax_Type                  | Char (2 Byte)       |               |
+| Future_Buff               | Varchar2 (443 Byte) |               |
+| Au_Id                     | Number (9)          |               |
+| Teleservicecode           | Char (2 Byte)       |               |
+| Supp_Serv_Cd              | Char (2 Byte)       |               |
+| Validation_Sts            | Char (1 Byte)       |               |
+| Aprm_Edr_Id               | Number (20)         |               |
+| Orig_Brok_Filename        | Varchar2 (24 Byte)  |               |
+| File_Avail_Ts             | Char (14 Byte)      |               |
+| File_Avail_Ts_Offst       | Char (5 Byte)       |               |
+| Transcut_Ts               | Char (14 Byte)      |               |
+| Transcut_Ts_Offst         | Char (5 Byte)       |               |
+| Tenant_Cd                 | Varchar2 (20 Byte)  |               |
+| Network_Element_Type      | Char (1 Byte)       |               |
+| Network_Element_Id        | Char (50 Byte)      |               |
+| Chr_Prt_Pub_User_Id       | Char (64 Byte)      |               |
+| Non_Chr_Prt_Pub_User_Id   | Char (64 Byte)      |               |
+| Event_Reference           | Char (64 Byte)      |               |
+| Sim_Toolkit_Ind           | Char (1 Byte)       |               |
+| Message_Event_Service     | Char (17 Byte)      |               |
+| Mobile_Session_Service    | Char (17 Byte)      |               |
+| Non_Chrg_Party_Num        | Char (17 Byte)      |               |
+| Ods_Insert_Date           | Date                |               |
+| Ods_Last_Update_Date      | Date                |               |
+|---------------------------+---------------------+---------------|
+
+
+#+ATTR_LaTeX: :width 14cm
+      [[file:Pictures/shahn.jpg]]
+
+#+BEGIN_LaTeX
+\normalsize
+\newpage
+#+END_LaTeX
+
 * EpsMonitor
    The EpsMonitors are located on all production servers listed in the diagram below and can be found at
    */apps/amduser/prodtc*/eps/EpsMonitors*, *where * = 1-6*

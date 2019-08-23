@@ -136,7 +136,7 @@ public class CallDumpDAO extends DAO {
 			myStmt.setString(2, host);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -164,7 +164,8 @@ public class CallDumpDAO extends DAO {
 				+ "q.search_string_6,q.search_string_type_1,q.search_string_type_2,q.search_string_type_3,"
 				+ "q.search_string_type_4,q.search_string_type_5,q.search_string_type_6,q.pid "
 				+ "FROM call_dump_queue q, users u WHERE u.userid = q.USERID AND "
-				+ "(q.status = 'RD' or (q.status = 'IP' and q.pid != "
+//				+ "(q.status = 'RD' or (q.status = 'IP' and q.pid != "
+				+ "(q.status = 'ZD' or (q.status = 'IP' and q.pid != "
 				+ pid
 				+ ") or (q.status = 'CP' and q.pid != " + pid + ") ) AND (";
 
@@ -492,7 +493,7 @@ public class CallDumpDAO extends DAO {
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -512,7 +513,7 @@ public class CallDumpDAO extends DAO {
 			myStmt.setString(1, start);
 			myStmt.setInt(2, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -532,7 +533,7 @@ public class CallDumpDAO extends DAO {
 			myStmt.setString(1, end);
 			myStmt.setInt(2, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -553,7 +554,7 @@ public class CallDumpDAO extends DAO {
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -573,7 +574,7 @@ public class CallDumpDAO extends DAO {
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -593,7 +594,7 @@ public class CallDumpDAO extends DAO {
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -653,7 +654,7 @@ public class CallDumpDAO extends DAO {
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -672,7 +673,7 @@ public class CallDumpDAO extends DAO {
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -823,7 +824,7 @@ public class CallDumpDAO extends DAO {
 					req.getSearchStringType6().replaceFirst(";", ""));
 			myStmt.setInt(24, req.getPid());
 			myStmt.executeUpdate();
-			tempConn.commit();
+//			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException exc) {
 			logError(exc);
