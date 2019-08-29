@@ -130,13 +130,14 @@ public class CallDumpDAO extends DAO {
 
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
 			String sql = "insert into call_dump_reports values (?,?,?) ";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setString(3, report);
 			myStmt.setString(2, host);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -489,11 +490,12 @@ public class CallDumpDAO extends DAO {
 		ResultSet myRs = null;
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
 			String sql = "delete from call_dump_queue where status in ('RD','WA','AF') and id = ? ";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -508,12 +510,13 @@ public class CallDumpDAO extends DAO {
 		ResultSet myRs = null;
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
 			String sql = "update call_dump_queue set JOB_START = to_date(?,'YYYYMMDDHH24MISS') where id = ? ";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setString(1, start);
 			myStmt.setInt(2, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -528,12 +531,13 @@ public class CallDumpDAO extends DAO {
 		ResultSet myRs = null;
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
 			String sql = "update call_dump_queue set JOB_END = to_date(?,'YYYYMMDDHH24MISS') where id = ? ";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setString(1, end);
 			myStmt.setInt(2, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -549,12 +553,13 @@ public class CallDumpDAO extends DAO {
 		ResultSet myRs = null;
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
 			String sql = "update call_dump_queue set FILES_SEARCHED = "
 					+ filesSearched + " where id = ? ";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -569,12 +574,14 @@ public class CallDumpDAO extends DAO {
 		ResultSet myRs = null;
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
+			tempConn.setAutoCommit(false);
 			String sql = "update call_dump_queue set status = '" + status
 					+ "' where id = ? ";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -589,12 +596,13 @@ public class CallDumpDAO extends DAO {
 		ResultSet myRs = null;
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
 			String sql = "update call_dump_queue set pid = '" + pid
 					+ "' where id = ? ";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -650,11 +658,12 @@ public class CallDumpDAO extends DAO {
 
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
 			String sql = "update call_dump_queue set priority = priority - 1 where status in ('WA','RD','AF') and priority > 0 and id = ?";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -669,11 +678,12 @@ public class CallDumpDAO extends DAO {
 		ResultSet myRs = null;
 		try {
 			tempConn = getConnection();
+			tempConn.setAutoCommit(false);
 			String sql = "update call_dump_queue set priority = priority + 1 where status in ('WA','RD','AF') and id = ? ";
 			myStmt = tempConn.prepareStatement(sql);
 			myStmt.setInt(1, id);
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException se) {
 			System.out.println("SQLERROR: " + se.getMessage());
@@ -783,7 +793,8 @@ public class CallDumpDAO extends DAO {
 
 		try {
 			tempConn = getConnection();
-
+			tempConn.setAutoCommit(false);
+			
 			String sql = "insert into call_dump_queue"
 					+ " values"
 					+ " (calldump.nextval,?,?,?, SYSDATE, to_date(?,'YYYYMMDDHH24MISS'), to_date(?,'YYYYMMDDHH24MISS'),?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,null,null,0)";
@@ -824,7 +835,7 @@ public class CallDumpDAO extends DAO {
 					req.getSearchStringType6().replaceFirst(";", ""));
 			myStmt.setInt(24, req.getPid());
 			myStmt.executeUpdate();
-//			tempConn.commit();
+			tempConn.commit();
 			myStmt.close();
 		} catch (SQLException exc) {
 			logError(exc);

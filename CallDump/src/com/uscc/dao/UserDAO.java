@@ -296,13 +296,14 @@ public class UserDAO extends DAO {
 
         try {
             tempConn = getConnection();
+            tempConn.setAutoCommit(false);
             if (status.equalsIgnoreCase("Active")) {
                 intstatus = 0;
                 String sqlupdate = "update users set password = 'SUSPENDED'||password where userid = '"
                         + user + "'";
                 myStmt = tempConn.prepareStatement(sqlupdate);
                 myStmt.executeUpdate();
- //               tempConn.commit();
+                tempConn.commit();
                 myStmt.close();
 
             } else {
@@ -310,7 +311,7 @@ public class UserDAO extends DAO {
                         + user + "'";
                 myStmt = tempConn.prepareStatement(sqlupdate);
                 myStmt.executeUpdate();
- //               tempConn.commit();
+                tempConn.commit();
                 myStmt.close();
             }
 
@@ -319,7 +320,7 @@ public class UserDAO extends DAO {
             myStmt = tempConn.prepareStatement(sql);
             myStmt.setString(1, user);
             myStmt.executeUpdate();
- //           tempConn.commit();
+            tempConn.commit();
             myStmt.close();
         } catch (SQLException se) {
             System.out.println("SQLERROR: " + se.getMessage());
@@ -336,6 +337,7 @@ public class UserDAO extends DAO {
 
         try {
             tempConn = getConnection();
+            tempConn.setAutoCommit(false);
 
             if (status.equalsIgnoreCase("disable")) {
                 String sql = "delete from developer_approver where developer = ? ";
@@ -344,7 +346,7 @@ public class UserDAO extends DAO {
                 myStmt.setString(1, developer);
                 myStmt.setString(2, approver);
                 myStmt.executeUpdate();
- //               tempConn.commit();
+                tempConn.commit();
             } else {
                 String sql = "insert into developer_approver values (?,?,?) ";
                 myStmt = tempConn.prepareStatement(sql);
@@ -352,7 +354,7 @@ public class UserDAO extends DAO {
                 myStmt.setString(2, approver);
                 myStmt.setString(3, "S");
                 myStmt.executeUpdate();
- //               tempConn.commit();
+                tempConn.commit();
             }
 
             myStmt.close();
@@ -480,6 +482,7 @@ public class UserDAO extends DAO {
 
         try {
             tempConn = getConnection();
+            tempConn.setAutoCommit(false);
 
             if (user == null || first == null || last == null || email == null
                     || role == null || phone == null) {
@@ -514,7 +517,7 @@ public class UserDAO extends DAO {
             myStmt.setString(1, user);
             myStmt.setString(2, role);
             myStmt.executeUpdate();
-  //          tempConn.commit();
+            tempConn.commit();
             myStmt.close();
         } catch (SQLException exc) {
             logError(exc);
@@ -531,12 +534,13 @@ public class UserDAO extends DAO {
 
         try {
             tempConn = getConnection();
+            tempConn.setAutoCommit(false);
             String sql = "insert into user_roles (userid, role_name) values (?,?)";
             myStmt = tempConn.prepareStatement(sql);
             myStmt.setString(1, user);
             myStmt.setString(2, role);
             myStmt.executeUpdate();
- //           tempConn.commit();
+            tempConn.commit();
             myStmt.close();
         } catch (SQLException exc) {
             logError(exc);
@@ -552,6 +556,7 @@ public class UserDAO extends DAO {
 
         try {
             tempConn = getConnection();
+            tempConn.setAutoCommit(false);
             String sql  = "delete from user_roles ";
                    sql += " where userid = ?";
                    sql += "   and role_name = ?";
@@ -563,7 +568,7 @@ public class UserDAO extends DAO {
             myStmt.setString(1, user);
             myStmt.setString(2, role);
             myStmt.executeUpdate();
- //           tempConn.commit();
+            tempConn.commit();
             myStmt.close();
         } catch (SQLException exc) {
             logError(exc);
@@ -662,6 +667,8 @@ public class UserDAO extends DAO {
 
         try {
             tempConn = getConnection();
+            tempConn.setAutoCommit(false);
+            
             myStmt = tempConn.createStatement();
 
             String sql = "select password from users where ";
@@ -711,7 +718,7 @@ public class UserDAO extends DAO {
                 updateStmt.setString(2, userid);
                 insertStmt.executeUpdate();
                 updateStmt.executeUpdate();
- //               tempConn.commit();
+                tempConn.commit();
             } catch (SQLException ex) {
                 logError(ex);
                 System.out.println(ex.getMessage());

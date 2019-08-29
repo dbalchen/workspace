@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
-
 <!-- This file contains the default Struts Validator pluggable validator 
 	definitions. It should be placed somewhere under /WEB-INF and referenced 
 	in the struts-config.xml under the plug-in element for the ValidatorPlugIn. 
@@ -22,7 +21,6 @@
 	<global>
 
 		<validator name="required" classname="org.apache.struts.validator.FieldChecks"
-			method="validateRequired"
 			methodParams="java.lang.Object,
                        org.apache.commons.validator.ValidatorAction,
                        org.apache.commons.validator.Field,
