@@ -1,0 +1,23 @@
+
+	<Context path="/calldump"  reloadable="false">
+
+		<Resource name="jdbc/BuildSystem"
+				   auth="Container"
+				   type="javax.sql.DataSource"
+				   driverClassName="oracle.jdbc.driver.OracleDriver"
+				   url="jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=brmprd.uscc.com)(PORT=1530))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=brmprd_calldump.uscc.com)))"
+				   factory="org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
+				   username="calldump"
+				   password="calldump"
+				   maxActive="5"
+				   maxIdle="10"
+				   maxWait="20000"
+				   />
+				   
+<Realm className="org.apache.catalina.realm.DataSourceRealm"
+   dataSourceName="jdbc/BuildSystem"
+   localDataSource="true"
+   userTable="users" userNameCol="userid" userCredCol="password"
+   userRoleTable="user_roles" roleNameCol="role_name"/>
+	</Context>
+

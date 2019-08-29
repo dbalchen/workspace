@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
 
-	<display-name>(DISPLAY)</display-name>
-	<description>(DESCRIPTION)</description>
+	<display-name>calldump</display-name>
+	<description>CallDump (Prod)</description>
 
 
 	<!-- ============================ -->
