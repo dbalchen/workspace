@@ -5000,6 +5000,7 @@ CD    6. No additional details needed
     - Track2 – TOPS Charging changes (PDC) – TBD – dependency on data refinery – target Oct, 2019
     - Track3 – TOPS MOA changes – Per user stories, MOA will be needed on demand basis, there is dependency on Engineering.
     - Reporting Enablement for 5G will be part of future track of work as aligned with Business.
+    - Expect to be finished early 2020
 *** Open Issues
     Open items we are tracking (Team)
     - Network Modernization -  5G Data Usage Report, IS has dependency on data refinery for this report
@@ -5022,7 +5023,7 @@ CD    6. No additional details needed
     - *5G Phones* Must be *VoLTE* enabled.
 *** Monitors/Controls/Alerts and Ownership
     Mr. Smith's IP monitors may need to be changed to look for 5G.
-*** Current Status
+*** Status
     - USCC TOPS IA IR0600 - 5G Commercialization has been Approved.
     - Mr. Hauk has sent out the various proposels on the 5G usage which includes:
       - *No changes* 5G and 4G together indistinguishable from each other.
@@ -5033,7 +5034,10 @@ CD    6. No additional details needed
      Solution Document for phase 1 has been updated.
 
 *** Current Status
-    No updates this week
+    Currently tracking the Track2 scoping timeline from Amdocs. Conducting weekly meetings with IS and Engineering teams 
+    to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
+    Leveraging action-item repository in the enterprise sharepoint site for items we need addressed by IS and Engineering teams.
+
     
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
 *** Project Manager
@@ -5088,14 +5092,15 @@ CD    6. No additional details needed
     - No impact to billing since we process this data already. 
 *** Monitors/Controls/Alerts and Ownership
     I believe this will be business as usual but it is to early to tell.
-*** Older Status
+*** Status
     When the project is launched there will be new $25-35 price plans 
     Syniverse will be sending files 4 times daily, instead of once.
     - New company and leader documentation has been created explaining the implications of this project.
     - Track 3 IA pending Approval
     - Track 2 IA is now final
 *** Current Status
-    No updates this week
+    - USCC TOPS IA IR0596 Track 3 - International Services Data Barring (Pending Approval)
+    - USCC TOPS IA IR0596 Track 2- Intn'l Services - Notifications and Billing Offers Impact Assessment (IA) (Final)
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0583/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0583 eSIM for Standalone devices]]
 *** Project Manager
@@ -5118,13 +5123,14 @@ CD    6. No additional details needed
     and if the eSIM range is within the range for those watches, usage will be dropped.
 *** Monitors/Controls/Alerts and Ownership 
     Need to watch for any drop in usage for Apple devices.
-*** Previous Status 
+*** Status 
     Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
     *UAT in Progress*
     - A IR0583 – eSIM Consumer Enablement Track 2 - Secondary Device Activation Impact Assessment (IA) is waiting approval (Still Waiting).
     - Reporting, what to report on, was this weeks hot topic.
+    - eSIM Consumer Enablement Track 2 document  has been released and ready for review. 
 *** Current Status    
-    eSIM Consumer Enablement Track 2 document  has been released and ready for review.
+ 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0506/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0506 Fixed Wireless Track 5.1]]
 *** Project Manager
@@ -5137,7 +5143,6 @@ CD    6. No additional details needed
 *** Currant Status
     - No updates since April 7th
 
-
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
 *** Project Manager
     Mala Rao
@@ -5145,9 +5150,8 @@ CD    6. No additional details needed
     Enable prepaid customers to use VoLTE.
 *** Go Live dates
     September 2019
-*** Previous Status
-    User stories for provisioning to suspend and restore customers is complete.
-*** Current Status   
+*** Status
+    User stories for provisioning to suspend and restore customers is complete. 
 |---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
 | # | Description                                                    | Owner           | Date Identified | Commit to Complete    | Status      | Notes                                                |
 |---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
@@ -5161,7 +5165,17 @@ CD    6. No additional details needed
 | 4 | PDC manual solution for provisioning after Aug release for BVT | PDC/ Frank Lenz | 8/6/2019        | 9/13/2019             | In progress | Frank is waiting for test environment to be          |
 |   |                                                                |                 |                 |                       |             | upgraded in early Sept                               |
 |---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
-
+*** Current Status
+|----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
+| Description                                                    | Owner           | Date Identified | Commit to Complete | Status      | Notes                                 |
+|----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
+| CR971 IA                                                       | Amdocs          | 7/23/2019       | 8/28               | In progress | IA review is scheduled for 8/29       |
+| PDC usage records to Call Dump to TOPS                         | Jason Franz     | 8/26/2019       | 9/5/2019           | In progress |                                       |
+| PDC Reference table extracts into mediation app to TOPS        | Jason/Amit Dror | 8/26/2019       | 9/5/2019           | In progress | Jason emailed Amit for details        |
+| Defect #137666 – UAT                                           | ETQA            | 8/22/2019       | Oct release        | In progress | Mala is tracking this                 |
+| Defect #137531 – Call forwarding – 17 test cases               | ETQA            | 8/19/2019       | Oct release        | In progress | Mala is tracking this                 |
+| PDC manual solution for provisioning after Aug release for BVT | PDC/ Frank Lenz | 8/6/2019        | 9/13/2019          | In progress | Frank is waiting for test environment |
+|----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
@@ -5179,7 +5193,7 @@ CD    6. No additional details needed
     - Since the usage will come in as VoLTE/LTE there will be no impact
 *** Monitors/Controls/Alerts and Ownership
     The roaming reconciliation reports will pick up any anomalies. 
-*** Older status
+*** status
     - Track 1.1 June test frame
     - Track 1.2 May 25th delivery
     - Engineering/Nokia Android device provisioning specs and MDM solution for E911 Address Collection required are gating 
@@ -5191,20 +5205,17 @@ CD    6. No additional details needed
       2. *1.2b Android*
     Received the [[https://usc.intranet.teldta.com/sites/EPR/IR0411/Documents/USCC%2520Phase1%2520-%2520A%2520and%2520F%2520-%2520Unified%2520Format%2520-%2520IDD.docx][UFF file format]] changes and I'm reviewing it now.
 *** Current Status
-    No updates
-
-
+    See email
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
 *** Project Manager
     Eric Dian 
 *** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
-*** Previous Status
+*** Status
     A capacity analysis with TNS (roaming vendor) determined new circuits 
     are required to support the project (order was submitted to TNS on 8/7 
     and installation is scheduled to be completed within 45 business days). 
     Assessments of 'steering tool' remain ongoing. Inbound/Outbound IREG/TADIG 
     testing complete and ready for ETQA. BRD still being finalized following review on 7/29.
-*** Current Status
     a.	Ongoing Activities
         - Capacity analysis results receives – no further action required (Bill)
         - Received security assessment on 8/19 (Sherri Jo)
@@ -5233,7 +5244,8 @@ CD    6. No additional details needed
          - To date: one device failure (S4 mini – Ryan will need to retest)
     d. Miscellaneous
        - Continue to work on assessments for CR1020 – steering tool – before it can be submitted for approval
-    
+*** Current Status   
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
 *** Project Manager   
     Frank Novak
@@ -5392,12 +5404,13 @@ CD    6. No additional details needed
      - [X] Waiting for ports to be open.
    - [X] recompile applications
    - [X] copy files
-   - [X] Setup Tomcat [100%]
+   - [-] Setup Tomcat [100%]
      - [X] Check Database Connection
      - [X] Get CallDump working (try using old tomcat_prod)
      - [ ] Fix Create user TAB
    - [X] What about WEDO?
    - [X] Check Perl/Python
+   - [ ] Check into GITHUB
 
 1 - To unlock the situation
 
