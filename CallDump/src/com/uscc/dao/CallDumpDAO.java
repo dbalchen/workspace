@@ -165,8 +165,8 @@ public class CallDumpDAO extends DAO {
 				+ "q.search_string_6,q.search_string_type_1,q.search_string_type_2,q.search_string_type_3,"
 				+ "q.search_string_type_4,q.search_string_type_5,q.search_string_type_6,q.pid "
 				+ "FROM call_dump_queue q, users u WHERE u.userid = q.USERID AND "
-//				+ "(q.status = 'RD' or (q.status = 'IP' and q.pid != "
-				+ "(q.status = 'ZD' or (q.status = 'IP' and q.pid != "
+				+ "(q.status = 'RD' or (q.status = 'IP' and q.pid != "
+//				+ "(q.status = 'ZD' or (q.status = 'IP' and q.pid != "
 				+ pid
 				+ ") or (q.status = 'CP' and q.pid != " + pid + ") ) AND (";
 

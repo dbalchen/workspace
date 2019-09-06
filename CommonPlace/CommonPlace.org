@@ -5038,7 +5038,6 @@ CD    6. No additional details needed
     to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
     Leveraging action-item repository in the enterprise sharepoint site for items we need addressed by IS and Engineering teams.
 
-    
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
 *** Project Manager
     Rebecca Class
@@ -5131,7 +5130,6 @@ CD    6. No additional details needed
     - eSIM Consumer Enablement Track 2 document  has been released and ready for review. 
 *** Current Status    
  
-
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0506/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0506 Fixed Wireless Track 5.1]]
 *** Project Manager
 *** Project Description
@@ -5397,26 +5395,6 @@ CD    6. No additional details needed
 ** HOLD Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
 ** TODO Fix Goals
-** TODO Setup CallDump Server [87%]
-   - [ ] Setup Wallets
-   - [X] Finish Server Doc
-   - [X] Open ports request [100%]
-     - [X] Waiting for ports to be open.
-   - [X] recompile applications
-   - [X] copy files
-   - [-] Setup Tomcat [100%]
-     - [X] Check Database Connection
-     - [X] Get CallDump working (try using old tomcat_prod)
-     - [ ] Fix Create user TAB
-   - [X] What about WEDO?
-   - [X] Check Perl/Python
-   - [ ] Check into GITHUB
-
-1 - To unlock the situation
-
-sudo vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
-and replace the 1 inside by a 0 (zero).
-
 * Footnotes
 
 [fn:8] *TWS* Job

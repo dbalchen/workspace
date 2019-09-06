@@ -4414,3 +4414,32 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
     : [4,5,6,8,10,0,2]
     : (012468T)
 
+
+* TODO Setup CallDump Server [87%]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-09-06 Fri 14:13
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+   - [ ] Set up Wallets
+   - [X] Finish Server Doc
+   - [X] Open ports request [100%]
+     - [X] Waiting for ports to be open.
+   - [X] recompile applications
+   - [X] copy files
+   - [-] Setup Tomcat [100%]
+     - [X] Check Database Connection
+     - [X] Get CallDump working (try using old tomcat_prod)
+     - [ ] Fix Create user TAB
+   - [X] What about WEDO?
+   - [X] Check Perl/Python
+   - [ ] Check into GITHUB
+
+1 - To unlock the situation
+
+sudo vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
+and replace the 1 inside by a 0 (zero).
+
