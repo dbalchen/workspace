@@ -4443,3 +4443,23 @@ ps -ef | grep '$user' | grep AR1INVRCT  | sed 's/^  *//g' | sed 's/  */ /g' | eg
 sudo vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
 and replace the 1 inside by a 0 (zero).
 
+
+* TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0506/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0506 Fixed Wireless Track 5.1]]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-09-12 Thu 13:30
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :ARCHIVE_ITAGS: noexport
+  :END:
+** Project Manager
+** Project Description
+   On July 29, U.S. Cellular will begin offering High-Speed Internet Fixed Service, supported by the 
+   Outdoor High-Speed Internet (HSI) D-Link Unit, to eligible customers in Wisconsin, Illinois and Iowa markets. 
+   This device is a professionally installed, externally mounted outdoor unit. Paired with the Google Wi-Fi Mesh 
+   indoor router, it provides 2X faster speeds compared to the internal D-Link Router and provides an extended 
+   range even at the edge of U.S. Cellular’s coverage areas.
+** Currant Status
+   - No updates since April 7th
+

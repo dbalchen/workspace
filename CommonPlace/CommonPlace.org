@@ -17,7 +17,6 @@
 #+ATTR_LaTeX: :width 16cm
 file:Pictures/Andrejevi1.jpg
 #+Author: David Balchen
-
 #+Email: dave@balchen.org
 \newpage 
 #+ATTR_LaTeX: :width 13cm
@@ -768,6 +767,7 @@ subgraph cluster_3 {
 * Unified File Format (UFF)
    In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
    will be reformatted into a /Unified File Format/ (*UFF*). This format
+
    will be a standard *Unix/ASCII* formatted *CSV* file using '|'
    *(pipe)* as the delimiter.
 ** UFF File Record Format
@@ -4982,7 +4982,7 @@ CD    6. No additional details needed
 [[file:Pictures/7-1.jpg]]
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
-* Task List							   :noexport:
+* Task List
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0600/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0600 - 5G Commercialization]]
     [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Architecture]]
 *** Project Manager
@@ -5029,15 +5029,21 @@ CD    6. No additional details needed
       - *No changes* 5G and 4G together indistinguishable from each other.
       - *5G based on 4G* Take the 4G LTE record and modify for 5G
       - *5G Usage in 5G-NR Record Type* Where 2 records are produced 1 for 4G and 1 to 5G.    
-**** <2019-06-24 Mon>
-     5G Phase 2 Business requirements first draft is complete. This will cover reporting and data varification (We will have a bigger roll).
-     Solution Document for phase 1 has been updated.
-
+    - 5G Phase 2 Business requirements first draft is complete. This will cover reporting and data varification (We will have a bigger roll).
+    - Solution Document for phase 1 has been updated.
+    - Currently tracking the Track2 scoping timeline from Amdocs. Conducting weekly meetings with IS and Engineering teams 
+      to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
+      Leveraging action-item repository in the enterprise sharepoint site for items we need addressed by IS and Engineering teams.
 *** Current Status
-    Currently tracking the Track2 scoping timeline from Amdocs. Conducting weekly meetings with IS and Engineering teams 
-    to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
-    Leveraging action-item repository in the enterprise sharepoint site for items we need addressed by IS and Engineering teams.
-
+    - The project status is on track from IS perspective for January 2020 release.
+    - Currently tracking the Track2 scoping timeline from Amdocs. Conducting weekly meetings with IS and Engineering 
+      teams to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
+      Leveraging action-item repository in the enterprise sharepoint site for items we need addressed by IS and Engineering teams.
+    - Resolved and closed commenting of Track1 IDD.Continued IS ETQA functional and regression testing for track1 work.
+      Reviewed and finalized UAT scenarios. Attended Performance test review meeting - there is low performance impact for Track-1 changes.
+      Participated in on-going IS and Engineering weekly discussion on open action items. Received confirmation from SANDS team that
+      track1 reports will be delivered Dec 6th, 2019. Capability C2 will be functionally tested in the TOPS changes for October release with option 1:
+      Partially certify the HSS/AAM interfaces without 5G Commercial device, and non-availability of 5G lab.
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
 *** Project Manager
     Rebecca Class
@@ -5097,9 +5103,10 @@ CD    6. No additional details needed
     - New company and leader documentation has been created explaining the implications of this project.
     - Track 3 IA pending Approval
     - Track 2 IA is now final
-*** Current Status
     - USCC TOPS IA IR0596 Track 3 - International Services Data Barring (Pending Approval)
     - USCC TOPS IA IR0596 Track 2- Intn'l Services - Notifications and Billing Offers Impact Assessment (IA) (Final)
+*** Current Status
+    CR 1059 for IR0596 - International Services Revamp has been created title: EDW Work Transition.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0583/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0583 eSIM for Standalone devices]]
 *** Project Manager
@@ -5129,18 +5136,8 @@ CD    6. No additional details needed
     - Reporting, what to report on, was this weeks hot topic.
     - eSIM Consumer Enablement Track 2 document  has been released and ready for review. 
 *** Current Status    
+    No updates since 8/23.. Project finished by 9/20.
  
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0506/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0506 Fixed Wireless Track 5.1]]
-*** Project Manager
-*** Project Description
-    On July 29, U.S. Cellular will begin offering High-Speed Internet Fixed Service, supported by the 
-    Outdoor High-Speed Internet (HSI) D-Link Unit, to eligible customers in Wisconsin, Illinois and Iowa markets. 
-    This device is a professionally installed, externally mounted outdoor unit. Paired with the Google Wi-Fi Mesh 
-    indoor router, it provides 2X faster speeds compared to the internal D-Link Router and provides an extended 
-    range even at the edge of U.S. Cellular’s coverage areas.
-*** Currant Status
-    - No updates since April 7th
-
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
 *** Project Manager
     Mala Rao
@@ -5163,7 +5160,6 @@ CD    6. No additional details needed
 | 4 | PDC manual solution for provisioning after Aug release for BVT | PDC/ Frank Lenz | 8/6/2019        | 9/13/2019             | In progress | Frank is waiting for test environment to be          |
 |   |                                                                |                 |                 |                       |             | upgraded in early Sept                               |
 |---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
-*** Current Status
 |----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
 | Description                                                    | Owner           | Date Identified | Commit to Complete | Status      | Notes                                 |
 |----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
@@ -5174,6 +5170,12 @@ CD    6. No additional details needed
 | Defect #137531 – Call forwarding – 17 test cases               | ETQA            | 8/19/2019       | Oct release        | In progress | Mala is tracking this                 |
 | PDC manual solution for provisioning after Aug release for BVT | PDC/ Frank Lenz | 8/6/2019        | 9/13/2019          | In progress | Frank is waiting for test environment |
 |----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
+*** Current Status
+|---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
+| # | Description       | Owner  | Date Identified | Commit to Complete | Status      | Notes                                    |
+|---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
+| 1 | CR971 IA approved | Amdocs | 7/23/2019       | 9/10               | In progress | Fully approved today; PI Scoping is 9/12 |
+|---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
@@ -5203,7 +5205,8 @@ CD    6. No additional details needed
       2. *1.2b Android*
     Received the [[https://usc.intranet.teldta.com/sites/EPR/IR0411/Documents/USCC%2520Phase1%2520-%2520A%2520and%2520F%2520-%2520Unified%2520Format%2520-%2520IDD.docx][UFF file format]] changes and I'm reviewing it now.
 *** Current Status
-    See email
+    No updates... Release scheduled for next week. September 15..
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
 *** Project Manager
     Eric Dian 
@@ -5243,6 +5246,34 @@ CD    6. No additional details needed
     d. Miscellaneous
        - Continue to work on assessments for CR1020 – steering tool – before it can be submitted for approval
 *** Current Status   
+    a. Ongoing Activities
+       - Confirmed cross connection on 9/11 with traffic migration targeting 9/27 (Bill)
+    b. Inbound (AT&T on USCC network)
+       - IREG/TADIG (Network/Billing)
+         - TAC exceptions for Ericsson – final fix completed 9/10 + still moving ahead with daytime testing (Bill)
+       - ETQA inbound testing – Tony received ‘No UAT approval’ on 9/11
+       - Completed IB launch for Santa Clara RCC (9/6)
+         - 9/20 Ashburn (Go/No-go call 9/16)
+         - 10/4 Schaumburg
+         - 10/11 Atlanta
+    c. Outbound (USCC on AT&T network)
+       - IREG/TADIG (Network/Billing)
+       - DEG – completed testing
+       - OEM
+         - Google still testing (no new completion date)
+           - Re-pushed PLMN 9/4 –Google did not power cycle in NJ area to accept the changes (Sherri Jo)
+         - LG – testing complete
+         - Samsung – testing complete
+         - Motorola – testing complete
+       - Teleworld – 44/49 devices (as of 9/11)
+       - TAC testing – Scheduled for week of 9/16 with Aniket + AT&T resources in Rockford
+       - Targeting 9/30 for OB launch
+         - Planning to launch in eastern region (approx. 1/3 of US) – usage will determine where to launch next
+           - Steve Zimmer getting together TAC restrictions to send to AT&T
+    d. Miscellaneous
+       - Assessments for CR1020 (steering tool) – waiting for engineering to confirm any impacts from the security side (Sherri Jo)
+         - Brian scheduled a meeting on 9/19 to discuss way forward with Jeff/Robert/Narothum (desire to launch Stage II of the tool) (Brian)
+       - Remedy drop down menu to include ‘AT&T Mobility’ for roamer support (Liz)
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
 *** Project Manager   
@@ -5271,14 +5302,14 @@ CD    6. No additional details needed
     We are working thru the logistics now and we will identify who will need to attend the testing as required or on call.
     Traceability matrix has been created.
 *** Previous Status    
-    Due to outstanding issues involving Engineering, this project is now off track and will jeopardize the planned 9/13 release.
+    - Due to outstanding issues involving Engineering, this project is now off track and will jeopardize the planned 9/13 release.
+    - HLD v1.0 has been just released and being reviewed.
 *** Current Status 
-    HLD v1.0 has been just released and being reviewed.
-    
+    IA is out and ready for comments
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
 *** Project Manager
     Kevin McInerney
-*** Old Status
+*** Status
     User stories started with the same topics as last time.
     1. Two new Company Codes created in SAP. (808 and 809)
        - Accounting needs to decide if new markets get the new Company Codes. – (Renee) 
@@ -5295,7 +5326,6 @@ CD    6. No additional details needed
     4. Number Porting and Roaming Impacts? – PRM Module tables. – Ravi will followup
     5. Commissions Impacts – Lisa will follow-up
     6. Supply Chain – Lisa will follow-up
-**** Previous Status
     1. References to Market areas should Include Northern Wisonsin, Iowa, South Dakota, and Nebraska.
     2. The Agent Location is not going live until May (or later).
     3. We may need the ability to load new number ranges for the new markets (Number Management).
@@ -5305,8 +5335,14 @@ CD    6. No additional details needed
     7. Need the Company mapping in TOPS to complete this User Story. 
     8. ME-5 E-commerce uses the GIS Coverage Maps from the Vendor.  Dave/Kevin will follow-up with Jim Wright.
     9. State that the new Market areas will support VOLTE only. Has tax implications
+    - Part 2 of the user stories has been completed.
 *** Current Status
-    Part 2 of the user stories has been completed.
+    - New company codes will be created for the new market areas. The company codes are 808 (Northern Wisconsin) and 809 (Sioux City, Iowa).
+    - EDW tables will be updated for the new Company Codes.
+    - The new number ranges for the market expansion areas will be loaded for use by Number Management.
+    - The SID/BID for Northern Wisconsin is 45786. The SID/BID for Sioux City, IA is 45785.
+    - CDRs will accurately indicate the SIDs/BIDs and call routing in the expanded market areas. 
+    - USCC will expand its coverage area in Northern Wisconsin, Iowa, South Dakota, and Nebraska. No new switches are required. Approximately 70 cell sites will be added in the new market areas.
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
    Ask Mr. Hauk on how is this going
@@ -5395,6 +5431,27 @@ CD    6. No additional details needed
 ** HOLD Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
 ** TODO Fix Goals
+** TODO Investigate IP usage
+** TODO Investigate Roaming usage
+** TODO investigatae data and voice non-roaming
+
+File summary of roaming types
+
+  SELECT process_date,
+         USAGE_TYPE,
+         SUM (TOTAL_RECORDS_DCH),
+         SUM (TOTAL_VOLUME_DCH),
+         SUM (TOTAL_CHARGES_DCH),
+         SUM (TOTAL_RECORDS),
+         SUM (TOTAL_VOLUME),
+         SUM (TOTAL_CHARGES)
+    FROM file_summary
+   WHERE process_date > '10-SEP-2018'
+GROUP BY process_date, usage_type
+ORDER BY process_date, usage_type
+
+'\-310147\-|\-310367\-|\-310145\-|\-310143\-'
+
 * Footnotes
 
 [fn:8] *TWS* Job
