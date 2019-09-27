@@ -767,7 +767,6 @@ subgraph cluster_3 {
 * Unified File Format (UFF)
    In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
    will be reformatted into a /Unified File Format/ (*UFF*). This format
-
    will be a standard *Unix/ASCII* formatted *CSV* file using '|'
    *(pipe)* as the delimiter.
 ** UFF File Record Format
@@ -5034,7 +5033,6 @@ CD    6. No additional details needed
     - Currently tracking the Track2 scoping timeline from Amdocs. Conducting weekly meetings with IS and Engineering teams 
       to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
       Leveraging action-item repository in the enterprise sharepoint site for items we need addressed by IS and Engineering teams.
-*** Current Status
     - The project status is on track from IS perspective for January 2020 release.
     - Currently tracking the Track2 scoping timeline from Amdocs. Conducting weekly meetings with IS and Engineering 
       teams to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
@@ -5044,6 +5042,18 @@ CD    6. No additional details needed
       Participated in on-going IS and Engineering weekly discussion on open action items. Received confirmation from SANDS team that
       track1 reports will be delivered Dec 6th, 2019. Capability C2 will be functionally tested in the TOPS changes for October release with option 1:
       Partially certify the HSS/AAM interfaces without 5G Commercial device, and non-availability of 5G lab.
+    - Conducted weekly meeting with IS and Engineering teams to look at lab readiness roadmap as well as initial CDR samples that may become available for lab and/or field trials.
+    - Continued impact analysis of solution between Engg and IS PDC 5G usage identification logic.
+    - Met with Amdocs to discuss solution approach and re-prioritization of 5G capabilities. Next step to updated ROM from Amdocs which will inform us about short term and also long term approach. 
+    - Further assessment is needed before we can re-establish the timelines for User Stories updates, review and approval of User Stories, IA update, review and approvals.
+    - Re stakeholder an alternative approach and timeline if needed and finalize next steps.
+    - The key dependency for Track2 and subsequent tracks of work is IS and Engg Secondary RAT 5G usage designs with the underlying CDR processing which needs to be resolved first.
+    - The project status is On track for November release. Below capability will be delivered in this release: 
+          Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices.
+*** Current Status
+    - The project status is On track for November release. Below capability will be delivered in this release: Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices
+    - The project status is Off Track from IS perspective for January 2020 release. Architecture re-prioritization of capabilities in progress. The Risk report reported last week regarding Engg and IS PDC 5G usage identification logic has been re-opened.
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
 *** Project Manager
     Rebecca Class
@@ -5105,9 +5115,11 @@ CD    6. No additional details needed
     - Track 2 IA is now final
     - USCC TOPS IA IR0596 Track 3 - International Services Data Barring (Pending Approval)
     - USCC TOPS IA IR0596 Track 2- Intn'l Services - Notifications and Billing Offers Impact Assessment (IA) (Final)
-*** Current Status
-    CR 1059 for IR0596 - International Services Revamp has been created title: EDW Work Transition.
-
+    - CR 1059 for IR0596 - International Services Revamp has been created title: EDW Work Transition.
+    - New International billing offers have been created and waiting approval
+*** Current Status    
+    The status of CR 876 for IR0596 - International Services Revamp has been changed to "Approved" (Intl Service Revamp - Track 2 Scope Change 
+    (Policy Control Voice/SMS Barring/Unbarring) ). 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0583/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0583 eSIM for Standalone devices]]
 *** Project Manager
     Sara Singh
@@ -5135,8 +5147,9 @@ CD    6. No additional details needed
     - A IR0583 – eSIM Consumer Enablement Track 2 - Secondary Device Activation Impact Assessment (IA) is waiting approval (Still Waiting).
     - Reporting, what to report on, was this weeks hot topic.
     - eSIM Consumer Enablement Track 2 document  has been released and ready for review. 
+    The dual SIM devices are not working as expected. All other devices will be launched on September 27.
 *** Current Status    
-    No updates since 8/23.. Project finished by 9/20.
+    No updates this week.
  
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
 *** Project Manager
@@ -5170,12 +5183,26 @@ CD    6. No additional details needed
 | Defect #137531 – Call forwarding – 17 test cases               | ETQA            | 8/19/2019       | Oct release        | In progress | Mala is tracking this                 |
 | PDC manual solution for provisioning after Aug release for BVT | PDC/ Frank Lenz | 8/6/2019        | 9/13/2019          | In progress | Frank is waiting for test environment |
 |----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
-*** Current Status
+
 |---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
 | # | Description       | Owner  | Date Identified | Commit to Complete | Status      | Notes                                    |
 |---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
 | 1 | CR971 IA approved | Amdocs | 7/23/2019       | 9/10               | In progress | Fully approved today; PI Scoping is 9/12 |
 |---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
+*** Current Status
+
+    1. Release date move from 10/27 to 11/3 to allow for an additional week to test
+    2. CR509 – VoWifi for Prepaid Acme –. Testing halt; lab to be enabled with VoWifi
+
+    |--------+---------------------------------------------------------------------+-----------------------------------------------|
+    | Item   | Description                                                         | Amdocs Delivery Date                          |
+    | CR509  | VoWifi Prepaid Acme                                                 | October release                               |
+    | CR846  | Suspend/Restore                                                     | October release                               |
+    | CR971  | Refresh                                                             | January release - confirmed for PI 32 on 9/12 |
+    | CR1029 | Functionality for BVT test accounts                                 | Targeted Oct or Nov (offcycle)                |
+    | CR1071 | Turn ON VoLTE and Suspend/Resume with commercialization in Jan 2020 | January release - 1/19/2020                   |
+    |--------+---------------------------------------------------------------------+-----------------------------------------------|
+
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
@@ -5204,9 +5231,21 @@ CD    6. No additional details needed
       1. *1.2a ACME*
       2. *1.2b Android*
     Received the [[https://usc.intranet.teldta.com/sites/EPR/IR0411/Documents/USCC%2520Phase1%2520-%2520A%2520and%2520F%2520-%2520Unified%2520Format%2520-%2520IDD.docx][UFF file format]] changes and I'm reviewing it now.
+    - On Track - Overall
+    - Launched in August release. TOPS changes will not be live until the controlled launch for Acme (scheduled for December 2019). 
+      Will continue reporting status for this track through the warranty period.
+    Test calls are being made
 *** Current Status
-    No updates... Release scheduled for next week. September 15..
-
+    - USCC - AAM - Mobile Device Management Integration- IDD has been updated addressing posted comments.
+    - USCC TOPS IA IR0411 CR937 VoWiFi Track 1.2b Android Prepaid VoWIFI has been updated in SharePoint and moved to state 9 - Approval Requested.   
+|----------------------------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
+| Project Track                    | Status   | Comments                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Path to Green/Reason for Status Change                                                                                               |
+|----------------------------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
+| IR0411 VoWiFi - Non-provisioning | ON TRACK | Launched in August release. TOPS changes will not be live until the controlled launch for Acme (scheduled for December 2019). Will continue reporting status for this track through the warranty period.                                                                                                                                                                                                                                                                                                                                                                                                | N/A                                                                                                                                  |
+| IR0411 VoWiFi - Acme             | ON TRACK | IS/Provisioning: Track 1.2a launched in August release. Engineering: A solution to support MMS (multi-media messaging service) and VVM (visual voicemail) is being developed and Acme is working with USCC to accommodate additional time for testing. Acme carrier bundle testing for non-MMS, non-VVM test cases will be completed by 9/30 to submit device logs to Acme.                                                                                                                                                                                                                             | Acme agreed to extend the 9/30 deadline for submitting device logs for MMS/VVM to allow USCC time to develop/test a viable solution. |
+| IR0411 VoWiFi - Android          | ON TRACK | IS/Provisioning: Targeting PI33 with December code drop and January 2020 release. Amdocs delivered IA for CR937, ongoing discussions to assess feasibility and planning considerations for adding prepaid Android development to postpaid Android development. Engineering: USCC/Nokia confirmed latest schedule revision (Dec 2019 lab testing, 03/04/20 production ready, 03/31/20 NRD). Earliest commercial launch date for Samsung (single device) tentatively set at 05/01/20 (working to pull this in if possible). Remaining OEM's are TBD until DEG finalizes requirements for android devices. | N/A                                                                                                                                  |
+|----------------------------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
+                                   |          |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |                                                                                                                                      |
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
 *** Project Manager
     Eric Dian 
@@ -5244,8 +5283,7 @@ CD    6. No additional details needed
          - Set to receive additional devices 8/21 and final batch on 8/23
          - To date: one device failure (S4 mini – Ryan will need to retest)
     d. Miscellaneous
-       - Continue to work on assessments for CR1020 – steering tool – before it can be submitted for approval
-*** Current Status   
+       - Continue to work on assessments for CR1020 – steering tool – before it can be submitted for approval 
     a. Ongoing Activities
        - Confirmed cross connection on 9/11 with traffic migration targeting 9/27 (Bill)
     b. Inbound (AT&T on USCC network)
@@ -5274,16 +5312,49 @@ CD    6. No additional details needed
        - Assessments for CR1020 (steering tool) – waiting for engineering to confirm any impacts from the security side (Sherri Jo)
          - Brian scheduled a meeting on 9/19 to discuss way forward with Jeff/Robert/Narothum (desire to launch Stage II of the tool) (Brian)
        - Remedy drop down menu to include ‘AT&T Mobility’ for roamer support (Liz)
+    - Ongoing Activities
+      -	Traffic migration targeting 9/27
+    - Inbound (AT&T on USCC network)
+      - IREG/TADIG (Network/Billing)
+        - TAC exceptions for Ericsson –daytime testing (still ongoing last week)
+      - ETQA inbound testing – Tony received ‘No UAT approval’ on 9/11
+      - IB launch Schedule:
+        - 9/20 Ashburn (Go/No-go call 9/16)
+        - 10/4 Schaumburg
+        - 10/11 Atlanta
+
+    - Outbound (USCC on AT&T network)
+      - IREG/TADIG (Network/Billing)
+      - DEG – testing complete
+      - OEM
+      - Google testing completion date
+        - Re-pushed PLMN 9/4 (did Google complete power cycle in NJ area?)
+      - LG, Samsung, Motorola – testing complete
+      - Teleworld – 44/49 devices (as of 9/11)
+      - TAC testing – week of 9/16 (Aniket + AT&T resources in Rockford)
+      - Targeting 9/30 for OB launch
+      - Planning to launch in eastern region (approx. 1/3 of US) – usage will determine where to launch next
+      - Steve Zimmer getting TAC restrictions to send to AT&T
+    - Miscellaneous
+      - Assessments for CR1020 (steering tool) – engineering to confirm impacts from the security perspective
+      - Remedy drop down menu to include ‘AT&T Mobility’ for roamer support (added)
+*** Current Status
+|--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Project Track                  | Status                       | Comments                                                                                                                                                                                                                                                                                                                                                                                                       | Path to Green/Reason for Status Change                                                                                                                  |
+|--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| IR0622 – AT&T Outbound Roaming | OFF TRACK: OVERALL/ SCHEDULE | Launch remains TBD due to a delay in testing caused by AT&T needing to update its MME for TAC restrictions. Additionally, AT&T will have to make a cost code change in their GSM network to support USCC devices. Use of the steering tool still being finalized (meeting on 10/1 to confirm plan for steering tool to support initial business requirements and alternative plan for remaining requirements). | AT&T MME readied for TAC restrictions to allow USCC to complete TAC testing. AT&T makes cost code changes in their GSM network to support USCC devices. |
+|--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
 *** Project Manager   
     Frank Novak
-*** [[file:docs/RoboCallSolutionProposal.docx][Solution Proposal]]
-    
+*** [[file:docs/RoboCallSolutionProposal.docx][Solution Proposal]]  
+
 *** Old Status
     No IS solution possible until 2020, so it becomes an engineering problem.
-*** Current Status
     No updates except the solution proposal was updated with minor adjustments.
+*** Current Status
+    No updates this week-- Frank is on vacation
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
@@ -5304,11 +5375,13 @@ CD    6. No additional details needed
 *** Previous Status    
     - Due to outstanding issues involving Engineering, this project is now off track and will jeopardize the planned 9/13 release.
     - HLD v1.0 has been just released and being reviewed.
+    USCC TOPS IA IR0614 WPS on VoLTE has been approved.
 *** Current Status 
-    IA is out and ready for comments
+    No updates
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
 *** Project Manager
     Kevin McInerney
+
 *** Status
     User stories started with the same topics as last time.
     1. Two new Company Codes created in SAP. (808 and 809)
@@ -5322,7 +5395,8 @@ CD    6. No additional details needed
     2. Will there be any new Switches? – If Yes, Provisioning impacts – (Jim and Christian) 
        - New SIDS - 
        - What is required to add new SIDs? 
-    3. Are there any impacts to WE? Ravi will follow-up.
+
+    3. Are there any impacts to WE? Ra will follow-up.
     4. Number Porting and Roaming Impacts? – PRM Module tables. – Ravi will followup
     5. Commissions Impacts – Lisa will follow-up
     6. Supply Chain – Lisa will follow-up
@@ -5336,13 +5410,16 @@ CD    6. No additional details needed
     8. ME-5 E-commerce uses the GIS Coverage Maps from the Vendor.  Dave/Kevin will follow-up with Jim Wright.
     9. State that the new Market areas will support VOLTE only. Has tax implications
     - Part 2 of the user stories has been completed.
-*** Current Status
     - New company codes will be created for the new market areas. The company codes are 808 (Northern Wisconsin) and 809 (Sioux City, Iowa).
     - EDW tables will be updated for the new Company Codes.
     - The new number ranges for the market expansion areas will be loaded for use by Number Management.
     - The SID/BID for Northern Wisconsin is 45786. The SID/BID for Sioux City, IA is 45785.
     - CDRs will accurately indicate the SIDs/BIDs and call routing in the expanded market areas. 
     - USCC will expand its coverage area in Northern Wisconsin, Iowa, South Dakota, and Nebraska. No new switches are required. Approximately 70 cell sites will be added in the new market areas.
+    User Stories have been Accounting has been added and awaiting review.
+*** Current Status
+    No updates this week
+
 ** HOLD PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
    Ask Mr. Hauk on how is this going
@@ -5430,10 +5507,12 @@ CD    6. No additional details needed
 ** TODO Work on Dan's Java program
 ** HOLD Come up with documentation standards
 ** TODO Knowledge Transfer for usage.pl
+** TODO Knowledge Transfer GIT Hub
 ** TODO Fix Goals
-** TODO Investigate IP usage
-** TODO Investigate Roaming usage
-** TODO investigatae data and voice non-roaming
+** TODO Investigate Usage [0%]
+*** TODO [ ] IP usage
+*** TODO [ ] Roaming usage
+*** TODO [ ] Data and voice non-roaming
 
 File summary of roaming types
 
@@ -5451,6 +5530,10 @@ GROUP BY process_date, usage_type
 ORDER BY process_date, usage_type
 
 '\-310147\-|\-310367\-|\-310145\-|\-310143\-'
+
+
+vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
+
 
 * Footnotes
 

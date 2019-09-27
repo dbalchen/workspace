@@ -1,6 +1,8 @@
 #! /usr/bin/python3
 
 # Libraries used for Statistical functions
+import sys
+
 import pandas as pd
 
 import scipy.signal
@@ -10,7 +12,6 @@ from scipy import stats
 import numpy as np
 
 import matplotlib.pyplot as plt
-from builtins import int
 
 def analysis(data):
     
@@ -25,7 +26,6 @@ def analysis(data):
 
 
 def plotIt (usage, title, ylabel, filename):
-
 
     xAx = [x[0] for x in usage]
     yAx = [x[1] for x in usage]
@@ -55,20 +55,21 @@ def plotIt (usage, title, ylabel, filename):
     # Calculate moving average
     df = pd.DataFrame(yAx)  
        
-    mavg = df.rolling(30, center=True).mean()
+    mavg = df.rolling(7, center=True).mean()
        
     # Plot
-    ax.xaxis.set_major_locator(plt.MaxNLocator(12))
+#    ax.xaxis.set_major_locator(plt.MaxNLocator(12))
     
     ax.plot(xAx, mavg, color='g', label='7 Day Moving Average')
     
- #   riqr = df.rolling(30).std()
- 
-    ax.plot(xAx, y1+st[1], color='b', label='Rolling IQR')
-       
-    yhat = scipy.signal.savgol_filter(yAx, len(usage), 6) # window size 51, polynomial order 3
+    listLen = len(usage)
     
-    ax.plot(xAx,yhat,color='m',label='Polyfit')
+    if(listLen % 2) == 0:
+        listLen =  listLen -1
+       
+    yhat = scipy.signal.savgol_filter(yAx, listLen, 4) # window size 51, polynomial order 3
+    
+    ax.plot(xAx,yhat,color='y',label='Polyfit')
 
     # Print the Legend
     ax.legend(loc='best')
@@ -96,14 +97,23 @@ def plotIt (usage, title, ylabel, filename):
     
     return
 
-
 results = []
 
-with open("/home/dbalchen/Desktop/IncollectVoice.csv", "r") as fp:
+with open("/home/dbalchen/Desktop/test1", "r") as fp:
     for i in fp.readlines():
         tmp = i.split("\t")
         try:
-            results.append((str(tmp[0]), (float(tmp[1])/100000)))
+            results.append((str(tmp[0]),float(tmp[1])))
         except:pass
+         
+# for line in sys.stdin:
+#     tmp = line.rstrip().split("\t")
+#     try:
+#         results.append((float(tmp[0]),float(tmp[1])))
+#     except:pass
 
-plotIt(results,"Roaming Usage","Hundred Grand","UsageOut")
+title = sys.argv[1]
+yaxis = sys.argv[2]
+fileOut = sys.argv[3]
+
+plotIt(results,title,yaxis,fileOut)
