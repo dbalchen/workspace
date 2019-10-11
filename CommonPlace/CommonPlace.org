@@ -53,11 +53,10 @@ file:Pictures/Andrejevi1.jpg
  \newpage
 \pagenumbering{arabic}
 #+END_LaTeX 
-* Statement of Principals					   :noexport:
+* Statement of Principals
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
-   - /A Power Point presentation is like smoking a cigar, only the
-     person doing it likes it./
+   - /A Power Point presentation is like smoking a cigar, only the person doing it likes it./
    - /Probability from a point./
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
 * TOPS Operations
@@ -1346,7 +1345,7 @@ subgraph cluster_3 {
     2. Enter job name: *tws job name*
     3. Environment: *PROD*
     4. Request Type: Submit *Predefined*
-    5. Additional Questions: *Run job – no paramenters needed*
+    5. Additional Questions: *Run job – no parameters needed*
 CD    6. No additional details needed
     7. Execute job immediately
     8. Submit Query
@@ -1377,11 +1376,11 @@ CD    6. No additional details needed
     This specific job monitors the *Mabel* data sent out thru *USCC* FTP
 
 *** PR-INVBO-MABEL_RAW_DATA_CONSOLID_VALIDAT
-    This is part of Amdocs Managed Services. If there is an issue with this Report a Remedy Ticket would need to be opened requestiong the job be started again. 
+    This is part of Amdocs Managed Services. If there is an issue with this Report a Remedy Ticket would need to be opened requesting the job be started again. 
     However, this has never had to be done so an example ticket does not exist. 
 
 *** PR-INVBO-MABEL_RAW_DATA_SFV_VALIDATE
-    This is part of Amdocs Managed Services. If there is an issue with this Report a Remedy Ticket would need to be opened requestiong the job be started again. 
+    This is part of Amdocs Managed Services. If there is an issue with this Report a Remedy Ticket would need to be opened requesting the job be started again. 
     However, this has never had to be done so an example ticket does not exist. 
 
 *** PR-INVFO1B-MABEL_RAW_DATA_98500_REPORT
@@ -1452,7 +1451,7 @@ CD    6. No additional details needed
     -  *Collection Interface* -
        /pkgbl01/inf/prodsys/prdwrk1/var/usc/projs/cl/interfaces
 
-** AR Jobs and Deamons
+** AR Jobs and Daemons
      - AR1JRNLEXT
        The Journal Extract process extracts to an output file all
             financial activities that occurred since the last run of
@@ -3365,7 +3364,7 @@ CD    6. No additional details needed
 #+END_LaTeX
 ** (BPT) EPC Tables
          These tables are included in the *EPC* dump which happens once
-         or twice a month, no hotfix is needed unless it 
+         or twice a month, no hot-fix is needed unless it 
          needs to be in
          production right away.
 *** PC9_SID
@@ -4746,7 +4745,7 @@ CD    6. No additional details needed
 |-------------------+---------------+--------------------------|
 | *Column Name*     | *Datatype*    | *Description*            |
 |-------------------+---------------+--------------------------|
-| Ba_Account_No     | Number (12)   | *FA* Finacial Account    |
+| Ba_Account_No     | Number (12)   | *FA* Financial Account    |
 | Invrpt_Dest_Code  | Char (5 Byte) | The same as Consolidator |
 | Eff_Date          | Date          |                          |
 | Sys_Creation_Date | Date          |                          |
@@ -4988,17 +4987,19 @@ CD    6. No additional details needed
     Kirti Parikh
 *** Project Description
     The commercialization of *5G* is part of the following:
-    - Network enablement in Year 1 markets (Iowa and Wisconsin)
+    - Network enable-meant in Year 1 markets (Iowa and Wisconsin)
     - New *TOPS* functionality to support *5G* Provisioning and Usage processing
     - Launch of new *5G* enabled devices (multiple platforms and device types)
     - NDC will be rolling out a new version of there mediation software which will help with some of the issues with being able to distinguish between 5G and 4G.
     - The introduction documents have been disseminated out in the field.
 *** Go Live Dates
     Delivery Schedule (Kirti)
-    - Track1 – TOPS Provisioning changes (Amdocs) – 1 PI effort – 1 User story –  target August, 2019
+    - Track1 – TOPS Provisioning changes (Amdocs) – 1 PI effort – 1 User story
+      - Deployment Phase Complete - 11/3/2019
     - Track2 – TOPS Charging changes (PDC) – TBD – dependency on data refinery – target Oct, 2019
+      -  Deployment Phase Complete - 1/25/2020
     - Track3 – TOPS MOA changes – Per user stories, MOA will be needed on demand basis, there is dependency on Engineering.
-    - Reporting Enablement for 5G will be part of future track of work as aligned with Business.
+    - Reporting Enable-meant for 5G will be part of future track of work as aligned with Business.
     - Expect to be finished early 2020
 *** Open Issues
     Open items we are tracking (Team)
@@ -5024,20 +5025,20 @@ CD    6. No additional details needed
     Mr. Smith's IP monitors may need to be changed to look for 5G.
 *** Status
     - USCC TOPS IA IR0600 - 5G Commercialization has been Approved.
-    - Mr. Hauk has sent out the various proposels on the 5G usage which includes:
+    - Mr. Hauk has sent out the various proposals on the 5G usage which includes:
       - *No changes* 5G and 4G together indistinguishable from each other.
       - *5G based on 4G* Take the 4G LTE record and modify for 5G
       - *5G Usage in 5G-NR Record Type* Where 2 records are produced 1 for 4G and 1 to 5G.    
-    - 5G Phase 2 Business requirements first draft is complete. This will cover reporting and data varification (We will have a bigger roll).
+    - 5G Phase 2 Business requirements first draft is complete. This will cover reporting and data verification (We will have a bigger roll).
     - Solution Document for phase 1 has been updated.
-    - Currently tracking the Track2 scoping timeline from Amdocs. Conducting weekly meetings with IS and Engineering teams 
-      to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
-      Leveraging action-item repository in the enterprise sharepoint site for items we need addressed by IS and Engineering teams.
+    - Currently tracking the Track2 scoping time-line from Amdocs. Conducting weekly meetings with IS and Engineering teams 
+      to look at lab readiness road-map as well as initial UE samples that may become available for lab and/or field trials.
+      Leveraging action-item repository in the enterprise share point site for items we need addressed by IS and Engineering teams.
     - The project status is on track from IS perspective for January 2020 release.
-    - Currently tracking the Track2 scoping timeline from Amdocs. Conducting weekly meetings with IS and Engineering 
-      teams to look at lab readiness roadmap as well as initial UE samples that may become available for lab and/or field trials.
-      Leveraging action-item repository in the enterprise sharepoint site for items we need addressed by IS and Engineering teams.
-    - Resolved and closed commenting of Track1 IDD.Continued IS ETQA functional and regression testing for track1 work.
+    - Currently tracking the Track2 scoping time-line from Amdocs. Conducting weekly meetings with IS and Engineering 
+      teams to look at lab readiness road-map as well as initial UE samples that may become available for lab and/or field trials.
+      Leveraging action-item repository in the enterprise share-point site for items we need addressed by IS and Engineering teams.
+    - Resolved and closed commenting of Track1 IDD. Continued IS ETQA functional and regression testing for track1 work.
       Reviewed and finalized UAT scenarios. Attended Performance test review meeting - there is low performance impact for Track-1 changes.
       Participated in on-going IS and Engineering weekly discussion on open action items. Received confirmation from SANDS team that
       track1 reports will be delivered Dec 6th, 2019. Capability C2 will be functionally tested in the TOPS changes for October release with option 1:
@@ -5050,9 +5051,26 @@ CD    6. No additional details needed
     - The key dependency for Track2 and subsequent tracks of work is IS and Engg Secondary RAT 5G usage designs with the underlying CDR processing which needs to be resolved first.
     - The project status is On track for November release. Below capability will be delivered in this release: 
           Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices.
-*** Current Status
-    - The project status is On track for November release. Below capability will be delivered in this release: Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices
+    - The project status is On track for November release. Below capability will be delivered in this release: Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices
     - The project status is Off Track from IS perspective for January 2020 release. Architecture re-prioritization of capabilities in progress. The Risk report reported last week regarding Engg and IS PDC 5G usage identification logic has been re-opened.
+    Track 1 - The project status is On track for November release. Below capability will be delivered in this release: Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices
+    Track 2 - The project status is Off Track from IS perspective for January 2020 release. Architecture re-prioritization of capabilities in progress. 
+    The Risk regarding Engg and IS PDC 5G usage identification logic needs to be resolved before project can return to On Track status.
+*** Current Status
+    The RAT report is wrong and they need to start from square one.
+    Concerns from team:
+    - EnodeB needs to be available with the updated software versions for LTE test devices to attach
+    - ETQA will test using LTE device for Oct/Jan release, and will need to retest after Device is available (3/12/20) and this increases a possibility of a Amdocs CR
+    - Track 2 scope is dependent on the 5G usage report and the mechanics for IS to design and deliver appropriately. Risk to schedule and designs if the unknowns are not resolved to the extent best possible
+    - A CR to be created for retesting efforts and will be assessed as needed
+ 
+    Delivery Schedule (Kirti)
+    - Track1 – TOPS Provisioning and MOA changes (Amdocs EPC) – 1 PI effort – 5 User stories –  Accepted in PI 30 for Nov 2019 major release, Amdocs delivered code in drop1, testing in progress.
+    - Track2 – TOPS Charging changes (PDC and Amdocs). This track also includes Reporting Enable-meant – dependency on ieCCF enhancements needs to be resolved. 
+ 
+    PDC team is completely blocked by the dependency for the RAT report being resolved. This is Action item # 7 and is raised as a Risk in the project. PDC team needs several meetings after this is met, before they can solution and move forward. This will impact timeline for January delivery.
+    Procurement policy for devices - when production ready devices are available (in Dec?) how would PDC and ETQA get access to those? Do we need funding? Do we need to borrow or purchase devices? Need timeline for that.
+ 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
 *** Project Manager
@@ -5103,6 +5121,7 @@ CD    6. No additional details needed
 *** Go Live Dates
     - Track 1 GSM Country Code Rezoning June 23rd
     - Track 2 API Upgrade August 18th
+    - New price plans will be rolled out on the November 3th release.
 *** Possible Billing Issues
     - No impact to billing since we process this data already. 
 *** Monitors/Controls/Alerts and Ownership
@@ -5117,9 +5136,12 @@ CD    6. No additional details needed
     - USCC TOPS IA IR0596 Track 2- Intn'l Services - Notifications and Billing Offers Impact Assessment (IA) (Final)
     - CR 1059 for IR0596 - International Services Revamp has been created title: EDW Work Transition.
     - New International billing offers have been created and waiting approval
-*** Current Status    
     The status of CR 876 for IR0596 - International Services Revamp has been changed to "Approved" (Intl Service Revamp - Track 2 Scope Change 
     (Policy Control Voice/SMS Barring/Unbarring) ). 
+*** Current Status    
+    - CR#876 We are removing from this scope of work Voice/SMS barring & unbarring for Policy Controls. This solution is depended on a 3rd party vendor at this time and we were unable to find an adequate solution.
+
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0583/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0583 eSIM for Standalone devices]]
 *** Project Manager
     Sara Singh
@@ -5144,20 +5166,21 @@ CD    6. No additional details needed
 *** Status 
     Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
     *UAT in Progress*
-    - A IR0583 – eSIM Consumer Enablement Track 2 - Secondary Device Activation Impact Assessment (IA) is waiting approval (Still Waiting).
+    - A IR0583 – eSIM Consumer Enable-meant Track 2 - Secondary Device Activation Impact Assessment (IA) is waiting approval (Still Waiting).
     - Reporting, what to report on, was this weeks hot topic.
-    - eSIM Consumer Enablement Track 2 document  has been released and ready for review. 
+    - eSIM Consumer Enable-meant Track 2 document  has been released and ready for review. 
     The dual SIM devices are not working as expected. All other devices will be launched on September 27.
 *** Current Status    
     No updates this week.
  
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
 *** Project Manager
     Mala Rao
 *** Project Description
     Enable prepaid customers to use VoLTE.
 *** Go Live dates
-    September 2019
+    11/3
 *** Status
     User stories for provisioning to suspend and restore customers is complete. 
 |---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
@@ -5188,21 +5211,24 @@ CD    6. No additional details needed
 | # | Description       | Owner  | Date Identified | Commit to Complete | Status      | Notes                                    |
 |---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
 | 1 | CR971 IA approved | Amdocs | 7/23/2019       | 9/10               | In progress | Fully approved today; PI Scoping is 9/12 |
-|---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
-*** Current Status
+|---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------
 
     1. Release date move from 10/27 to 11/3 to allow for an additional week to test
     2. CR509 – VoWifi for Prepaid Acme –. Testing halt; lab to be enabled with VoWifi
 
     |--------+---------------------------------------------------------------------+-----------------------------------------------|
     | Item   | Description                                                         | Amdocs Delivery Date                          |
+    | `      |                                                                     |                                               |
     | CR509  | VoWifi Prepaid Acme                                                 | October release                               |
     | CR846  | Suspend/Restore                                                     | October release                               |
     | CR971  | Refresh                                                             | January release - confirmed for PI 32 on 9/12 |
     | CR1029 | Functionality for BVT test accounts                                 | Targeted Oct or Nov (offcycle)                |
     | CR1071 | Turn ON VoLTE and Suspend/Resume with commercialization in Jan 2020 | January release - 1/19/2020                   |
     |--------+---------------------------------------------------------------------+-----------------------------------------------|
-
+*** Current Status
+    A defect has been found with Call Forwarding so I have been sending counts of prepaid calls that were Call Forwarded (not to voice mail) to the team.
+    | 8 | RO Interface IS Readiness – Second IP, Diameter in prod, Firewall for prod | Mala/Amit/Dave | 9/20/2019 | In progress | 10/8:  FW completed; port details to CAB this week. 10/1:  Amit Dror creating firewall request to take to CAB |
+    
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
@@ -5215,7 +5241,7 @@ CD    6. No additional details needed
    - Value of 3 in field 52 of the UFF signifies voice over WIFI.
    - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
 *** Go Live Dates
-    August release with marketing piece starting first quarter 2020.
+    Closing phase 12/31/2019
 *** Possible Billing Issues
     - Since the usage will come in as VoLTE/LTE there will be no impact
 *** Monitors/Controls/Alerts and Ownership
@@ -5235,21 +5261,31 @@ CD    6. No additional details needed
     - Launched in August release. TOPS changes will not be live until the controlled launch for Acme (scheduled for December 2019). 
       Will continue reporting status for this track through the warranty period.
     Test calls are being made
-*** Current Status
     - USCC - AAM - Mobile Device Management Integration- IDD has been updated addressing posted comments.
     - USCC TOPS IA IR0411 CR937 VoWiFi Track 1.2b Android Prepaid VoWIFI has been updated in SharePoint and moved to state 9 - Approval Requested.   
 |----------------------------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
 | Project Track                    | Status   | Comments                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Path to Green/Reason for Status Change                                                                                               |
 |----------------------------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
 | IR0411 VoWiFi - Non-provisioning | ON TRACK | Launched in August release. TOPS changes will not be live until the controlled launch for Acme (scheduled for December 2019). Will continue reporting status for this track through the warranty period.                                                                                                                                                                                                                                                                                                                                                                                                | N/A                                                                                                                                  |
-| IR0411 VoWiFi - Acme             | ON TRACK | IS/Provisioning: Track 1.2a launched in August release. Engineering: A solution to support MMS (multi-media messaging service) and VVM (visual voicemail) is being developed and Acme is working with USCC to accommodate additional time for testing. Acme carrier bundle testing for non-MMS, non-VVM test cases will be completed by 9/30 to submit device logs to Acme.                                                                                                                                                                                                                             | Acme agreed to extend the 9/30 deadline for submitting device logs for MMS/VVM to allow USCC time to develop/test a viable solution. |
+| IR0411 VoWiFi - Acme             | ON TRACK | IS/Provisioning: Track 1.2a launched in August release. Engineering: A solution to support MMS (multi-media messaging service) and VVM (visual voice-mail) is being developed and Acme is working with USCC to accommodate additional time for testing. Acme carrier bundle testing for non-MMS, non-VVM test cases will be completed by 9/30 to submit device logs to Acme.                                                                                                                                                                                                                             | Acme agreed to extend the 9/30 deadline for submitting device logs for MMS/VVM to allow USCC time to develop/test a viable solution. |
 | IR0411 VoWiFi - Android          | ON TRACK | IS/Provisioning: Targeting PI33 with December code drop and January 2020 release. Amdocs delivered IA for CR937, ongoing discussions to assess feasibility and planning considerations for adding prepaid Android development to postpaid Android development. Engineering: USCC/Nokia confirmed latest schedule revision (Dec 2019 lab testing, 03/04/20 production ready, 03/31/20 NRD). Earliest commercial launch date for Samsung (single device) tentatively set at 05/01/20 (working to pull this in if possible). Remaining OEM's are TBD until DEG finalizes requirements for android devices. | N/A                                                                                                                                  |
 |----------------------------------+----------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
-                                   |          |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |                                                                                                                                      |
+|-------------------------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
+| Project Track           | Status   | Comments                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Path to Green/Reason for Status Change |
+|-------------------------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
+| IR0411 VoWiFi - Acme    | ON TRACK | A solution to support MMS (multi-media messaging service) and VVM (visual voice-mail) is being developed and Acme is working with USCC to accommodate additional time for testing. Carrier bundle testing for non-MMS, non-VVM, non-911 test cases was completed to send device logs to Acme. Acme agreed to submission of device logs for MMS/VVM test cases by end of October.                                                                                                                                                                                                                                | N/A                                    |
+| IR0411 VoWiFi - Android | ON TRACK | IS/Provisioning: Targeting PI33 with December code drop and January 2020 release. IA for CR937 approved on 9/26; IS reviewing IA to assess impacts for adding prepaid Android development to postpaid Android development. Engineering: USCC/Nokia tracking to latest schedule revision (Dec 2019 lab testing, 03/04/20 production ready, 03/31/20 NRD). Earliest commercial launch date for Samsung (single device) tentatively set at 05/01/20 (would require approval for parallel testing by Samsung to pull in any further). Other OEM's remain TBD until DEG finalizes requirements for Android devices. | N/A                                    |
+|-------------------------+----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
+*** Current Status
+    No updates this week
+
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
 *** Project Manager
     Eric Dian 
 *** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
+*** Go Live Dates
+    October 16-17 2019
 *** Status
     A capacity analysis with TNS (roaming vendor) determined new circuits 
     are required to support the project (order was submitted to TNS on 8/7 
@@ -5266,8 +5302,8 @@ CD    6. No additional details needed
        - IREG/TADIG (Network/Billing)
          - IREG testing and validation of TAP files for TADIG complete (Jody)
        - TAC exceptions for Ericsson – date for the fix for the remaining MMEs to put TACs in place for AT&T on our network TBD (Bill)
-       - Confirmed with AT&T that the specific locations used for whitelisting entire USCC test range also include any MME within that same pool, which provides a lot of different areas to test in (Jody)
-       - USCC whitelisted + completed test call + shipped devices to Iowa for the team to begin the deployment (Sherri Jo)
+       - Confirmed with AT&T that the specific locations used for white-listing entire USCC test range also include any MME within that same pool, which provides a lot of different areas to test in (Jody)
+       - USCC white-listed + completed test call + shipped devices to Iowa for the team to begin the deployment (Sherri Jo)
        - DEG – Ryan was working on devices to ship to Teleworld (shipped half on 8/14 to be there by 8/15)
        - OEM
          - Motorola had all devices up to start testing
@@ -5322,7 +5358,6 @@ CD    6. No additional details needed
         - 9/20 Ashburn (Go/No-go call 9/16)
         - 10/4 Schaumburg
         - 10/11 Atlanta
-
     - Outbound (USCC on AT&T network)
       - IREG/TADIG (Network/Billing)
       - DEG – testing complete
@@ -5338,23 +5373,28 @@ CD    6. No additional details needed
     - Miscellaneous
       - Assessments for CR1020 (steering tool) – engineering to confirm impacts from the security perspective
       - Remedy drop down menu to include ‘AT&T Mobility’ for roamer support (added)
-*** Current Status
 |--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Project Track                  | Status                       | Comments                                                                                                                                                                                                                                                                                                                                                                                                       | Path to Green/Reason for Status Change                                                                                                                  |
 |--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | IR0622 – AT&T Outbound Roaming | OFF TRACK: OVERALL/ SCHEDULE | Launch remains TBD due to a delay in testing caused by AT&T needing to update its MME for TAC restrictions. Additionally, AT&T will have to make a cost code change in their GSM network to support USCC devices. Use of the steering tool still being finalized (meeting on 10/1 to confirm plan for steering tool to support initial business requirements and alternative plan for remaining requirements). | AT&T MME readied for TAC restrictions to allow USCC to complete TAC testing. AT&T makes cost code changes in their GSM network to support USCC devices. |
 |--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
+*** Current Status
+|--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------|
+| Project Track                  | Status                       | Comments                                                                                                                                                                                                                                     | Path to Green/Reason for Status Change                                                                                  |
+|--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------|
+| IR0622 – AT&T Outbound Roaming | OFF TRACK: OVERALL/ SCHEDULE | AT&T confirmed launch date of 10/16-17. Use of the steering tool will be discussed in a final meeting on 10/18 to align with engineering executives as to whether concerns have been resolved to a point where Phase 2 testing can continue. | AT&T confirmed launch date of 10/16-17. Project will remain OFF TRACK for awareness and will report ON TRACK next week. |
+|--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------|
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
 *** Project Manager   
     Frank Novak
 *** [[file:docs/RoboCallSolutionProposal.docx][Solution Proposal]]  
-
 *** Old Status
     No IS solution possible until 2020, so it becomes an engineering problem.
     No updates except the solution proposal was updated with minor adjustments.
+    Minor updates to documentation.
 *** Current Status
-    No updates this week-- Frank is on vacation
+    The vision and scope document has been finalized.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
@@ -5376,8 +5416,27 @@ CD    6. No additional details needed
     - Due to outstanding issues involving Engineering, this project is now off track and will jeopardize the planned 9/13 release.
     - HLD v1.0 has been just released and being reviewed.
     USCC TOPS IA IR0614 WPS on VoLTE has been approved.
-*** Current Status 
-    No updates
+    1. IS target dates/aligned – Approved –PI 32 Jan 2020 Release IS development schedule is ON TRACK.
+    2. Project schedule is OFF TRACK.   
+       a. Project is OFF TRACK for schedule (Path to green -Revised ENG solution, schedule and alignment with GDIT on the approved schedule/timeline).   Of the 3 open issues, ENG has resolved 1. The GETS Call issue has been successfully tested in production.  The remaining 2 are open items.  For the OpenNet PCRF issue ENG investigated and learned the ARP value on the PCRF is a global value. Changing the ARP value will impact regular E911 calls.  OpenNet PCRF is being used for BOTH vEPC and commercial networks.  ENG is assessing the impact to making a change. The last open item is the Samsung fix for the *272911 issue; Samsung is to provide us an update by 10/3.  GDIT did provide a retesting date of 10/15 and DHS/GDIT testing target of 10/29-10/30 - USCC pending agreement of these dates based on resolution of 2 open  issues.
+    3. Upcoming Work:
+       - Confirmed for the Jan Release (9/16)
+       - Timeline -plan to support January TOPS Release (mid Jan)
+       - Amodcs E3 received - 
+       - Amdocs Dev beginning 
+         - PI 32 9/15-10/6 *** Dev
+       - PI 33 10/20-11/10 PLAN B if needed
+       - ETQA Testing  
+         - P32 PI 32 10/20-11/17
+       - Testing PI 33 11/24-12/22 PLAN B if needed
+         - Certified code drop
+         - 10/27 || 12/1 
+       - Go no go decision - TBD (12/29-1/19)
+       - Release Freeze  aka  Quiet Week- 1/12-1/19
+       - RULES for EPC - 10/8
+*** Current Status
+    No updates this week.
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
 *** Project Manager
     Kevin McInerney
@@ -5420,7 +5479,7 @@ CD    6. No additional details needed
 *** Current Status
     No updates this week
 
-** HOLD PCRF Forklift
+** TODO PCRF Forklift
    DEADLINE: <2019-06-30 Sun>
    Ask Mr. Hauk on how is this going
    
@@ -5435,7 +5494,7 @@ CD    6. No additional details needed
 
    This project will replace our current *PCRF* by *OpenNet* to a new version by *CISCO*.
    The servers themselves are clustered linux environments and 
-   will deployed in *Santa Clara, Atlanta, Schuamberg and Ashton* starting in May and ending in July.
+   will deployed in *Santa Clara, Atlanta, Schumacher and Ashton* starting in May and ending in July.
    The software itself is broken up into components such as policy server/director, 
    session managers. The configuration information held in a *MongoDB* document database.
    The system configuration are done via Excel spreadsheets for the major options and a Web
@@ -5445,6 +5504,8 @@ CD    6. No additional details needed
     5/01/2019 - 7/01/2019
 *** Monitors/Controls/Alerts and Ownership
     Need to monitor the network traffic when the switchover occurs to make sure usage does not drop.
+*** Status
+    In preparation for 5G, the old *AAA* servers will be retired and replaced. I've contacted the project owners to warn them that they need to make sure that the servers IP has been added to the *PC9_IP_ADDR_LIST* table.
 
 ** EAGR Project
 *** TODO Fraud
@@ -5534,12 +5595,11 @@ ORDER BY process_date, usage_type
 
 vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
 
-
 * Footnotes
 
 [fn:8] *TWS* Job
 
-[fn:7] Data Managment and Intergration
+[fn:7] Data Management and Integration
 
 [fn:6] Mass File Transfer
 
