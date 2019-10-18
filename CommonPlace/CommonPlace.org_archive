@@ -4463,3 +4463,76 @@ and replace the 1 inside by a 0 (zero).
 ** Currant Status
    - No updates since April 7th
 
+
+* DONE [[https://usc.intranet.teldta.com/sites/EPR/IR0583/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0583 eSIM for Standalone devices]]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-10-18 Fri 12:12
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :END:
+** Project Manager
+   Sara Singh
+** Project Description
+  Devices during and beyond 2018 will have traditional SIM replaced by eSIM (GSMA based) for both Postpaid and
+  Prepaid. USCC currently has no solution to provision these devices in standalone mode. Within the next 5 years,
+  Device Marketing is forecasting that all devices (handsets, tablets, wearables, etc.) will only support eSIM.
+  This initiative will provide the ability to activate eSIM capable devices (either primary or secondary devices)
+  through the Point of Sale (PoS) system. When the eSIM is on a secondary device, the system will support the
+  provisioning and assignment of the “One Number” feature so that the secondary device and the primary device
+  that it is paired with can make and receive phone calls and messaging using the same mobile number for
+  Postpaid.
+  [[file:docs/Vision%20and%20Scope%20-%20eSIM_v1.8.pdf][Vision and Scope]]
+** Go Live Dates
+   - Apple 09/20/2019
+   - Samsung 09/09/2019
+** Possible Billing Issues
+   It all depends on the range of the eSIM devices. We already support eSIM for secondary devices, Apple Watch, 
+   and if the eSIM range is within the range for those watches, usage will be dropped.
+** Monitors/Controls/Alerts and Ownership 
+   Need to watch for any drop in usage for Apple devices.
+** Status 
+   Questions about how provisioning will be done with secondary devices and primary devices that have eSIM.
+   *UAT in Progress*
+   - A IR0583 – eSIM Consumer Enable-meant Track 2 - Secondary Device Activation Impact Assessment (IA) is waiting approval (Still Waiting).
+   - Reporting, what to report on, was this weeks hot topic.
+   - eSIM Consumer Enable-meant Track 2 document  has been released and ready for review. 
+   The dual SIM devices are not working as expected. All other devices will be launched on September 27.
+** Current Status    
+   No updates this week.
+ 
+
+
+* TODO Investigate Usage [0%]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-10-18 Fri 13:18
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+** TODO [ ] IP usage
+** TODO [ ] Roaming usage
+** TODO [ ] Data and voice non-roaming
+
+File summary of roaming types
+
+  SELECT process_date,
+         USAGE_TYPE,
+         SUM (TOTAL_RECORDS_DCH),
+         SUM (TOTAL_VOLUME_DCH),
+         SUM (TOTAL_CHARGES_DCH),
+         SUM (TOTAL_RECORDS),
+         SUM (TOTAL_VOLUME),
+         SUM (TOTAL_CHARGES)
+    FROM file_summary
+   WHERE process_date > '10-SEP-2018'
+GROUP BY process_date, usage_type
+ORDER BY process_date, usage_type
+
+'\-310147\-|\-310367\-|\-310145\-|\-310143\-'
+
+
+vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
+

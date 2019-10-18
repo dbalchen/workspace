@@ -1,0 +1,197 @@
+#+STARTUP: overview
+#+OPTIONS: d:nil
+#+OPTIONS: toc:nil
+#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET 
+#+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+#+TITLE: Usage Utilities
+#+BEGIN_LaTeX
+\newpage
+\clearpage
+%\addtolength{\oddsidemargin}{-.25in}
+\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+% \newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{3}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+#+END_LaTeX
+#+TOC: headlines 2
+#+BEGIN_LaTeX
+\newpage
+\pagenumbering{arabic}
+#+END_LaTeX
+:CLOSET:
+: Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+: Days  #+PROPERTY: Effort_ALL 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00
+: weeks #+PROPERTY: Effort_ALL 5.00 10.00 15.00 20.00 25.00 30.00 35.00 40.00 45.00
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+
+ : New Page
+ : \newpage
+:END:
+* Usage Utilities Documentation [%]
+  SCHEDULED:
+  - [ ] Documentation
+  - [ ] Code
+  - [ ] Test 
+  - [ ] Deploy
+** Project Scope
+
+** Assumptions
+
+** User Requirements
+
+* Process Decomposition
+** Data
+   :   Select /*+ Parallel (T1,16) */
+   :         To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd'),
+   :          Count (*)                   "Records",
+   :          Round (Sum (T1.L3_Volume), 8)"Volume",
+   :          T1.L9_Volume_Type           "Volume Type",
+   :          T1.Event_Type_Id            "Event Type",
+   :          T1.L3_Payment_Category      "Payment Category",
+   :          T1.L9_Nt_Roaming_Ind        "Roaming Indicator",
+   :          T1.L9_Ip_Address            "Ip Address"
+   :     From Ape1_Rated_Event T1
+   :    Where     Trunc (T1.Sys_Creation_Date) Between Trunc (Sysdate - 90)
+   :                                               And Trunc (Sysdate - 1)
+   :          And Event_Type_Id In (51, 69, 69)
+   : Group By To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd'),
+   :          T1.L9_Volume_Type,
+   :          T1.Event_Type_Id,
+   :          T1.L3_Payment_Category,
+   :          T1.L9_Nt_Roaming_Ind,
+   :          T1.L9_Ip_Address
+   : Order By To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd'),
+   :          T1.L9_Volume_Type,
+   :          T1.Event_Type_Id,
+   :          T1.L3_Payment_Category,
+   :          T1.L9_Nt_Roaming_Ind,
+   :          T1.L9_Ip_Address Asc
+*** 3G data by Volume
+       : cat  AllData.csv  | egrep '3G|2G' | cut -f 1,3 | more
+**** Home
+       - *POST*  
+       : cat  AllData.csv  | egrep '3G|2G' | grep POST | grep N | cut -f 1,3 | more
+       - *PRE*
+       : cat  AllData.csv  | egrep '3G|2G' | grep PRE  | grep N | cut -f 1,3 | more
+
+**** Roam
+       - *POST*  
+       : cat  AllData.csv  | egrep '3G|2G' | grep POST | grep Y | cut -f 1,3 | more
+       - *PRE*
+       : cat  AllData.csv  | egrep '3G|2G' | grep PRE  | grep Y | cut -f 1,3 | more
+**** Incollect
+***** Outcollect
+*** 4G
+       : cat  AllData.csv  | egrep '4G' | cut -f 1,3 | more
+**** Home
+       - *POST*  
+       : cat  AllData.csv  | egrep '4G' | grep POST | cut -f 1,3 | more
+       - *PRE*
+       : cat  AllData.csv  | egrep '4G' | grep PRE | cut -f 1,3 | more
+**** Roam
+       - *POST*  
+       : cat  AllData.csv  | egrep '4G' | grep POST | grep Y | cut -f 1,3 | more
+       - *PRE*
+       : cat  AllData.csv  | egrep '4G' | grep PRE  | grep Y | cut -f 1,3 | more
+**** Incollect
+**** Outcollect
+** Voice
+   :   Select /*+ Parallel (T1,16) */
+   :         To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd'),
+   :          Count (*)                     "Records",
+   :          Round (Sum (T1.L3_Duration), 8)"Minutes Of Use",
+   :          'Cdma Voice'                  "Volume Type",
+   :          T1.Event_Type_Id              "Event Type",
+   :          T1.L3_Payment_Category        "Payment Category",
+   :          T1.L9_Nt_Roaming_Ind          "Roaming Indicator"
+   :     From Ape1_Rated_Event T1
+   :    Where     Trunc (T1.Sys_Creation_Date) Between Trunc (Sysdate - 90)
+   :                                               And Trunc (Sysdate - 1)
+   :          And Event_Type_Id = 62
+   : Group By To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd'),
+   :          T1.L9_Volume_Type,
+   :          T1.Event_Type_Id,
+   :          T1.L3_Payment_Category,
+   :          T1.L9_Nt_Roaming_Ind
+   : Order By To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd'),
+   :          T1.L9_Volume_Type,
+   :          T1.Event_Type_Id,
+   :          T1.L3_Payment_Category,
+   :          T1.L9_Nt_Roaming_Ind Asc
+** SMS
+** Picture Messaging
+** Premium SMS
+** Intercarrier Roaming
+
+* Executable
+** /Program Name/
+    - *Language:*
+    - *Source Code Location:*
+    - *Parameters:* /input and output/
+    - *Description:*
+
+** Usage.pl
+    - *Language:* Perl
+    - *Source Code Location:*
+    - *Parameters:* MDN
+    - *Description:*\\
+      The program takes an *MDN* finds the customer, subscriber and all acumulated usage.
+
+
+* Data Decomposition
+   - *Table/Field Name:*
+   - *Purpose of File/Table:*
+   - *Type of Change:* /create new or modify existing/
+   - *Description of Change:* /or reason for adding/
+   - *Primary Keys and Indices:*
+   - *Estimated Rows and Growth Rate:*
+|-------------------+------+--------+-------------|
+| Column/Field Name | Type | Values | Description |
+|-------------------+------+--------+-------------|
+|                   |      |        |             |
+|-------------------+------+--------+-------------|
+
+* Infrastructure Considerations
+* Testing Approach
+   - Got Intial data
+   - Created picture output
+* Implementation Considerations
+
+* Task List [60%]
+  - [X] Create Initial SQL
+  - [X] Push Through Analysis
+  - [ ] Write plot program
+  - [ ] Come up with other SQL for other types
+  - [X] Write out describe statistics in analyse.py
+    : count    3.0
+    : mean     2.0
+    : std      1.0
+    : min      1.0
+    : 25%      1.5
+    : 50%      2.0
+    : 75%      2.5
+    : max      3.0
+
+
