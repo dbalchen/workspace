@@ -86,20 +86,23 @@ $dbconnb->disconnect();
 
 exit(0);
 
-sub getBODSPRD {
 
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
-	unless ( defined $dbods ) {
-		sendErr();
-	}
-	return $dbods;
+sub getBODSPRD {
+        my $dbPwd = "BODS_DAV_BILLINGOPS";
+        my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+        unless ( defined $dbods ) {
+                sendErr();
+        }
+        return $dbods;
 }
 
 sub getSNDPRD {
 
-	my $dbods = DBI->connect( "dbi:Oracle:sndprd", "md1dbal1", "9000#GooBoo" );
-	unless ( defined $dbods ) {
-		sendErr();
-	}
-	return $dbods;
+        my $dbPwd = "SND_SVC_BILLINGOPS";
+        my $dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
+        unless ( defined $dbods ) {
+                sendErr();
+        }
+        return $dbods;
 }
+

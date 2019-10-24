@@ -4,14 +4,14 @@ use Time::Piece;
 use Time::Seconds;
 
 ## For test only....
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
-$ARGV[0] = '20181201';
-$ARGV[1] = "SAP";
+#$ARGV[0] = '20170701';
+#$ARGV[1] = "APRM";
 my @reports = split( ',', $ARGV[1] );
 
 my $date = $ARGV[0];
@@ -176,7 +176,7 @@ my $dbconn  = getBODSPRD();
 #my $dbconnb = getSNDPRD();
 
 my $dbconnb = $dbconn;
-#my $dbconnc = getBRMPRD();
+my $dbconnc = getBRMPRD();
 
 my @aprmArray = ();
 
@@ -224,7 +224,7 @@ sub getBODSPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Potat000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "9000#GooBoo" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -246,7 +246,7 @@ sub getBRMPRD {
 
 	#	my $dbPwd = "BODSPRD_INVOICE_APP_EBI";
 	#	$dbods = (DBI->connect("DBI:Oracle:$dbPwd",,));
-	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "Potat000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:brmprd", "md1dbal1", "BooGoo900#" );
 	unless ( defined $dbods ) {
 		sendErr();
 	}
@@ -365,7 +365,7 @@ sub loadSAP {
 	my @results = [];
 
 	my $hh =
-"cat /home/dbalchen/Desktop/SAP_IO_Roaming_Month_End.csv | cut -f 2,4,6,7 | sort -u |";
+"cat /home/dbalchen/workspace/volteRoaming/src/bin/SAP_IO_Roaming_Month_End.csv | cut -f 2,4,6,7 | sort -u |";
 	if ( !open( SAPLIST, "$hh" ) ) {
 		errorExit("Cannot create SAPLIST: $!\n");
 	}
@@ -377,7 +377,7 @@ sub loadSAP {
 		
 		my ( $gl, $cocd, $docdate, $header ) = split( "\t", $buff );
 		$hh =
-"cat /home/dbalchen/Desktop/SAP_IO_Roaming_Month_End.csv | grep $gl | grep $cocd | grep $docdate | grep $header | cut -f 3";
+"cat SAP_IO_Roaming_Month_End.csv | grep $gl | grep $cocd | grep $docdate | grep $header | cut -f 3";
 		@results = `$hh`;
 		chomp(@results);
 

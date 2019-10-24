@@ -22,7 +22,7 @@ $ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 
-#$ARGV[0] = '20190205';
+$ARGV[0] = '20181205';
 
 my $date = $ARGV[0];
 
@@ -431,17 +431,17 @@ if ( substr( $date, 6, 2 ) eq '05' ) {
 
 	@aprmArray = (
 
-		'LTE_INCOLLECT_SETTLEMENT',
-		'LTE_INCOLLECT_CARRIER',
+#		'LTE_INCOLLECT_SETTLEMENT',
+#		'LTE_INCOLLECT_CARRIER',
 		'LTE_OUTCOLLECT_SETTLEMENT',
-		'LTE_OUTCOLLECT_CARRIER',
-		'GSM_INCOLLECT_SETTLEMENT',
-		'CDMA_INCOLLECT_DATA_ACCRUAL',
-		'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER',
-		'CDMA_INCOLLECT_VOICE_ACCRUAL',
-		'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER',
-		'CDMA_OUTCOLLECT_VOICE_ACCRUAL',
-		'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'
+		'LTE_OUTCOLLECT_CARRIER' #,
+#		'GSM_INCOLLECT_SETTLEMENT',
+#		'CDMA_INCOLLECT_DATA_ACCRUAL',
+#		'CDMA_INCOLLECT_DATA_ACCRUAL_CARRIER',
+#		'CDMA_INCOLLECT_VOICE_ACCRUAL',
+#		'CDMA_INCOLLECT_VOICE_ACCRUAL_CARRIER',
+#		'CDMA_OUTCOLLECT_VOICE_ACCRUAL',
+#		'CDMA_OUTCOLLECT_VOICE_ACCRUAL_CARRIER'
 	);
 
 }
@@ -477,7 +477,7 @@ my @email = (
 	'Miguel.Jones@uscellular.com'
 );
 
-#my @email = ( 'david.balchen@uscellular.com', 'david.smith@uscellular.com');
+my @email = ( 'david.balchen@uscellular.com');
 
 foreach my $too (@email) {
 	sendMsg( $too, $message, $title, $excel_file );

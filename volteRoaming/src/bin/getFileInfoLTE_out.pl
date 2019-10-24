@@ -31,16 +31,6 @@ if ( index( $argv[0], "NLDLT" ) >= 0 ) {
 	$prefix = "NLDLT";
 }
 
-$sql = "delete from file_summary where FILE_NAME = '$argv[0]'";
-
-my $sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
-
-$sql = "delete from rejected_records where FILE_NAME = '$argv[0]'";
-
-$sthb = $dbconnb->prepare($sql);
-$sthb->execute() or sendErr();
-
 $sql =
 "select s_444, error_code, error_desc,cast(S_402 as decimal(19,9)) from em1_record where stream_name='INC' and record_status<>55 and s_444='$argv[0]'";
 
@@ -58,7 +48,7 @@ VALUES (
  '$rows[1]')";
 
 	$sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
+#	$sthb->execute() or sendErr();
 }
 
 if ( $prefix eq "NLDLT" ) {
@@ -234,10 +224,10 @@ VALUES (
  $rows[1],
  $dropped
 )";
-	#print $sql. "\n";
+	print $sql. "\n";
 
 	$sthb = $dbconnb->prepare($sql);
-	$sthb->execute() or sendErr();
+#	$sthb->execute() or sendErr();
 }
 
 $dbconnb->disconnect();

@@ -6,7 +6,7 @@ use Time::Piece;
 use Time::Seconds;
 
 BEGIN {
-	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 #	push( @INC, '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/perl_lib/lib/perl5' );
 }
 
@@ -660,7 +660,7 @@ $workbook->close;
 #my @email = ('ISBillingOperations@uscellular.com','Joan.Mulvany@uscellular.com','Syed.Sikander@uscellular.com','david.balchen@uscellular.com','Jody.Skeen@uscellular.com','Liz.Pierce@uscellular.com');
 my @email = ('david.balchen@uscellular.com');
 
- my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'USCDLISOps-BillingCycleManagement@uscellular.com');
+# my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'USCDLISOps-BillingCycleManagement@uscellular.com');
 
 foreach my $too (@email) {
 	print $msg;

@@ -30,16 +30,13 @@ sub scheduledTask {
 	chdir("/apps/ebi/ebiap1/bin/roamRecon/roaminRecon");
 
 	# Get the date of the day before.
-	my ( $day, $month, $year ) =
-	  ( localtime( ( time - 60 * 60 * ( 48 + (localtime)[2] ) ) ) )[ 3, 4, 5 ];
-	my $timeStamp =
-	  1900 + $year . pad( $month + 1, '0', 2 ) . pad( $day, '0', 2 );
+	my $timeStamp = "20190319";
 	my $hh = "/apps/ebi/ebiap1/bin/roamRecon/listBuilder.pl";
 	system($hh);
 	#return;
 
 	my $hh =
-"/apps/ebi/ebiap1/bin/roamRecon/roamingReconciliation.pl SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,DISP_RM,NLDLT $timeStamp & ";
+"/apps/ebi/ebiap1/bin/roamRecon/roamingReconciliation.pl SDIRI_FCIBER $timeStamp & ";
 
 	print "$hh\n";
 	system($hh);
