@@ -16,6 +16,7 @@ results = []
 
 for line in fileinput.input():
     tmp = line.split("\t")
+
     try:
         results.append((str(tmp[0]), float(tmp[1])))
     except:pass
