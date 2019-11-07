@@ -42,7 +42,8 @@ def linearRegression(xaxis,yaxis):
     y1 = (slope * x1 + intercept).tolist()
     
     return y1
-    
+
+############## Main Program  ########################################
 results = []
 with open("/home/dbalchen/workspace/usageUtlities/src/allData", "rb") as fp:
     for line in fp.readlines(): 

@@ -1,0 +1,43 @@
+#+TITLE: Usage Utilities
+* Usage Utilities [%]
+  SCHEDULED:
+  - [ ] Documentation
+  - [ ] Code
+  - [ ] Test 
+  - [ ] Deploy
+  
+** Introduction
+
+** Project Scope
+
+** Assumptions
+
+** User Requirements
+
+* Process Decomposition
+
+* Executable
+** /Program Name/
+    - *Language:*
+    - *Source Code Location:*
+    - *Parameters:* /input and output/
+    - *Description:*
+
+* Data Decomposition
+   - *Table/Field Name:*
+   - *Purpose of File/Table:*
+   - *Type of Change:* /create new or modify existing/
+   - *Description of Change:* /or reason for adding/
+   - *Primary Keys and Indices:*
+   - *Estimated Rows and Growth Rate:*
+|-------------------+------+--------+-------------|
+| Column/Field Name | Type | Values | Description |
+|-------------------+------+--------+-------------|
+|                   |      |        |             |
+|-------------------+------+--------+-------------|
+
+* Infrastructure Considerations
+
+* Testing Approach
+
+* Implementation Considerations

@@ -5010,7 +5010,6 @@ CD    6. No additional details needed
     In the case of 5G we are systematically preventing disablement of VoLTE, it would seem in current solution approach 5G has same issue (when a customer is suspended they will not have the ability to call 611/Customer Service from suspended device)."  We will discuss and assess impact at the team meeting.
  
 *** Billing and Revenue impacts:  
-    All of the below possible impacts were true for *Voice over WiFi.*
     - *Reporting :* Depending on the detail reporting requirements, *5G* usage must be separated 
     from *4G* usage. Mediation will make this separation and the system to process this usage
     will depend on the detail requirements. This would require reading data from the CallDump.
@@ -5071,16 +5070,18 @@ CD    6. No additional details needed
     Procurement policy for devices - when production ready devices are available (in Dec?) how would PDC and ETQA get access to those? Do we need funding? Do we need to borrow or purchase devices? Need timeline for that.
     - The project status is On track for November release. Below capability will be delivered in this release: Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices
     - The project status is Off Track from IS perspective for January 2020 release. Architecture re-prioritization of capabilities in progress. The Risk regarding Engg and IS PDC 5G usage identification logic needs to be resolved before project can return to On Track status.
-*** Current Status 
     Here is a list of defects that were discussed in this weeks meeting:
     - Defect 140871 - Connected 5G Device Volte Defaults to “No” and When Changed to “Yes” in Order Flow Result is VoLTo “No”
     - Defect 140796 -Issue with pop up not appearing when 5G Capable Indicator is modified within order in TOPS.
     - Defect 140788 - Incompatible SIM card version for VoLTE. *(possibly just a data issue, but waiting on resolution)
     - Defect 140814 - During add a line flow, user can toggle Volte Enabled Indicator to “No”
     - Defect 140817 - User is able to toggle 5G capable indicator during ESN swap for existing line.
+*** Current Status 
+    The project status is On track for November release. Below capability has been delivered in this release: 
+    Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices
 
 
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
+** DONE [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
 *** Project Manager
     Rebecca Class
 *** Project Description
@@ -5148,11 +5149,10 @@ CD    6. No additional details needed
     (Policy Control Voice/SMS Barring/Unbarring) ). 
     - CR#876 We are removing from this scope of work Voice/SMS barring & unbarring for Policy Controls. This solution is depended on a 3rd party vendor at this time and we were unable to find an adequate solution.
     - USCC TOPS IA IR0596 Track 2- Intn'l Services - Notifications and Billing Offers has been approved
-*** Current Status
     No Meeting this week but a CR has been approved.
     The status of CR 876 for IR0596 - International Services Revamp has been changed to "Approved" (Intl Service Revamp - Track 2 Scope Change (Policy Control Voice/SMS Barring/Unbarring) ).  All changes requested in the CR may now be implemented.
-*** When is the project Done
-
+*** Current Status
+    The underlying work needed for this project is complete. The last update talks of the new billing offers that will be rolled out.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
 *** Project Manager
@@ -5215,7 +5215,7 @@ CD    6. No additional details needed
      |   | CR1095 – Call Forwarding issue –  Defect #137531 | Amdocs | 9/26/2019       | 1/17/2020          | In progress | Amdocs to fix the call forwarding issue |
      |   |                                                  |        |                 |                    |             |                                         |
      |---+--------------------------------------------------+--------+-----------------+--------------------+-------------+-----------------------------------------|
-*** Current Status     
+
     |---------------------------------------------------------------------------------------+--------------------------------+-----------+-----------------+--------------------+-------------------------------------------------------------------------------------------------------------------------+-------|
     | #                                                                                     | Description                    | Owner     | Date Identified | Commit to Complete | Status                                                                                                                  | Notes |
     |---------------------------------------------------------------------------------------+--------------------------------+-----------+-----------------+--------------------+-------------------------------------------------------------------------------------------------------------------------+-------|
@@ -5225,7 +5225,9 @@ CD    6. No additional details needed
     | 10/7: Amdocs to have a fix ready on 10/14 but CR is targeted to be in January release |                                |           |                 |                    |                                                                                                                         |       |
     |---------------------------------------------------------------------------------------+--------------------------------+-----------+-----------------+--------------------+-------------------------------------------------------------------------------------------------------------------------+-------|
 
-*** Question E911
+*** Current Status     
+    No updates for this week
+    
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
@@ -5238,7 +5240,7 @@ CD    6. No additional details needed
    - Value of 3 in field 52 of the UFF signifies voice over WIFI.
    - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
 *** Go Live Dates
-    Closing phase 12/31/2019
+    Closing phase 1/19/2020
 *** Possible Billing Issues
     - Since the usage will come in as VoLTE/LTE there will be no impact
 *** Monitors/Controls/Alerts and Ownership
@@ -5280,7 +5282,7 @@ CD    6. No additional details needed
   | IR0411 VoWiFi - Acme    | AT RISK- OVERALL/ SCHEDULE | A solution to support MMS (multi-media messaging service) and VVM (visual voicemail) has been developed. Device logs for carrier bundle testing for MMS/VVM test cases are scheduled to be delivered to Acme by 10/31. 911 related changes have been deployed to production but E2E wifi 911 call is failing. DEG device logs are awaiting this call to pass. Watch item: Support for 711 location based dialing - TAS does not currently support location based services for wifi calling, and the proposal to default 711 calls to 1 of 4 regional 711 call centers was not approved by Regulatory, as a state-wide location based solution is required. Engineering developing a solution to support. | End-to-end wifi 911 call is tested by 10/25 for submission of device logs to Acme. |
   | IR0411 VoWiFi - Android | ON TRACK                   | IS/Provisioning: Targeting PI33 with December code drop and January 2020 release. IA for CR 937 approved on 9/26;   awaiting delivery of E3 from Amdocs (CR 937 adds prepaid Android development to postpaid Android development). Engineering: Tracking to December 2019 lab testing, 03/04/20 production ready, and 03/31/20 NRD. Commercial launch date for Samsung (single device) tentatively set at 05/01/20 due to 4 weeks of testing post-NRD. Other OEM's remain TBD until DEG finalizes requirements for Android devices.                                                                                                                                                                      | N/A                                                                                |
   |-------------------------+----------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------|
-*** Current Status
+
 
   |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------|
   | Delivery Planning                                                                                                                                                                           | Updates                                                                                                                                                                 |                                                     |
@@ -5363,9 +5365,26 @@ CD    6. No additional details needed
   |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------------------------------------------|
   | Delivery Planning Retrospective                                                                                                                                                             | "Rachelle to schedule Retrospective;  looking to schedule week of 10/7.                                                                                                 |                                                     |
   |                                                                                                                                                                                             | 10/14 Update: scheduled - Wednesday 10/23. "                                                                                                                            |                                                     |
-*** Ask When is
 
-
+*** Current Status
+    |--------------------------------------------------------------------------------------------------------|
+    | 10/28 - UAT going fine ; minor clarification no defects Sands is participating in UAT already in loop  |
+    |--------------------------------------------------------------------------------------------------------|
+    | 10/14 - Pardeep believes Amdocs has all the information they need; will get back to Dave today.        |
+    | Add Dave B. to email with usage event types & session info so he can search Call Dump.                 |
+    |--------------------------------------------------------------------------------------------------------|
+    | EDW is targeting EDW Track 3 - (Dec. 6th for this work). IR0636 - EDW is handling VoWiFi EDW Track 3   |
+    | Call Dump Verification (downstream BAU activity) 10/28 - check to see if Dave B has enough info        |
+    |--------------------------------------------------------------------------------------------------------|
+    | Commercial footprint for ACME - ~ 2 Mil                                                                |
+    |--------------------------------------------------------------------------------------------------------|
+    | Per John/IS Operations throughput - roughly 12k per day in production; so total ~ 6 months             |
+    | Also ACME takes much longer due to the process they want us to follow for devices updates.             |
+    |--------------------------------------------------------------------------------------------------------|
+    | 10/21 - VoLTE Wave 3 is done; & John will forward launch dates for Wave 4 (targeting new year) - Done. |
+    | 10/28 - send updated excel to with summary of the feedback - Done.                                     |
+    |--------------------------------------------------------------------------------------------------------|
+    
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
 *** Project Manager
     Eric Dian 
@@ -5485,17 +5504,36 @@ CD    6. No additional details needed
   - CR1020 (steering tool)
     - Meeting on 10/18 to align with engineering executives as to whether concerns have been resolved, so that Phase 2 testing can continue (Brian)
   - Tech Support will be primary POC for customers (will follow same process already utilized for the other roaming partners) (Liz)
-*** Current Status
     |--------------------------------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
     | Project Track                  | Status   | Comments                                                                                                                                                                                   | Path to Green/Reason for Status Change |
     |--------------------------------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
     | IR0622 – AT&T Outbound Roaming | ON TRACK | Outbound launch in eastern region completed 10/17. SIM OTA campaign for eastern region is scheduled for 10/23-24 (activity will then be monitored to determine when/where to launch next). | N/A                                    |
     |--------------------------------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
+*** Current Status
+    Besides the *APRM* backlog issues, they have been slowly opening up the eastern region for Incollect usage.
+    - Inbound (AT&T on USCC network)
+      - Markets awaiting completion:
+        - Knoxville
+        - Asheville
+      - Additional troubleshooting conducted late last week with Nokia
+      - Bill to transition this to the Ops team
+
+    - Outbound (USCC on AT&T network)
+      - OEM’s
+        - Google testing will be delayed for all SKU’s until 11/22
+      - OB launch completed in Eastern region on 10/16-17
+        - Timeline to determine when/where to launch next, or if a pause is required to evaluate
+        - SIM OTA completed 10/31 (will require at least 30 days to assess before determining where to launch next)
+      - Phase 2 of Launch – are we prepared to proceed and/or when would this happen?
+      - Timeline for communication to frontline
+
 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
 *** Project Manager   
     Frank Novak
+*** Go Live Date
+    Feb 2020
 *** [[file:docs/RoboCallSolutionProposal.docx][Solution Proposal]]  
 *** Old Status
     No IS solution possible until 2020, so it becomes an engineering problem.
@@ -5563,14 +5601,15 @@ CD    6. No additional details needed
          - 10/21 uncertified   ||  11/1 certified code
        - Go no go decision - TBD (12/29-1/19)
        - Release Freeze  aka  Quiet Week- 1/12-1/19
-*** Current Status 
     A short meeting stating we are on track for January 19th 2020 release.
-
+*** Current Status 
+    Damir is the new Project Manager and we are still on track for January release.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
 *** Project Manager
     Kevin McInerney
-
+*** Go Live Date
+    January 2020 Release
 *** Status
     User stories started with the same topics as last time.
     1. Two new Company Codes created in SAP. (808 and 809)
@@ -5606,9 +5645,14 @@ CD    6. No additional details needed
     - CDRs will accurately indicate the SIDs/BIDs and call routing in the expanded market areas. 
     - USCC will expand its coverage area in Northern Wisconsin, Iowa, South Dakota, and Nebraska. No new switches are required. Approximately 70 cell sites will be added in the new market areas.
     User Stories have been Accounting has been added and awaiting review.
-*** Current Status
     Continuing with the User stories...
-*** Go Live Date??
+*** Current Status
+    - Susan talked to Daniel Lee this morning from Cindy Nangle’s team about the A/R changes that will be required.  Daniel sent an email, which indicated who the business contact has been that should provide the information for the new stores.  Bob will reach out to Eric (from the email).  The Middleware team will install the changes.
+    - Kazim made the MT change, but more information from the business needs to be delivered to Kazim.  Bob will reach out to Bernard Cottone from the Real Estate Team.  There was one store with an incorrect address.  These changes can go in earlier than January with no issues.  Bernard should open a new ticket.
+    - Shweta will not have any development changes for this project.
+    - Robyn is working on the spreadsheet of tables to be changed (the tables came from the IA).  She will have most of it done by noon today.  There are some tables that are not BPT tables.  The team will discuss these at an 8:30 meeting tomorrow (Susan cannot attend).   
+    - Testing will make progress on their HLC’s after the IA has been approved.  Testing will most likely start after the certified code drop on 12/6.  ETQA will consider starting testing earlier – on the uncertified code. Revenue Recognition wanted to get the build to begin their testing.  If there are defects in testing, fixes will be pushed as hot fixes. 
+
 
 
 ** TODO IR0616 Google Fi VoLTE
