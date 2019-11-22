@@ -1,0 +1,107 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/dbalchen/workspace/usageUtlities/doc/usageUtilities.org
+
+
+* Git/GitHub/Documentation Standards and other musings 	       :Presentation:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-11-22 Fri 11:26
+  :ARCHIVE_FILE: ~/workspace/usageUtlities/doc/usageUtilities.org
+  :ARCHIVE_CATEGORY: usageUtilities
+  :END:
+** Introduction
+*** Overview of the Meeting
+    - Directory Structure
+    - Project Documentation
+    - Git and Git Hub
+** Project Overview
+   A repository that contains utilities that can be used for investigation and report on usage activities. 
+*** Directory Structure
+    - The root directory is the *Project* name and may contain the following sub-directory's
+      - *bin*
+      - *src*
+      - *lib*
+      - *data*
+      - *doc*
+** Project Documentation
+*** Project Documentation Structure
+    : * Usage Utilities [%]
+    :   SCHEDULED:
+    :   - [ ] Documentation
+    :   - [ ] Code
+    :   - [ ] Test 
+    :   - [ ] Deploy
+    :   
+    : ** Introduction
+    : 
+    : ** Project Scope
+    : 
+    : ** Assumptions
+    : 
+    : ** User Requirements
+    : 
+    : * Process Decomposition
+    : 
+    : * Executable
+    : ** /Program Name/
+    :     - *Language:*
+    :     - *Source Code Location:*
+    :     - *Parameters:* /input and output/
+    :     - *Description:*
+    : 
+    : * Data Decomposition
+    :    - *Table/Field Name:*
+    :    - *Purpose of File/Table:*
+    :    - *Type of Change:* /create new or modify existing/
+    :    - *Description of Change:* /or reason for adding/
+    :    - *Primary Keys and Indices:*
+    :    - *Estimated Rows and Growth Rate:*
+    : |-------------------+------+--------+-------------|
+    : | Column/Field Name | Type | Values | Description |
+    : |-------------------+------+--------+-------------|
+    : |                   |      |        |             |
+    : |-------------------+------+--------+-------------|
+    : 
+    : * Infrastructure Considerations
+    : 
+    : * Testing Approach
+    : 
+    : * Implementation Considerations
+**** [[https://orgmode.org/worg/org-tutorials/org4beginners.html][ORG Mode]]
+**** [[https://www.markdownguide.org/cheat-sheet/][Markdown CheatSheet]] 
+**** [[https://help.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax][GitHub Formatting]]
+** GIT/GITHUB
+   - *GIT* is a *Source Control Management System* that manages differences within a file. They are sometimes also called VCS (Version Control System)
+   - *GITHUB* is a web frontend for *GIT*
+
+   All version control systems provide the following functionality.
+   1. A complete long-term change history of every file.
+   2. Branching and merging
+   3. Traceability
+
+*** Quick GitHub Walkthrough
+    1. Login and Look Around
+       
+    2. Create a new Repository
+       A repository is usually used to organize a single project. Repositories can contain folders and files, images, videos, spreadsheets, and data sets
+
+    3. Add Something/Anything
+
+    4. Branching
+       Branching is the way to work on different versions of a repository at one time.
+       1. Create a branch
+       2. Create a pull request
+       3. Merge the Branch
+
+    5. Other housekeeping Duties.
+	  
+*** Git
+    Is the underlying technology behind *GITHUB*
+**** Why GIT
+     Sometimes it is better to use the command line instead of the *GUI*.
+     1. Initial repository load
+     2. Large changes with multiple updates.
+
+**** [[https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html][Basic GIT Commands]]
+** Discussion

@@ -1,4 +1,4 @@
-       Select /*+ Parallel (T1,16) */
+Select /*+ Parallel (T1,16) */
              To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd') "Date",
               Count (*)                   "Records",
               Round (Sum (T1.L3_Volume), 8) "Volume",

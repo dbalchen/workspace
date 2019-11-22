@@ -45,12 +45,12 @@ def linearRegression(xaxis,yaxis):
 
 ############## Main Program  ########################################
 results = []
-with open("/home/dbalchen/workspace/usageUtlities/src/allData", "rb") as fp:
-    for line in fp.readlines(): 
-        try:
-            line = line.rstrip()
-            results.append(tuple(line.split("\t")))
-        except:pass
+#with open("/home/dbalchen/workspace/usageUtlities/src/allData", "rb") as fp:
+for line in fileinput.input():
+    try:
+        line = line.rstrip()
+        results.append(tuple(line.split("\t")))
+    except:pass
 
 header = copy.copy(results[0])
 
