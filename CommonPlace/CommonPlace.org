@@ -4995,12 +4995,12 @@ CD    6. No additional details needed
 *** Go Live Dates
     Delivery Schedule (Kirti)
     - Track1 – TOPS Provisioning changes (Amdocs) – 1 PI effort – 1 User story
-      - Deployment Phase Complete - 11/3/2019
-    - Track2 – TOPS Charging changes (PDC) – TBD – dependency on data refinery – target Oct, 2019
-      -  Deployment Phase Complete - 1/25/2020
+      - Deployment Phase Complete - 11/3/2019 (COMPLETE)
+    - Track2 – TOPS Charging changes (PDC) – TBD – dependency on data refinery
+      -  Deployment Phase Complete - 3/10/2020
     - Track3 – TOPS MOA changes – Per user stories, MOA will be needed on demand basis, there is dependency on Engineering.
     - Reporting Enable-meant for 5G will be part of future track of work as aligned with Business.
-    - Expect to be finished early 2020
+    - Expect to be finished sometime 2020
 *** Open Issues
     Open items we are tracking (Team)
     - Network Modernization -  5G Data Usage Report, IS has dependency on data refinery for this report
@@ -5079,10 +5079,16 @@ CD    6. No additional details needed
 
     The project status is On track for November release. Below capability has been delivered in this release: 
     Capability C1: 5G Capable EPC changes/ Regular Provisioning via LTE/VoLTE devices
-*** Current Status 
     - Scheduled technical meetings to work on the 5G reporting.
     - Once aligned next steps will be Architecture updates and Use stories.
     - Working with business on the schedule and dates for the 5G reporting availability. Currently Trending Q2 2020.
+*** Current Status 
+    - Track 1 is complete and in deployment.
+    - Track 2 scheduled to be deployed 2nd quarter 2020.
+      Conducted technical meeting with Architecture, IM, PDC and other impacted IS team to begin work on the 5G reporting.
+      Once aligned next steps will be Architecture updates and Use stories.
+      Working with business on the schedule and dates for the 5G reporting availability. Currently Trending Q2 2020.
+
 
 ** DONE [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
 *** Project Manager
@@ -5230,12 +5236,14 @@ CD    6. No additional details needed
     |---------------------------------------------------------------------------------------+--------------------------------+-----------+-----------------+--------------------+-------------------------------------------------------------------------------------------------------------------------+-------|
 
 *** Current Status     
-    We are currently in test mode and I've had to do several searches within the *rated events table* to verify the results.
-    
+    We are currently in test mode and I've had to do several searches within the *rated events table* to verify the results.    
+
+
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
-    Rachelle Funderburg 
+    Rachelle Funderburg (Initial)
+    
 *** Project Description
     [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
    - All VoWiFi calls will be rated as VoLTE
@@ -5384,10 +5392,11 @@ CD    6. No additional details needed
     | Per John/IS Operations throughput - roughly 12k per day in production; so total ~ 6 months             |
     | Also ACME takes much longer due to the process they want us to follow for devices updates.             |
     |--------------------------------------------------------------------------------------------------------|
-    | 10/21 - VoLTE Wave 3 is done; & John will forward launch dates for Wave 4 (targeting new year) - Done. |
+    | 10/21 - VoLTE Wave 3 is done; John will forward launch dates for Wave 4 (targeting new year) - Done.   |
     | 10/28 - send updated excel to with summary of the feedback - Done.                                     |
     |--------------------------------------------------------------------------------------------------------|
-*** Current Status    
+
+
     |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
     | Project Track                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Status                                                                                                                                                                                                                                                                                                             | Comments                                                                                                                                                                                                                                                                        | Path to Green/Reason for Status Change |
     |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
@@ -5395,6 +5404,29 @@ CD    6. No additional details needed
     | Engineering validated a short term solution for 711 in the lab and regulatory has approved this solution for the controlled and commercial launch. This solution requires two maintenance windows and will have to fit in the existing maintenance windows for the handover/AAA deployment. Resolution of handover and AAA redundancy requires updates to all 25 LCC SAEGW. Engineering is prioritizing LCC’s that serve business critical customers to be ready in time for 12/16 controlled launch. | Engineering implements the technical solution to address 711 location-based dialing and VoLTE/VoWiFi handover in the existing maintenance windows prior to 12/16 controlled launch. Additionally, IS develops a plan to MOA all customers following the December CB to meet Acme's latest requirements for launch. |                                                                                                                                                                                                                                                                                 |                                        |
     | IR0411 VoWiFi - Android                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | ON TRACK                                                                                                                                                                                                                                                                                                           | IS/Provisioning: PI33 confirmed (December code drop + January 2020 release). Engineering: 12/09/19 lab testing, 03/04/20 production ready, and 03/31/20 NRD. Commercial launch date for Samsung (single device) tentatively set at 05/01/20 due to 4 weeks of testing post-NRD. | N/A                                    |
     |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
+
+*** Current Status    
+    | IR0411 TOPs IA -Track 1.2b (Android)                                                                                                                                                        | Target - PI 33 2nd drop - January Release                                                                                                                            |
+    | Submit Request to reverse CR 849 changes                                                                                                                                                    | Changes being deployed with MR12.0 on 12/5                                                                                                                           |
+    |                                                                                                                                                                                             | What do we want done for the January release? Since commercialization moved to February - Need confirmation for default to ON for enabled for VoWifi - let Bill know |
+    | CR 937 - drafted to combine prepaid Android VoWiFi functionality with IR0411 VoWiFi postpaid Android.  It was held up for additional discussion regarding Refresh functionality for VoWiFi. | 11/4 - submit for approval. Update - approval pending                                                                                                                |
+    |                                                                                                                                                                                             |                                                                                                                                                                      |
+    | Documentation CRs                                                                                                                                                                           |                                                                                                                                                                      |
+    | 1089 - approved                                                                                                                                                                             |                                                                                                                                                                      |
+    | 1118 - OFR                                                                                                                                                                                  | 12/2 - Nick to follow up with Rachelle                                                                                                                               |
+    | TOPS Code Drop (Could be multiple drops)                                                                                                                                                    | Code coming on 12/8 - confirm environment with Brian                                                                                                                 |
+    | CR 937 - Adding VoWiFi Prepaid Android                                                                                                                                                      | PI 33 scoping meeting is 10/18. Completed;                                                                                                                           |
+    | EPC Intake Request Devices - EPC                                                                                                                                                            | 10-28: Dependent CB December - looking to plan a date as close to January Release as possible.                                                                       |
+    |                                                                                                                                                                                             | Need to request to reverse CR 849; need to alignment on when reversal should occur. Note – this will be a EPC intake request.                                        |
+    |                                                                                                                                                                                             |                                                                                                                                                                      |
+    | PDC Impacts                                                                                                                                                                                 | IDD approval                                                                                                                                                         |
+    | Engineering Testing / w Test Devices                                                                                                                                                        | Follow up with Jim Nowakowski and Mike Schwarz                                                                                                                       |
+    | USC IS Support Readiness                                                                                                                                                                    | 11/4 - still need to forward link to IS team for input. Update - sent                                                                                                |
+    | Test Plan                                                                                                                                                                                   | 11/4 - Need target date for test plan update; will check with ETQA.                                                                                                  |
+    |                                                                                                                                                                                             | Need an updated test plan (and test data - what does ETQA need from EPC, need to submit early to avoid delays) - follow up with Brian and Rohit                      |
+    | Test Execution Cycle                                                                                                                                                                        | Tentative start - week of 12/9 dependent on environment upgrades                                                                                                     |
+    | Call Dump Verification (downstream BAU activity)                                                                                                                                            | 11/4 - Dave  B. - will verify what he sees for VoWiFi. Dave will send to Nick                                                                                        |
+    | MOA                                                                                                                                                                                         | 	 Enterprise inquiry - can we push our MOA to March? When are we doing the MOA? Nick to check with John Javers/Chris Baynes                                   |
 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
@@ -5539,7 +5571,7 @@ CD    6. No additional details needed
       - Phase 2 of Launch – are we prepared to proceed and/or when would this happen?
       - Timeline for communication to frontline
 
-*** Current Status
+
     - Inbound (AT&T on USCC network)
     - Markets awaiting completion:
       - Knoxville
@@ -5558,6 +5590,8 @@ CD    6. No additional details needed
     - Miscellaneous
       - CR1020 (steering tool)
       - Liz to draft long + short term requirements at PLMN level (IA expected 11/22)
+*** Current Status
+    No Updates
 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
@@ -5572,7 +5606,7 @@ CD    6. No additional details needed
     Minor updates to documentation.
     The vision and scope document has been finalized.
 *** Current Status
-    No Updates
+    No meetings in a long time but HLD version 1 has been released and ready for review.
 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
@@ -5634,7 +5668,7 @@ CD    6. No additional details needed
        - Release Freeze  aka  Quiet Week- 1/12-1/19
     A short meeting stating we are on track for January 19th 2020 release.
 
-*** Current Status 
+
 **** Overall schedule:
      IS target dates/aligned – Approved – PI 32 Jan 2020 Release IS development schedule is ON TRACK.
      Overall Project schedule is ON TRACK.   
@@ -5664,6 +5698,22 @@ CD    6. No additional details needed
      - CR 1136 – Approved on 11/13!
        - IA sent for approval to Thomas
        - Old IDD also updated, Amdocs requesting review and approval. Right now I have Thomas Vicary, Logan Smith, Jim Calme, MK to review and approve. Inlcude as reviewers: John Thompson, Gokhan and Brandon Mosher. Damir is the new Project Manager and we are still on track for January release.
+
+*** Current Status 
+    |--------------------------------------------------------------------------------------------------------------------------------------------------|
+    | CR 1189 submitted to address QC 142367.                                                                                                          |
+    | Solutioning is in progress. Victoria needs response from USCC regarding secondary device impact.                                                 |
+    | Amdocs is aware of criticality of this CR and need to deliver it for January release.                                                            |
+    | Damir is following up with J.R. on timeline of IA and ROM delivery.                                                                              |
+    | Thomas and Kevin will work off-line to create a User Story and will share with the team for review. Needs to be completed before IA is approved. |
+    |--------------------------------------------------------------------------------------------------------------------------------------------------|
+    | CR 1136 – Approved on 11/13                                                                                                                      |
+    | a. IDD updated, commenting completed 11/25. 2 comments assigned to Victoria. Responses from Amdocs by EOW.                                       |
+    | 5.  Outstanding project documentation that need to be completed:                                                                                 |
+    | a. Project Compliance Document – reviewed and approved                                                                                           |
+    | b. Operational Risk Assessment – reviewed and published on sharepoint                                                                            |
+    | c. ITSM Support Readiness – document sent to USC Support Readiness and waiting for feedback                                                      |
+    |--------------------------------------------------------------------------------------------------------------------------------------------------|
 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
@@ -5712,22 +5762,36 @@ CD    6. No additional details needed
     - Shweta will not have any development changes for this project.
     - Robyn is working on the spreadsheet of tables to be changed (the tables came from the IA).  She will have most of it done by noon today.  There are some tables that are not BPT tables.  The team will discuss these at an 8:30 meeting tomorrow (Susan cannot attend).   
     - Testing will make progress on their HLC’s after the IA has been approved.  Testing will most likely start after the certified code drop on 12/6.  ETQA will consider starting testing earlier – on the uncertified code. Revenue Recognition wanted to get the build to begin their testing.  If there are defects in testing, fixes will be pushed as hot fixes. 
-*** Current Status
     Robyn Deike said that all EPC/BPT table development is now complete except for the following:
     - JGL updates: per emails, I will plan to deliver to Amdocs by EOD today, then Amdocs will deliver their part as a HF on top of the build in a few days.
     - PC9_IP_ADDR_LIST: per emails, it seems like no updates, but there is not yet any firm verification. If we find updates are needed, I will deliver as HF on top of the build.
     - CR1156: this is the eligibility rules updates (EPC); once approved I will do this work and it can be delivered as an EPC HF on top of the build. 
     - APRM: per emails, it is not clear yet who owns making these updates; if it ends up being BPT then I will need to deliver as a HF on top of the build.
-
+*** Current Status
+Discussion Points \ Notes (from agenda above):  
+ - CR1156 to update the EPC eligibility rules for new markets was approved, and Robyn will make the changes in EPC and apply a hot fix to the ETQA environments.  Robyn will wait until all of the ETQA environments have been identified for this project.  She is targeting to apply a hot fix next week.
+ - Regarding the ETQA environments, SQT23 and SQT42 were already identified as the environments that will be used for Market Expansion.  Steve said that one more environment is required, and he will send out the environment once it is determined.  (NOTE:  Steve sent emails after the meeting confirming that SQT22/DEX2 and SQT36 will also be used for testing.  This information was sent to the development teams.)     
+ - Steve said that some of the tests are currently missing because Amdocs created the test cases from the IA and not the User Stories.  Rev Rec test cases were not specified.  Steve told Dave L that there are not any test cases to determine if CDMA and prepaid devices can be supported.  This is acceptable.  Dave said that the new stores will not be stocking CDMA devices, but it was agreed early on in the project that there would not be any requirements for TOPS to restrict CDMA devices.  This would have impacted the timeline and budget of Market Expansion.  Mary will bring this up at her track lead meeting tomorrow.  Mary said that prepaid VoLTE has not yet launched, but these stores should support prepaid.  Mary is going to check in with the prepaid VoLTE team in a week or so to see if they are going to launch before the expanded market stores will open.
+ - Robyn asked about updates to the zip code list.  Mary said that the updated list is targeting delivery this Friday, and she will see that it is delivered to Robyn.  Robyn will let Steve and Margaret know when the hot fix to update the zip code list is going to the test environments.
+ - Regarding whether or not there needs to be updates to the PC9_IP_ADDR_LIST table, Mary will follow up with Inez to see if there is an answer to this question yet.
+ - Susan followed up with Ankush on whether the APRM changes were made yet.  He responded by email that he is still working on this.  Susan will follow up again later this week.  Steve said that the testers will need to have these permissions on or before 12/9.
+ - Daniel said that the AR changes will be complete by the end of this week.  He will produce two files that will need to be deployed by the Middleware team.  Steve and Daniel will work together to get the files deployed.
+ - Shweta said that the Logic_dev changes are done, and she will submit a request for a hot fix after all of the environments have been identified.
+ - Kazim will rebuild the MT changes for the test environment when all of the environments have been determined.
+ - The hot fix for the JGL changes was delivered, and Steve will work with Limor to get the hot fix deployed to the test environments.  The file from Amdocs with all JGL information was sent to the Tax Team.
+ - The emails from Margaret and Steve were similar - just formatted differently.  There will be one new scenario for the Website GEO locations.  Steve will work with ETQA folks to see if he can get the Rev Rec and SCM test scenarios done earlier than previously communicated.  He will know by the end of this week.
+ - Mary said that Tony Maravola is the project UAT lead.  He will work with Steve and Margaret on the type of UAT that will be needed.  Steven from MCSO has suggested that the team do a BVT the week of 2/10 prior to the opening of the stores.  
+ - Mary requested that Eric Conlon be included on the HLC emails. 
 
 
 ** TODO IR0616 Google Fi VoLTE
 *** Project Manager
     Bengtson, Kevin
 *** Description
-    This project is to enable Google Fi customers access to the VoLTE network and Enhanced Calling Services.
+    This project is to enable Google Fiber customers access to the VoLTE network and Enhanced Calling Services.
 *** Status
-    Held first meeting on October 17th
+    Held first meeting on October 17th nothing since.
+
 
 ** TODO IRXXXX Real Time Text (RTT)
 *** Project Manager
@@ -5737,98 +5801,20 @@ CD    6. No additional details needed
 *** Status
     First meeting, Went through the solution document.
  
-** DONE PCRF Forklift
-   DEADLINE: <2019-06-30 Sun>
-   Ask Mr. Hauk on how is this going
-   
-*** Project Description
-   *PCRF - Policy and Charging Rules Function* works along side  
-   *Charging Enforcement Function (PCEF)* and *Online Charging System (OCS)* 
-   interact and charge for subscriber services. These interactions include subscriber login, 
-   service updates to existing sessions, connection and monitoring, and subscriber 
-   termination and logout.
 
-   [[https://www.juniper.net/documentation/en_US/junos/topics/concept/pcrf-pcef-ocs-interactions-understanding.html][Understanding Interactions Between the PCRF, PCEF, and OCS]]
-
-   This project will replace our current *PCRF* by *OpenNet* to a new version by *CISCO*.
-   The servers themselves are clustered linux environments and 
-   will deployed in *Santa Clara, Atlanta, Schumacher and Ashton* starting in May and ending in July.
-   The software itself is broken up into components such as policy server/director, 
-   session managers. The configuration information held in a *MongoDB* document database.
-   The system configuration are done via Excel spreadsheets for the major options and a Web
-   frontend called *CPS* for finer tuning. There is also a monitoring tool called *Grafana* 
-   which provides system dashboards for monitoring.
-*** Go Live Dates
-    5/01/2019 - 7/01/2019
-*** Monitors/Controls/Alerts and Ownership
-    Need to monitor the network traffic when the switchover occurs to make sure usage does not drop.
+** TODO [[https://usc.intranet.teldta.com/sites/supplychain/procurement/engineering/_layouts/15/start.aspx#/Projects/Forms/AllItems.aspx?RootFolder=%252Fsites%252Fsupplychain%252Fprocurement%252Fengineering%252FProjects%252F2019%2520%252D%2520Voicemail%2520RFP%252FMavenir&FolderCTID=0x012000CC260B161AB11B4ABF67B58BEA442498&View=%257B4104A1FF%252D1880%252D42A6%252D8655%252DBDD9C105E65B%257D][IR0651 Voice Mail replacement Project]]
+*** Project Manager
+    N/A
+*** Go Live Date
+    N/A
 *** Status
-    In preparation for 5G, the old *AAA* servers will be retired and replaced. I've contacted the project owners to warn them that they need to make sure that the servers IP has been added to the *PC9_IP_ADDR_LIST* table.
-*** Current Status
-    With the replacement of the ols servers with the new, I found that they were not replacing the forward facing IP's, so no need to update the *PC9_IP_ADDR_LIST* table.
-
-** EAGR Project
-*** TODO Fraud
-*** TODO Credit Decisioning
-    [[file:docs/CDC_Operational%20Support%20Guide%20-%20v1.0.pdf][Operational Support Guide]]
-**** Architecture
-**** Unanswered questions [0%]
-     - [ ] What machine does the OSB reside???
-     - [ ] Is Splunk the only way to read the logs
-     - [ ] Where are the reports kept
-     - [ ] Find those OSB Query's
-***** Connection String
-      - Connection Name :: PROD ESB DB
-      - Username :: FES_SUPPORT_READ
-      - Password :: praKetuCREbe9eS
-      - Hostname :: besbprd.uscc.com
-      - Port :: 1530
-      - Service Name :: besbprd_esb
-**** Log into the Tops Databases.
-***** TABLE_CCLASS_IN
-      Main table for current credit for a customer. Need
-      to use *Active_Crdt2customer* value and look up
-      customer by objid in *Table_Customer*.
-     |-------------------------+--------------------+---------------|
-     | *Name*                  | *Data Type*        | *Description* |
-     |-------------------------+--------------------+---------------|
-     | Active_Crdt2customer    | Number             |               |
-     | Actv_Cclass2bus_Org     | Number             |               |
-     | Auth_Id                 | Varchar2 (20 Byte) |               |
-     | Cclass_Inst2cclass_Def  | Number             |               |
-     | Cclass_Inst2currency    | Number             |               |
-     | Cclass_Inst2user        | Number             |               |
-     | Class_Inst2credit_Ref   | Number             |               |
-     | Create_Dt               | Date               |               |
-     | Dev                     | Number             |               |
-     | Dpst_Amt                | Number             |               |
-     | Expiry_Dt               | Date               |               |
-     | Hist_Crdt2customer      | Number             |               |
-     | Inactv_Cclass2bus_Org   | Number             |               |
-     | Is_Overriden            | Number             |               |
-     | Last_Updated            | Date               |               |
-     | Max_Subscrn             | Number             |               |
-     | Objid                   | Number             |               |
-     | Ods_Insert_Date         | Date               |               |
-     | Ods_Last_Update_Date    | Date               |               |
-     | Score                   | Number             |               |
-     | Verify_Dt               | Date               |               |
-     | X_Approved_Limit        | Varchar2 (70 Byte) |               |
-     | X_Cclass_Eval2hgbst_Elm | Number             |               |
-     | X_Cclass2hgbst_Elm      | Number             |               |
-     | X_Dec_Comment1          | Varchar2 (70 Byte) |               |
-     | X_Dec_Comment2          | Varchar2 (70 Byte) |               |
-     | X_Dec_Comment3          | Varchar2 (70 Byte) |               |
-     | X_Dec_Comment4          | Varchar2 (70 Byte) |               |
-     | X_Dec_Comment5          | Varchar2 (70 Byte) |               |
-     | X_Is_Cust_Auth          | Number             |               |
-     | X_Req_No_Lines          | Number             |               |
-     | X_Status                | Varchar2 (1 Byte)  |               |
-     |-------------------------+--------------------+---------------|
+    Went through the solution document that described the new voice mail system we will be using in the future. 
+   
 
 ** TODO Work on Dan's Java program
+
 ** TODO Fix Goals
-** TODO Usage Playbook
+
 * Footnotes
 
 [fn:8] *TWS* Job

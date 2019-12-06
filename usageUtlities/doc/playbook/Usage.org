@@ -313,6 +313,7 @@ label = " ";
 
 }
 
+
 subgraph cluster_3 {
 	"F2E";
 	"Turbo Charging";
@@ -329,6 +330,8 @@ subgraph cluster_3 {
 	}
 	
 }
+
+
 
 }
 :END:
@@ -3482,43 +3485,4 @@ label = "Event Servers";
 [fn:2] Service Control Protocol
 
 [fn:1] Transfer Account Data Interchange Group
-* Task List
-** TODO Usage Playbook
-"mdn" ["resource value"] -> "agd1_resources"
-"agd1_resources"  -> "subscriber_id"
-"agd1_resources"  -> "customer_id"
-"agd1_resources" -> "cycle_code"
 
-"ape1_rated_events" -> "l3_physical_file_id"
-"ape1_rated_events" -> "l9_serve_sid/l9_home_sid"
-
-"ac_physical_files" -> "Identifier/l3_physical_file_id"
-"ac_physical_files" -> ""
-
-** Purpose of this document
-
-** Definition of Responsibilities
-|------------------+--------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------|
-| Role             | Team                                             | Responsibilities                                                                                                         | Best Practices                                                           |
-|------------------+--------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------|
-| ProcessOwner     | IS Billing Ops                                   | Firstpoint of contact and technical SME for process issues                                                               | Join Incident Bridgesand use the Playbook as a guide in issue resolution |
-|                  |                                                  | Initial triage of issues to identify areaof failure                                                                      | Maintain documentation (Playbook)                                        |
-|                  |                                                  |                                                                                                                          | Involvement in projects impacting the process                            |
-|                  |                                                  |                                                                                                                          |                                                                          |
-| Business Partner | Payment Control                                  | Help with payment issues. Manually issue payment , refund or backoutwhen there is issue in systematic processing.        | Perform validations as needed .                                          |
-|                  |                                                  |                                                                                                                          |                                                                          |
-| Business Partner | Financial services ( Risk Management/assessment) | Provide input and ifneeded use their MCO process to pause collection treatment for Customer in case of payment failure . |                                                                          |
-|------------------+--------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------|
-
-** Impacted Systems
-** Data Flow Diagram
-** Phases
-** Checklist
-** Known Issues and Resolution Plans
-** Internal Contacts
-   - Mediation
-   - ICS
-** External Contacts
-   - TNS
-   - Syniverse
-** Reference Data

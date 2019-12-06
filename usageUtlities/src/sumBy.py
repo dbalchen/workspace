@@ -2,7 +2,6 @@
 
 import fileinput
 
-
 def returnSums (results, ipDate):
  
     try:

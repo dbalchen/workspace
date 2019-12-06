@@ -193,7 +193,7 @@
   - [X] Analyze Analyse [100%]
     - [X] Write out describe statistics in analyse.py
     - [X] Save Header
-    - [X] print out fenses
+    - [X] print out fences
     - [X] Move each function to it's own sub routine
     - [X] output only one function at a time
       - [X] Pass command line arguments

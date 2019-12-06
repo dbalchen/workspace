@@ -4563,3 +4563,110 @@ vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
   :ARCHIVE_CATEGORY: CommonPlace
   :ARCHIVE_TODO: DONE
   :END:
+
+* DONE PCRF Forklift
+  DEADLINE: <2019-06-30 Sun>
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-12-04 Wed 14:22
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: DONE
+  :END:
+  Ask Mr. Hauk on how is this going
+   
+** Project Description
+  *PCRF - Policy and Charging Rules Function* works along side  
+  *Charging Enforcement Function (PCEF)* and *Online Charging System (OCS)* 
+  interact and charge for subscriber services. These interactions include subscriber login, 
+  service updates to existing sessions, connection and monitoring, and subscriber 
+  termination and logout.
+
+  [[https://www.juniper.net/documentation/en_US/junos/topics/concept/pcrf-pcef-ocs-interactions-understanding.html][Understanding Interactions Between the PCRF, PCEF, and OCS]]
+
+  This project will replace our current *PCRF* by *OpenNet* to a new version by *CISCO*.
+  The servers themselves are clustered linux environments and 
+  will deployed in *Santa Clara, Atlanta, Schumacher and Ashton* starting in May and ending in July.
+  The software itself is broken up into components such as policy server/director, 
+  session managers. The configuration information held in a *MongoDB* document database.
+  The system configuration are done via Excel spreadsheets for the major options and a Web
+  frontend called *CPS* for finer tuning. There is also a monitoring tool called *Grafana* 
+  which provides system dashboards for monitoring.
+** Go Live Dates
+   5/01/2019 - 7/01/2019
+** Monitors/Controls/Alerts and Ownership
+   Need to monitor the network traffic when the switchover occurs to make sure usage does not drop.
+** Status
+   In preparation for 5G, the old *AAA* servers will be retired and replaced. I've contacted the project owners to warn them that they need to make sure that the servers IP has been added to the *PC9_IP_ADDR_LIST* table.
+** Current Status
+   With the replacement of the ols servers with the new, I found that they were not replacing the forward facing IP's, so no need to update the *PC9_IP_ADDR_LIST* table.
+
+
+
+* HOLD EAGR Project
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-12-05 Thu 14:15
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: HOLD
+  :END:
+** TODO Fraud
+** TODO Credit Decisioning
+   [[file:docs/CDC_Operational%20Support%20Guide%20-%20v1.0.pdf][Operational Support Guide]]
+*** Architecture
+*** Unanswered questions [0%]
+    - [ ] What machine does the OSB reside???
+    - [ ] Is Splunk the only way to read the logs
+    - [ ] Where are the reports kept
+    - [ ] Find those OSB Query's
+**** Connection String
+     - Connection Name :: PROD ESB DB
+     - Username :: FES_SUPPORT_READ
+     - Password :: praKetuCREbe9eS
+     - Hostname :: besbprd.uscc.com
+     - Port :: 1530
+     - Service Name :: besbprd_esb
+*** Log into the Tops Databases.
+**** TABLE_CCLASS_IN
+     Main table for current credit for a customer. Need
+     to use *Active_Crdt2customer* value and look up
+     customer by objid in *Table_Customer*.
+    |-------------------------+--------------------+---------------|
+    | *Name*                  | *Data Type*        | *Description* |
+    |-------------------------+--------------------+---------------|
+    | Active_Crdt2customer    | Number             |               |
+    | Actv_Cclass2bus_Org     | Number             |               |
+    | Auth_Id                 | Varchar2 (20 Byte) |               |
+    | Cclass_Inst2cclass_Def  | Number             |               |
+    | Cclass_Inst2currency    | Number             |               |
+    | Cclass_Inst2user        | Number             |               |
+    | Class_Inst2credit_Ref   | Number             |               |
+    | Create_Dt               | Date               |               |
+    | Dev                     | Number             |               |
+    | Dpst_Amt                | Number             |               |
+    | Expiry_Dt               | Date               |               |
+    | Hist_Crdt2customer      | Number             |               |
+    | Inactv_Cclass2bus_Org   | Number             |               |
+    | Is_Overriden            | Number             |               |
+    | Last_Updated            | Date               |               |
+    | Max_Subscrn             | Number             |               |
+    | Objid                   | Number             |               |
+    | Ods_Insert_Date         | Date               |               |
+    | Ods_Last_Update_Date    | Date               |               |
+    | Score                   | Number             |               |
+    | Verify_Dt               | Date               |               |
+    | X_Approved_Limit        | Varchar2 (70 Byte) |               |
+    | X_Cclass_Eval2hgbst_Elm | Number             |               |
+    | X_Cclass2hgbst_Elm      | Number             |               |
+    | X_Dec_Comment1          | Varchar2 (70 Byte) |               |
+    | X_Dec_Comment2          | Varchar2 (70 Byte) |               |
+    | X_Dec_Comment3          | Varchar2 (70 Byte) |               |
+    | X_Dec_Comment4          | Varchar2 (70 Byte) |               |
+    | X_Dec_Comment5          | Varchar2 (70 Byte) |               |
+    | X_Is_Cust_Auth          | Number             |               |
+    | X_Req_No_Lines          | Number             |               |
+    | X_Status                | Varchar2 (1 Byte)  |               |
+    |-------------------------+--------------------+---------------|
+
+
