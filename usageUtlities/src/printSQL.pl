@@ -12,7 +12,7 @@ my $sql = $ARGV[0];
 
 my $dbconn = getBODSPRD();
 
-$sql = "cat ../lib/$sql";
+$sql = "cat $sql";
 $sql = `$sql`;
 
 my $sth = $dbconn->prepare($sql);

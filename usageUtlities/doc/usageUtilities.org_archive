@@ -105,3 +105,31 @@ Archived entries from file /home/dbalchen/workspace/usageUtlities/doc/usageUtili
 
 **** [[https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html][Basic GIT Commands]]
 ** Discussion
+
+* Task List [66%]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-12-13 Fri 15:39
+  :ARCHIVE_FILE: ~/workspace/usageUtlities/doc/usageUtilities.org
+  :ARCHIVE_CATEGORY: usageUtilities
+  :END:
+  - [0%] Create Initial SQL
+    - [ ] Fix voice to show VoLTE
+    - [ ] Run fillAllData in production on o_ebiap1 on kpr01oprmn.
+  - [100%] statAnalysis.py
+    - [X] Add options to produce different types of reports
+    - [X] Create another program to handle the function table generator.
+  - [X] Write plot program
+  - [-] Come up with other SQL for other types [66%]
+    - [X] Voice
+    - [X] Data
+    - [X] SMS
+    - [X] Picture Messaging
+    - [ ] Premium SMS
+    - [ ] Intercarrier Roaming
+  - [X] Analyze Analyse [100%]
+    - [X] Write out describe statistics in analyse.py
+    - [X] Save Header
+    - [X] print out fences
+    - [X] Move each function to it's own sub routine
+    - [X] output only one function at a time
+      - [X] Pass command line arguments

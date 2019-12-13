@@ -5082,12 +5082,33 @@ CD    6. No additional details needed
     - Scheduled technical meetings to work on the 5G reporting.
     - Once aligned next steps will be Architecture updates and Use stories.
     - Working with business on the schedule and dates for the 5G reporting availability. Currently Trending Q2 2020.
-*** Current Status 
     - Track 1 is complete and in deployment.
     - Track 2 scheduled to be deployed 2nd quarter 2020.
       Conducted technical meeting with Architecture, IM, PDC and other impacted IS team to begin work on the 5G reporting.
       Once aligned next steps will be Architecture updates and Use stories.
       Working with business on the schedule and dates for the 5G reporting availability. Currently Trending Q2 2020.
+*** Current Status 
+    - Track1 is Closed. 
+ 
+    - Track2 Scope and target date is TBD due to 5G RAT reporting limitations and constraints.
+ 
+    - After discussions with all impacted IS teams as well as Business and Engineering, architecture direction points to Reporting solution.
+ 
+    - This is driven by the fact that accurate 5G usage cannot be deduced from NR secondary RAT usage compared to combined 4G+5G. We are waiting for data accuracy before taking any further action on this topic.
+ 
+    - Next Steps:
+      - Revisit the deck and the options towards the 5G Reporting Only approach
+      - Architecture document and direction update
+      - Ensure the PDC team has right information with requirements and designs to carry out the next steps
+      - Follow up on whether a new source for 5G usage will be set up for the EDW 
+      - Move forward with delivery planning 
+ 
+    - Open items: 
+      - Device availability - Crystal has the info, processing NDA for PDC and ETQA
+      - User stories updates - Placeholder meeting 12/16/19
+      - Meeting with CXM team - 12/19/19
+      - Solution architecture updates - Open
+
 
 
 ** DONE [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
@@ -5234,15 +5255,15 @@ CD    6. No additional details needed
     | 10/15:  Mala presenting at PI 33 mtg on 10/17                                         |                                |           |                 |                    |                                                                                                                         |       |
     | 10/7: Amdocs to have a fix ready on 10/14 but CR is targeted to be in January release |                                |           |                 |                    |                                                                                                                         |       |
     |---------------------------------------------------------------------------------------+--------------------------------+-----------+-----------------+--------------------+-------------------------------------------------------------------------------------------------------------------------+-------|
-
-*** Current Status     
     We are currently in test mode and I've had to do several searches within the *rated events table* to verify the results.    
-
+*** Current Status     
+    Mala is on vacation till the end of the year, thus no updates.
 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
 *** Project Manager
     Rachelle Funderburg (Initial)
+    Eric Dian
     
 *** Project Description
     [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
@@ -5405,7 +5426,6 @@ CD    6. No additional details needed
     | IR0411 VoWiFi - Android                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | ON TRACK                                                                                                                                                                                                                                                                                                           | IS/Provisioning: PI33 confirmed (December code drop + January 2020 release). Engineering: 12/09/19 lab testing, 03/04/20 production ready, and 03/31/20 NRD. Commercial launch date for Samsung (single device) tentatively set at 05/01/20 due to 4 weeks of testing post-NRD. | N/A                                    |
     |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
 
-*** Current Status    
     | IR0411 TOPs IA -Track 1.2b (Android)                                                                                                                                                        | Target - PI 33 2nd drop - January Release                                                                                                                            |
     | Submit Request to reverse CR 849 changes                                                                                                                                                    | Changes being deployed with MR12.0 on 12/5                                                                                                                           |
     |                                                                                                                                                                                             | What do we want done for the January release? Since commercialization moved to February - Need confirmation for default to ON for enabled for VoWifi - let Bill know |
@@ -5427,9 +5447,16 @@ CD    6. No additional details needed
     | Test Execution Cycle                                                                                                                                                                        | Tentative start - week of 12/9 dependent on environment upgrades                                                                                                     |
     | Call Dump Verification (downstream BAU activity)                                                                                                                                            | 11/4 - Dave  B. - will verify what he sees for VoWiFi. Dave will send to Nick                                                                                        |
     | MOA                                                                                                                                                                                         | 	 Enterprise inquiry - can we push our MOA to March? When are we doing the MOA? Nick to check with John Javers/Chris Baynes                                   |
+*** Current Status    
+    |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------|
+    | Project Track           | Status                      | Comments                                                                                                                                                                                                                                                            | Path to Green/Reason for Status Change                                                |
+    |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------|
+    | IR0411 VoWiFi - Acme    | ON TRACK - OVERALL          | Acme pushed USCC to the February Carrier Bundle. Project team aligned on new dates/requirements to support schedule change. Training and communications plan will start on 01/20/20. IS and Engineering finalized plan to meet Acme requirements for February CB.   | Project team has re-planned to meet the requirements for the February Carrier Bundle. |
+    | IR0411 VoWiFi - Android | AT RISK - OVERALL/ SCHEDULE | Lab testing delayed due to the lab MDM being down this week (testing to start on 12/13). Tracking to 03/04/20 production ready and 03/31/20 NRD. Commercial launch date for Samsung (single device) tentatively set at 05/01/20 due to 4 weeks of testing post-NRD. | N/A                                                                                   |
+    |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------|
 
 
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
+** DONE [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
 *** Project Manager
     Eric Dian 
 *** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
@@ -5605,9 +5632,9 @@ CD    6. No additional details needed
     No updates except the solution proposal was updated with minor adjustments.
     Minor updates to documentation.
     The vision and scope document has been finalized.
-*** Current Status
     No meetings in a long time but HLD version 1 has been released and ready for review.
-
+*** Current Status
+    No updates
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
@@ -5699,7 +5726,6 @@ CD    6. No additional details needed
        - IA sent for approval to Thomas
        - Old IDD also updated, Amdocs requesting review and approval. Right now I have Thomas Vicary, Logan Smith, Jim Calme, MK to review and approve. Inlcude as reviewers: John Thompson, Gokhan and Brandon Mosher. Damir is the new Project Manager and we are still on track for January release.
 
-*** Current Status 
     |--------------------------------------------------------------------------------------------------------------------------------------------------|
     | CR 1189 submitted to address QC 142367.                                                                                                          |
     | Solutioning is in progress. Victoria needs response from USCC regarding secondary device impact.                                                 |
@@ -5715,6 +5741,48 @@ CD    6. No additional details needed
     | c. ITSM Support Readiness – document sent to USC Support Readiness and waiting for feedback                                                      |
     |--------------------------------------------------------------------------------------------------------------------------------------------------|
 
+
+*** Current Status 
+*** Overall schedule:
+    IS target dates/aligned – Approved – PI 32 Jan 2020 Release IS development schedule is ON TRACK.
+    Overall Project schedule is ON TRACK.
+    - Upcoming Work:
+      - Confirmed for the January Release (9/16)
+      - Timeline -plan to support January TOPS Release (mid Jan)
+      - Amdocs E3 received 
+      - Amdocs Dev completed 
+      - Certified code drop 11/4
+      - ETQA Testing  11/11/20 – 1/10/20
+        Release Freeze  aka  Quiet Week 1/12-1/19
+      - Go-Live 1/19/20
+
+    - Discussion:
+      1. Team Calendar - please update sharepoint or send outlook notices to team for planned OOO (vacations, training, etc.) Please also include information who will be your backup.
+         Logan OOO on 12/6, 12/20-12/30.
+         Damir OOO 12/23-12/26. 
+      2. ETQA test execution updates:
+         - IR0614 WPS over VoLTE – SIT – Completed.
+         - IR0614 WPS over VoLTE – LAB – Blocked.
+      |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
+      | Testing Area                | Total TCs | Total Planned | Total Executed | Total Passed | Estimated Blocked |
+      |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
+      |                             |           |               |                |              |                   |
+      | IR0614 WPS over VoLTE – SIT |       354 |           354 |            354 |          354 |                 0 |
+      | IR0614 WPS over VoLTE – LAB |       636 |            23 |             23 |           22 |               613 |
+      |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
+
+      UAT review-only scenarios delivered to UAT team for commenting. Veronica to follow up with Tony.
+
+      3. CR 1189 submitted to address QC 142367. 
+         IA approved on 12/9/19.
+         Work at risk approved on 12/9/19 to ensure development of the code fix continues.
+         E3 is expected on Friday, 12/13/19.
+         HF is expected early next week, confirmation of timing also on Friday 12/13/19.
+
+      4. CR 1136 – Approved on 11/13
+         a. IDD updated, commenting completed 11/25. 2 comments assigned to Victoria. Responses from Amdocs were due last week, however it was not done. Damir is following up with J.R. 
+      5. Round table
+         Veronica mentioned that ETQA team is out of office in the afternoon on Wednesday, December 11, 2019
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
 *** Project Manager
@@ -5767,7 +5835,7 @@ CD    6. No additional details needed
     - PC9_IP_ADDR_LIST: per emails, it seems like no updates, but there is not yet any firm verification. If we find updates are needed, I will deliver as HF on top of the build.
     - CR1156: this is the eligibility rules updates (EPC); once approved I will do this work and it can be delivered as an EPC HF on top of the build. 
     - APRM: per emails, it is not clear yet who owns making these updates; if it ends up being BPT then I will need to deliver as a HF on top of the build.
-*** Current Status
+
 Discussion Points \ Notes (from agenda above):  
  - CR1156 to update the EPC eligibility rules for new markets was approved, and Robyn will make the changes in EPC and apply a hot fix to the ETQA environments.  Robyn will wait until all of the ETQA environments have been identified for this project.  She is targeting to apply a hot fix next week.
  - Regarding the ETQA environments, SQT23 and SQT42 were already identified as the environments that will be used for Market Expansion.  Steve said that one more environment is required, and he will send out the environment once it is determined.  (NOTE:  Steve sent emails after the meeting confirming that SQT22/DEX2 and SQT36 will also be used for testing.  This information was sent to the development teams.)     
@@ -5782,7 +5850,16 @@ Discussion Points \ Notes (from agenda above):
  - The emails from Margaret and Steve were similar - just formatted differently.  There will be one new scenario for the Website GEO locations.  Steve will work with ETQA folks to see if he can get the Rev Rec and SCM test scenarios done earlier than previously communicated.  He will know by the end of this week.
  - Mary said that Tony Maravola is the project UAT lead.  He will work with Steve and Margaret on the type of UAT that will be needed.  Steven from MCSO has suggested that the team do a BVT the week of 2/10 prior to the opening of the stores.  
  - Mary requested that Eric Conlon be included on the HLC emails. 
-
+*** Current Status
+    - We haven’t added new codes using the APRM tool.  Serhiy created a procedure document to add codes, which is attached.  
+    - Amdocs cannot add the codes because the APRM Online (Tool) is a GUI based tool that needs access in Production.
+    - The project team recommends Intra-Company Settlement business owner (Renae Grob and Michail Koynoff from Accounting) to add the company codes in production.  The new codes would need to be added prior to the launch of Market Expansion in January. We have the How To Guide from Amdocs. 
+    1. Action Item: For Amdocs and our SAM team to ensure that the business team will be able to access APRM Online tool in production. 
+       - Adding new company codes is similar to adding new partners (Intercarrier Services does this).  New partners get added by the business team and hence project team recommends modeling business operation the same way. 
+       - There is value in testing this in the ETQA environments.  
+    2. Action Item: ETQA to identify the environment that is used for testing. Amdocs Dev team will ensure that the environment can support APRM Online (Tool) for adding company codes and following the How To Guide in ETQA to validate the process will work in production. For resources, ETQA can rely on Amdocs Testing Team for validating the How To Guide Process. If there are security/permission issues for ETQA resources, project team will be notified for issue resolution. 
+       - The team will discuss with Robyn (EPC/BPT) or Dave Balchen (IS Operations Lead) to see what role they would like to play for project work and for ongoing operations when it comes to managing business parameter tables (for e.g. company codes) in the APRM module for intra-company roaming.  
+       - We will need to log a decision if adding the codes is not tested in the test environments.  Nikhil can help with a write up if that is what we will be doing.
 
 ** TODO IR0616 Google Fi VoLTE
 *** Project Manager
@@ -5793,7 +5870,7 @@ Discussion Points \ Notes (from agenda above):
     Held first meeting on October 17th nothing since.
 
 
-** TODO IRXXXX Real Time Text (RTT)
+** TODO IR06406 Real Time Text (RTT)
 *** Project Manager
     Sheri Cass
 *** Go Live Date

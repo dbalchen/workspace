@@ -113,13 +113,25 @@
     - *Parameters:* /input and output/
     - *Description:*
 
+** /functionGenerator.py/
+    - *Language:* Python
+    - [[file:~/workspace/usageUtlities/src/function_generator.py][*Source Code*]]
+    - *Parameters:* /input and output/
+    - *Description:*
+
+** /fillData/
+    - *Language:* shell
+    - [[file:~/workspace/usageUtlities/bin/fillData][*Source Code*]]
+    - *Parameters:* None
+    - *Description:* Outputs files containing usage data per usage type.
+
 ** /statPlot.py/
     - *Language:* Python
     - [[file:~/workspace/usageUtlities/src/statPlot.py][*Source Code*]]
     - *Parameters:* Read from standard in a tab delimited record where the first field is the X-Axis and the remaining fields are function values of X
     - *Description:* Reads a tab delimeted file which contains a columnar set of function values to be graphed.
 
-** /analysis.py/
+** /statAnalysis.py/
     - *Language:* Python
     - [[file:~/workspace/usageUtlities/src/analysis.py][*Source Code*]]
     - *Parameters:* Reads Tab delimited records where the first field represents the X-Axis and the 2nd represents the Y-Axis\\
@@ -132,6 +144,12 @@
     - *Parameters:* MDN
     - *Description:*\\
       The program takes an *MDN* finds the customer, subscriber and all acumulated usage and displays it in an informative way.
+
+** /printSQL.pl/
+    - *Language:* Perl
+    - [[file:~/workspace/usageUtlities/src/printSQL.pl][*Source Code*]]
+    - *Parameters:* The name of the *SQL* to run.
+    - *Description:* Reads in a an *sql* file and prints outs the results.
 
 * Data Decomposition
    - *Table/Field Name:*
@@ -179,9 +197,13 @@
   Test each program individually.
 * Implementation Considerations
   See *Infrastructure Considerations*.
-* Task List [80%]
-  - [X] Create Initial SQL
-  - [X] Push Through Analysis
+* Task List [66%]
+  - [0%] Create Initial SQL
+    - [ ] Fix voice to show VoLTE
+    - [ ] Run fillAllData in production on o_ebiap1 on kpr01oprmn.
+  - [100%] statAnalysis.py
+    - [X] Add options to produce different types of reports
+    - [X] Create another program to handle the function table generator.
   - [X] Write plot program
   - [-] Come up with other SQL for other types [66%]
     - [X] Voice
