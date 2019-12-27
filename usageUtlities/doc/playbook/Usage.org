@@ -3496,15 +3496,17 @@ label = "Event Servers";
 "ac_physical_files" -> ""
 
 *** Purpose of this document
-    - The purpose of this document is to describe the Credit Decisioning process, including a high level description of the data flow, potential points of failure, automated monitoring and alerts, and mitigation and failover plans.
+    - The purpose of this document is to describe the Usage process flow, including a high level description of the data flow, potential points of failure, automated monitoring and alerts, and mitigation and failover plans.
+
     - This document will also list the system owners, support contacts, and the impacted business areas and contacts.
+
     - This document will provide a clear understanding of the impact to business processing and the level of urgency to resolve issues.
+
     - This document will describe the process inputs and outputs noting data handoffs between systems or between vendors.
+
     - This document will be the updated source for internal and external contacts, including on and off hour support contacts, escalation points and expected response times.
 
 *** Definition of Responsibilities
-    |UpStream 
-
     |------------------+------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------|
     | Role             | Team                   | Responsibilities                                                                                                         | Best Practices                                                           |
     |------------------+------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------|
@@ -3527,42 +3529,75 @@ label = "Event Servers";
     |-----------------------------|
 
 *** Impacted Systems
+
     It has been said that all roads lead through Turbo-Charging so there is no subsystem that is unaffected, but here are some that are impacted the most.
-    |--------------------+-------------------------------------------------------------------------------------------------------------------------+------------|
-    | Areas/Teams        | Impact                                                                                                                  | Direction  |
-    |--------------------+-------------------------------------------------------------------------------------------------------------------------+------------|
-    | Engineering        | Collects the call records and sends them to Mediation                                                                   | Upstream   |
-    | NDC (Mediation)    | Converts the raw switch records to the UFF format sends all files to the CallDump, sends the billable records to *TOPS* | Upstream   |
-    | EPC/BPT            | Creates the rating configuration for Turbo-Charging                                                                     | Upstream   |
-    | IS Billing         | Without Usage there can be no bills.                                                                                    | Downstream |
-    | Revenue Accounting | Processing late or missing usage will cause the financials to be off.                                                   | Downstream |
-    | Revenue Assurance  | Bill accuracy will be affected.                                                                                         | Downstream |
-    |--------------------+-------------------------------------------------------------------------------------------------------------------------+------------|
+
+    |--------------------+------------------------------------------------------------------------------------------------------------------------------+------------|
+    | Areas/Teams        | Impact                                                                                                                       | Direction  |
+    |--------------------+------------------------------------------------------------------------------------------------------------------------------+------------|
+    | Engineering        | Collects the call records and sends them to Mediation                                                                        | Upstream   |
+    | NDC (Mediation)    | Converts the raw switch records to the UFF format sends all files to the CallDump, sends just the billable records to *TOPS* | Upstream   |
+    | EPC/BPT            | Creates the rating configuration for Turbo-Charging                                                                          | Upstream   |
+    | IS Billing         | Without Usage there can be no bills.                                                                                         | Downstream |
+    | Revenue Accounting | Processing late or missing usage will cause the financials to be off.                                                        | Downstream |
+    | Revenue Assurance  | Bill accuracy will be affected.                                                                                              | Downstream |
+    |--------------------+------------------------------------------------------------------------------------------------------------------------------+------------|
 
 *** Data Flow Diagram
     [[file:uf.png][Usage Flow]]
+
 *** Phases
     Need Picture - Boiler plate
+
 *** Checklist
+
 *** Alerting and Monitoring
-|-------------------------------------------------------------------+----------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------|
-| What’s Monitored?                                                 | Who’s Notified?                                    | What’s Validated?                                                                                                            | What’s Next?                                                 |
-|-------------------------------------------------------------------+----------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------|
-| All usage is tracked through the entire system/sub-system of TOPS | Is Billing Operations On Call associate and leader | Follow instruction in on call document to validate that all files are processed . Engage Amdocs and internal SME as needed . | The Process Owner will initiate an Incident Bridge if needed |
-|-------------------------------------------------------------------+----------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------|
+    Usage has the most complete and thorough monitoring systems within all of *TOPS*, with every usage feed and sub-system has a associated report. 
+    The [[https://usc.intranet.teldta.com/sites/is/operations/IS_Billing_Ops/Shared%2520Documents/Operational%2520Support%2520Guide%2520-%2520Usage.docx][*Usage Operational Support Guide*]] has a list of all of the monitoring reports currently active.
+    In addition the [[https://kpr01scd01.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Dash][EPS Monitors]] provides a dashboard to the entire usage process.
 
 *** Known Issues and Resolution Plans
 *** Internal Contacts
    - Mediation
-   - ICS
+     The teams purpose is to provision customers on our network as well as handling all Usage files that originate outside of *TOPS*
+     - *Manager* Craig Stalsberg
+     - *Email* USCDLISProvisioningandDataCollection@uscellular.com
+     - *When to Contact* Missing Usage (UFF, TAP, CIBER) files
+   - ICS (Inter-carrier Services)
+     This team owns the business relationship between USCC and other cellular carriers that we have roaming agreements with.
+     - *Manager* Liz Pierce
+     - *Email* USCDLIntercarrierBusinessDepartment@uscellular.com
+     - *When to Contact* Whenever we have any question about anything for our Roaming partners. Missing a roaming file from AT&T??? Call ICS....
    - Revenue Accounting
+     Looks at usage from a financial standpoint to see if all revenue is accounted for.
+     - *Manager*  Heather B Jeschke
+     - *Email* Heather.Jeschke@uscellular.com; Jones, Miguel.Jones@uscellular.com
+     - *When to Contact* They will contact us mostly about roaming usage.
    - Engineering
+     This group handles all towers, switches etc. that produce usage.
+     - *Manager*  ***
+     - *Email* William.Pack@uscellular.com
+     - *When to Contact* When there is a large decrease/increase in data volume.
+   - Revenue Assurance
+     Looks at random bills to find issues that may have occured while processing usage.
+     - *Manager*  Sangeeta Khedekar
+     - *Email* Sangeeta.Khedekar@uscellular.com; Christine.Bekos@uscellular.com; Deanna.Andrews@uscellular.com
+     - *When to Contact* They will contact us if they see any discrepancy on the bill.
 *** External Contacts
-   - TNS
-   - Syniverse
-   - Premium SMS - Valista
-   - Amdocs
-     - Serhiy (APRM)
-     - Amit Droer (Turbo Charging)
-     - Satish (Everything else)cd 
+   - *TNS*
+     The roaming clearinghouse for TAP (data, VoLTE, GSM) usage. The business relationship is help by ICS, contact them for any questions.
+   - *Syniverse*
+      The roaming clearinghouse for CDMA (voice, 3G) usage, contact through ICS.
+   - *Valista*
+   - *Amdocs*
+     Our business partner for all billing. The three gentlemen below are our usage experts for all things TOPS. If there is a question you can't answer these are the guys to contact.     
+     - *Serhiy Potishuk*
+       - *Email*  SERHIYP@amdocs.com
+       - *When to contact* Serhiy's is the *SME* for *APRM*
+     - *Amit Dror*
+       - *Email* Amit.Dror@amdocs.com>
+       - *When to contact* Handles most *Turbo-Charging* questions.
+     - *Satish Kumar Thatikonda*
+       - *Email* Satish.Thatikonda@amdocs.com
+       - *When to contact* Most everything that is usage related.
 *** Reference Data

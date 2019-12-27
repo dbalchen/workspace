@@ -5087,7 +5087,6 @@ CD    6. No additional details needed
       Conducted technical meeting with Architecture, IM, PDC and other impacted IS team to begin work on the 5G reporting.
       Once aligned next steps will be Architecture updates and Use stories.
       Working with business on the schedule and dates for the 5G reporting availability. Currently Trending Q2 2020.
-*** Current Status 
     - Track1 is Closed. 
  
     - Track2 Scope and target date is TBD due to 5G RAT reporting limitations and constraints.
@@ -5108,81 +5107,8 @@ CD    6. No additional details needed
       - User stories updates - Placeholder meeting 12/16/19
       - Meeting with CXM team - 12/19/19
       - Solution architecture updates - Open
-
-
-
-** DONE [[https://usc.intranet.teldta.com/sites/EPR/IR0596/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0596 International Service Revamp]]
-*** Project Manager
-    Rebecca Class
-*** Project Description
-   [[file:docs/IR0XXX%20Solution%20Proposal_Intnl_Services_Revamp.pdf][Initial Project Documentation]]
-   [[file:Pictures/IR0596%20-%20International%20Services%20Revamp%20Mind%20map.pdf][Project Mind Map]]
-   This project is to provide extra services for our post-paid international
-   customers which will include:
-   1. Package Offers for Roaming Services
-   2. Usage Notifications
-   3. Policy Controls
-   4. Day Passes for Roaming Services
-   5. Country Code Rezoning
-   A project such as this would usually take between 6 to 8 months
-   to complete other than that no specific deployment date has been given.
-    1. API enhancements:
-     - Syniverse API is EOL and we will need to enhance our API’s to support the newly upgraded Syniverse API
-       - Implement this with proper validations and ensure proper upgrade/migration strategy to minimize the current business flows.
-     - Roam Monitor notifications can be removed with proper assessment but not the Welcome notification
-       - Welcome notification will still function as BAU
-     - Amdocs work will mostly be Compilation change with proper assessment and re-coding of API.
-    2. Policy Controls:
-     - Currently, international data captured by Vodafone and Syniverse measures this data after receiving from Vodafone. 
-       - A batch file will be sent to USCC from Syniverse with the measured data
-     - We will need policy controls for Voice and SMS in addition to data
-       - TAP records from Syniverse will come in a batch feed and Mediation team processes these batch files
-     - The voice batch feed will be sent every 4 hours
-     - *The usage file received from Syniverse must be compared TOPS usage by USCC IS team(s) and trigger a notification to the customer based on the business rules*
-       - Data throttling will also be dependent on the policies that will be defined and the notifications to the customer will be sent accordingly.
-     - There are no Revenue Impacts
-     - Once the customer completes the data as defined in their package, they will have to move into pay as you go rates. There will be no throttling at this time but after certain business triggering events, we need to start throttling.
-       - Need to send notifications as applicable and based on current systems technical flows
-       - These need to be part of BRD and IS user stories
-     - Barring of voice and SMS and the triggering events needs to be expanded.
-    3. PITS/PRITS
-     - We need to accumulate Voice and SMS usages in addition to Data
-     - There is a  Data PIT that we can leverage for this project
-     - There is an existing PIT for voice as well but we need to confirm to make sure on this  and if feasibility exists perform some testing to validate 
-    4. Plans and Offers
-     - New $15 and $35 plans will be created for respective countries
-     - No new enhancements or charge codes or tax impacts or revenue recognition impacts for Accounting and Revenue Assurance teams
-    5. Country Code rezoning
-     -  Rezoning of country codes will be implemented based on business definitions.
-    6. Reporting
-     -  We need to regression test *Roaming Reconciliation Report*
-     -  Any new reporting requirements will need to flow through business teams (Enterprise BA)
-*** Go Live Dates
-    - Track 1 GSM Country Code Rezoning June 23rd
-    - Track 2 API Upgrade August 18th
-    - New price plans will be rolled out on the November 3th release.
-*** Possible Billing Issues
-    - No impact to billing since we process this data already. 
-*** Monitors/Controls/Alerts and Ownership
-    I believe this will be business as usual but it is to early to tell.
-*** Status
-    When the project is launched there will be new $25-35 price plans 
-    Syniverse will be sending files 4 times daily, instead of once.
-    - New company and leader documentation has been created explaining the implications of this project.
-    - Track 3 IA pending Approval
-    - Track 2 IA is now final
-    - USCC TOPS IA IR0596 Track 3 - International Services Data Barring (Pending Approval)
-    - USCC TOPS IA IR0596 Track 2- Intn'l Services - Notifications and Billing Offers Impact Assessment (IA) (Final)
-    - CR 1059 for IR0596 - International Services Revamp has been created title: EDW Work Transition.
-    - New International billing offers have been created and waiting approval
-    The status of CR 876 for IR0596 - International Services Revamp has been changed to "Approved" (Intl Service Revamp - Track 2 Scope Change 
-    (Policy Control Voice/SMS Barring/Unbarring) ). 
-    - CR#876 We are removing from this scope of work Voice/SMS barring & unbarring for Policy Controls. This solution is depended on a 3rd party vendor at this time and we were unable to find an adequate solution.
-    - USCC TOPS IA IR0596 Track 2- Intn'l Services - Notifications and Billing Offers has been approved
-    No Meeting this week but a CR has been approved.
-    The status of CR 876 for IR0596 - International Services Revamp has been changed to "Approved" (Intl Service Revamp - Track 2 Scope Change (Policy Control Voice/SMS Barring/Unbarring) ).  All changes requested in the CR may now be implemented.
-*** Current Status
-    The underlying work needed for this project is complete. The last update talks of the new billing offers that will be rolled out.
+*** Current Status 
+    Short meeting this week with the only item being the release of CR1208 about a RIM display issue.
 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
@@ -5278,7 +5204,7 @@ CD    6. No additional details needed
     - Since the usage will come in as VoLTE/LTE there will be no impact
 *** Monitors/Controls/Alerts and Ownership
     The roaming reconciliation reports will pick up any anomalies. 
-*** status
+*** status							   :noexport:
     - Track 1.1 June test frame
     - Track 1.2 May 25th delivery
     - Engineering/Nokia Android device provisioning specs and MDM solution for E911 Address Collection required are gating 
@@ -5447,7 +5373,6 @@ CD    6. No additional details needed
     | Test Execution Cycle                                                                                                                                                                        | Tentative start - week of 12/9 dependent on environment upgrades                                                                                                     |
     | Call Dump Verification (downstream BAU activity)                                                                                                                                            | 11/4 - Dave  B. - will verify what he sees for VoWiFi. Dave will send to Nick                                                                                        |
     | MOA                                                                                                                                                                                         | 	 Enterprise inquiry - can we push our MOA to March? When are we doing the MOA? Nick to check with John Javers/Chris Baynes                                   |
-*** Current Status    
     |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------|
     | Project Track           | Status                      | Comments                                                                                                                                                                                                                                                            | Path to Green/Reason for Status Change                                                |
     |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------|
@@ -5455,186 +5380,14 @@ CD    6. No additional details needed
     | IR0411 VoWiFi - Android | AT RISK - OVERALL/ SCHEDULE | Lab testing delayed due to the lab MDM being down this week (testing to start on 12/13). Tracking to 03/04/20 production ready and 03/31/20 NRD. Commercial launch date for Samsung (single device) tentatively set at 05/01/20 due to 4 weeks of testing post-NRD. | N/A                                                                                   |
     |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------|
 
+*** Current Status    
+    |-------------------------+-----------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
+    | Project Track           | Status                      | Comments                                                                                                                                                                                                                                                                                                                                                               | Path to Green/Reason for Status Change                                                                                               |
+    |-------------------------+-----------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
+    | IR0411 VoWiFi - Acme    | ON TRACK - OVERALL          | Project team realigned and tracking to new dates/requirements to support February Carrier Bundle (using 02/01/20 for planning purposes). Training and communications plan will start on 01/20/20. IS and Engineering on track to meet all Acme requirements for February CB.                                                                                           | N/A                                                                                                                                  |
+    | IR0411 VoWiFi - Android | AT RISK - OVERALL/ SCHEDULE | Lab testing continues to be delayed due to the lab MDM being down for upgrades. Tracking to 03/04/20 production ready and 03/31/20 NRD (Nokia is looking to add more maintenance windows and engineering is exploring options to mitigate this). Commercial launch date for Samsung (single device) tentatively targeting 05/01/20 due to 4 weeks of testing post-NRD. | The ability to go back on track is dependent on ETQA's ability to make up testing prior to the 1/19/20 release. Re-plan in progress. |
+    |-------------------------+-----------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------|
 
-** DONE [[https://usc.intranet.teldta.com/sites/EPR/IR0622/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0622 AT&T Inbound and Outbound LTE/VoLTE Roaming]]  
-*** Project Manager
-    Eric Dian 
-*** [[file:docs/IR0XXX%20Solution%20Proposal%20ATT%20Roaming%20project.docx][Solution Proposel]]
-*** Go Live Dates
-    October 16-17 2019
-*** Status
-    A capacity analysis with TNS (roaming vendor) determined new circuits 
-    are required to support the project (order was submitted to TNS on 8/7 
-    and installation is scheduled to be completed within 45 business days). 
-    Assessments of 'steering tool' remain ongoing. Inbound/Outbound IREG/TADIG 
-    testing complete and ready for ETQA. BRD still being finalized following review on 7/29.
-    a.	Ongoing Activities
-        - Capacity analysis results receives – no further action required (Bill)
-        - Received security assessment on 8/19 (Sherri Jo)
-        - TNS confirmed business 45 days after order submission on 8/7 (for awareness: 10/10 would be Day 45)
-          - Meeting with TNS 8/20 – targeting 9/27 for capacity links in place and tested (Sherri Jo)
-          - USCC needs to confirm date to migrate live traffic onto new circuits (Bill)
-    b. Inbound (AT&T on USCC network)
-       - IREG/TADIG (Network/Billing)
-         - IREG testing and validation of TAP files for TADIG complete (Jody)
-       - TAC exceptions for Ericsson – date for the fix for the remaining MMEs to put TACs in place for AT&T on our network TBD (Bill)
-       - Confirmed with AT&T that the specific locations used for white-listing entire USCC test range also include any MME within that same pool, which provides a lot of different areas to test in (Jody)
-       - USCC white-listed + completed test call + shipped devices to Iowa for the team to begin the deployment (Sherri Jo)
-       - DEG – Ryan was working on devices to ship to Teleworld (shipped half on 8/14 to be there by 8/15)
-       - OEM
-         - Motorola had all devices up to start testing
-         - Drive test routes for Google – sent coverage information from AT&T’s map so they could find an area to test VoLTE roaming to VoLTE home (awaiting feedback from Google to see if was useful or if they prefer drive test route information) (Dan)
-         - Google targeting 9/6 to complete testing (Dan)
-       - Teleworld
-         - ETQA inbound testing – will need to work with Accounting to determine way forward (targeting early next week for decision)
-    c. Outbound (USCC on AT&T network)
-       - IREG/TADIG (Network/Billing)
-       - Testing for IREG/TADIG complete (ETQA testing started 8/19)
-       - Teleworld has two testers that are scheduled to complete testing by 9/6 (9/13 at the latest)
-         - Should be wrapping up 8/21 on the first devices that went out
-         - Set to receive additional devices 8/21 and final batch on 8/23
-         - To date: one device failure (S4 mini – Ryan will need to retest)
-    d. Miscellaneous
-       - Continue to work on assessments for CR1020 – steering tool – before it can be submitted for approval 
-    a. Ongoing Activities
-       - Confirmed cross connection on 9/11 with traffic migration targeting 9/27 (Bill)
-    b. Inbound (AT&T on USCC network)
-       - IREG/TADIG (Network/Billing)
-         - TAC exceptions for Ericsson – final fix completed 9/10 + still moving ahead with daytime testing (Bill)
-       - ETQA inbound testing – Tony received ‘No UAT approval’ on 9/11
-       - Completed IB launch for Santa Clara RCC (9/6)
-         - 9/20 Ashburn (Go/No-go call 9/16)
-         - 10/4 Schaumburg
-         - 10/11 Atlanta
-    c. Outbound (USCC on AT&T network)
-       - IREG/TADIG (Network/Billing)
-       - DEG – completed testing
-       - OEM
-         - Google still testing (no new completion date)
-           - Re-pushed PLMN 9/4 –Google did not power cycle in NJ area to accept the changes (Sherri Jo)
-         - LG – testing complete
-         - Samsung – testing complete
-         - Motorola – testing complete
-       - Teleworld – 44/49 devices (as of 9/11)
-       - TAC testing – Scheduled for week of 9/16 with Aniket + AT&T resources in Rockford
-       - Targeting 9/30 for OB launch
-         - Planning to launch in eastern region (approx. 1/3 of US) – usage will determine where to launch next
-           - Steve Zimmer getting together TAC restrictions to send to AT&T
-    d. Miscellaneous
-       - Assessments for CR1020 (steering tool) – waiting for engineering to confirm any impacts from the security side (Sherri Jo)
-         - Brian scheduled a meeting on 9/19 to discuss way forward with Jeff/Robert/Narothum (desire to launch Stage II of the tool) (Brian)
-       - Remedy drop down menu to include ‘AT&T Mobility’ for roamer support (Liz)
-    - Ongoing Activities
-      -	Traffic migration targeting 9/27
-    - Inbound (AT&T on USCC network)
-      - IREG/TADIG (Network/Billing)
-        - TAC exceptions for Ericsson –daytime testing (still ongoing last week)
-      - ETQA inbound testing – Tony received ‘No UAT approval’ on 9/11
-      - IB launch Schedule:
-        - 9/20 Ashburn (Go/No-go call 9/16)
-        - 10/4 Schaumburg
-        - 10/11 Atlanta
-    - Outbound (USCC on AT&T network)
-      - IREG/TADIG (Network/Billing)
-      - DEG – testing complete
-      - OEM
-      - Google testing completion date
-        - Re-pushed PLMN 9/4 (did Google complete power cycle in NJ area?)
-      - LG, Samsung, Motorola – testing complete
-      - Teleworld – 44/49 devices (as of 9/11)
-      - TAC testing – week of 9/16 (Aniket + AT&T resources in Rockford)
-      - Targeting 9/30 for OB launch
-      - Planning to launch in eastern region (approx. 1/3 of US) – usage will determine where to launch next
-      - Steve Zimmer getting TAC restrictions to send to AT&T
-    - Miscellaneous
-      - Assessments for CR1020 (steering tool) – engineering to confirm impacts from the security perspective
-      - Remedy drop down menu to include ‘AT&T Mobility’ for roamer support (added)
-    |--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
-    | Project Track                  | Status                       | Comments                                                                                                                                                                                                                                                                                                                                                                                                       | Path to Green/Reason for Status Change                                                                                                                  |
-    |--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
-    | IR0622 – AT&T Outbound Roaming | OFF TRACK: OVERALL/ SCHEDULE | Launch remains TBD due to a delay in testing caused by AT&T needing to update its MME for TAC restrictions. Additionally, AT&T will have to make a cost code change in their GSM network to support USCC devices. Use of the steering tool still being finalized (meeting on 10/1 to confirm plan for steering tool to support initial business requirements and alternative plan for remaining requirements). | AT&T MME readied for TAC restrictions to allow USCC to complete TAC testing. AT&T makes cost code changes in their GSM network to support USCC devices. |
-    |--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
-    | Project Track                  | Status                       | Comments                                                                                                                                                                                                                                                                                                                                                                                                       | Path to Green/Reason for Status Change                                                                                                                  |
-    |--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
-    | IR0622 – AT&T Outbound Roaming | OFF TRACK: OVERALL/ SCHEDULE | AT&T confirmed launch date of 10/16-17. Use of the steering tool will be discussed in a final meeting on 10/18 to align with engineering executives as to whether concerns have been resolved to a point where Phase 2 testing can continue.                                                                                                                                                                   | AT&T confirmed launch date of 10/16-17. Project will remain OFF TRACK for awareness and will report ON TRACK next week.                                 |
-    |--------------------------------+------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------|
-- Inbound (AT&T on USCC network)
-  - Markets awaiting completion:
-    - Knoxville
-    - Asheville
-  - Diagnostic information provided to AT&T by USCC (dates for completion remain unknown, but issue has been escalated to AT&T) (Bill)
-
-- outbound (USCC on AT&T network)
-  - OEM’s
-    - Google testing completion date – will be delayed for all SKU’s until 11/22 (Dan)
-    - Google aware of 10/16-17 launch date (Dan)
-  - OB launch date = 10/16-17
-    - Eastern region (approx. 1/3 of US) – usage will determine when/where to launch next, or if a pause is required to evaluate
-
-- Miscellaneous
-  - CR1020 (steering tool)
-    - Meeting on 10/18 to align with engineering executives as to whether concerns have been resolved, so that Phase 2 testing can continue (Brian)
-  - Tech Support will be primary POC for customers (will follow same process already utilized for the other roaming partners) (Liz)
-    |--------------------------------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
-    | Project Track                  | Status   | Comments                                                                                                                                                                                   | Path to Green/Reason for Status Change |
-    |--------------------------------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
-    | IR0622 – AT&T Outbound Roaming | ON TRACK | Outbound launch in eastern region completed 10/17. SIM OTA campaign for eastern region is scheduled for 10/23-24 (activity will then be monitored to determine when/where to launch next). | N/A                                    |
-    |--------------------------------+----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------|
-
-    Besides the *APRM* backlog issues, they have been slowly opening up the eastern region for Incollect usage.
-    - Inbound (AT&T on USCC network)
-      - Markets awaiting completion:
-        - Knoxville
-        - Asheville
-      - Additional troubleshooting conducted late last week with Nokia
-      - Bill to transition this to the Ops team
-
-    - Outbound (USCC on AT&T network)
-      - OEM’s
-        - Google testing will be delayed for all SKU’s until 11/22
-      - OB launch completed in Eastern region on 10/16-17
-        - Timeline to determine when/where to launch next, or if a pause is required to evaluate
-        - SIM OTA completed 10/31 (will require at least 30 days to assess before determining where to launch next)
-      - Phase 2 of Launch – are we prepared to proceed and/or when would this happen?
-      - Timeline for communication to frontline
-
-
-    - Inbound (AT&T on USCC network)
-    - Markets awaiting completion:
-      - Knoxville
-      - Asheville
-    - Additional troubleshooting conducted late last week with Nokia
-      - Bill to transition this to the Ops team
-
-    - Outbound (USCC on AT&T network)
-      - Google testing will be delayed for all SKU’s until 11/22
-      - OB launch completed in Eastern region on 10/16-17
-      - Timeline to determine when/where to launch next, or if a pause is required to evaluate
-      - SIM OTA completed 10/31 (will require at least 30 days to assess before determining where to launch next)
-      - Phase 2 of Launch – are we prepared to proceed and/or when would this happen?
-      - Timeline for communication to frontline
-
-    - Miscellaneous
-      - CR1020 (steering tool)
-      - Liz to draft long + short term requirements at PLMN level (IA expected 11/22)
-*** Current Status
-    No Updates
-
-
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0630/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0630 - Robocall]]
-*** Project Manager   
-    Frank Novak
-*** Go Live Date
-    Feb 2020
-*** [[file:docs/RoboCallSolutionProposal.docx][Solution Proposal]]  
-*** Old Status
-    No IS solution possible until 2020, so it becomes an engineering problem.
-    No updates except the solution proposal was updated with minor adjustments.
-    Minor updates to documentation.
-    The vision and scope document has been finalized.
-    No meetings in a long time but HLD version 1 has been released and ready for review.
-*** Current Status
-    No updates
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
@@ -5741,8 +5494,6 @@ CD    6. No additional details needed
     | c. ITSM Support Readiness – document sent to USC Support Readiness and waiting for feedback                                                      |
     |--------------------------------------------------------------------------------------------------------------------------------------------------|
 
-
-*** Current Status 
 *** Overall schedule:
     IS target dates/aligned – Approved – PI 32 Jan 2020 Release IS development schedule is ON TRACK.
     Overall Project schedule is ON TRACK.
@@ -5783,6 +5534,30 @@ CD    6. No additional details needed
          a. IDD updated, commenting completed 11/25. 2 comments assigned to Victoria. Responses from Amdocs were due last week, however it was not done. Damir is following up with J.R. 
       5. Round table
          Veronica mentioned that ETQA team is out of office in the afternoon on Wednesday, December 11, 2019
+
+*** Current Status 
+    1. ETQA LAB test execution updates:\\
+       IR0614 WPS over VoLTE – SIT – Completed.\\
+       IR0614 WPS over VoLTE – LAB – Blocked due to MDM platform upgrade. Project will report off-track. Team is creating mitigation plan that would involve continuation of testing once lab is available and identification of scenarios that could be tested post January release deployment in production. Amdocs development is assessing if there is any impact to existing functionality due to code changes implemented for this IR.
+    |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
+    | Testing Area                | Total TCs | Total Planned | Total Executed | Total Passed | Estimated Blocked |
+    |                             |           |               |                |              |        Test Cases |
+    |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
+    | IR0614 WPS over VoLTE – SIT |       354 |           354 |            354 |          354 |                 0 |
+    | IR0614 WPS over VoLTE – LAB |       636 |            60 |             60 |           60 |                 0 |
+    |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
+
+    2. UAT updates – Team is in the process of reviewing ETQA deliverables. 
+    3. CR 1189 submitted to address QC 142367. 
+       Fix delivered on 12/12 and LAB testing resumed. QC142367 
+       E3 was expected last Friday, no new ETA from Amdocs. Damir is following up with J.R.
+    4. CR 1136 – Approved on 11/13
+       - IDD updated, commenting completed 11/25. 2 comments assigned to Victoria. Responses from Amdocs were due last week, however it was not done. Damir is following up with J.R. 
+    5. Round table
+       Final GDIT meeting today that should close GDIT portion of work. 
+       Eng work on Schaumburg location completed, Atlanta site (backup) not yet. 
+       Mid-January – code on Eng will be changed. Does not impact anything IS is doing. 
+
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
 *** Project Manager
@@ -5850,7 +5625,6 @@ Discussion Points \ Notes (from agenda above):
  - The emails from Margaret and Steve were similar - just formatted differently.  There will be one new scenario for the Website GEO locations.  Steve will work with ETQA folks to see if he can get the Rev Rec and SCM test scenarios done earlier than previously communicated.  He will know by the end of this week.
  - Mary said that Tony Maravola is the project UAT lead.  He will work with Steve and Margaret on the type of UAT that will be needed.  Steven from MCSO has suggested that the team do a BVT the week of 2/10 prior to the opening of the stores.  
  - Mary requested that Eric Conlon be included on the HLC emails. 
-*** Current Status
     - We haven’t added new codes using the APRM tool.  Serhiy created a procedure document to add codes, which is attached.  
     - Amdocs cannot add the codes because the APRM Online (Tool) is a GUI based tool that needs access in Production.
     - The project team recommends Intra-Company Settlement business owner (Renae Grob and Michail Koynoff from Accounting) to add the company codes in production.  The new codes would need to be added prior to the launch of Market Expansion in January. We have the How To Guide from Amdocs. 
@@ -5860,6 +5634,8 @@ Discussion Points \ Notes (from agenda above):
     2. Action Item: ETQA to identify the environment that is used for testing. Amdocs Dev team will ensure that the environment can support APRM Online (Tool) for adding company codes and following the How To Guide in ETQA to validate the process will work in production. For resources, ETQA can rely on Amdocs Testing Team for validating the How To Guide Process. If there are security/permission issues for ETQA resources, project team will be notified for issue resolution. 
        - The team will discuss with Robyn (EPC/BPT) or Dave Balchen (IS Operations Lead) to see what role they would like to play for project work and for ongoing operations when it comes to managing business parameter tables (for e.g. company codes) in the APRM module for intra-company roaming.  
        - We will need to log a decision if adding the codes is not tested in the test environments.  Nikhil can help with a write up if that is what we will be doing.
+*** Current Status
+    The big news this week is that we do not need to add to the *PC9_IP_ADDR_LIST* table since new forwarding IP's are not needed.
 
 ** TODO IR0616 Google Fi VoLTE
 *** Project Manager
@@ -5870,15 +5646,24 @@ Discussion Points \ Notes (from agenda above):
     Held first meeting on October 17th nothing since.
 
 
-** TODO IR06406 Real Time Text (RTT)
+** TODO IR0646 Real Time Text (RTT)
 *** Project Manager
     Sheri Cass
 *** Go Live Date
     N/A
-*** Status
     First meeting, Went through the solution document.
- 
+*** Status 
+    No updates.
 
+** TODO IR0646 IOT Enhancements 
+*** Project Manager
+    Frank Novak
+*** Project Description
+    USCC customers need support IoT application requiring the deployment of low power devices with long range coverage.  The customer applications also require the ability to support OTA upgrade of constraints devices. Some of these constraint devices require USCC to support SMS over NAS feature to enable OTA upgrades in the field. 
+    Without the implementation of these features, constrained devices requiring OTA upgrade, long range coverage and operating in PSM, eDRX modes cannot be supported in the USCC network.
+*** Status
+    Held the the first meeting to go through the solution document.
+ 
 ** TODO [[https://usc.intranet.teldta.com/sites/supplychain/procurement/engineering/_layouts/15/start.aspx#/Projects/Forms/AllItems.aspx?RootFolder=%252Fsites%252Fsupplychain%252Fprocurement%252Fengineering%252FProjects%252F2019%2520%252D%2520Voicemail%2520RFP%252FMavenir&FolderCTID=0x012000CC260B161AB11B4ABF67B58BEA442498&View=%257B4104A1FF%252D1880%252D42A6%252D8655%252DBDD9C105E65B%257D][IR0651 Voice Mail replacement Project]]
 *** Project Manager
     N/A
@@ -5889,8 +5674,6 @@ Discussion Points \ Notes (from agenda above):
    
 
 ** TODO Work on Dan's Java program
-
-** TODO Fix Goals
 
 * Footnotes
 

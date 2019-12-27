@@ -10,7 +10,6 @@ import numpy as np
 import fileinput
 
 import argparse
-from numpy import integer
 
 def movingAvg(yaxis):
     
@@ -60,7 +59,7 @@ args = parser.parse_args()
 results = []
 
 inp = "-"
-inp = "/home/dbalchen/workspace/usageUtlities/data/test.csv"
+#inp = "/home/dbalchen/workspace/usageUtlities/data/test.csv"
 
 for line in fileinput.input(inp):
     try:
@@ -93,4 +92,5 @@ for i in range(0,len(xf)):
         pout = output[j][i]
         print(pout,end ="\t")
     print(output[len(output)-1][i])
+    
 exit(0)

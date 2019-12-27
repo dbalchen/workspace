@@ -38,6 +38,8 @@ args = parser.parse_args()
 
 results = []
 
+file = '-'
+
 for line in sys.stdin:
     try:
         line = line.rstrip()

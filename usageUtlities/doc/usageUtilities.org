@@ -101,6 +101,11 @@
 **** Incollect
 **** Outcollect
 ** Voice
+   Get total voice volume for the last 23 days
+   1. cat ../data/voice.dat | grep POST | cut -f 1,3 | ./sumBy.py | grep '^201912' > voiceSubset.csv
+   2. cat voiceSubset.csv | ./statAnalysis
+   3. ((echo -e "Date\tVolume\tLinear Regression\tPolyfit");cat ../data/voice.dat | grep POST | cut -f 1,3 | ./sumBy.py | grep '^201912' | ./functionGenerator.py -p 3 -lr) > voiceAnal.dat
+
 ** SMS
 ** Picture Messaging
 ** Premium SMS
