@@ -248,7 +248,6 @@ file:Pictures/Andrejevi1.jpg
 \normalsize
 #+END_LaTeX
 
-
 ** US Territories
       These calls are identified as international but are charged
       domestic rates.
@@ -640,7 +639,6 @@ subgraph cluster_3 {
       -  *32* Data
       -  *52* One time charge
       -  *98* Trailer
-
 *** CIBER 01 Record
 #+BEGIN_LaTeX
 \footnotesize
@@ -3507,17 +3505,19 @@ label = "Event Servers";
     - This document will be the updated source for internal and external contacts, including on and off hour support contacts, escalation points and expected response times.
 
 *** Definition of Responsibilities
-    |------------------+------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------|
-    | Role             | Team                   | Responsibilities                                                                                                         | Best Practices                                                           |
-    |------------------+------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------|
-    | ProcessOwner     | IS Billing Ops         | Firstpoint of contact and technical SME for process issues                                                               | Join Incident Bridgesand use the Playbook as a guide in issue resolution |
-    |                  |                        | Initial triage of issues to identify areas of failure                                                                    | Maintain documentation (Playbook)                                        |
-    |                  |                        |                                                                                                                          | Involvement in projects impacting the process                            |
-    |                  |                        |                                                                                                                          |                                                                          |
-    | Business Partner | Mediation              | It is this team that provides the usage files we process.                                                                | They are the first leg in usage processing.                              |
-    |                  |                        |                                                                                                                          |                                                                          |
-    | Business Partner | Inter-carrier services | Provide input and ifneeded use their MCO process to pause collection treatment for Customer in case of payment failure . |                                                                          |
-    |------------------+------------------------+--------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------|
+    |------------------+------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------|
+    | Role             | Team                   | Responsibilities                                                              | Best Practices                                                           |
+    |------------------+------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------|
+    | ProcessOwner     | IS Billing Ops         | Firstpoint of contact and technical SME for process issues                    | Join Incident Bridgesand use the Playbook as a guide in issue resolution |
+    |                  |                        | Initial triage of issues to identify areas of failure                         | Maintain documentation (Playbook)                                        |
+    |                  |                        |                                                                               | Involvement in projects impacting the process                            |
+    |                  |                        |                                                                               |                                                                          |
+    | Business Partner | Mediation              | It is this team that provides the usage files we process.                     | They are the first leg in usage processing.                              |
+    |                  |                        |                                                                               |                                                                          |
+    | Business Partner | Inter-carrier services | This team holds the business relationship between us and our roaming partners | Questions pertaining to our roaming partners                             |
+    |                  |                        |                                                                               |                                                                          |
+    | Business Partner | Amdocs                 | They own the *TOPS* usage processing stack                                    | Issues involving the usage flow from file to database                    |
+    |------------------+------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------|
 
 
     |-----------------------------|
@@ -3552,9 +3552,9 @@ label = "Event Servers";
 *** Checklist
 
 *** Alerting and Monitoring
-    Usage has the most complete and thorough monitoring systems within all of *TOPS*, with every usage feed and sub-system has a associated report. 
+    Usage has the most complete and thorough monitoring systems within all of *TOPS*, every usage feed and sub-system has an associated report. 
     The [[https://usc.intranet.teldta.com/sites/is/operations/IS_Billing_Ops/Shared%2520Documents/Operational%2520Support%2520Guide%2520-%2520Usage.docx][*Usage Operational Support Guide*]] has a list of all of the monitoring reports currently active.
-    In addition the [[https://kpr01scd01.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Dash][EPS Monitors]] provides a dashboard to the entire usage process.
+    In addition the [[https://kpr01scd01.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Dash][EPS Monitors]] provides a dashboard to the entire usage process flow.
 
 *** Known Issues and Resolution Plans
 *** Internal Contacts
@@ -3577,7 +3577,7 @@ label = "Event Servers";
      This group handles all towers, switches etc. that produce usage.
      - *Manager*  ***
      - *Email* William.Pack@uscellular.com
-     - *When to Contact* When there is a large decrease/increase in data volume.
+     - *When to Contact* When there is a large decrease/increase in usage records/volume.
    - Revenue Assurance
      Looks at random bills to find issues that may have occured while processing usage.
      - *Manager*  Sangeeta Khedekar

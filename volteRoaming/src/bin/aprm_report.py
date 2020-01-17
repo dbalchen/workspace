@@ -22,7 +22,7 @@ import sys
 
 ######## Argument Date SQL Setup
 
-date = "20190522" #sys.argv[1]
+date = "20200105" #sys.argv[1]
 
 day = date[6:8]
 month = date[4:6]
@@ -86,29 +86,32 @@ sqlDictionary["LTE"] = """
          END
              AS ascase,
          DECODE (carrier_cd,
-                 'USAAT', 'ATT Mobility (USAAT)',
-                 'USABS', 'ATT Mobility (USABS)',
-                 'USACC', 'ATT Mobility (USACC)',
-                 'USACG', 'ATT Mobility (USACG)',
-                 'USAMF', 'ATT Mobility (USAMF)',
-                 'USAPB', 'ATT Mobility (USAPB)',
-                 'USAKY', 'Appalachian Wireless (USAKY)',
-                 'USACM', 'C-Spire (USACM)',
-                 'USA1E', 'Carolina West (USA1E)',
-                 'USAXC', 'Inland (USAXC)',
-                 'USAJV', 'James Valley (USAJV)',
-                 'USA6G', 'Nex-Tech Wireless (USA6G)',
-                 'USAPI', 'Pioneer Cellular (USAPI)',
-                 'USASG', 'Sprint (USASG)',
-                 'USASP', 'Sprint (USASP)',
-                 'USASU', 'Sprint (USASU)',
-                 'USATM', 'T-Mobile (USATM)',
-                 'USAW6', 'T-Mobile (USAW6)',
-                 'USAUW', 'United Wireless (USAUW)',
-                 'USAVZ', 'Verizon (USAVZ)',
-                 'AAZVF', 'Vodafone Malta (AAZVF)',
-                 'MLTTL', 'Vodafone Malta (MLTTL)',
-                 'NLDLT', 'Vodafone Netherlands (NLDLT)')
+                'USAAT', 'ATT Mobility (USAAT)',
+                'USABS', 'ATT Mobility (USABS)',
+                'USACC', 'ATT Mobility (USACC)',
+                'USACG', 'ATT Mobility (USACG)',
+                'USAMF', 'ATT Mobility (USAMF)',
+                'USAPB', 'ATT Mobility (USAPB)',
+                'USAKY', 'Appalachian Wireless (USAKY)',
+                'USACM', 'C-Spire (USACM)',
+                'USA1E', 'Carolina West (USA1E)',
+                'USAXC', 'Inland (USAXC)',
+                'USAJV', 'James Valley (USAJV)',
+                'USA6G', 'Nex-Tech Wireless (USA6G)',
+                'USAPI', 'Pioneer Cellular (USAPI)',
+                'USASG', 'Sprint (USASG)',
+                'USASP', 'Sprint (USASP)',
+                'USASU', 'Sprint (USASU)',
+                'USATM', 'T-Mobile (USATM)',
+                'USAW6', 'T-Mobile (USAW6)',
+                'GBRJT', 'Jersey Telecom (GBRJT)',
+                'USA34', 'Illinois Valley Cell (USA34)',
+                'USAUW', 'United Wireless (USAUW)',
+                'USAVZ', 'Verizon (USAVZ)',
+                'AAZVF', 'Vodafone Malta (AAZVF)',
+                'MLTTL', 'Vodafone Malta (MLTTL)',
+                'NLDLT', 'Vodafone Netherlands (NLDLT)',
+                carrier_cd)
              "Carrier Code",
          t1.prod_cat_id,
          CASE
@@ -250,7 +253,7 @@ def dbConnect ():
          'host': '10.176.199.19',  # info from tnsnames.ora
          'port': 1530,  # info from tnsnames.ora
          'user': 'md1dbal1',
-         'psw': 'BooGoo9000#',
+         'psw': 'P0tat000#',
          'service': 'bodsprd_adhoc'  # info from tnsnames.ora
     }
 
@@ -315,13 +318,13 @@ def processTableCarrier (res, gl_codes):
     company_codes = sorted(set(map(lambda x:x[1], res)))
     
     for company_code in company_codes:
-     
+        print("company code" + company_code + "\n")
         all_carriers = [x for x in res if x[1] == company_code ]
              
         carrier_by_company = sorted(set(map(lambda x:x[4], all_carriers)))
-             
+          
         for carrier in carrier_by_company:
-                 
+            print("carrier " + carrier + "\n")       
             incoming = [x for x in all_carriers if x[4] == carrier]
                  
             sums = returnSums(incoming, gl_codes)

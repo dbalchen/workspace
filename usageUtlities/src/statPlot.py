@@ -9,7 +9,7 @@ import copy
 
 import argparse
 
-colors = ['b', 'r', 'g', 'y', 'k']
+colors = ['b', 'g', 'r', 'k', 'y']
 styles = [':','-','-','-','-','-','-','-','-']
 marks = ['p','','','','','','','','','']
 
@@ -75,27 +75,27 @@ xA = [x[0] for x in results]
 
 for i in range(1, colCount) :
     
-    yA = [(float(x[i]) / float(scale)) for x in results]
+    yA = [(float(x[i])*float(scale)) for x in results]
 
     # ax.plot(xA, yA)
     ax.plot(xA, yA, linestyle=styles[i -1], marker=marks[i-1], color=colors[i - 1], label=header[i])
 
 #create grey bar
-if float(args.iqr0) > 0 :
-    ax.axhspan((float(args.iqr0)/float(scale)), (float(args.iqr1)/float(scale)), facecolor='0.5', alpha=0.4)
+if (float(args.iqr0) and float(args.iqr1) )> 0 :
+    ax.axhspan((float(args.iqr0)*float(scale)), (float(args.iqr1)*float(scale)), facecolor='0.5', alpha=0.4)
 
 # Print Medium
 if float(args.medium) > 0 :
-    ax.axhline(y = (float(args.medium)/float(scale)),linestyle=styles[0],color='black' ) 
+    ax.axhline(y = (float(args.medium)*float(scale)),linestyle=styles[0],color='black' ) 
 
 # Print Upper Fence
 if float(args.upperfence) > 0 :
-    ax.axhline(y = (float(args.upperfence)/float(scale)),linestyle=styles[0],color='black')
+    ax.axhline(y = (float(args.upperfence)*float(scale)),linestyle=styles[0],color='red')
 
 
 # Print Lower Fence
 if float(args.lowerfence) > 0 :
-    ax.axhline(y = (float(args.lowerfence)/float(scale)),linestyle=styles[0],color='black') 
+    ax.axhline(y = (float(args.lowerfence)*float(scale)),linestyle=styles[0],color='red') 
  
 
 # Print the Title
