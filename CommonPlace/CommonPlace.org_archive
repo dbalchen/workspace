@@ -4959,3 +4959,39 @@ vi ~/.config/libreoffice/4/user/extensions/bundled/lastsynchronized
    No updates
 
 
+
+* TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-01-23 Thu 13:42
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+** Project Manager
+   Rachelle Funderburg (Initial)
+   Eric Dian
+    
+** Project Description
+   [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
+  - All VoWiFi calls will be rated as VoLTE
+  - Calls will be rated based on customers calling plan
+  - Bill presentment will not differentiate between regular voice call and VoWiFi calls.
+  - Value of 3 in field 52 of the UFF signifies voice over WIFI.
+  - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
+** Go Live Dates
+   Closing phase 1/19/2020
+** Possible Billing Issues
+   - Since the usage will come in as VoLTE/LTE there will be no impact
+** Monitors/Controls/Alerts and Ownership
+   The roaming reconciliation reports will pick up any anomalies. 
+** status							  
+   No updates due to the Holidays.
+** Current Status    
+   |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------|
+   | Project Track           | Status                      | Comments                                                                                                                                                                                                                                                                                                            | Path to Green/Reason for Status Change                                                 |
+   |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------|
+   | IR0411 VoWiFi - Acme    | ON TRACK - OVERALL          | Project team realigned and tracking to new dates/requirements to support February Carrier Bundle (Acme confirmed first week of February for the CB). Execution of training and communications plan started on 01/20/20. IS and Engineering on track to meet/support all Acme requirements for February CB.          | N/A                                                                                    |
+   | IR0411 VoWiFi - Android | AT RISK - OVERALL/ SCHEDULE | ETQA testing delayed due to MDM being down. ETQA testing at risk for schedule until engineering provides binary to begin testing (targeting 01/24/20). NRD is 03/31/20 and targeting 05/01/2020 for commercial launch for Samsung due to 4-weeks of post-NRD device testing by Samsung and USCC device engineering. | Engineering completes first test call and delivers binary to ETQA to complete testing. |
+   |-------------------------+-----------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------|
+

@@ -3482,51 +3482,76 @@ label = "Event Servers";
 [fn:1] Transfer Account Data Interchange Group
 * Task List
 ** TODO Usage Playbook
-"mdn" ["resource value"] -> "agd1_resources"
-"agd1_resources"  -> "subscriber_id"
-"agd1_resources"  -> "customer_id"
-"agd1_resources" -> "cycle_code"
-
-"ape1_rated_events" -> "l3_physical_file_id"
-"ape1_rated_events" -> "l9_serve_sid/l9_home_sid"
-
-"ac_physical_files" -> "Identifier/l3_physical_file_id"
-"ac_physical_files" -> ""
+*** Usage Issue Flow Chart
+"Satish" -> "TOPS"
+"Amit Droer" -> "TOPS"
+"Serhiy" -> "TOPS"
+"Heather Jescke" -> "Revenue Accounting"
+"Miquel Jones" -> "Revenue Accounting"
+"Ellen Sveinsson" -> "ICS"
+"Liz Pierce" -> "ICS"
+"Ilham Elgarni" -> "ICS"
+"Craig Stalsberg" -> "PDC"
+"Yogesh Prasad (Amdocs)" -> "EPC"
+"John Schultz" -> "EPC"
+"John Samz" -> "EPC"
+"David Balchen" -> "Usage"
+"David Balchen" -> "CallDump"
+"David Balchen" -> "EPS Monitors"
+"David Smith" -> "Usage"
+"David Smith" -> "FYI Messages"
+"Bill Pack" -> "Engineering"
+"Christien Bekos" -> "Revenue Assurance"
+"Deanna Andrews" -> "Revenue Assurance"
+"Shawntrice Moses Butler" -> "Amdocs"
+"Ellen Sveinsson" -> "TNS"
+"Ilham Elgarni" -> "TNS"
+"George Kamba" -> "CallDump"
+"Connie Dwyer" -> "Queen"
+"Denise Lintz" -> "Supreme Monarch"
+"Izabela Miller" -> "CallDump"
+"Soly Haddock" -> "CallDump"
+"Connie Davis" -> "CallDump"
 
 *** Purpose of this document
-    - The purpose of this document is to describe the Usage process flow, including a high level description of the data flow, potential points of failure, automated monitoring and alerts, and mitigation and failover plans.
+    - The purpose of this document is to describe the Usage process flow, including a high level description of the data flow, potential points of failure, automated monitoring and alerts, and mitigation and fail over plans.
 
     - This document will also list the system owners, support contacts, and the impacted business areas and contacts.
 
     - This document will provide a clear understanding of the impact to business processing and the level of urgency to resolve issues.
 
-    - This document will describe the process inputs and outputs noting data handoffs between systems or between vendors.
+    - This document will describe the process inputs and outputs noting data hand-offs between systems or between vendors.
 
     - This document will be the updated source for internal and external contacts, including on and off hour support contacts, escalation points and expected response times.
 
 *** Definition of Responsibilities
-    |------------------+------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------|
-    | Role             | Team                   | Responsibilities                                                              | Best Practices                                                           |
-    |------------------+------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------|
-    | ProcessOwner     | IS Billing Ops         | Firstpoint of contact and technical SME for process issues                    | Join Incident Bridgesand use the Playbook as a guide in issue resolution |
-    |                  |                        | Initial triage of issues to identify areas of failure                         | Maintain documentation (Playbook)                                        |
-    |                  |                        |                                                                               | Involvement in projects impacting the process                            |
-    |                  |                        |                                                                               |                                                                          |
-    | Business Partner | Mediation              | It is this team that provides the usage files we process.                     | They are the first leg in usage processing.                              |
-    |                  |                        |                                                                               |                                                                          |
-    | Business Partner | Inter-carrier services | This team holds the business relationship between us and our roaming partners | Questions pertaining to our roaming partners                             |
-    |                  |                        |                                                                               |                                                                          |
-    | Business Partner | Amdocs                 | They own the *TOPS* usage processing stack                                    | Issues involving the usage flow from file to database                    |
-    |------------------+------------------------+-------------------------------------------------------------------------------+--------------------------------------------------------------------------|
+
+    |------------------+------------------------+-------------------------------------------------------------------------------+---------------------------------------------------------------------------|
+    | Role             | Team                   | Responsibilities                                                              | Best Practices                                                            |
+    |------------------+------------------------+-------------------------------------------------------------------------------+---------------------------------------------------------------------------|
+    | Process Owner    | IS Billing Ops         | First point of contact and technical SME for process issues                   | Join Incident Bridges and use the Playbook as a guide in issue resolution |
+    |                  |                        | Initial triage of issues to identify areas of failure                         | Maintain documentation (Playbook)                                         |
+    |                  |                        |                                                                               | Involvement in projects impacting the process                             |
+    |                  |                        |                                                                               |                                                                           |
+    | Business Partner | Mediation              | It is this team that provides the usage files we process.                     | They are the first leg in usage processing.                               |
+    |                  |                        |                                                                               |                                                                           |
+    | Business Partner | Inter-carrier services | This team holds the business relationship between us and our roaming partners | Questions pertaining to our roaming partners                              |
+    |                  |                        |                                                                               |                                                                           |
+    | Business Partner | Amdocs                 | They own the *TOPS* usage processing stack                                    | Issues involving the usage flow from file to database                     |
+    |                  |                        |                                                                               |                                                                           |
+    | Business Partner | Revenue Accounting     | APRM charges reconciliation                                                   | Cash differences between APRM and the Clearinghouse                       |
+    |                  |                        |                                                                               |                                                                           |
+    |                  |                        |                                                                               |                                                                           |
+    |------------------+------------------------+-------------------------------------------------------------------------------+---------------------------------------------------------------------------|
 
 
-    |-----------------------------|
-    | Organization                |
-    |-----------------------------|
-    | Finance                     |
-    | ICS (Intercarrier Services) |
-    | RA (Revenue Assurance)      |
-    |-----------------------------|
+    |------------------------------|
+    | Organization                 |
+    |------------------------------|
+    | Finance                      |
+    | ICS (Inter-carrier Services) |
+    | RA (Revenue Assurance)       |
+    |------------------------------|
 
 *** Impacted Systems
 
@@ -3539,7 +3564,7 @@ label = "Event Servers";
     | NDC (Mediation)    | Converts the raw switch records to the UFF format sends all files to the CallDump, sends just the billable records to *TOPS* | Upstream   |
     | EPC/BPT            | Creates the rating configuration for Turbo-Charging                                                                          | Upstream   |
     | IS Billing         | Without Usage there can be no bills.                                                                                         | Downstream |
-    | Revenue Accounting | Processing late or missing usage will cause the financials to be off.                                                        | Downstream |
+    | Revenue Accounting | Processing late or missing usage will cause the financial’s to be off.                                                       | Downstream |
     | Revenue Assurance  | Bill accuracy will be affected.                                                                                              | Downstream |
     |--------------------+------------------------------------------------------------------------------------------------------------------------------+------------|
 
@@ -3557,28 +3582,29 @@ label = "Event Servers";
     In addition the [[https://kpr01scd01.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Dash][EPS Monitors]] provides a dashboard to the entire usage process flow.
 
 *** Known Issues and Resolution Plans
+    
 *** Internal Contacts
-   - Mediation
+   - *Mediation*
      The teams purpose is to provision customers on our network as well as handling all Usage files that originate outside of *TOPS*
      - *Manager* Craig Stalsberg
      - *Email* USCDLISProvisioningandDataCollection@uscellular.com
      - *When to Contact* Missing Usage (UFF, TAP, CIBER) files
-   - ICS (Inter-carrier Services)
+   - *ICS (Inter-carrier Services)*
      This team owns the business relationship between USCC and other cellular carriers that we have roaming agreements with.
      - *Manager* Liz Pierce
      - *Email* USCDLIntercarrierBusinessDepartment@uscellular.com
      - *When to Contact* Whenever we have any question about anything for our Roaming partners. Missing a roaming file from AT&T??? Call ICS....
-   - Revenue Accounting
+   - *Revenue Accounting*
      Looks at usage from a financial standpoint to see if all revenue is accounted for.
      - *Manager*  Heather B Jeschke
-     - *Email* Heather.Jeschke@uscellular.com; Jones, Miguel.Jones@uscellular.com
+     - *Email* Heather.Jeschke@uscellular.com; Miguel.Jones@uscellular.com
      - *When to Contact* They will contact us mostly about roaming usage.
-   - Engineering
+   - *Engineering*
      This group handles all towers, switches etc. that produce usage.
      - *Manager*  ***
      - *Email* William.Pack@uscellular.com
-     - *When to Contact* When there is a large decrease/increase in usage records/volume.
-   - Revenue Assurance
+     - *When to Contact* When there is a large decrease/increase in data usage records/volume.
+   - *Revenue Assurance*
      Looks at random bills to find issues that may have occured while processing usage.
      - *Manager*  Sangeeta Khedekar
      - *Email* Sangeeta.Khedekar@uscellular.com; Christine.Bekos@uscellular.com; Deanna.Andrews@uscellular.com
@@ -3601,3 +3627,7 @@ label = "Event Servers";
        - *Email* Satish.Thatikonda@amdocs.com
        - *When to contact* Most everything that is usage related.
 *** Reference Data
+
+     [[https://usc.intranet.teldta.com/sites/is/operations/IS_Billing_Ops/Shared%2520Documents/Operational%2520Support%2520Guide%2520-%2520Usage.docx][*Usage Operational Support Guide*]]
+
+     [[https://usc.intranet.teldta.com/sites/is/operations/IS_Billing_Ops/Shared%2520Documents/Usage.pdf][*The Usage Bible*]]

@@ -70,7 +70,7 @@
 
 * Process Decomposition
 ** Data
-   See Data section for the SQL code
+   See Data section for the SQL code Scale is in TB (0.00000000001)
 *** 3G data by Volume
        : cat  AllData.csv  | egrep '3G|2G' | cut -f 1,3 | more
 **** Home
@@ -203,8 +203,8 @@
 * Implementation Considerations
   See *Infrastructure Considerations*.
 * Task List [66%]
-  - [0%] Create Initial SQL
-    - [ ] Fix voice to show VoLTE
+  - [50%] Create Initial SQL
+    - [X] Fix voice to show VoLTE
     - [ ] Run fillAllData in production on o_ebiap1 on kpr01oprmn.
   - [100%] statAnalysis.py
     - [X] Add options to produce different types of reports

@@ -39,7 +39,7 @@ sub getBODSPRD {
 
 	# my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "P0tat000#" );
+	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
 
 	unless ( defined $dbods ) {
 		sendErr();

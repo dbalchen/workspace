@@ -8,4 +8,6 @@ ${UTLITIES_HOME}/src/printSQL.pl ${UTLITIES_HOME}/lib/data.sql > ${UTLITIES_HOME
 
 ${UTLITIES_HOME}/src/printSQL.pl ${UTLITIES_HOME}/lib/sms.sql > ${UTLITIES_HOME}/data/sms.dat &
 
+${UTLITIES_HOME}/src/printSQL.pl ${UTLITIES_HOME}/lib/mms.sql > ${UTLITIES_HOME}/data/mms.dat &
+
 exit 0

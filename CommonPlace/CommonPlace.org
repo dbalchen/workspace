@@ -5109,7 +5109,6 @@ CD    6. No additional details needed
       - Solution architecture updates - Open
     Short meeting this week with the only item being the release of CR1208 about a RIM display issue.
     No meetings throughout the holidays
-*** Current Status 
     1. CR # 1208 for March major release: Solution to display "5G Capable" needs to be revised due to defect Remedy#-3812633. Solution will be changed to display "5G capable" as read-only attribute in RIM. Associate will not be able to change the value, it will be displayed as read-only. This solution will require a code change in RIM and changes in EPC. Confirm testing from Brian.
     2. User stories updates - Meeting was held 01/10/20 with CXM, IS and Engineering. Meeting Minutes:
        1. Disclaimer from CXM team: Data coming from CXM can be data enabler but cannot be the decision maker for billing or any other accounting/financial services requests. 
@@ -5147,6 +5146,19 @@ CD    6. No additional details needed
             1. current limitations
             2. attributes that are needed from EDW perspective
    7. Network readiness testing will confirm if the data is accurate 
+*** Current Status 
+    IS PDC team conducted the Device testing in lab and shared the results with Business and project team. 
+    - Working with business on the schedule and dates for the 5G reporting availability. Currently Trending Q2 2020.
+    - Complete design in parallel - Work with EDW, Architecture, PDC and CXM team to finalize the attributes that we need. 
+    - Phanesh to schedule  working sessions with the above teams to discuss 
+      1. Current limitations, and 
+      2. attributes that are needed from EDW perspective
+         Network readiness testing will confirm if the data is accurate.
+
+    Continue to discuss whether a new source for 5G usage will be set up for the EDW.
+     - 5G User stories session for Marketing reporting requirements is scheduled on 01/24/2020. 
+       1. Solution for the new integration pattern where CXM is the source and EDW is the consumer. 
+       2. Delivery Planning and Commitments on what IS can deliver in support of business needs on reporting.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
 *** Project Manager
@@ -5222,35 +5234,19 @@ CD    6. No additional details needed
     Mala is on vacation till the end of the year, thus no updates.
     There was much discussion on the Special Numbers Table and how it retains to Pre-pay. It was decided that there should change to the *SCP* to grant pre-pay customers access to customer care.
     They are continuing testing and have found an issue and will discuss it next meeting. I have also been tasked filling out the ITSM support readiness form, which needs to be completed by January 13th (Universe Creation Day!!!)
-*** Current Status 
     ITSM document is finished. Found an issue with the volume field from the test calls. 
     Key Dates:
       - January release – 1/19/2020
       - Feb offcycle – 2/12/2020
       - Commercialization (with Market launch)– 2/14/2020
-
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0411/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0411 Voice over WIFI]]
-*** Project Manager
-    Rachelle Funderburg (Initial)
-    Eric Dian
-    
-*** Project Description
-    [[file:docs/IR411%20-%20VoWiFi%20Solution%20Architecture.pdf][Solution Document]]
-   - All VoWiFi calls will be rated as VoLTE
-   - Calls will be rated based on customers calling plan
-   - Bill presentment will not differentiate between regular voice call and VoWiFi calls.
-   - Value of 3 in field 52 of the UFF signifies voice over WIFI.
-   - Value of 7 in the L3_Call_Category field in the rated events table indicates Voice over LTE.
-*** Go Live Dates
-    Closing phase 1/19/2020
-*** Possible Billing Issues
-    - Since the usage will come in as VoLTE/LTE there will be no impact
-*** Monitors/Controls/Alerts and Ownership
-    The roaming reconciliation reports will pick up any anomalies. 
-*** status							  
-    No updates due to the Holidays.
-*** Current Status    
-    Quick meeting this week to announce no updates.
+*** Current Status 
+    - IR539 and related CRs below for Prepaid functionality are on hold and will not be going in the January release.
+    - *For CR 846 and CR971 – Postpaid functionality only will be delivered in the January release; Prepaid on hold until mid Feb
+    - Targeted* Timelines for CR1221 and CR1245: 
+      - Code Delivery – 2/3
+      - ETQA testing – 2/4 to 2/11
+      - Delivery – 2/12
+      - *these dates will need to be confirmed by Amdocs after IA is approved, as well with ETQA
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
 *** Project Manager
@@ -5445,7 +5441,6 @@ CD    6. No additional details needed
      	   - Eng work has been compelted on SCH and ATL sites.
      	   - Front-line impact for WPS – functionality will be in the system, however since with no commercial launch is not happening, no front-line impact. Project will be removed from Release communications. 
         
-*** Current Status 
     Overall schedule:
       - ETQA status for WPS Lab testing is On-Hold.
       - Overall Project status is TBD
@@ -5469,6 +5464,8 @@ CD    6. No additional details needed
         - IDD updated, Logan approved it yesterday. 
      4. CR 1256
         - CR created to extend Amdocs Dev support for ETQA test. 
+*** Current Status 
+    Moved to production in the January release.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
 *** Project Manager
@@ -5548,10 +5545,10 @@ Discussion Points \ Notes (from agenda above):
 
     The big news this week is that we do not need to add to the *PC9_IP_ADDR_LIST* table since new forwarding IP's are not needed.
     No updates due to the Holidays
-*** Current Status
     No meetings this week
-
-
+*** Current Status 
+    Moved in dormant mode to production in the January release. Expecting to turn in on in mid February.
+ 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/Lists/IRforms/DispForm.aspx?ID=184&RootFolder=%252A][IR0616 Google Fi VoLTE]]
 *** Project Manager
     Bengtson, Kevin
@@ -5561,7 +5558,7 @@ Discussion Points \ Notes (from agenda above):
     Held first meeting on October 17th nothing since.
     Solution Proposel 1 and 2 have been created and on 11/18 Googles responded that the solution is acceptable.
 *** Current Status
-    No updates
+    No updates. Sent Kevin Bengtson a message for an update.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0599/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0599 CDMA-less (Real Time Text (RTT))]] 
 *** Project Manager
@@ -5571,10 +5568,10 @@ Discussion Points \ Notes (from agenda above):
     First meeting, Went through the solution document.
 *** Status 
     No updates.
-    Support Readiness document has been issued and needs to be signed off by the stakholders.
+    Support Readiness document has been issued and needs to be signed off by the stakeholders.
 *** Current Status 
-    No updates
-    
+    No updates. Sent Sheri Cass a messsage for an update.
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/Lists/IRforms/DispForm.aspx?ID=235&RootFolder=%252A][IR0646 IOT Enhancements]] 
 *** Project Manager
     Frank Novak
@@ -5586,7 +5583,8 @@ Discussion Points \ Notes (from agenda above):
     FP&A has completed the business case. In the event that a business case is deemed not necessary or can be completed at a later time.
     The project is just in the preliminary mode so there has been no standing meetings.
 *** Current Status 
-    No updates this week
+    The solution document has been produced and is currently under review.
+
 ** TODO [[https://usc.intranet.teldta.com/sites/supplychain/procurement/engineering/_layouts/15/start.aspx#/Projects/Forms/AllItems.aspx?RootFolder=%252Fsites%252Fsupplychain%252Fprocurement%252Fengineering%252FProjects%252F2019%2520%252D%2520Voicemail%2520RFP%252FMavenir&FolderCTID=0x012000CC260B161AB11B4ABF67B58BEA442498&View=%257B4104A1FF%252D1880%252D42A6%252D8655%252DBDD9C105E65B%257D][IR0651 Voice Mail replacement Project]]
 *** Project Manager
     N/A
