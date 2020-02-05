@@ -273,6 +273,7 @@ digraph BI {
 
 graph [splines=true nodesep=0.8 size=8.5,11 compress=true overlap=false style=bold];
 
+
 node [shape=folder];"Database";"CallDump";"APRM";
 node [shape=house];"Syniverse/TNS";"Business";"EPC";"MFT";
 
@@ -3481,8 +3482,31 @@ label = "Event Servers";
 
 [fn:1] Transfer Account Data Interchange Group
 * Task List
+** Phases Legend
+  
+  - (a) Help find usage for this number
+  - (b) Where is the money?
+  - (c) Help find this roaming usage
+  - (d) What's wrong with the bill?
+  - (e) Call Detail Records (UFF)
+  - (f) Rated usage
+  - (g) The raw switch records
+  - (h) Check Data Issues
+  - (i) Check post-paid usage file processing
+  - (j) Post and Pre-Pay rating
+  - (k) Roaming file and rating
+  - (l) Pre-Pay connection issues
+  - (m) Rating errors
+  - (n) file errors
+  - (o) roaming errors
+  - (p) UFF creation and file transfer
+  - (q) Incorrect rate
+  - (r) missing usage
+
 ** TODO Usage Playbook
 *** Usage Issue Flow Chart
+
+digraph BI {
 "Satish" -> "TOPS"
 "Amit Droer" -> "TOPS"
 "Serhiy" -> "TOPS"
@@ -3512,6 +3536,51 @@ label = "Event Servers";
 "Izabela Miller" -> "CallDump"
 "Soly Haddock" -> "CallDump"
 "Connie Davis" -> "CallDump"
+}
+
+digraph BI {
+	graph [splines=true nodesep=0.8  constraint=false overlap=false style=bold];
+	node [shape=point]; "";	
+	node [shape=plaintext]; "PDC";
+	"Usage Inquiry" -> "CallDump"  [label = "(e)"]
+	"Usage Inquiry" -> ""  [label = "(f)"]
+	"Usage Inquiry" -> "PDC"  [label = "(g)"]
+	"Usage Inquiry" -> "Engineering"  [label = "(h)"]
+	"" -> "ANF"  [label = "(i)"]
+	"" -> "TC"  [label = "(j)"]
+	"" -> "ARCM/ARPM"  [label = "(k)"]
+	"TC" -> "PDC"  [label = "(l)"]
+	"TC" -> "AEM"  [label = "(m)"]
+	"ANF" -> "AEM"  [label = "(n)"]
+	"ARCM/ARPM" -> "AEM"  [label = "(o)"]
+	"CallDump" -> "PDC"  [label = "(p)"]
+	"TC" -> "EPC"  [label = "(q)"] 
+	"PDC" -> "Engineering"  [label = "(r)"]
+	"Revenue\nAssurance" -> "Usage Inquiry"  [label = "(d)"]
+	"ICS" -> "Usage Inquiry" [label = "(c)"]
+	"Revenue\nAccounting" -> "Usage Inquiry" [label = "(b)"]
+	"Subpoena\nTeam" -> "Usage Inquiry" [label = "(a)"]
+	
+	subgraph cluster_2 {
+		"";
+		"ANF";
+		"TC";
+		"ARCM/ARPM";
+		"AEM";
+		"EPC";
+		label = "TOPS";	
+	}
+	
+	subgraph cluster_3 {
+		"Revenue\nAssurance";
+		"Revenue\nAccounting";
+		"Subpoena\nTeam";
+		"ICS";
+		color="#FFFFFF";
+	}
+}
+
+
 
 *** Purpose of this document
     - The purpose of this document is to describe the Usage process flow, including a high level description of the data flow, potential points of failure, automated monitoring and alerts, and mitigation and fail over plans.

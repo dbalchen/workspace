@@ -70,42 +70,7 @@
 
 * Process Decomposition
 ** Data
-   See Data section for the SQL code Scale is in TB (0.00000000001)
-*** 3G data by Volume
-       : cat  AllData.csv  | egrep '3G|2G' | cut -f 1,3 | more
-**** Home
-       - *POST*  
-       : cat  AllData.csv  | egrep '3G|2G' | grep POST | grep N | cut -f 1,3 | more
-       - *PRE*
-       : cat  AllData.csv  | egrep '3G|2G' | grep PRE  | grep N | cut -f 1,3 | more
-
-**** Roam
-       - *POST*  
-       : cat  AllData.csv  | egrep '3G|2G' | grep POST | grep Y | cut -f 1,3 | more
-       - *PRE*
-       : cat  AllData.csv  | egrep '3G|2G' | grep PRE  | grep Y | cut -f 1,3 | more
-**** Incollect
-**** Outcollect
-*** 4G
-       : cat  AllData.csv  | egrep '4G' | cut -f 1,3 | more
-**** Home
-       - *POST*  
-       : cat  AllData.csv  | egrep '4G' | grep POST | cut -f 1,3 | more
-       - *PRE*
-       : cat  AllData.csv  | egrep '4G' | grep PRE | cut -f 1,3 | more
-**** Roam
-       - *POST*  
-       : cat  AllData.csv  | egrep '4G' | grep POST | grep Y | cut -f 1,3 | more
-       - *PRE*
-       : cat  AllData.csv  | egrep '4G' | grep PRE  | grep Y | cut -f 1,3 | more
-**** Incollect
-**** Outcollect
 ** Voice
-   Get total voice volume for the last 23 days
-   1. cat ../data/voice.dat | grep POST | cut -f 1,3 | ./sumBy.py | grep '^201912' > voiceSubset.csv
-   2. cat voiceSubset.csv | ./statAnalysis
-   3. ((echo -e "Date\tVolume\tLinear Regression\tPolyfit");cat ../data/voice.dat | grep POST | cut -f 1,3 | ./sumBy.py | grep '^201912' | ./functionGenerator.py -p 3 -lr) > voiceAnal.dat
-
 ** SMS
 ** Picture Messaging
 ** Premium SMS
@@ -156,6 +121,30 @@
     - *Parameters:* The name of the *SQL* to run.
     - *Description:* Reads in a an *sql* file and prints outs the results.
 
+** /PlotData/
+    - *Language:* shell
+    - *[[file:~/workspace/usageUtlities/bin/PlotData][Source Code]]*
+    - *Parameters:* None
+    - *Description:* Plots 90 days of data usage.
+
+** /PlotVoice/
+    - *Language:* shell
+    - *[[file:~/workspace/usageUtlities/bin/PlotVoice][Source Code]]*
+    - *Parameters:* None
+    - *Description:* Plots 90 days of voice usage.
+
+** /makePicSeries.pl/
+    - *Language:* Perl
+    - *[[file:~/workspace/usageUtlities/src/makePicSeries.pl][Source Code]]*
+    - *Parameters:*  
+    - *Description:* Takes in a Date/(record/volume) series of numbers and plots a picture.
+
+** /toSheet.py/
+    - *Language:* Python
+    - *[[file:~/workspace/usageUtlities/src/toSheet.py][Source Code]]*
+    - *Parameters:* /input and output/
+    - *Description:* Takes a CSV file and converts it into a spreadsheet.
+
 * Data Decomposition
    - *Table/Field Name:*
    - *Purpose of File/Table:*
@@ -173,29 +162,8 @@
 *** [[file:~/workspace/usageUtlities/lib/data.sql][Data]]
 *** [[file:~/workspace/usageUtlities/lib/voice.sql][Voice]]
 *** [[file:~/workspace/usageUtlities/lib/sms.sql][SMS]] 
-*** Picture Messaging
-   :   Select /*+ Parallel (T1,16) */
-   :         To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd') "Date",
-   :          Count (*)                     "Records",
-   :          Round (Sum (T1.L3_Duration), 8) "Minutes Of Use",
-   :          'Cdma Voice'                  "Volume Type",
-   :          T1.Event_Type_Id              "Event Type",
-   :          T1.L3_Payment_Category        "Payment Category",
-   :          T1.L9_Nt_Roaming_Ind          "Roaming Indicator"
-   :     From Ape1_Rated_Event T1
-   :    Where     Trunc (T1.Sys_Creation_Date) Between Trunc (Sysdate - 90)
-   :                                               And Trunc (Sysdate - 1)
-   :          And Event_Type_Id = 60
-   : Group By To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd'),
-   :          T1.L9_Volume_Type,
-   :          T1.Event_Type_Id,
-   :          T1.L3_Payment_Category,
-   :          T1.L9_Nt_Roaming_Ind
-   : Order By To_Char (Trunc (T1.Sys_Creation_Date), 'Yyyymmdd'),
-   :          T1.L9_Volume_Type,
-   :          T1.Event_Type_Id,
-   :          T1.L3_Payment_Category,
-   :          T1.L9_Nt_Roaming_Ind Asc
+*** [[file:~/workspace/usageUtlities/lib/mms.sql][Picture Messaging]]
+
 * Infrastructure Considerations
   These programs are designed to run on a LINUX environment.
 * Testing Approach

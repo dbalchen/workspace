@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-01-31 Fri 16:29 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Usage Bible</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="David Balchen" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">The Usage Bible</h1>
+<div id="outline-container-orgheadline15" class="outline-2">
+<h2 id="orgheadline15"><span class="section-number-2">1</span> Task List</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Phases Legend</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>(a) Help find usage for this number</li>
+<li>(b) Where is the money?</li>
+<li>(c) Help find this roaming usage</li>
+<li>(d) What's wrong with the bill?</li>
+<li>(e) Call Detail Records (UFF)</li>
+<li>(f) Rated usage</li>
+<li>(g) The raw switch records</li>
+<li>(h) Check Data Issues</li>
+<li>(i) Check post-paid usage file processing</li>
+<li>(j) Post and Pre-Pay rating</li>
+<li>(k) Roaming file and rating</li>
+<li>(l) Pre-Pay connection issues</li>
+<li>(m) Rating errors</li>
+<li>(n) file errors</li>
+<li>(o) roaming errors</li>
+<li>(p) UFF creation and file transfer</li>
+<li>(q) Incorrect rate</li>
+<li>(r) missing usage</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14"><span class="section-number-3">1.2</span> <span class="todo TODO">TODO</span> Usage Playbook</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-orgheadline2" class="outline-4">
+<h4 id="orgheadline2"><span class="section-number-4">1.2.1</span> Usage Issue Flow Chart</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+digraph BI {
+"Satish" -&gt; "TOPS"
+"Amit Droer" -&gt; "TOPS"
+"Serhiy" -&gt; "TOPS"
+"Heather Jescke" -&gt; "Revenue Accounting"
+"Miquel Jones" -&gt; "Revenue Accounting"
+"Ellen Sveinsson" -&gt; "ICS"
+"Liz Pierce" -&gt; "ICS"
+"Ilham Elgarni" -&gt; "ICS"
+"Craig Stalsberg" -&gt; "PDC"
+"Yogesh Prasad (Amdocs)" -&gt; "EPC"
+"John Schultz" -&gt; "EPC"
+"John Samz" -&gt; "EPC"
+"David Balchen" -&gt; "Usage"
+"David Balchen" -&gt; "CallDump"
+"David Balchen" -&gt; "EPS Monitors"
+"David Smith" -&gt; "Usage"
+"David Smith" -&gt; "FYI Messages"
+"Bill Pack" -&gt; "Engineering"
+"Christien Bekos" -&gt; "Revenue Assurance"
+"Deanna Andrews" -&gt; "Revenue Assurance"
+"Shawntrice Moses Butler" -&gt; "Amdocs"
+"Ellen Sveinsson" -&gt; "TNS"
+"Ilham Elgarni" -&gt; "TNS"
+"George Kamba" -&gt; "CallDump"
+"Connie Dwyer" -&gt; "Queen"
+"Denise Lintz" -&gt; "Supreme Monarch"
+"Izabela Miller" -&gt; "CallDump"
+"Soly Haddock" -&gt; "CallDump"
+"Connie Davis" -&gt; "CallDump"
+}
+</p>
+
+<p>
+digraph BI {
+        graph [splines=true nodesep=0.8  constraint=false overlap=false style=bold];
+        node [shape=point]; "";        
+        node [shape=plaintext]; "PDC";
+        "Usage Inquiry" -&gt; "CallDump"  [label = "(e)"]
+        "Usage Inquiry" -&gt; ""  [label = "(f)"]
+        "Usage Inquiry" -&gt; "PDC"  [label = "(g)"]
+        "Usage Inquiry" -&gt; "Engineering"  [label = "(h)"]
+        "" -&gt; "ANF"  [label = "(i)"]
+        "" -&gt; "TC"  [label = "(j)"]
+        "" -&gt; "ARCM/ARPM"  [label = "(k)"]
+        "TC" -&gt; "PDC"  [label = "(l)"]
+        "TC" -&gt; "AEM"  [label = "(m)"]
+        "ANF" -&gt; "AEM"  [label = "(n)"]
+        "ARCM/ARPM" -&gt; "AEM"  [label = "(o)"]
+        "CallDump" -&gt; "PDC"  [label = "(p)"]
+        "TC" -&gt; "EPC"  [label = "(q)"] 
+        "PDC" -&gt; "Engineering"  [label = "(r)"]
+        "Revenue\nAssurance" -&gt; "Usage Inquiry"  [label = "(d)"]
+        "ICS" -&gt; "Usage Inquiry" [label = "(c)"]
+        "Revenue\nAccounting" -&gt; "Usage Inquiry" [label = "(b)"]
+        "Subpoena\nTeam" -&gt; "Usage Inquiry" [label = "(a)"]
+</p>
+
+<p>
+subgraph cluster_2 {
+        "";
+        "ANF";
+        "TC";
+        "ARCM/ARPM";
+        "AEM";
+        "EPC";
+        label = "TOPS";        
+}
+</p>
+
+<p>
+        subgraph cluster_3 {
+                "Revenue\nAssurance";
+                "Revenue\nAccounting";
+                "Subpoena\nTeam";
+                "ICS";
+                color="#FFFFFF";
+        }
+}
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgheadline3" class="outline-4">
+<h4 id="orgheadline3"><span class="section-number-4">1.2.2</span> Purpose of this document</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>The purpose of this document is to describe the Usage process flow, including a high level description of the data flow, potential points of failure, automated monitoring and alerts, and mitigation and fail over plans.</li>
+
+<li>This document will also list the system owners, support contacts, and the impacted business areas and contacts.</li>
+
+<li>This document will provide a clear understanding of the impact to business processing and the level of urgency to resolve issues.</li>
+
+<li>This document will describe the process inputs and outputs noting data hand-offs between systems or between vendors.</li>
+
+<li>This document will be the updated source for internal and external contacts, including on and off hour support contacts, escalation points and expected response times.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="orgheadline4"><span class="section-number-4">1.2.3</span> Definition of Responsibilities</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Role</th>
+<th scope="col" class="org-left">Team</th>
+<th scope="col" class="org-left">Responsibilities</th>
+<th scope="col" class="org-left">Best Practices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Process Owner</td>
+<td class="org-left">IS Billing Ops</td>
+<td class="org-left">First point of contact and technical SME for process issues</td>
+<td class="org-left">Join Incident Bridges and use the Playbook as a guide in issue resolution</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Initial triage of issues to identify areas of failure</td>
+<td class="org-left">Maintain documentation (Playbook)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Involvement in projects impacting the process</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Business Partner</td>
+<td class="org-left">Mediation</td>
+<td class="org-left">It is this team that provides the usage files we process.</td>
+<td class="org-left">They are the first leg in usage processing.</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Business Partner</td>
+<td class="org-left">Inter-carrier services</td>
+<td class="org-left">This team holds the business relationship between us and our roaming partners</td>
+<td class="org-left">Questions pertaining to our roaming partners</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Business Partner</td>
+<td class="org-left">Amdocs</td>
+<td class="org-left">They own the <b>TOPS</b> usage processing stack</td>
+<td class="org-left">Issues involving the usage flow from file to database</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">Business Partner</td>
+<td class="org-left">Revenue Accounting</td>
+<td class="org-left">APRM charges reconciliation</td>
+<td class="org-left">Cash differences between APRM and the Clearinghouse</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Organization</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Finance</td>
+</tr>
+
+<tr>
+<td class="org-left">ICS (Inter-carrier Services)</td>
+</tr>
+
+<tr>
+<td class="org-left">RA (Revenue Assurance)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-4">
+<h4 id="orgheadline5"><span class="section-number-4">1.2.4</span> Impacted Systems</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+It has been said that all roads lead through Turbo-Charging so there is no subsystem that is unaffected, but here are some that are impacted the most.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Areas/Teams</th>
+<th scope="col" class="org-left">Impact</th>
+<th scope="col" class="org-left">Direction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Engineering</td>
+<td class="org-left">Collects the call records and sends them to Mediation</td>
+<td class="org-left">Upstream</td>
+</tr>
+
+<tr>
+<td class="org-left">NDC (Mediation)</td>
+<td class="org-left">Converts the raw switch records to the UFF format sends all files to the CallDump, sends just the billable records to <b>TOPS</b></td>
+<td class="org-left">Upstream</td>
+</tr>
+
+<tr>
+<td class="org-left">EPC/BPT</td>
+<td class="org-left">Creates the rating configuration for Turbo-Charging</td>
+<td class="org-left">Upstream</td>
+</tr>
+
+<tr>
+<td class="org-left">IS Billing</td>
+<td class="org-left">Without Usage there can be no bills.</td>
+<td class="org-left">Downstream</td>
+</tr>
+
+<tr>
+<td class="org-left">Revenue Accounting</td>
+<td class="org-left">Processing late or missing usage will cause the financial’s to be off.</td>
+<td class="org-left">Downstream</td>
+</tr>
+
+<tr>
+<td class="org-left">Revenue Assurance</td>
+<td class="org-left">Bill accuracy will be affected.</td>
+<td class="org-left">Downstream</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgheadline6" class="outline-4">
+<h4 id="orgheadline6"><span class="section-number-4">1.2.5</span> Data Flow Diagram</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<p>
+<a href="uf.png">Usage Flow</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-4">
+<h4 id="orgheadline7"><span class="section-number-4">1.2.6</span> Phases</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<p>
+Need Picture - Boiler plate
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-4">
+<h4 id="orgheadline8"><span class="section-number-4">1.2.7</span> Checklist</h4>
+</div>
+
+<div id="outline-container-orgheadline9" class="outline-4">
+<h4 id="orgheadline9"><span class="section-number-4">1.2.8</span> Alerting and Monitoring</h4>
+<div class="outline-text-4" id="text-1-2-8">
+<p>
+Usage has the most complete and thorough monitoring systems within all of <b>TOPS</b>, every usage feed and sub-system has an associated report. 
+The <a href="https://usc.intranet.teldta.com/sites/is/operations/IS_Billing_Ops/Shared%20Documents/Operational%20Support%20Guide%20-%20Usage.docx"><b>Usage Operational Support Guide</b></a> has a list of all of the monitoring reports currently active.
+In addition the <a href="https://kpr01scd01.uscc.com:8080/WebMonitor/servlet/WebMonitor?MonName=Dash">EPS Monitors</a> provides a dashboard to the entire usage process flow.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="orgheadline10"><span class="section-number-4">1.2.9</span> Known Issues and Resolution Plans</h4>
+</div>
+
+<div id="outline-container-orgheadline11" class="outline-4">
+<h4 id="orgheadline11"><span class="section-number-4">1.2.10</span> Internal Contacts</h4>
+<div class="outline-text-4" id="text-1-2-10">
+<ul class="org-ul">
+<li><b>Mediation</b>
+     The teams purpose is to provision customers on our network as well as handling all Usage files that originate outside of <b>TOPS</b>
+<ul class="org-ul">
+<li><b>Manager</b> Craig Stalsberg</li>
+<li><b>Email</b> USCDLISProvisioningandDataCollection@uscellular.com</li>
+<li><b>When to Contact</b> Missing Usage (UFF, TAP, CIBER) files</li>
+</ul></li>
+<li><b>ICS (Inter-carrier Services)</b>
+     This team owns the business relationship between USCC and other cellular carriers that we have roaming agreements with.
+<ul class="org-ul">
+<li><b>Manager</b> Liz Pierce</li>
+<li><b>Email</b> USCDLIntercarrierBusinessDepartment@uscellular.com</li>
+<li><b>When to Contact</b> Whenever we have any question about anything for our Roaming partners. Missing a roaming file from AT&amp;T??? Call ICS&#x2026;.</li>
+</ul></li>
+<li><b>Revenue Accounting</b>
+     Looks at usage from a financial standpoint to see if all revenue is accounted for.
+<ul class="org-ul">
+<li><b>Manager</b>  Heather B Jeschke</li>
+<li><b>Email</b> Heather.Jeschke@uscellular.com; Miguel.Jones@uscellular.com</li>
+<li><b>When to Contact</b> They will contact us mostly about roaming usage.</li>
+</ul></li>
+<li><b>Engineering</b>
+     This group handles all towers, switches etc. that produce usage.
+<ul class="org-ul">
+<li><b>Manager</b>  <b>*</b></li>
+<li><b>Email</b> William.Pack@uscellular.com</li>
+<li><b>When to Contact</b> When there is a large decrease/increase in data usage records/volume.</li>
+</ul></li>
+<li><b>Revenue Assurance</b>
+     Looks at random bills to find issues that may have occured while processing usage.
+<ul class="org-ul">
+<li><b>Manager</b>  Sangeeta Khedekar</li>
+<li><b>Email</b> Sangeeta.Khedekar@uscellular.com; Christine.Bekos@uscellular.com; Deanna.Andrews@uscellular.com</li>
+<li><b>When to Contact</b> They will contact us if they see any discrepancy on the bill.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">1.2.11</span> External Contacts</h4>
+<div class="outline-text-4" id="text-1-2-11">
+<ul class="org-ul">
+<li><b>TNS</b>
+     The roaming clearinghouse for TAP (data, VoLTE, GSM) usage. The business relationship is help by ICS, contact them for any questions.</li>
+<li><b>Syniverse</b>
+      The roaming clearinghouse for CDMA (voice, 3G) usage, contact through ICS.</li>
+<li><b>Valista</b></li>
+<li><b>Amdocs</b>
+     Our business partner for all billing. The three gentlemen below are our usage experts for all things TOPS. If there is a question you can't answer these are the guys to contact.     
+<ul class="org-ul">
+<li><b>Serhiy Potishuk</b>
+<ul class="org-ul">
+<li><b>Email</b>  SERHIYP@amdocs.com</li>
+<li><b>When to contact</b> Serhiy's is the <b>SME</b> for <b>APRM</b></li>
+</ul></li>
+<li><b>Amit Dror</b>
+<ul class="org-ul">
+<li><b>Email</b> Amit.Dror@amdocs.com&gt;</li>
+<li><b>When to contact</b> Handles most <b>Turbo-Charging</b> questions.</li>
+</ul></li>
+<li><b>Satish Kumar Thatikonda</b>
+<ul class="org-ul">
+<li><b>Email</b> Satish.Thatikonda@amdocs.com</li>
+<li><b>When to contact</b> Most everything that is usage related.</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13"><span class="section-number-4">1.2.12</span> Reference Data</h4>
+<div class="outline-text-4" id="text-1-2-12">
+<p>
+<a href="https://usc.intranet.teldta.com/sites/is/operations/IS_Billing_Ops/Shared%20Documents/Operational%20Support%20Guide%20-%20Usage.docx"><b>Usage Operational Support Guide</b></a>
+</p>
+
+<p>
+<a href="https://usc.intranet.teldta.com/sites/is/operations/IS_Billing_Ops/Shared%20Documents/Usage.pdf"><b>The Usage Bible</b></a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: David Balchen</p>
+<p class="date">Created: 2020-01-31 Fri 16:29</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
