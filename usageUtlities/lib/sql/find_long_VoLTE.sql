@@ -13,10 +13,14 @@ select a.customer_id,
        a.l9_dialed_digits,
        a.l9_toll_duration,
        a.l9_balance_amount,
-       a.l9_daily_surcharge_ind
-  from ape1_rated_event a
+       a.l9_daily_surcharge_ind,
+       a.l3_offer_id,
+       b.soc_name
+  from ape1_rated_event a, csm_offer b
  where     1 = 1
+       and b.soc_cd = a.l3_offer_id
        and a.event_type_id = 62
-       and a.l3_duration > 360
+       and a.l3_duration > 3600
        and a.l9_session_identifier like 'RO_CTS%'
        and a.sys_creation_date > sysdate - 1
+       and a.service_filter not like 'SPL%'

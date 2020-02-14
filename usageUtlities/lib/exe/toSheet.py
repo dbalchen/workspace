@@ -4,7 +4,7 @@
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
-from openpyxl.drawing.image import Image
+#from openpyxl.drawing.image import Image
 
 import fileinput
 
@@ -44,49 +44,62 @@ parser.add_argument("--input", "-i", help="Input CSV Files")
 
 parser.add_argument("--output", "-o", help="Output File Name")
 
+parser.add_argument("--tabnames", "-t", help="Tab Names")
+
 args = parser.parse_args()
 
-inp = '-'
+inp = []
 if args.input:
-    inp = args.input
-inp = inp.split(";")
+    inp = args.input.split("::")
 
 excel_file = 'statSheet.xlsx'
 
 if args.output:
     excel_file = args.output
 
+sheetList = []
+if args.tabnames:
+    sheetList = args.tabnames.split("::")
+    
 # Setup First Sheet
 wb = Workbook()
 
 sheet = None
 
 for file in inp: 
-            
-    sheetname = (file.split('/'))[-1]   
-     
+        
     results = []
     
-    if file == '-':
-        sheetname = "sheet1"
- 
+    sheetname = "sheet1"
+    
+    if len(sheetList) > 0:
+        sheetname = sheetList[0]
+        sheetList.pop(0)
+        
     if sheet == None:
         sheet = wb.active
         sheet.title = sheetname
     else :
         sheet = wb.create_sheet(sheetname)
     
-    img = Image('test.png')
-    img.anchor = 'AF1'
-    img.width = img.width*0.7
-    img.height = img.height*0.7
-    sheet.add_image(img)
+#     img = Image('test.png')
+#     img.anchor = 'AF1'
+#     img.width = img.width*0.7
+#     img.height = img.height*0.7
+#     sheet.add_image(img)
     
-    for line in fileinput.input(file):
-        try:
-            line = line.rstrip()
-            results.append(tuple(line.split("\t")))
-        except:pass
+    try:
+        for line in fileinput.input(file):
+                line = line.rstrip()
+                results.append(tuple(line.split("\t")))
+    except:
+        allLines = []
+        allLines = file.split("\n")
+        
+        for line in allLines:
+                line = line.rstrip()
+                results.append(tuple(line.split("\t")))
+        
     printSheet (sheet,results)   
 wb.save(excel_file)
 
