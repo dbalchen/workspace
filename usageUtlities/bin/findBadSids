@@ -1,9 +1,1 @@
-#! /bin/sh
-
-source /home/dbalchen/.bashrc
-
-export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities
-
-${UTLITIES_HOME}/bin/findBadSids.pl 1>> ${UTLITIES_HOME}/log/findBadSids.log 2>> ${UTLITIES_HOME}/log/findBadSids.err
-
-exit 0
+../src/findBadSids

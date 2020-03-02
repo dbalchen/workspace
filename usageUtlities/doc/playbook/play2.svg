@@ -18,7 +18,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="play.svg">
+   sodipodi:docname="play2.svg">
   <metadata
      id="metadata263">
     <rdf:RDF>
@@ -27,7 +27,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -46,42 +46,35 @@
      inkscape:window-height="917"
      id="namedview259"
      showgrid="false"
-     inkscape:zoom="0.85990054"
-     inkscape:cx="452.85012"
-     inkscape:cy="379.56138"
+     inkscape:zoom="4.8643321"
+     inkscape:cx="741.00727"
+     inkscape:cy="71.27032"
      inkscape:window-x="0"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" />
+     inkscape:current-layer="edge14" />
   <g
      id="graph0"
      class="graph"
      transform="scale(1 1) rotate(0) translate(4 487.3)">
     <title
        id="title5">BI</title>
-    <polygon
-       points="-4,4 -4,-487.3 767,-487.3 767,4 -4,4"
-       id="polygon7"
-       stroke="none"
-       fill="white" />
     <g
        id="clust1"
-       class="cluster">
+       class="cluster"
+       transform="translate(-2.7927256,54.923605)">
       <title
          id="title10">cluster_2</title>
       <polygon
-         points="8,-79 8,-301.3 348,-301.3 348,-79 8,-79"
+         points="8,-301.3 348,-301.3 348,-79 8,-79 8,-79 "
          id="polygon12"
-         stroke-width="2"
-         stroke="black"
-         fill="none" />
+         style="fill:none;stroke:#000000;stroke-width:2" />
       <text
          x="178"
-         y="-286.1"
+         y="-286.10001"
          font-size="14.00"
          id="text14"
-         text-anchor="middle"
-         font-family="Times,serif">TOPS</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">TOPS</text>
     </g>
     <g
        id="clust2"
@@ -97,22 +90,23 @@
     </g>
     <g
        id="node1"
-       class="node">
+       class="node"
+       transform="matrix(1.9999775,0.17203084,0,1.0120261,-256.32886,-42.277738)">
       <title
          id="title22" />
-      <circle
-         cx="260"
-         cy="-268.5"
+      <ellipse
+         cx="256.74182"
+         cy="-212.64549"
          id="ellipse24"
-         stroke="black"
-         fill="black"
-         ry="1.8"
-         rx="1.8" />
+         ry="1.9178386"
+         rx="0.98693007"
+         style="fill:#000000;stroke:#000000;stroke-width:0.76432264" />
     </g>
     <!-- ANF -->
     <g
        id="node6"
-       class="node">
+       class="node"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title27">ANF</title>
       <text
@@ -120,37 +114,36 @@
          y="-188.3"
          font-size="14.00"
          id="text29"
-         text-anchor="middle"
-         font-family="Times,serif">ANF</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">ANF</text>
     </g>
     <!-- &#45;&gt;ANF -->
     <g
        id="edge5"
-       class="edge">
+       class="edge"
+       transform="matrix(0.9938171,0,0,1.020228,-2.3608701,59.663358)">
       <title
          id="title32">-&gt;ANF</title>
       <path
-         d="M258.614,-267.024C245.204,-262.42 137.735,-225.524 79.7652,-205.622"
+         d="m 258.614,-267.024 c -13.41,4.604 -120.879,41.5 -178.8488,61.402"
          id="path34"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
       <polygon
-         points="80.8239,-202.285 70.2292,-202.348 78.5508,-208.906 80.8239,-202.285"
+         points="80.8239,-202.285 80.8239,-202.285 70.2292,-202.348 78.5508,-208.906 "
          id="polygon36"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000" />
       <text
          x="190.5"
          y="-231.8"
          font-size="14.00"
          id="text38"
-         text-anchor="middle"
-         font-family="Times,serif">(i)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(i)</text>
     </g>
     <!-- TC -->
     <g
        id="node7"
-       class="node">
+       class="node"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title41">TC</title>
       <text
@@ -158,37 +151,37 @@
          y="-188.3"
          font-size="14.00"
          id="text43"
-         text-anchor="middle"
-         font-family="Times,serif">TC</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">TC</text>
     </g>
     <!-- &#45;&gt;TC -->
     <g
        id="edge6"
-       class="edge">
+       class="edge"
+       transform="matrix(0.98606197,0,0,1.0162751,1.4069501,58.896092)">
       <title
          id="title46">-&gt;TC</title>
       <path
-         d="M260.595,-266.663C263.983,-261.901 281.171,-237.741 294.952,-218.369"
+         d="m 259.66409,-266.19755 c 3.388,4.762 21.50691,28.45655 35.28791,47.82855"
          id="path48"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000"
+         sodipodi:nodetypes="cc" />
       <polygon
-         points="297.846,-220.339 300.791,-210.162 292.142,-216.281 297.846,-220.339"
+         points="297.846,-220.339 300.791,-210.162 292.142,-216.281 297.846,-220.339 "
          id="polygon50"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000" />
       <text
          x="295.5"
          y="-231.8"
          font-size="14.00"
          id="text52"
-         text-anchor="middle"
-         font-family="Times,serif">(j)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(j)</text>
     </g>
     <!-- ARCM/ARPM -->
     <g
        id="node8"
-       class="node">
+       class="node"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title55">ARCM/ARPM</title>
       <text
@@ -196,32 +189,30 @@
          y="-188.3"
          font-size="14.00"
          id="text57"
-         text-anchor="middle"
-         font-family="Times,serif">ARCM/ARPM</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">ARCM/ARPM</text>
     </g>
     <!-- &#45;&gt;ARCM/ARPM -->
     <g
        id="edge7"
-       class="edge">
+       class="edge"
+       transform="matrix(0.98800367,0,0,1.0090876,-0.44035802,57.392528)">
       <title
          id="title60">-&gt;ARCM/ARPM</title>
       <path
-         d="M259.079,-266.663C253.72,-261.794 226.042,-236.648 204.497,-217.073"
+         d="m 259.079,-266.663 c -5.359,4.869 -33.037,30.015 -54.582,49.59"
          id="path62"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
       <polygon
-         points="206.645,-214.296 196.89,-210.162 201.938,-219.477 206.645,-214.296"
+         points="206.645,-214.296 196.89,-210.162 201.938,-219.477 206.645,-214.296 "
          id="polygon64"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000" />
       <text
          x="240"
          y="-231.8"
          font-size="14.00"
          id="text66"
-         text-anchor="middle"
-         font-family="Times,serif">(k)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(k)</text>
     </g>
     <!-- PDC -->
     <g
@@ -263,17 +254,16 @@
          stroke="black"
          fill="none" />
       <polygon
-         points="604.28,-44.3345 610.985,-36.1315 600.628,-38.3626 604.28,-44.3345"
+         points="610.985,-36.1315 600.628,-38.3626 604.28,-44.3345 604.28,-44.3345 "
          id="polygon83"
-         stroke="black"
-         fill="black" />
+         transform="translate(0,0.32912588)"
+         style="fill:#000000;stroke:#000000" />
       <text
-         x="585"
-         y="-57.8"
+         x="587.30389"
+         y="-60.597569"
          font-size="14.00"
          id="text85"
-         text-anchor="middle"
-         font-family="Times,serif">(r)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(r)</text>
     </g>
     <!-- Usage Inquiry -->
     <g
@@ -292,26 +282,126 @@
     <!-- Usage Inquiry&#45;&gt; -->
     <g
        id="edge2"
-       class="edge">
+       class="edge"
+       transform="matrix(0.98689583,0,0,0.98354068,9.1960171,52.110311)">
       <title
          id="title93">Usage Inquiry-&gt;</title>
       <path
-         d="M468.79,-348.53C443.634,-342.331 412.325,-333.878 385,-324.3 341.297,-308.982 291.47,-285.114 270.34,-274.678"
+         d="m 470.6534,-412.78422 c -26.75423,6.20831 -79.85341,41.7109 -104.95424,57.82943 -44.49947,30.25792 -85.6115,59.75561 -108.08395,78.59805"
          id="path95"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000;stroke-width:1.03205144"
+         sodipodi:nodetypes="ccc" />
       <polygon
-         points="271.713,-271.452 261.203,-270.112 268.584,-277.713 271.713,-271.452"
+         points="271.713,-271.452 271.713,-271.452 261.203,-270.112 268.584,-277.713 "
          id="polygon97"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000"
+         transform="matrix(1.2635608,-0.46806519,0.05989405,1.0865331,-60.830397,143.83901)" />
       <text
-         x="392"
-         y="-313.1"
+         x="389.60602"
+         y="-338.28519"
          font-size="14.00"
          id="text99"
-         text-anchor="middle"
-         font-family="Times,serif">(f)</text>
+         style="font-size:14.08385181px;font-family:Times, serif;text-anchor:middle"
+         transform="scale(0.99403507,1.0060007)">(f)</text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.25000191px;line-height:100%;font-family:'Andale Mono';-inkscape-font-specification:'Andale Mono, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="27.469065"
+         y="-490.08969"
+         id="text4281"
+         sodipodi:linespacing="100%"
+         transform="scale(0.99829869,1.0017042)"><tspan
+           sodipodi:role="line"
+           id="tspan4283"
+           x="27.469065"
+           y="-490.08969"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(a) Help find usage for this number</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-479.93344"
+           id="tspan4285"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(b) Where is the money?</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-469.77719"
+           id="tspan4287"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(c) Help find this roaming usage</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-459.62094"
+           id="tspan4289"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(d) What's wrong with the bill?</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-449.46469"
+           id="tspan4291"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(e) Call Detail Records (UFF)</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-439.30844"
+           id="tspan4293"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(f) Rated usage</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-429.15219"
+           id="tspan4295"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(g) The raw switch records</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-418.99594"
+           id="tspan4297"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(h) Check Data Issues</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-408.83969"
+           id="tspan4299"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(i) Check post-paid usage file processing</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-398.68344"
+           id="tspan4301"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(j) Post and Pre-Pay rating</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-388.52719"
+           id="tspan4303"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(k) Roaming file and rating</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-378.37094"
+           id="tspan4305"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(l) Pre-Pay connection issues</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-368.21469"
+           id="tspan4307"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(m) Rating errors</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-358.05844"
+           id="tspan4309"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(n) file errors</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-347.90219"
+           id="tspan4311"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(o) roaming errors</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-337.74594"
+           id="tspan4313"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(p) UFF creation and file transfer</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-327.58966"
+           id="tspan4315"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(q) Incorrect rate</tspan><tspan
+           sodipodi:role="line"
+           x="27.469065"
+           y="-317.43341"
+           id="tspan4317"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.15625095px;font-family:'Courier New';-inkscape-font-specification:'Courier New Bold'">(r) missing usage</tspan></text>
     </g>
     <!-- Usage Inquiry&#45;&gt;PDC -->
     <g
@@ -426,7 +516,8 @@
     <!-- AEM -->
     <g
        id="node9"
-       class="node">
+       class="node"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title143">AEM</title>
       <text
@@ -434,85 +525,84 @@
          y="-101.3"
          font-size="14.00"
          id="text145"
-         text-anchor="middle"
-         font-family="Times,serif">AEM</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">AEM</text>
     </g>
     <!-- ANF&#45;&gt;AEM -->
     <g
        id="edge10"
-       class="edge">
+       class="edge"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title148">ANF-&gt;AEM</title>
       <path
-         d="M65.2601,-173.799C81.81,-161.01 104.578,-143.417 122.773,-129.357"
+         d="m 65.2601,-173.799 c 16.5499,12.789 39.3179,30.382 57.5129,44.442"
          id="path150"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
       <polygon
-         points="125,-132.059 130.773,-123.175 120.72,-126.52 125,-132.059"
+         points="120.72,-126.52 125,-132.059 125,-132.059 130.773,-123.175 "
          id="polygon152"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000" />
       <text
          x="113"
          y="-144.8"
          font-size="14.00"
          id="text154"
-         text-anchor="middle"
-         font-family="Times,serif">(n)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(n)</text>
     </g>
     <!-- TC&#45;&gt;PDC -->
     <g
        id="edge8"
-       class="edge">
+       class="edge"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title157">TC-&gt;PDC</title>
       <path
-         d="M336.653,-173.816C351.898,-163.31 372.458,-150.172 392,-141 414.797,-130.3 441.74,-121.563 463.012,-115.494"
+         d="m 336.81987,-174.1656 c 15.18507,10.5904 33.89614,29.18065 55.15968,33.1225 23.66677,4.38737 56.14522,-4.2034 77.3824,-14.57373"
          id="path159"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000"
+         sodipodi:nodetypes="csc" />
       <polygon
-         points="463.955,-118.864 472.653,-112.814 462.081,-112.12 463.955,-118.864"
+         points="463.955,-118.864 463.955,-118.864 472.653,-112.814 462.081,-112.12 "
          id="polygon161"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000"
+         transform="matrix(0.79819114,-0.60961091,0.6096557,0.78721402,170.42561,216.91544)" />
       <text
-         x="398.5"
-         y="-144.8"
+         x="402.68912"
+         y="-146.17978"
          font-size="14.00"
          id="text163"
-         text-anchor="middle"
-         font-family="Times,serif">(l)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(l)</text>
     </g>
     <!-- TC&#45;&gt;AEM -->
     <g
        id="edge9"
-       class="edge">
+       class="edge"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title166">TC-&gt;AEM</title>
       <path
-         d="M285.858,-176.581C259.229,-162.434 218.457,-140.774 189.104,-125.18"
+         d="m 285.858,-176.581 c -26.629,14.147 -67.401,35.807 -96.754,51.401"
          id="path168"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
       <polygon
-         points="190.481,-121.948 180.007,-120.348 187.197,-128.13 190.481,-121.948"
+         points="187.197,-128.13 190.481,-121.948 190.481,-121.948 180.007,-120.348 "
          id="polygon170"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000" />
       <text
-         x="253.5"
-         y="-144.8"
+         x="251.1727"
+         y="-141.8105"
          font-size="14.00"
          id="text172"
-         text-anchor="middle"
-         font-family="Times,serif">(m)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(m)</text>
     </g>
     <!-- EPC -->
     <g
        id="node10"
-       class="node">
+       class="node"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title175">EPC</title>
       <text
@@ -520,56 +610,53 @@
          y="-101.3"
          font-size="14.00"
          id="text177"
-         text-anchor="middle"
-         font-family="Times,serif">EPC</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">EPC</text>
     </g>
     <!-- TC&#45;&gt;EPC -->
     <g
        id="edge13"
-       class="edge">
+       class="edge"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title180">TC-&gt;EPC</title>
       <path
-         d="M311.242,-173.929C310.735,-168.234 310.25,-161.849 310,-156 309.685,-148.645 309.907,-140.687 310.344,-133.328"
+         d="m 311.242,-173.929 c -0.507,5.695 -0.992,12.08 -1.242,17.929 -0.315,7.355 -0.093,15.313 0.344,22.672"
          id="path182"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
       <polygon
-         points="313.852,-133.349 311.103,-123.117 306.872,-132.83 313.852,-133.349"
+         points="306.872,-132.83 313.852,-133.349 313.852,-133.349 311.103,-123.117 "
          id="polygon184"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000" />
       <text
-         x="318"
-         y="-144.8"
+         x="320.55075"
+         y="-145.45044"
          font-size="14.00"
          id="text186"
-         text-anchor="middle"
-         font-family="Times,serif">(q)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(q)</text>
     </g>
     <!-- ARCM/ARPM&#45;&gt;AEM -->
     <g
        id="edge11"
-       class="edge">
+       class="edge"
+       transform="matrix(0.99998875,0,0,1.0120261,-2.7898933,58.003828)">
       <title
          id="title189">ARCM/ARPM-&gt;AEM</title>
       <path
-         d="M158.419,-173.831C153.786,-168.619 149.475,-162.527 147,-156 144.272,-148.806 144.129,-140.65 145.115,-133.043"
+         d="m 158.419,-173.831 c -4.633,5.212 -8.944,11.304 -11.419,17.831 -2.728,7.194 -2.871,15.35 -1.885,22.957"
          id="path191"
-         stroke="black"
-         fill="none" />
+         inkscape:connector-curvature="0"
+         style="fill:none;stroke:#000000" />
       <polygon
-         points="148.566,-133.634 147.024,-123.152 141.692,-132.308 148.566,-133.634"
+         points="141.692,-132.308 148.566,-133.634 148.566,-133.634 147.024,-123.152 "
          id="polygon193"
-         stroke="black"
-         fill="black" />
+         style="fill:#000000;stroke:#000000" />
       <text
-         x="155"
+         x="156.6291"
          y="-144.8"
          font-size="14.00"
          id="text195"
-         text-anchor="middle"
-         font-family="Times,serif">(o)</text>
+         style="font-size:14px;font-family:Times, serif;text-anchor:middle">(o)</text>
     </g>
     <!-- Revenue\nAssurance -->
     <g
@@ -747,7 +834,7 @@
   </g>
   <text
      xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:18.01099727px;line-height:100%;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:18.01099777px;line-height:100%;font-family:Arial;-inkscape-font-specification:'Arial Bold';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
      x="41.655365"
      y="33.292976"
      id="text4391"
@@ -755,16 +842,5 @@
        sodipodi:role="line"
        id="tspan4393"
        x="41.655365"
-       y="33.292976">Usage Flowchart</tspan></text>
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.0079422px;line-height:100%;font-family:Arial;-inkscape-font-specification:Arial;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-     x="51.895359"
-     y="52.842056"
-     id="text4395"
-     sodipodi:linespacing="100%"><tspan
-       sodipodi:role="line"
-       id="tspan4397"
-       x="51.895359"
-       y="52.842056">See legend for details</tspan></text>
+       y="33.292976">Usage Phases Flowchart</tspan></text>
 </svg>

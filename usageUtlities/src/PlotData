@@ -1,0 +1,103 @@
+#! /bin/sh
+
+export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities
+
+cd ${UTLITIES_HOME}/work
+
+cat ../data/data.dat | cut -f 1,3 | ../lib/bin/sumBy.py > all_data
+
+../lib/bin/makePicSeries.pl -o all_data -i  all_data -s 0.0000000000001 -c "Data Volume / TB" -t "All Data for past 90 Days"
+
+cat ../data/data.dat | grep POST | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_data
+
+../lib/bin/makePicSeries.pl -o all_post_data -i  all_post_data -s 0.0000000000001 -c "Data Volume / TB" -t "All Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep PRE | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_data
+
+../lib/bin/makePicSeries.pl -o all_pre_data -i  all_pre_data -s 0.0000000000001 -c "Data Volume / TB" -t "All Pre Paid Data for past 90 Days"
+
+# Home and Roam
+
+cat ../data/data.dat | grep POST | grep N | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_home_data
+
+../lib/bin/makePicSeries.pl -o all_post_home_data -i  all_post_home_data -s 0.0000000000001 -c "Data Volume / TB" -t "All Home Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep PRE | grep N | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_home_data
+
+../lib/bin/makePicSeries.pl -o all_pre_home_data -i  all_pre_home_data -s 0.0000000000001 -c "Data Volume / TB" -t "All Home Pre Paid Data for past 90 Days"
+
+
+cat ../data/data.dat | grep POST | grep Y | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_roam_data
+
+../lib/bin/makePicSeries.pl -o all_post_roam_data -i  all_post_roam_data -s 0.0000000000001 -c "Data Volume / TB" -t "All Roam Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep PRE | grep Y | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_roam_data
+
+../lib/bin/makePicSeries.pl -o all_pre_roam_data -i  all_pre_roam_data -s 0.0000000000001 -c "Data Volume / TB" -t "All Roam Pre Paid Data for past 90 Days"
+
+
+# 4G
+
+cat ../data/data.dat | grep 4G | cut -f 1,3 | ../lib/bin/sumBy.py > all_data
+
+../lib/bin/makePicSeries.pl -o 4Gall_data -i  all_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 4G Data for past 90 Days"
+
+cat ../data/data.dat | grep 4G | grep POST | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_data
+
+../lib/bin/makePicSeries.pl -o 4Gall_post_data -i  all_post_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 4G Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep 4G | grep PRE | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_data
+
+../lib/bin/makePicSeries.pl -o 4Gall_pre_data -i  all_pre_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 4G Pre Paid Data for past 90 Days"
+
+# Home and Roam
+
+cat ../data/data.dat | grep 4G | grep POST | grep N | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_home_data
+
+../lib/bin/makePicSeries.pl -o 4Gall_post_home_data -i  all_post_home_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 4G Home Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep 4G | grep PRE | grep N | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_home_data
+
+../lib/bin/makePicSeries.pl -o 4Gall_pre_home_data -i  all_pre_home_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 4G Home Pre Paid Data for past 90 Days"
+
+
+cat ../data/data.dat | grep 4G | grep POST | grep Y | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_roam_data
+
+../lib/bin/makePicSeries.pl -o 4Gall_post_roam_data -i  all_post_roam_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 4G Roam Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep 4G | grep PRE | grep Y | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_roam_data
+
+../lib/bin/makePicSeries.pl -o 4Gall_pre_roam_data -i  all_pre_roam_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 4G Roam Pre Paid Data for past 90 Days"
+
+# 3G
+
+cat ../data/data.dat | grep -v 4G | cut -f 1,3 | ../lib/bin/sumBy.py > all_data
+
+../lib/bin/makePicSeries.pl -o 3Gall_data -i  all_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 3G Data for past 90 Days"
+
+cat ../data/data.dat | grep -v 4G | grep POST | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_data
+
+../lib/bin/makePicSeries.pl -o 3Gall_post_data -i  all_post_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 3G Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep -v 4G | grep PRE | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_data
+
+../lib/bin/makePicSeries.pl -o 3Gall_pre_data -i  all_pre_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 3G Pre Paid Data for past 90 Days"
+
+# Home and Roam
+
+cat ../data/data.dat | grep -v 4G | grep POST | grep N | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_home_data
+
+../lib/bin/makePicSeries.pl -o 3Gall_post_home_data -i  all_post_home_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 3G Home Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep -v 4G | grep PRE | grep N | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_home_data
+
+../lib/bin/makePicSeries.pl -o 3Gall_pre_home_data -i  all_pre_home_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 3G Home Pre Paid Data for past 90 Days"
+
+
+cat ../data/data.dat | grep -v 4G | grep POST | grep Y | cut -f 1,3 | ../lib/bin/sumBy.py > all_post_roam_data
+
+../lib/bin/makePicSeries.pl -o 3Gall_post_roam_data -i  all_post_roam_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 3G Roam Post Paid Data for past 90 Days"
+
+cat ../data/data.dat | grep -v 4G | grep PRE | grep Y | cut -f 1,3 | ../lib/bin/sumBy.py > all_pre_roam_data
+
+../lib/bin/makePicSeries.pl -o 3Gall_pre_roam_data -i  all_pre_roam_data -s 0.0000000000001 -c "Data Volume / TB" -t "All 3G Roam Pre Paid Data for past 90 Days"

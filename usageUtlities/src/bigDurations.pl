@@ -2,21 +2,21 @@
 
 my $email = 'david.balchen@uscellular.com';
 
-my $home = '/home/dbalchen/workspace/usageUtlities/'; #chdir($ENV{'UTLITIES_HOME'});
+my $home = '/apps/ebi/ebiap1/bin/usageUtlities';
 
 chdir("$home");
 
 my $date = `date '+%Y%m%d'`;
 chomp($date);
 
-my $filename = "$home/work/LongVoLTEDurations_" . $date . '.xlsx';
+my $filename = "LongVoLTEDurations_" . $date . '.xlsx';
 
 my $subject = "Long Duration Pre-Paid VoLTE calls for $date";
 
 my $salutation =
-"The attached document contains a list pre-paid VoLTE calls that have a duration of more than an hour.\n";
+"\n\nThe attached document contains a list of pre-paid VoLTE calls that have a duration of more than an hour.\nIf you have questions or concerns please contact David Balchen.\n\nDave\n";
 
-my $hh = " $home/lib/exe/printSQL.pl  $home/lib/sql/find_long_VoLTE.sql";
+my $hh = " $home/lib/bin/printSQL.pl  $home/lib/sql/find_long_VoLTE.sql";
 
 my @output = `$hh`;
 
@@ -43,20 +43,22 @@ if ( @out2 > 0 ) {
 }
 
 $hh =
-    'lib/exe/toSheet.py -t "Unlimited::Limited" -i "'
+    'lib/bin/toSheet.py -t "Unlimited::Limited" -i "'
   . $sheetOut . '"'
-  . " -o $filename";
+  . " -o $home".'/work/'."$filename";
 
 system($hh);
 
 $hh =
     'printf "'
   . $salutation
-  . '" | lib/exe/toEmail.py -e "'
+  . '" | lib/bin/toEmail.py -e "'
   . $email
   . '" -sb "'
-  . $subject . '"' . ' -a "'
-  . $filename . '"'.' -s "Hello\n"';
+  . $subject . '"' . ' -a '
+  .  "'$home".'/work/'.$filename ."'".' -s "Hello.."';
+
+print "$hh";
 
 system($hh);
 

@@ -66,3 +66,116 @@ Archived entries from file /home/dbalchen/workspace/CommonPlace/Usage.org
 \normalsize
 \newpage
 #+END_LaTeX
+
+* Phases Legend
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-03-02 Mon 11:39
+  :ARCHIVE_FILE: ~/workspace/usageUtlities/doc/playbook/Usage.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: Usage
+  :END:
+  
+ - (a) Help find usage for this number
+ - (b) Where is the money?
+ - (c) Help find this roaming usage
+ - (d) What's wrong with the bill?
+ - (e) Call Detail Records (UFF)
+ - (f) Rated usage
+ - (g) The raw switch records
+ - (h) Check Data Issues
+ - (i) Check post-paid usage file processing
+ - (j) Post and Pre-Pay rating
+ - (k) Roaming file and rating
+ - (l) Pre-Pay connection issues
+ - (m) Rating errors
+ - (n) file errors
+ - (o) roaming errors
+ - (p) UFF creation and file transfer
+ - (q) Incorrect rate
+ - (r) missing usage
+
+
+* Usage Issue Flow Chart
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-03-02 Mon 11:39
+  :ARCHIVE_FILE: ~/workspace/usageUtlities/doc/playbook/Usage.org
+  :ARCHIVE_OLPATH: Task List/Usage Playbook
+  :ARCHIVE_CATEGORY: Usage
+  :END:
+
+digraph BI {
+"Satish" -> "TOPS"
+"Amit Droer" -> "TOPS"
+"Serhiy" -> "TOPS"
+"Heather Jescke" -> "Revenue Accounting"
+"Miquel Jones" -> "Revenue Accounting"
+"Ellen Sveinsson" -> "ICS"
+"Liz Pierce" -> "ICS"
+"Ilham Elgarni" -> "ICS"
+"Craig Stalsberg" -> "PDC"
+"Yogesh Prasad (Amdocs)" -> "EPC"
+"John Schultz" -> "EPC"
+"John Samz" -> "EPC"
+"David Balchen" -> "Usage"
+"David Balchen" -> "CallDump"
+"David Balchen" -> "EPS Monitors"
+"David Smith" -> "Usage"
+"David Smith" -> "FYI Messages"
+"Bill Pack" -> "Engineering"
+"Christien Bekos" -> "Revenue Assurance"
+"Deanna Andrews" -> "Revenue Assurance"
+"Shawntrice Moses Butler" -> "Amdocs"
+"Ellen Sveinsson" -> "TNS"
+"Ilham Elgarni" -> "TNS"
+"George Kamba" -> "CallDump"
+"Connie Dwyer" -> "Queen"
+"Denise Lintz" -> "Supreme Monarch"
+"Izabela Miller" -> "CallDump"
+"Soly Haddock" -> "CallDump"
+"Connie Davis" -> "CallDump"
+}
+
+digraph BI {
+	graph [splines=true nodesep=0.8  constraint=false overlap=false style=bold];
+	node [shape=point]; "";	
+	node [shape=plaintext]; "PDC";
+	"Usage Inquiry" -> "CallDump"  [label = "(e)"]
+	"Usage Inquiry" -> ""  [label = "(f)"]
+	"Usage Inquiry" -> "PDC"  [label = "(g)"]
+	"Usage Inquiry" -> "Engineering"  [label = "(h)"]
+	"" -> "ANF"  [label = "(i)"]
+	"" -> "TC"  [label = "(j)"]
+	"" -> "ARCM/ARPM"  [label = "(k)"]
+	"TC" -> "PDC"  [label = "(l)"]
+	"TC" -> "AEM"  [label = "(m)"]
+	"ANF" -> "AEM"  [label = "(n)"]
+	"ARCM/ARPM" -> "AEM"  [label = "(o)"]
+	"CallDump" -> "PDC"  [label = "(p)"]
+	"TC" -> "EPC"  [label = "(q)"] 
+	"PDC" -> "Engineering"  [label = "(r)"]
+	"Revenue\nAssurance" -> "Usage Inquiry"  [label = "(d)"]
+	"ICS" -> "Usage Inquiry" [label = "(c)"]
+	"Revenue\nAccounting" -> "Usage Inquiry" [label = "(b)"]
+	"Subpoena\nTeam" -> "Usage Inquiry" [label = "(a)"]
+	
+	subgraph cluster_2 {
+		"";
+		"ANF";
+		"TC";
+		"ARCM/ARPM";
+		"AEM";
+		"EPC";
+		label = "TOPS";	
+	}
+	
+	subgraph cluster_3 {
+		"Revenue\nAssurance";
+		"Revenue\nAccounting";
+		"Subpoena\nTeam";
+		"ICS";
+		color="#FFFFFF";
+	}
+}
+
+
+

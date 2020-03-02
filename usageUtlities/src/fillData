@@ -1,0 +1,14 @@
+#! /bin/sh
+#source /apps/ebi/ebiap1/.bashrc
+
+export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities/
+
+${UTLITIES_HOME}/lib/bin/printSQL.pl ${UTLITIES_HOME}/lib/sql/voice.sql > ${UTLITIES_HOME}/data/voice.dat &
+
+${UTLITIES_HOME}/lib/bin/printSQL.pl ${UTLITIES_HOME}/lib/sql/data.sql > ${UTLITIES_HOME}/data/data.dat &
+
+${UTLITIES_HOME}/lib/bin/printSQL.pl ${UTLITIES_HOME}/lib/sql/sms.sql > ${UTLITIES_HOME}/data/sms.dat &
+
+${UTLITIES_HOME}/lib/bin/printSQL.pl ${UTLITIES_HOME}/lib/sql/mms.sql > ${UTLITIES_HOME}/data/mms.dat &
+
+exit 0

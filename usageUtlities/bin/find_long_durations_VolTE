@@ -1,10 +1,1 @@
-#! /bin/sh
-set -x
-
-#source /home/dbalchen/.bashrc
-
-export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities
-
-${UTLITIES_HOME}/lib/exe/bigDurations.pl >> ${UTLITIES_HOME}/log/find_long_durations.log 2>> ${UTLITIES_HOME}/log/find_long_durations.err
-
-exit 0
+../src/find_long_durations_VolTE

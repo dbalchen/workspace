@@ -1,13 +1,1 @@
-#! /bin/sh
-
-export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities
-
-${UTLITIES_HOME}/src/printSQL.pl ${UTLITIES_HOME}/lib/voice.sql > ${UTLITIES_HOME}/data/voice.dat &
-
-${UTLITIES_HOME}/src/printSQL.pl ${UTLITIES_HOME}/lib/data.sql > ${UTLITIES_HOME}/data/data.dat &
-
-${UTLITIES_HOME}/src/printSQL.pl ${UTLITIES_HOME}/lib/sms.sql > ${UTLITIES_HOME}/data/sms.dat &
-
-${UTLITIES_HOME}/src/printSQL.pl ${UTLITIES_HOME}/lib/mms.sql > ${UTLITIES_HOME}/data/mms.dat &
-
-exit 0
+../src/fillData
