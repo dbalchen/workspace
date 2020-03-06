@@ -209,7 +209,7 @@ file:Pictures/Andrejevi1.jpg
  : Service Account SVC_BILLINGOPS    lXmWKh5pJsGxr!nIl_GQl0Db
  : TSP Production Password prmAPPC!PHAV1
  :                         PRMAPPC!22 - Starting tomorrow
-
+r56cEZXVoiLB9y3EzP3IbOAI
  : sqlplus PRDUSG1C/tc1SG1C!18@TC1PRD 
  : sqlplus PRDUSG2C/tc2SG2C!18@TC2PRD 
  : sqlplus PRDUSG3C/tc3SG3C!18@TC3PRD 
@@ -5146,7 +5146,6 @@ CD    6. No additional details needed
             1. current limitations
             2. attributes that are needed from EDW perspective
    7. Network readiness testing will confirm if the data is accurate 
-*** Current Status 
     IS PDC team conducted the Device testing in lab and shared the results with Business and project team. 
     - Working with business on the schedule and dates for the 5G reporting availability. Currently Trending Q2 2020.
     - Complete design in parallel - Work with EDW, Architecture, PDC and CXM team to finalize the attributes that we need. 
@@ -5159,418 +5158,107 @@ CD    6. No additional details needed
      - 5G User stories session for Marketing reporting requirements is scheduled on 01/24/2020. 
        1. Solution for the new integration pattern where CXM is the source and EDW is the consumer. 
        2. Delivery Planning and Commitments on what IS can deliver in support of business needs on reporting.
+**** Key Accomplishments
+    IS PDC team conducted the Device testing in lab and shared the results with Business and project team. 
+    Working with business on the schedule and dates for the 5G reporting availability. Currently Trending Q2 2020.
+    Complete design in parallel - Work with EDW, Architecture, PDC and CXM team to finalize the attributes that we need. 
+    Phanesh to schedule  working sessions with the above teams to discuss 
+    1. current limitations, and
+    2. attributes that are needed from EDW perspective
+    Network readiness testing will confirm if the data is accurate.
+**** Upcoming events.
+     Continue to discuss whether a new source for 5G usage will be set up for the EDW.
+     5G User stories session for Marketing reporting requirements is scheduled on 01/24/2020.
+      1. Solution for the new integration pattern where CXM is the source and EDW is the consumer. 
+      2. Delivery Planning and Commitments on what IS can deliver in support of business needs on reporting.
+    5G Phase1:\\
+     All identified open issues should be revisited based on the Action item log/Emails exchanges if any.
+     Set up one more meeting with engineering leads to discuss further this week or early next week. Sooner the better
+     - First we will review the IS issues and dependencies
+     - Next we can check on additional device/engineering specs that can impact E2E cases
 
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0539/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0539 - VoLTE Prepaid]]
-*** Project Manager
-    Mala Rao
-*** Project Description
-    Enable prepaid customers to use VoLTE.
-*** Go Live dates
-    01/12/2020
-*** Status
-    User stories for provisioning to suspend and restore customers is complete. 
-|---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
-| # | Description                                                    | Owner           | Date Identified | Commit to Complete    | Status      | Notes                                                |
-|---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
-| 1 | CR971 IA                                                       | Amdocs          | 7/23/2019       | Based on ROM approval | Not Started | ROM is due from Amdocs this week                     |
-|   |                                                                |                 |                 |                       |             |                                                      |
-| 2 | Functional testing for Aug release                             | Amdocs/ETQA     | 7/20/2019       | 8/23/2019             | In progress | Delay to testing caused due to connectivity issues.  |
-|   |                                                                |                 |                 |                       |             | Eng is troubleshooting                               |
-| 3 | Commercialization date in Q1 2020                              | EPM             | 8/1/2019        | TBD                   | In progress | Commercialization was delayed due to delivery of     |
-|   |                                                                |                 |                 |                       |             | Suspend/Resume/Refresh which is targeted for Jan 19, |
-|   |                                                                |                 |                 |                       |             | 2020 release                                         |
-| 4 | PDC manual solution for provisioning after Aug release for BVT | PDC/ Frank Lenz | 8/6/2019        | 9/13/2019             | In progress | Frank is waiting for test environment to be          |
-|   |                                                                |                 |                 |                       |             | upgraded in early Sept                               |
-|---+----------------------------------------------------------------+-----------------+-----------------+-----------------------+-------------+------------------------------------------------------|
-|----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
-| Description                                                    | Owner           | Date Identified | Commit to Complete | Status      | Notes                                 |
-|----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
-| CR971 IA                                                       | Amdocs          | 7/23/2019       | 8/28               | In progress | IA review is scheduled for 8/29       |
-| PDC usage records to Call Dump to TOPS                         | Jason Franz     | 8/26/2019       | 9/5/2019           | In progress |                                       |
-| PDC Reference table extracts into mediation app to TOPS        | Jason/Amit Dror | 8/26/2019       | 9/5/2019           | In progress | Jason emailed Amit for details        |
-| Defect #137666 – UAT                                           | ETQA            | 8/22/2019       | Oct release        | In progress | Mala is tracking this                 |
-| Defect #137531 – Call forwarding – 17 test cases               | ETQA            | 8/19/2019       | Oct release        | In progress | Mala is tracking this                 |
-| PDC manual solution for provisioning after Aug release for BVT | PDC/ Frank Lenz | 8/6/2019        | 9/13/2019          | In progress | Frank is waiting for test environment |
-|----------------------------------------------------------------+-----------------+-----------------+--------------------+-------------+---------------------------------------|
+     E2E test strategy and validations should cover the combined 4G+5G usage scenarios and prepare for 5G Commercial Launch
+     - Led by mediation team to uncover any issues on first pass. Essentially help to understand the downstream systems feeds  Fraudx, Calldump, TOPS etc.
+     - Include any formal test scenarios as we have the 5G devices now and ensure the TOPS flows are not impacted
+     - Possible regression of Phase1 scope that includes the EPC 5G rules etc and any functional flows
 
-|---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
-| # | Description       | Owner  | Date Identified | Commit to Complete | Status      | Notes                                    |
-|---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------|
-| 1 | CR971 IA approved | Amdocs | 7/23/2019       | 9/10               | In progress | Fully approved today; PI Scoping is 9/12 |
-|---+-------------------+--------+-----------------+--------------------+-------------+------------------------------------------
+     Email to Fraudx team and ask them to check on the following as needed
+     - Whenever PDC team ready with their test for 4G+5G usage records validations 
+     - Fraudx team to validate their flows with any ETQA support
 
-    1. Release date move from 10/27 to 11/3 to allow for an additional week to test
-    2. CR509 – VoWifi for Prepaid Acme –. Testing halt; lab to be enabled with VoWifi
+     5G Phase2:
+     - Reporting track of work and the next steps should be followed up on.
+     - As discussed additional scope items will be updated to the team
 
-    |--------+---------------------------------------------------------------------+-----------------------------------------------|
-    | Item   | Description                                                         | Amdocs Delivery Date                          |
-    | `      |                                                                     |                                               |
-    | CR509  | VoWifi Prepaid Acme                                                 | October release                               |
-    | CR846  | Suspend/Restore                                                     | October release                               |
-    | CR971  | Refresh                                                             | January release - confirmed for PI 32 on 9/12 |
-    | CR1029 | Functionality for BVT test accounts                                 | Targeted Oct or Nov (offcycle)                |
-    | CR1071 | Turn ON VoLTE and Suspend/Resume with commercialization in Jan 2020 | January release - 1/19/2020                   |
-    |--------+---------------------------------------------------------------------+-----------------------------------------------|
-    A defect has been found with Call Forwarding so I have been sending counts of prepaid calls that were Call Forwarded (not to voice mail) to the team.
-    | 8 | RO Interface IS Readiness – Second IP, Diameter in prod, Firewall for prod | Mala/Amit/Dave | 9/20/2019 | In progress | 10/8:  FW completed; port details to CAB this week. 10/1:  Amit Dror creating firewall request to take to CAB |
-    
-    The first RO interface connection between Turbo Charging and TAS systems was successful.
-     |---+--------------------------------------------------+--------+-----------------+--------------------+-------------+-----------------------------------------|
-     | # | Description                                      | Owner  | Date Identified | Commit to Complete | Status      | Notes                                   |
-     |---+--------------------------------------------------+--------+-----------------+--------------------+-------------+-----------------------------------------|
-     |   | CR1095 – Call Forwarding issue –  Defect #137531 | Amdocs | 9/26/2019       | 1/17/2020          | In progress | Amdocs to fix the call forwarding issue |
-     |   |                                                  |        |                 |                    |             |                                         |
-     |---+--------------------------------------------------+--------+-----------------+--------------------+-------------+-----------------------------------------|
-
-    |---------------------------------------------------------------------------------------+--------------------------------+-----------+-----------------+--------------------+-------------------------------------------------------------------------------------------------------------------------+-------|
-    | #                                                                                     | Description                    | Owner     | Date Identified | Commit to Complete | Status                                                                                                                  | Notes |
-    |---------------------------------------------------------------------------------------+--------------------------------+-----------+-----------------+--------------------+-------------------------------------------------------------------------------------------------------------------------+-------|
-    | 1                                                                                     | CR1095 – Call Forwarding fix – |           |                 |                    |                                                                                                                         |       |
-    | Defect #137531                                                                        | Amdocs                         | 9/26/2019 | 1/17/2020       | In progress        | 10/17:  Not confirmed at PI 33 mtg for Jan release.  POC needs to be validated in lab which is not available until 11/4 |       |
-    | 10/15:  Mala presenting at PI 33 mtg on 10/17                                         |                                |           |                 |                    |                                                                                                                         |       |
-    | 10/7: Amdocs to have a fix ready on 10/14 but CR is targeted to be in January release |                                |           |                 |                    |                                                                                                                         |       |
-    |---------------------------------------------------------------------------------------+--------------------------------+-----------+-----------------+--------------------+-------------------------------------------------------------------------------------------------------------------------+-------|
-    We are currently in test mode and I've had to do several searches within the *rated events table* to verify the results.    
-    Mala is on vacation till the end of the year, thus no updates.
-    There was much discussion on the Special Numbers Table and how it retains to Pre-pay. It was decided that there should change to the *SCP* to grant pre-pay customers access to customer care.
-    They are continuing testing and have found an issue and will discuss it next meeting. I have also been tasked filling out the ITSM support readiness form, which needs to be completed by January 13th (Universe Creation Day!!!)
-    ITSM document is finished. Found an issue with the volume field from the test calls. 
-    Key Dates:
-      - January release – 1/19/2020
-      - Feb offcycle – 2/12/2020
-      - Commercialization (with Market launch)– 2/14/2020
+     Status update for 5G Launch preparation:
+     - Any critical open items from IS end with E2E dependencies should be part of launch efforts.
+    Track 2 - 5G Commercialization - The scope of this track includes Charging related flows to identify and adapt the new 5G data usage record structures. 
+    Monitor the CDR’s for charging validations and opportunity to look at the new 5G parameters to distinguish the usage based on the network raw CDR’s 
+    with Secondary RAT (Radio Access Technology) usage reports and relevant parameters. Ensure the existing Gy interface for online charging flows 
+    are not impacted with 5G EPC core changes.
+    IS PDC team continued the Device testing in lab and shared the results with Business and project team. 
+    - IS teams continue to monitor the secondary RAT issues.
+    - EDW Design is in progress.
+    - IS team continued to explore options for the Racine Media event on 02/22/2020 in case IS Support is needed.
+    *The project status is Off Track for Schedule of Reporting delivery in Q2 2020.*
+     - Provided extensive IS Support for the Racine Media event which took place on 2/26/20.
+     - Combined 4G + 5G Usage: It was determined that the default aggregate reporting is not changing and will still be accurate. Decision # 655 is logged to close out that issue.
+     - Secondary RAT issues - it is currently determined that secondary RAT reports remain problematic and engineering is well aware of that. Until engineering works with their 
+       vendors to implement a solution to resolve these concerns, this is a watch item for IS.
+     - EDW Design is in progress for the Reporting solution to be delivered in June 2020. There will be additional work to model how we structure this data in the EDW presentation layer.
+     - Splitting 4g-5G Traffic - Ericsson dependency – Engineering team and leaders are aware.
+     - ETQA and EPC team are engaged on the Production Test SKU issue. The fix will be in production 3/26 – Work around is in place in the meantime.
+   
+    *Upcoming Activities*
+    - Assess and address CR # 1291 for Testing Speed Change. Update maximum bandwidth value provisioned in the HSS by TOPS to allow no speed limiting for LTE or 5G testing. 
+      Currently we "cap" speeds for testing at 100 Mbps. New 5G devices are capable of significantly faster speeds both Uplink and Downlink.  We need to be able to test 
+      those devices at higher speeds. Initially we believed the 100 Mbps would be sufficient.
+    - Engage SANDS team in reporting sessions.
+    - Solicit implementation schedule from the EDW Reporting team.
+    - Support any issues that come up for launch.
 *** Current Status 
-    - IR539 and related CRs below for Prepaid functionality are on hold and will not be going in the January release.
-    - *For CR 846 and CR971 – Postpaid functionality only will be delivered in the January release; Prepaid on hold until mid Feb
-    - Targeted* Timelines for CR1221 and CR1245: 
-      - Code Delivery – 2/3
-      - ETQA testing – 2/4 to 2/11
-      - Delivery – 2/12
-      - *these dates will need to be confirmed by Amdocs after IA is approved, as well with ETQA
+    *Phase 1 of 5G has been implimented and in production (Iowa and Wisconsin) and there have been no issues so far.* 
+    Received a “go” decision from the executive team to launch our 5G devices. Began Live BMC on 03/04.
+    - Provided assessment for CR # 1291 - Update default Downlink Speed. Due to new 5G device capabilities being more than current maximum speed limits 
+      the request is to update Downlink maximum bandwidth value provisioned in the HSS by TOPS to allow 4Gbps for LTE.
+    - EDW Design is in progress for the Reporting solution to be delivered in June 2020. There will be additional work to model how we structure this data in the EDW presentation layer.
+    - ETQA and EPC team are engaged on the Production Test SKU issue. The fix will be in production 3/26 – Work around is in place in the meantime.
+    - Secondary RAT issues - it is currently determined that secondary RAT reports remain problematic and engineering is well aware of that. 
+      Until engineering works with their vendors to implement a solution to resolve these concerns, this is a watch item for IS.
 
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0614/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0614 - WPS Over VoLTE]]
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0616/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0616 Google Fi VoLTE]]
 *** Project Manager
-    Damir Orucevic
-*** Project Description
-    The objective of this project is to implement WPS
-    (Wireless  Priority Service) on USCC ‘s LTE network with a
-    limited capability (LC) by September 13th , 2019.
-*** Go Live Date
-    January 19, 2020
-*** Open Issues
-    None
-*** Billing and Revenue impacts
-    None that I can see but the project is just begining.
-*** Old Status
-    We are working thru the logistics now and we will identify who will need to attend the testing as required or on call.
-    Traceability matrix has been created.
-*** Previous Status    
-    - Due to outstanding issues involving Engineering, this project is now off track and will jeopardize the planned 9/13 release.
-    - HLD v1.0 has been just released and being reviewed.
-    USCC TOPS IA IR0614 WPS on VoLTE has been approved.
-    1. IS target dates/aligned – Approved –PI 32 Jan 2020 Release IS development schedule is ON TRACK.
-    2. Project schedule is OFF TRACK.   
-       a. Project is OFF TRACK for schedule (Path to green -Revised ENG solution, schedule and alignment with GDIT on the approved schedule/timeline).   Of the 3 open issues, ENG has resolved 1. The GETS Call issue has been successfully tested in production.  The remaining 2 are open items.  For the OpenNet PCRF issue ENG investigated and learned the ARP value on the PCRF is a global value. Changing the ARP value will impact regular E911 calls.  OpenNet PCRF is being used for BOTH vEPC and commercial networks.  ENG is assessing the impact to making a change. The last open item is the Samsung fix for the *272911 issue; Samsung is to provide us an update by 10/3.  GDIT did provide a retesting date of 10/15 and DHS/GDIT testing target of 10/29-10/30 - USCC pending agreement of these dates based on resolution of 2 open  issues.
-    3. Upcoming Work:
-       - Confirmed for the Jan Release (9/16)
-       - Timeline -plan to support January TOPS Release (mid Jan)
-       - Amodcs E3 received - 
-       - Amdocs Dev beginning 
-         - PI 32 9/15-10/6 *** Dev
-       - PI 33 10/20-11/10 PLAN B if needed
-       - ETQA Testing  
-         - P32 PI 32 10/20-11/17
-       - Testing PI 33 11/24-12/22 PLAN B if needed
-         - Certified code drop
-         - 10/27 || 12/1 
-       - Go no go decision - TBD (12/29-1/19)
-       - Release Freeze  aka  Quiet Week- 1/12-1/19
-       - RULES for EPC - 10/8
-    No updates this week.
-     1. IS target dates/aligned – Approved –PI 32 Jan 2020 Release IS development schedule is ON TRACK.
-     
-     2. Project schedule is OFF TRACK.   
-        a. Project is OFF TRACK for schedule (Path to green -Revised ENG solution, schedule and alignment with GDIT on the approved schedule/timeline).   Of the 3 open issues, ENG has resolved 1. The GETS Call issue has been successfully tested in production.  The remaining 2 are open items.  For the OpenNet PCRF issue ENG investigated and learned the ARP value on the PCRF is a global value. Changing the ARP value will impact regular E911 calls.  OpenNet PCRF is being used for BOTH vEPC and commercial networks.  ENG is assessing the impact to making a change. The last open item is the Samsung fix for the *272911 issue; Samsung is to provide us an update by 10/3.  GDIT did provide a retesting date of 10/15 and DHS/GDIT testing target of 10/29-10/30 - USCC pending agreement of these dates based on resolution of 2 open  issues.
-     	
-     3. Upcoming Work:
-     - Confirmed for the Jan Release (9/16)
-     - Timeline -plan to support January TOPS Release (mid Jan)
-       - Amodcs E3 received - 
-       - Amdocs Dev beginning 
-       - ETQA Testing  
-         - P32 PI 32 10/20-11/17
-         - Testing PI 33 11/24-12/22 PLAN B if needed
-       - Certified code drop
-         - 10/27 || 12/1 
-         - 10/21 uncertified   ||  11/1 certified code
-       - Go no go decision - TBD (12/29-1/19)
-       - Release Freeze  aka  Quiet Week- 1/12-1/19
-    A short meeting stating we are on track for January 19th 2020 release.
-
-
-**** Overall schedule:
-     IS target dates/aligned – Approved – PI 32 Jan 2020 Release IS development schedule is ON TRACK.
-     Overall Project schedule is ON TRACK.   
-     - Upcoming Work:
-       - Confirmed for the January Release (9/16)
-       - Timeline -plan to support January TOPS Release (mid Jan)
-       - Amdocs E3 received 
-       - Amdocs Dev beginning 
-     - Certified code drop 11/4
-       - ETQA Testing  11/11/20 – 1/10/20
-       - Release Freeze  aka  Quiet Week 1/12-1/19
-       - *Go-Live 1/19/20*
- 
-**** Discussion:
-     - NIT testing completed on 11/14/19
-     - ETQA Test Plan and HLCs baselined on 11/19/19
-     - ETQA test execution in progress:
-     |-----------------------------+-----------+---------------+----------------+--------------+------------------------------|
-     | Testing Area                | Total TCs | Total Planned | Total Executed | Total Passed | Estimated Blocked Test Cases |
-     | IR0614 WPS over VoLTE – SIT |       354 |           229 |            229 |          225 |                            0 |
-     | IR0614 WPS over VoLTE – LAB |       636 |            23 |             23 |           22 |                            0 |
-     |-----------------------------+-----------+---------------+----------------+--------------+------------------------------|
-     - Currently two defects opened:
-       - 142316 – USCC|R24|IR 614 WPS on Volte| Validation  Error message displayed for SIM
-       - 141994 – USCC|R24|IR 614 WPS on Volte| No entry present in  dvc_trx_repos
-
-     - CR 1136 – Approved on 11/13!
-       - IA sent for approval to Thomas
-       - Old IDD also updated, Amdocs requesting review and approval. Right now I have Thomas Vicary, Logan Smith, Jim Calme, MK to review and approve. Inlcude as reviewers: John Thompson, Gokhan and Brandon Mosher. Damir is the new Project Manager and we are still on track for January release.
-
-    |--------------------------------------------------------------------------------------------------------------------------------------------------|
-    | CR 1189 submitted to address QC 142367.                                                                                                          |
-    | Solutioning is in progress. Victoria needs response from USCC regarding secondary device impact.                                                 |
-    | Amdocs is aware of criticality of this CR and need to deliver it for January release.                                                            |
-    | Damir is following up with J.R. on timeline of IA and ROM delivery.                                                                              |
-    | Thomas and Kevin will work off-line to create a User Story and will share with the team for review. Needs to be completed before IA is approved. |
-    |--------------------------------------------------------------------------------------------------------------------------------------------------|
-    | CR 1136 – Approved on 11/13                                                                                                                      |
-    | a. IDD updated, commenting completed 11/25. 2 comments assigned to Victoria. Responses from Amdocs by EOW.                                       |
-    | 5.  Outstanding project documentation that need to be completed:                                                                                 |
-    | a. Project Compliance Document – reviewed and approved                                                                                           |
-    | b. Operational Risk Assessment – reviewed and published on sharepoint                                                                            |
-    | c. ITSM Support Readiness – document sent to USC Support Readiness and waiting for feedback                                                      |
-    |--------------------------------------------------------------------------------------------------------------------------------------------------|
-
-*** Overall schedule:
-    IS target dates/aligned – Approved – PI 32 Jan 2020 Release IS development schedule is ON TRACK.
-    Overall Project schedule is ON TRACK.
-    - Upcoming Work:
-      - Confirmed for the January Release (9/16)
-      - Timeline -plan to support January TOPS Release (mid Jan)
-      - Amdocs E3 received 
-      - Amdocs Dev completed 
-      - Certified code drop 11/4
-      - ETQA Testing  11/11/20 – 1/10/20
-        Release Freeze  aka  Quiet Week 1/12-1/19
-      - Go-Live 1/19/20
-
-    - Discussion:
-      1. Team Calendar - please update sharepoint or send outlook notices to team for planned OOO (vacations, training, etc.) Please also include information who will be your backup.
-         Logan OOO on 12/6, 12/20-12/30.
-         Damir OOO 12/23-12/26. 
-      2. ETQA test execution updates:
-         - IR0614 WPS over VoLTE – SIT – Completed.
-         - IR0614 WPS over VoLTE – LAB – Blocked.
-      |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
-      | Testing Area                | Total TCs | Total Planned | Total Executed | Total Passed | Estimated Blocked |
-      |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
-      |                             |           |               |                |              |                   |
-      | IR0614 WPS over VoLTE – SIT |       354 |           354 |            354 |          354 |                 0 |
-      | IR0614 WPS over VoLTE – LAB |       636 |            23 |             23 |           22 |               613 |
-      |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
-
-      UAT review-only scenarios delivered to UAT team for commenting. Veronica to follow up with Tony.
-
-      3. CR 1189 submitted to address QC 142367. 
-         IA approved on 12/9/19.
-         Work at risk approved on 12/9/19 to ensure development of the code fix continues.
-         E3 is expected on Friday, 12/13/19.
-         HF is expected early next week, confirmation of timing also on Friday 12/13/19.
-
-      4. CR 1136 – Approved on 11/13
-         a. IDD updated, commenting completed 11/25. 2 comments assigned to Victoria. Responses from Amdocs were due last week, however it was not done. Damir is following up with J.R. 
-      5. Round table
-         Veronica mentioned that ETQA team is out of office in the afternoon on Wednesday, December 11, 2019
-
-
-    1. ETQA LAB test execution updates:\\
-       IR0614 WPS over VoLTE – SIT – Completed.\\
-       IR0614 WPS over VoLTE – LAB – Blocked due to MDM platform upgrade. Project will report off-track. Team is creating mitigation plan that would involve continuation of testing once lab is available and identification of scenarios that could be tested post January release deployment in production. Amdocs development is assessing if there is any impact to existing functionality due to code changes implemented for this IR.
-    |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
-    | Testing Area                | Total TCs | Total Planned | Total Executed | Total Passed | Estimated Blocked |
-    |                             |           |               |                |              |        Test Cases |
-    |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
-    | IR0614 WPS over VoLTE – SIT |       354 |           354 |            354 |          354 |                 0 |
-    | IR0614 WPS over VoLTE – LAB |       636 |            60 |             60 |           60 |                 0 |
-    |-----------------------------+-----------+---------------+----------------+--------------+-------------------|
-
-    2. UAT updates – Team is in the process of reviewing ETQA deliverables. 
-    3. CR 1189 submitted to address QC 142367. 
-       Fix delivered on 12/12 and LAB testing resumed. QC142367 
-       E3 was expected last Friday, no new ETA from Amdocs. Damir is following up with J.R.
-    4. CR 1136 – Approved on 11/13
-       - IDD updated, commenting completed 11/25. 2 comments assigned to Victoria. Responses from Amdocs were due last week, however it was not done. Damir is following up with J.R. 
-    5. Round table
-       Final GDIT meeting today that should close GDIT portion of work. 
-       Eng work on Schaumburg location completed, Atlanta site (backup) not yet. 
-       Mid-January – code on Eng will be changed. Does not impact anything IS is doing. 
-      Overall schedule:
-     	- ETQA status for WPS Lab testing is On-Hold.
-     	- Overall Project status is TBD
-      Upcoming Work:
-             - Confirmed for the January Release (9/16)
-     	- Timeline -plan to support January TOPS Release (mid Jan)
-     	- Amdocs E3 received 
-     	- Amdocs Dev completed 
-     	- Certified code drop 11/4
-     	- ETQA Testing  11/11/20 – 1/10/20. WPS Lab testing currently On-Hold until 1/20/20 and scheduled to complete on 1/31/20.
-     
-     Discussion:
-     	Team Calendar - please update sharepoint or send outlook notices to team for planned OOO (vacations, training, etc.) Please also include information who will be your backup.
-     	1. ETQA and UAT updates:\\
-     		IR0614 WPS over VoLTE – SIT – Completed.\\
-     		IR0614 WPS over VoLTE – LAB – ETQA re-planning done and testing will resume on January 20th. Lab regression is being performed before January Release implementation to minimize any undesired impact of WPS code to production.
-     		UAT completed on Monday, 1/6/20.
-     	2. CR 1189 – E3 approved 12/30/19. 
-     	3. CR 1136 – Approved on 11/13
-     	   - IDD updated, one outstanding comment needs to be addressed. 
-     	4. Round table
-     	   - Updates from Rebecca:
-     	   - Eng work has been compelted on SCH and ATL sites.
-     	   - Front-line impact for WPS – functionality will be in the system, however since with no commercial launch is not happening, no front-line impact. Project will be removed from Release communications. 
-        
-    Overall schedule:
-      - ETQA status for WPS Lab testing is On-Hold.
-      - Overall Project status is TBD
-    Upcoming Work:
-     - Confirmed for the January Release (9/16)
-     - Timeline -plan to support January TOPS Release (mid Jan)
-     - Amdocs E3 received 
-     - Amdocs Dev completed 
-     - Certified code drop 11/4
-     - Release Deployment 1/19/20
-     - ETQA Testing  11/11/20 – 1/10/20. WPS Lab testing currently On-Hold until 1/20/20 and scheduled to complete on 1/31/20.
-
-     Discussion:
-     1. ETQA and UAT updates:
-        - IR0614 WPS over VoLTE – SIT – Completed.
-        - IR0614 WPS over VoLTE – LAB – ETQA re-planning done and testing will resume on January 20th. Lab regression is being performed before January Release implementation to minimize any undesired impact of WPS code to production. LAB Regression is green. Getting devices ready for cutover. 
-     2. Release Deployment this weekend
-	- IS Readiness Assessment meeting this afternoon
-        - On-call information will be used to get support from IS teams
-     3. CR 1136
-        - IDD updated, Logan approved it yesterday. 
-     4. CR 1256
-        - CR created to extend Amdocs Dev support for ETQA test. 
-*** Current Status 
-    Moved to production in the January release.
-
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0570/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0570 Market Expansion]]         
-*** Project Manager
-    Kevin McInerney
-*** Go Live Date
-    January 2020 Release
-*** Status
-    User stories started with the same topics as last time.
-    1. Two new Company Codes created in SAP. (808 and 809)
-       - Accounting needs to decide if new markets get the new Company Codes. – (Renee) 
-         - Waiting on Validated List of Counties. – Jim Wright (GIS) – Kevin Confirm delivery date. 
-           - AR_9_ account_ State Table needs to be updated with the company codes. – 
-           - Marcia sent list of the table updates needed for tax. 
-       - EDW reference tables will need to be updated if we use new company codes. (Company_Code_to_dos)
-         - OPEN ITEM: Hierarchy of company codes needs to be defined. 
-       - Update BPT Tables associated with New Company Code – Amdocs can confirm what needs to be updated. 
-    2. Will there be any new Switches? – If Yes, Provisioning impacts – (Jim and Christian) 
-       - New SIDS - 
-       - What is required to add new SIDs? 
-
-    3. Are there any impacts to WE? Ra will follow-up.
-    4. Number Porting and Roaming Impacts? – PRM Module tables. – Ravi will followup
-    5. Commissions Impacts – Lisa will follow-up
-    6. Supply Chain – Lisa will follow-up
-    1. References to Market areas should Include Northern Wisonsin, Iowa, South Dakota, and Nebraska.
-    2. The Agent Location is not going live until May (or later).
-    3. We may need the ability to load new number ranges for the new markets (Number Management).
-    4. ME-3 Add statement that new subscribers are assigned a local MDN.
-    5. ME-3 The CDRS will include the SID.
-    6. ME-4 Acceptance Criteria #1 is redundant with #2. 
-    7. Need the Company mapping in TOPS to complete this User Story. 
-    8. ME-5 E-commerce uses the GIS Coverage Maps from the Vendor.  Dave/Kevin will follow-up with Jim Wright.
-    9. State that the new Market areas will support VOLTE only. Has tax implications
-    - Part 2 of the user stories has been completed.
-    - New company codes will be created for the new market areas. The company codes are 808 (Northern Wisconsin) and 809 (Sioux City, Iowa).
-    - EDW tables will be updated for the new Company Codes.
-    - The new number ranges for the market expansion areas will be loaded for use by Number Management.
-    - The SID/BID for Northern Wisconsin is 45786. The SID/BID for Sioux City, IA is 45785.
-    - CDRs will accurately indicate the SIDs/BIDs and call routing in the expanded market areas. 
-    - USCC will expand its coverage area in Northern Wisconsin, Iowa, South Dakota, and Nebraska. No new switches are required. Approximately 70 cell sites will be added in the new market areas.
-    User Stories have been Accounting has been added and awaiting review.
-    Continuing with the User stories...
-    - Susan talked to Daniel Lee this morning from Cindy Nangle’s team about the A/R changes that will be required.  Daniel sent an email, which indicated who the business contact has been that should provide the information for the new stores.  Bob will reach out to Eric (from the email).  The Middleware team will install the changes.
-    - Kazim made the MT change, but more information from the business needs to be delivered to Kazim.  Bob will reach out to Bernard Cottone from the Real Estate Team.  There was one store with an incorrect address.  These changes can go in earlier than January with no issues.  Bernard should open a new ticket.
-    - Shweta will not have any development changes for this project.
-    - Robyn is working on the spreadsheet of tables to be changed (the tables came from the IA).  She will have most of it done by noon today.  There are some tables that are not BPT tables.  The team will discuss these at an 8:30 meeting tomorrow (Susan cannot attend).   
-    - Testing will make progress on their HLC’s after the IA has been approved.  Testing will most likely start after the certified code drop on 12/6.  ETQA will consider starting testing earlier – on the uncertified code. Revenue Recognition wanted to get the build to begin their testing.  If there are defects in testing, fixes will be pushed as hot fixes. 
-    Robyn Deike said that all EPC/BPT table development is now complete except for the following:
-    - JGL updates: per emails, I will plan to deliver to Amdocs by EOD today, then Amdocs will deliver their part as a HF on top of the build in a few days.
-    - PC9_IP_ADDR_LIST: per emails, it seems like no updates, but there is not yet any firm verification. If we find updates are needed, I will deliver as HF on top of the build.
-    - CR1156: this is the eligibility rules updates (EPC); once approved I will do this work and it can be delivered as an EPC HF on top of the build. 
-    - APRM: per emails, it is not clear yet who owns making these updates; if it ends up being BPT then I will need to deliver as a HF on top of the build.
-
-Discussion Points \ Notes (from agenda above):  
- - CR1156 to update the EPC eligibility rules for new markets was approved, and Robyn will make the changes in EPC and apply a hot fix to the ETQA environments.  Robyn will wait until all of the ETQA environments have been identified for this project.  She is targeting to apply a hot fix next week.
- - Regarding the ETQA environments, SQT23 and SQT42 were already identified as the environments that will be used for Market Expansion.  Steve said that one more environment is required, and he will send out the environment once it is determined.  (NOTE:  Steve sent emails after the meeting confirming that SQT22/DEX2 and SQT36 will also be used for testing.  This information was sent to the development teams.)     
- - Steve said that some of the tests are currently missing because Amdocs created the test cases from the IA and not the User Stories.  Rev Rec test cases were not specified.  Steve told Dave L that there are not any test cases to determine if CDMA and prepaid devices can be supported.  This is acceptable.  Dave said that the new stores will not be stocking CDMA devices, but it was agreed early on in the project that there would not be any requirements for TOPS to restrict CDMA devices.  This would have impacted the timeline and budget of Market Expansion.  Mary will bring this up at her track lead meeting tomorrow.  Mary said that prepaid VoLTE has not yet launched, but these stores should support prepaid.  Mary is going to check in with the prepaid VoLTE team in a week or so to see if they are going to launch before the expanded market stores will open.
- - Robyn asked about updates to the zip code list.  Mary said that the updated list is targeting delivery this Friday, and she will see that it is delivered to Robyn.  Robyn will let Steve and Margaret know when the hot fix to update the zip code list is going to the test environments.
- - Regarding whether or not there needs to be updates to the PC9_IP_ADDR_LIST table, Mary will follow up with Inez to see if there is an answer to this question yet.
- - Susan followed up with Ankush on whether the APRM changes were made yet.  He responded by email that he is still working on this.  Susan will follow up again later this week.  Steve said that the testers will need to have these permissions on or before 12/9.
- - Daniel said that the AR changes will be complete by the end of this week.  He will produce two files that will need to be deployed by the Middleware team.  Steve and Daniel will work together to get the files deployed.
- - Shweta said that the Logic_dev changes are done, and she will submit a request for a hot fix after all of the environments have been identified.
- - Kazim will rebuild the MT changes for the test environment when all of the environments have been determined.
- - The hot fix for the JGL changes was delivered, and Steve will work with Limor to get the hot fix deployed to the test environments.  The file from Amdocs with all JGL information was sent to the Tax Team.
- - The emails from Margaret and Steve were similar - just formatted differently.  There will be one new scenario for the Website GEO locations.  Steve will work with ETQA folks to see if he can get the Rev Rec and SCM test scenarios done earlier than previously communicated.  He will know by the end of this week.
- - Mary said that Tony Maravola is the project UAT lead.  He will work with Steve and Margaret on the type of UAT that will be needed.  Steven from MCSO has suggested that the team do a BVT the week of 2/10 prior to the opening of the stores.  
- - Mary requested that Eric Conlon be included on the HLC emails. 
-    - We haven’t added new codes using the APRM tool.  Serhiy created a procedure document to add codes, which is attached.  
-    - Amdocs cannot add the codes because the APRM Online (Tool) is a GUI based tool that needs access in Production.
-    - The project team recommends Intra-Company Settlement business owner (Renae Grob and Michail Koynoff from Accounting) to add the company codes in production.  The new codes would need to be added prior to the launch of Market Expansion in January. We have the How To Guide from Amdocs. 
-    1. Action Item: For Amdocs and our SAM team to ensure that the business team will be able to access APRM Online tool in production. 
-       - Adding new company codes is similar to adding new partners (Intercarrier Services does this).  New partners get added by the business team and hence project team recommends modeling business operation the same way. 
-       - There is value in testing this in the ETQA environments.  
-    2. Action Item: ETQA to identify the environment that is used for testing. Amdocs Dev team will ensure that the environment can support APRM Online (Tool) for adding company codes and following the How To Guide in ETQA to validate the process will work in production. For resources, ETQA can rely on Amdocs Testing Team for validating the How To Guide Process. If there are security/permission issues for ETQA resources, project team will be notified for issue resolution. 
-       - The team will discuss with Robyn (EPC/BPT) or Dave Balchen (IS Operations Lead) to see what role they would like to play for project work and for ongoing operations when it comes to managing business parameter tables (for e.g. company codes) in the APRM module for intra-company roaming.  
-       - We will need to log a decision if adding the codes is not tested in the test environments.  Nikhil can help with a write up if that is what we will be doing.
-
-    The big news this week is that we do not need to add to the *PC9_IP_ADDR_LIST* table since new forwarding IP's are not needed.
-    No updates due to the Holidays
-    No meetings this week
-*** Current Status 
-    Moved in dormant mode to production in the January release. Expecting to turn in on in mid February.
- 
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/Lists/IRforms/DispForm.aspx?ID=184&RootFolder=%252A][IR0616 Google Fi VoLTE]]
-*** Project Manager
-    Bengtson, Kevin
+    Parhas, Colleen
 *** Description
     This project is to enable Google Fiber customers access to the VoLTE network and Enhanced Calling Services.
 *** Status
     Held first meeting on October 17th nothing since.
     Solution Proposel 1 and 2 have been created and on 11/18 Googles responded that the solution is acceptable.
-*** Current Status
     No updates. Sent Kevin Bengtson a message for an update.
+    The project is reporting off track overall and for scope for the week of 2/21. The USCC team cannot move forward with the build out of the network architecture 
+    and of the technical solution until Google provides clear requirements for customer experience. The USCC team investigated the option of using U.S. Cellular's 
+    VoLTE customer experience to reverse engineer the requirements but feels that this could be risky and result in throwaway work. 
+    Business requirement work has been put on hold until the team can better understand what Google can offer in terms of customer experience requirements. 
+    The project will return to green once USCC and Google agree on a path forward to document business requirements
+*** Current Status
+    No updates this week 
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0599/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0599 CDMA-less (Real Time Text (RTT))]] 
 *** Project Manager
     Sheri Cass
 *** Go Live Date
-    N/A
-    First meeting, Went through the solution document.
+    June 2020
 *** Status 
     No updates.
     Support Readiness document has been issued and needs to be signed off by the stakeholders.
+    Attended the kick off meeting which discussed what is real-time text.
+    Impact Assesment has been finalized.
+    Real time text IS deliverables are moving forward. Our solution architecture was completed on 02/18 and our user stories were sent to Amdocs on 02/21. 
+    Next step is getting the IA draft from Amdocs and determining if we can deploy RTT off cycle in May. 
+    We should have an update on this topic in March.
 *** Current Status 
-    No updates. Sent Sheri Cass a messsage for an update.
+    No updates
+
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/Lists/IRforms/DispForm.aspx?ID=235&RootFolder=%252A][IR0646 IOT Enhancements]] 
 *** Project Manager
@@ -5582,8 +5270,10 @@ Discussion Points \ Notes (from agenda above):
     Held the the first meeting to go through the solution document.
     FP&A has completed the business case. In the event that a business case is deemed not necessary or can be completed at a later time.
     The project is just in the preliminary mode so there has been no standing meetings.
-*** Current Status 
     The solution document has been produced and is currently under review.
+    This is an engineering project and should not affect IT.
+*** Current Status     
+    No updates this week
 
 ** TODO [[https://usc.intranet.teldta.com/sites/supplychain/procurement/engineering/_layouts/15/start.aspx#/Projects/Forms/AllItems.aspx?RootFolder=%252Fsites%252Fsupplychain%252Fprocurement%252Fengineering%252FProjects%252F2019%2520%252D%2520Voicemail%2520RFP%252FMavenir&FolderCTID=0x012000CC260B161AB11B4ABF67B58BEA442498&View=%257B4104A1FF%252D1880%252D42A6%252D8655%252DBDD9C105E65B%257D][IR0651 Voice Mail replacement Project]]
 *** Project Manager
@@ -5592,9 +5282,9 @@ Discussion Points \ Notes (from agenda above):
     N/A
 *** Status
     Went through the solution document that described the new voice mail system we will be using in the future. 
+    This is an engineering project and is a drop in replacement for our current voice mail and should not affect us at all.
 *** Current Status   
-    No updates.
-
+    [[https://usc.intranet.teldta.com/sites/supplychain/procurement/engineering/_layouts/15/start.aspx#/Projects/Forms/AllItems.aspx?RootFolder=%2Fsites%2Fsupplychain%2Fprocurement%2Fengineering%2FProjects%2F2019%20%2D%20Voicemail%20RFP%2FMavenir&FolderCTID=0x012000CC260B161AB11B4ABF67B58BEA442498&View=%7B4104A1FF%2D1880%2D42A6%2D8655%2DBDD9C105E65B%7D][Mavenir VM solution documentation]]
 
 ** TODO Work on Dan's Java program
 
@@ -5609,7 +5299,7 @@ Discussion Points \ Notes (from agenda above):
 [fn:5] Customer Telephone Number
 
 [fn:4] Home Location Resource
-
+q
 [fn:3] Application which implements the *SCP* Protocol
 
 [fn:2] Service Control Protocol

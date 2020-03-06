@@ -26,14 +26,7 @@ my $dbconn = getBODSPRD();
 #my $dbconnb = getSNDPRD();
 my $dbconnb = $dbconn;
 
-my $sql =
-"select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME, count(*), sum(Data_vol_incoming) + sum(Data_vol_outgoing),sum(TOT_NET_CHARGE_RC), carrier_cd,service_type  
-from prm_rom_outcol_events_ap
- where  tap_out_file_name in (select /*+ PARALLEL(t1,12) */  TAP_OUT_FILE_NAME  from prm_rom_outcol_events_ap where disp_file_seq = $disp_file_seq group by TAP_OUT_FILE_NAME )
-  group by TAP_OUT_FILE_NAME, carrier_cd,service_type ";
-
-
-$sql = "
+my $sql = "
     SELECT /*+ PARALLEL(t1,12) */
         TAP_OUT_FILE_NAME,
          COUNT (*),

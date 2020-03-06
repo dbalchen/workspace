@@ -22,7 +22,7 @@ import sys
 
 ######## Argument Date SQL Setup
 
-date = "20200105" #sys.argv[1]
+#date = "20200105" #sys.argv[1]
 
 day = date[6:8]
 month = date[4:6]

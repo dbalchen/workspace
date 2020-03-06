@@ -1,0 +1,8 @@
+#! /bin/sh
+
+export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities
+
+cd ${UTLITIES_HOME}/work
+
+cat ../data/mms.dat | cut -f 1,2 | ../lib/bin/sumBy.py > all_mms
+../lib/bin/makePicSeries.pl -o 01_all_mms -i  all_mms -s 1 -c "MMS Records" -t "All MMS for past 90 Days"

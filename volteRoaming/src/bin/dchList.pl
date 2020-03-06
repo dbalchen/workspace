@@ -3,10 +3,10 @@
 use Time::Piece;
 use Time::Seconds;
 
-
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin';
 #$ENV{'REC_HOME'} = '/pkgbl02/inf/aimsys/prdwrk2/eps/monitors/roaminRecon/';
 $ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
+
 my $date  = $ARGV[0];
 
 my $today        = Time::Piece->strptime( "$date", "%Y%m%d" );
@@ -15,6 +15,7 @@ my $daybefore    = $yesterday - ONE_DAY;
 my $tomorrow     = $today + ONE_DAY;
 my $dayafter     = $tomorrow + ONE_DAY;
 my $dayafterthat = $dayafter + ONE_DAY;
+my $dayafterthatPush = $dayafterthat + ONE_DAY;
 
 my $dayMon = $daybefore->monname;
 $daybefore =
@@ -51,6 +52,13 @@ $dayafterthat =
     $dayafterthat->year . "-"
   . pad( $dayafterthat->mon,  '0', 2 ) . "-"
   . pad( $dayafterthat->mday, '0', 2 );
+
+my $dayafpMon = $dayafterthatPush->monname;
+$dayafterthatPush =
+    $dayafterthatPush->year . "-"
+  . pad( $dayafterthatPush->mon,  '0', 2 ) . "-"
+  . pad( $dayafterthatPush->mday, '0', 2 );
+  
 
 my $inGrep = "egrep '^$daybefore|^$yesterday|^$today|^$tomorrow' |awk -F'".'"'."' -vOFS='".'"'."' '{for(i=2; i<=NF; i+=2) ".'gsub("\t", "", $i)} 1'."'";
 print "$inGrep\n";
@@ -110,6 +118,11 @@ $dayafter = pad($dayafter,'0',9);
 $dayafterthat = ($arry[2]-0)."-$dayafMon-".($arry[0]-2000);
 $dayafterthat = pad($dayafterthat,'0',9);
 
+@arry = split("-", $dayafterthatPush);
+$dayafterthatPush = ($arry[2]-0)."-$dayafpMon-".($arry[0]-2000);
+$dayafterthatPush = pad($dayafterthatPush,'0',9);
+
+
 open(IN,"<$ENV{'REC_HOME'}/tnsIncollect.csv.all") || exit(1);
 open(OUT,">$ENV{'REC_HOME'}/tnsIncollect.csv") || exit(1);
 
@@ -136,7 +149,7 @@ while(my $buff = <IN>)
 	chomp($buff);
 	my @arry = split(/\t/,$buff);
 	
-	if(($arry[5] eq $today) || ($arry[5] eq $yesterday) || ($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter))
+	if(($arry[5] eq $today) || ($arry[5] eq $yesterday) || ($arry[5] eq $tomorrow) || ($arry[5] eq $dayafter) || ($arry[5] eq $dayafterthat) || ($arry[5] eq $dayafterthatPush))
 	{
 		print OUT "$buff\n";
 	}
