@@ -1,8 +1,8 @@
 #! /bin/sh
 
-source /apps/amduser/prodtc2/.bashrc
+source /apps/amduser/prodtc1/.bashrc
 
-export UTLITIES_HOME=/apps/amduser/prodtc2/eps/usageUtlities/
+export UTLITIES_HOME=/apps/amduser/prodtc1/eps/usageUtlities/
 
 ${UTLITIES_HOME}/lib/bin/findBadSids.pl 1>> ${UTLITIES_HOME}/log/findBadSids.log 2>> ${UTLITIES_HOME}/log/findBadSids.err
 

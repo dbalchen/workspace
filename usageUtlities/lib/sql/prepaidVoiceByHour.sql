@@ -1,9 +1,9 @@
-   SELECT /*+ Parallel (T1,16) */
-     TO_CHAR (TRUNC (start_time), 'Yyyymmddhh')"Date", COUNT (*)
-    FROM ape1_rated_event
-   WHERE     start_time >= '19-JAN-2020'
-         AND start_time < '20-JAN-2020'
-         AND event_type_id = 62
-         AND l9_is_online = 'Y'
-GROUP BY TO_CHAR (TRUNC (start_time), 'Yyyymmddhh')
-order by TO_CHAR (TRUNC (start_time), 'Yyyymmddhh')
+SELECT /*+ Parallel (T1,16) */
+ TO_CHAR (SYS_CREATION_DATE, 'YYYYMMDDHH24') "Date", COUNT (*)
+    FROM APE1_RATED_EVENT
+   WHERE SYS_CREATION_DATE >= '19-JAN-2020'
+         AND SYS_CREATION_DATE < '20-JAN-2020'
+         AND EVENT_TYPE_ID = 62
+         AND L9_IS_ONLINE = 'Y'
+GROUP BY TO_CHAR (SYS_CREATION_DATE, 'YYYYMMDDHH24')
+ORDER BY TO_CHAR (SYS_CREATION_DATE, 'YYYYMMDDHH24')

@@ -1,9 +1,10 @@
 #! /bin/sh
 set -x
 
-#source /home/dbalchen/.bashrc
+source /apps/ebi/ebiap1/.bashrc
 
-export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities
+export UTLITIES_HOME=/apps/ebi/ebiap1/bin/usageUtlities
+
 
 ${UTLITIES_HOME}/lib/bin/bigDurations.pl >> ${UTLITIES_HOME}/log/find_long_durations.log 2>> ${UTLITIES_HOME}/log/find_long_durations.err
 

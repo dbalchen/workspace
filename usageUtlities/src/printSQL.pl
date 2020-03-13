@@ -2,11 +2,11 @@
 
 use DBI;
 
-my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
-my $ORACLE_SID  = "bodsprd";
-$ENV{ORACLE_HOME} = $ORACLE_HOME;
-$ENV{ORACLE_SID}  = $ORACLE_SID;
-$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
+#my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
+#my $ORACLE_SID  = "bodsprd";
+#$ENV{ORACLE_HOME} = $ORACLE_HOME;
+#$ENV{ORACLE_SID}  = $ORACLE_SID;
+#$ENV{PATH}        = "$ENV{PATH}:$ORACLE_HOME/bin";
 
 my $sql = $ARGV[0];
 
@@ -37,9 +37,9 @@ sub getBODSPRD {
 
 	my $dbPwd = "BODS_SVC_BILLINGOPS";
 
-	# my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
+	 my $dbods = ( DBI->connect( "DBI:Oracle:$dbPwd",, ) );
 
-	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
+#	my $dbods = DBI->connect( "dbi:Oracle:bodsprd", "md1dbal1", "Reptar5000#" );
 
 	unless ( defined $dbods ) {
 		sendErr();
