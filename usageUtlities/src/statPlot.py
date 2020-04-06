@@ -27,11 +27,21 @@ parser.add_argument("--iqr1", "-i1", help="High IQR Value",default=False)
 
 parser.add_argument("--scale", "-sc", help="Scale Factor",default=False)
 
+parser.add_argument("--upperextreme", "-ux", help="Upper Extreme",default=False)
+
+parser.add_argument("--upperoutlier", "-uo", help="Upper Outlier",default=False)
+
 parser.add_argument("--upperfence", "-uf", help="Upper Fence",default=False)
 
 parser.add_argument("--lowerfence", "-lf", help="Lower Fence",default=False)
 
+parser.add_argument("--loweroutlier", "-lo", help="Lower Outlier",default=False)
+
+parser.add_argument("--lowerextreme", "-lx", help="Upper Extreme",default=False)
+
 parser.add_argument("--medium", "-md", help="Medium",default=False)
+
+parser.add_argument("--mean", "-m", help="Mean",default=False)
 
 # read arguments from the command line
 args = parser.parse_args()
@@ -83,6 +93,11 @@ for i in range(1, colCount) :
 #create grey bar
 if (float(args.iqr0) and float(args.iqr1) )> 0 :
     ax.axhspan((float(args.iqr0)*float(scale)), (float(args.iqr1)*float(scale)), facecolor='0.5', alpha=0.4)
+    
+    
+# Print Mean
+if float(args.medium) > 0 :
+    ax.axhline(y = (float(args.medium)*float(scale)),linestyle=styles[0],color='black' ) 
 
 # Print Medium
 if float(args.medium) > 0 :

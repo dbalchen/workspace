@@ -133,3 +133,31 @@ Archived entries from file /home/dbalchen/workspace/usageUtlities/doc/usageUtili
     - [X] Move each function to it's own sub routine
     - [X] output only one function at a time
       - [X] Pass command line arguments
+
+* Task List [66%]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-03-13 Fri 16:24
+  :ARCHIVE_FILE: ~/workspace/usageUtlities/doc/usageUtilities.org
+  :ARCHIVE_CATEGORY: usageUtilities
+  :END:
+  - [100%] Create Initial SQL
+    - [X] Fix voice to show VoLTE
+    - [X] Run fillAllData in production on o_ebiap1 on kpr01oprmn.
+  - [100%] statAnalysis.py
+    - [X] Add options to produce different types of reports
+    - [X] Create another program to handle the function table generator.
+  - [X] Write plot program
+  - [-] Come up with other SQL for other types [83%]
+    - [X] Voice
+    - [X] Data
+    - [X] SMS
+    - [X] Picture Messaging
+    - [X] Premium SMS
+    - [ ] Intercarrier Roaming
+  - [X] Analyze Analyse [100%]
+    - [X] Write out describe statistics in analyse.py
+    - [X] Save Header
+    - [X] print out fences
+    - [X] Move each function to it's own sub routine
+    - [X] output only one function at a time
+      - [X] Pass command line arguments

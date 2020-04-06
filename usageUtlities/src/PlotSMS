@@ -1,8 +1,9 @@
 #! /bin/sh
 
-export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities
+export UTLITIES_HOME=/apps/ebi/ebiap1/bin/usageUtlities/
 
 cd ${UTLITIES_HOME}/work
 
-cat ../data/sms.dat | cut -f 1,2 | ../lib/bin/sumBy.py > all_sms
-../lib/bin/makePicSeries.pl -o 01_all_smsm -i  all_sms -s 1 -c "SMS Records" -t "All SMS for past 90 Days"
+mkdir -p sms/
+cat ../data/sms.dat | cut -f 1,2 | ../lib/bin/sumBy.py > sms/all_sms
+../lib/bin/makePicSeries.pl -o sms/01_all_smsm -i  sms/all_sms -s 1 -c "SMS Records" -t "All SMS for past 90 Days"

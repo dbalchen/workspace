@@ -1,0 +1,12 @@
+#! /bin/sh
+source /apps/ebi/ebiap1/.bashrc
+
+export UTLITIES_HOME=/apps/ebi/ebiap1/bin/usageUtlities
+
+cd ${UTLITIES_HOME}/bin
+./PlotData
+./PlotMMS
+./PlotSMS
+./PlotVoice
+
+exit 0

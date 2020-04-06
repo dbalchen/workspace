@@ -2,9 +2,11 @@
 
 my $home = $ENV{'UTLITIES_HOME'};
 
+#my $home = '/home/dbalchen/workspace/usageUtlities';
+
 chdir("$home");
 
-my $date = `date '+%Y%m%d'`;
+my $date  = `date '+%Y%m%d'`;
 my $rdate = `date '+%A %B %d %T %Z'`;
 
 chomp($date);
@@ -20,12 +22,13 @@ my $hh = "$home/lib/bin/printSQL.pl  $home/lib/sql/find_long_VoLTE.sql";
 
 if ( @ARGV != 0 ) {
 
-	$email = 'USCDLISBillingandRevenueOpsOn-Call@uscellular.com:USCDLISOps-BillingandAROperations@uscellular.com';
+	$email =
+'USCDLISBillingandRevenueOpsOn-Call@uscellular.com:USCDLISOps-BillingandAROperations@uscellular.com';
 
 	$subject =
 "ALERT!!!! Pre-Paid VoLTE Long duration issue for $rdate -- Open an Escalated Remedy Ticket to Amdocs";
 
-	$salutation ="
+	$salutation = "
 Some Pre-Paid VoLTE customers have experienced calls of extreme duration(see attached document).
 
 Please open an escalated Remedy ticket to AMDOCS Tier 2 Billing using the Escalation Process flow listed below:
@@ -86,12 +89,18 @@ else {
 	}
 }
 
+open( SHEET, "> $home/work/sheetout.dat" );
+print SHEET $sheetOut;
+close(SHEET);
+
 $hh =
-    'lib/bin/toSheet.py -t "Unlimited::Limited" -i "'
-  . $sheetOut . '"'
+    'lib/bin/toSheet.py -t "Unlimited::Limited" -i ' . "$home"
+  . '/work/sheetout.dat'
   . " -o $home"
   . '/work/'
   . "$filename";
+
+print("$hh\n");
 
 system($hh);
 

@@ -1,7 +1,7 @@
 #! /bin/sh
-#source /apps/ebi/ebiap1/.bashrc
+source /apps/ebi/ebiap1/.bashrc
 
-export UTLITIES_HOME=/home/dbalchen/workspace/usageUtlities/
+export UTLITIES_HOME=/apps/ebi/ebiap1/bin/usageUtlities/
 
 ${UTLITIES_HOME}/lib/bin/printSQL.pl ${UTLITIES_HOME}/lib/sql/voice.sql > ${UTLITIES_HOME}/data/voice.dat &
 

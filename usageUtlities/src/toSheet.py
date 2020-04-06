@@ -1,20 +1,20 @@
-#! /bin/python3
+#! /usr/bin/python3
 
 # import Workbook used for writing
 
 from openpyxl import Workbook
 from openpyxl.styles import Font
-#from openpyxl.drawing.image import Image
+# from openpyxl.drawing.image import Image
 
 import fileinput
 
 import argparse
 
-
 # Font setup   
 def_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=False)
 bold_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=True)
 red_font = Font(name='Arial', size=10, color='00FF0000', italic=True, bold=True)
+
 
 def printRow (row, font, sheet, max_row):
     
@@ -24,6 +24,7 @@ def printRow (row, font, sheet, max_row):
         sheet.cell(row=max_row, column=(i + 1)).number_format = '0.00' 
     return;
 
+
 def printSheet (sheet, output):
     max_row = 1
     myfont = bold_font
@@ -32,7 +33,7 @@ def printSheet (sheet, output):
         if(max_row > 1) :
             myfont = def_font
             
-        printRow(row,myfont, sheet, max_row)
+        printRow(row, myfont, sheet, max_row)
         
         max_row = max_row + 1 
     return
@@ -48,9 +49,28 @@ parser.add_argument("--tabnames", "-t", help="Tab Names")
 
 args = parser.parse_args()
 
-inp = []
+text = ""
+
+lineCount = 0
+
 if args.input:
-    inp = args.input.split("::")
+    inp = args.input
+else:
+    inp = '-'
+
+# inp = '/home/dbalchen/workspace/usageUtlities/work/sheetout.dat'
+
+for line in fileinput.input(inp):
+    try:
+        text = text + line
+        lineCount = lineCount + 1
+    except:pass
+
+if lineCount <= 1:
+    exit(0);
+    
+inP = []
+inP = text.split("::")
 
 excel_file = 'statSheet.xlsx'
 
@@ -66,7 +86,7 @@ wb = Workbook()
 
 sheet = None
 
-for file in inp: 
+for file in inP: 
         
     results = []
     
@@ -100,7 +120,7 @@ for file in inp:
                 line = line.rstrip()
                 results.append(tuple(line.split("\t")))
         
-    printSheet (sheet,results)   
+    printSheet (sheet, results)   
 wb.save(excel_file)
 
 SystemExit(0);

@@ -1,6 +1,6 @@
 #! /usr/local/bin/perl
 
-$ENV{'UTLITIES_HOME'} = '/home/dbalchen/workspace/usageUtlities';
+
 my $ut_home = $ENV{'UTLITIES_HOME'};
 
 my $title = "Stat Plot";
@@ -8,7 +8,7 @@ my $scale = 1;
 my $out   = "out";
 my $col   = 'Volume';
 
-my $stdin_file = "/home/dbalchen/Desktop/test.dat";
+#my $stdin_file = "/home/dbalchen/Desktop/test.dat";
 
 for ( my $args = 0 ; $args < @ARGV ; $args++ ) {
 

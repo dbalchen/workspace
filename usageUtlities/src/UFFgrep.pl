@@ -1,8 +1,8 @@
 #! /usr/local/bin/perl
 
-my $stdin_file = "/home/dbalchen/Desktop/allProd.dat";
+#my $stdin_file = "/home/dbalchen/Desktop/allProd.dat";
 
-open( STDIN, "< $stdin_file" ) || exit(1);
+#open( STDIN, "< $stdin_file" ) || exit(1);
 
 my %switches = {};
 

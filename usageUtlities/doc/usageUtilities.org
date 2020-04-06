@@ -170,25 +170,3 @@
   Test each program individually.
 * Implementation Considerations
   See *Infrastructure Considerations*.
-* Task List [66%]
-  - [50%] Create Initial SQL
-    - [X] Fix voice to show VoLTE
-    - [ ] Run fillAllData in production on o_ebiap1 on kpr01oprmn.
-  - [100%] statAnalysis.py
-    - [X] Add options to produce different types of reports
-    - [X] Create another program to handle the function table generator.
-  - [X] Write plot program
-  - [-] Come up with other SQL for other types [66%]
-    - [X] Voice
-    - [X] Data
-    - [X] SMS
-    - [X] Picture Messaging
-    - [ ] Premium SMS
-    - [ ] Intercarrier Roaming
-  - [X] Analyze Analyse [100%]
-    - [X] Write out describe statistics in analyse.py
-    - [X] Save Header
-    - [X] print out fences
-    - [X] Move each function to it's own sub routine
-    - [X] output only one function at a time
-      - [X] Pass command line arguments

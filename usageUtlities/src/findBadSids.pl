@@ -18,7 +18,6 @@ my $subject =
 "ALERT!!!! Shared Memory Error found on $hostname for $rdate -- Open an Escalated Remedy Ticket to Amdocs";
 
 my $salutation = "Dearest OPS,
-
 A Shared Memory Error found on $hostname for $rdate,
 
 Please open an escalated Remedy ticket to AMDOCS Tier 2 Billing using the Escalation Process flow listed below:
@@ -40,9 +39,9 @@ Please open an escalated Remedy ticket to AMDOCS Tier 2 Billing using the Escala
 
 - Call Amdocs (217-766-1979) tell them you have an escalated ticket and give them the ticket number.
 
-- Take this email and forward it to GSSUSCCTier25RA\@amdocs.com.
+- Take this email and forward (remember to send the attachment) it to GSSUSCCTier25RA\@amdocs.com.
 
-In addition please contact either David Balchen (608-576-1900) or David Smith (608-212-2911) to inform them that a large duration alert has been issued.
+In addition please contact either David Balchen (608-576-1900) or David Smith (608-212-2911) to inform them that a shared memory error alert has been issued.
 
 ===   Log Errors   ===
 

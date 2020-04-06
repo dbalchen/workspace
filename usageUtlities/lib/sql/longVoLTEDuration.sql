@@ -17,6 +17,6 @@ select a.customer_id,
   from ape1_rated_event a
  where     1 = 1
        and a.event_type_id = 62
-       and a.l3_duration > 7000
+       and a.l3_duration > 17000
        and a.l9_session_identifier like 'RO_CTS%'
        and a.sys_creation_date > sysdate - 1
