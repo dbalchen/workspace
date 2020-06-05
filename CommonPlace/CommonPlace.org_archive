@@ -5414,3 +5414,102 @@ Discussion Points \ Notes (from agenda above):
    - The project is complete. Besides the two new alerts, I created a daily report that is sent to various business groups that show all Pre-Paid VoLTE calls over 60 minutes.
 
 
+
+* Infra-Ops Handoff.
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-03-17 Tue 09:49
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+** EpsMonitors
+   The EPS monitors is a monitoring solution developed by the IS Billing Operations team. 
+   On each machine monitored there is a server which runs a select number of scripts then stores that information in memory.
+   A Tomcat web server retrieves the information, formats it and then displays.
+   
+   The EpsMonitors are located on all production servers listed in the diagram below and can be 
+   found at */apps/amduser/prodtc*/eps/EpsMonitors*, *where * = 1-6*
+   You need to login using your own lanID then sudo /bin/su - prodtc(1....6)
+
+   #+ATTR_LaTeX: :width 10cm
+   file:Pictures/EpsMonitors.png
+
+** Check Production servers.
+   There is a script located in the home directory of the user *calldmp* on the *kpr01scd01* called *CheckEPS_MonitorPorts*
+    that will check each production server to see it is operational. If successful it will display "/Howdy from the MPS Monitor/"
+    if not it shows *Fail*
+
+    |----------------------------|
+    | CheckEPS_MonitorPorts      |
+    |----------------------------|
+    | Checking kpr01bch01        |
+    | Howdy from the MPS Monitor |
+    | Checking kpr01bch02        |
+    | Howdy from the MPS Monitor |
+    | Checking kpr01bch03        |
+    | Howdy from the MPS Monitor |
+    | Checking kpr01bch04        |
+    | Howdy from the MPS Monitor |
+    | Checking kpr01eve01        |
+    | Howdy from the MPS Monitor |
+    | Checking kpr01eve02        |
+    | Howdy from the MPS Monitor |
+    | Checking kpr01eve03        |
+    | Howdy from the MPS Monitor |
+    | Checking kpr01eve04        |
+    | Howdy from the MPS Monitor |
+    | Checking kpr01eve05        |
+    | Howdy from the MPS Monitor |
+    | *Checking kpr01oprmn*      |
+    | *Fail*                     |
+    | Checking kpr01eve06        |
+    |----------------------------|
+
+** Restart the Monitor(s)
+   When a monitor is down you need to go into the host server using your lanID then sudo /bin/su - prodtc* where * = 1..6 then got to the *eps/EpsMonitor/* directory.
+   Once there run the script *StartMonitors* which will start the monitor.
+
+** Server Information
+
+   - Machine :: kpr01bch01
+   - UserId :: sudo /bin/su - prodtc1
+   - Monitor Directory :: /apps/amduser/prodtc1/eps/EpsMonitors
+
+   - Machine :: kpr01bch02
+   - UserId :: sudo /bin/su - prodtc2
+   - Monitor Directory :: /apps/amduser/prodtc2/eps/EpsMonitors
+
+   - Machine :: kpr01bch03
+   - UserId :: sudo /bin/su - prodtc3
+   - Monitor Directory :: /apps/amduser/prodtc3/eps/EpsMonitors
+
+   - Machine :: kpr01bch04
+   - UserId :: sudo /bin/su - prodtc4
+   - Monitor Directory :: /apps/amduser/prodtc4/eps/EpsMonitors
+
+   - Machine :: kpr01eve01
+   - UserId :: sudo /bin/su - prodtc1
+   - Monitor Directory :: /apps/amduser/prodtc1/eps/EpsMonitors
+
+   - Machine :: kpr01eve02
+   - UserId :: sudo /bin/su - prodtc2
+   - Monitor Directory :: /apps/amduser/prodtc2/eps/EpsMonitors
+
+   - Machine :: kpr01eve03
+   - UserId :: sudo /bin/su - prodtc3
+   - Monitor Directory :: /apps/amduser/prodtc3/eps/EpsMonitors
+
+   - Machine :: kpr01eve04
+   - UserId :: sudo /bin/su - prodtc4
+   - Monitor Directory :: /apps/amduser/prodtc4/eps/EpsMonitors
+
+   - Machine :: kpr01eve05
+   - UserId :: sudo /bin/su - prodtc5
+   - Monitor Directory :: /apps/amduser/prodtc5/eps/EpsMonitors
+
+   - Machine :: kpr01eve06
+   - UserId :: sudo /bin/su - prodtc6
+   - Monitor Directory :: /apps/amduser/prodtc6/eps/EpsMonitors
+
+   - Machine :: kpr01oprmn
+   - UserId :: sudo /bin/su - o_ebiap1
+   - Monitor Directory :: /apps/ebi/ebiap1/EpsMonitors

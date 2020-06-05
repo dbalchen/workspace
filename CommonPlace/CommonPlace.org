@@ -205,11 +205,9 @@ file:Pictures/Andrejevi1.jpg
 ** APRM
    *Amdocs Partner Relationship Module* is a *TC* sub-module that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
 ** Create Wallets 						   :noexport:
- : Service Account SVC_NP_BILLINGOPS  Ad9PbpIe2Bc^WfKq2xntIpar
- : Service Account SVC_BILLINGOPS    lXmWKh5pJsGxr!nIl_GQl0Db
- : TSP Production Password prmAPPC!PHAV1
- :                         PRMAPPC!22 - Starting tomorrow
-r56cEZXVoiLB9y3EzP3IbOAI
+ : Service Account SVC_NP_BILLINGOPS xDzEikowgeQLcjfoKHXsawuu$
+ : Service Account SVC_BILLINGOPS    xDzEikowgeQLcjfoKHXsawuu$
+ :
  : sqlplus PRDUSG1C/tc1SG1C!18@TC1PRD 
  : sqlplus PRDUSG2C/tc2SG2C!18@TC2PRD 
  : sqlplus PRDUSG3C/tc3SG3C!18@TC3PRD 
@@ -225,7 +223,10 @@ r56cEZXVoiLB9y3EzP3IbOAI
  : mkstore -wrl <wallet_location>  -createCredential <db_connect_string> <username> <password>
  : mkstore -wrl  <wallet_location> -deleteCredential <db_connect_string> <username> <password>
  : mkstore -wrl  <wallet_location> -modifyCredential <db_connect_string> <username> <password>
- : mkstore -wrl .wallet  -createCredential ANF_SVC_BILLINGOPS SVC_BILLINGOPS 'xDzEikowgeQLcjfoKHXsawuu'
+ : mkstore -wrl .wallet  -createCredential ANF_SVC_BILLINGOPS SVC_BILLINGOPS 'xDzEikowgeQLcjfoKHXsawuu$'
+
+
+mkstore -wrl .wallet  -modifyCredential ANF_SVC_BILLINGOPS SVC_BILLINGOPS 'xDzEikowgeQLcjfoKHXsawuu$'
 
  : New Password xDzEikowgeQLcjfoKHXsawuu
 
@@ -4045,7 +4046,7 @@ CD    6. No additional details needed
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |------------------+--------------------+-------------------------|
-| *Name*           | *Data Type*        | *Descritption*          |
+| *Name*           | *Data Type*        | *Description*           |
 |------------------+--------------------+-------------------------|
 | Au_Id            | Number (9)         |                         |
 | Carrier_Cd       | Varchar2 (20 Byte) |                         |
@@ -4981,6 +4982,16 @@ CD    6. No additional details needed
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List
+** TODO This Weeks Tasks
+   - Provided verification for all test calls for VoLTE wave 4.
+   - Oncall all week thus participated in all operation meetings.
+   - Provided Usage Graphs for Connie.
+   - Finished the first Ifra-Ops transfer document for the CallDump
+     - Rewrote and tested the shutdown CallDump script.
+     - Started working on EOM document.
+   - Did analysis on moving the ENODEB tower dump to the CallDump.
+   - Reviewed and modified the Usage Playbook
+
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0600/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0600 - 5G Commercialization]]
     [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Architecture]]
 *** Project Manager
@@ -5216,7 +5227,7 @@ CD    6. No additional details needed
     - Engage SANDS team in reporting sessions.
     - Solicit implementation schedule from the EDW Reporting team.
     - Support any issues that come up for launch.
-*** Current Status 
+
     *Phase 1 of 5G has been implimented and in production (Iowa and Wisconsin) and there have been no issues so far.* 
     Received a “go” decision from the executive team to launch our 5G devices. Began Live BMC on 03/04.
     - Provided assessment for CR # 1291 - Update default Downlink Speed. Due to new 5G device capabilities being more than current maximum speed limits 
@@ -5225,6 +5236,19 @@ CD    6. No additional details needed
     - ETQA and EPC team are engaged on the Production Test SKU issue. The fix will be in production 3/26 – Work around is in place in the meantime.
     - Secondary RAT issues - it is currently determined that secondary RAT reports remain problematic and engineering is well aware of that. 
       Until engineering works with their vendors to implement a solution to resolve these concerns, this is a watch item for IS.
+
+    - Supported Live BMC from 03/04 - 03/09 in Schaumburg and Virtual BMC starting 03/10. There were no issues reported in the BMC.
+    - Development and testing for CR # 1291 continued. This CR is to update default Downlink Speed. Due to new 5G device capabilities 
+      being more than current maximum speed limits the request is to update Downlink maximum bandwidth value provisioned in the HSS by TOPS to allow 4Gbps for LTE.
+    - EDW Design is in progress for the Reporting solution to be delivered in June 2020. There will be additional work to model how we structure this data in the EDW presentation layer.
+    - ETQA and EPC team are engaged on the Production Test SKU issue. The fix will be in production 3/26 – Work around is in place in the meantime.
+    - Secondary RAT issues - it is currently determined that secondary RAT reports remain problematic and engineering is well aware of that. Until engineering works with 
+      their vendors to implement a solution to resolve these concerns, this is a watch item for IS.
+*** Current Status 
+    - Solution Architecture updates for CR # 1370is in progress. Prepaid was previously out of scope for the initial 5G commercialization launch due to timelines and ability to test prior to device launch.  
+      At this time we are looking to expand project scope to include the ability to attach prepaid plans to 5G devices.
+    - Met with CXM, IM and EDW teams to discuss sourcing of test data for the reporting solution.
+    - ieCCF / Secondary RAT reporting - Meeting is scheduled with IS and Engineering leaders next Monday 4/27.
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0616/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0616 Google Fi VoLTE]]
 *** Project Manager
@@ -5240,10 +5264,12 @@ CD    6. No additional details needed
     VoLTE customer experience to reverse engineer the requirements but feels that this could be risky and result in throwaway work. 
     Business requirement work has been put on hold until the team can better understand what Google can offer in terms of customer experience requirements. 
     The project will return to green once USCC and Google agree on a path forward to document business requirements
-*** Current Status
-    No updates this week 
 
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0599/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0599 CDMA-less (Real Time Text (RTT))]] 
+    No updates this week 
+*** Current Status
+    No Updates
+
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0645/_layouts/15/start.aspx#/][USCC TOPS IA IR0645 Real Time Text]] 
 *** Project Manager
     Sheri Cass
 *** Go Live Date
@@ -5256,9 +5282,31 @@ CD    6. No additional details needed
     Real time text IS deliverables are moving forward. Our solution architecture was completed on 02/18 and our user stories were sent to Amdocs on 02/21. 
     Next step is getting the IA draft from Amdocs and determining if we can deploy RTT off cycle in May. 
     We should have an update on this topic in March.
-*** Current Status 
     No updates
+    Solution Architecture and User Stories are now officially completed. Amdocs drafted the ROM and Valluri has approved it pending a few questions. 
+    Amdocs has delivered the IA's planned. After the IA has been revised we will have an approval meeting set up. That is projected to be 03/23/2020. 
 
+    No updates
+*** Current Status 
+    The project is OFF TRACK this week. We do not have a plan that meets the 5/1 NRD or 6/30 regulatory date. There are dependencies on multiple vendors to be able to make
+    the changes needed for the solution in production. The two biggest dependencies are with Nokia and Ericsson. 
+**** Path to green: 
+     Complete Ericsson changes to the Santa Clara RCC by 5/1 so that Samsung testing can begin and establish a plan with Nokia that completes deployment to all 4 RCCs by 6/30. 
+     Our next RTT decision checkpoint meeting with Engineering is 4/23 at 4pm.
+**** Progress Items: 
+     - Amdocs IA was approved on 03/20
+     - Amdocs Work at Risk approved on 03/20
+     - SKU list received and sent to EPC for development
+     - EPC development completed and delivered to Amdocs on 04/06
+     - Located testing devices for ETQA
+     - 3 of 6 devices have been updated with OEM and sent to Schaumburg to be placed in testing rack
+**** Next Steps:
+     - Device management updating 3 devices and shipping them to ETQA
+     - E3 approval 
+     - Samsung device provisioning
+     - Device manager is still working on getting a device list from Samsung for OEM testing – Due Date 04/17
+     - Amdocs code delivery 05/11
+     - ETQA Testing 05/11 – 05/31
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/Lists/IRforms/DispForm.aspx?ID=235&RootFolder=%252A][IR0646 IOT Enhancements]] 
 *** Project Manager
@@ -5272,8 +5320,9 @@ CD    6. No additional details needed
     The project is just in the preliminary mode so there has been no standing meetings.
     The solution document has been produced and is currently under review.
     This is an engineering project and should not affect IT.
-*** Current Status     
     No updates this week
+*** Current Status     
+    No updates
 
 ** TODO [[https://usc.intranet.teldta.com/sites/supplychain/procurement/engineering/_layouts/15/start.aspx#/Projects/Forms/AllItems.aspx?RootFolder=%252Fsites%252Fsupplychain%252Fprocurement%252Fengineering%252FProjects%252F2019%2520%252D%2520Voicemail%2520RFP%252FMavenir&FolderCTID=0x012000CC260B161AB11B4ABF67B58BEA442498&View=%257B4104A1FF%252D1880%252D42A6%252D8655%252DBDD9C105E65B%257D][IR0651 Voice Mail replacement Project]]
 *** Project Manager
@@ -5283,11 +5332,27 @@ CD    6. No additional details needed
 *** Status
     Went through the solution document that described the new voice mail system we will be using in the future. 
     This is an engineering project and is a drop in replacement for our current voice mail and should not affect us at all.
-*** Current Status   
     [[https://usc.intranet.teldta.com/sites/supplychain/procurement/engineering/_layouts/15/start.aspx#/Projects/Forms/AllItems.aspx?RootFolder=%2Fsites%2Fsupplychain%2Fprocurement%2Fengineering%2FProjects%2F2019%20%2D%20Voicemail%20RFP%2FMavenir&FolderCTID=0x012000CC260B161AB11B4ABF67B58BEA442498&View=%7B4104A1FF%2D1880%2D42A6%2D8655%2DBDD9C105E65B%7D][Mavenir VM solution documentation]]
 
-** TODO Work on Dan's Java program
+*** Current Status   
+    No updates.
 
+** TODO Work on Dan's Java program
+** TODO IR0643 International Services  CR1167 - Toll Free Calls for Customer Service Calls
+*** Project Manager
+    Sheri Cass
+*** Go Live Date
+    June 2020
+*** Current Status
+    - Action Items:
+      1. Swetha to confirm if there is any instances of this number in mediation and confirm if this can be zero rated.
+      2. Swetha - What prefixes are being added to current calls? 
+      3. Swetha - Indicator for International Calls for RLC. 
+      4. Sarit - confirm these records are not going through APRM?
+      5. Sarit – Confirm Logic can be updated to reference only the last 10 digits on the number to ignore for rating .
+      6. Michelle – Confirm with the business if we expect using this number for International Roaming to impact the volume of calls. 
+
+** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0664/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0664 AIM 24]] 
 * Footnotes
 
 [fn:8] *TWS* Job

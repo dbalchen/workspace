@@ -493,5 +493,3 @@ for who in sendTo:
     sendMail(excel_file, message, subject, who)
     
 SystemExit(0);
-
-

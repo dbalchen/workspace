@@ -1,0 +1,51 @@
+Running a CallDump for the following:
+Search String: 410039 SearchType: ORIGCLLI,TERMCLII
+Market: m06
+Switch: VOLTE
+Running find command 
+find /m02/switch/Data -name "*.DAT*" -follow -print| egrep 'SVOLTE.*DAT$|STAS.*DAT$|SVOLTE.*DAT.gz$|STAS.*DAT.gz$' | grep -v wedo | 
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186249_T20200310205710.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186263_T20200310225700.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186254_T20200310212713.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186265_T20200310232701.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186268_T20200310235702.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186264_T20200310225705.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186260_T20200310222706.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186258_T20200310215712.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186253_T20200310212708.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186248_T20200310205707.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186267_T20200310235700.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186251_T20200310212701.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186256_T20200310215705.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186266_T20200310232703.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186259_T20200310222701.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186257_T20200310215707.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186252_T20200310212705.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186255_T20200310215700.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186262_T20200310222711.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186250_T20200310205713.DAT
+Will Search the following file: /m02/switch/Data/volte/STAS1_FUFF_ID186261_T20200310222706.DAT
+Entered RunGetInfo starting to process files
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186249_T20200310205710.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186263_T20200310225700.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186254_T20200310212713.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186265_T20200310232701.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186268_T20200310235702.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186264_T20200310225705.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186260_T20200310222706.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186258_T20200310215712.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186253_T20200310212708.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186248_T20200310205707.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186267_T20200310235700.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186251_T20200310212701.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186256_T20200310215705.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186266_T20200310232703.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186259_T20200310222701.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186257_T20200310215707.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186252_T20200310212705.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Too many GetInfo processes running: 16...sleeping 10 seconds
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186255_T20200310215700.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186262_T20200310222711.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186250_T20200310205713.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+Processing file: /home/dbalchen/workspace/CallDump/bin/GetInfo -w /home/dbalchen/workspace/CallDump/work -dd  -f STAS1_FUFF_ID186261_T20200310222706.DAT.20200604143611 -s 410039 -sw volte -st ORIGCLLI,TERMCLII  &
+CallDump is complete processing 21 

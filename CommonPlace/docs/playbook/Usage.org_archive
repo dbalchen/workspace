@@ -1,0 +1,181 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/dbalchen/workspace/CommonPlace/Usage.org
+
+
+* CDMA *In and Outcollects*
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2019-06-27 Thu 12:01
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/Usage.org
+  :ARCHIVE_OLPATH: APRM/APRM Tables
+  :ARCHIVE_CATEGORY: Usage
+  :END:
+    Used for CDMA Incollect/Outcollect Voice and data files.
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+#+ATTR_LaTeX: :environment longtable :align l|l|l
+|--------------------+--------------------+----------------|
+| *Name*             | *Data Type*        | *Description*  |
+|--------------------+--------------------+----------------|
+| Air_Chrg_Amt       | Number (18,5)      |                |
+| Application_Id     | Char (6 Byte)      |                |
+| Au_Id              | Number (9)         |                |
+| Bp_Start_Date      | Date               |                |
+| Carrier_Cd         | Varchar2 (20 Byte) |                |
+| Ciber_File_Name_1  | Varchar2 (50 Byte) |                |
+| Ciber_File_Name_2  | Varchar2 (50 Byte) |                |
+| Dl_Service_Code    | Char (5 Byte)      |                |
+| Dl_Update_Stamp    | Number (4)         |                |
+| Edr_Id             | Number (11)        |                |
+| Event_Date         | Date               |                |
+| Event_Id           | Number (4)         |                |
+| Event_Type         | Varchar2 (20 Byte) |                |
+| File_Report_Period | Date               |                |
+| Generated_Rec      | Number (4)         |                |
+| Geo_Code           | Varchar2 (10 Byte) |                |
+| Home_Company       | Varchar2 (20 Byte) |                |
+| Home_Sid           | Char (5 Byte)      |                |
+| Ntwrk_Roam_Ind     | Char (1 Byte)      |                |
+| Operator_Id        | Number (9)         |                |
+| Orig_Bp            | Date               |                |
+| Originating_Id     | Char (20 Byte)     |                |
+| Other_Company      | Varchar2 (20 Byte) |                |
+| Prod_Id            | Number (4)         |                |
+| Serve_Company      | Varchar2 (20 Byte) |                |
+| Serve_Sid          | Char (5 Byte)      |                |
+| Subscriber_Id      | Char (10 Byte)     |                |
+| Surcharge_Amount   | Number (18,5)      |                |
+| Surcharge_Ind      | Char (1 Byte)      |                |
+| Sys_Creation_Date  | Date               |                |
+| Sys_Update_Date    | Date               |                |
+| Terminating_Id     | Char (20 Byte)     |                |
+| Toll_Chrg          | Number (18,5)      |                |
+| Toll_Duration      | Number (11)        |                |
+| Toll_Tp_Ind        | Varchar2 (20 Byte) |                |
+| Total_Chrg_Amount  | Number (18,5)      |                |
+| Total_Tax          | Number (18,5)      |                |
+| Usage              | Number (18,5)      |                |
+| Usc_Uom            | Char (1 Byte)      |                |
+| Visit_Ind          | Char (1 Byte)      |                |
+| Volume_Type        | Char (2 Byte)      |                |
+|--------------------+--------------------+----------------|
+#+BEGIN_LaTeX
+\normalsize
+\newpage
+#+END_LaTeX
+
+* Phases Legend
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-03-02 Mon 11:39
+  :ARCHIVE_FILE: ~/workspace/usageUtlities/doc/playbook/Usage.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: Usage
+  :END:
+  
+ - (a) Help find usage for this number
+ - (b) Where is the money?
+ - (c) Help find this roaming usage
+ - (d) What's wrong with the bill?
+ - (e) Call Detail Records (UFF)
+ - (f) Rated usage
+ - (g) The raw switch records
+ - (h) Check Data Issues
+ - (i) Check post-paid usage file processing
+ - (j) Post and Pre-Pay rating
+ - (k) Roaming file and rating
+ - (l) Pre-Pay connection issues
+ - (m) Rating errors
+ - (n) file errors
+ - (o) roaming errors
+ - (p) UFF creation and file transfer
+ - (q) Incorrect rate
+ - (r) missing usage
+
+
+* Usage Issue Flow Chart
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-03-02 Mon 11:39
+  :ARCHIVE_FILE: ~/workspace/usageUtlities/doc/playbook/Usage.org
+  :ARCHIVE_OLPATH: Task List/Usage Playbook
+  :ARCHIVE_CATEGORY: Usage
+  :END:
+
+digraph BI {
+"Satish" -> "TOPS"
+"Amit Droer" -> "TOPS"
+"Serhiy" -> "TOPS"
+"Heather Jescke" -> "Revenue Accounting"
+"Miquel Jones" -> "Revenue Accounting"
+"Ellen Sveinsson" -> "ICS"
+"Liz Pierce" -> "ICS"
+"Ilham Elgarni" -> "ICS"
+"Craig Stalsberg" -> "PDC"
+"Yogesh Prasad (Amdocs)" -> "EPC"
+"John Schultz" -> "EPC"
+"John Samz" -> "EPC"
+"David Balchen" -> "Usage"
+"David Balchen" -> "CallDump"
+"David Balchen" -> "EPS Monitors"
+"David Smith" -> "Usage"
+"David Smith" -> "FYI Messages"
+"Bill Pack" -> "Engineering"
+"Christien Bekos" -> "Revenue Assurance"
+"Deanna Andrews" -> "Revenue Assurance"
+"Shawntrice Moses Butler" -> "Amdocs"
+"Ellen Sveinsson" -> "TNS"
+"Ilham Elgarni" -> "TNS"
+"George Kamba" -> "CallDump"
+"Connie Dwyer" -> "Queen"
+"Denise Lintz" -> "Supreme Monarch"
+"Izabela Miller" -> "CallDump"
+"Soly Haddock" -> "CallDump"
+"Connie Davis" -> "CallDump"
+}
+
+digraph BI {
+	graph [splines=true nodesep=0.8  constraint=false overlap=false style=bold];
+	node [shape=point]; "";	
+	node [shape=plaintext]; "PDC";
+	"Usage Inquiry" -> "CallDump"  [label = "(e)"]
+	"Usage Inquiry" -> ""  [label = "(f)"]
+	"Usage Inquiry" -> "PDC"  [label = "(g)"]
+	"Usage Inquiry" -> "Engineering"  [label = "(h)"]
+	"" -> "ANF"  [label = "(i)"]
+	"" -> "TC"  [label = "(j)"]
+	"" -> "ARCM/ARPM"  [label = "(k)"]
+	"TC" -> "PDC"  [label = "(l)"]
+	"TC" -> "AEM"  [label = "(m)"]
+	"ANF" -> "AEM"  [label = "(n)"]
+	"ARCM/ARPM" -> "AEM"  [label = "(o)"]
+	"CallDump" -> "PDC"  [label = "(p)"]
+	"TC" -> "EPC"  [label = "(q)"] 
+	"PDC" -> "Engineering"  [label = "(r)"]
+	"Revenue\nAssurance" -> "Usage Inquiry"  [label = "(d)"]
+	"ICS" -> "Usage Inquiry" [label = "(c)"]
+	"Revenue\nAccounting" -> "Usage Inquiry" [label = "(b)"]
+	"Subpoena\nTeam" -> "Usage Inquiry" [label = "(a)"]
+	
+	subgraph cluster_2 {
+		"";
+		"ANF";
+		"TC";
+		"ARCM/ARPM";
+		"AEM";
+		"EPC";
+		label = "TOPS";	
+	}
+	
+	subgraph cluster_3 {
+		"Revenue\nAssurance";
+		"Revenue\nAccounting";
+		"Subpoena\nTeam";
+		"ICS";
+		color="#FFFFFF";
+	}
+}
+
+
+

@@ -1,0 +1,1 @@
+update call_dump_queue set status = 'RD' where status = 'IU'; 

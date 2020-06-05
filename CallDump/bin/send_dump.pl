@@ -48,9 +48,9 @@
 
 
 use strict;
-use lib "/home/calldmp/CallDump2.0/bin/Spreadsheet:WriteExcel/lib";
+use lib "/home/dbalchen/workspace/CallDump/bin/Spreadsheet:WriteExcel/lib";
 use Spreadsheet::WriteExcel;  # Used to create .xls files.
-use lib "/home/calldmp/CallDump2.0/bin/MIME";  # Library where the MIME::Lite package is located
+use lib "/home/dbalchen/workspace/CallDump/bin/MIME";  # Library where the MIME::Lite package is located
 use MIME::Lite;  # For sending email.
 
 use constant MAX_ROWS => 33000;

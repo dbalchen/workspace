@@ -24,8 +24,7 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
 .
 
   #---INITIALIZE VARIBLES------------------------------
-  #$inputfile    = "";
-  $searchstring = "";
+  #$inputfile    = "";  $searchstring = "";
   $callgnbr     = "";
   $calldnbr     = "";
   $dialdnbr     = "";
@@ -34,11 +33,11 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
   $switch       = "";
   $exact = 0;
 
-  @backdoor = `cat /home/calldmp/CallDumpTest/config/backdoor.db`;
+  @backdoor = `cat /home/dbalchen/workspace/CallDump/bin/backdoor.db`;
 
   #---INPUTS-------------------------------------------
-  #$inputfile = $ARGV[0];
-  #$inputfile =~ s/ //g;
+  $inputfile = '/m01/switchb/tas/STAS1_FUFF_ID186255_T20200310215700.DAT';
+  $inputfile =~ s/ //g;
 
   for ( $a = 0 ; $a < @ARGV ; $a++ ) {
 
@@ -62,7 +61,7 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
       $Iocli = 1;
     }
     if ($ARGV[$a] eq "-tc" ) {
-
+    	
       $Itcli = 1;
     }
 
@@ -109,9 +108,6 @@ $date,$ctime,$duration,$esn,$msid,$calling_tn,$dialed_tn,$tmsid,$called_tn,$ct,$
     {
       if (( index( $ocli, $searchstring )  != -1 )
 	  && $Iocli == 1 ) {
-	write;
-      } elsif (( index( $tcli, $searchstring )  != -1 )
-	       && $Itcli == 1 ) {
 	write;
       } elsif ( ( ( index( $calling_tn, $searchstring ) ) != -1 )
 		&& $callgnbr eq "-g" ) {

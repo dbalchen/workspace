@@ -196,7 +196,7 @@ if ((index($infile,"FUFF") > -1) || ($filetype eq "UFF")) {
   } elsif (index($infile,"ALU") > -1) {
     $hh = "$cat $infile | grep $searchstring | $PWD/calldump_alu.pl  -fn $infile -s $searchstring $filter > $infile$timestamp.TMP   2>/dev/null ";
   } elsif (index($infile,"TAS") > -1) {
-    $hh = "$cat $infile | grep $searchstring | $PWD/calldump_volte.pl  -fn $infile -s $searchstring $filter > $infile$timestamp.TMP   2>/dev/null ";
+    $hh = "$cat $infile | $PWD/calldump_volte.pl  -fn $infile -s $searchstring $filter > $infile$timestamp.TMP   2>/dev/null ";
   } elsif (index($infile,"PGW") > -1) {
     $hh = "$cat $infile | grep $searchstring | $PWD/calldump_lte.pl  -fn $infile -s $searchstring $filter > $infile$timestamp.TMP   2>/dev/null ";
   } elsif (index($infile,"QIS") > -1) {
@@ -211,7 +211,7 @@ if ((index($infile,"FUFF") > -1) || ($filetype eq "UFF")) {
   exit 1;
 }
 
-#print "The GetInfo Command : $hh\n";
+print "The GetInfo Command : $hh\n";
 system("$hh");
 
 #/**
@@ -220,7 +220,7 @@ system("$hh");
 
 rename("$infile$timestamp.TMP", "$infile$timestamp.Out");
 unlink ("$OutFl");
-system "rm $infile$timestamp.decrypt";
+#system "rm $infile$timestamp.decrypt";
 
 
 if ($del) {

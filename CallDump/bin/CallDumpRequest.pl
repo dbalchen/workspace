@@ -1,5 +1,6 @@
 #! /usr/bin/perl
 
+
 use lib "./MIME";
 use MIME::Lite;
 use Time::Local qw(timelocal);
@@ -15,7 +16,8 @@ $numberOfFiles = 0;
 
 $total_files_atOnce = 500;
 
-$app_base = "/home/calldmp/bin/CallDump2.0/";
+#$app_base = "/home/calldmp/bin/CallDump2.0/";
+$app_base = "/home/dbalchen/workspace/CallDump/";
 
 $localCnt   = 0;
 
