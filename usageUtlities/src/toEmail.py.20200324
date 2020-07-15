@@ -1,4 +1,4 @@
-#!/bin/python3.6
+#!/usr/bin/python
 
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -14,7 +14,7 @@ import argparse
 
 sender = "david.balchen@uscellular.com"
 
-email_addresses = "david.balchen@uscellular.com"
+email_addresses = "david.balchen@uscellular.com:david.balchen@uscellular.com"
 
 salutation = "It appears we have an issue that needs to be looked into......\n\n\n"
 

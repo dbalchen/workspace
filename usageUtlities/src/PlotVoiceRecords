@@ -1,0 +1,12 @@
+#! /bin/sh
+
+export UTLITIES_HOME=/apps/ebi/ebiap1/bin/usageUtlities
+
+cd ${UTLITIES_HOME}/work
+
+cat ../data/voice.dat | egrep -v 'VCDM|VLTE' | grep -v tas | cut -f 1,2 | ../lib/bin/sumBy.py > all_voice
+../lib/bin/makePicSeries.pl -o 01_all_voice -i  all_voice -s 1 -c "Voice Volume / Minutes" -t "All Voice for past 90 Days"
+
+cat ../data/voice.dat | egrep -v 'VCDM|VLTE' | grep tas | cut -f 1,2 | ../lib/bin/sumBy.py > all_volte_voice
+../lib/bin/makePicSeries.pl -o 02_all_home_voice -i  all_volte_voice -s 1 -c "Voice VoLTE Volume / Minutes" -t "All VoLTE Voice for past 90 Days"
+

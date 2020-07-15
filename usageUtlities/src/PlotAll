@@ -3,10 +3,22 @@ source /apps/ebi/ebiap1/.bashrc
 
 export UTLITIES_HOME=/apps/ebi/ebiap1/bin/usageUtlities
 
+cd ${UTLITIES_HOME}/work
+mv *xls* ../reports
+
 cd ${UTLITIES_HOME}/bin
 ./PlotData
 ./PlotMMS
 ./PlotSMS
 ./PlotVoice
+
+cd ${UTLITIES_HOME}/work
+find . -name "*" -print | grep -v png | xargs -i rm {}
+
+cd ${UTLITIES_HOME}/
+
+zip -r usageGraphs.zip work/
+
+${UTLITIES_HOME}/lib/bin/usageGraphs.pl
 
 exit 0
