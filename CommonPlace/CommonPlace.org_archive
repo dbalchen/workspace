@@ -5513,3 +5513,52 @@ Discussion Points \ Notes (from agenda above):
    - Machine :: kpr01oprmn
    - UserId :: sudo /bin/su - o_ebiap1
    - Monitor Directory :: /apps/ebi/ebiap1/EpsMonitors
+
+* TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0616/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0616 Google Fi VoLTE]]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-07-24 Fri 09:23
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+** Project Manager
+   Parhas, Colleen
+** Description
+   This project is to enable Google Fiber customers access to the VoLTE network and Enhanced Calling Services.
+** Status
+   Held first meeting on October 17th nothing since.
+   Solution Proposel 1 and 2 have been created and on 11/18 Googles responded that the solution is acceptable.
+   No updates. Sent Kevin Bengtson a message for an update.
+   The project is reporting off track overall and for scope for the week of 2/21. The USCC team cannot move forward with the build out of the network architecture 
+   and of the technical solution until Google provides clear requirements for customer experience. The USCC team investigated the option of using U.S. Cellular's 
+   VoLTE customer experience to reverse engineer the requirements but feels that this could be risky and result in throwaway work. 
+   Business requirement work has been put on hold until the team can better understand what Google can offer in terms of customer experience requirements. 
+   The project will return to green once USCC and Google agree on a path forward to document business requirements
+
+   No updates this week 
+** Current Status
+   No Updates
+
+
+* TODO IR0643 International Services  CR1167 - Toll Free Calls for Customer Service Calls
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-07-24 Fri 09:23
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+** Project Manager
+   Sheri Cass
+** Go Live Date
+   June 2020
+** Current Status
+   - Action Items:
+     1. Swetha to confirm if there is any instances of this number in mediation and confirm if this can be zero rated.
+     2. Swetha - What prefixes are being added to current calls? 
+     3. Swetha - Indicator for International Calls for RLC. 
+     4. Sarit - confirm these records are not going through APRM?
+     5. Sarit – Confirm Logic can be updated to reference only the last 10 digits on the number to ignore for rating .
+     6. Michelle – Confirm with the business if we expect using this number for International Roaming to impact the volume of calls. 
+
