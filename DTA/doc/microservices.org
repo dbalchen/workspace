@@ -1,0 +1,500 @@
+#+STARTUP: overview
+#+OPTIONS: d:nil
+#+OPTIONS: toc:nil
+#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET 
+#+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+#+TITLE: Diameter Notes
+#+BEGIN_LaTeX
+\newpage
+\clearpage
+%\addtolength{\oddsidemargin}{-.25in}
+\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+% \newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{3}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+#+END_LaTeX
+#+TOC: headlines 2
+
+#+BEGIN_LaTeX
+\newpage
+\pagenumbering{arabic}
+#+END_LaTeX
+:CLOSET:
+: Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
+: Days  #+PROPERTY: Effort_ALL 1.00 2.00 3.00 4.00 5.00 6.00 7.00 8.00 9.00
+: weeks #+PROPERTY: Effort_ALL 5.00 10.00 15.00 20.00 25.00 30.00 35.00 40.00 45.00
+ : Add a Picture
+ :   #+ATTR_LaTeX: width=13cm
+ :   [[file:example_picture.png]]
+
+ : New Page
+ : \newpage
+:END:
+* Diameter
+  Diameter is an authentication, authorization, and accounting protocol for computer networks. It evolved from the earlier RADIUS protocol. 
+  It belongs to the application layer protocols in the internet protocol suite. Diameter Applications extend the base protocol by adding new commands and/or attributes, 
+  such as those for use with the Extensible Authentication Protocol (EAP).
+
+** Diameter Credit Control (DCCA)
+   Networking protocol for Diameter application used to implement real-time credit-control for a variety of end user services.
+   It is an IETF standard first defined in RFC 4006, and updated in RFC 8506. The links below define the interface and the Amdocs implimentation of the interface:\\
+
+   [[https://tools.ietf.org/html/rfc4006][DCAA Interface RFCC]]\\
+
+   [[https://en.wikipedia.org/wiki/Diameter_Credit-Control_Application#:~:text=Diameter%2520Credit%252DControl%2520Application%252C%2520is,and%2520updated%2520in%2520RFC%25208506.][DCAA Overview]]\\
+
+   [[file:Vision%20and%20Scope%20Accelerite%20Replacement_V02.docx][Amdocs DCCA Interface]]\\
+
+   For real time reasons, the connection is a direct permanent socket-based connection between the Diameter Client and Diameter Server (Amdocs OCS FR). 
+   As currently there is no DRA solution in place, The redundancy and failover will be performed by the client Diameter 
+
+* Client and Server Interaction
+  Diameter Client is the initiator that establishes the connection to the server.
+
+** Send Capabilities Exchange Request (CER)
+   After establishing the connection at the TCP/IP level, Diameter Client sends a Capabilities Exchange Request (CER) and waits for the Capabilities Exchange Answer (CEA).
+
+*** int cer_send(int client_sock)
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+ : int cer_send(int client_sock) {
+ : 	DIAMETER_msg cer;
+ : 	DIAMETER_avp avp1;
+ : 	cer.setCode(DIAMETER_CAPABILITIES_EXCHANGE);
+ : 	cer.setFlags(0x80);
+ : 	cer.setHopHop(hop_to_hop++);
+ : 	cer.setEndEnd(end_to_end++);
+ : 	avp1.setCode(AVP_NAME_ORIGIN_HOST);
+ : 	avp1.setValue(LocalHost.data());
+ : 	cer.setAvp(avp1);
+ : 	DIAMETER_avp avp2;
+ : 	avp2.setCode(AVP_NAME_ORIGIN_REALM);
+ : 	avp2.setValue("uscc.net");
+ : 	cer.setAvp(avp2);
+ : 	DIAMETER_avp avp3;
+ : 	avp3.setCode(AVP_NAME_HOST_IP_ADDRESS);
+ : 	avp3.setValue(LocalIPAddress.data());
+ : 	cer.setAvp(avp3);
+ : 	DIAMETER_avp avp4;
+ : 	avp4.setCode(AVP_NAME_VENDOR_ID);
+ : 	avp4.setValue(0);
+ : 	cer.setAvp(avp4);
+ : 	DIAMETER_avp avp5;
+ : 	avp5.setCode(AVP_NAME_PRODUCT_NAME);
+ : 	avp5.setValue("Amdocs DCCA");
+ : 	cer.setAvp(avp5);
+ : 	DIAMETER_avp avp6;
+ : 	avp6.setCode(AVP_NAME_AUTH_APPLICATION_ID);
+ : 	avp6.setValue(htonl(ccr_application_id));
+ : 	cer.setAvp(avp6);
+ : 	return (write_diameter(client_sock, cer));
+ : }
+ : 
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+** Capabilities Exchange Answer (CEA)
+   Each call from the client returns a Diameter message response that is describe in the below class.
+
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+ : ////////////////////////////////////////////
+ : // 
+ : // DIAMETER_MSG
+ : //
+ : //
+ : ////////////////////////////////////////////
+ : #ifndef _DIAMETER_MSG_H
+ : #define _DIAMETER_MSG_H
+ : 
+ : #include <vector>
+ : #include "CBBByteArray.h"
+ : #include "DIAMETER_defs.h"
+ : #include "DIAMETER_avp.h"
+ : 
+ : class DIAMETER_msg
+ : {
+ :   public :
+ :         DIAMETER_msg();
+ :         DIAMETER_msg(const DIAMETER_msg& obj);
+ :         virtual ~DIAMETER_msg();
+ :         DIAMETER_msg& operator=(const DIAMETER_msg& obj);
+ :         virtual CBBByteArray encode_binary();
+ :         virtual int decode_binary (CBBByteArray &packet);
+ :         virtual CBBString encode_string();
+ :         virtual int decode_string (char *sp, int offset, int length);
+ :         virtual void setCode(unsigned int code) { _code = code; }
+ :         virtual void setFlags(unsigned int flags) { _flags = flags; }
+ :         virtual void setApplicationID(unsigned int app_id) { _application_id = app_id; }
+ :         virtual void setHopHop(unsigned int id) { _hop_hop = id; }
+ :         virtual void setEndEnd(unsigned int id) { _end_end = id; }
+ :         virtual void setAvp(const DIAMETER_avp& avp) { _avp.push_back(avp); }
+ :         virtual unsigned int getCode() const { return _code; }
+ :         virtual unsigned int getFlags() const { return _flags; }
+ :         virtual unsigned int getApplicationID() const { return _application_id; }
+ :         virtual unsigned int getHopHop() const { return _hop_hop; }
+ :         virtual unsigned int getEndEnd() const { return _end_end; }
+ :         virtual int getNumAvp() const { return (int)(_avp.size()); }
+ :         virtual DIAMETER_avp getAvp(int index) const;
+ :         virtual CBBString getNameFromCode(unsigned int code);
+ :         virtual unsigned int getCodeFromName(CBBString& name);
+ :         virtual bool getTypeFromName(CBBString& name);
+ :         
+ :   private :
+ :         // RFC 3588
+ :         typedef struct diameter_msg_hdr_s
+ :         {
+ :                 unsigned int    _version_length;
+ :                 unsigned int    _flags_command;
+ :                 unsigned int    _application_id;
+ :                 unsigned int    _hop_hop;
+ :                 unsigned int    _end_end;
+ :         }diameter_msg_hdr_t;
+ :         
+ :         typedef struct diameter_msg_list_s
+ :         {
+ :                 unsigned int    _code;
+ :                 const char      *_name;
+ :         }diameter_msg_list_t;
+ :         
+ :         unsigned int            _code;
+ : 
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+** Connection Failure Detection
+   Device Watchdog Request/Answer (DWR/DWA) enables a Diameter Client to keep the connection open when it is not in use.
+   - A DWR will be sent by the client in the following cases:
+     *No CCR sent within “Idle-Connection” timeout from the last response – just to keep the connection alive.*
+
+*** int dwd_send(int client_sock)
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+ : int dwd_send(int client_sock) {
+ : 	DIAMETER_msg dwd;
+ : 	DIAMETER_avp avp1;
+ : 	dwd.setCode(DIAMETER_DEVICE_WATCHDOG);
+ : 	dwd.setFlags(0x80);
+ : 	dwd.setHopHop(hop_to_hop++);
+ : 	dwd.setEndEnd(end_to_end++);
+ : 	avp1.setCode(AVP_NAME_ORIGIN_HOST);
+ : 	avp1.setValue(LocalHost.data());
+ : 	dwd.setAvp(avp1);
+ : 	DIAMETER_avp avp2;
+ : 	avp2.setCode(AVP_NAME_ORIGIN_REALM);
+ : 	avp2.setValue("uscc.net");
+ : 	dwd.setAvp(avp2);
+ : 	return (write_diameter(client_sock, dwd));
+ : }
+ : 
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+** initialize Session (Session ID)
+   The Origin-Host (*AVP code 264*) is mandatory in all Diameter messages. The Origin-Host uniquely identifies the Diameter Client from which the request message originates. 
+   The ID of the Diameter Client is used by Amdocs Online Charging to identify the session. The Origin‑Host is echoed on all types of message responses.
+
+***  void init_session_id(unsigned int val)
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+
+ : void init_session_id(unsigned int val) {
+ : 	char timestamp[256];
+ : 	time_t current_time = time((time_t *) 0);
+ : 	sprintf(timestamp, "%s;%u;%u", LocalHost.data(), current_time, val);
+ : 	SessionID = std::string(timestamp);
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+** Create the CCR Interface
+   Tell the diameter server to initialize the CCR interface.
+  
+*** int gy_ccr_initial(int client_sock)
+
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+ :   int gy_ccr_initial(int client_sock) {
+ :   DIAMETER_avp requested_service_unit;
+ :   requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
+ : 
+ :   DIAMETER_avp exponent_avp;
+ :   exponent_avp.setCode(AVP_NAME_EXPONENT);
+ :   exponent_avp.setValue(htonl(2));
+ :   DIAMETER_avp value_digits_avp;
+ :   value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
+ :   value_digits_avp.setLongValue(htonll(1000LL));
+ :   DIAMETER_avp unit_value_avp;
+ :   unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
+ :   unit_value_avp.setAvp(value_digits_avp);
+ :   unit_value_avp.setAvp(exponent_avp);
+ :   DIAMETER_avp currency_code_avp;
+ :   currency_code_avp.setCode(AVP_NAME_CURRENCY_CODE);
+ :   currency_code_avp.setValue(htonl(840));	// USD
+ :   DIAMETER_avp cc_money_avp;
+ :   cc_money_avp.setCode(AVP_NAME_CC_MONEY);
+ :   cc_money_avp.setAvp(unit_value_avp);
+ :   cc_money_avp.setAvp(currency_code_avp);
+ :   requested_service_unit.setAvp(cc_money_avp);
+ :   avp_list.push_back(requested_service_unit);
+ : 
+ :   DIAMETER_avp purchase_category_code_avp;
+ :   purchase_category_code_avp.setCode(1104);
+ :   purchase_category_code_avp.setVendorID(11580);
+ :   purchase_category_code_avp.setValue("Charge_Code_Description");
+ :   avp_list.push_back(purchase_category_code_avp);
+ : 
+ :   DIAMETER_avp application_type_avp;
+ :   application_type_avp.setCode(1105);
+ :   application_type_avp.setVendorID(11580);
+ :   application_type_avp.setValue("Charge_Code_Description");
+ :   avp_list.push_back(application_type_avp);
+ : 
+ :   return (gy_ccr_send(client_sock, cc_request_type_initial_request, 0));
+ :  }
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+** Direct Debit
+   Debit a customers account.
+
+*** (gy_ccr_event(client_sock,cc_request_action_direct_debit)
+
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX
+ :      int gy_ccr_event(int client_sock, int requested_action) {
+ : 
+ :        DIAMETER_avp requested_service_unit;
+ :        requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
+ : 
+ :        DIAMETER_avp exponent_avp;
+ :        exponent_avp.setCode(AVP_NAME_EXPONENT);
+ :        exponent_avp.setValue(htonl(2));
+ :        DIAMETER_avp value_digits_avp;
+ :        value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
+ :        value_digits_avp.setLongValue(htonll(1000LL));
+ :        DIAMETER_avp unit_value_avp;
+ :        unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
+ :        unit_value_avp.setAvp(value_digits_avp);
+ :        unit_value_avp.setAvp(exponent_avp);
+ :        DIAMETER_avp currency_code_avp;
+ :        currency_code_avp.setCode(AVP_NAME_CURRENCY_CODE);
+ :        currency_code_avp.setValue(htonl(840));	// USD
+ :        DIAMETER_avp cc_money_avp;
+ :        cc_money_avp.setCode(AVP_NAME_CC_MONEY);
+ :        cc_money_avp.setAvp(unit_value_avp);
+ :        cc_money_avp.setAvp(currency_code_avp);
+ :        requested_service_unit.setAvp(cc_money_avp);
+ :        avp_list.push_back(requested_service_unit);
+ : 
+ :        DIAMETER_avp purchase_category_code_avp;
+ :        purchase_category_code_avp.setCode(1104);
+ :        purchase_category_code_avp.setVendorID(11580);
+ :        purchase_category_code_avp.setValue("Charge_Code_Description");
+ :        avp_list.push_back(purchase_category_code_avp);
+ : 
+ :        DIAMETER_avp application_type_avp;
+ :        application_type_avp.setCode(1105);
+ :        application_type_avp.setVendorID(11580);
+ :        application_type_avp.setValue("Charge_Code_Description");
+ :        avp_list.push_back(application_type_avp);
+ : 
+ :        return (gy_ccr_send(client_sock, cc_request_type_event_request,
+ : 			   requested_action));
+ :      }
+ :
+     
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+** Refund Account
+   - *gy_ccr_event(client_sock,cc_request_action_refund_account)*
+
+** Check Balance
+   - *gy_ccr_event(client_sock,cc_request_action_check_balance)*
+
+** Price Enquiry
+   - *gy_ccr_event(client_sock,cc_request_action_price_enquiry)*
+
+** Send Terminal
+
+   Used to cancel or commit a DCCA conection
+
+*** gy_ccr_terminal(client_sock)
+#+BEGIN_LaTeX
+\footnotesize
+#+END_LaTeX     
+ :  int gy_ccr_terminal(int client_sock) {
+ :   DIAMETER_avp requested_service_unit;
+ :   requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
+ : 
+ :   DIAMETER_avp exponent_avp;
+ :   exponent_avp.setCode(AVP_NAME_EXPONENT);
+ :   exponent_avp.setValue(htonl(2));
+ :   DIAMETER_avp value_digits_avp;
+ :   value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
+ :   //value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
+ :   value_digits_avp.setLongValue(htonll(1000LL));	// COMMIT
+ :   DIAMETER_avp unit_value_avp;
+ :   unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
+ :   unit_value_avp.setAvp(value_digits_avp);
+ :   unit_value_avp.setAvp(exponent_avp);
+ :   DIAMETER_avp currency_code_avp;
+ :   currency_code_avp.setCode(AVP_NAME_CURRENCY_CODE);
+ :   currency_code_avp.setValue(htonl(840));	// USD
+ :   DIAMETER_avp cc_money_avp;
+ :   cc_money_avp.setCode(AVP_NAME_CC_MONEY);
+ :   cc_money_avp.setAvp(unit_value_avp);
+ :   cc_money_avp.setAvp(currency_code_avp);
+ :   requested_service_unit.setAvp(cc_money_avp);
+ :   avp_list.push_back(requested_service_unit);
+ : 
+ :   DIAMETER_avp purchase_category_code_avp;
+
+ :   purchase_category_code_avp.setCode(1104);
+ :   purchase_category_code_avp.setVendorID(11580);
+ :   purchase_category_code_avp.setValue("Charge_Code_Description");
+ :   avp_list.push_back(purchase_category_code_avp);
+ : 
+ :   DIAMETER_avp application_type_avp;
+ :   application_type_avp.setCode(1105);
+ :   application_type_avp.setVendorID(11580);
+ :   application_type_avp.setValue("Charge_Code_Description");
+ :   avp_list.push_back(application_type_avp);
+ : 
+ :   return (gy_ccr_send(client_sock, cc_request_type_terminal_request, 0));
+ : }
+
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+** Disconnection
+   Both the client and server can issue a disconnect.
+
+*** Disconnect Code
+    Close socket to disconnect.
+
+* message Structure						   :noexport:
+A message starts with a Diameter header and AVP as defined by RFC 3588 according to type of message.
+
+* Session Management						   :noexport:
+** Source Identifier
+The Origin-Host (AVP code 264) is mandatory in all Diameter messages. 
+
+** Session-ID AVP and CC-Request-Number AVP
+The Session ID identifies a session-based interaction between the Diameter Client and Amdocs Online Charging. 
+
+** OCS Handling of Duplicate Requests
+Message attributes (Event-Timestamp, Subscription-Id-Data,) are logged into a processed-transactions table for every reservation or charge message that is checked for a duplicate. 
+
+* Communication Problems					   :noexport:
+OCS supports a degraded mode of operations – useful in cases when a real time connection between Diameter Client and Diameter Server is lost.
+
+These are all client errors.
+
+** TCP/IP Level Error
+
+** No CCA Received in Specified Timeout
+
+* MESSAGE DESCRIPTIONS						   :noexport:
+** Header
+** Transaction Table
+   Transactions diameter must support
+** Capabilities Exchange Request (CER)
+   
+** Capabilities Exchange Answer (CEA)
+** Device Watchdog Request (DWR)
+** Device Watchdog Answer (DWA)
+** Disconnect Peer Request (DPR)
+** Disconnect Peer Answer (DPA)
+** Credit Control Messages
+   - Credit control request/answer messages are used for all credit control events.
+   - The following application events are in scope for this document:
+     - CCR Direct Debit
+     - CCR Authorization
+     - CCR Terminate
+     - CCR Refund
+*** Message Reject Policy
+*** CCR Authorization
+*** CCR Terminate
+*** CCR Refund
+*** CCR Direct Debit
+
+*  CHARGING PARAMETERS– IMPLEMENTING VALID VALUES		   :noexport:
+
+* AVP DESCRIPTIONS						   :noexport:
+  The following table contains descriptions of all AVP protocol attributes. 
+  The current table is a Data Dictionary original for both client and server systems.
+  - M – This AVP will always be present in the message.
+  - C – This AVP shall be present in the message only when certain conditions are met. These conditions are specified in the description column.
+  - O – This AVP is optional.
+
+* Rest ([[https://restfulapi.net/][Introduction]])						   :noexport:
+** 6 GuidingPrincipals
+   Really 5 since 1 is optional (script download)
+** Resource
+   The key abstraction of information in *REST* is a resource. Any information that can be named can be a resource: a document or image, 
+   a temporal service, a collection of other resources. Every interaction with a resource is stateless.
+* Winndows Linux Socket differences 				   :noexport:
+I did some work like this, through much reading of MSDN and the sockets documentation I got a list of differences between Winsocks and POSIX sockets, many are minor, sign differences or type differences.
+
+
+uses closesocket() to close a socket, instead of close().
+uses an int for the third parameter in bind().
+uses an int* for the third parameter in accept().
+defines a SOCKET as unsigned int.
+socket() returns INVALID_SOCKET(unsigned int) on error, *nix returns -1.
+connect() returns SOCKET_ERROR(int) on error, *nix returns -1.
+bind() returns SOCKET_ERROR(int) on error, *nix returns -1.
+listen() returns SOCKET_ERROR(int) on error, *nix returns -1.
+accept() returns INVALID_SOCKET(unsigned int) on error, *nix returns -1.
+select() returns SOCKET_ERROR(int) on error, *nix returns -1.
+send() returns SOCKET_ERROR(int) on error, *nix returns -1.
+send() uses an int for the third parameter (length).
+recv() returns SOCKET_ERROR(int) on error, *nix returns -1.
+setsockopt() returns SOCKET_ERROR(int) on error, *nix returns -1.
+uses an const char* for the fourth parameter in setsockopt().
+ioctlsocket() instead of fcntl(), this returns SOCK_ERROR(int), *nix returns -1.
+ioctlsocket() has the option as a u_long, fcntl() uses an int.
+
+
+Latest RFC 8506 - Amdocs uses 3588
+
+No test environment, no proof of concept.
