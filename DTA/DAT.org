@@ -421,7 +421,7 @@ The Origin-Host (AVP code 264) is mandatory in all Diameter messages.
 ** Session-ID AVP and CC-Request-Number AVP
 The Session ID identifies a session-based interaction between the Diameter Client and Amdocs Online Charging. 
 
-** OCS Handling of Duplicate Requests
+*** OCS Handling of Duplicate Requests
 Message attributes (Event-Timestamp, Subscription-Id-Data,) are logged into a processed-transactions table for every reservation or charge message that is checked for a duplicate. 
 
 * Communication Problems					   :noexport:
@@ -457,7 +457,7 @@ These are all client errors.
 *** CCR Refund
 *** CCR Direct Debit
 
-*  CHARGING PARAMETERS– IMPLEMENTING VALID VALUES		   :noexport:
+* CHARGING PARAMETERS– IMPLEMENTING VALID VALUES 		   :noexport:
 
 * AVP DESCRIPTIONS						   :noexport:
   The following table contains descriptions of all AVP protocol attributes. 
@@ -472,7 +472,7 @@ These are all client errors.
 ** Resource
    The key abstraction of information in *REST* is a resource. Any information that can be named can be a resource: a document or image, 
    a temporal service, a collection of other resources. Every interaction with a resource is stateless.
-* Winndows Linux Socket differences 				   :noexport:
+* Windows Linux Socket differences 				   :noexport:
 I did some work like this, through much reading of MSDN and the sockets documentation I got a list of differences between Winsocks and POSIX sockets, many are minor, sign differences or type differences.
 
 

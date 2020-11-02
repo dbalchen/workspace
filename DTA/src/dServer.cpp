@@ -322,195 +322,200 @@ int main(int argc, char *argv[]) {
 
 	int server_sock = setup_server(server_port);
 
-	int client_sock = accept_client(server_sock);
+	while(true)
+	{
 
-	while (client_sock > 0) {
-		int msg_length = read_diameter(client_sock);
+		int client_sock = accept_client(server_sock);
 
-		if (msg_length < 0) {
-			close(client_sock);
-			close(server_sock);
-			client_sock = -1;
-			server_sock = -1;
-		} else {
-			CBBByteArray diameter_raw(RecvBuf, msg_length);
-			DIAMETER_msg incoming_message;
+		while (client_sock > 0) {
+			int msg_length = read_diameter(client_sock);
 
-			int decode_retval = incoming_message.decode_binary(diameter_raw);
+			if (msg_length < 0) {
+				close(client_sock);
+				close(server_sock);
+				client_sock = -1;
+				server_sock = -1;
+			} else {
+				CBBByteArray diameter_raw(RecvBuf, msg_length);
+				DIAMETER_msg incoming_message;
 
-			if (decode_retval > 0) {
-				unsigned int msg_flags_request = 0x80;
-				unsigned int flags = incoming_message.getFlags();
+				int decode_retval = incoming_message.decode_binary(diameter_raw);
 
-				cout << "!!! Received !!!" << endl;
-				switch (incoming_message.getCode()) {
-				case DIAMETER_CAPABILITIES_EXCHANGE: {
-//					debug_str += "Capabilities-Exchange";
-					cout << "!!! Capabilities-Exchange !!!" << endl;
-				}
-				break;
-				case DIAMETER_DEVICE_WATCHDOG: {
-//					debug_str += "Device-Watchdog";
-					cout << "!!! Device-Watchdog !!!" << endl;
+				if (decode_retval > 0) {
+					unsigned int msg_flags_request = 0x80;
+					unsigned int flags = incoming_message.getFlags();
 
-				}
-				break;
-				case DIAMETER_CREDIT_CONTROL: {
-//					debug_str += "Credit-Control";
-					cout << "!!! Credit-Control !!!" << endl;
-				}
-				break;
-				default: {
-
-
-//					dlog("Unknown DIAMETER code (%u)\n",
-//							incoming_message.getCode());
-					cout << "!!! Unknown DIAMETER code !!!" << endl;
-				}
-				}
-
-				if (flags & msg_flags_request) {
-//					debug_str += "-Request";
-
-//					dlog("%s\n", debug_str.data());
-					// copy in the session id from the incoming
-					DIAMETER_avp session_id;
-					session_id.setCode(AVP_NAME_SESSION_ID);
-
-					for (int k = 0; k < incoming_message.getNumAvp(); k++) {
-						if (incoming_message.getAvp(k).getCode() == AVP_NAME_SESSION_ID) {
-							CBBString session_value =
-									incoming_message.getAvp(k).getValueAsString();
-							session_id.setValue(session_value);
-						}
-					}
-
-					const unsigned int diameter_success = 2001;
-					const unsigned int gy_app_id = htonl(4);
-
-					DIAMETER_msg answer_message;
-					DIAMETER_avp result_code;
-					DIAMETER_avp origin_host;
-					DIAMETER_avp origin_realm;
-					DIAMETER_avp origin_state_id;
-
-					answer_message.setFlags(0);
-					answer_message.setCode(incoming_message.getCode());
-					answer_message.setApplicationID(
-							incoming_message.getApplicationID());
-					answer_message.setHopHop(incoming_message.getHopHop());
-					answer_message.setEndEnd(incoming_message.getEndEnd());
-
-					result_code.setCode(AVP_NAME_RESULT_CODE);
-					result_code.setValue(htonl(diameter_success));
-					origin_host.setCode(AVP_NAME_ORIGIN_HOST);
-					origin_host.setValue(LocalHost.data());
-					origin_realm.setCode(AVP_NAME_ORIGIN_REALM);
-					origin_realm.setValue("uscc.net");
-					origin_state_id.setCode(AVP_NAME_ORIGIN_STATE_ID);
-					origin_state_id.setValue(htonl(0x1));
-
+					cout << "!!! Received !!!" << endl;
 					switch (incoming_message.getCode()) {
-					case DIAMETER_CREDIT_CONTROL: {
-						unsigned int cc_request_type_int = 0;
-						unsigned int cc_request_number_int = 0;
-
-						for (int k = 0; k < incoming_message.getNumAvp(); k++) {
-							if (incoming_message.getAvp(k).getCode() == AVP_NAME_CC_REQUEST_NUMBER) {
-								cc_request_number_int = incoming_message.getAvp(
-										k).getValueAsInt();
-							}
-							if (incoming_message.getAvp(k).getCode() == AVP_NAME_CC_REQUEST_TYPE) {
-								cc_request_type_int =
-										incoming_message.getAvp(k).getValueAsInt();
-							}
-						}
-
-						answer_message.setAvp(session_id);
-						answer_message.setAvp(result_code);
-
-						DIAMETER_avp cc_request_type;
-						cc_request_type.setCode(AVP_NAME_CC_REQUEST_TYPE);
-						cc_request_type.setValue(
-								(const unsigned int) htonl(
-										cc_request_type_int));
-						answer_message.setAvp(cc_request_type);
-
-						DIAMETER_avp cc_request_number;
-						cc_request_number.setCode(AVP_NAME_CC_REQUEST_NUMBER);
-						cc_request_number.setValue(
-								(const unsigned int) htonl(
-										cc_request_number_int));
-						answer_message.setAvp(cc_request_number);
-
-						DIAMETER_avp auth_application_id;
-						auth_application_id.setCode(
-								AVP_NAME_AUTH_APPLICATION_ID);
-						auth_application_id.setValue(
-								(const unsigned int) gy_app_id);
-						answer_message.setAvp(auth_application_id);
-
-						answer_message.setAvp(origin_host);
-						answer_message.setAvp(origin_realm);
-					}
-					break;
 					case DIAMETER_CAPABILITIES_EXCHANGE: {
-						DIAMETER_avp host_ip_address;
-						DIAMETER_avp product_name;
-						DIAMETER_avp vendor_id;
-						DIAMETER_avp firmware_revision;
-						DIAMETER_avp auth_application_id;
-						DIAMETER_avp acct_application_id;
-						DIAMETER_avp inband_security_id;
-
-						answer_message.setAvp(result_code);
-						host_ip_address.setCode(AVP_NAME_HOST_IP_ADDRESS);
-						host_ip_address.setValue(LocalIPAddress.data());
-						origin_state_id.setCode(AVP_NAME_ORIGIN_STATE_ID);
-						origin_state_id.setValue(htonl(0x1));
-						product_name.setCode(AVP_NAME_PRODUCT_NAME);
-						product_name.setValue("Amdocs DCCA");
-						vendor_id.setCode(AVP_NAME_VENDOR_ID);
-						vendor_id.setValue(11580);
-						firmware_revision.setCode(AVP_NAME_FIRMWARE_REVISION);
-						firmware_revision.setValue(htonl(0x1));
-						auth_application_id.setCode(
-								AVP_NAME_AUTH_APPLICATION_ID);
-						auth_application_id.setValue(gy_app_id);
-						acct_application_id.setCode(
-								AVP_NAME_ACCT_APPLICATION_ID);
-						acct_application_id.setValue(gy_app_id);
-						inband_security_id.setCode(AVP_NAME_INBAND_SECURITY_ID);
-						inband_security_id.setValue(0x0);
-
-						answer_message.setAvp(origin_host);
-						answer_message.setAvp(origin_realm);
-						answer_message.setAvp(host_ip_address);
-						answer_message.setAvp(origin_state_id);
-						answer_message.setAvp(product_name);
-						answer_message.setAvp(vendor_id);
-						answer_message.setAvp(firmware_revision);
-						answer_message.setAvp(auth_application_id);
-						answer_message.setAvp(acct_application_id);
-						answer_message.setAvp(inband_security_id);
+						//					debug_str += "Capabilities-Exchange";
+						cout << "!!! Capabilities-Exchange !!!" << endl;
 					}
 					break;
 					case DIAMETER_DEVICE_WATCHDOG: {
-						answer_message.setAvp(result_code);
-						answer_message.setAvp(origin_host);
-						answer_message.setAvp(origin_realm);
-						answer_message.setAvp(origin_state_id);
+						//					debug_str += "Device-Watchdog";
+						cout << "!!! Device-Watchdog !!!" << endl;
+
+					}
+					break;
+					case DIAMETER_CREDIT_CONTROL: {
+						//					debug_str += "Credit-Control";
+						cout << "!!! Credit-Control !!!" << endl;
 					}
 					break;
 					default: {
+
+
+						//					dlog("Unknown DIAMETER code (%u)\n",
+						//							incoming_message.getCode());
+						cout << "!!! Unknown DIAMETER code !!!" << endl;
 					}
-					break;
 					}
 
-					write_diameter(client_sock, answer_message);
+					if (flags & msg_flags_request) {
+						//					debug_str += "-Request";
+
+						//					dlog("%s\n", debug_str.data());
+						// copy in the session id from the incoming
+						DIAMETER_avp session_id;
+						session_id.setCode(AVP_NAME_SESSION_ID);
+
+						for (int k = 0; k < incoming_message.getNumAvp(); k++) {
+							if (incoming_message.getAvp(k).getCode() == AVP_NAME_SESSION_ID) {
+								CBBString session_value =
+										incoming_message.getAvp(k).getValueAsString();
+								session_id.setValue(session_value);
+							}
+						}
+
+						const unsigned int diameter_success = 2001;
+						const unsigned int gy_app_id = htonl(4);
+
+						DIAMETER_msg answer_message;
+						DIAMETER_avp result_code;
+						DIAMETER_avp origin_host;
+						DIAMETER_avp origin_realm;
+						DIAMETER_avp origin_state_id;
+
+						answer_message.setFlags(0);
+						answer_message.setCode(incoming_message.getCode());
+						answer_message.setApplicationID(
+								incoming_message.getApplicationID());
+						answer_message.setHopHop(incoming_message.getHopHop());
+						answer_message.setEndEnd(incoming_message.getEndEnd());
+
+						result_code.setCode(AVP_NAME_RESULT_CODE);
+						result_code.setValue(htonl(diameter_success));
+						origin_host.setCode(AVP_NAME_ORIGIN_HOST);
+						origin_host.setValue(LocalHost.data());
+						origin_realm.setCode(AVP_NAME_ORIGIN_REALM);
+						origin_realm.setValue("uscc.net");
+						origin_state_id.setCode(AVP_NAME_ORIGIN_STATE_ID);
+						origin_state_id.setValue(htonl(0x1));
+
+						switch (incoming_message.getCode()) {
+						case DIAMETER_CREDIT_CONTROL: {
+							unsigned int cc_request_type_int = 0;
+							unsigned int cc_request_number_int = 0;
+
+							for (int k = 0; k < incoming_message.getNumAvp(); k++) {
+								if (incoming_message.getAvp(k).getCode() == AVP_NAME_CC_REQUEST_NUMBER) {
+									cc_request_number_int = incoming_message.getAvp(
+											k).getValueAsInt();
+								}
+								if (incoming_message.getAvp(k).getCode() == AVP_NAME_CC_REQUEST_TYPE) {
+									cc_request_type_int =
+											incoming_message.getAvp(k).getValueAsInt();
+								}
+							}
+
+							answer_message.setAvp(session_id);
+							answer_message.setAvp(result_code);
+
+							DIAMETER_avp cc_request_type;
+							cc_request_type.setCode(AVP_NAME_CC_REQUEST_TYPE);
+							cc_request_type.setValue(
+									(const unsigned int) htonl(
+											cc_request_type_int));
+							answer_message.setAvp(cc_request_type);
+
+							DIAMETER_avp cc_request_number;
+							cc_request_number.setCode(AVP_NAME_CC_REQUEST_NUMBER);
+							cc_request_number.setValue(
+									(const unsigned int) htonl(
+											cc_request_number_int));
+							answer_message.setAvp(cc_request_number);
+
+							DIAMETER_avp auth_application_id;
+							auth_application_id.setCode(
+									AVP_NAME_AUTH_APPLICATION_ID);
+							auth_application_id.setValue(
+									(const unsigned int) gy_app_id);
+							answer_message.setAvp(auth_application_id);
+
+							answer_message.setAvp(origin_host);
+							answer_message.setAvp(origin_realm);
+						}
+						break;
+						case DIAMETER_CAPABILITIES_EXCHANGE: {
+							DIAMETER_avp host_ip_address;
+							DIAMETER_avp product_name;
+							DIAMETER_avp vendor_id;
+							DIAMETER_avp firmware_revision;
+							DIAMETER_avp auth_application_id;
+							DIAMETER_avp acct_application_id;
+							DIAMETER_avp inband_security_id;
+
+							answer_message.setAvp(result_code);
+							host_ip_address.setCode(AVP_NAME_HOST_IP_ADDRESS);
+							host_ip_address.setValue(LocalIPAddress.data());
+							origin_state_id.setCode(AVP_NAME_ORIGIN_STATE_ID);
+							origin_state_id.setValue(htonl(0x1));
+							product_name.setCode(AVP_NAME_PRODUCT_NAME);
+							product_name.setValue("Amdocs DCCA");
+							vendor_id.setCode(AVP_NAME_VENDOR_ID);
+							vendor_id.setValue(11580);
+							firmware_revision.setCode(AVP_NAME_FIRMWARE_REVISION);
+							firmware_revision.setValue(htonl(0x1));
+							auth_application_id.setCode(
+									AVP_NAME_AUTH_APPLICATION_ID);
+							auth_application_id.setValue(gy_app_id);
+							acct_application_id.setCode(
+									AVP_NAME_ACCT_APPLICATION_ID);
+							acct_application_id.setValue(gy_app_id);
+							inband_security_id.setCode(AVP_NAME_INBAND_SECURITY_ID);
+							inband_security_id.setValue(0x0);
+
+							answer_message.setAvp(origin_host);
+							answer_message.setAvp(origin_realm);
+							answer_message.setAvp(host_ip_address);
+							answer_message.setAvp(origin_state_id);
+							answer_message.setAvp(product_name);
+							answer_message.setAvp(vendor_id);
+							answer_message.setAvp(firmware_revision);
+							answer_message.setAvp(auth_application_id);
+							answer_message.setAvp(acct_application_id);
+							answer_message.setAvp(inband_security_id);
+						}
+						break;
+						case DIAMETER_DEVICE_WATCHDOG: {
+							answer_message.setAvp(result_code);
+							answer_message.setAvp(origin_host);
+							answer_message.setAvp(origin_realm);
+							answer_message.setAvp(origin_state_id);
+						}
+						break;
+						default: {
+						}
+						break;
+						}
+
+						write_diameter(client_sock, answer_message);
+					}
 				}
 			}
 		}
+
 	}
 
 	int retval = 0;

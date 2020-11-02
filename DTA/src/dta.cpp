@@ -18,21 +18,105 @@ using namespace std;
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <chrono>
 
 #include "dta.h"
 #include "diameter.h"
 
-void clientProcess(int client, int server, int sess_count)
-{
-	int n = write(client,"Howdy!!!! from the DTA\n",23);
+#include <mutex>
+
+std::mutex mu;
+
+void current_time_point(chrono::system_clock::time_point timePt) {
+	time_t timeStamp = chrono::system_clock::to_time_t(timePt);
+	//	cout << std::ctime(&timeStamp) << endl;
+}
+
+void watchDog(int sockfd) {
 
 	char buffer[8192];
 
-	if (n < 0){cout << "Error writing to client socket" << endl;};
+	while (true) {
+
+		current_time_point(chrono::system_clock::now());
+
+		chrono::system_clock::time_point timePt = chrono::system_clock::now()
+		+ chrono::seconds(10);
+
+		if ((dwd_send(sockfd) > 0)) {
+
+			int msg_length = read_diameter(sockfd);
+
+			if (msg_length > 0) {
+				CBBByteArray diameter_raw(buffer, msg_length);
+				DIAMETER_msg incoming_message;
+
+				int decode_retval = incoming_message.decode_binary(
+						diameter_raw);
+
+			}
+		}
+
+		this_thread::sleep_until(timePt);
+
+	}
+}
+
+void clientProcess(int client, int server, int sess_count) {
+	char buffer[8192];
+	unsigned int dRequest;
+	int decode_retval;
+
+	vector<std::string> parmList;
+
+	int n = write(client, "Howdy!!!! from the DTA\n", 23);
+
+	bzero((char *) &buffer, sizeof(buffer));
+
+	if (n < 0) {
+		cout << "Error writing to client socket" << endl;
+	};
+
+	n = read(client, buffer, 255);
+
+	if (n < 0) {
+		cout << "Error reading from client socket" << endl;
+	};
+
+	std::string request = (std::string(buffer));
+
+	request = request.substr(0, request.length() - 2);
+
+	size_t pos = 0;
+	std::string token;
+
+	while ((pos = request.find(",")) != std::string::npos) {
+		token = request.substr(0, pos);
+		std::cout << token << std::endl;
+		parmList.push_back(token);
+		request.erase(0, pos + 1);
+	}
+
+	parmList.push_back(request);
+
+	vector<std::string> v1;
+
+	v1.operator =(parmList);
+
+	if (parmList[0].compare("DEBIT") == 0) {
+		dRequest = cc_request_action_direct_debit;
+	}
+
+	else if (parmList[0].compare("CREDIT") == 0) {
+		dRequest = cc_request_action_refund_account;
+	} else {
+		write(client, "Transaction Type not Supported\n", 23);
+		close(client);
+	}
 
 	std::string SessionID = init_session_id(sess_count++);
 
-	if ((gy_ccr_initial(server,SessionID) > 0)) {
+	if ((gy_ccr_initial(server, SessionID, parmList[1]) > 0)) {
 
 		int msg_length = read_diameter(server);
 
@@ -41,28 +125,11 @@ void clientProcess(int client, int server, int sess_count)
 			CBBByteArray diameter_raw(buffer, msg_length);
 			DIAMETER_msg incoming_message;
 
-			int decode_retval = incoming_message.decode_binary(
-					diameter_raw);
-
+			decode_retval = incoming_message.decode_binary(diameter_raw);
 		}
 	}
 
-	if ((gy_ccr_terminal(server,SessionID) > 0)) {
-
-		int msg_length = read_diameter(server);
-
-		if (msg_length > 0) {
-			CBBByteArray diameter_raw(buffer, msg_length);
-			DIAMETER_msg incoming_message;
-
-			int decode_retval = incoming_message.decode_binary(
-					diameter_raw);
-
-		}
-	}
-
-
-	if ((gy_ccr_event(server,cc_request_action_direct_debit,SessionID) > 0)) {
+	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1]) > 0)) {
 
 		int msg_length = read_diameter(server);
 
@@ -70,24 +137,35 @@ void clientProcess(int client, int server, int sess_count)
 			CBBByteArray diameter_raw(RecvBuf, msg_length);
 			DIAMETER_msg incoming_message;
 
-			int decode_retval = incoming_message.decode_binary(
-					diameter_raw);
-
+			decode_retval = incoming_message.decode_binary(diameter_raw);
 
 		}
 	}
 
+	if ((gy_ccr_terminal(server, SessionID, parmList[1]) > 0)) {
+
+		int msg_length = read_diameter(server);
+
+		if (msg_length > 0) {
+			CBBByteArray diameter_raw(buffer, msg_length);
+			DIAMETER_msg incoming_message;
+
+			decode_retval = incoming_message.decode_binary(diameter_raw);
+
+		}
+	}
 
 	close(client);
 }
 
+dta::dta(int tport, std::string shost, int tsport) {
 
-dta::dta() {
-
+	port = tport;
+	host = shost;
+	sport = tsport;
 }
 
-int dta::createServer(int port)
-{
+int dta::createServer(void) {
 	cout << "Creating a dta server instance" << endl;
 
 	struct sockaddr_in s_name;
@@ -105,7 +183,8 @@ int dta::createServer(int port)
 
 	soption = 1;
 
-	if((setsockopt(s_descr, SOL_SOCKET, SO_REUSEADDR, (char *) &soption, sizeof(soption))) < 0){
+	if ((setsockopt(s_descr, SOL_SOCKET, SO_REUSEADDR, (char *) &soption,
+			sizeof(soption))) < 0) {
 
 		return -1;
 	}
@@ -127,14 +206,12 @@ int dta::createServer(int port)
 
 }
 
-int dta::connectDiameter(std::string host, int port)
-{
+int dta::connectDiameter(void) {
 
 	int sockfd;
 	struct sockaddr_in serv_addr;
 	struct hostent *server;
 	char buffer[8192];
-
 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -153,7 +230,7 @@ int dta::connectDiameter(std::string host, int port)
 			(char *)&serv_addr.sin_addr.s_addr,
 			server->h_length);
 
-	serv_addr.sin_port = htons(port);
+	serv_addr.sin_port = htons(sport);
 
 	int connection_status = connect(sockfd, (struct sockaddr *) &serv_addr,
 			sizeof(serv_addr));
@@ -174,31 +251,21 @@ int dta::connectDiameter(std::string host, int port)
 
 			DIAMETER_msg incoming_message;
 
-			int decode_retval = incoming_message.decode_binary(
-					diameter_raw);
+			int decode_retval = incoming_message.decode_binary(diameter_raw);
 
 		}
 	}
 
+	std::thread threadObj(watchDog, sockfd);
+	threadObj.detach();
 
-	if ((dwd_send(sockfd) > 0)) {
-
-		int msg_length = read_diameter(sockfd);
-
-		if (msg_length > 0) {
-			CBBByteArray diameter_raw(buffer, msg_length);
-			DIAMETER_msg incoming_message;
-
-			int decode_retval = incoming_message.decode_binary(
-					diameter_raw);
-
-		}
-	}
+	vecOfThreads.push_back(std::move(threadObj));
 
 	return sockfd;
 }
 
 int dta::accept_client(int server_fd) {
+
 	int client_fd = -1;
 	socklen_t client_addr_len;
 	struct sockaddr_in client_name;
@@ -207,18 +274,19 @@ int dta::accept_client(int server_fd) {
 	memset((struct sockaddr_in *) &client_name, 0, sizeof(struct sockaddr_in));
 
 	client_name_p = (struct sockaddr *) &client_name;
+
 	client_addr_len = sizeof(client_name);
+
 	client_fd = accept(server_fd, client_name_p, &client_addr_len);
 
 	return (client_fd);
 }
 
-
-void dta::acceptConection(int csock,int ssock){
+void dta::acceptConection(int csock, int ssock) {
 
 	int totalThreads = 0;
 
-	while(true){
+	while (true) {
 
 		int client = accept_client(csock);
 
@@ -226,15 +294,24 @@ void dta::acceptConection(int csock,int ssock){
 
 		totalThreads = totalThreads + 1;
 
-		if(totalThreads <= num_threads)
-		{
-//			threads[totalThreads - 1] = std::thread(clientProcess,client,sess_count);
-			clientProcess(client,ssock,sess_count);
+		if (totalThreads <= num_threads) {
+
+			//			threads[totalThreads - 1] = std::thread(clientProcess,client,sess_count);
+
+			clientProcess(client, ssock, sess_count);
+
 		}
 		else {
 
-			int n = write(client,"Sorry to many connections... Please try again later\n",52);
-			if (n < 0){cout << "Error writing to client socket" << endl;};
+			int n = write(client,
+					"Sorry to many connections... Please try again later\n",
+					52);
+
+			if (n < 0) {
+
+				cout << "Error writing to client socket" << endl;
+
+			};
 
 			close(client);
 		}
@@ -246,16 +323,14 @@ dta::~dta() {
 	cout << "Destroying a dta server instance" << endl;
 }
 
-
-
 int main(int argc, char *argv[]) {
 
 	/*	std::string logfile = argv[4];
 
-	if(!logfile.empty())
-	{
-		std::ofstream cout(logfile.c_str());
-	}
+	 if(!logfile.empty())
+	 {
+	 std::ofstream cout(logfile.c_str());
+	 }
 	 */
 
 	cout << "!!!Szia from dta!!!" << endl; // prints !!!Szia from dDiameter!!!
@@ -264,25 +339,24 @@ int main(int argc, char *argv[]) {
 
 	std::string host = argv[2];
 
-	int hport = atoi(argv[3]);
+	int sport = atoi(argv[3]);
 
-	dta dtao;
+	dta dtao(port, host, sport);
 
-	int srvc = dtao.createServer(port);
+	int srvc = dtao.createServer();
 
-	int hrvc = dtao.connectDiameter(host, hport);
+	int hrvc = dtao.connectDiameter();
 
-	if (srvc < 0 || hrvc < 0)
-	{
-		cout << "!!!ERROR starting dta !!!" << endl; // prints !!!Szia from dta!!!
+	if (srvc < 0 || hrvc < 0) {
+
+		cout << "!!!ERROR starting dta !!!" << endl;
 
 		return -1;
 	}
 
-	dtao.acceptConection(srvc,hrvc);
+	dtao.acceptConection(srvc, hrvc);
 
 	cout << "!!!Szia from dta!!!" << endl; // prints !!!Szia from dta!!!
 
 	return 0;
-
 }

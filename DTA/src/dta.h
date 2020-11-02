@@ -12,30 +12,37 @@
  *
  */
 
+using namespace std;
+
 class dta {
 
 private:
 
-const static int num_threads = 10;
+	const static int num_threads = 10;
 
-std::thread threads[num_threads];
+	std::vector<std::thread> vecOfThreads;
 
-int sess_count = 0;
+	int sess_count = 0;
 
-int accept_client(int server_fd);
+	int port;
+
+	std::string host;
+
+	int sport;
+
+	int accept_client(int server_fd);
 
 public:
 
-	dta();
+	dta(int tport, std::string thost, int sport);
 
-	int createServer(int port);
+	int createServer(void);
 
-	int connectDiameter(std::string server, int port);
+	int connectDiameter(void);
 
 	void acceptConection(int csock, int ssock);
 
 	virtual ~dta();
-
 };
 
 #endif /* DEBUG_SRC_DTA_H_ */
