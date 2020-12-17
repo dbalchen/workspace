@@ -17,12 +17,23 @@ my $clearinghouse = 'TNS';
 my %sqls = {};
 
 $sqls{'LTE'} = "
-select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),
-charge_type,max(exchange_rate) from prm_rom_incol_events_ap t1 where tap_in_file_name in (
-select unique(file_name) from file_summary where usage_type like '%LTE%' and process_date = to_date($ARGV[1],'YYYYMMDD'))
-and bp_start_date >= add_months(to_date(substr($ARGV[1],0,6),'YYYYMM'),-1)
-group by carrier_cd, bp_start_date,charge_type";
-
+  SELECT /*+ PARALLEL(t1,12) */
+        carrier_cd,
+         bp_start_date,
+         nvl(COUNT (*),0),
+         nvl(sum(charge_amount),0),
+         SUM (charge_parameter),
+         charge_type,
+         MAX (exchange_rate)
+    FROM prm_rom_incol_events_ap t1
+   WHERE     tap_in_file_name IN
+                 (SELECT UNIQUE (file_name)
+                    FROM file_summary
+                   WHERE     usage_type LIKE '%LTE%'
+                         AND process_date = TO_DATE ($ARGV[1], 'YYYYMMDD'))
+         AND bp_start_date >=
+                 ADD_MONTHS (TO_DATE (SUBSTR ($ARGV[1], 0, 6), 'YYYYMM'), -1)
+GROUP BY carrier_cd, bp_start_date, charge_type";
 
 $sqls{'NLDLT'} = "
 select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type, max(exchange_rate) 

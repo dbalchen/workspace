@@ -5,6 +5,7 @@
  *      Author: dbalchen
  */
 
+#include <microhttpd.h>
 #include <iostream>
 #include <bits/stdc++.h>
 #include <thread>
@@ -32,6 +33,7 @@ void current_time_point(chrono::system_clock::time_point timePt) {
 	//	cout << std::ctime(&timeStamp) << endl;
 }
 
+
 void watchDog(int sockfd) {
 
 	char buffer[8192];
@@ -41,7 +43,7 @@ void watchDog(int sockfd) {
 		current_time_point(chrono::system_clock::now());
 
 		chrono::system_clock::time_point timePt = chrono::system_clock::now()
-		+ chrono::seconds(10);
+		+ chrono::seconds(30);
 
 		if ((dwd_send(sockfd) > 0)) {
 
@@ -74,13 +76,17 @@ void clientProcess(int client, int server, int sess_count) {
 	bzero((char *) &buffer, sizeof(buffer));
 
 	if (n < 0) {
+
 		cout << "Error writing to client socket" << endl;
+
 	};
 
 	n = read(client, buffer, 255);
 
 	if (n < 0) {
+
 		cout << "Error reading from client socket" << endl;
+
 	};
 
 	std::string request = (std::string(buffer));
@@ -109,9 +115,12 @@ void clientProcess(int client, int server, int sess_count) {
 
 	else if (parmList[0].compare("CREDIT") == 0) {
 		dRequest = cc_request_action_refund_account;
+
 	} else {
+
 		write(client, "Transaction Type not Supported\n", 23);
 		close(client);
+
 	}
 
 	std::string SessionID = init_session_id(sess_count++);
@@ -127,6 +136,13 @@ void clientProcess(int client, int server, int sess_count) {
 
 			decode_retval = incoming_message.decode_binary(diameter_raw);
 		}
+		else {
+
+			write(client, "Could not create session ID\n", 28);
+			close(client);
+
+		}
+
 	}
 
 	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1]) > 0)) {
@@ -138,6 +154,12 @@ void clientProcess(int client, int server, int sess_count) {
 			DIAMETER_msg incoming_message;
 
 			decode_retval = incoming_message.decode_binary(diameter_raw);
+
+		}
+		else {
+
+			write(client, "Failure to complete Transaction\n", 32);
+			close(client);
 
 		}
 	}
@@ -153,11 +175,19 @@ void clientProcess(int client, int server, int sess_count) {
 			decode_retval = incoming_message.decode_binary(diameter_raw);
 
 		}
+		else {
+
+			write(client, "Could not commit Transaction\n", 28);
+			close(client);
+		}
 	}
+
+	write(client, "Transaction Successful\n", 23);
 
 	close(client);
 }
 
+// Define DTA class
 dta::dta(int tport, std::string shost, int tsport) {
 
 	port = tport;

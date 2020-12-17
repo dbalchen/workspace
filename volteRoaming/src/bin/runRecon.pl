@@ -39,8 +39,8 @@ sub scheduledTask {
 	#return;
 
 	my $hh =
-"/apps/ebi/ebiap1/bin/roamRecon/roamingReconciliation.pl SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,DISP_RM,NLDLT $timeStamp & ";
-
+#"/apps/ebi/ebiap1/bin/roamRecon/roamingReconciliation.pl DATA_CIBER,LTE,DISP_RM,NLDLT $timeStamp & ";
+ "/apps/ebi/ebiap1/bin/roamRecon/roamingReconciliation.pl SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,DISP_RM,NLDLT $timeStamp & ";
 	print "$hh\n";
 	system($hh);
 

@@ -117,11 +117,30 @@ while ( my @rows = $sth->fetchrow_array() ) {
 "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv | $grep | cut -f 9,10,11,12 ";
 		my $output = `$hh`;
 		chomp($output);
+		
+		my @dchValues =	[];	
+		
+		if($output eq '')
+		{
+			
+			$dchValues[0] = 0;
+			$dchValues[1] = 0;	
+			$dchValues[2] = 0;
+			$dchValues[3] = 0;	
+					
+		}
+		else 
+		{
+		  @dchValues = split( "\t", $output );
+		  chomp(@dchValues);
+		}
+		
 
-		my @dchValues = split( "\t", $output );
-		chomp(@dchValues);
+		
 		$total_rejected  =   $argv[5];
 	    $total_rejected_cost  =   $argv[6];	
+	    
+	    
 		$total_charges_dch = $dchValues[2];
 		$total_records_dch = $dchValues[3];
 

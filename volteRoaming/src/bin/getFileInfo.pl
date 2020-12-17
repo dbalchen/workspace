@@ -19,14 +19,14 @@ $ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 # fire off DCH Job
 
 my $hh =
-"cat $ARGV[0] | grep '^22' | sort -u | cut -b 72-81,225-230,336-341 | $ENV{'REC_HOME'}/addMultiUp.pl";
+"cat $ARGV[0] | grep '^22' |  cut -b 72-81,225-230,336-341 | $ENV{'REC_HOME'}/addMultiUp.pl";
 my $ttemp = "";
 $ttemp = `$hh`;
 chomp($ttemp);
 my ( $total, $filesum, $usage ) = split( "\t", $ttemp );
 
 $hh =
-"cat $ARGV[0] | grep '^52' | sort -u | cut -b 72-81 | $ENV{'REC_HOME'}/addMultiUp.pl";
+"cat $ARGV[0] | grep '^52' | cut -b 72-81 | $ENV{'REC_HOME'}/addMultiUp.pl";
 $ttemp = "";
 $ttemp = `$hh`;
 chomp($ttemp);

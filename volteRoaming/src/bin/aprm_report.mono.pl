@@ -5,7 +5,7 @@ use Time::Piece;
 use Time::Seconds;
 
 BEGIN {
-	#	push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
+		push( @INC, '/home/dbalchen/workspace/perl_lib/lib/perl5' );
 }
 
 use Spreadsheet::WriteExcel;
@@ -22,7 +22,7 @@ $ENV{'REC_HOME'} = '/apps/ebi/ebiap1/bin/roamRecon/';
 
 #$ENV{'REC_HOME'} = '/home/dbalchen/workspace/volteRoaming/src/bin/';
 
-$ARGV[0] = '20181205';
+$ARGV[0] = '20200105';
 
 my $date = $ARGV[0];
 

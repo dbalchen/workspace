@@ -1,4 +1,4 @@
-#! /bin/python3
+#! /usr/bin/python36
 
 # Oracle Libraries
 import cx_Oracle
@@ -55,68 +55,77 @@ bold_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=Tru
 sqlDictionary = {}
 
 sqlDictionary["LTE"] = """
-SELECT To_char (t1.sys_creation_date, 'YYYY-MM-DD')"Creation Date", 
-       t1.nr_param_3_val                           "Company Code", 
-       rate_plan_cd, 
-       CASE 
-         WHEN rate_plan_cd LIKE '%VoLTE%' 
-              AND t1.prod_cat_id = 'OS' THEN '5438002' 
-         WHEN rate_plan_cd NOT LIKE '%VoLTE%' 
-              AND t1.prod_cat_id = 'OS' THEN '5438001' 
-         WHEN rate_plan_cd LIKE '%VoLTE%' 
-              AND t1.prod_cat_id = 'IS' THEN '6008002' 
-         WHEN rate_plan_cd NOT LIKE '%VoLTE%' 
-              AND t1.prod_cat_id = 'IS' THEN '6008001' 
-         WHEN t1.rate_plan_cd = 'RPINCGSMDATACD' 
-              AND t1.prod_cat_id = 'II' THEN '6008001' 
-         WHEN t1.rate_plan_cd = 'RPINCGSMSMSCD' 
-              AND t1.prod_cat_id = 'II' THEN '6002202' 
-         WHEN t1.rate_plan_cd = 'RPINCGSMVOICETOTCD' 
-              AND t1.prod_cat_id = 'II' THEN '6002201' 
-         ELSE '0000000' 
-       END                                         AS ascase, 
-       Decode (carrier_cd, 'USAAT', 'ATT Mobility (USAAT)', 
-                           'USABS', 'ATT Mobility (USABS)', 
-                           'USACC', 'ATT Mobility (USACC)', 
-                           'USACG', 'ATT Mobility (USACG)', 
-                           'USAMF', 'ATT Mobility (USAMF)', 
-                           'USAPB', 'ATT Mobility (USAPB)', 
-                           'USAKY', 'Appalachian Wireless (USAKY)', 
-                           'USACM', 'C-Spire (USACM)', 
-                           'USA1E', 'Carolina West (USA1E)', 
-                           'USAXC', 'Inland (USAXC)', 
-                           'USAJV', 'James Valley (USAJV)', 
-                           'USA6G', 'Nex-Tech Wireless (USA6G)', 
-                           'USAPI', 'Pioneer Cellular (USAPI)', 
-                           'USASG', 'Sprint (USASG)', 
-                           'USASP', 'Sprint (USASP)', 
-                           'USASU', 'Sprint (USASU)', 
-                           'USATM', 'T-Mobile (USATM)', 
-                           'USAW6', 'T-Mobile (USAW6)', 
-                           'GBRJT', 'Jersey Telecom (GBRJT)', 
-                           'USA34', 'Illinois Valley Cell (USA34)', 
-                           'USAUW', 'United Wireless (USAUW)', 
-                           'USAVZ', 'Verizon (USAVZ)', 
-                           'AAZVF', 'Vodafone Malta (AAZVF)', 
-                           'MLTTL', 'Vodafone Malta (MLTTL)', 
-                           'NLDLT', 'Vodafone Netherlands (NLDLT)', 
-                           carrier_cd)             "Carrier Code", 
-       t1.prod_cat_id, 
-       CASE 
-         WHEN t1.rate_plan_cd = 'RPINCGSMVOICETOTCD' 
-               OR t1.rate_plan_cd = 'RPINCGSMSMSCD' THEN Sum 
-         (t1.tot_chrg_param_val) 
-         WHEN ( t1.rate_plan_cd != 'RPINCGSMVOICETOTCD' 
-                 OR t1.rate_plan_cd != 'RPINCGSMSMSCD' ) 
-              AND t1.uom = 'K' THEN Sum (( t1.tot_chrg_param_val / 1024 )) 
-         ELSE Sum (( t1.tot_chrg_param_val / 1024 ) / 1024) 
-       END                                         AS Total_usage, 
-       Sum (t1.tot_net_usage_chrg)                 "Total Charges" 
-FROM   ic_accumulated_usage t1 
-WHERE  ( t1.prod_cat_id = 'IS' 
-          OR t1.prod_cat_id = 'OS' 
-          OR t1.prod_cat_id = 'II' ) 
-                AND t1.BP_START_DATE = TO_DATE ('""" + bp_start_date_LTE + """', 'YYYYMMDD')
+  SELECT TO_CHAR (t1.sys_creation_date, 'YYYY-MM-DD')"Creation Date",
+         t1.nr_param_3_val                          "Company Code",
+         rate_plan_cd,
+         CASE
+             WHEN rate_plan_cd LIKE '%VoLTE%' AND t1.prod_cat_id = 'OS'
+             THEN
+                 '5438002'
+             WHEN rate_plan_cd NOT LIKE '%VoLTE%' AND t1.prod_cat_id = 'OS'
+             THEN
+                 '5438001'
+             WHEN rate_plan_cd LIKE '%VoLTE%' AND t1.prod_cat_id = 'IS'
+             THEN
+                 '6008002'
+             WHEN rate_plan_cd NOT LIKE '%VoLTE%' AND t1.prod_cat_id = 'IS'
+             THEN
+                 '6008001'
+             WHEN t1.rate_plan_cd = 'RPINCGSMDATACD' AND t1.prod_cat_id = 'II'
+             THEN
+                 '6008001'
+             WHEN t1.rate_plan_cd = 'RPINCGSMSMSCD' AND t1.prod_cat_id = 'II'
+             THEN
+                 '6002202'
+             WHEN     t1.rate_plan_cd = 'RPINCGSMVOICETOTCD'
+                  AND t1.prod_cat_id = 'II'
+             THEN
+                 '6002201'
+             ELSE
+                 '0000000'
+         END
+             AS ascase,
+         DECODE (carrier_cd,
+                 'USAAT', 'ATT Mobility (USAAT)',
+                 'USABS', 'ATT Mobility (USABS)',
+                 'USACC', 'ATT Mobility (USACC)',
+                 'USACG', 'ATT Mobility (USACG)',
+                 'USAMF', 'ATT Mobility (USAMF)',
+                 'USAPB', 'ATT Mobility (USAPB)',
+                 'USAKY', 'Appalachian Wireless (USAKY)',
+                 'USACM', 'C-Spire (USACM)',
+                 'USA1E', 'Carolina West (USA1E)',
+                 'USAXC', 'Inland (USAXC)',
+                 'USAJV', 'James Valley (USAJV)',
+                 'USA6G', 'Nex-Tech Wireless (USA6G)',
+                 'USAPI', 'Pioneer Cellular (USAPI)',
+                 'USASG', 'Sprint (USASG)',
+                 'USASP', 'Sprint (USASP)',
+                 'USASU', 'Sprint (USASU)',
+                 'USATM', 'T-Mobile (USATM)',
+                 'USAW6', 'T-Mobile (USAW6)',
+                 'USAUW', 'United Wireless (USAUW)',
+                 'USAVZ', 'Verizon (USAVZ)',
+                 'AAZVF', 'Vodafone Malta (AAZVF)',
+                 'MLTTL', 'Vodafone Malta (MLTTL)',
+                 'NLDLT', 'Vodafone Netherlands (NLDLT)')
+             "Carrier Code",
+         t1.prod_cat_id,
+         CASE
+             WHEN    t1.rate_plan_cd = 'RPINCGSMVOICETOTCD'
+                  OR t1.rate_plan_cd = 'RPINCGSMSMSCD'
+             THEN
+                 SUM (t1.TOT_CHRG_PARAM_VAL)
+             ELSE
+                 SUM ( (t1.TOT_CHRG_PARAM_VAL / 1024) / 1024)
+         END
+             AS Total_usage,
+         SUM (t1.tot_net_usage_chrg)                "Total Charges"
+    FROM IC_ACCUMULATED_USAGE t1
+   WHERE     (   t1.prod_cat_id = 'IS'
+              OR t1.prod_cat_id = 'OS'
+              OR t1.prod_cat_id = 'II')
+         AND t1.BP_START_DATE = TO_DATE ('""" + bp_start_date_LTE + """', 'YYYYMMDD')
 GROUP BY TO_CHAR (t1.sys_creation_date, 'YYYY-MM-DD'),
          t1.nr_param_3_val,
          carrier_cd,
@@ -124,9 +133,6 @@ GROUP BY TO_CHAR (t1.sys_creation_date, 'YYYY-MM-DD'),
          t1.prod_cat_id
 ORDER BY TO_CHAR (t1.sys_creation_date, 'YYYY-MM-DD')
 """
-
-
-
 
 sqlDictionary["CDMA_In"] = """
 SELECT TO_CHAR (sys_creation_date, 'YYYY-MM-DD')"Create Date",
@@ -149,13 +155,9 @@ SELECT TO_CHAR (sys_creation_date, 'YYYY-MM-DD')"Create Date",
          END
              AS prod_id,
          CASE
-             WHEN t1.rate_plan_cd = 'RPROINDATA' AND t1.UOM = 'K'
+             WHEN t1.rate_plan_cd = 'RPROINDATA'
              THEN
-                 ( (SUM (t1.tot_chrg_param_val) / 1024))
-             WHEN t1.rate_plan_cd = 'RPROINDATA' AND t1.UOM != 'K'
-             THEN
-                 ( (SUM (t1.tot_chrg_param_val) / 1024) / 1024)            
-                 
+                 ( (SUM (t1.tot_chrg_param_val) / 1024) / 1024)
              ELSE
                  SUM (t1.tot_chrg_param_val)
          END
@@ -474,8 +476,7 @@ wb.save(excel_file)
 
 message = mess
 subject = title
-#sendTo = ["david.balchen@uscellular.com"]
-sendTo = ["david.balchen@uscellular.com",'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','david.smith@uscellular.com','Miguel.Jones@uscellular.com']
+sendTo = ["david.balchen@uscellular.com"]
 
 for who in sendTo:
     sendMail(excel_file, message, subject, who)

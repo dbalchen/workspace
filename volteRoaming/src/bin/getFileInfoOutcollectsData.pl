@@ -3,7 +3,7 @@
 use DBI;
 
 #Test parameters remove when going to production.
-#$ARGV[0] = "20170112";
+#$ARGV[0] = "20190523";
 
 # For test only.....
 # my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";

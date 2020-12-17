@@ -30,7 +30,7 @@ sub scheduledTask {
 	chdir("/apps/ebi/ebiap1/bin/roamRecon/roaminRecon");
 
 	# Get the date of the day before.
-	my $timeStamp = "20190319";
+	my $timeStamp = "20190321";
 	my $hh = "/apps/ebi/ebiap1/bin/roamRecon/listBuilder.pl";
 	system($hh);
 	#return;

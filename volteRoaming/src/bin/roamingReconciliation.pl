@@ -255,432 +255,177 @@ $tab{'LTE'}               = 'LTE Incollect';
 $tab{'DISP_RM'}           = 'LTE Outcollect';
 $tab{'NLDLT'}             = 'GSM (Incollect)';
 
-$sqls{'SDIRI_FCIBER'} = "
-SELECT file_name,
-       identifier,
-       total_records_dch,
-       total_volume_dch,
-       total_charges_dch,
-       Total_Records,
-       total_volume,
-       total_charges,
-       (Total_Records - total_records_dch),
-       (total_volume - total_volume_dch),
-       (total_charges - total_charges_dch),
-       dropped_records,
-       duplicates,
-       TC_SEND,
-       rejected_count,
-       rejected_charges,
-       dropped_tc,
-       dropped_aprm,
-       dropped_aprm_charges,
-       aprm_difference,
-       aprm_total_records,
-       aprm_total_charges,
-       tc_send - aprm_total_records,
-       (total_charges - aprm_total_charges),
-       ABS ( (total_records_dch - Total_Records) / total_records) * 100,
-       ABS ( (total_volume_dch - Total_volume) / total_volume) * 100,
-       ABS ( (total_charges_dch - Total_charges) / total_charges) * 100,
-       ABS ( (TC_SEND - aprm_total_records) / TC_SEND) * 100,
-         ABS ( (total_charges_dch - aprm_total_charges) / aprm_total_charges)
-       * 100
-  FROM file_summary
- WHERE     usage_type = 'SDIRI_FCIBER'
-       AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')
-";
+$sqls{'SDIRI_FCIBER'} = "select 
+ file_name, identifier, 
+ total_records_dch, total_volume_dch, total_charges_dch,
+ Total_Records, total_volume, total_charges, 
+ (Total_Records - total_records_dch), (total_volume - total_volume_dch ), (total_charges - total_charges_dch),
+	dropped_records, duplicates, 
+	TC_SEND, rejected_count, rejected_charges, 
+	dropped_tc,  dropped_aprm, dropped_aprm_charges, aprm_difference, aprm_total_records, aprm_total_charges,
+	tc_send - aprm_total_records , (total_charges - aprm_total_charges),
+		abs((total_records_dch - Total_Records)/total_records)*100,
+	abs((total_volume_dch - Total_volume)/total_volume)*100,
+	abs((total_charges_dch - Total_charges)/total_charges)*100,
+	abs((TC_SEND - aprm_total_records)/TC_SEND) * 100,
+	abs((total_charges_dch - aprm_total_charges)/aprm_total_charges)*100
+from file_summary where usage_type = 'SDIRI_FCIBER' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 $sqls{'SDATACBR_FDATACBR'} =
-"
-SELECT FILE_NAME,
-       IDENTIFIER,
-       TOTAL_RECORDS_DCH,
-       TOTAL_VOLUME_DCH,
-       CEIL (TOTAL_VOLUME_DCH / 1024),
-       CEIL ( (TOTAL_VOLUME_DCH / 1024) / 1024),
-       TOTAL_CHARGES_DCH,
-       TOTAL_RECORDS,
-       TOTAL_VOLUME,
-       CEIL (TOTAL_VOLUME / 1024),
-       CEIL ( (TOTAL_VOLUME / 1024) / 1024),
-       TOTAL_CHARGES,
-       (TOTAL_RECORDS - TOTAL_RECORDS_DCH),
-       TOTAL_VOLUME - TOTAL_VOLUME_DCH,
-       (TOTAL_CHARGES - TOTAL_CHARGES_DCH),
-       DROPPED_RECORDS,
-       DUPLICATES,
-       TC_SEND,
-       DROPPED_TC,
-       REJECTED_COUNT,
-       REJECTED_CHARGES,
-       DROPPED_APRM,
-       DROPPED_APRM_CHARGES,
-       APRM_DIFFERENCE,
-       APRM_TOTAL_RECORDS,
-       APRM_TOTAL_CHARGES,
-       TC_SEND - APRM_TOTAL_RECORDS,
-       (TOTAL_CHARGES) - APRM_TOTAL_CHARGES,
-       ABS ( (total_records_dch - Total_Records) / total_records) * 100,
-       ABS ( (total_volume_dch - Total_volume) / total_volume) * 100,
-         ROUND (ABS ( (total_charges_dch - Total_charges) / total_charges),
-                2)
-       * 100,
-       ABS ( (TC_SEND - aprm_total_records) / TC_SEND) * 100,
-         ABS ( (total_charges_dch - aprm_total_charges) / aprm_total_charges)
-       * 100
-  FROM file_summary
- WHERE     usage_type = 'SDATACBR_FDATACBR'
-       AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')
-";
+"select FILE_NAME,IDENTIFIER, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH,ceil(TOTAL_VOLUME_DCH/1024), ceil((TOTAL_VOLUME_DCH/1024)/1024), 
+TOTAL_CHARGES_DCH,TOTAL_RECORDS,TOTAL_VOLUME, ceil(TOTAL_VOLUME/1024), ceil((TOTAL_VOLUME/1024)/1024),TOTAL_CHARGES,
+ (TOTAL_RECORDS-TOTAL_RECORDS_DCH),TOTAL_VOLUME - TOTAL_VOLUME_DCH, (TOTAL_CHARGES-TOTAL_CHARGES_DCH),
+DROPPED_RECORDS, DUPLICATES,TC_SEND, DROPPED_TC,REJECTED_COUNT, REJECTED_CHARGES, 
+DROPPED_APRM, DROPPED_APRM_CHARGES, APRM_DIFFERENCE, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES,
+TC_SEND - APRM_TOTAL_RECORDS, (TOTAL_CHARGES) - APRM_TOTAL_CHARGES,
+	abs((total_records_dch - Total_Records)/total_records)*100 ,
+	abs((total_volume_dch - Total_volume)/total_volume)*100 ,
+	round(abs((total_charges_dch - Total_charges)/total_charges),2)*100 ,
+	abs((TC_SEND - aprm_total_records)/TC_SEND) * 100,
+	abs((total_charges_dch - aprm_total_charges)/aprm_total_charges) * 100
+from file_summary where usage_type = 'SDATACBR_FDATACBR' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 $sqls{'CIBER_CIBER'} =
-  "
-SELECT FILE_NAME,
-       IDENTIFIER,
-       APRM_TOTAL_RECORDS,
-       APRM_TOTAL_CHARGES,
-       TOTAL_RECORDS,
-       TOTAL_VOLUME,
-       TOTAL_CHARGES,
-       APRM_DIFFERENCE,
-       (APRM_TOTAL_CHARGES - TOTAL_CHARGES),
-       TOTAL_RECORDS_DCH,
-       TOTAL_VOLUME_DCH,
-       TOTAL_CHARGES_DCH,
-       (TOTAL_RECORDS - TOTAL_RECORDS_DCH),
-       (TOTAL_VOLUME - TOTAL_VOLUME_DCH),
-       (TOTAL_CHARGES - TOTAL_CHARGES_DCH),
-       ABS ( (total_records_dch - Total_Records) / total_records) * 100,
-       ABS ( (total_volume_dch - Total_volume) / total_volume) * 100,
-         ROUND (ABS ( (total_charges_dch - Total_charges) / total_charges),
-                2)
-       * 100,
-       ABS ( (TOTAL_RECORDS - aprm_total_records) / TOTAL_RECORDS) * 100,
-         ABS ( (total_charges_dch - aprm_total_charges) / aprm_total_charges)
-       * 100
-  FROM file_summary
- WHERE     usage_type = 'CIBER_CIBER'
-       AND process_date = TO_DATE ($outTimeStamp, 'YYYYMMDD')  
-  ";
+  "select FILE_NAME, IDENTIFIER, APRM_TOTAL_RECORDS, APRM_TOTAL_CHARGES,
+   TOTAL_RECORDS, TOTAL_VOLUME, TOTAL_CHARGES,APRM_DIFFERENCE,(APRM_TOTAL_CHARGES - TOTAL_CHARGES),
+   TOTAL_RECORDS_DCH,
+   TOTAL_VOLUME_DCH, TOTAL_CHARGES_DCH, (TOTAL_RECORDS - TOTAL_RECORDS_DCH), (TOTAL_VOLUME - TOTAL_VOLUME_DCH),(TOTAL_CHARGES - TOTAL_CHARGES_DCH),
+	abs((total_records_dch - Total_Records)/total_records) * 100,
+	abs((total_volume_dch - Total_volume)/total_volume) * 100,
+	round(abs((total_charges_dch - Total_charges)/total_charges),2) * 100,
+	abs((TOTAL_RECORDS - aprm_total_records)/TOTAL_RECORDS) * 100,
+	abs((total_charges_dch - aprm_total_charges)/aprm_total_charges) * 100
+ from file_summary where usage_type = 'CIBER_CIBER' and process_date = to_date($outTimeStamp,'YYYYMMDD')";
 
-$sqls{'DATA_CIBER'} = "
-SELECT RECEIVER,
-       APRM_TOTAL_RECORDS,
-       APRM_TOTAL_CHARGES,
-       TOTAL_RECORDS,
-       TOTAL_VOLUME,
-       TOTAL_CHARGES,
-       (APRM_TOTAL_RECORDS - TOTAL_RECORDS),
-       (APRM_TOTAL_CHARGES - TOTAL_CHARGES),
-       Total_records_dch,
-       total_volume_dch,
-       total_charges_dch,
-       (TOTAL_RECORDS - Total_records_dch),
-       (TOTAL_VOLUME - total_volume_dch),
-       (TOTAL_CHARGES - total_charges_dch),
-       0,
-       0,
-       0,
-       0,
-       0
-  FROM file_summary
- WHERE     usage_type = 'DATA_CIBER'
-       AND process_date = TO_DATE ($outTimeStamp, 'YYYYMMDD')
-";
+$sqls{'DATA_CIBER'} = "select 
+RECEIVER,
+APRM_TOTAL_RECORDS,
+APRM_TOTAL_CHARGES,
+TOTAL_RECORDS,
+TOTAL_VOLUME,
+TOTAL_CHARGES,
+(APRM_TOTAL_RECORDS - TOTAL_RECORDS),
+(APRM_TOTAL_CHARGES - TOTAL_CHARGES),
+Total_records_dch,
+total_volume_dch,
+total_charges_dch,
+(TOTAL_RECORDS - Total_records_dch),
+(TOTAL_VOLUME - total_volume_dch),
+(TOTAL_CHARGES - total_charges_dch),
+0,
+0,
+0,
+0,
+0
+from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date($outTimeStamp,'YYYYMMDD')";
 
 $sqls{'LTE'} = "
-  SELECT FILE_NAME,
-         t1.IDENTIFIER,
-         t1.sender,
-         SUM (TOTAL_RECORDS_DCH),
-         SUM (TOTAL_VOLUME_DCH),
-         SUM (CEIL (TOTAL_VOLUME_DCH / 1040)),
-         SUM (CEIL ( (TOTAL_VOLUME_DCH / 1040) / 1040)),
-         SUM (TOTAL_CHARGES_DCH),
-         SUM (TOTAL_RECORDS),
-         SUM (TOTAL_VOLUME),
-         SUM (CEIL (TOTAL_VOLUME / 1040)),
-         SUM (CEIL ( (TOTAL_VOLUME / 1040) / 1040)),
-         SUM (TOTAL_CHARGES),
-         SUM (TOTAL_RECORDS_DCH) - SUM (TOTAL_RECORDS),
-         SUM (TOTAL_VOLUME_DCH) - SUM (TOTAL_VOLUME),
-         SUM (TOTAL_CHARGES_DCH) - SUM (TOTAL_CHARGES),
-         SUM (REJECTED_COUNT),
-         SUM (REJECTED_CHARGES),
-         SUM (DROPPED_APRM),
-         SUM (DROPPED_APRM_CHARGES),
-         SUM (APRM_TOTAL_RECORDS),
-         SUM (APRM_TOTAL_CHARGES),
-         SUM (TOTAL_RECORDS) - SUM (APRM_TOTAL_RECORDS),
-         SUM (TOTAL_CHARGES) - SUM (APRM_TOTAL_CHARGES),
-         (SELECT NVL (SUM (total_records), 0)
-            FROM file_summary t2
-           WHERE     usage_type LIKE 'LTE-H'
-                 AND t2.identifier = t1.identifier
-                 AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')),
-         (SELECT NVL (SUM (TOTAL_VOLUME), 0)
-            FROM file_summary t2
-           WHERE     usage_type LIKE 'LTE-H'
-                 AND t2.identifier = t1.identifier
-                 AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')),
-         (SELECT NVL (SUM (TOTAL_CHARGES), 0)
-            FROM file_summary t2
-           WHERE     usage_type LIKE 'LTE-H'
-                 AND t2.identifier = t1.identifier
-                 AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')),
-         (SELECT NVL (SUM (total_records), 0)
-            FROM file_summary t2
-           WHERE     usage_type LIKE 'LTE-L'
-                 AND t2.identifier = t1.identifier
-                 AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')),
-         (SELECT NVL (SUM (TOTAL_VOLUME), 0)
-            FROM file_summary t2
-           WHERE     usage_type LIKE 'LTE-L'
-                 AND t2.identifier = t1.identifier
-                 AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')),
-         (SELECT NVL (SUM (TOTAL_CHARGES), 0)
-            FROM file_summary t2
-           WHERE     usage_type LIKE 'LTE-L'
-                 AND t2.identifier = t1.identifier
-                 AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')),
-           ABS (
-                 (SUM (total_records_dch) - SUM (Total_Records))
-               / NULLIF (SUM (total_records), 0))
-         * 100,
-           ABS (
-                 (SUM (total_volume_dch) - SUM (Total_volume))
-               / NULLIF (SUM (total_volume), 0))
-         * 100,
-           ABS (
-                 (SUM (total_charges_dch) - SUM (Total_charges))
-               / NULLIF (SUM (total_charges), 0))
-         * 100,
-           ABS (
-                 (SUM (total_records) - SUM (aprm_total_records))
-               / NULLIF (SUM (total_records), 0))
-         * 100,
-           ABS (
-                 (SUM (total_charges_dch) - SUM (aprm_total_charges))
-               / NULLIF (SUM (aprm_total_charges), 0))
-         * 100
-    FROM file_summary t1
-   WHERE     t1.usage_type LIKE 'LTE%'
-         AND t1.process_date = TO_DATE ($timeStamp, 'YYYYMMDD')
-GROUP BY FILE_NAME_DCH,
-         FILE_NAME,
-         t1.IDENTIFIER,
-         SENDER
-";
+select
+FILE_NAME, 
+t1.IDENTIFIER, 
+t1.sender,
+sum(TOTAL_RECORDS_DCH),
+sum(TOTAL_VOLUME_DCH),
+sum(ceil(TOTAL_VOLUME_DCH/1040)),
+sum(ceil((TOTAL_VOLUME_DCH/1040)/1040)) ,
+sum(TOTAL_CHARGES_DCH),
+sum(TOTAL_RECORDS),
+sum(TOTAL_VOLUME),
+sum(ceil(TOTAL_VOLUME/1040)) ,
+sum(ceil((TOTAL_VOLUME/1040)/1040)) ,
+sum(TOTAL_CHARGES) ,
+sum(TOTAL_RECORDS_DCH) - sum(TOTAL_RECORDS),
+sum(TOTAL_VOLUME_DCH) - sum(TOTAL_VOLUME),
+sum(TOTAL_CHARGES_DCH) - sum(TOTAL_CHARGES),
+sum(REJECTED_COUNT), 
+sum(REJECTED_CHARGES),
+sum(DROPPED_APRM), 
+sum(DROPPED_APRM_CHARGES),
+sum(APRM_TOTAL_RECORDS),
+sum(APRM_TOTAL_CHARGES),
+sum(TOTAL_RECORDS) - sum(APRM_TOTAL_RECORDS),
+sum(TOTAL_CHARGES) - sum(APRM_TOTAL_CHARGES),
+(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
+(select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')),
+(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
+(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
+(select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type 
+like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
+(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')),
+	abs((sum(total_records_dch) - sum(Total_Records))/NULLIF(sum(total_records),0))*100,
+	abs((sum(total_volume_dch) - sum(Total_volume))/NULLIF(sum(total_volume),0))*100,
+	abs((sum(total_charges_dch) - sum(Total_charges))/NULLIF(sum(total_charges),0))*100,
+	abs((sum(total_records) - sum(aprm_total_records))/NULLIF(sum(total_records),0))*100,
+	abs((sum(total_charges_dch) - sum(aprm_total_charges))/NULLIF(sum(aprm_total_charges),0))	*100 
+from file_summary t1 
+  where t1.usage_type like 'LTE%' and t1.process_date = to_date($timeStamp,'YYYYMMDD')
+group by FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, SENDER";
 
-$sqls{'NLDLT'} = "
-SELECT FILE_NAME,
-       IDENTIFIER,
-       SENDER,
-       USAGE_TYPE,
-       TOTAL_RECORDS_DCH,
-       TOTAL_VOLUME_DCH,
-       TOTAL_CHARGES_DCH,
-       TOTAL_RECORDS,
-       TOTAL_VOLUME,
-       TOTAL_CHARGES,
-       TOTAL_RECORDS_DCH - TOTAL_RECORDS,
-       TOTAL_VOLUME_DCH - TOTAL_VOLUME,
-       TOTAL_CHARGES_DCH - TOTAL_CHARGES,
-       REJECTED_COUNT,
-       REJECTED_CHARGES,
-       DROPPED_APRM,
-       DROPPED_APRM_CHARGES,
-       APRM_TOTAL_RECORDS,
-       APRM_TOTAL_CHARGES,
-       TOTAL_RECORDS - APRM_TOTAL_RECORDS,
-       TOTAL_CHARGES - APRM_TOTAL_CHARGES,
-       0,
-       0,
-       0,
-       0,
-       0
-  FROM file_summary
- WHERE     usage_type LIKE 'NLDLT%'
-       AND process_date = TO_DATE ($timeStamp, 'YYYYMMDD')
-";
+$sqls{'NLDLT'} = "select 
+ FILE_NAME, 
+ IDENTIFIER, 
+ SENDER, 
+ USAGE_TYPE, 
+ TOTAL_RECORDS_DCH, 
+ TOTAL_VOLUME_DCH,
+ TOTAL_CHARGES_DCH,
+ TOTAL_RECORDS,
+ TOTAL_VOLUME,
+ TOTAL_CHARGES,
+ TOTAL_RECORDS_DCH - TOTAL_RECORDS,
+ TOTAL_VOLUME_DCH - TOTAL_VOLUME,
+ TOTAL_CHARGES_DCH - TOTAL_CHARGES,
+ REJECTED_COUNT, 
+ REJECTED_CHARGES,
+ DROPPED_APRM, 
+ DROPPED_APRM_CHARGES,
+ APRM_TOTAL_RECORDS,
+ APRM_TOTAL_CHARGES,
+ TOTAL_RECORDS - APRM_TOTAL_RECORDS,
+ TOTAL_CHARGES - APRM_TOTAL_CHARGES,
+ 0,
+ 0,
+ 0,
+ 0,
+ 0
+from file_summary where usage_type like 'NLDLT%' and process_date = to_date($timeStamp,'YYYYMMDD')";
 
 $sqls{'DISP_RM'} = "
-/* Formatted on 11/22/2019 4:33:54 PM (QP5 v5.300) */
-SELECT t1.file_name,
-       t1.total_records + t2.total_records,
-       t1.total_volume + t2.total_volume,
-       t1.total_charges + t2.total_charges,
-       t3.total_records,
-       t3.total_volume,
-       t3.total_charges,
-       t1.total_records + t2.total_records + t3.total_records,
-       t1.total_volume + t2.total_volume + t3.total_volume,
-       t1.total_charges + t2.total_charges + t3.total_charges,
-       t4.total_records,
-       t4.total_volume,
-       t4.total_charges,
-         t1.total_records
-       + t2.total_records
-       + t3.total_records
-       - t4.total_records,
-       t1.total_volume + t2.total_volume + t3.total_volume - t4.total_volume,
-         t1.total_charges
-       + t2.total_charges
-       + t3.total_charges
-       - t4.total_charges,
-         ABS (
-               (  (t4.total_records)
-                - (t1.total_records + t2.total_records + t3.total_records))
-             / NULLIF (
-                   (t1.total_records + t2.total_records + t3.total_records),
-                   0))
-       * 100,
-         ABS (
-               (  (t4.total_volume)
-                - (t1.total_volume + t2.total_volume + t3.total_volume))
-             / NULLIF (
-                   (t1.total_volume + t2.total_volume + t3.total_volume),
-                   0))
-       * 100,
-         ABS (
-               (  (t4.total_charges)
-                - (t1.total_charges + t2.total_charges + t3.total_charges))
-             / NULLIF (
-                   (t1.total_charges + t2.total_charges + t3.total_charges),
-                   0))
-       * 100,
-         ABS (
-               (  (t1.total_records + t2.total_records + t3.total_records)
-                - (t1.total_records + t2.total_records + +t3.total_records))
-             / NULLIF (
-                   (t1.total_records + t2.total_records + t3.total_records),
-                   0))
-       * 100,
-         ABS (
-               (  (t1.total_charges + t2.total_charges + t3.total_charges)
-                - (t4.total_charges))
-             / NULLIF (
-                   (t1.total_charges + t2.total_charges + t3.total_charges),
-                   0))
-       * 100
-  FROM (  SELECT file_name,
-                 NVL (
-                     (SELECT MAX (total_records)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-S'),
-                     0)
-                     total_records,
-                 NVL (
-                     (SELECT MAX (total_volume)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-S'),
-                     0)
-                     total_volume,
-                 NVL (
-                     (SELECT MAX (total_charges)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-S'),
-                     0)
-                     total_charges
-            FROM file_summary t1
-           WHERE file_name IN
-                     (SELECT UNIQUE (file_name)
-                        FROM file_summary
-                       WHERE     process_date =
-                                     TO_DATE ($outTimeStamp, 'YYYYMMDD')
-                             AND usage_type LIKE 'DISP%')
-        GROUP BY file_name) t1,
-       (  SELECT file_name,
-                 NVL (
-                     (SELECT MAX (total_records)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-H'),
-                     0)
-                     total_records,
-                 NVL (
-                     (SELECT MAX (total_volume)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-H'),
-                     0)
-                     total_volume,
-                 NVL (
-                     (SELECT MAX (total_charges)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-H'),
-                     0)
-                     total_charges
-            FROM file_summary t1
-           WHERE file_name IN
-                     (SELECT UNIQUE (file_name)
-                        FROM file_summary
-                       WHERE     process_date =
-                                     TO_DATE ($outTimeStamp, 'YYYYMMDD')
-                             AND usage_type LIKE 'DISP%')
-        GROUP BY file_name) t2,
-       (  SELECT file_name,
-                 NVL (
-                     (SELECT MAX (total_records)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-L'),
-                     0)
-                     total_records,
-                 NVL (
-                     (SELECT MAX (total_volume)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-L'),
-                     0)
-                     total_volume,
-                 NVL (
-                     (SELECT MAX (total_charges)
-                        FROM file_summary
-                       WHERE     file_name = t1.file_name
-                             AND usage_type = 'DISP_RM-L'),
-                     0)
-                     total_charges
-            FROM file_summary t1
-           WHERE file_name IN
-                     (SELECT UNIQUE (file_name)
-                        FROM file_summary
-                       WHERE     process_date =
-                                     TO_DATE ($outTimeStamp, 'YYYYMMDD')
-                             AND usage_type LIKE 'DISP%')
-        GROUP BY file_name) t3,
-       (  SELECT file_name,
-                 NVL ( (SELECT MAX (total_records_dch)
-                          FROM file_summary
-                         WHERE file_name = t1.file_name),
-                      0)
-                     total_records,
-                 NVL ( (SELECT MAX (total_volume_dch)
-                          FROM file_summary
-                         WHERE file_name = t1.file_name),
-                      0)
-                     total_volume,
-                 NVL ( (SELECT MAX (total_charges_dch)
-                          FROM file_summary
-                         WHERE file_name = t1.file_name),
-                      0)
-                     total_charges
-            FROM file_summary t1
-           WHERE file_name IN
-                     (SELECT UNIQUE (file_name)
-                        FROM file_summary
-                       WHERE     process_date =
-                                     TO_DATE ($outTimeStamp, 'YYYYMMDD')
-                             AND usage_type LIKE 'DISP%')
-        GROUP BY file_name) t4
- WHERE     t1.file_name = t2.file_name
-       AND t1.file_name = t3.file_name
-       AND t3.file_name = t4.file_name
+select t1.file_name, 
+t1.total_records + t2.total_records, t1.total_volume + t2.total_volume, t1.total_charges + t2.total_charges,
+t3.total_records, t3.total_volume, t3.total_charges,
+t1.total_records + t2.total_records + t3.total_records, t1.total_volume + t2.total_volume + t3.total_volume, t1.total_charges + t2.total_charges + t3.total_charges,
+t4.total_records, t4.total_volume, t4.total_charges,
+t1.total_records + t2.total_records + t3.total_records - t4.total_records,
+t1.total_volume + t2.total_volume + t3.total_volume - t4.total_volume,
+t1.total_charges + t2.total_charges + t3.total_charges - t4.total_charges,
+abs(((t4.total_records) - (t1.total_records + t2.total_records + t3.total_records))/nullif((t1.total_records + t2.total_records + t3.total_records),0))*100,
+	abs(((t4.total_volume) - (t1.total_volume + t2.total_volume + t3.total_volume))/nullif((t1.total_volume + t2.total_volume + t3.total_volume),0))*100,
+	abs(((t4.total_charges) - (t1.total_charges + t2.total_charges + t3.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100,
+	abs(((t1.total_records + t2.total_records  + t3.total_records) - (t1.total_records + t2.total_records + + t3.total_records))/nullif((t1.total_records + t2.total_records  + t3.total_records),0))*100,
+	abs(((t1.total_charges + t2.total_charges + t3.total_charges) - (t4.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100 
+from
+(select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_records,
+nvl((select max(total_volume) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_volume,
+nvl((select max(total_charges) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_charges
+from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
+group by file_name) t1,
+(select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-H'),0) total_records,
+nvl((select max(total_volume) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-H'),0) total_volume,
+nvl((select max(total_charges) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-H'),0) total_charges
+from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
+group by file_name) t2,
+(select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-L'),0) total_records,
+nvl((select max(total_volume) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-L'),0) total_volume,
+nvl((select max(total_charges) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-L'),0) total_charges
+from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
+group by file_name) t3, 
+(select file_name,nvl((select max(total_records_dch) from file_summary where file_name = t1.file_name),0) total_records,
+nvl((select max(total_volume_dch) from file_summary where file_name = t1.file_name ),0) total_volume,
+nvl((select max(total_charges_dch) from file_summary where file_name = t1.file_name),0) total_charges
+from file_summary t1 where file_name in (select unique(file_name) from file_summary where  process_date = to_date($outTimeStamp,'YYYYMMDD') and usage_type like 'DISP%')
+group by file_name) t4 
+where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_name = t4.file_name
 ";
 
 # Get Roaming switches to check
@@ -912,8 +657,8 @@ foreach my $switch (@switches) {
 
 $workbook->close;
 
-my @email = ('david.balchen@uscellular.com');
-my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'USCDLISOps-BillingCycleManagement@uscellular.com');
+
+ my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'Bradley.Bleull@uscellular.com','Liz.Pierce@uscellular.com','USCDLISOps-BillingCycleManagement@uscellular.com');
 
 foreach my $too (@email) {
 	print $msg;

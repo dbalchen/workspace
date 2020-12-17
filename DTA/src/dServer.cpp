@@ -155,6 +155,8 @@ unsigned long long ntohll(unsigned long long val) {
 ////// Diameter Code
 
 int read_diameter(int client_sock) {
+//	char RecvBuf[8192];
+
 	int msg_length = 0;
 	int read_length = 0;
 	int network_msg_length = 0;
@@ -309,6 +311,9 @@ int accept_client(int server_fd) {
 }
 
 int main(int argc, char *argv[]) {
+
+//	char RecvBuf[8192];
+
 	unsigned short server_port = (unsigned short) (strtoul(LocalPort.data(),
 			(char **) 0, 10));
 
@@ -346,7 +351,9 @@ int main(int argc, char *argv[]) {
 					unsigned int flags = incoming_message.getFlags();
 
 					cout << "!!! Received !!!" << endl;
+
 					switch (incoming_message.getCode()) {
+
 					case DIAMETER_CAPABILITIES_EXCHANGE: {
 						//					debug_str += "Capabilities-Exchange";
 						cout << "!!! Capabilities-Exchange !!!" << endl;
@@ -414,6 +421,7 @@ int main(int argc, char *argv[]) {
 						origin_state_id.setValue(htonl(0x1));
 
 						switch (incoming_message.getCode()) {
+
 						case DIAMETER_CREDIT_CONTROL: {
 							unsigned int cc_request_type_int = 0;
 							unsigned int cc_request_number_int = 0;

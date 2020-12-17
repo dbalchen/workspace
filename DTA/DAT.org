@@ -14,7 +14,7 @@
 #+BEGIN_LaTeX
 \pagenumbering{}
 #+END_LaTeX 
-#+TITLE: Diameter Notes
+#+TITLE: DTA Notes
 #+BEGIN_LaTeX
 \newpage
 \clearpage
@@ -59,11 +59,11 @@
    Networking protocol for Diameter application used to implement real-time credit-control for a variety of end user services.
    It is an IETF standard first defined in RFC 4006, and updated in RFC 8506. The links below define the interface and the Amdocs implimentation of the interface:\\
 
-   [[https://tools.ietf.org/html/rfc4006][DCAA Interface RFCC]]\\
+   [[https://tools.ietf.org/html/rfc4006][DCAA Interface RFCC]]
 
-   [[https://en.wikipedia.org/wiki/Diameter_Credit-Control_Application#:~:text=Diameter%2520Credit%252DControl%2520Application%252C%2520is,and%2520updated%2520in%2520RFC%25208506.][DCAA Overview]]\\
+   [[https://en.wikipedia.org/wiki/Diameter_Credit-Control_Application#:~:text=Diameter%2520Credit%252DControl%2520Application%252C%2520is,and%2520updated%2520in%2520RFC%25208506.][DCAA Overview]]
 
-   [[file:Vision%20and%20Scope%20Accelerite%20Replacement_V02.docx][Amdocs DCCA Interface]]\\
+   [[file:Vision%20and%20Scope%20Accelerite%20Replacement_V02.docx][Amdocs DCCA Interface]]
 
    For real time reasons, the connection is a direct permanent socket-based connection between the Diameter Client and Diameter Server (Amdocs OCS FR). 
    As currently there is no DRA solution in place, The redundancy and failover will be performed by the client Diameter 
@@ -112,6 +112,7 @@
  : 	return (write_diameter(client_sock, cer));
  : }
  : 
+
 #+BEGIN_LaTeX
 \normalsize
 #+END_LaTeX
@@ -314,7 +315,7 @@
  :        unit_value_avp.setAvp(exponent_avp);
  :        DIAMETER_avp currency_code_avp;
  :        currency_code_avp.setCode(AVP_NAME_CURRENCY_CODE);
- :        currency_code_avp.setValue(htonl(840));	// USD
+ :        currency_code_avp.setValue(htonl(840));	// USD !!!!!!!~ This is it.....
  :        DIAMETER_avp cc_money_avp;
  :        cc_money_avp.setCode(AVP_NAME_CC_MONEY);
  :        cc_money_avp.setAvp(unit_value_avp);
@@ -412,7 +413,7 @@
     Close socket to disconnect.
 
 * message Structure						   :noexport:
-A message starts with a Diameter header and AVP as defined by RFC 3588 according to type of message.
+  A message starts with a Diameter header and AVP as defined by *RFC 3588* according to type of message.
 
 * Session Management						   :noexport:
 ** Source Identifier
