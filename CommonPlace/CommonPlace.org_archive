@@ -5562,3 +5562,63 @@ Discussion Points \ Notes (from agenda above):
      5. Sarit – Confirm Logic can be updated to reference only the last 10 digits on the number to ignore for rating .
      6. Michelle – Confirm with the business if we expect using this number for International Roaming to impact the volume of calls. 
 
+
+* TODO [[https://usc.intranet.teldta.com/sites/EPR/Lists/IRforms/DispForm.aspx?ID=235&RootFolder=%252A][IR0646 IOT Enhancements]] 
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-11-12 Thu 12:52
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+** Project Manager
+   Frank Novak
+** Project Description
+   USCC customers need support IoT application requiring the deployment of low power devices with long range coverage.  The customer applications also require the ability to support OTA upgrade of constraints devices. Some of these constraint devices require USCC to support SMS over NAS feature to enable OTA upgrades in the field. 
+   Without the implementation of these features, constrained devices requiring OTA upgrade, long range coverage and operating in PSM, eDRX modes cannot be supported in the USCC network.
+** Status
+   Held the the first meeting to go through the solution document.
+   FP&A has completed the business case. In the event that a business case is deemed not necessary or can be completed at a later time.
+   The project is just in the preliminary mode so there has been no standing meetings.
+   The solution document has been produced and is currently under review.
+   This is an engineering project and should not affect IT.
+   No updates this week
+** Current Status     
+   No updates
+
+
+* TODO Work on Dan's Java program Talk to Dan about this?????
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-11-12 Thu 12:52
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+
+* TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0664/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0664 AIM 24]] 
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-11-12 Thu 12:52
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: Task List
+  :ARCHIVE_CATEGORY: CommonPlace
+  :ARCHIVE_TODO: TODO
+  :END:
+
+* WEDO (Switch to bill)
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2020-11-12 Thu 15:28
+  :ARCHIVE_FILE: ~/workspace/CommonPlace/CommonPlace.org
+  :ARCHIVE_OLPATH: CallDump
+  :ARCHIVE_CATEGORY: CommonPlace
+  :END:
+      The *WEDO* process pulls usage files, tar's them up and places them
+      into a directory so that *MFT* can pick them up. The operational
+      jobs are as follows:
+
+      1. Job *PR-BOD-S2B_TO_WED* is running this script:
+         */m01/switch/to_wedo.sh*
+      2. Job *PR-BOD-S2B_CREATE_WEDO_ARCH* is running this script:
+         */m01/switch/wedo/create_wedo_archive.sh*
+
+\newpage

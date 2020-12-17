@@ -12,7 +12,7 @@
 #+LATEX_HEADER: \usepackage{multicol}
 #+BEGIN_LaTeX
 \pagenumbering{gobble}
-#+END_LaTeX 
+#+END_LaTeX *
 #+TITLE: Notes
 #+ATTR_LaTeX: :width 16cm
 file:Pictures/Andrejevi1.jpg
@@ -56,7 +56,6 @@ file:Pictures/Andrejevi1.jpg
 * Statement of Principals
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
-   - /A Power Point presentation is like smoking a cigar, only the person doing it likes it./
    - /Probability from a point./
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
 * TOPS Operations
@@ -4942,18 +4941,6 @@ CD    6. No additional details needed
       -  */m04/switchb/valista* - Premium SMS
       -  */m05/switch/brew* - Brew and Brew data *(aaa2)*
       -  */m01/switchb/tas* - Volte
-
-** WEDO (Switch to bill)
-      The *WEDO* process pulls usage files, tar's them up and places them
-      into a directory so that *MFT* can pick them up. The operational
-      jobs are as follows:
-
-      1. Job *PR-BOD-S2B_TO_WED* is running this script:
-         */m01/switch/to_wedo.sh*
-      2. Job *PR-BOD-S2B_CREATE_WEDO_ARCH* is running this script:
-         */m01/switch/wedo/create_wedo_archive.sh*
-
-\newpage
 * Telephone Numbers
 
 |-----------------+--------------|
@@ -4985,6 +4972,7 @@ CD    6. No additional details needed
 ** TODO This Weeks Tasks
 
 ** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0600/_layouts/15/start.aspx#/SitePages/Home.aspx][IR0600 - 5G Commercialization]]
+
     [[file:docs/5G%20NSA%20TOPS%20ADD%20wDel%20Plan.pdf][5G Architecture]]
 *** Project Manager
     Kirti Parikh
@@ -5281,22 +5269,6 @@ CD    6. No additional details needed
      - Amdocs code delivery 05/11
      - ETQA Testing 05/11 – 05/31
 
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/Lists/IRforms/DispForm.aspx?ID=235&RootFolder=%252A][IR0646 IOT Enhancements]] 
-*** Project Manager
-    Frank Novak
-*** Project Description
-    USCC customers need support IoT application requiring the deployment of low power devices with long range coverage.  The customer applications also require the ability to support OTA upgrade of constraints devices. Some of these constraint devices require USCC to support SMS over NAS feature to enable OTA upgrades in the field. 
-    Without the implementation of these features, constrained devices requiring OTA upgrade, long range coverage and operating in PSM, eDRX modes cannot be supported in the USCC network.
-*** Status
-    Held the the first meeting to go through the solution document.
-    FP&A has completed the business case. In the event that a business case is deemed not necessary or can be completed at a later time.
-    The project is just in the preliminary mode so there has been no standing meetings.
-    The solution document has been produced and is currently under review.
-    This is an engineering project and should not affect IT.
-    No updates this week
-*** Current Status     
-    No updates
-
 ** TODO [[https://usc.intranet.teldta.com/sites/supplychain/procurement/engineering/_layouts/15/start.aspx#/Projects/Forms/AllItems.aspx?RootFolder=%252Fsites%252Fsupplychain%252Fprocurement%252Fengineering%252FProjects%252F2019%2520%252D%2520Voicemail%2520RFP%252FMavenir&FolderCTID=0x012000CC260B161AB11B4ABF67B58BEA442498&View=%257B4104A1FF%252D1880%252D42A6%252D8655%252DBDD9C105E65B%257D][IR0651 Voice Mail replacement Project]]
 *** Project Manager
     N/A
@@ -5310,8 +5282,16 @@ CD    6. No additional details needed
 *** Current Status   
     No updates.
 
-** TODO Work on Dan's Java program Talk to Dan about this?????
-** TODO [[https://usc.intranet.teldta.com/sites/EPR/IR0664/_layouts/15/start.aspx#/Documents/Forms/DocumentsByType.aspx][IR0664 AIM 24]] 
+** TODO IR0691 - International Services LTE Roaming - Mexico 
+** TODO RA Reports
+*** TODO Late Inter-company usage
+
+desc ic_accumulated_usage 
+
+select sum(TOT_NET_USAGE_CHRG),sum(num_of_events), sum(TOT_ORG_CHRG_PRM_V), QUAL_PARAM_1_VAL from
+ic_accumulated_usage where CARRIER_CD = '0222' and BP_START_DATE = '01-NOV-2020' and prod_cat_id = 'IR'
+group by QUAL_PARAM_1_VAL
+
 * Footnotes
 
 [fn:8] *TWS* Job
