@@ -5,7 +5,6 @@
  *      Author: dbalchen
  */
 
-#include <microhttpd.h>
 #include <iostream>
 #include <bits/stdc++.h>
 #include <thread>
@@ -24,168 +23,10 @@ using namespace std;
 #include "dta.h"
 #include "diameter.h"
 
-#include <mutex>
-
-std::mutex mu;
-
 void current_time_point(chrono::system_clock::time_point timePt) {
 	time_t timeStamp = chrono::system_clock::to_time_t(timePt);
-	//	cout << std::ctime(&timeStamp) << endl;
 }
 
-
-void watchDog(int sockfd) {
-
-	char buffer[8192];
-
-	while (true) {
-
-		current_time_point(chrono::system_clock::now());
-
-		chrono::system_clock::time_point timePt = chrono::system_clock::now()
-		+ chrono::seconds(30);
-
-		if ((dwd_send(sockfd) > 0)) {
-
-			int msg_length = read_diameter(sockfd);
-
-			if (msg_length > 0) {
-				CBBByteArray diameter_raw(buffer, msg_length);
-				DIAMETER_msg incoming_message;
-
-				int decode_retval = incoming_message.decode_binary(
-						diameter_raw);
-
-			}
-		}
-
-		this_thread::sleep_until(timePt);
-
-	}
-}
-
-void clientProcess(int client, int server, int sess_count) {
-	char buffer[8192];
-	unsigned int dRequest;
-	int decode_retval;
-
-	vector<std::string> parmList;
-
-	int n = write(client, "Howdy!!!! from the DTA\n", 23);
-
-	bzero((char *) &buffer, sizeof(buffer));
-
-	if (n < 0) {
-
-		cout << "Error writing to client socket" << endl;
-
-	};
-
-	n = read(client, buffer, 255);
-
-	if (n < 0) {
-
-		cout << "Error reading from client socket" << endl;
-
-	};
-
-	std::string request = (std::string(buffer));
-
-	request = request.substr(0, request.length() - 2);
-
-	size_t pos = 0;
-	std::string token;
-
-	while ((pos = request.find(",")) != std::string::npos) {
-		token = request.substr(0, pos);
-		std::cout << token << std::endl;
-		parmList.push_back(token);
-		request.erase(0, pos + 1);
-	}
-
-	parmList.push_back(request);
-
-	vector<std::string> v1;
-
-	v1.operator =(parmList);
-
-	if (parmList[0].compare("DEBIT") == 0) {
-		dRequest = cc_request_action_direct_debit;
-	}
-
-	else if (parmList[0].compare("CREDIT") == 0) {
-		dRequest = cc_request_action_refund_account;
-
-	} else {
-
-		write(client, "Transaction Type not Supported\n", 23);
-		close(client);
-
-	}
-
-	std::string SessionID = init_session_id(sess_count++);
-
-	if ((gy_ccr_initial(server, SessionID, parmList[1]) > 0)) {
-
-		int msg_length = read_diameter(server);
-
-		if (msg_length > 0) {
-
-			CBBByteArray diameter_raw(buffer, msg_length);
-			DIAMETER_msg incoming_message;
-
-			decode_retval = incoming_message.decode_binary(diameter_raw);
-		}
-		else {
-
-			write(client, "Could not create session ID\n", 28);
-			close(client);
-
-		}
-
-	}
-
-	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1]) > 0)) {
-
-		int msg_length = read_diameter(server);
-
-		if (msg_length > 0) {
-			CBBByteArray diameter_raw(RecvBuf, msg_length);
-			DIAMETER_msg incoming_message;
-
-			decode_retval = incoming_message.decode_binary(diameter_raw);
-
-		}
-		else {
-
-			write(client, "Failure to complete Transaction\n", 32);
-			close(client);
-
-		}
-	}
-
-	if ((gy_ccr_terminal(server, SessionID, parmList[1]) > 0)) {
-
-		int msg_length = read_diameter(server);
-
-		if (msg_length > 0) {
-			CBBByteArray diameter_raw(buffer, msg_length);
-			DIAMETER_msg incoming_message;
-
-			decode_retval = incoming_message.decode_binary(diameter_raw);
-
-		}
-		else {
-
-			write(client, "Could not commit Transaction\n", 28);
-			close(client);
-		}
-	}
-
-	write(client, "Transaction Successful\n", 23);
-
-	close(client);
-}
 
 // Define DTA class
 dta::dta(int tport, std::string shost, int tsport) {
@@ -284,12 +125,19 @@ int dta::connectDiameter(void) {
 			int decode_retval = incoming_message.decode_binary(diameter_raw);
 
 		}
+		else {
+
+		}
+	}
+	else {
+
+		cout << "Could not send certificate to TC via diameter." << endl;
 	}
 
-	std::thread threadObj(watchDog, sockfd);
+	std::thread threadObj(watchDog(), sockfd);
 	threadObj.detach();
 
-	vecOfThreads.push_back(std::move(threadObj));
+	threadVector.push_back(std::move(threadObj));
 
 	return sockfd;
 }
@@ -326,15 +174,15 @@ void dta::acceptConection(int csock, int ssock) {
 
 		if (totalThreads <= num_threads) {
 
-			//			threads[totalThreads - 1] = std::thread(clientProcess,client,sess_count);
+			threadVector[totalThreads - 1] = std::thread(clientThread(),csock,ssock,sess_count);
 
-			clientProcess(client, ssock, sess_count);
+			//clientProcess(client, ssock, sess_count);
 
 		}
 		else {
 
 			int n = write(client,
-					"Sorry to many connections... Please try again later\n",
+					"Sorry too many connections... Please try again later\n",
 					52);
 
 			if (n < 0) {
@@ -346,11 +194,168 @@ void dta::acceptConection(int csock, int ssock) {
 			close(client);
 		}
 
+		// Check vector to see if a thread has completed.
+
 	}
 }
 
 dta::~dta() {
 	cout << "Destroying a dta server instance" << endl;
+}
+
+void clientThread::operator()(int client, int server, int sess_count)
+ {
+ 	char buffer[8192];
+ 	unsigned int dRequest;
+
+ 	int decode_retval;
+
+ 	vector<std::string> parmList;
+
+ 	int n = write(client, "Howdy!!!! from the DTA\n", 23);
+
+ 	bzero((char *) &buffer, sizeof(buffer));
+
+ 	if (n < 0) {
+
+ 		cout << "Error writing to client socket" << endl;
+
+ 	};
+
+ 	n = read(client, buffer, 255);
+
+ 	if (n < 0) {
+
+ 		cout << "Error reading from client socket" << endl;
+
+ 	};
+
+ 	std::string request = (std::string(buffer));
+
+ 	request = request.substr(0, request.length() - 2);
+
+ 	size_t pos = 0;
+ 	std::string token;
+
+ 	while ((pos = request.find(",")) != std::string::npos) {
+ 		token = request.substr(0, pos);
+ 		std::cout << token << std::endl;
+ 		parmList.push_back(token);
+ 		request.erase(0, pos + 1);
+ 	}
+
+ 	parmList.push_back(request);
+
+ 	vector<std::string> v1;
+
+ 	v1.operator =(parmList);
+
+ 	if (parmList[0].compare("DEBIT") == 0) {
+ 		dRequest = cc_request_action_direct_debit;
+ 	}
+
+ 	else if (parmList[0].compare("CREDIT") == 0) {
+ 		dRequest = cc_request_action_refund_account;
+
+ 	} else {
+
+ 		write(client, "Transaction Type not Supported\n", 23);
+ 		close(client);
+
+ 	}
+
+ 	std::string SessionID = init_session_id(sess_count++);
+
+ 	if ((gy_ccr_initial(server, SessionID, parmList[1]) > 0)) {
+
+ 		int msg_length = read_diameter(server);
+
+ 		if (msg_length > 0) {
+
+ 			CBBByteArray diameter_raw(buffer, msg_length);
+ 			DIAMETER_msg incoming_message;
+
+ 			decode_retval = incoming_message.decode_binary(diameter_raw);
+ 		}
+ 		else {
+
+ 			write(client, "Could not create session ID\n", 28);
+ 			close(client);
+
+ 		}
+
+ 	}
+
+ 	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1]) > 0)) {
+
+ 		int msg_length = read_diameter(server);
+
+ 		if (msg_length > 0) {
+ 			CBBByteArray diameter_raw(RecvBuf, msg_length);
+ 			DIAMETER_msg incoming_message;
+
+ 			decode_retval = incoming_message.decode_binary(diameter_raw);
+
+ 		}
+ 		else {
+
+ 			write(client, "Failure to complete Transaction\n", 32);
+ 			close(client);
+
+ 		}
+ 	}
+
+ 	if ((gy_ccr_terminal(server, SessionID, parmList[1]) > 0)) {
+
+ 		int msg_length = read_diameter(server);
+
+ 		if (msg_length > 0) {
+ 			CBBByteArray diameter_raw(buffer, msg_length);
+ 			DIAMETER_msg incoming_message;
+
+ 			decode_retval = incoming_message.decode_binary(diameter_raw);
+
+ 		}
+ 		else {
+
+ 			write(client, "Could not commit Transaction\n", 28);
+ 			close(client);
+ 		}
+ 	}
+
+ 	write(client, "Transaction Successful\n", 23);
+
+ 	close(client);
+ }
+
+void watchDog::operator()(int sockfd) {
+
+	char buffer[8192];
+
+	while (true) {
+
+		current_time_point(chrono::system_clock::now());
+
+		chrono::system_clock::time_point timePt = chrono::system_clock::now()
+		+ chrono::seconds(30);
+
+		if ((dwd_send(sockfd) > 0)) {
+
+			int msg_length = read_diameter(sockfd);
+
+			if (msg_length > 0) {
+				CBBByteArray diameter_raw(buffer, msg_length);
+				DIAMETER_msg incoming_message;
+
+				int decode_retval = incoming_message.decode_binary(
+						diameter_raw);
+
+			}
+		}
+
+		this_thread::sleep_until(timePt);
+
+	}
 }
 
 int main(int argc, char *argv[]) {

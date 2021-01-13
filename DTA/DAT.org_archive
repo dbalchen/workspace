@@ -1,0 +1,49 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/dbalchen/workspace/DTA/DAT.org
+
+
+* Rest ([[https://restfulapi.net/][Introduction]])						   :noexport:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-01-11 Mon 09:22
+  :ARCHIVE_FILE: ~/workspace/DTA/DAT.org
+  :ARCHIVE_CATEGORY: DAT
+  :END:
+** 6 GuidingPrincipals
+   Really 5 since 1 is optional (script download)
+** Resource
+   The key abstraction of information in *REST* is a resource. Any information that can be named can be a resource: a document or image, 
+   a temporal service, a collection of other resources. Every interaction with a resource is stateless.
+
+* Windows Linux Socket differences 				   :noexport:
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-01-11 Mon 09:22
+  :ARCHIVE_FILE: ~/workspace/DTA/DAT.org
+  :ARCHIVE_CATEGORY: DAT
+  :END:
+I did some work like this, through much reading of MSDN and the sockets documentation I got a list of differences between Winsocks and POSIX sockets, many are minor, sign differences or type differences.
+
+
+uses closesocket() to close a socket, instead of close().
+uses an int for the third parameter in bind().
+uses an int* for the third parameter in accept().
+defines a SOCKET as unsigned int.
+socket() returns INVALID_SOCKET(unsigned int) on error, *nix returns -1.
+connect() returns SOCKET_ERROR(int) on error, *nix returns -1.
+bind() returns SOCKET_ERROR(int) on error, *nix returns -1.
+listen() returns SOCKET_ERROR(int) on error, *nix returns -1.
+accept() returns INVALID_SOCKET(unsigned int) on error, *nix returns -1.
+select() returns SOCKET_ERROR(int) on error, *nix returns -1.
+send() returns SOCKET_ERROR(int) on error, *nix returns -1.
+send() uses an int for the third parameter (length).
+recv() returns SOCKET_ERROR(int) on error, *nix returns -1.
+setsockopt() returns SOCKET_ERROR(int) on error, *nix returns -1.
+uses an const char* for the fourth parameter in setsockopt().
+ioctlsocket() instead of fcntl(), this returns SOCK_ERROR(int), *nix returns -1.
+ioctlsocket() has the option as a u_long, fcntl() uses an int.
+
+
+Latest RFC 8506 - Amdocs uses 3588
+
+No test environment, no proof of concept.

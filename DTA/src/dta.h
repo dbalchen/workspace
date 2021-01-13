@@ -8,10 +8,6 @@
 #ifndef DEBUG_SRC_DTA_H_
 #define DEBUG_SRC_DTA_H_
 
-/*
- *
- */
-
 using namespace std;
 
 class dta {
@@ -20,7 +16,7 @@ private:
 
 	const static int num_threads = 10;
 
-	std::vector<std::thread> vecOfThreads;
+	std::vector<std::thread> threadVector;
 
 	int sess_count = 0;
 
@@ -43,6 +39,18 @@ public:
 	void acceptConection(int csock, int ssock);
 
 	virtual ~dta();
+};
+
+class clientThread {
+
+public:
+	void operator()(int client, int server, int sess_count);
+};
+
+class watchDog {
+
+public:
+	void operator()(int sockfd);
 };
 
 #endif /* DEBUG_SRC_DTA_H_ */

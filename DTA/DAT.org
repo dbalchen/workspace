@@ -68,9 +68,11 @@
    For real time reasons, the connection is a direct permanent socket-based connection between the Diameter Client and Diameter Server (Amdocs OCS FR). 
    As currently there is no DRA solution in place, The redundancy and failover will be performed by the client Diameter 
 
+* message Structure						   :noexport:
+  A message starts with a Diameter header and AVP as defined by *RFC 3588* according to type of message.
+
 * Client and Server Interaction
   Diameter Client is the initiator that establishes the connection to the server.
-
 ** Send Capabilities Exchange Request (CER)
    After establishing the connection at the TCP/IP level, Diameter Client sends a Capabilities Exchange Request (CER) and waits for the Capabilities Exchange Answer (CEA).
 
@@ -412,8 +414,49 @@
 *** Disconnect Code
     Close socket to disconnect.
 
-* message Structure						   :noexport:
-  A message starts with a Diameter header and AVP as defined by *RFC 3588* according to type of message.
+* Loopback4
+  A typescript framework that provide Restful/ Soap API's
+
+** OpenAPI directory structure
+    : openapi-spec.json
+    : ├── DEVELOPING.md
+    : ├── Dockerfile
+    : ├── package.json
+    : ├── public
+    : │   └── index.html
+    : ├── README.md
+    : ├── src
+    : │   ├── application.ts
+    : │   ├── controllers
+    : │   │   ├── index.ts
+    : │   │   ├── ping.controller.ts
+    : │   │   └── README.md
+    : │   ├── datasources
+    : │   │   └── README.md
+    : │   ├── index.ts
+    : │   ├── migrate.ts
+    : │   ├── models
+    : │   │   └── README.md
+    : │   ├── openapi-spec.ts
+    : │   ├── repositories
+    : │   │   └── README.md
+    : │   ├── sequence.ts
+    : │   └── __tests__
+    : │       ├── acceptance
+    : │       │   ├── home-page.acceptance.ts
+    : │       │   ├── ping.controller.acceptance.ts
+    : │       │   └── test-helper.ts
+    : │       └── README.md
+    : └── tsconfig.json
+
+
+* Openshift
+  OpenShift is a family of containerization software products developed by Red Hat. Its flagship product is the 
+  OpenShift Container Platform — an on-premises platform as a service built around Docker containers orchestrated 
+  and managed by Kubernetes on a foundation of Red Hat Enterprise Linux. The family's other products provide this 
+  platform through different environments: OKD serves as the community-driven upstream (akin to the way that Fedora 
+  is upstream of Red Hat Enterprise Linux), OpenShift Online is the platform offered as software as a service, 
+  and Openshift Dedicated is the platform offered as a managed service.
 
 * Session Management						   :noexport:
 ** Source Identifier
@@ -426,9 +469,9 @@ The Session ID identifies a session-based interaction between the Diameter Clien
 Message attributes (Event-Timestamp, Subscription-Id-Data,) are logged into a processed-transactions table for every reservation or charge message that is checked for a duplicate. 
 
 * Communication Problems					   :noexport:
-OCS supports a degraded mode of operations – useful in cases when a real time connection between Diameter Client and Diameter Server is lost.
+  OCS supports a degraded mode of operations – useful in cases when a real time connection between Diameter Client and Diameter Server is lost.
 
-These are all client errors.
+  These are all client errors.
 
 ** TCP/IP Level Error
 
@@ -459,43 +502,14 @@ These are all client errors.
 *** CCR Direct Debit
 
 * CHARGING PARAMETERS– IMPLEMENTING VALID VALUES 		   :noexport:
-
 * AVP DESCRIPTIONS						   :noexport:
   The following table contains descriptions of all AVP protocol attributes. 
   The current table is a Data Dictionary original for both client and server systems.
   - M – This AVP will always be present in the message.
   - C – This AVP shall be present in the message only when certain conditions are met. These conditions are specified in the description column.
   - O – This AVP is optional.
+* Tasklist
+** TODO Figure out how call a server from type/java script.
+** TODO Learn Docker and openshift
+** TODO Figure out testing using a diameter server.
 
-* Rest ([[https://restfulapi.net/][Introduction]])						   :noexport:
-** 6 GuidingPrincipals
-   Really 5 since 1 is optional (script download)
-** Resource
-   The key abstraction of information in *REST* is a resource. Any information that can be named can be a resource: a document or image, 
-   a temporal service, a collection of other resources. Every interaction with a resource is stateless.
-* Windows Linux Socket differences 				   :noexport:
-I did some work like this, through much reading of MSDN and the sockets documentation I got a list of differences between Winsocks and POSIX sockets, many are minor, sign differences or type differences.
-
-
-uses closesocket() to close a socket, instead of close().
-uses an int for the third parameter in bind().
-uses an int* for the third parameter in accept().
-defines a SOCKET as unsigned int.
-socket() returns INVALID_SOCKET(unsigned int) on error, *nix returns -1.
-connect() returns SOCKET_ERROR(int) on error, *nix returns -1.
-bind() returns SOCKET_ERROR(int) on error, *nix returns -1.
-listen() returns SOCKET_ERROR(int) on error, *nix returns -1.
-accept() returns INVALID_SOCKET(unsigned int) on error, *nix returns -1.
-select() returns SOCKET_ERROR(int) on error, *nix returns -1.
-send() returns SOCKET_ERROR(int) on error, *nix returns -1.
-send() uses an int for the third parameter (length).
-recv() returns SOCKET_ERROR(int) on error, *nix returns -1.
-setsockopt() returns SOCKET_ERROR(int) on error, *nix returns -1.
-uses an const char* for the fourth parameter in setsockopt().
-ioctlsocket() instead of fcntl(), this returns SOCK_ERROR(int), *nix returns -1.
-ioctlsocket() has the option as a u_long, fcntl() uses an int.
-
-
-Latest RFC 8506 - Amdocs uses 3588
-
-No test environment, no proof of concept.
