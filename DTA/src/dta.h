@@ -42,8 +42,9 @@ public:
 };
 
 class clientThread {
-
 public:
+	bool running = true;
+
 	void operator()(int client, int server, int sess_count);
 };
 

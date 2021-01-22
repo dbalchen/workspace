@@ -27,7 +27,127 @@ void current_time_point(chrono::system_clock::time_point timePt) {
 	time_t timeStamp = chrono::system_clock::to_time_t(timePt);
 }
 
+//void clientThread::operator()(int client, int server, int sess_count) {
+void clientThread2(int client, int server, int sess_count) {
+	char buffer[8192];
+	unsigned int dRequest;
 
+	int decode_retval;
+
+	vector<std::string> parmList;
+
+	int n = write(client, "Howdy!!!! from the DTA\n", 23);
+
+	bzero((char*) &buffer, sizeof(buffer));
+
+	if (n < 0) {
+
+		cout << "Error writing to client socket" << endl;
+
+	};
+
+	n = read(client, buffer, 255);
+
+	if (n < 0) {
+
+		cout << "Error reading from client socket" << endl;
+
+	};
+
+	std::string request = (std::string(buffer));
+
+	request = request.substr(0, request.length() - 2);
+
+	size_t pos = 0;
+	std::string token;
+
+	while ((pos = request.find(",")) != std::string::npos) {
+		token = request.substr(0, pos);
+		std::cout << token << std::endl;
+		parmList.push_back(token);
+		request.erase(0, pos + 1);
+	}
+
+	parmList.push_back(request);
+
+	vector<std::string> v1;
+
+	v1.operator =(parmList);
+
+	if (parmList[0].compare("DEBIT") == 0) {
+		dRequest = cc_request_action_direct_debit;
+	}
+
+	else if (parmList[0].compare("CREDIT") == 0) {
+		dRequest = cc_request_action_refund_account;
+
+	} else {
+
+		write(client, "Transaction Type not Supported\n", 23);
+		close(client);
+
+	}
+
+	std::string SessionID = init_session_id(sess_count++);
+
+	if ((gy_ccr_initial(server, SessionID, parmList[1]) > 0)) {
+
+		int msg_length = read_diameter(server);
+
+		if (msg_length > 0) {
+
+			CBBByteArray diameter_raw(buffer, msg_length);
+			DIAMETER_msg incoming_message;
+
+			decode_retval = incoming_message.decode_binary(diameter_raw);
+		} else {
+
+			write(client, "Could not create session ID\n", 28);
+			close(client);
+
+		}
+
+	}
+
+	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1]) > 0)) {
+
+		int msg_length = read_diameter(server);
+
+		if (msg_length > 0) {
+			CBBByteArray diameter_raw(RecvBuf, msg_length);
+			DIAMETER_msg incoming_message;
+
+			decode_retval = incoming_message.decode_binary(diameter_raw);
+
+		} else {
+
+			write(client, "Failure to complete Transaction\n", 32);
+			close(client);
+
+		}
+	}
+
+	if ((gy_ccr_terminal(server, SessionID, parmList[1]) > 0)) {
+
+		int msg_length = read_diameter(server);
+
+		if (msg_length > 0) {
+			CBBByteArray diameter_raw(buffer, msg_length);
+			DIAMETER_msg incoming_message;
+
+			decode_retval = incoming_message.decode_binary(diameter_raw);
+
+		} else {
+
+			write(client, "Could not commit Transaction\n", 28);
+			close(client);
+		}
+	}
+
+	write(client, "Transaction Successful\n", 23);
+
+	close(client);
+}
 // Define DTA class
 dta::dta(int tport, std::string shost, int tsport) {
 
@@ -54,13 +174,13 @@ int dta::createServer(void) {
 
 	soption = 1;
 
-	if ((setsockopt(s_descr, SOL_SOCKET, SO_REUSEADDR, (char *) &soption,
+	if ((setsockopt(s_descr, SOL_SOCKET, SO_REUSEADDR, (char*) &soption,
 			sizeof(soption))) < 0) {
 
 		return -1;
 	}
 
-	ssdp = (struct sockaddr *) &s_name;
+	ssdp = (struct sockaddr*) &s_name;
 
 	if (bind(s_descr, ssdp, sizeof(s_name)) < 0) {
 
@@ -93,17 +213,17 @@ int dta::connectDiameter(void) {
 		return -1;
 	}
 
-	bzero((char *) &serv_addr, sizeof(serv_addr));
+	bzero((char*) &serv_addr, sizeof(serv_addr));
 
 	serv_addr.sin_family = AF_INET;
 
-	bcopy((char *) server->h_addr,
+	bcopy((char*) server->h_addr,
 			(char *)&serv_addr.sin_addr.s_addr,
 			server->h_length);
 
 	serv_addr.sin_port = htons(sport);
 
-	int connection_status = connect(sockfd, (struct sockaddr *) &serv_addr,
+	int connection_status = connect(sockfd, (struct sockaddr*) &serv_addr,
 			sizeof(serv_addr));
 
 	if (connection_status < 0) {
@@ -124,12 +244,10 @@ int dta::connectDiameter(void) {
 
 			int decode_retval = incoming_message.decode_binary(diameter_raw);
 
-		}
-		else {
+		} else {
 
 		}
-	}
-	else {
+	} else {
 
 		cout << "Could not send certificate to TC via diameter." << endl;
 	}
@@ -149,9 +267,9 @@ int dta::accept_client(int server_fd) {
 	struct sockaddr_in client_name;
 	struct sockaddr *client_name_p;
 
-	memset((struct sockaddr_in *) &client_name, 0, sizeof(struct sockaddr_in));
+	memset((struct sockaddr_in*) &client_name, 0, sizeof(struct sockaddr_in));
 
-	client_name_p = (struct sockaddr *) &client_name;
+	client_name_p = (struct sockaddr*) &client_name;
 
 	client_addr_len = sizeof(client_name);
 
@@ -174,12 +292,12 @@ void dta::acceptConection(int csock, int ssock) {
 
 		if (totalThreads <= num_threads) {
 
-			threadVector[totalThreads - 1] = std::thread(clientThread(),csock,ssock,sess_count);
+//			threadVector[totalThreads - 1] = std::thread(clientThread(), csock,
+//					ssock, sess_count);
 
-			//clientProcess(client, ssock, sess_count);
+			clientThread2(client, ssock, sess_count);
 
-		}
-		else {
+		} else {
 
 			int n = write(client,
 					"Sorry too many connections... Please try again later\n",
@@ -203,130 +321,7 @@ dta::~dta() {
 	cout << "Destroying a dta server instance" << endl;
 }
 
-void clientThread::operator()(int client, int server, int sess_count)
- {
- 	char buffer[8192];
- 	unsigned int dRequest;
 
- 	int decode_retval;
-
- 	vector<std::string> parmList;
-
- 	int n = write(client, "Howdy!!!! from the DTA\n", 23);
-
- 	bzero((char *) &buffer, sizeof(buffer));
-
- 	if (n < 0) {
-
- 		cout << "Error writing to client socket" << endl;
-
- 	};
-
- 	n = read(client, buffer, 255);
-
- 	if (n < 0) {
-
- 		cout << "Error reading from client socket" << endl;
-
- 	};
-
- 	std::string request = (std::string(buffer));
-
- 	request = request.substr(0, request.length() - 2);
-
- 	size_t pos = 0;
- 	std::string token;
-
- 	while ((pos = request.find(",")) != std::string::npos) {
- 		token = request.substr(0, pos);
- 		std::cout << token << std::endl;
- 		parmList.push_back(token);
- 		request.erase(0, pos + 1);
- 	}
-
- 	parmList.push_back(request);
-
- 	vector<std::string> v1;
-
- 	v1.operator =(parmList);
-
- 	if (parmList[0].compare("DEBIT") == 0) {
- 		dRequest = cc_request_action_direct_debit;
- 	}
-
- 	else if (parmList[0].compare("CREDIT") == 0) {
- 		dRequest = cc_request_action_refund_account;
-
- 	} else {
-
- 		write(client, "Transaction Type not Supported\n", 23);
- 		close(client);
-
- 	}
-
- 	std::string SessionID = init_session_id(sess_count++);
-
- 	if ((gy_ccr_initial(server, SessionID, parmList[1]) > 0)) {
-
- 		int msg_length = read_diameter(server);
-
- 		if (msg_length > 0) {
-
- 			CBBByteArray diameter_raw(buffer, msg_length);
- 			DIAMETER_msg incoming_message;
-
- 			decode_retval = incoming_message.decode_binary(diameter_raw);
- 		}
- 		else {
-
- 			write(client, "Could not create session ID\n", 28);
- 			close(client);
-
- 		}
-
- 	}
-
- 	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1]) > 0)) {
-
- 		int msg_length = read_diameter(server);
-
- 		if (msg_length > 0) {
- 			CBBByteArray diameter_raw(RecvBuf, msg_length);
- 			DIAMETER_msg incoming_message;
-
- 			decode_retval = incoming_message.decode_binary(diameter_raw);
-
- 		}
- 		else {
-
- 			write(client, "Failure to complete Transaction\n", 32);
- 			close(client);
-
- 		}
- 	}
-
- 	if ((gy_ccr_terminal(server, SessionID, parmList[1]) > 0)) {
-
- 		int msg_length = read_diameter(server);
-
- 		if (msg_length > 0) {
- 			CBBByteArray diameter_raw(buffer, msg_length);
- 			DIAMETER_msg incoming_message;
-
- 			decode_retval = incoming_message.decode_binary(diameter_raw);
-
- 		}
- 		else {
-
- 			write(client, "Could not commit Transaction\n", 28);
- 			close(client);
- 		}
- 	}
-
- 	write(client, "Transaction Successful\n", 23);
-
- 	close(client);
- }
 
 void watchDog::operator()(int sockfd) {
 
@@ -337,7 +332,7 @@ void watchDog::operator()(int sockfd) {
 		current_time_point(chrono::system_clock::now());
 
 		chrono::system_clock::time_point timePt = chrono::system_clock::now()
-		+ chrono::seconds(30);
+								+ chrono::seconds(30);
 
 		if ((dwd_send(sockfd) > 0)) {
 
@@ -360,6 +355,12 @@ void watchDog::operator()(int sockfd) {
 
 int main(int argc, char *argv[]) {
 
+	int dta_port = 8888;
+
+	int tcServer_port = 3868;
+
+	std::string tcServer_host = "localhost";
+
 	/*	std::string logfile = argv[4];
 
 	 if(!logfile.empty())
@@ -370,13 +371,18 @@ int main(int argc, char *argv[]) {
 
 	cout << "!!!Szia from dta!!!" << endl; // prints !!!Szia from dDiameter!!!
 
-	int port = atoi(argv[1]);
+	// Quick Defaults
 
-	std::string host = argv[2];
+	if (argc == 4) {
 
-	int sport = atoi(argv[3]);
+		dta_port = atoi(argv[1]);
 
-	dta dtao(port, host, sport);
+		tcServer_host = argv[2];
+
+		tcServer_port = atoi(argv[3]);
+	}
+
+	dta dtao(dta_port, tcServer_host, tcServer_port);
 
 	int srvc = dtao.createServer();
 

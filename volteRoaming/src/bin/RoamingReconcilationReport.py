@@ -30,7 +30,6 @@ timeStamp = "20210115"  # sys.argv[1]
 outTimeStamp = datetime.strptime(timeStamp, "%Y%m%d")
 outTimeStamp = (outTimeStamp - relativedelta(days=1)).strftime('%Y%m%d')
 
-
 # Font setup   
 def_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=False)
 bold_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=True)
@@ -129,13 +128,13 @@ sum(APRM_TOTAL_RECORDS),
 sum(APRM_TOTAL_CHARGES),
 sum(TOTAL_RECORDS) - sum(APRM_TOTAL_RECORDS),
 sum(TOTAL_CHARGES) - sum(APRM_TOTAL_CHARGES),
-(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
-(select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')),
-(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
-(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
+(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date(""" + timeStamp + """,'YYYYMMDD')) ,
+(select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date(""" + timeStamp + """,'YYYYMMDD')),
+(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date(""" + timeStamp + """,'YYYYMMDD')) ,
+(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date(""" + timeStamp + """,'YYYYMMDD')) ,
 (select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type 
-like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')) ,
-(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date($timeStamp,'YYYYMMDD')),
+like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date(""" + timeStamp + """,'YYYYMMDD')) ,
+(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date(""" + timeStamp + """,'YYYYMMDD')),
     abs((sum(total_records_dch) - sum(Total_Records))/NULLIF(sum(total_records),0))*100,
     abs((sum(total_volume_dch) - sum(Total_volume))/NULLIF(sum(total_volume),0))*100,
     abs((sum(total_charges_dch) - sum(Total_charges))/NULLIF(sum(total_charges),0))*100,
@@ -213,10 +212,25 @@ group by file_name) t4
 where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_name = t4.file_name
 """
 
+sqlDictionary["REJECTED_RECORDS"] = """
+select * from rejected_records t1 where t1.file_name in 
+                    (select unique(t2.file_name) 
+                        from file_summary t2 
+                        where t2.usage_type like '""" + switch + """%' and t2.process_date = to_date(""" + timeStamp + """,'YYYYMMDD'))";
 
-sqlDictionary["DISP_RM"] = """
 
+"""
 
+sqlDictionary["DISP_RM_APRM"] = """
+select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'DISP_RM%' and date_processed = to_date(""" + outTimeStamp + """,'YYYYMMDD')
+"""
+
+sqlDictionary["LTE_APRM"] = """
+select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'LTE%' and date_processed = to_date(""" + timeStamp + """,'YYYYMMDD')
+"""
+
+sqlDictionary["NLDLT_APRM"] = """
+select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'NLDLT%' and date_processed = to_date(""" + timeStamp + """,'YYYYMMDD')
 """
 
 headings = {}
@@ -400,6 +414,7 @@ tab["LTE"] = 'LTE Incollect';
 tab["DISP_RM"] = 'LTE Outcollect';
 tab["NLDLT"] = 'GSM (Incollect)';
 
+
 def sendMail (xfile, mesg, subject, who):
     
     msg = MIMEMultipart()
@@ -438,6 +453,7 @@ def dbConnect ():
     
     return tconn;
 
+
 title = ""
 
 excel_file = title + '.xlsx'
@@ -452,8 +468,8 @@ message = ""
 
 subject = title
 
-#sendTo = ["david.balchen@uscellular.com"]
-sendTo = ["david.balchen@uscellular.com",'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','david.smith@uscellular.com','Miguel.Jones@uscellular.com']
+# sendTo = ["david.balchen@uscellular.com"]
+sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
 
 for who in sendTo:
     sendMail(excel_file, message, subject, who)

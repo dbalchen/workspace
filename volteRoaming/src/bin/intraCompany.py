@@ -31,7 +31,7 @@ month = date[4:6]
 monthName = (datetime.strptime(date, '%Y%m%d')).strftime("%B")
 year = date[0:4]
 
-bp_start_date_LTE = date
+bp_start_date_LTE = year + month + '01'
 
 title = """Inter-Company late Usage Report - Billing Period """ + monthName + """ """ + day + """ """ + year 
 mess = " Attached to this email is the Inter-Company late Usage Report for " + monthName + """ """ + day + """ """ + year + ".\n The report covers the Billing Period Start Date of " + bp_start_date_LTE
@@ -142,22 +142,23 @@ wb = Workbook()
 
 
 results = []
-for line in fileinput.input("/home/dbalchen/Desktop/lateU.csv"):
-    try:
-        line = line.rstrip()
-        results.append(tuple(line.split("\t")))
-    except:pass
+
+# for line in fileinput.input("/home/dbalchen/Desktop/lateU.csv"):
+#     try:
+#         line = line.rstrip()
+#         results.append(tuple(line.split("\t")))
+#     except:pass
     
-# conn = dbConnect()
-# cursor = conn.cursor()
-# 
-# results = []
-# 
-# print("Retrieve IR data from Database\n")
-# 
-# cursor.execute(sqlDictionary["LTE"])
-#                
-# results = cursor.fetchall()
+conn = dbConnect()
+cursor = conn.cursor()
+ 
+results = []
+ 
+print("Retrieve IR data from Database\n")
+ 
+cursor.execute(sqlDictionary["IR"])
+                
+results = cursor.fetchall()
 
 printSheet('Inter-company Report', ['Creation Date', 'Company Code', 'Rate Plan', 'Usage Type', 'Original BP', 'BP Start Date', 'Total Records', 'Total Usage', 'Total Charges'], wb.active, results)
 #     
@@ -171,7 +172,7 @@ subject = title
 sendTo = ["david.balchen@uscellular.com"]
 #sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
 
-# for who in sendTo:
-#     sendMail(excel_file, message, subject, who)
+for who in sendTo:
+    sendMail(excel_file, message, subject, who)
     
 SystemExit(0);
