@@ -58,6 +58,8 @@ void clientThread2(int client, int server, int sess_count) {
 
 	request = request.substr(0, request.length() - 2);
 
+// Try/catch
+
 	size_t pos = 0;
 	std::string token;
 

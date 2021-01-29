@@ -10,9 +10,9 @@
 #+LATEX_HEADER: \usepackage{fancyhdr} 
 #+LATEX_HEADER: \usepackage{multirow}
 #+LATEX_HEADER: \usepackage{multicol}
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \pagenumbering{gobble}
-#+END_LaTeX *
+#+END_EXPORT
 #+TITLE: Notes
 #+ATTR_LaTeX: :width 16cm
 file:Pictures/Andrejevi1.jpg
@@ -21,7 +21,8 @@ file:Pictures/Andrejevi1.jpg
 \newpage 
 #+ATTR_LaTeX: :width 13cm
 [[file:Pictures/postal5.png]]
-#+BEGIN_LaTeX
+
+#+BEGIN_EXPORT latex
 %\addtolength{\oddsidemargin}{-.25in}
 \addtolength{\oddsidemargin}{0in}
 \addtolength{\evensidemargin}{-01.25in}
@@ -37,7 +38,7 @@ file:Pictures/Andrejevi1.jpg
 \fancyhf[ROF,LEF]{\bf\thepage}
 \fancyhf[C]{}
 
-#+END_LaTeX
+#+END_EXPORT
 :CLOSET:
  : Hours #+PROPERTY: Effort_ALL 0.125 0.25 0.375 0.50 0.625 .75  0.875 1
  : Days  #+PROPERTY: Effort_ALL 1d 2d 3d 4d 5d 6d 7d 8d 9d
@@ -49,10 +50,10 @@ file:Pictures/Andrejevi1.jpg
  : \newpage
 :END:
 #+TOC: headlines 2
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
  \newpage
 \pagenumbering{arabic}
-#+END_LaTeX 
+#+END_EXPORT 
 * Statement of Principals
    - /Mathematics is a language with no ambiguity./
    - /A successful man made system will closely resembles some natural system./
@@ -71,9 +72,9 @@ file:Pictures/Andrejevi1.jpg
 #+ATTR_LaTeX: :width 16cm
       [[file:Pictures/TC.png]]
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage 
-#+END_LaTeX
+#+END_EXPORT
       -  *Event flow:*
          1. An event comes in to via a network element
          2. Transforms data into a conical form which also includes the
@@ -111,10 +112,10 @@ file:Pictures/Andrejevi1.jpg
         | 2. *RRP_EOC1068* | 5. *RRP_EOC1259* |
         | 3. *RRP_EOC1192* |                  |
      
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage 
 \begin{landscape}  
-#+END_LaTeX
+#+END_EXPORT
 ** AEM
    *AEM* gets the Turbo-Charging errors from the
    *APE1_REJECTED_EVENTS* table. For *A&F* they are in the
@@ -125,9 +126,9 @@ file:Pictures/Andrejevi1.jpg
  [[file:docs/EM1%20Query's][EM1 Queries]]
 
 *** AEM Error Summary
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \scriptsize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l|l|l|l|l|l|l
 |--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
 | *ERROR CODE* | *POSTPAID* | *PREPAID* | *RECYCLE* | *REGUIDE* | *PURGE* | *COMMENTS*                                                                         |
@@ -195,11 +196,11 @@ file:Pictures/Andrejevi1.jpg
 |          101 | X          | X         |           | X         | X       | System errors. Postpaid re-guided every day.  Prepaid purged every day.             |
 |              |            |           |           |           |         |                                                                                    |
 |--------------+------------+-----------+-----------+-----------+---------+------------------------------------------------------------------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \end{landscape} 
 \newpage
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 ** APRM
    *Amdocs Partner Relationship Module* is a *TC* sub-module that handles all /Incollect/ and /Outcollect/ wholesale rating. See *APRM* tables for further information.
@@ -230,9 +231,9 @@ mkstore -wrl .wallet  -modifyCredential ANF_SVC_BILLINGOPS SVC_NP_BILLINGOPS 'xD
  : New Password xDzEikowgeQLcjfoKHXsawuu
 
 ** Production Servers/EpsMonitors
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
       - *Batch1* - *kpr01bch01.uscc.com (10.176.15.56)*
       - *Batch2* - *kpr01bch02.uscc.com (10.176.12.135)*
       - *Batch3* - *kpr01bch03.uscc.com (10.176.15.57)*
@@ -247,16 +248,16 @@ mkstore -wrl .wallet  -modifyCredential ANF_SVC_BILLINGOPS SVC_NP_BILLINGOPS 'xD
       - *OPRMN*  - *kpr01oprmn.uscc.com (10.176.12.150)*
       - *EBI Business* - *kpr01ebi01.uscc.com (10.176.15.153)*
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** Production Service Accounts
     - *prodtc1 - 6* (Operational production accounts)
     - *prodwrk1 - 5* (Amdocs Production accounts that correspond in TOPS)
 *** Operational Server Service Accounts
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l
 
     |-----------------------+-------------------------|
@@ -270,13 +271,13 @@ mkstore -wrl .wallet  -modifyCredential ANF_SVC_BILLINGOPS SVC_NP_BILLINGOPS 'xD
     | kpr01oprmn/kpr01ebi01 | sudo /bin/su - o_usacq1 |
     |-----------------------+-------------------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** Development Server Service Accounts
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX  
+#+END_EXPORT  
 #+ATTR_LaTeX: :environment longtable :align l|l
 
     |-----------------------+-------------------------|
@@ -289,13 +290,13 @@ mkstore -wrl .wallet  -modifyCredential ANF_SVC_BILLINGOPS SVC_NP_BILLINGOPS 'xD
     | mdr02bld01/mdr01oprmn | sudo /bin/su - d_usacq1 |
     |-----------------------+-------------------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \begin{landscape}  
-#+END_LaTeX
+#+END_EXPORT
 :PICTURE:
 digraph BI {
 	
@@ -325,10 +326,10 @@ node [shape=house];
    [[file:Pictures/EBI_Operational_Server.png]]
 
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \end{landscape} 
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** EpsMonitor
    The EpsMonitors are located on all production servers listed in the diagram below and can be found at
    */apps/amduser/prodtc*/eps/EpsMonitors*, *where * = 1-6*
@@ -391,13 +392,13 @@ label = "Event Servers";
 | Disclaimer notification on group level  | $ABP_APR_ROOT/interfaces/output/NTF |
 | Bucket notification on group level      | $ABP_APR_ROOT/interfaces/output/NTF |
 |-----------------------------------------+-------------------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \scriptsize
-#+END_LaTeX
+#+END_EXPORT
 | *pr0dwrk1@kprl1batch:/pkgbl01/inf/aimsys/prodwrk1/var/usc/projs/apr/interfaces/output/NTF* |
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** Billing Process
       The billing process follows a map which is created by the job
       *ADJ3_APR_CycleBillRun_Sh*. If it completes successfully it
@@ -412,9 +413,9 @@ label = "Event Servers";
    -  *aprout* - cd to the *CIBER* out directories.
 ** On Call Documentation
    [[file:docs/ON%20CALL%20TASKS.pdf][On Call Documentation]]
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 * Usage Overview
    Usage is made up of events which are records of transactions made by our customers. We tend to think of usage
    in two ways, *Voice* and *Data*.\\
@@ -447,14 +448,14 @@ label = "Event Servers";
       Originating and Terminating/ records with a possible one to many
       relationships (multiple recipients).
    6. *TAP* - Used for Incollect/Outcollect *4G* processing.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage
 
-#+END_LaTeX
+#+END_EXPORT
 ** Network Elements
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------+------------+-----------------------------------------------------------------------|
@@ -511,10 +512,10 @@ label = "Event Servers";
 | RAP_OUT   | kpr01bchl4 | /pkgbl04/inf/prdsys/prodwrk4/var/usc/projs/smm/DATA/RAPOUT            |
 |-----------+------------+-----------------------------------------------------------------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** Pre-Pay and Data Roaming
 
       In addition to *Post-Pay* we also handle *Pre-Pay* which follows a
@@ -532,9 +533,9 @@ label = "Event Servers";
 ** Carrier Code and Names
    SQL Statement which produced this data:
    : select distinct carr_name, carr_cd from prm_app.PRM_REP_CARR_INFO
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l
 |------------------------------+--------------|
@@ -555,9 +556,9 @@ label = "Event Servers";
 | Vodafone Netherlands (NLDLT) | NLDLT        |
 | AT&T Mobility (USACC)        | USACC        |
 |------------------------------+--------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** Usage Time Zones
 |--------------+-----------------|
 | *Usage Type* | *TimeZone*      |
@@ -572,14 +573,14 @@ label = "Event Servers";
 | CIBER        | Switch Location |
 | GSMD/V/S     | GMT             |
 |--------------+-----------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** Duplicate Record Keys
    Columns used to detect if a record is a duplicate.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \small
-#+END_LaTeX
+#+END_EXPORT
 |------------------------+-------------------+-----------------------|
 | *MMS*                  | *SMS*             | *Content*             |
 |------------------------+-------------------+-----------------------|
@@ -602,9 +603,9 @@ label = "Event Servers";
 | 7. Calling number      |                   |                       |
 |------------------------+-------------------+-----------------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** Guide By Criteria
 
 |--------------+------------|
@@ -633,12 +634,12 @@ label = "Event Servers";
 |            1 |   787/939 | PRI              | Puerto Rico                  |
 |--------------+-----------+------------------+------------------------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage 
-#+END_LaTeX
-#+BEGIN_LaTeX
+#+END_EXPORT
+#+BEGIN_EXPORT latex
 \begin{landscape}  
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: width=20cm
 :PICTURE:
 digraph BI {
@@ -705,21 +706,21 @@ subgraph cluster_3 {
 
    [[file:Pictures/usage_flow.jpg]]
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \end{landscape} 
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \begin{landscape}  
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: width=23cm
     [[file:Pictures/roamingPrePay.png]]
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \end{landscape} 
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** Voice Overview
    One major undertaking in the transition to *TOPS* is moving most of the voice mediation to the *INTEC* platform. To help facilitate this move, the current rules system *(RBMS)* was studied and documented. The following provides a brief overview of the processes used.
 *** Call Types
@@ -735,10 +736,10 @@ subgraph cluster_3 {
        - *Neither* \newline (per example *L-L* )
 #+ATTR_LaTeX: :width 11cm
 [[file:Pictures/white-charles-harvest_talk.jpg]]
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage 
 \begin{landscape}  
-#+END_LaTeX
+#+END_EXPORT
 *** Incoming - Mobile Terminated
          An *Incoming* call is a /mobile terminated/ call where one of
          our customers receives a call from some caller to a *USCC*
@@ -748,9 +749,9 @@ subgraph cluster_3 {
  #+ATTR_LaTeX: width=20cm
    [[file:Pictures/incoming.png]]
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage 
-#+END_LaTeX
+#+END_EXPORT
 *** Outgoing - Mobile Originated
     An *outgoing* call is a /mobile originating/ call from a *USCC* customer in which the following can occur.\\
     *The diagram below shows the data flow for an outgoing call:*
@@ -758,10 +759,10 @@ subgraph cluster_3 {
 #+ATTR_LaTeX: width=23cm
     [[file:Pictures/outgoing.png]]
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \end{landscape} 
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 
 * Unified File Format (UFF)
    In *TOPs* system all *CDRs*, excluding *InCollect/OutCollect CIBER*,
@@ -769,9 +770,9 @@ subgraph cluster_3 {
    will be a standard *Unix/ASCII* formatted *CSV* file using '|'
    *(pipe)* as the delimiter.
 ** UFF File Record Format
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align c|l|l
 |---------+-------------------------+-------------------------------------------------------------------|
@@ -892,13 +893,13 @@ subgraph cluster_3 {
 |      59 | Initiator Type          | The Initiator Type for PSMS record                                |
 |      60 | Initiator ID            | The Initiator ID for PSMS record                                  |
 |---------+-------------------------+-------------------------------------------------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** Header
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align c|l|l|l
 |---------+---------------+-----------------------------------------+--------------------------------|
@@ -928,16 +929,16 @@ subgraph cluster_3 {
 |         |               |                                         | 00 <= SS <= 59                 |
 |         |               |                                         | 00 <= ss <= 59                 |
 |---------+---------------+-----------------------------------------+--------------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
-#+BEGIN_LaTeX
+#+END_EXPORT
+#+BEGIN_EXPORT latex
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** Trailer
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align c|l|l|l
 |---------+---------------+------------------------------------------+-----------------------------------------|
@@ -967,13 +968,13 @@ subgraph cluster_3 {
 | 6       | Total Records | Total number of records in this file     | numeric <= 100000000                    |
 |         |               |                                          | (Including Header and trailers)         |
 |---------+---------------+------------------------------------------+-----------------------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** Service Feature Codes
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l
 |------------------------------------+--------|
 | *Description*                      | *Code* |
@@ -991,14 +992,14 @@ subgraph cluster_3 {
 | Voice-mail retrieval               | VMR    |
 | Caller ID Restriction (ID block)   | CIR    |
 |------------------------------------+--------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** [[file:docs/Drop%20Reason%20Codes.pdf][Drop Reason Codes]]
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 * CIBER File Format
 ** Ciber Record Types
    The *Ciber* standard defines the following record Types:
@@ -1009,9 +1010,9 @@ subgraph cluster_3 {
       -  *98* Trailer
 
 *** CIBER 01 Record
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |--------------------------------+------------+---------------|
@@ -1033,14 +1034,14 @@ subgraph cluster_3 {
 | System Reserved Filler         |     57-200 |               |
 |--------------------------------+------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** CIBER 22 Record
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |------------------------------------------+------------+---------------|
@@ -1127,13 +1128,13 @@ subgraph cluster_3 {
 | Local Carrier Reserved                   |    398-472 |               |
 | System Reserved Filler                   |    473-547 |               |
 |------------------------------------------+------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** CIBER 32 Record
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |------------------------------------------+------------+---------------|
@@ -1227,14 +1228,14 @@ subgraph cluster_3 {
 | Local Carrier Reserved                   |    418-492 |               |
 | System Reserved Filler                   |    493-567 |               |
 |------------------------------------------+------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** CIBER 52 Record
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------------+------------+---------------|
@@ -1286,14 +1287,14 @@ subgraph cluster_3 {
 | Fraud Sub-Indicator             |    235-235 |               |
 | Record Create Date              |    236-241 |               |
 |---------------------------------+------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** CIBER 98 Record
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------------------+------------+---------------|
@@ -1316,10 +1317,10 @@ subgraph cluster_3 {
 | Local Carrier Reserved           |      76-95 |               |
 | System Reserved Filler           |     96-200 |               |
 |----------------------------------+------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** CIBERNET - Specification/Reference				   :noexport:
    https://www.one1clear.net/mxp/Login.asp 
 * Consolidated Billing
@@ -1350,9 +1351,9 @@ CD    6. No additional details needed
     7. Execute job immediately
     8. Submit Query
    All of these reports are sent directly to the *IS Billing Operations* email.   
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \small
-#+END_LaTeX
+#+END_EXPORT
 *** PR-INVBO-CHECK_CON_MABEL_REPORTS1
     This is a *NON FAILURE* Job that produces the following daily reports.
     -	*ALLCONSOLIDATED accounts status for month x, year xxx (Current Month)*
@@ -1389,10 +1390,10 @@ CD    6. No additional details needed
     Updates to this report would be done by *Don Deutscher*.
     *Dan Lee* will follow up with *Don* to review this report and any necessary updates.
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** Mable Query
    The queries that produce the daily consolidated report can be found in this *Perl* script on the
    *EBI/OPER* server:\\
@@ -1441,9 +1442,9 @@ CD    6. No additional details needed
 
 #+ATTR_LaTeX: :width 16cm
 [[file:Pictures/workingfamily.jpg]]
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
  \newpage
-#+END_LaTeX 
+#+END_EXPORT 
 * Accounts Receivable
    Handles Finance, Payments and credits as well Collections.
 ** AR Basics
@@ -1518,9 +1519,9 @@ CD    6. No additional details needed
 
 ** GL Extracts
     These are created via *APRM*.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \small
-#+END_LaTeX
+#+END_EXPORT
     - SAP Extracts
        -  Business owner (3/15/2013): Sangeeta Khedeker
        -  Transfer target:
@@ -1573,9 +1574,9 @@ CD    6. No additional details needed
       -  File name convention: GLINTY3YYYYMMDDHHMMSS
       -  File location: ~aprmoper/var/usc/SAPGLEXTR/IR/
          -  Ex:  /inf_nas/apm1/prod/aprmoper/var/usc/SAPGLEXTR/IR/GLINTY320130401005834
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** Operational SQL
          All of these scripts would be good monitor scripts.
      :    [[docs/AR%20Operational.sql][AR Operational SQL]]
@@ -1591,14 +1592,14 @@ CD    6. No additional details needed
 
 #+ATTR_LaTeX: :width 18cm
 [[file:Pictures/ironsmall.jpg]]
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 * Databases
 ** Production Database - Login/Password
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l|l
 |------------+-------------+---------------+-----------------------|
@@ -1616,13 +1617,13 @@ CD    6. No additional details needed
 | /{Lan ID}/ | /{Lan PWD}/ | ANFPRD        | ANF                   |
 | /{Lan ID}/ | /{Lan PWD}/ | OMSPRD        | OMS                   |
 |------------+-------------+---------------+-----------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** Usage DB by cycle
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align c|l|l
 |-------------+------------+-------------------------------------------------|
@@ -1660,20 +1661,20 @@ CD    6. No additional details needed
 |        1026 | TC4PRD     | Reseller Cycle close on the 25th                |
 |        1028 | TC2PRD     | Reseller Cycle close on the 27th                |
 |-------------+------------+-------------------------------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
 
-#+END_LaTeX
+#+END_EXPORT
 ** DB Preparation
       For each DB instance, except ODS and SIT, You need to alter the
       session before you can use it.\\ 
       : ALTER SESSION SET CURRENT_SCHEMA=PRDUSG1C --- * Usage 1 Database *
 ** Usage Tables
 *** AGREEMENT_RESOURCE
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+---------------------+---------------|
@@ -1708,14 +1709,14 @@ CD    6. No additional details needed
 | Agreement_Key     | Number (9)          |               |
 |-------------------+---------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** CM1_AGREEMENT_PARAM
     In the PRDCUST database. 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+----------------------+-------------------|
@@ -1745,17 +1746,17 @@ CD    6. No additional details needed
 | Offer_Instance_Id | Number (10)          |                   |
 |-------------------+----------------------+-------------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** AC1_CONTROL (-HIST)
          Similar to *ac_processing_accounting* there are two tables
          with the same name but in different databases, *PRDAF* (Usage)
          and *PRDCUST* (AR).
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |------------------------+--------------------+-------------|
@@ -1845,17 +1846,17 @@ CD    6. No additional details needed
 | Eng_Priority           | Number(1,0)        |             |
 |------------------------+--------------------+-------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
 
-#+END_LaTeX
+#+END_EXPORT
 *** APE1_RATED_EVENT
          Where all the rateable events are contained. Most data inquires
          usually wind up here.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |------------------------------+---------------------+-----------------------|
@@ -2061,14 +2062,14 @@ CD    6. No additional details needed
 | L9_Adj_Reason_Cd             | Varchar2 (64 Byte)  |                       |
 | L9_Initiator_Type            | Varchar2 (19 Byte)  |                       |
 |------------------------------+---------------------+-----------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** APE1_ACCUMULATORS
          The accumulation tables this is what is presented on the bill.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |--------------------------------+---------------------+------------------------|
@@ -2223,13 +2224,13 @@ CD    6. No additional details needed
 | L9_Group_Offer_Id              | Number              |                        |
 |--------------------------------+---------------------+------------------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** AGD1_RESOURCES
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+-------------------+------------------|
@@ -2263,9 +2264,9 @@ CD    6. No additional details needed
 | Subscriber_Hash_Value | Number(10,0)      |                  |
 | Load_Ind              | Char(1 Byte)      |                  |
 |-----------------------+-------------------+------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
          -  Subscriber Table Status
             -  A = Active
             -  C = Canceled
@@ -2276,9 +2277,9 @@ CD    6. No additional details needed
 
 *** AC_PHYSICAL_FILES
          Provides information for the physical files that were processed.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------+--------------------+---------------|
@@ -2311,13 +2312,13 @@ CD    6. No additional details needed
 | End_Of_Tree_Seq     | Number(9,0)        |               |
 | *Balance_Date*      | Date               |               |
 |---------------------+--------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** AC_SOURCE
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+-------------------+---------------|
@@ -2346,17 +2347,17 @@ CD    6. No additional details needed
 | Gap_Permitted     | Number(6,0)       |               |
 |-------------------+-------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** APE1_SUBSCRIBER_RERATE
 
          Customers in this table are scheduled to be re-rated. Then they
          should be removed once re-rating is complete.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------+--------------------+---------------|
@@ -2381,9 +2382,9 @@ CD    6. No additional details needed
 | Num_Of_Rerate_Tries | Number (2)         |               |
 |---------------------+--------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
          Once re-rating starts you can check the progress with the
          following query:
@@ -2400,9 +2401,9 @@ CD    6. No additional details needed
 
         [[file:///home/dbalchen/workspace/Outcollects/updateSeq.pl][Sequence Creation Job]]
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+---------------+---------------|
 | *Column Name*     | *Data Type*   | *Description* |
@@ -2419,18 +2420,18 @@ CD    6. No additional details needed
 | Sys_Creation_Date | Date          |               |
 | Sys_Update_Date   | Date          |               |
 |-------------------+---------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** EM1_RECORD
     The EM1 record database is the database used by *AEM*, To see the columns within the EM1_RECORD look at the *EM1_STREAM_STREAM_MAP@PTE2AEM* table.
     Click on the link provided below to see an example on how to query this table.
 	 [[file:///home/dbalchen/workspace/CommonPlace/docs/em1_example.sql][EM1_RECORD Example]]
 
 *** PRM_ROM_OUTCOL_EVENTS_AP
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------------+---------------------+---------------|
 | *Column Name*           | *Data Type*         | *Description* |
@@ -2565,13 +2566,13 @@ CD    6. No additional details needed
 | Ods_Insert_Date         | Date                |               |
 | Ods_Last_Update_Date    | Date                |               |
 |-------------------------+---------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** PRM_ROM_INCOL_EVENTS_AP
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------+---------------------+---------------|
 | *Column Name*             | *Data Type*         | *Description* |
@@ -2645,16 +2646,16 @@ CD    6. No additional details needed
 #+ATTR_LaTeX: :width 14cm
       [[file:Pictures/shahn.jpg]]
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 
 ** AR Tables
 *** AR1_ACCOUNT
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------------+--------------------+------------------|
 | *Column Name*               | *Data Type*        | *Description*    |
@@ -2697,14 +2698,14 @@ CD    6. No additional details needed
 | Unapplied_Amount            | Number (18,2)      |                  |
 | Write_Off_Status            | Char (1 Byte)      |                  |
 |-----------------------------+--------------------+------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** AR1_INVOICE
 :CLOSET:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------------+---------------------+---------------|
@@ -2748,9 +2749,9 @@ CD    6. No additional details needed
 | Tax_Amount                 | Number (18,2)       |               |
 | Transaction_Id             | Number (12)         |               |
 |----------------------------+---------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 :END:
 *** AR1_CHARGE_CODE
 
@@ -2758,9 +2759,9 @@ CD    6. No additional details needed
 
 *** AR1_CUSTOMER_CREDIT
 :CLOSET:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------+--------------------+---------------|
@@ -2820,17 +2821,17 @@ CD    6. No additional details needed
 | Write_Off_Id              | Number (12)        |               |
 |---------------------------+--------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 :END:
 *** AR1_TAX_ITEM
 
 *** AR1_REFUND_REQUEST
 :CLOSET:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------------+--------------------+---------------|
@@ -2875,15 +2876,15 @@ CD    6. No additional details needed
 | Transaction_Id             | Number (12)        |               |
 |----------------------------+--------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 :END:
 *** AR1_DEPOSIT_REQUEST
 :CLOSET:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------+--------------------+---------------|
@@ -2925,18 +2926,18 @@ CD    6. No additional details needed
 | Transaction_Id      | Number (12)        |               |
 |---------------------+--------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 :END:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage
 
-#+END_LaTeX
+#+END_EXPORT
 *** AR1_PAYMENT
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------+--------------------+---------------|
@@ -2969,14 +2970,14 @@ CD    6. No additional details needed
 | Sys_Update_Date           | Date               |               |
 | Transaction_Id            | Number (12)        |               |
 |---------------------------+--------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** AR1_PAYMENT_DETAILS
 :CLOSET:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------------+---------------------+---------------|
@@ -3040,15 +3041,15 @@ CD    6. No additional details needed
 | Transaction_Id             | Number (12)         |               |
 |----------------------------+---------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 :END:
 *** AR1_PAYMENT_ACTIVITY
     Used in the *Paid and Prepaid* reports.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+--------------------+---------------|
@@ -3088,9 +3089,9 @@ CD    6. No additional details needed
 | Transfer_Account      | Number (12)        |               |
 |-----------------------+--------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** GL Tables
     -  AR1_GL_DETAILED_DATA_INFO_V
@@ -3100,10 +3101,10 @@ CD    6. No additional details needed
 #+ATTR_LaTeX: :width 16cm
 [[file:Pictures/coalminer.jpg]]
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage
 
-#+END_LaTeX
+#+END_EXPORT
 ** BPT Tables
       The *Business Process Tables* are the Tops equivalent to the
       reference tables in *CARES*. The following is the list of all
@@ -3111,9 +3112,9 @@ CD    6. No additional details needed
 
 *** ADJ1_OUTCOL_PROVIDER
     A list of all vendors we have an agreement with for out-collects.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 
@@ -3139,18 +3140,18 @@ CD    6. No additional details needed
 | Resource_Type     | Number(4,0)        |               |
 |-------------------+--------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** ADJ9_TIME_ZONE_REF
     Time zone parameters.
 
 *** AGD1_RESOURCES_REF
     Lists *TOPS* resources used by Turbo charging very important to map *SIDS* to there offers.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+-------------------+---------------|
 | *Column Name*         | *Data Type*       | *Description* |
@@ -3179,15 +3180,15 @@ CD    6. No additional details needed
 | Resource_Hash_Value   | Number(10,0)      |               |
 | Subscriber_Hash_Value | Number(10,0)      |               |
 |-----------------------+-------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** APE1_SUBSCR_DATA_REF
     List subscriber reference data. (Customer data)
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+--------------+---------------|
@@ -3208,15 +3209,15 @@ CD    6. No additional details needed
 | Currency_Id           | Char(3 Byte) |               |
 | Subscriber_Hash_Value | Number(10,0) |               |
 |-----------------------+--------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** APE1_SUBSCR_OFFERS_REF
          List subscriber offers. (Customer data)
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+-------------------+---------------|
@@ -3241,10 +3242,10 @@ CD    6. No additional details needed
 | Eff_Act_Code_Pror     | Varchar2(25 Byte) |               |
 | Exp_Act_Code_Pror     | Varchar2(25 Byte) |               |
 |-----------------------+-------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 *** PRM_REP_CARR_INFO
     Defines the Carrier (TADIG[fn:1]) Code used in IN and OUTCOLLECTS.
     The below query shows the company name and carrier code.
@@ -3258,9 +3259,9 @@ CD    6. No additional details needed
          code. The Block Ranges are listed in the *Technical Data Sheet*
          from *Syniverse*. This only contains *USCC* MINS only. For
          foreign carriers see the *VISITOR_MIN_LR*.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+------------------+---------------|
@@ -3282,9 +3283,9 @@ CD    6. No additional details needed
 | Expiration_Date   | Date             |               |
 |-------------------+------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** VISITOR_MIN_LR
          This table is created via a program and contains all of our
@@ -3310,9 +3311,9 @@ CD    6. No additional details needed
          Originating category is retrieve from the table that is used
          later on for service filter determination. *INCOL_SID_PAIR*
          and *SID* tables are also used by Acquisition & Formatting.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+-------------------+---------------|
@@ -3344,9 +3345,9 @@ CD    6. No additional details needed
 | Agreement_Id          | Number(9,0)       |               |
 |-----------------------+-------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** MI1_RETURN_RRC
          Used for *InCollect* *CIBER* processing. Contains the various
@@ -3359,9 +3360,9 @@ CD    6. No additional details needed
 *** MI9_NA_CONV
          This maybe another version of the *ADJ9_TIME_ZONE_REF*
          table, very similar.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** (BPT) EPC Tables
          These tables are included in the *EPC* dump which happens once
          or twice a month, no hot-fix is needed unless it 
@@ -3371,9 +3372,9 @@ CD    6. No additional details needed
             One of the most important reference tables used, contains
             all the information for all the *SIDS* for
             all the companies we have a contract with.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+-------------------+---------------|
@@ -3400,9 +3401,9 @@ CD    6. No additional details needed
 | Incorporate_Ind      | Char(1 Byte)      |               |
 |----------------------+-------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** PC9_SID_LIST
             A description of each *SID* found in the *PC9_SID* table.
             When the *SID* table is updated this table needs to be
@@ -3411,9 +3412,9 @@ CD    6. No additional details needed
 *** PC9_SPECIAL_NUMBER
             Contains a list of all the special numbers, numbers that can
             be dropped (no charge), toll or air time free.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------+--------------------+-----------------|
@@ -3444,16 +3445,16 @@ CD    6. No additional details needed
 | Expiration_Date           | Date               |                 |
 |---------------------------+--------------------+-----------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** PC9_SERVE_AREA_TO_SID
             Maps the service area to (/all maybe to strong a term/)
             supported *SIDS*.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------+-------------------+---------------|
@@ -3464,15 +3465,15 @@ CD    6. No additional details needed
 | Effective_Date  | Date              |               |
 | Expiration_Date | Date              |               |
 |-----------------+-------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** PC9_COUNTRY_CODE
             List of country code, country description, NANP indicator.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------+-------------------+---------------|
@@ -3483,17 +3484,17 @@ CD    6. No additional details needed
 | Description   | Varchar2(30 Byte) |               |
 | Nanp_Ind      | Char(1 Byte)      |               |
 |---------------+-------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** PC9_INCOL_SID_PAIR
             Defines *InCollect* roaming agreement between *SID* pair.
             Originating category is retrieve from the table that is used
             later on for service filter determination. INCOL_SID_PAIR
             and *SID* tables are also used by Acquisition & Formatting.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------------+------------------+---------------|
@@ -3513,18 +3514,18 @@ CD    6. No additional details needed
 | Daily_Surcharge_Indication | Char(1 Byte)     |               |
 | Expiration_Date            | Date             |               |
 |----------------------------+------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** PC9_CELL_SITE_TO_CELL_ID
     Cell site name to number ID.
 
 *** PC9_SERVICE_FILTER
     This table as well and *PC3_SERVICE_FILTER_LIST* are used by the *RLC*.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+-------------------+---------------|
@@ -3542,16 +3543,16 @@ CD    6. No additional details needed
 | Expiration_Date      | Date              |               |
 |----------------------+-------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** PC3_SERVICE_FILTER_LIST
     This table as well as *PC3_SERVICE_FILTER* are used by
     the *RLC* to rate the event.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------+-------------------+---------------|
 | *Column Name*  | *Data Type*       | *Description* |
@@ -3561,15 +3562,15 @@ CD    6. No additional details needed
 | Description    | Varchar2(50 Byte) |               |
 |----------------+-------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
             
 *** PC9_DEST_CATEGORY
             Lists all the possible destination categories.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+--------------------+---------------|
@@ -3579,16 +3580,16 @@ CD    6. No additional details needed
 | Destination_Category | Varchar2(6 Byte)   |               |
 | Description          | Varchar2(101 Byte) |               |
 |----------------------+--------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
            
 *** PC9_NUMBER_ANALYSIS
             Used to analyze telephone prefix's. Mostly used to determine
             International calls.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |--------------------------+-------------------+---------------|
@@ -3607,16 +3608,16 @@ CD    6. No additional details needed
 | Expiration_Date          | Date              |               |
 |--------------------------+-------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 
 *** PC9_ORIG_CATEGORY
     List all possible originating categories.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+--------------------+---------------|
@@ -3627,15 +3628,15 @@ CD    6. No additional details needed
 | Description          | Varchar2(101 Byte) |               |
 |----------------------+--------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** PC9_ROAMING_DEST_CATEGORY
      List all roaming destination categories.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------------+--------------------+---------------|
@@ -3645,14 +3646,14 @@ CD    6. No additional details needed
 | Roaming_Dest_Category | Varchar2(6 Byte)   |               |
 | Description           | Varchar2(101 Byte) |               |
 |-----------------------+--------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** PC1_CHARGE_CODE
     Lists and describes the supported charge codes.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-----------------+---------------------+---------------|
@@ -3665,18 +3666,18 @@ CD    6. No additional details needed
 | Revenue_Type    | Char(2 Byte)        |               |
 |-----------------+---------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** PC9_NANP_NPA_LIST
     The NPA (Area Code) and the country description.
 *** PC9_LOCAL_TOLL_FREE_AREA
     Lists the relationship between *SIDS* and NPA ranges where the toll is free.
 *** PC9_IP_ADDR_LIST
     This contains the list of all of the pre-paid IP's. When a new IP is going to be used for pre-pay, it needs to be added to this table. Otherwise it will show up as roaming.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------+--------------------+---------------|
@@ -3686,15 +3687,15 @@ CD    6. No additional details needed
 | address       | varchar2(256 byte) | i.p address   |
 | description   | varchar2(101 byte) |               |
 |---------------+--------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** ARCM Tables
 *** SMM1_COLLECT_FILES_HIST
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+---------------------+---------------|
@@ -3723,13 +3724,13 @@ CD    6. No additional details needed
 | Ods_Last_Update_Date | Date                |               |
 |----------------------+---------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** SMM1_ARCM_FILE_REPOSITORY 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |--------------------------+---------------------+---------------|
@@ -3763,15 +3764,15 @@ CD    6. No additional details needed
 | Ods_Last_Update_Date     | Date                |               |
 |--------------------------+---------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** PRM_RAPOUT_ERR_MNGR
     Keeps track of all the RAP out errors.
 :CLOSET:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------+----------------------+---------------|
@@ -3976,16 +3977,16 @@ CD    6. No additional details needed
 | Validation_Sts            | Char (1 Byte)        |               |
 |---------------------------+----------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 :END:
 ** APRM Tables
 *** CDMA USC_ROAM_EVNTS
     Used for CDMA Incollect/Outcollect Voice and data files.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |--------------------+--------------------+----------------|
@@ -4033,15 +4034,15 @@ CD    6. No additional details needed
 | Visit_Ind          | Char (1 Byte)      |                |
 | Volume_Type        | Char (2 Byte)      |                |
 |--------------------+--------------------+----------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 *** (Both) USC_SAP_EXTRACT_V
     The SAP Extract table is a view of a view *IC_ACCUMULATED_USAGE* joined with table *USC_GL_ACC_LKP*. It is this table that is used create a report that is sent to *TDS* to be loaded into *SAP*
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |------------------+--------------------+-------------------------|
@@ -4068,14 +4069,14 @@ CD    6. No additional details needed
 | Tax_Jur_Cd       | Char (15 Byte)     |                         |
 | Line_Order       | Number             |                         |
 |------------------+--------------------+-------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** 4G IC_ACCUMULATED_USAGE
     One of the tables that is part of *USC_SAP_EXTRACT_V* useful for usage totals and file names. This is a view of the *PRM_EVENT_DTL_PARAM* and *IC_ACCUMULATED_CHRG* tables.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 
@@ -4184,14 +4185,14 @@ CD    6. No additional details needed
 | Event_Direction      | Char (1 Byte)      |                          |
 |----------------------+--------------------+--------------------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** 4G PRM_ROM_INCOL_EVENTS_AP
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------+---------------------+---------------|
@@ -4261,14 +4262,14 @@ CD    6. No additional details needed
 | Aprm_Edr_Id               | Number (20)         |               |
 | Application_Id            | Char (6 Byte)       |               |
 |---------------------------+---------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** 4G PRM_ROM_OUTCOL_EVENTS_AP
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------------+---------------------+---------------|
@@ -4404,16 +4405,16 @@ CD    6. No additional details needed
 | Acc_Net_Charge_Rc       | Number (18,5)       |               |
 | Acc_Net_Charge_Lc       | Number (18,5)       |               |
 |-------------------------+---------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 ** CDMA Data Outcollects
 *** DATA_OUTCOLLECT
     Event table used for CDMA data Outcollects.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
     |---------------------------+--------------------+---------------|
     | *Name*                    | *Data Type*        | *Description* |
@@ -4429,14 +4430,14 @@ CD    6. No additional details needed
     | Process_Date              | Date               |               |
     | Settlement_Date           | Date               |               |
     |---------------------------+--------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX  
+#+END_EXPORT  
 *** ROAMING_PARTNER 
     A table that contains all the CDMA Data Outcollect roaming partners.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
     |---------------+--------------------+---------------|
     | *Name*        | *Data Type*        | *Description* |
@@ -4446,16 +4447,16 @@ CD    6. No additional details needed
     | Partner       | Varchar2 (40 Byte) |               |
     | Roaming_Type  | Char (1 Byte)      |               |
     |---------------+--------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX   
+#+END_EXPORT   
 ** Consolidation Tables
 *** MABEL_CONTROL
     Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
     : select * from Mabel_control order by sys_creation_date desc;
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+---------------------+---------------|
 | *Name*            | *Data Type*         | *Description* |
@@ -4480,17 +4481,17 @@ CD    6. No additional details needed
 | File_Create_Date  | Date                |               |
 |-------------------+---------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** MABEL_AUDIT
     Tables on the EBI side that control the Mabel processes as they are validated, enriched, sorted, merged, and eventually consolidated:
     : select * from Mabel_audit order by sent_date desc,sent_file_name;
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+---------------------+---------------|
 | *Name*            | *Data Type*         | *Description* |
@@ -4512,15 +4513,15 @@ CD    6. No additional details needed
 | Sys_Update_Date   | Date                |               | 
 |-------------------+---------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
   
 *** ADD9_MABEL_IDS
     Tables on the TOPS side that are used for Mabel/MobilSense setup:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+---------------------+----------------|
@@ -4543,14 +4544,14 @@ CD    6. No additional details needed
 | Ods_Insert_Date      | Date                |                |
 | Ods_Last_Update_Date | Date                |                |
 |----------------------+---------------------+----------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** BL1_GENERIC_CODES
     Tables on the TOPS side that are used for Mabel/MobilSense setup:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+---------------------+---------------|
@@ -4570,15 +4571,15 @@ CD    6. No additional details needed
 | Ods_Insert_Date      | Date                |               |
 | Ods_Last_Update_Date | Date                |               |
 |----------------------+---------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** BL1_PRINTING_CAT_DEST
     Tables on the TOPS side that are used for Mabel/MobilSense setup:
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------+----------------------+---------------|
@@ -4599,18 +4600,18 @@ CD    6. No additional details needed
 | Sys_Update_Date      | Date                 |               |
 |----------------------+----------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** BL1_BLNG_ARRANGEMENT
     Table on the TOPS side that contains the populated Mabel ID 
     in the perm_printing_cat column:
 : select * from bl1_blng_arrangement where perm_printing_cat is not null;
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |----------------------------+---------------------+---------------|
 | *Name*                     | *Data Type*         | *Description* |
@@ -4653,14 +4654,14 @@ CD    6. No additional details needed
 | Ods_Last_Update_Date       | Date                |               |
 |----------------------------+---------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 *** BL1_DOCUMENT
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |------------------------+----------------------+---------------|
@@ -4697,14 +4698,14 @@ CD    6. No additional details needed
 | Sys_Update_Date        | Date                 |               |
 |------------------------+----------------------+---------------|
 
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX
+#+END_EXPORT
 *** CSM_BEN
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------------+---------------------+---------------|
@@ -4732,14 +4733,14 @@ CD    6. No additional details needed
 | Sys_Creation_Date         | Date                |               |
 | Sys_Update_Date           | Date                |               |
 |---------------------------+---------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 ** Invoice Report Database
 *** INVRPT_ACCT_DEST_LINK_MV
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+---------------+--------------------------|
@@ -4755,13 +4756,13 @@ CD    6. No additional details needed
 | Exp_Date          | Date          |                          |
 | Group_Id          | Number (9)    |                          |
 |-------------------+---------------+--------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** INVRPT_DESTINATION_MV
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |---------------------+----------------------+--------------------------|
@@ -4799,13 +4800,13 @@ CD    6. No additional details needed
 | Eff_Date            | Date                 |                          |
 | Exp_Date            | Date                 |                          |
 |---------------------+----------------------+--------------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 *** MABEL_DESTINATION
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |--------------------------+---------------------+----------------------|
@@ -4842,16 +4843,17 @@ CD    6. No additional details needed
 | Xmission_Media_Mode      | Varchar2 (4 Byte)   |                      |
 | Xmission_Media_Type      | Char (4 Byte)       |                      |
 |--------------------------+---------------------+----------------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX
+#+END_EXPORT
 
 ** Roaming Reconciliation Tables
 *** FILE_SUMMARY
     Used to hold data for all the roaming files.
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
+
 #+ATTR_LaTeX: :environment longtable :align l|l|l
     |----------------------+------------------------+---------------|
     | *Name*               | *Data Type*            | *Description* |
@@ -4883,13 +4885,13 @@ CD    6. No additional details needed
     | File_Name_Dch        | Varchar2(100)          |               |
     |----------------------+------------------------+---------------|
  
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX   
+#+END_EXPORT   
 *** APRM
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
 |-------------------+---------------------+---------------|
 | *Name*            | *Data Type*         | *Description* |
@@ -4909,14 +4911,14 @@ CD    6. No additional details needed
 | Total_Charges_Dch | Number (38,2)       |               |
 | Serve_Bid         | Varchar2 (100 Byte) |               |
 |-------------------+---------------------+---------------|
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \normalsize
 \newpage
-#+END_LaTeX   
+#+END_EXPORT   
 *** REJECTED_RECORDS
-#+BEGIN_LaTeX
+#+BEGIN_EXPORT latex
 \footnotesize
-#+END_LaTeX
+#+END_EXPORT
 #+ATTR_LaTeX: :environment longtable :align l|l|l
     |-------------------+---------------------+---------------|
     | *Name*            | *Data Type*         | *Description* |
@@ -4927,9 +4929,10 @@ CD    6. No additional details needed
     | Error_Description | Varchar2 (255 Byte) |               |
     | Total_Charge      | Number (38,2)       |               |
     |-------------------+---------------------+---------------|
-#+BEGIN_LaTeX
+
+#+BEGIN_EXPORT latex
 \normalsize
-#+END_LaTeX   
+#+END_EXPORT   
 * CallDump
 ** Data Directories
       -  */m04/switchb/ecs* - *(aaa1)* 3G or lower data usage guide by *#19*.

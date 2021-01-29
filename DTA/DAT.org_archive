@@ -47,3 +47,42 @@ ioctlsocket() has the option as a u_long, fcntl() uses an int.
 Latest RFC 8506 - Amdocs uses 3588
 
 No test environment, no proof of concept.
+
+* OpenAPI directory structure
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-01-28 Thu 15:54
+  :ARCHIVE_FILE: ~/workspace/DTA/DAT.org
+  :ARCHIVE_OLPATH: Loopback4
+  :ARCHIVE_CATEGORY: DAT
+  :END:
+   : openapi-spec.json
+   : ├── DEVELOPING.md
+   : ├── Dockerfile
+   : ├── package.json
+   : ├── public
+   : │   └── index.html
+   : ├── README.md
+   : ├── src
+   : │   ├── application.ts
+   : │   ├── controllers
+   : │   │   ├── index.ts
+   : │   │   ├── ping.controller.ts
+   : │   │   └── README.md
+   : │   ├── datasources
+   : │   │   └── README.md
+   : │   ├── index.ts
+   : │   ├── migrate.ts
+   : │   ├── models
+   : │   │   └── README.md
+   : │   ├── openapi-spec.ts
+   : │   ├── repositories
+   : │   │   └── README.md
+   : │   ├── sequence.ts
+   : │   └── __tests__
+   : │       ├── acceptance
+   : │       │   ├── home-page.acceptance.ts
+   : │       │   ├── ping.controller.acceptance.ts
+   : │       │   └── test-helper.ts
+   : │       └── README.md
+   : └── tsconfig.json
+

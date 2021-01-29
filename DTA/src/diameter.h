@@ -230,6 +230,7 @@ std::string init_session_id(unsigned int val) {
 
 int gy_ccr_send(int client_sock, unsigned int cc_type,
 		unsigned int requested_action, std::string SessionID, std::string mdn) {
+// this won't work in production
 
 	std::string LocalHost = "Localhost";
 	std::string LocalIPAddress = "192.168.0.1";

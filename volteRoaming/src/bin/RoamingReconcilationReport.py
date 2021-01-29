@@ -27,8 +27,16 @@ if __name__ == '__main__':
 
 timeStamp = "20210115"  # sys.argv[1]
 
+day = timeStamp[6:8]
+month = timeStamp[4:6]
+monthName = (timeStamp.strptime(timeStamp, '%Y%m%d')).strftime("%B")
+year = timeStamp[0:4]
+
 outTimeStamp = datetime.strptime(timeStamp, "%Y%m%d")
 outTimeStamp = (outTimeStamp - relativedelta(days=1)).strftime('%Y%m%d')
+
+title = """The Roaming Reconciliation Report for """ + monthName + """ """ + day + """, """ + year 
+message = " Attached to this email is the Roaming Reconciliation Report for " + monthName + """ """ + day + """, """ + year + """\nDave"""
 
 # Font setup   
 def_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=False)
@@ -51,7 +59,7 @@ select
     abs((total_charges_dch - Total_charges)/total_charges)*100,
     abs((TC_SEND - aprm_total_records)/TC_SEND) * 100,
     abs((total_charges_dch - aprm_total_charges)/aprm_total_charges)*100
-from file_summary where usage_type = 'SDIRI_FCIBER' and process_date = to_date(""" + timeStamp + """,'YYYYMMDD'
+from file_summary where usage_type = 'SDIRI_FCIBER' and process_date = to_date(""" + timeStamp + """,'YYYYMMDD')
 """
 
 sqlDictionary["SDATACBR_FDATACBR"] = """ select FILE_NAME,IDENTIFIER, TOTAL_RECORDS_DCH, TOTAL_VOLUME_DCH,ceil(TOTAL_VOLUME_DCH/1024), ceil((TOTAL_VOLUME_DCH/1024)/1024), 
@@ -212,14 +220,14 @@ group by file_name) t4
 where t1.file_name = t2.file_name and t1.file_name = t3.file_name and t3.file_name = t4.file_name
 """
 
-sqlDictionary["REJECTED_RECORDS"] = """
-select * from rejected_records t1 where t1.file_name in 
-                    (select unique(t2.file_name) 
-                        from file_summary t2 
-                        where t2.usage_type like '""" + switch + """%' and t2.process_date = to_date(""" + timeStamp + """,'YYYYMMDD'))";
-
-
-"""
+# sqlDictionary["REJECTED_RECORDS"] = """
+# select * from rejected_records t1 where t1.file_name in 
+#                     (select unique(t2.file_name) 
+#                         from file_summary t2 
+#                         where t2.usage_type like '""" + switch + """%' and t2.process_date = to_date(""" + timeStamp + """,'YYYYMMDD'))";
+# 
+# 
+# """
 
 sqlDictionary["DISP_RM_APRM"] = """
 select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'DISP_RM%' and date_processed = to_date(""" + outTimeStamp + """,'YYYYMMDD')
@@ -231,6 +239,28 @@ select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOT
 
 sqlDictionary["NLDLT_APRM"] = """
 select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'NLDLT%' and date_processed = to_date(""" + timeStamp + """,'YYYYMMDD')
+"""
+
+sqlDictionary["DATA_CIBER_APRM"] = """
+select CARRIER_CODE, BP_START_DATE, CLEARINGHOUSE, TOTAL_CHARGES, TOTAL_VOLUME,CEIL(TOTAL_VOLUME/1024), CEIL((TOTAL_VOLUME/1024)/1024)  from APRM where usage_type = 'DATA_CIBER' and date_processed = to_date(""" + outTimeStamp + """,'YYYYMMDD')";
+"""
+
+# Neeed to check these out one by one...
+
+sqlDictionary["SDATACBR_FDATACBR_APRM"] = """
+select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT),sum(TOTAL_VOLUME), sum(ceil(TOTAL_VOLUME/1024)),
+                 sum(ceil((TOTAL_VOLUME/1024)/1024)),sum(TOTAL_CHARGES)"
+              . "       from aprm where usage_type = 'SDATACBR_FDATACBR' and date_processed = to_date(""" + timeStamp + """,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE
+"""
+
+sqlDictionary["SDATACBR_FDATACBR_APRM"] = """
+select CARRIER_CODE,BP_START_DATE, sum(RECORD_COUNT),sum(TOTAL_VOLUME), sum(ceil(TOTAL_VOLUME/1024)),
+                 sum(ceil((TOTAL_VOLUME/1024)/1024)),sum(TOTAL_CHARGES)"
+              . "       from aprm where usage_type = 'SDATACBR_FDATACBR' and date_processed = to_date(""" + timeStamp + """,'YYYYMMDD') group by  CARRIER_CODE,BP_START_DATE order by CARRIER_CODE
+"""
+
+sqlDictionary["CIBER_CIBER_APRM"] = """
+select CARRIER_CODE,MARKET_CODE, BP_START_DATE, sum(RECORD_COUNT), sum(ceil(TOTAL_VOLUME/60)),sum(TOTAL_CHARGES) from aprm where usage_type = 'CIBER_CIBER' and date_processed = to_date(""" + outTimeStamp + """,'YYYYMMDD') group by  CARRIER_CODE,MARKET_CODE, BP_START_DATE order by CARRIER_CODE";
 """
 
 headings = {}
@@ -291,7 +321,7 @@ headings["SDATACBR_FDATACBR"] = [
     'APRM Total Charges ($)',
     'Record Count Variance TC Send vs. APRM',
     'Charge Variance TC Send vs. APRM ($)'
-];
+]
 
 headings["CIBER_CIBER"] = [
     'File Name',
@@ -449,12 +479,9 @@ def dbConnect ():
 #   
 #     tconn = cx_Oracle.connect(CONN_STR)
 
-    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
+#     tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
     
     return tconn;
-
-
-title = ""
 
 excel_file = title + '.xlsx'
 
@@ -463,8 +490,6 @@ wb = Workbook()
 # Put stuff here
 
 wb.save(excel_file)
-
-message = ""
 
 subject = title
 
