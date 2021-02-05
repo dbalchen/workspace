@@ -132,6 +132,10 @@
 \normalsize
 #+END_EXPORT
 
+#+BEGIN_EXPORT latex
+\pagebreak
+#+END_EXPORT
+
 *** int cer_send(int client_sock)                                  :noexport:
 #+BEGIN_EXPORT latex
 \footnotesize
@@ -192,8 +196,6 @@
 #+BEGIN_EXPORT latex
 \normalsize
 #+END_EXPORT
-
-
 
 ** Capabilities Exchange Answer (CEA)
     The *Capabilities Exchange Answer (CEA)* is /Diameter Server’s/ response to the *CER*.
@@ -542,7 +544,7 @@
 \normalsize
 #+END_EXPORT
 
-* Client and Server Interaction
+* Client and Server Interaction                                    :noexport:
   Diameter Client is the initiator that establishes the connection to the server.
 
 ** Capabilities Exchange Answer (CEA)
@@ -884,7 +886,7 @@ Message attributes (Event-Timestamp, Subscription-Id-Data,) are logged into a pr
   - M – This AVP will always be present in the message.
   - C – This AVP shall be present in the message only when certain conditions are met. These conditions are specified in the description column.
   - O – This AVP is optional.
-* Tasklist
+* Tasklist                                                         :noexport:
 ** DONE Figure out how call a server from type/java script.
 *** TODO Add it to a loopback4 sceanario 
 ** TODO DTA [20%]

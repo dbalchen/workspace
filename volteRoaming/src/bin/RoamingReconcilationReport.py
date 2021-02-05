@@ -5,6 +5,8 @@ Created on Jan 11, 2021
 # Oracle Libraries
 import cx_Oracle
 
+import fileinput
+
 # libraries used for sending emails
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -25,11 +27,17 @@ import sys
 if __name__ == '__main__':
     pass
 
-timeStamp = "20210115"  # sys.argv[1]
+# sys.argv[1] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+sysargv = sys.argv[1]
+
+sysargv = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM"
+
+timeStamp = "20210115"  # sys.argv[2]
 
 day = timeStamp[6:8]
 month = timeStamp[4:6]
-monthName = (timeStamp.strptime(timeStamp, '%Y%m%d')).strftime("%B")
+monthName = (datetime.strptime(timeStamp, '%Y%m%d')).strftime("%B")
+
 year = timeStamp[0:4]
 
 outTimeStamp = datetime.strptime(timeStamp, "%Y%m%d")
@@ -483,9 +491,56 @@ def dbConnect ():
     
     return tconn;
 
+
+def printRow (row, font, sheet, max_row):
+    
+    for i in range(0, len(row)):
+        sheet.cell(row=max_row, column=(i + 1)).value = row[i] 
+        sheet.cell(row=max_row, column=(i + 1)).font = font 
+        sheet.cell(row=max_row, column=(i + 1)).number_format = '0.00' 
+    return;
+
+
+def printSheet (title, header, sheet, output):
+    sheet.title = title
+    
+    printRow(header, bold_font, sheet, 1)
+    max_row = 2 
+
+    for row in output:
+        printRow(row, def_font, sheet, max_row)
+        max_row = max_row + 1 
+    return
+
+
 excel_file = title + '.xlsx'
 
 wb = Workbook()
+
+results = []
+
+switches = sysargv.split(',')
+
+conn = dbConnect()
+cursor = conn.cursor()
+ 
+for idx, switch in enumerate(switches):
+    cursor.execute(sqlDictionary[switch])
+# SQL Results
+    results = cursor.fetchall()
+    
+    printSheet(switch, headings[switch], wb.active, results)
+    
+    print(sqlDictionary[switch])
+
+# for line in fileinput.input("/home/dbalchen/Desktop/test.csv"):
+#     try:
+#         line = line.rstrip()
+#         results.append(tuple(line.split("\t")))
+#     except:pass
+#     
+
+printSheet('LTE Incollect', headings["LTE"], wb.active, results)
 
 # Put stuff here
 
