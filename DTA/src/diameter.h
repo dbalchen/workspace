@@ -71,24 +71,27 @@ ofstream LogFile;
 SOCKET ClientSocket = INVALID_SOCKET;
 SOCKET ServerSocket = INVALID_SOCKET;
 
-
-
-
 int read_diameter(int client_sock) {
 
-	int msg_length = 0;
-	int read_length = 0;
+	long unsigned int msg_length = 0;
+
+	long unsigned int read_length = 0;
+
 	int network_msg_length = 0;
-	int retval = -1;
+
+	long unsigned int retval = -1;
 
 	memset(RecvBuf, 0, sizeof(RecvBuf));
 
 	while (read_length < sizeof(msg_length)) {
 
 		char *rp = RecvBuf;
+
 		rp += read_length;
-		int this_read_length = recv(client_sock, rp,
+
+		long int this_read_length = recv(client_sock, rp,
 				(sizeof(msg_length) - read_length), 0);
+
 		if (this_read_length <= 0) {
 			return -1;
 		}
@@ -104,14 +107,17 @@ int read_diameter(int client_sock) {
 
 
 	while (read_length < msg_length) {
+
 		char *rp = RecvBuf;
 		rp += sizeof(msg_length);
 		rp += read_length;
-		int this_read_length = recv(client_sock, rp, (msg_length - read_length),
+
+		long int this_read_length = recv(client_sock, rp, (msg_length - read_length),
 				0);
 		if (this_read_length <= 0) {
 			return -1;
 		}
+
 		read_length += this_read_length;
 	}
 
@@ -120,7 +126,7 @@ int read_diameter(int client_sock) {
 
 int write_diameter(int client_sock, DIAMETER_msg &msg) {
 
-  int retval = -1;
+  long int retval = -1;
 
   CBBByteArray outbuf = msg.encode_binary();
 

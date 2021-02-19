@@ -8,29 +8,26 @@
 #ifndef SRC_CLIENT_H_
 #define SRC_CLIENT_H_
 
-#include <thread>
-#include <future>
 #include <unistd.h>
-
 using namespace std;
 
 int callDiameter(int client, int server, int sess_count) {
 
 	char buffer[8192];
 	unsigned int dRequest;
-
 	int decode_retval;
 
-	vector<std::string> parmList;
-
-	int n = write(client, "Howdy!!!! from the DTA\n", 23);
+	cout << "CallDiameter: Running the CallDiameter function" << endl;
 
 	bzero((char*) &buffer, sizeof(buffer));
 
+	long int n = write(client, "Howdy!!!! from the DTA\n", 23);
+
 	if (n < 0) {
 
-		cout << "Error writing to client socket" << endl;
+		cerr << "Failure writing to client socket" << endl;
 
+		return -1;
 	}
 	;
 
@@ -38,8 +35,9 @@ int callDiameter(int client, int server, int sess_count) {
 
 	if (n < 0) {
 
-		cout << "Error reading from client socket" << endl;
+		cerr << "Failure reading from client socket" << endl;
 
+		return -1;
 	}
 	;
 
@@ -52,11 +50,18 @@ int callDiameter(int client, int server, int sess_count) {
 	size_t pos = 0;
 	std::string token;
 
+	cout << "CallDiameter: Parsing the request" << endl;
+
+	vector<std::string> parmList;
+
 	while ((pos = request.find(",")) != std::string::npos) {
+
 		token = request.substr(0, pos);
-		std::cout << token << std::endl;
+
 		parmList.push_back(token);
+
 		request.erase(0, pos + 1);
+
 	}
 
 	parmList.push_back(request);
@@ -74,13 +79,20 @@ int callDiameter(int client, int server, int sess_count) {
 
 	} else {
 
-		write(client, "Transaction Type not Supported\n", 23);
+		write(client, "Failure: Transaction Type not Supported\n", 23);
+
+		cerr << "CallDiameter: Transaction Type not Supported" << endl;
+
 		close(client);
 		return (-1);
 
 	}
 
 	std::string SessionID = init_session_id(sess_count++);
+
+	cout << "CallDiameter: Initialize the GY Interface" << endl;
+
+	door.lock();
 
 	if ((gy_ccr_initial(server, SessionID, parmList[1]) > 0)) {
 
@@ -92,14 +104,19 @@ int callDiameter(int client, int server, int sess_count) {
 			DIAMETER_msg incoming_message;
 
 			decode_retval = incoming_message.decode_binary(diameter_raw);
+
 		} else {
 
+			door.unlock();
+
 			write(client, "Could not create session ID\n", 28);
+
+			cerr << "CallDiameter: Failure to create session ID" << endl;
+
 			close(client);
 			return (-1);
 
 		}
-
 	}
 
 	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1]) > 0)) {
@@ -114,7 +131,12 @@ int callDiameter(int client, int server, int sess_count) {
 
 		} else {
 
+			door.unlock();
+
 			write(client, "Failure to complete Transaction\n", 32);
+
+			cerr << "CallDiameter: Failure to complete Transaction" << endl;
+
 			close(client);
 			return (-1);
 
@@ -133,67 +155,28 @@ int callDiameter(int client, int server, int sess_count) {
 
 		} else {
 
+			door.unlock();
+
 			write(client, "Could not commit Transaction\n", 28);
+
+			cerr << "CallDiameter: Could not commit Transaction" << endl;
+
 			close(client);
 			return (-1);
+
 		}
 	}
 
-	write(client, "Transaction Successful\n", 23);
+	door.unlock();
 
-	cout << "Transaction Successful" << endl;
+	write(client, "Transaction Successful \n", 25);
+
+	cout << "CallDiameter: Transaction Successful" << endl;
 
 	close(client);
 
-	sleep(30);
+	cout << "CallDiameter: Finished calling diameter" << endl;
 	return (0);
 }
-
-class clientThread {
-
-private:
-
-	int client;
-	int server;
-	int sess_count;
-
-	int future;
-
-public:
-
-	bool running = false;
-
-	void spawn();
-
-	void checkThread(void);
-
-	clientThread(int tclient, int tserver, int tsess_count);
-
-};
-
-clientThread::clientThread(int tclient, int tserver, int tsess_count) {
-
-	client = tclient;
-	server = tserver;
-	sess_count = tsess_count;
-	running = true;
-
-}
-
-void clientThread::spawn(void) {
-
-	running = true;
-	auto future = std::async(callDiameter, client, server, sess_count);
-
-}
-
-void clientThread::checkThread(void)
-{
-//	future.get();
-
-	running = false;
-}
-
-
 
 #endif /* SRC_CLIENT_H_ */

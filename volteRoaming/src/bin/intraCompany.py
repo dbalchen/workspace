@@ -77,9 +77,14 @@ SELECT To_char (t1.sys_creation_date, 'YYYY-MM-DD')"Creation Date",
 def printRow (row, font, sheet, max_row):
     
     for i in range(0, len(row)):
-        sheet.cell(row=max_row, column=(i + 1)).value = row[i] 
-        sheet.cell(row=max_row, column=(i + 1)).font = font 
-        sheet.cell(row=max_row, column=(i + 1)).number_format = '0.00' 
+        
+        if i == 5 or i == 6:
+            sheet.cell(row=max_row, column=(i + 1)).value = row[i] 
+            sheet.cell(row=max_row, column=(i + 1)).font = font 
+        else:
+            sheet.cell(row=max_row, column=(i + 1)).value = row[i] 
+            sheet.cell(row=max_row, column=(i + 1)).font = font 
+            sheet.cell(row=max_row, column=(i + 1)).number_format = '0.00'
     return;
 
  

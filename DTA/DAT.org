@@ -889,13 +889,13 @@ Message attributes (Event-Timestamp, Subscription-Id-Data,) are logged into a pr
 * Tasklist                                                         :noexport:
 ** DONE Figure out how call a server from type/java script.
 *** TODO Add it to a loopback4 sceanario 
-** TODO DTA [20%]
+** TODO DTA [60%]
    - [ ] Find out where the value is placed.
    - [ ] Add more try/catch statements
-   - [ ] Build test cases
-   - [ ] Refactor Code
+   - [X] Build test cases
+   - [X] Refactor Code
    - [X] Find value types/variable
 ** TODO Learn Docker and openshift
 ** TODO Figure out testing using a diameter server.
-** TODO Call network application via tyhpe script.
+** DONE Call network application via tyhpe script.
 

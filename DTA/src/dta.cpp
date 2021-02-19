@@ -8,6 +8,7 @@
 #include <iostream>
 #include <bits/stdc++.h>
 #include <thread>
+#include <future>
 using namespace std;
 
 #include <stdlib.h>
@@ -19,10 +20,14 @@ using namespace std;
 #include <netinet/in.h>
 #include <netdb.h>
 #include <chrono>
+#include <mutex>
 
 void current_time_point(chrono::system_clock::time_point timePt) {
 	time_t timeStamp = chrono::system_clock::to_time_t(timePt);
 }
+
+std::mutex door;
+
 
 #include "diameter.h"
 #include "watchdog.h"
@@ -66,7 +71,7 @@ int main(int argc, char *argv[]) {
 
 	if (srvc < 0 || hrvc < 0) {
 
-		cout << "!!!ERROR starting dta !!!" << endl;
+		cerr << "DTA: !!!ERROR starting dta !!!" << endl;
 
 		return -1;
 	}

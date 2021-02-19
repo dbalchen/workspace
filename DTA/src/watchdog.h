@@ -23,7 +23,11 @@ void watchDog::operator()(int sockfd) {
 		current_time_point(chrono::system_clock::now());
 
 		chrono::system_clock::time_point timePt = chrono::system_clock::now()
-				+ chrono::seconds(30);
+						+ chrono::seconds(30);
+
+// Lock to prevent thread issues
+
+		door.lock();
 
 		if ((dwd_send(sockfd) > 0)) {
 
@@ -38,6 +42,8 @@ void watchDog::operator()(int sockfd) {
 
 			}
 		}
+
+		door.unlock();
 
 		this_thread::sleep_until(timePt);
 

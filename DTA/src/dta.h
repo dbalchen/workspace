@@ -26,8 +26,6 @@ private:
 
 public:
 
-	std::vector<std::thread> threadVector;
-
 	dta(int tport, std::string thost, int sport);
 
 	int createServer(void);
@@ -48,7 +46,8 @@ dta::dta(int tport, std::string shost, int tsport) {
 }
 
 int dta::createServer(void) {
-	cout << "Creating a dta server instance" << endl;
+
+	cout << "DTA: Creating a DTA server instance" << endl;
 
 	struct sockaddr_in s_name;
 	struct sockaddr *ssdp;
@@ -100,7 +99,7 @@ int dta::connectDiameter(void) {
 	server = gethostbyname(host.c_str());
 
 	if (server == NULL) {
-		cout << "Cannot create a connection to the diameter server." << endl;
+		cerr << "Cannot create a connection to the diameter server." << endl;
 		return -1;
 	}
 
@@ -118,7 +117,7 @@ int dta::connectDiameter(void) {
 
 	if (connection_status < 0) {
 
-		cout << "Cannot create a connection to the diameter service." << endl;
+		cerr << "Cannot create a connection to the diameter service." << endl;
 
 		return -1;
 	}
@@ -139,13 +138,14 @@ int dta::connectDiameter(void) {
 		}
 	} else {
 
-		cout << "Could not send certificate to TC via diameter." << endl;
+		cerr << "Could not send certificate to TC via diameter." << endl;
 	}
 
-	std::thread threadObj(watchDog(), sockfd);
-	threadObj.detach();
+	cout << "DTA: Starting Watchdog server" << endl;
 
-	this->threadVector.push_back(std::move(threadObj));
+	std::thread threadObj(watchDog(), sockfd);
+
+	threadObj.detach();
 
 	return sockfd;
 }
@@ -169,10 +169,11 @@ int dta::accept_client(int server_fd) {
 }
 
 void dta::acceptConection(int csock, int ssock) {
+	// Crazy Stuff here
 
-	int totalThreads = 1;
+	int totalThreads = -1;
 
-	std::vector<clientThread> tVector;
+	std::vector<std::future<int>> threadVector;
 
 	while (true) {
 
@@ -182,42 +183,31 @@ void dta::acceptConection(int csock, int ssock) {
 
 		totalThreads = totalThreads + 1;
 
-		if (totalThreads <= num_threads) {
+		if (totalThreads > num_threads) {
 
-			clientThread cthread = clientThread(client, ssock, sess_count);
+			for (long unsigned int i = 0; i < threadVector.size(); ++i) {
 
-//			cthread.spawn(cthread);
-			cthread.spawn();
+				int funcreturn = threadVector.at(i).get();
 
-			cout << "Check it out" << endl;
-
-//			std::thread threadObj(clientThread(), client, ssock, sess_count);
-//
-//			threadObj.detach();
-//
-			tVector.push_back(cthread);
-//
-
-		} else {
-
-			int n = write(client,
-					"Sorry too many connections... Please try again later\n",
-					52);
-
-			if (n < 0) {
-
-				cout << "Error writing to client socket" << endl;
-
+				if (funcreturn != 0)
+				{
+					cerr << "DTA : Thread ended in Error!!\n" << endl;
+				}
 			}
-			;
 
-			close(client);
+			threadVector.clear();
+			totalThreads = 1;
+
 		}
 
-		// Check vector to see if a thread has completed.
+		threadVector.push_back(
+				std::async(std::launch::async, callDiameter, client, ssock, sess_count)
+		);
 
 	}
+
 }
+
 
 dta::~dta() {
 	cout << "Destroying a dta server instance" << endl;

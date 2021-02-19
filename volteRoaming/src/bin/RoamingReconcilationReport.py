@@ -28,11 +28,11 @@ if __name__ == '__main__':
     pass
 
 # sys.argv[1] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
-sysargv = sys.argv[1]
+#sysargv = sys.argv[1]
 
-sysargv = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM"
+sysargv = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 
-timeStamp = "20210115"  # sys.argv[2]
+timeStamp = "20210101"  # sys.argv[2]
 
 day = timeStamp[6:8]
 month = timeStamp[4:6]
@@ -521,26 +521,30 @@ results = []
 
 switches = sysargv.split(',')
 
-conn = dbConnect()
-cursor = conn.cursor()
+#conn = dbConnect()
+#cursor = conn.cursor()
  
 for idx, switch in enumerate(switches):
-    cursor.execute(sqlDictionary[switch])
+#    cursor.execute(sqlDictionary[switch])
 # SQL Results
-    results = cursor.fetchall()
-    
-    printSheet(switch, headings[switch], wb.active, results)
-    
-    print(sqlDictionary[switch])
+#    results = cursor.fetchall()
 
-# for line in fileinput.input("/home/dbalchen/Desktop/test.csv"):
-#     try:
-#         line = line.rstrip()
-#         results.append(tuple(line.split("\t")))
-#     except:pass
-#     
+    for line in fileinput.input("/home/dbalchen/Desktop/test.csv"):
+        try:
+            line = line.rstrip()
+            results.append(tuple(line.split("\t")))
+        except:pass
+     
 
-printSheet('LTE Incollect', headings["LTE"], wb.active, results)
+    
+    if idx == 0:
+        printSheet(tab[switch], headings[switch], wb.active, results)
+        
+    else:
+       printSheet(tab[switch], headings[switch], wb.create_sheet(tab[switch]), results);
+
+
+printSheet(tab["LTE"], headings["LTE"], wb.active, results)
 
 # Put stuff here
 
