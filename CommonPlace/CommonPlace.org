@@ -15,6 +15,7 @@
 #+END_EXPORT
 #+TITLE: Notes
 #+ATTR_LaTeX: :width 16cm
+
 file:Pictures/Andrejevi1.jpg
 #+Author: David Balchen
 #+Email: dave@balchen.org
@@ -67,8 +68,7 @@ file:Pictures/Andrejevi1.jpg
 
 ** TurboCharging
    The most important /sub-system/ in *TOPS*. It is here that all usage is mediated and rated.
-\\
-\\
+
 #+ATTR_LaTeX: :width 16cm
       [[file:Pictures/TC.png]]
 

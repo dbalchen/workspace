@@ -889,8 +889,8 @@ Message attributes (Event-Timestamp, Subscription-Id-Data,) are logged into a pr
 * Tasklist                                                         :noexport:
 ** DONE Figure out how call a server from type/java script.
 *** TODO Add it to a loopback4 sceanario 
-** TODO DTA [60%]
-   - [ ] Find out where the value is placed.
+** TODO DTA [80%]
+   - [X] Find out where the value is placed.
    - [ ] Add more try/catch statements
    - [X] Build test cases
    - [X] Refactor Code

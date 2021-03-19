@@ -465,7 +465,7 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn) {
 }
 
 
-int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, std::string mdn) {
+int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, std::string mdn, std::string amount) {
 
 	DIAMETER_avp requested_service_unit;
 	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
@@ -485,7 +485,10 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 
 	DIAMETER_avp currency_code_avp;
 	currency_code_avp.setCode(AVP_NAME_CURRENCY_CODE);
-	currency_code_avp.setValue(htonl(840));	// USD
+
+	int iamount = stoi(amount);
+//	currency_code_avp.setValue(htonl(840));	// USD
+	currency_code_avp.setValue(htonl(iamount));
 
 	DIAMETER_avp cc_money_avp;
 	cc_money_avp.setCode(AVP_NAME_CC_MONEY);

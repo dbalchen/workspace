@@ -141,12 +141,6 @@ int dta::connectDiameter(void) {
 		cerr << "Could not send certificate to TC via diameter." << endl;
 	}
 
-	cout << "DTA: Starting Watchdog server" << endl;
-
-	std::thread threadObj(watchDog(), sockfd);
-
-	threadObj.detach();
-
 	return sockfd;
 }
 

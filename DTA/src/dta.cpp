@@ -9,6 +9,7 @@
 #include <bits/stdc++.h>
 #include <thread>
 #include <future>
+#include <string>
 using namespace std;
 
 #include <stdlib.h>
@@ -68,6 +69,12 @@ int main(int argc, char *argv[]) {
 	int srvc = dtao.createServer();
 
 	int hrvc = dtao.connectDiameter();
+
+	std::thread threadObj(watchDog(), hrvc);
+
+	threadObj.detach();
+
+	cout << "DTA: Starting Watchdog server" << endl;
 
 	if (srvc < 0 || hrvc < 0) {
 

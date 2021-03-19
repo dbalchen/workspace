@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 '''
 Created on Jan 11, 2021
 @author: dbalchen
@@ -442,6 +444,22 @@ headings["NLDLT"] = [
     'Charge Variance Usage File vs. APRM ($)'
 ];
 
+headings["ERROR"] = [
+    'File Name',
+    'Error Code',
+    'Error Type',
+    'Error Description',
+    'Data Charge'
+    ];
+
+headings["APRM"] = [
+'Company Code',
+'BP Start Date',
+'Record Count',
+'Total Minutes',
+'Total Charges ($)'
+    ];
+    
 tab = {}
 
 tab["SDIRI_FCIBER"] = "CDMA Voice Incollect";
@@ -476,16 +494,16 @@ def sendMail (xfile, mesg, subject, who):
 
 def dbConnect ():
     
-#     CONN_INFO = {
-#         'host': '10.176.199.19',  # info from tnsnames.ora
-#         'port': 1530,  # info from tnsnames.ora
-#         'user': 'md1dbal1',
-#         'psw': 'Potat000#',
-#         'service': 'bodsprd_adhoc'  # info from tnsnames.ora
-#     }
-#     CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
-#   
-#     tconn = cx_Oracle.connect(CONN_STR)
+    CONN_INFO = {
+        'host': '10.176.199.19',  # info from tnsnames.ora
+        'port': 1530,  # info from tnsnames.ora
+        'user': 'md1dbal1',
+        'psw': 'Poiu#0987',
+        'service': 'bodsprd_adhoc'  # info from tnsnames.ora
+    }
+    CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
+   
+    tconn = cx_Oracle.connect(CONN_STR)
 
 #     tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
     
@@ -522,10 +540,13 @@ results = []
 switches = sysargv.split(',')
 
 #conn = dbConnect()
+
 #cursor = conn.cursor()
  
 for idx, switch in enumerate(switches):
+    print(switch)
 #    cursor.execute(sqlDictionary[switch])
+    
 # SQL Results
 #    results = cursor.fetchall()
 
@@ -534,26 +555,39 @@ for idx, switch in enumerate(switches):
             line = line.rstrip()
             results.append(tuple(line.split("\t")))
         except:pass
-     
-
-    
+         
+         
     if idx == 0:
         printSheet(tab[switch], headings[switch], wb.active, results)
         
     else:
        printSheet(tab[switch], headings[switch], wb.create_sheet(tab[switch]), results);
+    
+    error_sql = """
+             select * from rejected_records t1 where t1.file_name in 
+                    (select unique(t2.file_name) 
+                         from file_summary t2 
+                where t2.usage_type like '""" + switch + """%' and t2.process_date = to_date(""" + timeStamp + """,'YYYYMMDD')) """
+    
 
-
-printSheet(tab["LTE"], headings["LTE"], wb.active, results)
-
-# Put stuff here
-
+    print(error_sql);
+    
+    cursor.execute(error_sql)
+    results = cursor.fetchall()
+    tmp = switch + "_ERROR"
+    printSheet(tmp, headings['ERROR'], wb.create_sheet(tmp), results);
+    
+    tmp = switch + "_APRM";
+    cursor.execute(error_sql)
+    results = cursor.fetchall()
+    printSheet(tmp, headings['APRM'], wb.create_sheet(tmp), results);
+    
 wb.save(excel_file)
 
 subject = title
 
-# sendTo = ["david.balchen@uscellular.com"]
-sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
+sendTo = ["david.balchen@uscellular.com"]
+#sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
 
 for who in sendTo:
     sendMail(excel_file, message, subject, who)

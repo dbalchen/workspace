@@ -43,7 +43,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 	std::string request = (std::string(buffer));
 
-	request = request.substr(0, request.length() - 2);
+	request = request.substr(0, request.length());
 
 	// Try/catch
 
@@ -119,7 +119,7 @@ int callDiameter(int client, int server, int sess_count) {
 		}
 	}
 
-	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1]) > 0)) {
+	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1], parmList[2]) > 0)) {
 
 		int msg_length = read_diameter(server);
 

@@ -736,11 +736,6 @@ sub createExcel {
 					elsif ( $a == $headcount + 2 ) {
 
 						$msg =
- 
-
-
-
-
 						    $msg
 						  . "Total Charges VS DCH Charges = "
 						  . sprintf( "%.2f", $rows[$a] ) . '%' . " \n\n";
