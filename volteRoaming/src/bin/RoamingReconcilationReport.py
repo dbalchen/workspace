@@ -113,8 +113,6 @@ year = timeStamp[0:4]
 outTimeStamp = datetime.strptime(timeStamp, "%Y%m%d")
 outTimeStamp = (outTimeStamp - relativedelta(days=1)).strftime('%Y%m%d')
 
-
-
 title = """The Roaming Reconciliation Report for """ + monthName + """ """ + day + """, """ + year 
 message = " Attached to this email is the Roaming Reconciliation Report for " + monthName + """ """ + day + """, """ + year + "\n\n"
 
@@ -133,6 +131,7 @@ conn = dbConnect()
 cursor = conn.cursor()
 
 results = []  # raw results
+results2 = []
 
 switches = sysargv.split(',')
 
@@ -167,6 +166,18 @@ for idx, switch in enumerate(switches):
     cursor.execute(sql)
     results = cursor.fetchall()
     
+    print (aprm_sql)
+    
+#     for line in fileinput.input("/home/dbalchen/Desktop/testA.csv"):
+#         try:
+#             line = line.rstrip()
+#             results2.append(tuple(line.split("\t")))
+#         except:pass
+    
+    cursor.execute(aprm_sql)
+    results2 = cursor.fetchall()
+    
+
     anomalies = [x for x in results if ((float(x[len(headings[switch])]) >= 3.00) 
         or (float(x[len(headings[switch]) + 1]) >= 3.00) 
         or (float(x[len(headings[switch]) + 2]) >= 3.00) 
@@ -179,30 +190,30 @@ for idx, switch in enumerate(switches):
         
         for row in anomalies:
             if float(row[len(headings[switch])]) > 3.00:
-                message = message + "\n    " + str(row[0]) + ": -  DCH record discrepancy " + str(row[len(headings[switch])]) + '%' + "\n"
+                message = message + "\n    " + str(row[0]) + ": -  DCH record discrepancy " + "{:.2f}".format(row[len(headings[switch])]) + '%' + "\n"
 
             if float(row[len(headings[switch]) + 1]) > 3.00:
-                message = message + "\n    " + str(row[0]) + ": - DCH Volume  discrepancy " + str(row[len(headings[switch]) + 1]) + '%' + "\n"
+                message = message + "\n    " + str(row[0]) + ": - DCH Volume  discrepancy " + "{:.2f}".format(row[len(headings[switch]) + 1]) + '%' + "\n"
 
             if float(row[len(headings[switch]) + 2]) > 3.00:
-                message = message + "\n    " + str(row[0]) + ": -  DCH Charges  discrepancy " + str(row[len(headings[switch]) + 2]) + '%' + "\n"
+                message = message + "\n    " + str(row[0]) + ": -  DCH Charges  discrepancy " + "{:.2f}".format(row[len(headings[switch]) + 2]) + '%' + "\n"
 
             if float(row[len(headings[switch]) + 3]) > 3.00:
-              message = message + "\n    " + str(row[0]) + ": -  TC/APRM record discrepancy " + str(row[len(headings[switch]) + 3]) + '%' + "\n"
+              message = message + "\n    " + str(row[0]) + ": -  TC/APRM record discrepancy " + "{:.2f}".format(row[len(headings[switch]) + 3]) + '%' + "\n"
             
             if float(row[len(headings[switch]) + 4]) > 3.00:
-                message = message + "\n    " + str(row[0]) + ": -  TC/APRM charges discrepancy " + str(row[len(headings[switch]) + 4]) + '%' + "\n"
+                message = message + "\n    " + str(row[0]) + ": -  TC/APRM charges discrepancy " + "{:.2f}".format(row[len(headings[switch]) + 4]) + '%' + "\n"
     
         message = message + "\n   Usage Type Summary - All Files :\n"
                 
         column_sum =  sumColumn(len(headings[switch]),results)/float(len(results))
-        message = message + "\n    Total Record Difference    :  " + str(column_sum) + '% ' + "\n"
+        message = message + "\n    Total Record Difference    :  " + "{:.2f}".format(column_sum) + '% ' + "\n"
             
         column_sum =  sumColumn(len(headings[switch]) + 1,results)/float(len(results))       
-        message = message + "\n    Total Volume Difference    :  " + str(column_sum) + '% ' + "\n"
+        message = message + "\n    Total Volume Difference    :  " + "{:.2f}".format(column_sum) + '% ' + "\n"
 
         column_sum =  sumColumn(len(headings[switch]) + 2,results)/float(len(results))
-        message = message + "\n    Total Charge Difference    :  " + str(column_sum) + '% ' + "\n"
+        message = message + "\n    Total Charge Difference    :  " + "{:.2f}".format(column_sum) + '% ' + "\n"
     
     brow = [""] * (len(headings[switch]) + 5)
     
@@ -234,6 +245,24 @@ for idx, switch in enumerate(switches):
         crow[21] = brow[21]/sumRow[21]
         
         results.append(tuple(crow))
+        
+        brow = [""] * (len(headings[switch]) + 5)    
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5)   
+        aprmVolume = sumColumn(3,results2)
+        
+        brow[21] = aprmVolume
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[21] = sumRow[3] - aprmVolume;
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[21] = sumRow[3] / aprmVolume;
+        results.append(tuple(brow))
+        
 
     if switch == 'SDATACBR_FDATACBR':
         sumRow[5] = sumColumn(5,results)
@@ -257,7 +286,24 @@ for idx, switch in enumerate(switches):
         crow[11] = brow[11]/sumRow[11]
         crow[25] = brow[25]/sumRow[25]
         
-        results.append(tuple(crow))       
+        results.append(tuple(crow))   
+        
+        brow = [""] * (len(headings[switch]) + 5)    
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5)   
+        aprmVolume = sumColumn(5,results2)
+        
+        brow[25] = aprmVolume
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[25] = sumRow[5] - aprmVolume;
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[25] = sumRow[5] / aprmVolume;
+        results.append(tuple(brow))    
         
         
     if switch == 'CIBER_CIBER':
@@ -281,6 +327,23 @@ for idx, switch in enumerate(switches):
         crow[5] = brow[5]/sumRow[5]
         crow[6] = brow[6]/sumRow[6]
         results.append(tuple(crow))
+                        
+        brow = [""] * (len(headings[switch]) + 5)    
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5)   
+        aprmVolume = sumColumn(4,results2)
+        
+        brow[3] = aprmVolume
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[3] = sumRow[10] - aprmVolume;
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[3] = sumRow[10] / aprmVolume;
+        results.append(tuple(brow))    
         
     if switch == 'DATA_CIBER':
         sumRow[2] = sumColumn(2,results)
@@ -303,12 +366,10 @@ for idx, switch in enumerate(switches):
         crow[9] = brow[9]/sumRow[9]
         crow[10] = brow[10]/sumRow[10]
         crow[9] = brow[9]/sumRow[9]
-        crow[10] = brow[10]/sumRow[10]
-        
-        
+        crow[10] = brow[10]/sumRow[10]       
         results.append(tuple(crow))
         
-               
+
     if switch == 'LTE':
         sumRow[6] = sumColumn(6,results)
         sumRow[7] = sumColumn(7,results)
@@ -335,6 +396,24 @@ for idx, switch in enumerate(switches):
         crow[21] = brow[21]/sumRow[21]
         
         results.append(tuple(crow))
+               
+        brow = [""] * (len(headings[switch]) + 5)    
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5)   
+        aprmVolume = sumColumn(5,results2)
+        
+        brow[21] = aprmVolume
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[21] = sumRow[6] - aprmVolume;
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[21] = sumRow[6] / aprmVolume;
+        results.append(tuple(brow))    
+               
         
     if switch == 'NLDLT':
         sumRow[5] = sumColumn(5,results)
@@ -359,7 +438,24 @@ for idx, switch in enumerate(switches):
         crow[9] = brow[9]/sumRow[9]
         crow[18] = brow[18]/sumRow[18]
         
-        results.append(tuple(crow))            
+        results.append(tuple(crow))   
+        
+        brow = [""] * (len(headings[switch]) + 5)    
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5)   
+        aprmVolume = sumColumn(5,results2)
+        
+        brow[18] = aprmVolume
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[18] = sumRow[5] - aprmVolume;
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[18] = sumRow[5] / aprmVolume;
+        results.append(tuple(brow))             
           
     if switch == 'DISP_RM':
         sumRow[2] = sumColumn(2,results)
@@ -384,8 +480,30 @@ for idx, switch in enumerate(switches):
         crow[8] = brow[8]/sumRow[8]
         crow[9] = brow[9]/sumRow[9]
         
-        results.append(tuple(crow))      
-    
+        results.append(tuple(crow)) 
+                
+        brow = [""] * (len(headings[switch]) + 5)    
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5)  
+        aprmVolume = sumColumn(4,results2)
+        aprmVolume2 = sumColumn(5,results2)
+        
+        brow[11] = aprmVolume
+        brow[12] = aprmVolume2
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[11] = sumRow[11] - aprmVolume;
+        brow[12] = sumRow[12] - aprmVolume2;
+        results.append(tuple(brow))
+        
+        brow = [""] * (len(headings[switch]) + 5) 
+        brow[11] = sumRow[11] / aprmVolume;
+        brow[12] = sumRow[12] / aprmVolume2;
+        
+        results.append(tuple(brow))              
+       
     if idx == 0:
         printSheet(tab[switch], headings[switch], wb.active, results, 1)        
     else:
@@ -399,15 +517,10 @@ for idx, switch in enumerate(switches):
 
         tap = tab[switch] + " Errors"
         printSheet(tap, headings['ERROR'], wb.create_sheet(tap), results);
-    
-    print (aprm_sql)
 
-    cursor.execute(aprm_sql)
-    results = cursor.fetchall()   
-    
     tap = tab[switch] + "_APRM"
     tap2 = switch + "_APRM"
-    printSheet(tap, headings[tap2], wb.create_sheet(tap), results);
+    printSheet(tap, headings[tap2], wb.create_sheet(tap), results2);
     
 wb.save(excel_file)
 

@@ -81,49 +81,119 @@ total_charges_dch,
 0
 from file_summary where usage_type = 'DATA_CIBER' and process_date = to_date({outTimeStamp},'YYYYMMDD')"""
  
-sqlDictionary["LTE"] = """
-select
-FILE_NAME, 
-t1.IDENTIFIER, 
-t1.sender,
-sum(TOTAL_RECORDS_DCH),
-sum(TOTAL_VOLUME_DCH),
-sum(ceil(TOTAL_VOLUME_DCH/1040)),
-sum(ceil((TOTAL_VOLUME_DCH/1040)/1040)) ,
-sum(TOTAL_CHARGES_DCH),
-sum(TOTAL_RECORDS),
-sum(TOTAL_VOLUME),
-sum(ceil(TOTAL_VOLUME/1040)) ,
-sum(ceil((TOTAL_VOLUME/1040)/1040)) ,
-sum(TOTAL_CHARGES) ,
-sum(TOTAL_RECORDS_DCH) - sum(TOTAL_RECORDS),
-sum(TOTAL_VOLUME_DCH) - sum(TOTAL_VOLUME),
-sum(TOTAL_CHARGES_DCH) - sum(TOTAL_CHARGES),
-sum(REJECTED_COUNT), 
-sum(REJECTED_CHARGES),
-sum(DROPPED_APRM), 
-sum(DROPPED_APRM_CHARGES),
-sum(APRM_TOTAL_RECORDS),
-sum(APRM_TOTAL_CHARGES),
-sum(TOTAL_RECORDS) - sum(APRM_TOTAL_RECORDS),
-sum(TOTAL_CHARGES) - sum(APRM_TOTAL_CHARGES),
-(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')) ,
-(select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')),
-(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')) ,
-(select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')) ,
-(select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type 
-like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')) ,
-(select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')),
-    nvl(abs((sum(total_records_dch) - sum(Total_Records))/NULLIF(sum(total_records),0))*100,0),
-    nvl(abs((sum(total_volume_dch) - sum(Total_volume))/NULLIF(sum(total_volume),0))*100,0),
-    nvl(abs((sum(total_charges_dch) - sum(Total_charges))/NULLIF(sum(total_charges),0))*100,0),
-    nvl(abs((sum(total_records) - sum(aprm_total_records))/NULLIF(sum(total_records),0))*100,0),
-    nvl(abs((sum(total_charges_dch) - sum(aprm_total_charges))/NULLIF(sum(aprm_total_charges),0)) * 100,0) 
-from file_summary t1 
-  where t1.usage_type like 'LTE%' and t1.process_date = to_date({timeStamp},'YYYYMMDD')
-group by FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, SENDER 
+# sqlDictionary["LTE"] = """
+# select
+# FILE_NAME, 
+# t1.IDENTIFIER, 
+# t1.sender,
+# sum(TOTAL_RECORDS_DCH),
+# sum(TOTAL_VOLUME_DCH),
+# sum(ceil(TOTAL_VOLUME_DCH/1040)),
+# sum(ceil((TOTAL_VOLUME_DCH/1040)/1040)) ,
+# sum(TOTAL_CHARGES_DCH),
+# sum(TOTAL_RECORDS),
+# sum(TOTAL_VOLUME),
+# sum(ceil(TOTAL_VOLUME/1040)) ,
+# sum(ceil((TOTAL_VOLUME/1040)/1040)) ,
+# sum(TOTAL_CHARGES) ,
+# sum(TOTAL_RECORDS_DCH) - sum(TOTAL_RECORDS),
+# sum(TOTAL_VOLUME_DCH) - sum(TOTAL_VOLUME),
+# sum(TOTAL_CHARGES_DCH) - sum(TOTAL_CHARGES),
+# sum(REJECTED_COUNT), 
+# sum(REJECTED_CHARGES),
+# sum(DROPPED_APRM), 
+# sum(DROPPED_APRM_CHARGES),
+# sum(APRM_TOTAL_RECORDS),
+# sum(APRM_TOTAL_CHARGES),
+# sum(TOTAL_RECORDS) - sum(APRM_TOTAL_RECORDS),
+# sum(TOTAL_CHARGES) - sum(APRM_TOTAL_CHARGES),
+# (select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')) ,
+# (select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')),
+# (select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-H' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')) ,
+# (select nvl(sum(total_records),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')) ,
+# (select nvl(sum(TOTAL_VOLUME),0)  from file_summary t2 where usage_type 
+# like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')) ,
+# (select nvl(sum(TOTAL_CHARGES),0) from file_summary t2 where usage_type like 'LTE-L' and t2.identifier = t1.identifier and process_date = to_date({timeStamp},'YYYYMMDD')),
+#     nvl(abs((sum(total_records_dch) - sum(Total_Records))/NULLIF(sum(total_records),0))*100,0),
+#     nvl(abs((sum(total_volume_dch) - sum(Total_volume))/NULLIF(sum(total_volume),0))*100,0),
+#     nvl(abs((sum(total_charges_dch) - sum(Total_charges))/NULLIF(sum(total_charges),0))*100,0),
+#     nvl(abs((sum(total_records) - sum(aprm_total_records))/NULLIF(sum(total_records),0))*100,0),
+#     nvl(abs((sum(total_charges_dch) - sum(aprm_total_charges))/NULLIF(sum(aprm_total_charges),0)) * 100,0) 
+# from file_summary t1 
+#   where t1.usage_type like 'LTE%' and t1.process_date = to_date({timeStamp},'YYYYMMDD')
+# group by FILE_NAME_DCH, FILE_NAME, t1.IDENTIFIER, SENDER 
+# """
+
+sqlDictionary["LTE_DATA"] = """
+select file_name, t1.identifier, t1.sender, sum(total_records_dch),
+       sum(total_volume_dch), sum(ceil(total_volume_dch/1040)),
+       sum(ceil((total_volume_dch/1040)/1040)), sum(total_charges_dch), sum(total_records), sum(total_volume),
+       sum(ceil(total_volume/1040)), sum(ceil((total_volume/1040)/1040)), sum(total_charges),
+       sum(total_records_dch) - sum(total_records), sum(total_volume_dch) - sum(total_volume),
+       sum(total_charges_dch) - sum(total_charges), sum(rejected_count), sum(rejected_charges), sum(dropped_aprm),
+       sum(dropped_aprm_charges), sum(aprm_total_records), sum(aprm_total_charges),
+       sum(total_records) - sum(aprm_total_records), sum(total_charges) - sum(aprm_total_charges),
+  (select nvl(sum(total_records),0)
+   from file_summary t2
+   where usage_type like 'LTE-H'
+     and t2.identifier = t1.identifier
+     and process_date = to_date({timeStamp},'YYYYMMDD')) ,
+  (select nvl(sum(total_volume),0)
+   from file_summary t2
+   where usage_type like 'LTE-H'
+     and t2.identifier = t1.identifier
+     and process_date = to_date({timeStamp},'YYYYMMDD')),
+  (select nvl(sum(total_charges),0)
+   from file_summary t2
+   where usage_type like 'LTE-H'
+     and t2.identifier = t1.identifier
+     and process_date = to_date({timeStamp},'YYYYMMDD')) , 
+     nvl(abs((sum(total_records_dch) - sum(total_records))/nullif(sum(total_records),0))*100,0),
+     nvl(abs((sum(total_volume_dch) - sum(total_volume))/nullif(sum(total_volume),0))*100,0),
+     nvl(abs((sum(total_charges_dch) - sum(total_charges))/nullif(sum(total_charges),0))*100,0),
+     nvl(abs((sum(total_records) - sum(aprm_total_records))/nullif(sum(total_records),0))*100,0),
+     nvl(abs((sum(total_charges_dch) - sum(aprm_total_charges))/nullif(sum(aprm_total_charges),0)) * 100,0)
+from file_summary t1
+where t1.usage_type like 'LTE%'
+  and t1.process_date = to_date({timeStamp},'YYYYMMDD')
+group by file_name_dch, file_name, t1.identifier, sender
 """
- 
+
+sqlDictionary["LTE_VOLTE"] = """
+select file_name, t1.identifier, t1.sender, sum(total_records_dch),
+       sum(total_volume_dch), sum(ceil(total_volume_dch/1040)),
+       sum(ceil((total_volume_dch/1040)/1040)), sum(total_charges_dch), sum(total_records), sum(total_volume),
+       sum(ceil(total_volume/1040)), sum(ceil((total_volume/1040)/1040)), sum(total_charges),
+       sum(total_records_dch) - sum(total_records), sum(total_volume_dch) - sum(total_volume),
+       sum(total_charges_dch) - sum(total_charges), sum(rejected_count), sum(rejected_charges), sum(dropped_aprm),
+       sum(dropped_aprm_charges), sum(aprm_total_records), sum(aprm_total_charges),
+       sum(total_records) - sum(aprm_total_records), sum(total_charges) - sum(aprm_total_charges),
+  (select nvl(sum(total_records),0)
+   from file_summary t2
+   where usage_type like 'LTE-L'
+     and t2.identifier = t1.identifier
+     and process_date = to_date({timeStamp},'YYYYMMDD')) ,
+  (select nvl(sum(total_volume),0)
+   from file_summary t2
+   where usage_type like 'LTE-L'
+     and t2.identifier = t1.identifier
+     and process_date = to_date({timeStamp},'YYYYMMDD')) ,
+  (select nvl(sum(total_charges),0)
+   from file_summary t2
+   where usage_type like 'LTE-L'
+     and t2.identifier = t1.identifier
+     and process_date = to_date({timeStamp},'YYYYMMDD')), 
+     nvl(abs((sum(total_records_dch) - sum(total_records))/nullif(sum(total_records),0))*100,0),
+     nvl(abs((sum(total_volume_dch) - sum(total_volume))/nullif(sum(total_volume),0))*100,0),
+     nvl(abs((sum(total_charges_dch) - sum(total_charges))/nullif(sum(total_charges),0))*100,0),
+     nvl(abs((sum(total_records) - sum(aprm_total_records))/nullif(sum(total_records),0))*100,0),
+     nvl(abs((sum(total_charges_dch) - sum(aprm_total_charges))/nullif(sum(aprm_total_charges),0)) * 100,0)
+from file_summary t1
+where t1.usage_type like 'LTE%'
+  and t1.process_date = to_date({timeStamp},'YYYYMMDD')
+group by file_name_dch, file_name, t1.identifier, sender
+"""
+
 sqlDictionary["NLDLT"] = """ 
  select 
  FILE_NAME, 
@@ -339,7 +409,7 @@ headings["DATA_CIBER"] = [
     'Total Charge Variance Usage File vs. DCH ($)'
 ];
  
-headings["LTE"] = [
+headings["LTE_DATA"] = [
     'File Name',
     'Identifier',
     'Sender',
@@ -366,11 +436,39 @@ headings["LTE"] = [
     'Charge Variance TC Send vs. APRM ($)',
     'Total Data Records',
     'Total Data Volume Bytes',
-    'Total Data Charges',
+    'Total Data Charges'
+];
+
+headings["LTE_VOLTE"] = [
+    'File Name',
+    'Identifier',
+    'Sender',
+    'Total Records DCH',
+    'Total Bytes DCH',
+    'Total KB DCH',
+    'Total MB DCH',
+    'Total Charges DCH ($)',
+    'Total Records',
+    'Total Bytes',
+    'Total KB',
+    'Total MB',
+    'Total Charges ($)',
+    'Record Count Variance DCH vs. Usage File',
+    'Total Volume Variance DCH vs. Usage File (bytes)',
+    'Total Charge Variance DCH vs. Usage File ($)',
+    'Rejected Record Count',
+    'Total Rejected Charges ($)',
+    'Dropped APRM Records',
+    'Dropped APRM Charges ($)',
+    'APRM Total Records',
+    'APRM Total Charges ($)',
+    'Record Count Variance TC Send vs. APRM',
+    'Charge Variance TC Send vs. APRM ($)',
     'Total VoLTE Records',
     'Total VoLTE Volume Bytes',
     'Total VoLTE Charges'
 ];
+
  
 headings["DISP_RM"] = [
     'File Name',
@@ -494,6 +592,7 @@ tab["SDIRI_FCIBER"] = "CDMA Voice Incollect";
 tab["SDATACBR_FDATACBR"] = "CDMA Data Incollect";
 tab["CIBER_CIBER"] = 'CDMA Voice Outcollect';
 tab["DATA_CIBER"] = 'Data Outcollect';
-tab["LTE"] = 'LTE Incollect';
+tab["LTE_DATA"] = 'LTE Incollect Data';
+tab["LTE_VOLTE"] = 'LTE Incollect VoLTE';
 tab["DISP_RM"] = 'LTE Outcollect';
 tab["NLDLT"] = 'GSM (Incollect)';
