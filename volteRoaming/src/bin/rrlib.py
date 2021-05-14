@@ -285,10 +285,14 @@ sqlDictionary["DISP_RM_APRM"] = """
 select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'DISP_RM%' and date_processed = to_date({outTimeStamp},'YYYYMMDD')
 """
  
-sqlDictionary["LTE_APRM"] = """
+sqlDictionary["LTE_DATA_APRM"] = """
 select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'LTE%' and date_processed = to_date({timeStamp},'YYYYMMDD')
 """
- 
+
+sqlDictionary["LTE_VOLTE_APRM"] = """
+select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'LTE%' and date_processed = to_date({timeStamp},'YYYYMMDD')
+"""
+
 sqlDictionary["NLDLT_APRM"] = """
 select CARRIER_CODE, BP_START_DATE, USAGE_TYPE, RECORD_COUNT, TOTAL_CHARGES, TOTAL_VOLUME from aprm  where usage_type like 'NLDLT%' and date_processed = to_date({timeStamp},'YYYYMMDD')
 """
@@ -559,7 +563,16 @@ headings["DATA_CIBER_APRM"] = [
 'Total MB'
     ];
     
-headings["LTE_APRM"] = [  
+headings["LTE_DATA_APRM"] = [  
+'Carrier Code',
+'BP Start Date',
+'Usage Type',
+'Record Count',
+'APRM Charges ($)',
+'Data Volume (Bytes)' 
+    ];
+    
+headings["LTE_VOLTE_APRM"] = [  
 'Carrier Code',
 'BP Start Date',
 'Usage Type',

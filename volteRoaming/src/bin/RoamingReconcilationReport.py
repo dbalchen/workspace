@@ -28,6 +28,7 @@ from datetime import datetime
 import sys
 from rrlib import *
 
+
 def sendMail (xfile, mesg, subject, who):
     
     msg = MIMEMultipart()
@@ -48,6 +49,7 @@ def sendMail (xfile, mesg, subject, who):
     smtp.quit()
     return;
 
+
 def dbConnect ():
     
     CONN_INFO = {
@@ -65,6 +67,7 @@ def dbConnect ():
     
     return tconn;
 
+
 def printRow (row, font, sheet, max_row, max_col=0): 
     for i in range(0, len(row) - max_col):
         sheet.cell(row=max_row, column=(i + 1)).value = row[i] 
@@ -73,7 +76,8 @@ def printRow (row, font, sheet, max_row, max_col=0):
             sheet.cell(row=max_row, column=(i + 1)).number_format = '0.00'             
     return;
 
-def printSheet (title, header, sheet, output,flag = 0):
+
+def printSheet (title, header, sheet, output, flag=0):
     sheet.title = title
     
     printRow(header, bold_font, sheet, 1)
@@ -87,6 +91,7 @@ def printSheet (title, header, sheet, output,flag = 0):
         max_row = max_row + 1 
     return
 
+
 def sumColumn (col, rows):
         column_sum = 0
         for crow in rows:
@@ -94,15 +99,16 @@ def sumColumn (col, rows):
                 column_sum += float(crow[col])                
         return column_sum
 
+
 if __name__ == '__main__':
     pass
 
-# sys.argv[1] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+# sys.argv[1] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE_DATA,LTE_VOLTE,NLDLT,DISP_RM";
 # sysargv = sys.argv[1]
 
-sysargv =  "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
+sysargv = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE_DATA,LTE_VOLTE,NLDLT,DISP_RM";
 
-timeStamp = "20210331"  # sys.argv[2]
+timeStamp = "20210509"  # sys.argv[2]
 
 day = timeStamp[6:8]
 month = timeStamp[4:6]
@@ -141,10 +147,11 @@ for idx, switch in enumerate(switches):
     aprm_sql = ''
     sql = ''
 
-    if (switch == 'LTE') or (switch == 'SDIRI_FCIBER') or (switch == 'SDATACBR_FDATACBR') or (switch == 'NLDLT'):
+    if (switch == 'LTE_DATA') or (switch == 'LTE_VOLTE') or (switch == 'SDIRI_FCIBER') or (switch == 'SDATACBR_FDATACBR') or (switch == 'NLDLT'):
         sql = sqlDictionary[switch].format(timeStamp=timeStamp)
         
-        error_sql = sqlDictionary["REJECTED_RECORDS"].format(switch=switch, timeStamp=timeStamp)
+        if (switch != 'LTE_DATA'):
+            error_sql = sqlDictionary["REJECTED_RECORDS"].format(switch=switch, timeStamp=timeStamp)
         
         tmp = switch + "_APRM"        
         aprm_sql = sqlDictionary[tmp].format(timeStamp=timeStamp)
@@ -176,7 +183,6 @@ for idx, switch in enumerate(switches):
     
     cursor.execute(aprm_sql)
     results2 = cursor.fetchall()
-    
 
     anomalies = [x for x in results if ((float(x[len(headings[switch])]) >= 3.00) 
         or (float(x[len(headings[switch]) + 1]) >= 3.00) 
@@ -206,13 +212,13 @@ for idx, switch in enumerate(switches):
     
         message = message + "\n   Usage Type Summary - All Files :\n"
                 
-        column_sum =  sumColumn(len(headings[switch]),results)/float(len(results))
+        column_sum = sumColumn(len(headings[switch]), results) / float(len(results))
         message = message + "\n    Total Record Difference    :  " + "{:.2f}".format(column_sum) + '% ' + "\n"
             
-        column_sum =  sumColumn(len(headings[switch]) + 1,results)/float(len(results))       
+        column_sum = sumColumn(len(headings[switch]) + 1, results) / float(len(results))       
         message = message + "\n    Total Volume Difference    :  " + "{:.2f}".format(column_sum) + '% ' + "\n"
 
-        column_sum =  sumColumn(len(headings[switch]) + 2,results)/float(len(results))
+        column_sum = sumColumn(len(headings[switch]) + 2, results) / float(len(results))
         message = message + "\n    Total Charge Difference    :  " + "{:.2f}".format(column_sum) + '% ' + "\n"
     
     brow = [""] * (len(headings[switch]) + 5)
@@ -222,11 +228,11 @@ for idx, switch in enumerate(switches):
     sumRow = [""] * (len(headings[switch]) + 5)  
     
     if switch == 'SDIRI_FCIBER':
-        sumRow[3] = sumColumn(3,results)
-        sumRow[6] = sumColumn(6,results)
-        sumRow[4] = sumColumn(4,results)
-        sumRow[7] = sumColumn(7,results)
-        sumRow[21] = sumColumn(21,results)
+        sumRow[3] = sumColumn(3, results)
+        sumRow[6] = sumColumn(6, results)
+        sumRow[4] = sumColumn(4, results)
+        sumRow[7] = sumColumn(7, results)
+        sumRow[21] = sumColumn(21, results)
         
         results.append(tuple(sumRow))
         
@@ -240,9 +246,9 @@ for idx, switch in enumerate(switches):
         
         crow = [""] * (len(headings[switch]) + 5) 
         
-        crow[6] = brow[6]/sumRow[6]
-        crow[7] = brow[7]/sumRow[7]
-        crow[21] = brow[21]/sumRow[21]
+        crow[6] = brow[6] / sumRow[6]
+        crow[7] = brow[7] / sumRow[7]
+        crow[21] = brow[21] / sumRow[21]
         
         results.append(tuple(crow))
         
@@ -250,7 +256,7 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))
         
         brow = [""] * (len(headings[switch]) + 5)   
-        aprmVolume = sumColumn(3,results2)
+        aprmVolume = sumColumn(3, results2)
         
         brow[21] = aprmVolume
         results.append(tuple(brow))
@@ -262,14 +268,13 @@ for idx, switch in enumerate(switches):
         brow = [""] * (len(headings[switch]) + 5) 
         brow[21] = sumRow[3] / aprmVolume;
         results.append(tuple(brow))
-        
 
     if switch == 'SDATACBR_FDATACBR':
-        sumRow[5] = sumColumn(5,results)
-        sumRow[6] = sumColumn(6,results)
-        sumRow[10] = sumColumn(10,results)
-        sumRow[11] = sumColumn(11,results)
-        sumRow[25] = sumColumn(25,results)
+        sumRow[5] = sumColumn(5, results)
+        sumRow[6] = sumColumn(6, results)
+        sumRow[10] = sumColumn(10, results)
+        sumRow[11] = sumColumn(11, results)
+        sumRow[25] = sumColumn(25, results)
 
         results.append(tuple(sumRow))
         brow = [""] * (len(headings[switch]) + 5) 
@@ -282,9 +287,9 @@ for idx, switch in enumerate(switches):
         
         crow = [""] * (len(headings[switch]) + 5) 
         
-        crow[10] = brow[10]/sumRow[10]
-        crow[11] = brow[11]/sumRow[11]
-        crow[25] = brow[25]/sumRow[25]
+        crow[10] = brow[10] / sumRow[10]
+        crow[11] = brow[11] / sumRow[11]
+        crow[25] = brow[25] / sumRow[25]
         
         results.append(tuple(crow))   
         
@@ -292,7 +297,7 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))
         
         brow = [""] * (len(headings[switch]) + 5)   
-        aprmVolume = sumColumn(5,results2)
+        aprmVolume = sumColumn(5, results2)
         
         brow[25] = aprmVolume
         results.append(tuple(brow))
@@ -305,13 +310,12 @@ for idx, switch in enumerate(switches):
         brow[25] = sumRow[5] / aprmVolume;
         results.append(tuple(brow))    
         
-        
     if switch == 'CIBER_CIBER':
-        sumRow[3] = sumColumn(3,results)
-        sumRow[5] = sumColumn(5,results)
-        sumRow[6] = sumColumn(6,results)
-        sumRow[10] = sumColumn(10,results)
-        sumRow[11] = sumColumn(11,results)
+        sumRow[3] = sumColumn(3, results)
+        sumRow[5] = sumColumn(5, results)
+        sumRow[6] = sumColumn(6, results)
+        sumRow[10] = sumColumn(10, results)
+        sumRow[11] = sumColumn(11, results)
         
         results.append(tuple(sumRow))
         
@@ -323,16 +327,16 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))
         
         crow = [""] * (len(headings[switch]) + 5) 
-        crow[3] = brow[3]/sumRow[3]
-        crow[5] = brow[5]/sumRow[5]
-        crow[6] = brow[6]/sumRow[6]
+        crow[3] = brow[3] / sumRow[3]
+        crow[5] = brow[5] / sumRow[5]
+        crow[6] = brow[6] / sumRow[6]
         results.append(tuple(crow))
                         
         brow = [""] * (len(headings[switch]) + 5)    
         results.append(tuple(brow))
         
         brow = [""] * (len(headings[switch]) + 5)   
-        aprmVolume = sumColumn(4,results2)
+        aprmVolume = sumColumn(4, results2)
         
         brow[3] = aprmVolume
         results.append(tuple(brow))
@@ -346,11 +350,11 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))    
         
     if switch == 'DATA_CIBER':
-        sumRow[2] = sumColumn(2,results)
-        sumRow[4] = sumColumn(4,results)
-        sumRow[5] = sumColumn(5,results)
-        sumRow[9] = sumColumn(9,results)
-        sumRow[10] = sumColumn(10,results)
+        sumRow[2] = sumColumn(2, results)
+        sumRow[4] = sumColumn(4, results)
+        sumRow[5] = sumColumn(5, results)
+        sumRow[9] = sumColumn(9, results)
+        sumRow[10] = sumColumn(10, results)
         
         results.append(tuple(sumRow))
         
@@ -363,21 +367,20 @@ for idx, switch in enumerate(switches):
         
         crow = [""] * (len(headings[switch]) + 5) 
         
-        crow[9] = brow[9]/sumRow[9]
-        crow[10] = brow[10]/sumRow[10]
-        crow[9] = brow[9]/sumRow[9]
-        crow[10] = brow[10]/sumRow[10]       
+        crow[9] = brow[9] / sumRow[9]
+        crow[10] = brow[10] / sumRow[10]
+        crow[9] = brow[9] / sumRow[9]
+        crow[10] = brow[10] / sumRow[10]       
         results.append(tuple(crow))
-        
 
-    if switch == 'LTE':
-        sumRow[6] = sumColumn(6,results)
-        sumRow[7] = sumColumn(7,results)
-        sumRow[11] = sumColumn(11,results) 
-        sumRow[12] = sumColumn(12,results)
-        sumRow[21] = sumColumn(21,results)
-        sumRow[26] = sumColumn(26,results) 
-        sumRow[29] = sumColumn(29,results)
+    if switch == 'LTE_DATA' or switch == 'LTE_VOLTE':
+        sumRow[6] = sumColumn(6, results)
+        sumRow[7] = sumColumn(7, results)
+        sumRow[11] = sumColumn(11, results) 
+        sumRow[12] = sumColumn(12, results)
+        sumRow[21] = sumColumn(21, results)
+        sumRow[26] = sumColumn(26, results) 
+        sumRow[29] = sumColumn(29, results)
         
         results.append(tuple(sumRow))
         
@@ -391,9 +394,9 @@ for idx, switch in enumerate(switches):
         
         crow = [""] * (len(headings[switch]) + 5) 
         
-        crow[11] = brow[11]/sumRow[11]
-        crow[12] = brow[12]/sumRow[12]
-        crow[21] = brow[21]/sumRow[21]
+        crow[11] = brow[11] / sumRow[11]
+        crow[12] = brow[12] / sumRow[12]
+        crow[21] = brow[21] / sumRow[21]
         
         results.append(tuple(crow))
                
@@ -401,7 +404,7 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))
         
         brow = [""] * (len(headings[switch]) + 5)   
-        aprmVolume = sumColumn(5,results2)
+        aprmVolume = sumColumn(5, results2)
         
         brow[21] = aprmVolume
         results.append(tuple(brow))
@@ -413,14 +416,13 @@ for idx, switch in enumerate(switches):
         brow = [""] * (len(headings[switch]) + 5) 
         brow[21] = sumRow[6] / aprmVolume;
         results.append(tuple(brow))    
-               
         
     if switch == 'NLDLT':
-        sumRow[5] = sumColumn(5,results)
-        sumRow[6] = sumColumn(6,results)
-        sumRow[8] = sumColumn(8,results)
-        sumRow[9] = sumColumn(9,results) 
-        sumRow[18] = sumColumn(18,results)   
+        sumRow[5] = sumColumn(5, results)
+        sumRow[6] = sumColumn(6, results)
+        sumRow[8] = sumColumn(8, results)
+        sumRow[9] = sumColumn(9, results) 
+        sumRow[18] = sumColumn(18, results)   
         
         results.append(tuple(sumRow))
         
@@ -434,9 +436,9 @@ for idx, switch in enumerate(switches):
         
         crow = [""] * (len(headings[switch]) + 5) 
         
-        crow[8] = brow[8]/sumRow[8]
-        crow[9] = brow[9]/sumRow[9]
-        crow[18] = brow[18]/sumRow[18]
+        crow[8] = brow[8] / sumRow[8]
+        crow[9] = brow[9] / sumRow[9]
+        crow[18] = brow[18] / sumRow[18]
         
         results.append(tuple(crow))   
         
@@ -444,7 +446,7 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))
         
         brow = [""] * (len(headings[switch]) + 5)   
-        aprmVolume = sumColumn(5,results2)
+        aprmVolume = sumColumn(5, results2)
         
         brow[18] = aprmVolume
         results.append(tuple(brow))
@@ -458,14 +460,14 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))             
           
     if switch == 'DISP_RM':
-        sumRow[2] = sumColumn(2,results)
-        sumRow[3] = sumColumn(3,results)
-        sumRow[5] = sumColumn(8,results)
-        sumRow[6] = sumColumn(9,results)
-        sumRow[8] = sumColumn(11,results) 
-        sumRow[9] = sumColumn(9,results)  
-        sumRow[11] = sumColumn(11,results)
-        sumRow[12] = sumColumn(12,results)
+        sumRow[2] = sumColumn(2, results)
+        sumRow[3] = sumColumn(3, results)
+        sumRow[5] = sumColumn(8, results)
+        sumRow[6] = sumColumn(9, results)
+        sumRow[8] = sumColumn(11, results) 
+        sumRow[9] = sumColumn(9, results)  
+        sumRow[11] = sumColumn(11, results)
+        sumRow[12] = sumColumn(12, results)
         results.append(tuple(sumRow))
         
         brow = [""] * (len(headings[switch]) + 5) 
@@ -477,8 +479,8 @@ for idx, switch in enumerate(switches):
         
         crow = [""] * (len(headings[switch]) + 5) 
         
-        crow[8] = brow[8]/sumRow[8]
-        crow[9] = brow[9]/sumRow[9]
+        crow[8] = brow[8] / sumRow[8]
+        crow[9] = brow[9] / sumRow[9]
         
         results.append(tuple(crow)) 
                 
@@ -486,8 +488,8 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))
         
         brow = [""] * (len(headings[switch]) + 5)  
-        aprmVolume = sumColumn(4,results2)
-        aprmVolume2 = sumColumn(5,results2)
+        aprmVolume = sumColumn(4, results2)
+        aprmVolume2 = sumColumn(5, results2)
         
         brow[11] = aprmVolume
         brow[12] = aprmVolume2
@@ -509,7 +511,7 @@ for idx, switch in enumerate(switches):
     else:
         printSheet(tab[switch], headings[switch], wb.create_sheet(tab[switch]), results, 1);
 
-    if error_sql != '':
+    if error_sql != '' :
         print(error_sql)
         
         cursor.execute(error_sql)
@@ -520,7 +522,9 @@ for idx, switch in enumerate(switches):
 
     tap = tab[switch] + "_APRM"
     tap2 = switch + "_APRM"
-    printSheet(tap, headings[tap2], wb.create_sheet(tap), results2);
+    
+    if (switch != 'LTE_DATA'):
+        printSheet(tap, headings[tap2], wb.create_sheet(tap), results2);
     
 wb.save(excel_file)
 
