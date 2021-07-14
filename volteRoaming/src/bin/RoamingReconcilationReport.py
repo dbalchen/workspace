@@ -104,11 +104,11 @@ if __name__ == '__main__':
     pass
 
 # sys.argv[1] = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE_DATA,LTE_VOLTE,NLDLT,DISP_RM";
-# sysargv = sys.argv[1]
+sysargv = sys.argv[1]
 
-sysargv = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE_DATA,LTE_VOLTE,NLDLT,DISP_RM";
+# sysargv = "SDIRI_FCIBER,SDATACBR_FDATACBR,CIBER_CIBER,DATA_CIBER,LTE,NLDLT,DISP_RM";
 
-timeStamp = "20210509"  # sys.argv[2]
+timeStamp = sys.argv[2]
 
 day = timeStamp[6:8]
 month = timeStamp[4:6]
@@ -147,11 +147,10 @@ for idx, switch in enumerate(switches):
     aprm_sql = ''
     sql = ''
 
-    if (switch == 'LTE_DATA') or (switch == 'LTE_VOLTE') or (switch == 'SDIRI_FCIBER') or (switch == 'SDATACBR_FDATACBR') or (switch == 'NLDLT'):
+    if (switch == 'LTE') or (switch == 'SDIRI_FCIBER') or (switch == 'SDATACBR_FDATACBR') or (switch == 'NLDLT'):
         sql = sqlDictionary[switch].format(timeStamp=timeStamp)
-        
-        if (switch != 'LTE_DATA'):
-            error_sql = sqlDictionary["REJECTED_RECORDS"].format(switch=switch, timeStamp=timeStamp)
+
+        error_sql = sqlDictionary["REJECTED_RECORDS"].format(switch=switch, timeStamp=timeStamp)
         
         tmp = switch + "_APRM"        
         aprm_sql = sqlDictionary[tmp].format(timeStamp=timeStamp)
@@ -172,6 +171,9 @@ for idx, switch in enumerate(switches):
 
     cursor.execute(sql)
     results = cursor.fetchall()
+
+    if len(results) == 0:
+        continue
     
     print (aprm_sql)
     
@@ -196,19 +198,19 @@ for idx, switch in enumerate(switches):
         
         for row in anomalies:
             if float(row[len(headings[switch])]) > 3.00:
-                message = message + "\n    " + str(row[0]) + ": -  DCH record discrepancy " + "{:.2f}".format(row[len(headings[switch])]) + '%' + "\n"
+                message = message + "\n    " + str(row[0]) + ": -  DCH record discrepancy " + "{:.2f}".format(float(row[len(headings[switch])])) + '%' + "\n"
 
             if float(row[len(headings[switch]) + 1]) > 3.00:
-                message = message + "\n    " + str(row[0]) + ": - DCH Volume  discrepancy " + "{:.2f}".format(row[len(headings[switch]) + 1]) + '%' + "\n"
+                message = message + "\n    " + str(row[0]) + ": - DCH Volume  discrepancy " + "{:.2f}".format(float(row[len(headings[switch]) + 1])) + '%' + "\n"
 
             if float(row[len(headings[switch]) + 2]) > 3.00:
-                message = message + "\n    " + str(row[0]) + ": -  DCH Charges  discrepancy " + "{:.2f}".format(row[len(headings[switch]) + 2]) + '%' + "\n"
+                message = message + "\n    " + str(row[0]) + ": -  DCH Charges  discrepancy " + "{:.2f}".format(float(row[len(headings[switch]) + 2])) + '%' + "\n"
 
             if float(row[len(headings[switch]) + 3]) > 3.00:
-              message = message + "\n    " + str(row[0]) + ": -  TC/APRM record discrepancy " + "{:.2f}".format(row[len(headings[switch]) + 3]) + '%' + "\n"
+              message = message + "\n    " + str(row[0]) + ": -  TC/APRM record discrepancy " + "{:.2f}".format(float(row[len(headings[switch]) + 3])) + '%' + "\n"
             
             if float(row[len(headings[switch]) + 4]) > 3.00:
-                message = message + "\n    " + str(row[0]) + ": -  TC/APRM charges discrepancy " + "{:.2f}".format(row[len(headings[switch]) + 4]) + '%' + "\n"
+                message = message + "\n    " + str(row[0]) + ": -  TC/APRM charges discrepancy " + "{:.2f}".format(float(row[len(headings[switch]) + 4])) + '%' + "\n"
     
         message = message + "\n   Usage Type Summary - All Files :\n"
                 
@@ -373,7 +375,7 @@ for idx, switch in enumerate(switches):
         crow[10] = brow[10] / sumRow[10]       
         results.append(tuple(crow))
 
-    if switch == 'LTE_DATA' or switch == 'LTE_VOLTE':
+    if switch == 'LTE':
         sumRow[6] = sumColumn(6, results)
         sumRow[7] = sumColumn(7, results)
         sumRow[11] = sumColumn(11, results) 
@@ -504,8 +506,8 @@ for idx, switch in enumerate(switches):
         brow[11] = sumRow[11] / aprmVolume;
         brow[12] = sumRow[12] / aprmVolume2;
         
-        results.append(tuple(brow))              
-       
+        results.append(tuple(brow))    
+                  
     if idx == 0:
         printSheet(tab[switch], headings[switch], wb.active, results, 1)        
     else:
@@ -522,9 +524,8 @@ for idx, switch in enumerate(switches):
 
     tap = tab[switch] + "_APRM"
     tap2 = switch + "_APRM"
-    
-    if (switch != 'LTE_DATA'):
-        printSheet(tap, headings[tap2], wb.create_sheet(tap), results2);
+
+    printSheet(tap, headings[tap2], wb.create_sheet(tap), results2);
     
 wb.save(excel_file)
 
@@ -532,8 +533,8 @@ wb.save(excel_file)
 cursor.close()
 conn.close()
 
-sendTo = ["david.balchen@uscellular.com"]
-# sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
+#sendTo = ["david.balchen@uscellular.com"]
+sendTo = ["david.balchen@uscellular.com", 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com']
 
 for who in sendTo:
     sendMail(excel_file, message, title, who)

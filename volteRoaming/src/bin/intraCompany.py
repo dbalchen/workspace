@@ -24,7 +24,7 @@ import sys
 
 ######## Argument Date SQL Setup
 
-date = "20201201" #sys.argv[1]
+date = sys.argv[1]
 
 day = date[6:8]
 month = date[4:6]
@@ -48,8 +48,8 @@ SELECT To_char (t1.sys_creation_date, 'YYYY-MM-DD')"Creation Date",
            t1.carrier_cd "Serving Company",
            rate_plan_cd "Rate Plan",
            QUAL_PARAM_1_VAL "Usage Type",
-           ORIG_BP,
-           BP_START_DATE,
+           to_char(ORIG_BP,'YYYYMMDD'),
+           to_char(BP_START_DATE,'YYYYMMDD'),
            count(*) "Record Totals",
            CASE 
              WHEN t1.rate_plan_cd not like '%DATA%' 
@@ -77,14 +77,9 @@ SELECT To_char (t1.sys_creation_date, 'YYYY-MM-DD')"Creation Date",
 def printRow (row, font, sheet, max_row):
     
     for i in range(0, len(row)):
-        
-        if i == 5 or i == 6:
-            sheet.cell(row=max_row, column=(i + 1)).value = row[i] 
-            sheet.cell(row=max_row, column=(i + 1)).font = font 
-        else:
-            sheet.cell(row=max_row, column=(i + 1)).value = row[i] 
-            sheet.cell(row=max_row, column=(i + 1)).font = font 
-            sheet.cell(row=max_row, column=(i + 1)).number_format = '0.00'
+        sheet.cell(row=max_row, column=(i + 1)).value = row[i] 
+        sheet.cell(row=max_row, column=(i + 1)).font = font 
+        sheet.cell(row=max_row, column=(i + 1)).number_format = '0.00' 
     return;
 
  
@@ -141,6 +136,7 @@ def printSheet (title, header, sheet, output):
 
 ###### Main Program  
 
+
 excel_file = title + '.xlsx'
 wb = Workbook()
 
@@ -164,7 +160,7 @@ cursor.execute(sqlDictionary["IR"])
                 
 results = cursor.fetchall()
 
-printSheet('Inter-company Report', ['Creation Date', 'Company Code', 'Rate Plan', 'Usage Type', 'Original BP', 'BP Start Date', 'Total Records', 'Total Usage', 'Total Charges'], wb.active, results)
+printSheet('Inter-company Report', ['Creation Date','Company Code','Serving Company','Rate Plan','Usage Type','ORIG_BP','BP_START_DATE','Record Totals','TOTAL_USAGE','Total Charges'], wb.active, results)
 #     
 # cursor.close
 # conn.close()
@@ -173,8 +169,8 @@ wb.save(excel_file)
 
 message = mess
 subject = title
-sendTo = ["david.balchen@uscellular.com"]
-#sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
+#sendTo = ["david.balchen@uscellular.com"]
+sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com',  'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
 
 for who in sendTo:
     sendMail(excel_file, message, subject, who)

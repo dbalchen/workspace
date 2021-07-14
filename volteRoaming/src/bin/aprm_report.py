@@ -54,6 +54,9 @@ bold_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=Tru
 
 sqlDictionary = {}
 
+
+
+
 sqlDictionary["LTE"] = """
 SELECT To_char (t1.sys_creation_date, 'YYYY-MM-DD')"Creation Date", 
        t1.nr_param_3_val                           "Company Code", 
@@ -121,9 +124,13 @@ GROUP BY TO_CHAR (t1.sys_creation_date, 'YYYY-MM-DD'),
          t1.nr_param_3_val,
          carrier_cd,
          rate_plan_cd,
-         t1.prod_cat_id
+         t1.prod_cat_id,
+	 t1.uom
 ORDER BY TO_CHAR (t1.sys_creation_date, 'YYYY-MM-DD')
 """
+
+
+
 
 sqlDictionary["CDMA_In"] = """
 SELECT TO_CHAR (sys_creation_date, 'YYYY-MM-DD')"Create Date",
@@ -146,13 +153,9 @@ SELECT TO_CHAR (sys_creation_date, 'YYYY-MM-DD')"Create Date",
          END
              AS prod_id,
          CASE
-             WHEN t1.rate_plan_cd = 'RPROINDATA' AND t1.UOM = 'K'
+             WHEN t1.rate_plan_cd = 'RPROINDATA'
              THEN
-                 ( (SUM (t1.tot_chrg_param_val) / 1024))
-             WHEN t1.rate_plan_cd = 'RPROINDATA' AND t1.UOM != 'K'
-             THEN
-                 ( (SUM (t1.tot_chrg_param_val) / 1024) / 1024)            
-                 
+                 ( (SUM (t1.tot_chrg_param_val) / 1024) / 1024)
              ELSE
                  SUM (t1.tot_chrg_param_val)
          END
@@ -289,7 +292,7 @@ def processTableDate (res, gl_codes):
             
             sums = returnSums(incoming, gl_codes)    
             
-            if(incoming[0][5] == 'IS' or incoming[0][5] == 'OS'): 
+            if(incoming[0][5] == 'IS' or incoming[0][5] == 'OS'):   
                 out.append((incoming[0][0], incoming[0][1], sums[0], sums[1], gl_codes[0], sums[3], gl_codes[1], sums[5]))
             elif(incoming[0][5] == 'II'):
                  out.append((incoming[0][0], incoming[0][1], "Vodofone Netherland", gl_codes[0], sums[2], sums[3], gl_codes[1], sums[4], sums[5], gl_codes[2], sums[6], sums[7]))  
@@ -318,7 +321,7 @@ def processTableCarrier (res, gl_codes):
                  
             sums = returnSums(incoming, gl_codes)
             
-            if(incoming[0][5] == 'IS' or incoming[0][5] == 'OS'): 
+            if(incoming[0][5] == 'IS' or incoming[0][5] == 'OS'):                        
                 out.append((incoming[0][1], carrier, sums[2], sums[3], sums[4], sums[5]))  
             elif(incoming[0][5] == 'ID' or incoming[0][5] == 'IN'):
               out.append((incoming[0][1], carrier, sums[2], sums[3])) 
@@ -470,11 +473,13 @@ conn.close()
 wb.save(excel_file)
 
 message = mess
+
 subject = title
-# sendTo = ["david.balchen@uscellular.com"]
-sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
+#sendTo = ["david.balchen@uscellular.com"]
+
+sendTo = ["david.balchen@uscellular.com",'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','david.smith@uscellular.com','Miguel.Jones@uscellular.com']
 
 for who in sendTo:
-    sendMail(excel_file, message, subject, who)
+     sendMail(excel_file, message, subject, who)
     
 SystemExit(0);

@@ -29,7 +29,7 @@ my $sql = "select t1.file_name,
      and t1.physical_date >= to_date('$ARGV[0]','YYYYMMDD')  and  t1.physical_date < (to_date('$ARGV[0]','YYYYMMDD') + 1) and t1.file_format = 'TAPIN' 
      group by  t1.file_name, t2.sender,t2.recipient,t2.sequence_num,t2.events_count,t2.total_value";
 
-#print "$sql\n";
+print "$sql\n";
 
 my $sth = $dbconn->prepare($sql);
 $sth->execute() or sendErr();

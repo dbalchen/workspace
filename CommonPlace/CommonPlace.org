@@ -57,7 +57,7 @@ file:Pictures/Andrejevi1.jpg
 #+END_EXPORT 
 * Statement of Principals
    - /Mathematics is a language with no ambiguity./
-   - /A successful man made system will closely resembles some natural system./
+   - /A successful man made system closely resembles a natural system./
    - /Probability from a point./
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
 * TOPS Operations

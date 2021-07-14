@@ -4,7 +4,6 @@ use DBI;
 
 #Test parameters remove when going to production.
 #$ARGV[0] = "CDUSASGUSAUD43629,43629,Sprint (USASG),25000,768.79860,0,0,20181014";
-#
 ## For test only.....
 #my $ORACLE_HOME = "/usr/lib/oracle/12.1/client/";
 #$ENV{ORACLE_HOME} = $ORACLE_HOME;
@@ -117,7 +116,6 @@ while ( my @rows = $sth->fetchrow_array() ) {
 "cat $ENV{'REC_HOME'}/IncollectDCH_GSM.csv | $grep | cut -f 9,10,11,12 ";
 		my $output = `$hh`;
 		chomp($output);
-		
 		my @dchValues =	[];	
 		
 		if($output eq '')
@@ -134,13 +132,8 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		  @dchValues = split( "\t", $output );
 		  chomp(@dchValues);
 		}
-		
-
-		
 		$total_rejected  =   $argv[5];
 	    $total_rejected_cost  =   $argv[6];	
-	    
-	    
 		$total_charges_dch = $dchValues[2];
 		$total_records_dch = $dchValues[3];
 

@@ -23,7 +23,7 @@ $sqls{'LTE'} = "
          nvl(COUNT (*),0),
          nvl(sum(charge_amount),0),
          SUM (charge_parameter),
-         service_type,
+         charge_type,
          MAX (exchange_rate)
     FROM prm_rom_incol_events_ap t1
    WHERE     tap_in_file_name IN
@@ -33,7 +33,7 @@ $sqls{'LTE'} = "
                          AND process_date = TO_DATE ($ARGV[1], 'YYYYMMDD'))
          AND bp_start_date >=
                  ADD_MONTHS (TO_DATE (SUBSTR ($ARGV[1], 0, 6), 'YYYYMM'), -1)
-GROUP BY carrier_cd, bp_start_date, service_type";
+GROUP BY carrier_cd, bp_start_date, charge_type";
 
 $sqls{'NLDLT'} = "
 select /*+ PARALLEL(t1,12) */ carrier_cd, bp_start_date, count(*), sum(charge_amount), sum(charge_parameter),charge_type, max(exchange_rate) 
