@@ -119,7 +119,8 @@ FROM   ic_accumulated_usage t1
 WHERE  ( t1.prod_cat_id = 'IS' 
           OR t1.prod_cat_id = 'OS' 
           OR t1.prod_cat_id = 'II' ) 
-                AND t1.BP_START_DATE = TO_DATE ('""" + bp_start_date_LTE + """', 'YYYYMMDD')
+                AND t1.BP_START_DATE = TO_DATE ('20210501', 'YYYYMMDD')
+                and 
 GROUP BY TO_CHAR (t1.sys_creation_date, 'YYYY-MM-DD'),
          t1.nr_param_3_val,
          carrier_cd,

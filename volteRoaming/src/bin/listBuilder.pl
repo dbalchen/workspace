@@ -11,10 +11,12 @@ chdir("$ENV{'REC_HOME'}");
 my $hh = "";
 
  $hh = "cat IncollectDCH_data* | tr -d '".'\0'."'| grep '^[0-9]' | dos2unix | sort -u > IncollectDCH_data.csv.all.tmp";
-system("$hh");
+#system("$hh");
 
 $hh = "cat IncollectDCH_voice* | tr -d '".'\0'."' | grep '^[0-9]' | dos2unix | sort -u  > IncollectDCH_voice.csv.all.tmp";
-system("$hh");
+# system("$hh");
+print("$hh");
+exit(0);
 
 $hh = "cat OutcollectDCH_voice* | tr -d '".'\0'."' | grep '^[0-9]' | dos2unix| sort -u  > OutcollectDCH_voice.csv.all.tmp";
 system("$hh");
