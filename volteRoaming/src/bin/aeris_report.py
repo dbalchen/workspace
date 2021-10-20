@@ -26,11 +26,94 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
 
-sendTo = ["david.balchen@uscellular.com"]
-#sendTo = ["david.balchen@uscellular.com", 'david.smith@uscellular.com']
+sendTo = ["david.balchen@uscellular.com","Marvin.Guss@uscellular.com","michael.joseph@uscellular.com","xavier.lbataille@uscellular.com","mark.foster@uscellular.com","gabe.hedstrom@uscellular.com","dean.schempp@uscellular.com","Sandra.Fitts@uscellular.com","olivia.solis@uscellular.com"]
+#sendTo = ["david.balchen@uscellular.com"]
 
-# sys.argv[1] = '20210622';
+sqlDictionary = {}
 
+sqlDictionary["OnNet"] = """
+select to_char(a.session_start_time,'YYYY-MM-DD') "Session Date",    
+    DECODE (switch_id,
+    'MADI','Madison',
+    'YAKI', 'Yakima',
+    'KNOX', 'Knoxville',
+    'PEO2', 'Peoria',
+    'GREE', 'Greenville',
+    'CDR2', 'Cedar Rapids',
+    'OKLA', 'Oklahoma City',
+    'NEWB', 'New Berlin',
+    'MORG', 'Morgantown',
+    'JOPL', 'Joplin',
+    'OWAS', 'Owasso',
+    'CONG', 'Congress Park',
+    'ROC2', 'Rockford',
+    'ASHE', 'Asheville',
+    'MEDF', 'Medford',
+    'LLYN', 'Lynchburg',
+    'GRAN', 'Granville',
+    'SALI', 'Salina',
+    'CLIN', 'Clinton',
+    'COLU', 'Columbia',
+    'LROE', 'Roanoke',
+    'EURE', 'Eureka',
+    'STLO', 'St. Louis',
+    'APPL', 'Appleton',
+    'OMAH', 'Omaha',
+    'JOHN', 'Johnstown',
+    switch_id) "Switch ID",
+    {sitename}
+    DECODE (switch_id,
+    'MADI','WI',
+    'YAKI','WA',
+    'KNOX', 'TN',
+    'PEO2', 'IL',
+    'GREE', 'NC',
+    'CDR2', 'IA',
+    'OKLA', 'OK',
+    'NEWB', 'WI',
+    'MORG', 'KY',
+    'JOPL', 'MO',
+    'OWAS', 'OK',
+    'CONG', 'NH',
+    'ROC2', 'IL',
+    'ASHE', 'NC',
+    'MEDF', 'OR',
+    'LLYN', 'VA',
+    'GRAN', 'ME',
+    'SALI', 'KS',
+    'CLIN', 'NC',
+    'COLU', 'MO',
+    'LROE', 'VA',
+    'EURE', 'CA',
+    'STLO', 'MO',
+    'APPL', 'WI',
+    'OMAH', 'NB',
+    'JOHN', 'IA',
+    switch_id) "Switch State",
+    count(*) "Total Records", sum(a.session_duration) "Total Duration", sum(a.bytes_sent + a.bytes_received)/1024/1024 "Total MB" 
+    from CDMA_AAA_DATA_USAGE a, BSID_TO_SERVE_SID@BRMPRD b
+    where substr(a.bsid,0,11) = b.bsid 
+    and a.session_start_time >=  to_date('{timeStamp}','YYYYMMDD') and a.session_start_time <  to_date('{endTimeStamp}','YYYYMMDD')
+    group by to_char(a.session_start_time,'YYYY-MM-DD'), b.switch_id {sitename2}
+    order by to_char(a.session_start_time,'YYYY-MM-DD'), b.switch_id {sitename2}
+ """
+ 
+headings = {}
+ 
+headings["OnNet"] = [
+"Session Date",
+"Switch ID",
+"Switch State",
+"Total Records",
+"Total Duration",
+"Total MB"
+];
+
+
+tab = {}
+ 
+tab["OnNet"] = "OnNet Data Usage";
+ 
 def sendMail (xfile, mesg, subject, who):
     
     msg = MIMEMultipart()
@@ -64,7 +147,7 @@ def dbConnect ():
    
 #    tconn = cx_Oracle.connect(CONN_STR)
 
-    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_DAV_BILLINGOPS")
+    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
     
     return tconn;
 
@@ -84,8 +167,8 @@ def printSheet (title, header, sheet, output, flag=0):
 
     for row in output:
         font = def_font
-        if (flag == 1 and row[0] != "") and ((float(row[len(header)]) > 3.00) or (float(row[len(header) + 1]) > 3.00) or (float(row[len(header) + 2]) > 3.00) or (float(row[len(header) + 3]) > 3.00) or (float(row[len(header) + 4]) > 3.00)):
-            font = red_font            
+#        if (flag == 1 and row[0] != "") and ((float(row[len(header)]) > 3.00) or (float(row[len(header) + 1]) > 3.00) or (float(row[len(header) + 2]) > 3.00) or (float(row[len(header) + 3]) > 3.00) or (float(row[len(header) + 4]) > 3.00)):
+#            font = red_font            
         printRow(row, font, sheet, max_row, (len(row) - len(header)))
         max_row = max_row + 1 
     return
@@ -101,15 +184,24 @@ def sumColumn (col, rows):
 if __name__ == '__main__':
     pass
 
-timeStamp = sys.argv[1]
+timeStamp = "20211001" #sys.argv[1]
 
-day = timeStamp[6:8]
+endTimeStamp = timeStamp[0:6] + "01"
+thisMonth = (datetime.strptime(endTimeStamp, '%Y%m%d')).strftime("%B")
+
+timeStamp = datetime.strptime(timeStamp, "%Y%m%d")
+timeStamp = (timeStamp - relativedelta(months=1)).strftime('%Y%m%d')
+
+day = "1"
 month = timeStamp[4:6]
 monthName = (datetime.strptime(timeStamp, '%Y%m%d')).strftime("%B")
 year = timeStamp[0:4]
 
-title = """The Aeris Report for """ + monthName + """ """ + day + """, """ + year 
-message = " Attached to this email is the Aeris Report for " + monthName + """ """ + day + """, """ + year + "\n\n"
+sitename = ""
+sitename2 = ""
+
+title = """The Aeris Report for """ + thisMonth + """ """ + day + """, """ + year 
+message = " Attached to this email is the Aeris Report for " + thisMonth + """ """ + day + """, """ + year + "\n\n"
 
 # Open an Excel file for output
 
@@ -122,49 +214,30 @@ excel_file = title + '.xlsx'
 wb = Workbook()
 
 # Database
+
 conn = dbConnect()
 cursor = conn.cursor()
 
 # Do AAA Processing378004
 
-results = []
-
-cursor.execute(sql)
-results = cursor.fetchall()
-printSheet("AAA", headings["AAA"], wb.active, results, 1)  
-
 # Do CIBER22
 
-for line in fileinput.input("/home/dbalchen/Desktop/test22.csv"):
-    try:
-        line = line.rstrip()
-            
-        results.append(tuple(line.split("\t")))
-    except:pass
+results = []
+sql = sqlDictionary["OnNet"].format(timeStamp=timeStamp,endTimeStamp=endTimeStamp,sitename=sitename,sitename2=sitename2)
+
+print(sql)
+
+# for line in fileinput.input("/home/dbalchen/Desktop/OnNet.csv"):
+#     try:
+#         line = line.rstrip()
+#             
+#         results.append(tuple(line.split("\t")))
+#     except:pass
     
-results = []
-
 cursor.execute(sql)
 results = cursor.fetchall()
 
-printSheet(tab["CIBER22"], headings["CIBER22"], wb.create_sheet(tab["CIBER22"]), results, 1);
-
-# Do CIBER32
-    # Do CIBER22
-
-for line in fileinput.input("/home/dbalchen/Desktop/test22.csv"):
-    try:
-        line = line.rstrip()
-            
-        results.append(tuple(line.split("\t")))
-    except:pass
-
-results = []
-
-cursor.execute(sql)
-results = cursor.fetchall()
-
-printSheet(tab["CIBER32"], headings["CIBER32"], wb.create_sheet(tab["CIBER32"]), results, 1);
+printSheet(tab["OnNet"], headings["OnNet"], wb.active, results, 1);
 
 wb.save(excel_file)
 
@@ -177,3 +250,4 @@ for who in sendTo:
     sendMail(excel_file, message, title, who)
     
 SystemExit(0);
+
