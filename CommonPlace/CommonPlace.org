@@ -4974,16 +4974,7 @@ CD    6. No additional details needed
 
 #+COLUMNS: %52ITEM(Task) %8Effort %15allocate %19BLOCKER %8ORDERED
 * Task List
-** TODO IR0691 - International Services LTE Roaming - Mexico 
-** TODO RA Reports
-*** TODO Late Inter-company usage
-
-desc ic_accumulated_usage 
-
-select sum(TOT_NET_USAGE_CHRG),sum(num_of_events), sum(TOT_ORG_CHRG_PRM_V), QUAL_PARAM_1_VAL from
-ic_accumulated_usage where CARRIER_CD = '0222' and BP_START_DATE = '01-NOV-2020' and prod_cat_id = 'IR'
-group by QUAL_PARAM_1_VAL
-
+  - [ ] 
 * Footnotes
 
 [fn:8] *TWS* Job
