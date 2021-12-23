@@ -86,3 +86,40 @@ No test environment, no proof of concept.
    : │       └── README.md
    : └── tsconfig.json
 
+
+* DONE Figure out how call a server from type/java script.
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-12-13 Mon 13:51
+  :ARCHIVE_FILE: ~/workspace/DTA/DAT.org
+  :ARCHIVE_OLPATH: Tasklist
+  :ARCHIVE_CATEGORY: DAT
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport
+  :END:
+** TODO Add it to a loopback4 sceanario 
+
+* DONE DTA [100%]
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-12-13 Mon 13:51
+  :ARCHIVE_FILE: ~/workspace/DTA/DAT.org
+  :ARCHIVE_OLPATH: Tasklist
+  :ARCHIVE_CATEGORY: DAT
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport
+  :END:
+  - [X] Find out where the value is placed.
+  - [X] Add more try/catch statements
+  - [X] Build test cases
+  - [X] Refactor Code
+  - [X] Find value types/variable
+
+* DONE Call network application via tyhpe script.
+  :PROPERTIES:
+  :ARCHIVE_TIME: 2021-12-13 Mon 13:53
+  :ARCHIVE_FILE: ~/workspace/DTA/DAT.org
+  :ARCHIVE_OLPATH: Tasklist
+  :ARCHIVE_CATEGORY: DAT
+  :ARCHIVE_TODO: DONE
+  :ARCHIVE_ITAGS: noexport
+  :END:
+

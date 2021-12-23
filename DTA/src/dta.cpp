@@ -65,25 +65,25 @@ int main(int argc, char *argv[]) {
 	}
 
 	dta dtao(dta_port, tcServer_host, tcServer_port);
-
-	int srvc = dtao.createServer();
-
-	int hrvc = dtao.connectDiameter();
-
-	std::thread threadObj(watchDog(), hrvc);
-
-	threadObj.detach();
-
-	cout << "DTA: Starting Watchdog server" << endl;
-
-	if (srvc < 0 || hrvc < 0) {
-
-		cerr << "DTA: !!!ERROR starting dta !!!" << endl;
-
-		return -1;
-	}
-
-	dtao.acceptConection(srvc, hrvc);
+//
+//	int srvc = dtao.createServer();
+//
+//	int hrvc = dtao.connectDiameter();
+//
+//	std::thread threadObj(watchDog(), hrvc);
+//
+//	threadObj.detach();
+//
+//	cout << "DTA: Starting Watchdog server" << endl;
+//
+//	if (srvc < 0 || hrvc < 0) {
+//
+//		cerr << "DTA: !!!ERROR starting dta !!!" << endl;
+//
+//		return -1;
+//	}
+//
+//	dtao.acceptConection(srvc, hrvc);
 
 	cout << "!!!Szia from dta!!!" << endl; // prints !!!Szia from dta!!!
 

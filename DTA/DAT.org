@@ -721,7 +721,6 @@
 \normalsize
 #+END_EXPORT
 
-
 ** Direct Debit
    Debit a customers account.
 
@@ -885,15 +884,5 @@ Message attributes (Event-Timestamp, Subscription-Id-Data,) are logged into a pr
   - C – This AVP shall be present in the message only when certain conditions are met. These conditions are specified in the description column.
   - O – This AVP is optional.
 * Tasklist                                                         :noexport:
-** DONE Figure out how call a server from type/java script.
-*** TODO Add it to a loopback4 sceanario 
-** TODO DTA [80%]
-   - [X] Find out where the value is placed.
-   - [ ] Add more try/catch statements
-   - [X] Build test cases
-   - [X] Refactor Code
-   - [X] Find value types/variable
 ** TODO Learn Docker and openshift
 ** TODO Figure out testing using a diameter server.
-** DONE Call network application via tyhpe script.
-

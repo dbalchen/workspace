@@ -40,9 +40,27 @@ public:
 // Define DTA class
 dta::dta(int tport, std::string shost, int tsport) {
 
-	port = tport;
-	host = shost;
-	sport = tsport;
+	port = tport;	host = shost;	sport = tsport;
+
+	int srvc = this->createServer();
+
+	int hrvc = this->connectDiameter();
+
+	std::thread threadObj(watchDog(), hrvc);
+
+	threadObj.detach();
+
+	cout << "DTA: Started Watchdog server" << endl;
+
+	if (srvc < 0 || hrvc < 0) {
+
+		cerr << "DTA: !!!ERROR starting dta !!!" << endl;
+
+		exit(-1);
+	}
+
+	this->acceptConection(srvc, hrvc);
+
 }
 
 int dta::createServer(void) {

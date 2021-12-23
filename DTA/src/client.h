@@ -50,7 +50,7 @@ int callDiameter(int client, int server, int sess_count) {
 	size_t pos = 0;
 	std::string token;
 
-	cout << "CallDiameter: Parsing the request" << endl;
+	cout << "DTA:CallDiameter: Parsing the request" << endl;
 
 	vector<std::string> parmList;
 
@@ -81,7 +81,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 		write(client, "Failure: Transaction Type not Supported\n", 23);
 
-		cerr << "CallDiameter: Transaction Type not Supported" << endl;
+		cerr << "DTA:CallDiameter: Transaction Type not Supported" << endl;
 
 		close(client);
 		return (-1);
@@ -90,7 +90,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 	std::string SessionID = init_session_id(sess_count++);
 
-	cout << "CallDiameter: Initialize the GY Interface" << endl;
+	cout << "DTA:CallDiameter: Initialize the GY Interface" << endl;
 
 	door.lock();
 
@@ -111,7 +111,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 			write(client, "Could not create session ID\n", 28);
 
-			cerr << "CallDiameter: Failure to create session ID" << endl;
+			cerr << "DTA:CallDiameter: Failure to create session ID" << endl;
 
 			close(client);
 			return (-1);
@@ -135,7 +135,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 			write(client, "Failure to complete Transaction\n", 32);
 
-			cerr << "CallDiameter: Failure to complete Transaction" << endl;
+			cerr << "DTA:CallDiameter: Failure to complete Transaction" << endl;
 
 			close(client);
 			return (-1);
@@ -159,7 +159,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 			write(client, "Could not commit Transaction\n", 28);
 
-			cerr << "CallDiameter: Could not commit Transaction" << endl;
+			cerr << "DTA:CallDiameter: Could not commit Transaction" << endl;
 
 			close(client);
 			return (-1);
@@ -171,11 +171,11 @@ int callDiameter(int client, int server, int sess_count) {
 
 	write(client, "Transaction Successful \n", 25);
 
-	cout << "CallDiameter: Transaction Successful" << endl;
+	cout << "DTA:CallDiameter: Transaction Successful" << endl;
 
 	close(client);
 
-	cout << "CallDiameter: Finished calling diameter" << endl;
+	cout << "DTA:CallDiameter: Finished calling diameter" << endl;
 	return (0);
 }
 
