@@ -119,8 +119,7 @@ FROM   ic_accumulated_usage t1
 WHERE  ( t1.prod_cat_id = 'IS' 
           OR t1.prod_cat_id = 'OS' 
           OR t1.prod_cat_id = 'II' ) 
-                AND t1.BP_START_DATE = TO_DATE ('20210501', 'YYYYMMDD')
-                and 
+                AND t1.BP_START_DATE = TO_DATE ('""" + bp_start_date_LTE + """', 'YYYYMMDD')
 GROUP BY TO_CHAR (t1.sys_creation_date, 'YYYY-MM-DD'),
          t1.nr_param_3_val,
          carrier_cd,
@@ -478,7 +477,7 @@ message = mess
 subject = title
 #sendTo = ["david.balchen@uscellular.com"]
 
-sendTo = ["david.balchen@uscellular.com",'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','david.smith@uscellular.com','Miguel.Jones@uscellular.com']
+sendTo = ["david.balchen@uscellular.com",'Eric.Frisch@uscellular.com', 'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','david.smith@uscellular.com','Miguel.Jones@uscellular.com']
 
 for who in sendTo:
      sendMail(excel_file, message, subject, who)

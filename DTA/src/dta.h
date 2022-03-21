@@ -12,45 +12,39 @@ class dta {
 
 private:
 
-	int num_threads = 10;
+	int num_threads = 11;
 
 	int sess_count = 0;
 
-	int port;
+	short unsigned int port;
 
 	std::string host;
 
-	int sport;
+	short unsigned int sport;
 
-	int accept_client(int server_fd);
+	int client_connection(int server_fd);
+
+	void acceptConection(int csock, int ssock);
 
 public:
 
-	dta(int tport, std::string thost, int sport);
+	dta(short unsigned int tport, std::string thost, short unsigned int sport);
 
 	int createServer(void);
 
 	int connectDiameter(void);
 
-	void acceptConection(int csock, int ssock);
-
 	virtual ~dta();
 };
 
 // Define DTA class
-dta::dta(int tport, std::string shost, int tsport) {
+dta::dta(short unsigned int tport, std::string shost, short unsigned int tsport) {
 
 	port = tport;	host = shost;	sport = tsport;
 
 	int srvc = this->createServer();
 
 	int hrvc = this->connectDiameter();
-
-	std::thread threadObj(watchDog(), hrvc);
-
-	threadObj.detach();
-
-	cout << "DTA: Started Watchdog server" << endl;
 
 	if (srvc < 0 || hrvc < 0) {
 
@@ -59,7 +53,17 @@ dta::dta(int tport, std::string shost, int tsport) {
 		exit(-1);
 	}
 
+	cout << "DTA: Started Watchdog server" << endl;
+
+	std::thread threadObj(watchDog(), hrvc);
+
+	threadObj.detach();
+
+	cout << "DTA: Accepting Connections" << endl;
+
 	this->acceptConection(srvc, hrvc);
+
+	cout << "DTA: " << endl;
 
 }
 
@@ -162,7 +166,7 @@ int dta::connectDiameter(void) {
 	return sockfd;
 }
 
-int dta::accept_client(int server_fd) {
+int dta::client_connection(int server_fd) {
 
 	int client_fd = -1;
 	socklen_t client_addr_len;
@@ -181,15 +185,14 @@ int dta::accept_client(int server_fd) {
 }
 
 void dta::acceptConection(int csock, int ssock) {
-	// Crazy Stuff here
 
-	int totalThreads = -1;
+	int totalThreads = 0;
 
 	std::vector<std::future<int>> threadVector;
 
 	while (true) {
 
-		int client = accept_client(csock);
+		int client = client_connection(csock);
 
 		sess_count = sess_count + 1;
 
@@ -208,6 +211,7 @@ void dta::acceptConection(int csock, int ssock) {
 			}
 
 			threadVector.clear();
+
 			totalThreads = 1;
 
 		}
@@ -219,7 +223,6 @@ void dta::acceptConection(int csock, int ssock) {
 	}
 
 }
-
 
 dta::~dta() {
 	cout << "Destroying a dta server instance" << endl;

@@ -5,8 +5,8 @@
  *      Author: dbalchen
  */
 
-#ifndef SRC_CLIENT_H_
-#define SRC_CLIENT_H_
+#ifndef SRC_CALLDIAMETER_H_
+#define SRC_CALLDIAMETER_H_
 
 #include <unistd.h>
 using namespace std;
@@ -16,6 +16,8 @@ int callDiameter(int client, int server, int sess_count) {
 	char buffer[8192];
 	unsigned int dRequest;
 	int decode_retval;
+
+	char RecvBuf[8192];
 
 	cout << "CallDiameter: Running the CallDiameter function" << endl;
 
@@ -27,6 +29,8 @@ int callDiameter(int client, int server, int sess_count) {
 
 		cerr << "Failure writing to client socket" << endl;
 
+		close(client);
+
 		return -1;
 	}
 	;
@@ -36,6 +40,8 @@ int callDiameter(int client, int server, int sess_count) {
 	if (n < 0) {
 
 		cerr << "Failure reading from client socket" << endl;
+
+		close(client);
 
 		return -1;
 	}
@@ -84,6 +90,7 @@ int callDiameter(int client, int server, int sess_count) {
 		cerr << "DTA:CallDiameter: Transaction Type not Supported" << endl;
 
 		close(client);
+
 		return (-1);
 
 	}
@@ -94,7 +101,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 	door.lock();
 
-	if ((gy_ccr_initial(server, SessionID, parmList[1]) > 0)) {
+	if ((gy_ccr_initial(server, SessionID, parmList[1], parmList[2]) > 0)) {
 
 		int msg_length = read_diameter(server);
 
@@ -104,6 +111,7 @@ int callDiameter(int client, int server, int sess_count) {
 			DIAMETER_msg incoming_message;
 
 			decode_retval = incoming_message.decode_binary(diameter_raw);
+			cout << "DTA:CallDiameter: Initial Return Value  = " << decode_retval << endl;
 
 		} else {
 
@@ -114,6 +122,7 @@ int callDiameter(int client, int server, int sess_count) {
 			cerr << "DTA:CallDiameter: Failure to create session ID" << endl;
 
 			close(client);
+
 			return (-1);
 
 		}
@@ -128,6 +137,7 @@ int callDiameter(int client, int server, int sess_count) {
 			DIAMETER_msg incoming_message;
 
 			decode_retval = incoming_message.decode_binary(diameter_raw);
+			cout << "DTA:CallDiameter: Rated event return value " << decode_retval << endl;
 
 		} else {
 
@@ -143,15 +153,17 @@ int callDiameter(int client, int server, int sess_count) {
 		}
 	}
 
-	if ((gy_ccr_terminal(server, SessionID, parmList[1]) > 0)) {
+	if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2]) > 0)) {
 
 		int msg_length = read_diameter(server);
 
 		if (msg_length > 0) {
+
 			CBBByteArray diameter_raw(buffer, msg_length);
 			DIAMETER_msg incoming_message;
 
 			decode_retval = incoming_message.decode_binary(diameter_raw);
+			cout << "DTA:CallDiameter: Terminate Return Value " << decode_retval << endl;
 
 		} else {
 
@@ -175,8 +187,8 @@ int callDiameter(int client, int server, int sess_count) {
 
 	close(client);
 
-	cout << "DTA:CallDiameter: Finished calling diameter" << endl;
+	cout << "DTA:CallDiameter: Client Closed" << endl;
 	return (0);
 }
 
-#endif /* SRC_CLIENT_H_ */
+#endif /* SRC_CALLDIAMETER_H_ */

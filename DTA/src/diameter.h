@@ -53,25 +53,12 @@ unsigned int hop_to_hop = 1;
 
 vector<DIAMETER_avp> avp_list;
 
-char RecvBuf[8192];
-/*
-std::string LocalHost;
-std::string RemoteHost;
-std::string LocalIPAddress;
-std::string RemoteIPAddress;
-std::string LocalPort("3868");
-std::string StartTime;
-*/
-//std::string SessionID;
-/*
-ofstream PcapFile;
-ofstream LogFile;
-*/
-
 SOCKET ClientSocket = INVALID_SOCKET;
 SOCKET ServerSocket = INVALID_SOCKET;
 
 int read_diameter(int client_sock) {
+
+	char RecvBuf[8192];
 
 	long unsigned int msg_length = 0;
 
@@ -80,6 +67,8 @@ int read_diameter(int client_sock) {
 	int network_msg_length = 0;
 
 	long unsigned int retval = -1;
+
+//	int retval = -1;
 
 	memset(RecvBuf, 0, sizeof(RecvBuf));
 
@@ -143,11 +132,6 @@ int cer_send(int client_sock) {
 
 	DIAMETER_msg cer;
 
-
-	std::string LocalHost = "Localhost";
-
-	std::string LocalIPAddress = "192.168.0.1";
-
 	cer.setCode(DIAMETER_CAPABILITIES_EXCHANGE);
 	cer.setFlags(0x80);
 	cer.setHopHop(hop_to_hop++);
@@ -156,6 +140,7 @@ int cer_send(int client_sock) {
 	DIAMETER_avp avp1;
 	avp1.setCode(AVP_NAME_ORIGIN_HOST);
 	avp1.setValue(LocalHost.data());
+
 	cer.setAvp(avp1);
 
 	DIAMETER_avp avp2;
@@ -195,9 +180,6 @@ int dwd_send(int client_sock) {
 
 	DIAMETER_msg dwd;
 
-	std::string LocalHost = "Localhost";
-	std::string LocalIPAddress = "192.168.0.1";
-
 	dwd.setCode(DIAMETER_DEVICE_WATCHDOG);
 	dwd.setFlags(0x80);
 	dwd.setHopHop(hop_to_hop++);
@@ -221,9 +203,6 @@ int dwd_send(int client_sock) {
 std::string init_session_id(unsigned int val) {
 	char timestamp[256];
 
-	std::string LocalHost = "Localhost";
-	std::string LocalIPAddress = "192.168.0.1";
-
 	time_t current_time = time((time_t *) 0);
 
 	sprintf(timestamp, "%s;%u;%u", LocalHost.data(), current_time, val);
@@ -236,11 +215,6 @@ std::string init_session_id(unsigned int val) {
 
 int gy_ccr_send(int client_sock, unsigned int cc_type,
 		unsigned int requested_action, std::string SessionID, std::string mdn) {
-// this won't work in production
-
-	std::string LocalHost = "Localhost";
-	std::string LocalIPAddress = "192.168.0.1";
-	std::string RemoteHost  = "Localhost";
 
 	DIAMETER_msg ccr;
 	ccr.setCode(DIAMETER_CREDIT_CONTROL);
@@ -320,6 +294,7 @@ int gy_ccr_send(int client_sock, unsigned int cc_type,
 	avp14.setValue(htonl(subscription_id_type_e164));
 	avp13.setAvp(avp14);
 
+	// MDN goes here
 	DIAMETER_avp avp15;
 	avp15.setCode(AVP_NAME_SUBSCRIPTION_ID_DATA);
 	avp15.setValue(mdn.data());
@@ -370,7 +345,7 @@ unsigned long long ntohll(unsigned long long val) {
 }
 
 
-int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn) {
+int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::string amount) {
 
 	DIAMETER_avp requested_service_unit;
 	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
@@ -381,7 +356,7 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn) {
 
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
-	value_digits_avp.setLongValue(htonll(1000LL));
+//	value_digits_avp.setLongValue(htonll(1000LL));
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -415,7 +390,7 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn) {
 	return (gy_ccr_send(client_sock, cc_request_type_initial_request, 0, SessionID, mdn));
 }
 
-int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn) {
+int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std::string amount) {
 
 	DIAMETER_avp requested_service_unit;
 	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
@@ -426,8 +401,12 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn) {
 
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
-	//value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
-	value_digits_avp.setLongValue(htonll(1000LL));	// COMMIT
+
+	long int iamount = stol(amount);
+	//	value_digits_avp.setLongValue(htonll(1000LL));
+	value_digits_avp.setLongValue(iamount);
+
+//value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -476,7 +455,10 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
-	value_digits_avp.setLongValue(htonll(1000LL));
+
+	long int iamount = stol(amount);
+//	value_digits_avp.setLongValue(htonll(1000LL));
+	value_digits_avp.setLongValue(iamount);
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -485,10 +467,7 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 
 	DIAMETER_avp currency_code_avp;
 	currency_code_avp.setCode(AVP_NAME_CURRENCY_CODE);
-
-	int iamount = stoi(amount);
-//	currency_code_avp.setValue(htonl(840));	// USD
-	currency_code_avp.setValue(htonl(iamount));
+	currency_code_avp.setValue(htonl(840));	// USD
 
 	DIAMETER_avp cc_money_avp;
 	cc_money_avp.setCode(AVP_NAME_CC_MONEY);

@@ -95,9 +95,9 @@ to_char(
         sum(Charged_Units)/1024,'fm9999990.90000'
   ) 
  "Charged Units KB"
-from IOT_AGGREGATOR_USAGE where tadig = 'USAUE'
-and (ods_insert_date >= TO_DATE ('""" + timeStamp + """', 'YYYYMMDD') 
-and ods_insert_date < TO_DATE ('""" + endTimeStamp + """', 'YYYYMMDD')  )
+from IOT_AGGREGATOR_USAGE where tadig = 'IOTFL'
+and (ods_insert_date >= to_date('{timeStamp}','YYYYMMDD') 
+and ods_insert_date < to_date('{endTimeStamp}','YYYYMMDD') )
 group by
 imsi,sender_id,serving_location_description
 order by
@@ -134,7 +134,7 @@ to_char(
   ) 
 "Total Record Charges $",
 to_char(  
-            CASE WHEN  sum(Charged_Units)/1024 >= 76
+            CASE WHEN  sum(Charged_Units)/1024 >= 77824
             then 0.00
          Else sum(Charged_Units)/1024
          End  
@@ -143,7 +143,7 @@ to_char(
   ) 
  "Plan A Charged Units KB",
 to_char(  
-            CASE WHEN  sum(Charged_Units)/1024 >= 76
+            CASE WHEN  sum(Charged_Units)/1024 >= 77824
             then (sum(Charged_Units)/1024)
          Else 0.00
          End 
@@ -151,9 +151,9 @@ to_char(
     'fm9999990.9000'
   ) 
  "Plan B Charged Units KB"
-from IOT_AGGREGATOR_USAGE where tadig = 'USAUE'
-and (ods_insert_date >= TO_DATE ('""" + timeStamp + """', 'YYYYMMDD') 
-and ods_insert_date < TO_DATE ('""" + endTimeStamp + """', 'YYYYMMDD')  )
+from IOT_AGGREGATOR_USAGE where tadig = '{tadig_code}'
+and (ods_insert_date >= to_date('{timeStamp}','YYYYMMDD') 
+and ods_insert_date < to_date('{endTimeStamp}','YYYYMMDD')  )
 group by
 imsi
 order by
@@ -171,8 +171,8 @@ headings["IoT"] = [
 "Total Session Duration (Minutes)",
 "Incoming KB",
 "Outgoing KB",
-"Total Record Charges $",
-"Charged Units KB"
+"Charged Units KB", 
+"Total Record Charges $"
 ];
 
 headings["IoT_IMSI"] = [
@@ -181,19 +181,18 @@ headings["IoT_IMSI"] = [
 "Total Session Duration (Minutes)",
 "Incoming KB",
 "Outgoing KB",
+"Total Volume KB",
 "Total Record Charges $",
 "Plan A Charged Units KB",
 "Plan B Charged Units KB"
 ];
 
 
-
-
-
 tab = {}
  
 tab["IoT"] = "IoT FloLive by Carrier Place";
 tab["IoT_IMSI"] = "IoT FloLive by IMSI"; 
+tab["IoT_IMSI_USAUF"] = "IoT FloLive by IMSI - USAUF"; 
 
 def sendMail (xfile, mesg, subject, who):
     
@@ -226,10 +225,10 @@ def dbConnect ():
         'service': 'bodsdev_adhoc'  # info from tnsnames.ora
     }
     CONN_STR = '{user}/{psw}@{host}:{port}/{service}'.format(**CONN_INFO)
-   
-    tconn = cx_Oracle.connect(CONN_STR)
+  
+#    tconn = cx_Oracle.connect(CONN_STR)
 
-#    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
+    tconn = cx_Oracle.connect(user='', password='', dsn="BODS_SVC_BILLINGOPS")
     
     return tconn;
 
@@ -261,7 +260,7 @@ def printSheet (title, header, sheet, output, flag=0):
 if __name__ == '__main__':
     pass
 
-timeStamp = '20220101' # sys.argv[1]
+timeStamp = sys.argv[1]
 
 endTimeStamp = timeStamp[0:6] + "01"
 timeStamp = endTimeStamp
@@ -276,8 +275,9 @@ month = timeStamp[4:6]
 monthName = (datetime.strptime(timeStamp, '%Y%m%d')).strftime("%B")
 year = timeStamp[0:4]
 
-title = """(Static Fire) The IoT FloLive  Report for """ + thisMonth + """ """ + day + """, """ + year 
-message = " Attached to this email is the IoT FloLive Report for " + thisMonth + """ """ + day + """, """ + year + "\n\n"
+title = """The IoT FloLive  Report for """ + thisMonth + """ """ + day + """, """ + year 
+#message = " Attached to this email is the IoT FloLive Report for " + thisMonth + """ """ + day + """, """ + year + "\n\n"
+message = "Attached to this email is the IoT FloLive Report for " + thisMonth + """ """ + day + """, """ + year + "\n\n"
 
 # Open an Excel file for output
 
@@ -286,42 +286,65 @@ wb = Workbook()
 
 # Database
 
-# conn = dbConnect()
-# cursor = conn.cursor()
- 
+conn = dbConnect()
+cursor = conn.cursor()
+#  
 # Do FloLive
 
 results = []
-sql = sqlDictionary["IoT"].format(timeStamp=timeStamp, endTimeStamp=endTimeStamp, sitename=sitename, sitename2=sitename2)
+sql = sqlDictionary["IoT"].format(timeStamp=timeStamp, endTimeStamp=endTimeStamp)
 print(sql)
  
-#cursor.execute(sql)
-#results = cursor.fetchall()
+cursor.execute(sql)
+results = cursor.fetchall()
 
-for line in fileinput.input("/home/dbalchen/Desktop/IoTest.csv"):
-    try:
-        line = line.rstrip()
-        results.append(tuple(line.split("\t")))
-    except:pass
- 
- # Let the games begin.
- 
-out = []
+# for line in fileinput.input("/home/dbalchen/Desktop/IoTest1.csv"):
+#     try:
+#         line = line.rstrip()
+#         results.append(tuple(line.split("\t")))
+#     except:pass
 
-imsies = sorted(set(map(lambda x:x[0], results)))
+printSheet(tab["IoT"], headings["IoT"], wb.active, results, 1);
+
  
-for imsi in imsies:
-    
-    print(imsi)
- 
-# End
+results = []
+sql = sqlDictionary["IoT_IMSI"].format(timeStamp=timeStamp, endTimeStamp=endTimeStamp,tadig_code = "IOTFL")
+print(sql)
+
+cursor.execute(sql)
+results = cursor.fetchall()
+
+# for line in fileinput.input("/home/dbalchen/Desktop/IoTest2.csv"):
+#     try:
+#         line = line.rstrip()
+#         results.append(tuple(line.split("\t")))
+#     except:pass
+
+printSheet(tab["IoT_IMSI"], headings["IoT_IMSI"], wb.create_sheet(tab["IoT_IMSI"]), results, 1);
+
+
+results = []
+sql = sqlDictionary["IoT_IMSI"].format(timeStamp=timeStamp, endTimeStamp=endTimeStamp,tadig_code = "USAUF")
+print(sql)
+
+cursor.execute(sql)
+results = cursor.fetchall()
+
+# for line in fileinput.input("/home/dbalchen/Desktop/IoTest2.csv"):
+#     try:
+#         line = line.rstrip()
+#         results.append(tuple(line.split("\t")))
+#     except:pass
+
+printSheet(tab["IoT_IMSI_USAUF"], headings["IoT_IMSI"], wb.create_sheet(tab["IoT_IMSI_USAUF"]), results, 1);
+
 
 wb.save(excel_file)
 
 # Close database connection
 
 cursor.close()
-
+ 
 conn.close()
 
 

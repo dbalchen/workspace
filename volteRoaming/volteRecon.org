@@ -152,7 +152,7 @@ digraph BI {
 }
 :END:
 ** Program Flow
- - At 12:00 noon each day the *roamingReconciliation.pl* job is started with the parameters {roaming Type /see table below/} {date /previous days date/}
+ - At 10:00 A.M. each day the *roamingReconciliation.pl* job is started with the parameters {roaming Type /see table below/} {date /previous days date/}
    1. Read in the exception parameters file.
    2. Process each file type until complete.
       1. Find all files of that type for a given day.

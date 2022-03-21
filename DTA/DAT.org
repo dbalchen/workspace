@@ -886,3 +886,11 @@ Message attributes (Event-Timestamp, Subscription-Id-Data,) are logged into a pr
 * Tasklist                                                         :noexport:
 ** TODO Learn Docker and openshift
 ** TODO Figure out testing using a diameter server.
+** TODO Find PC timeline
+   When do they want this done (what does done look like)
+** TODO Work on AVP
+   Understand what you are doing now
+
+   Diameter AVP: [[https://diameter-protocol.blogspot.com/2011/05/daimeter-avp-structure.html][Diameter Protocol]]
+   
+** TODO Transition to Kevin

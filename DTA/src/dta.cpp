@@ -23,69 +23,65 @@ using namespace std;
 #include <chrono>
 #include <mutex>
 
-void current_time_point(chrono::system_clock::time_point timePt) {
-	time_t timeStamp = chrono::system_clock::to_time_t(timePt);
-}
-
+// Global thread lock
 std::mutex door;
 
+// Default Values
 
+std::string LocalHost = "Localhost";
+
+std::string LocalIPAddress = "192.168.0.1";
+
+std::string RemoteHost = "Localhost";
+
+// Default Ports
+short unsigned int dta_port = 8888;
+
+short unsigned int tcd_port = 3868;
+
+// Application includes
 #include "diameter.h"
 #include "watchdog.h"
-#include "client.h"
+#include "callDiameter.h"
 #include "dta.h"
+
+// Main Function
 
 int main(int argc, char *argv[]) {
 
-	int dta_port = 8888;
+	if (argc == 6) {
 
-	int tcServer_port = 3868;
+		LocalHost = argv[1];
 
-	std::string tcServer_host = "localhost";
+		LocalIPAddress = argv[2];
 
-	/*	std::string logfile = argv[4];
+		dta_port = (unsigned short) atoi(argv[3]);
 
-	 if(!logfile.empty())
-	 {
-	 std::ofstream cout(logfile.c_str());
-	 }
-	 */
+		RemoteHost = argv[4];
 
-	cout << "!!!Szia from dta!!!" << endl; // prints !!!Szia from dDiameter!!!
+		tcd_port = (unsigned short) atoi(argv[5]);
 
-	// Quick Defaults
+	} else if (argc == 7) {
 
-	if (argc == 4) {
+		std::string logfile = argv[6];
 
-		dta_port = atoi(argv[1]);
+		freopen(logfile.c_str(), "w", stdout);
 
-		tcServer_host = argv[2];
+	} else {
 
-		tcServer_port = atoi(argv[3]);
+		// Add for future
+
 	}
 
-	dta dtao(dta_port, tcServer_host, tcServer_port);
-//
-//	int srvc = dtao.createServer();
-//
-//	int hrvc = dtao.connectDiameter();
-//
-//	std::thread threadObj(watchDog(), hrvc);
-//
-//	threadObj.detach();
-//
-//	cout << "DTA: Starting Watchdog server" << endl;
-//
-//	if (srvc < 0 || hrvc < 0) {
-//
-//		cerr << "DTA: !!!ERROR starting dta !!!" << endl;
-//
-//		return -1;
-//	}
-//
-//	dtao.acceptConection(srvc, hrvc);
+	cout << "!!!Szia from dta!!!" << endl; // prints Szia!!!
 
-	cout << "!!!Szia from dta!!!" << endl; // prints !!!Szia from dta!!!
+	// Start the DTA server application.
+
+	dta dtao(dta_port, RemoteHost, tcd_port);
+
+	// Stop the DTA server application
+
+	cout << "!!!Szia from dta!!!" << endl; // prints Szia!!!
 
 	return 0;
 }
