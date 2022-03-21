@@ -170,7 +170,7 @@ wb.save(excel_file)
 message = mess
 subject = title
 #sendTo = ["david.balchen@uscellular.com"]
-sendTo = ["david.balchen@uscellular.com", 'Philip.Luzod@uscellular.com', 'ISBillingOperations@uscellular.com',  'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
+sendTo = ["david.balchen@uscellular.com",  'ISBillingOperations@uscellular.com',  'david.smith@uscellular.com', 'Miguel.Jones@uscellular.com']
 
 for who in sendTo:
     sendMail(excel_file, message, subject, who)

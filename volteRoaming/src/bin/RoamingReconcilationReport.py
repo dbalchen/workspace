@@ -534,7 +534,7 @@ cursor.close()
 conn.close()
 
 #sendTo = ["david.balchen@uscellular.com"]
-sendTo = ["david.balchen@uscellular.com", 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com']
+sendTo = ["david.balchen@uscellular.com", 'Kevin.Hergenrother@uscellular.com','ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com']
 
 for who in sendTo:
     sendMail(excel_file, message, title, who)

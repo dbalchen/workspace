@@ -658,7 +658,9 @@ foreach my $switch (@switches) {
 $workbook->close;
 
 
- my @email = ( 'david.balchen@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'Bradley.Bleull@uscellular.com','Liz.Pierce@uscellular.com','USCDLISOps-BillingCycleManagement@uscellular.com');
+ my @email = ( 'david.balchen@uscellular.com','Kevin.Hergenrother@uscellular.com');
+
+#exit(0);
 
 foreach my $too (@email) {
 	print $msg;
