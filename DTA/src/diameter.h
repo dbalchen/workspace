@@ -51,7 +51,7 @@ unsigned int end_to_end = 1;
 unsigned int hop_to_hop = 1;
 
 
-vector<DIAMETER_avp> avp_list;
+// vector<DIAMETER_avp> avp_list;
 
 SOCKET ClientSocket = INVALID_SOCKET;
 SOCKET ServerSocket = INVALID_SOCKET;
@@ -213,8 +213,7 @@ std::string init_session_id(unsigned int val) {
 }
 
 
-int gy_ccr_send(int client_sock, unsigned int cc_type,
-		unsigned int requested_action, std::string SessionID, std::string mdn) {
+int gy_ccr_send(int client_sock, unsigned int cc_type,unsigned int requested_action, std::string SessionID, std::string mdn, vector<DIAMETER_avp> avp_list) {
 
 	DIAMETER_msg ccr;
 	ccr.setCode(DIAMETER_CREDIT_CONTROL);
@@ -297,7 +296,8 @@ int gy_ccr_send(int client_sock, unsigned int cc_type,
 	// MDN goes here
 	DIAMETER_avp avp15;
 	avp15.setCode(AVP_NAME_SUBSCRIPTION_ID_DATA);
-	avp15.setValue(mdn.data());
+	avp15.setValue(mdn.c_str());
+//	avp15.setValue("6085761900");
 	avp13.setAvp(avp15);
 
 	ccr.setAvp(avp13);
@@ -347,6 +347,8 @@ unsigned long long ntohll(unsigned long long val) {
 
 int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::string amount) {
 
+	vector<DIAMETER_avp> avp_list;
+
 	DIAMETER_avp requested_service_unit;
 	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
 
@@ -356,7 +358,12 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
-//	value_digits_avp.setLongValue(htonll(1000LL));
+
+	unsigned long long iamount = std::stoull(amount);
+
+	value_digits_avp.setLongValue(iamount);
+//	value_digits_avp.setLongValue(htonll(1666));
+//	value_digits_avp.setLongValue(1023ull);
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -387,10 +394,12 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 
 	avp_list.push_back(application_type_avp);
 
-	return (gy_ccr_send(client_sock, cc_request_type_initial_request, 0, SessionID, mdn));
+	return (gy_ccr_send(client_sock, cc_request_type_initial_request, 0, SessionID, mdn,avp_list));
 }
 
 int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std::string amount) {
+
+	vector<DIAMETER_avp> avp_list;
 
 	DIAMETER_avp requested_service_unit;
 	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
@@ -402,9 +411,13 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	long int iamount = stol(amount);
-	//	value_digits_avp.setLongValue(htonll(1000LL));
+	unsigned long long iamount = std::stoull(amount);
 	value_digits_avp.setLongValue(iamount);
+
+//	value_digits_avp.setLongValue(1023ull);
+//	value_digits_avp.setLongValue(htonll(1666));
+
+
 
 //value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
 
@@ -440,11 +453,13 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 
 	avp_list.push_back(application_type_avp);
 
-	return (gy_ccr_send(client_sock, cc_request_type_terminal_request, 0,SessionID, mdn));
+	return (gy_ccr_send(client_sock, cc_request_type_terminal_request, 0,SessionID, mdn, avp_list));
 }
 
 
 int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, std::string mdn, std::string amount) {
+
+	vector<DIAMETER_avp> avp_list;
 
 	DIAMETER_avp requested_service_unit;
 	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
@@ -456,9 +471,10 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	long int iamount = stol(amount);
-//	value_digits_avp.setLongValue(htonll(1000LL));
-	value_digits_avp.setLongValue(iamount);
+	unsigned long long iamount = std::stoull(amount);
+    value_digits_avp.setLongValue(iamount);
+ //   value_digits_avp.setLongValue(htonll(1666));
+//	value_digits_avp.setLongValue(1023ull);
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -491,7 +507,7 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 
 	avp_list.push_back(application_type_avp);
 
-	return (gy_ccr_send(client_sock, cc_request_type_event_request,requested_action,SessionID, mdn));
+	return (gy_ccr_send(client_sock, cc_request_type_event_request,requested_action,SessionID, mdn, avp_list));
 }
 
 #endif /* SRC_DIAMETER_H_ */

@@ -134,8 +134,8 @@ while ( my @rows = $sth->fetchrow_array() ) {
 		}
 		$total_rejected  =   $argv[5];
 	    $total_rejected_cost  =   $argv[6];	
-		$total_charges_dch = $dchValues[2];
-		$total_records_dch = $dchValues[3];
+		$total_charges_dch = $dchValues[3];
+		$total_records_dch = $dchValues[0];
 
 		if ( index( $usage_type, "-C" ) >= 0 ) {
 			$total_volume_dch = $rows[2];

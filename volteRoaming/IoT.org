@@ -1,0 +1,519 @@
+#+STARTUP: overview
+#+OPTIONS: d:nil
+#+OPTIONS: toc:nil
+#+TAGS: Presentation(p)  noexport(n) Documentation(d) taskjuggler_project(t) taskjuggler_resource(r) 
+#+DRAWERS: PICTURE CLOSET 
+#+PROPERTY: allocate_ALL dev doc test
+#+COLUMNS: %30ITEM(Task) %Effort %allocate %BLOCKER %ORDERED
+#+STARTUP: hidestars hideblocks 
+#+LaTeX_CLASS_OPTIONS: [12pt,twoside]
+#+LATEX_HEADER: \usepackage{lscape} 
+#+LATEX_HEADER: \usepackage{fancyhdr} 
+#+LATEX_HEADER: \usepackage{multirow}
+#+LATEX_HEADER: \usepackage{multicol}
+#+BEGIN_LaTeX
+\pagenumbering{}
+#+END_LaTeX 
+#+TITLE: IoTflex
+
+#+BEGIN_LaTeX
+\newpage
+\clearpage
+%\addtolength{\oddsidemargin}{-.25in}
+\addtolength{\oddsidemargin}{-.5in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+% \newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{3}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+#+END_LaTeX
+
+#+TOC: headlines 2
+
+#+BEGIN_LaTeX
+\newpage
+\pagenumbering{arabic}
+#+END_LaTeX
+
+* /IoTflex Documentation/ [%]
+  SCHEDULED:
+  - [ ] Documentation
+  - [ ] Code
+  - [ ] Test 
+  - [ ] Deploy
+
+** Project Scope
+   Build a program that produces a report on IoT data, using a flexible solution based on reference tables so we can add new IoT customers easily. 
+** Assumptions
+** User Requirements
+** Process Decomposition
+*** Read in Reference Data
+  Join and reduce the reference tables using the following queries and load it into memory as a table.
+**** SQL (proposed)
+***** Partner
+    :     select i.TADIG,j.MVNO_NAME,k.IMSI_BLOCK_START,k.IMSI_BLOCK_END,
+    :            i.USAGE_THRESHOLD_LOW,i.USAGE_THRESHOLD_HIGH,
+    :            i.ON_NET_RATE,i.OFF_NET_RATE,i.START_DATE,i.END_DATE 
+    :      from IOT_RATE_PLAN i, IOT_PARTNER j, IOT_IMSI_RANGE k
+    :      where i.tadig = j.tadig and i.tadig = k.tadig
+    :            and (i.start_date >= {last_month} and (i.end_date <= {this_month} or i.end_date is NULL))
+    :            and j.MVNO_STATUS = 'ACTIVE'
+    :  
+***** IMSI
+    : select IMSI, TADIG, ACTIVATED_DATE, DEACTIVATED_DATE  from IOT_IMSI_STATUS where ACTIVATED_DATE  >= {last_month} and (DEACTIVATED_DATE <= {this_month} or DEACTIVATED_DATE = '00:00:00')
+
+*** Sum Events by IMSI
+    Pull data from the event databases, *both on and offline* and sum by imsi and tadig code.
+
+**** SQL (proposed)
+***** offline
+
+    :     select IMSI,TADIG,count(*), sum(TOTAL_CALL_EVENT_DURATION)/1024, sum(DATA_VOLUME_INCOMING)/1024,
+    :            sum(DATA_VOLUME_OUTGOING/1024),sum((DATA_VOLUME_INCOMING/1024) + DATA_VOLUME_OUTGOING/1024),sum(sum(CHARGE) 
+    :      from  IOT_AGGREGATOR_OFF_NET_USAGE 
+    :      where CALL_EVENT_START_TIMESTAMP >= StartMonth and CALL_EVENT_START_TIMESTAMP < endMonth
+    :     group by IMSI,TADIG
+    : 
+
+***** Online
+    :      select IMSI,TADIG,count(*), sum(TOTAL_CALL_EVENT_DURATION), sum(DATA_VOLUME_INCOMING),
+    :             sum(DATA_VOLUME_OUTGOING),sum(DATA_VOLUME_INCOMING + DATA_VOLUME_OUTGOING),sum(sum(CHARGE) 
+    :      from  IOT_AGGREGATOR_ON_NET_USAGE 
+    :      where CALL_EVENT_START_TIMESTAMP >= StartMonth and CALL_EVENT_START_TIMESTAMP < endMonth
+    :      group by IMSI,TADIG
+
+*** Starting with  each IMSI tadig code combination:
+   - Check to see if IMSI and TADIG are valid for the month of the report.
+   - From the IoT_Rate_Plan charge the total usage by the appropriate rate plan.
+   - Repeat for each tadig code.
+   - Send report to our business partners.
+
+** Executable
+*** /IoTflex/
+    - *Language:* Python
+    - *Source Code Location:* git@github.uscc.com:ISBillingandRevenueOperations/RoamingReconciliation.git/IoTflex.py
+    - *Parameters:* YYYYMMDD /{Year/month/day }/
+    - *Description:*
+      This application summarizes all IoT usage by tadig/IMSI and delivers a report to our business partners.
+** Excel Output 
+   The Output format will follow the format of the FloLive. 
+*** Format columns
+|------+---------------+----------------------------------+-------------+-------------+-----------------+------------------------+-------------------------+-------------------------|
+| IMSI | Total Records | Total Session Duration (Minutes) | Incoming KB | Outgoing KB | Total Volume KB | Total Record Charges $ | Plan A Charged Units KB | Plan B Charged Units KB |
+|------+---------------+----------------------------------+-------------+-------------+-----------------+------------------------+-------------------------+-------------------------|
+
+** Data Decomposition
+   The following tables will be used in this application.
+*** IOT_AGGREGATOR_OFF_NET_USAGE
+    Contains off network usage (roaming) for all IoT partners.
+
+****                                                               :noexport:
+|-----+--------------------------------+--------------+------+----------------------------------------------------------------------------------------------------------------|
+|   # | Column Name                    | Data Type    | NULL | Description                                                                                                    |
+|-----+--------------------------------+--------------+------+----------------------------------------------------------------------------------------------------------------|
+|  1. | TYPE                           | VARCHAR2(20) | N    | Type of Record. Always ‘gprsCall’                                                                              |
+|  2. | *IMSI*                         | VARCHAR2(15) | N    | The identifier which uniquely identifies the subscriber who has used the                                       |
+|     |                                |              |      | network and is liable for any charges that may be incurred.                                                    |
+|     |                                |              |      | May contain trailing character 'F' which has been removed.                                                     |
+|  3. | MSISDN                         | VARCHAR2(15) | Y    | The Mobile Subscriber ISDN number.                                                                             |
+|     |                                |              |      | Mobile Subscriber Integrated Services Digital Number -                                                         |
+|     |                                |              |      | MSISDN A field that identifies the MSISDN, which in the                                                        |
+|     |                                |              |      | GSM environment is used to refer to the subscriber’s “dialable/directory number.”                              |
+|     |                                |              |      | May contain trailing character 'F' which has been removed. This                                                |
+|     |                                |              |      | will also contain a leading 1 which is the international country code                                          |
+|     |                                |              |      | for the United States.  Example: 1608220516.                                                                   |
+|  4. | ACCESS_POINT_NAME_NI           | VARCHAR2(70) | Y    | The Network Identifier part of the Access Point Name (APN) in dot notation.                                    |
+|  5. | ACCESS_POINT_NAME_OI           | VARCHAR2(40) | Y    | The Operator Identifier part of the Access Point Name (APN) in dot notation.                                   |
+|  6. | *TOTAL_CALL_EVENT_DURATION*    | Number(5)    | Y    | The item contains the actual total duration of a call event                                                    |
+|     |                                |              |      | as a number of seconds.The Total Call Event Duration must always                                               |
+|     |                                |              |      | contain the call duration calculated from the call end time                                                    |
+|     |                                |              |      | (channel release) minus the Call Event Start Timestamp, or Service Start Timestamp, as applicable.             |
+|     |                                |              |      | The item is used, in conjunction with the Call Event Start                                                     |
+|     |                                |              |      | Timestamp or Service Start Timestamp (and UTC Time Offset Code)                                                |
+|     |                                |              |      | to calculate the call event end time. This is needed for ageing                                                |
+|     |                                |              |      | calculations and validation against the File Available Timestamp.                                              |
+|     |                                |              |      | Values: > or = 0                                                                                               |
+|  7. | CHARGING_ID                    | Number(25)   | Y    | A charging identifier which can be used together with GGSN                                                     |
+|     |                                |              |      | address or P-GW address to identify all records produced in SSGN(s)                                            |
+|     |                                |              |      | and GGSN or in S-GW(s) and P-GW involved in a single PDP context.                                              |
+|     |                                |              |      | For Wi-Fi usage this item is unique as a Wi-Fi record always represents a complete Wi-Fi session.              |
+|  8. | *CELL_ID*                      | Number(10)   | Y    | Identification of the Location Area Code of the mobile equipment handling the call.                            |
+|  9. | *SERVING_BID*                  | Number(5)    | Y    | The identity of the cell from which the call originated or in which it terminated.                             |
+| 10. | *LOCATION_AREA*                | Number(10)   | Y    | The Serving BID (Billing Identifier) is a code associated with a geographical                                  |
+|     |                                |              |      | area such as a cell site or group of cell sites.                                                               |
+|     |                                |              |      | Where a Serving BID has been supplied there must be a Serving Location Description present.                    |
+|     |                                |              |      | The Serving BID presence is not required where only the Serving Location                                       |
+|     |                                |              |      | Description is used as a pricing parameter as per the Sender’s IOT definition.                                 |
+| 11. | *SERVING_LOCATION_DESCRIPTION* | VARCHAR2(40) | Y    | A text description giving the geographical location of the                                                     |
+|     |                                |              |      | terminal equipment. Operators may optionally use a description as a                                            |
+|     |                                |              |      | default where there has been no terminal equipment involved.                                                   |
+|     |                                |              |      | The Serving Location Description must be present where                                                         |
+|     |                                |              |      | there is an associated Serving BID and its content will then be predefined.                                    |
+|     |                                |              |      | Where the location of the subscriber is a pricing parameter the                                                |
+|     |                                |              |      | Serving Location Description will contain a value as explicitly defined in the                                 |
+|     |                                |              |      | IOT of the Sender. Note that in case the IOT defines both a ‘normal’ charge and                                |
+|     |                                |              |      | one or more ‘exceptional’ charge(s) then only call/events containing an ‘exceptional’                          |
+|     |                                |              |      | charge need to contain the Serving Location Description.                                                       |
+|     |                                |              |      | For Wi-Fi usage this item must be present and will contain a text description of the                           |
+|     |                                |              |      | Wi-Fi Hot Spot or location, for example “London City Airport”.                                                 |
+|     |                                |              |      | Other than the above described circumstances the content is at                                                 |
+|     |                                |              |      | the discretion of the Sender and is optionally supplied.                                                       |
+| 12. | IMEI                           | VARCHAR2(20) | Y    | The International Mobile Equipment Identity number.                                                            |
+|     |                                |              |      | The identifier which uniquely identifies the equipment used                                                    |
+|     |                                |              |      | by the subscriber during the call.                                                                             |
+|     |                                |              |      | May contain trailing character 'F' which has been removed.                                                     |
+| 13. | *DATA_VOLUME_INCOMING*         | Number(16)   | N    | The Data Volume Incoming identifies the number of incoming octets                                              |
+|     |                                |              |      | (bytes) within an occurrence of GPRS Service Used or Content Service Used.                                     |
+|     |                                |              |      | Values: > or = 0 (zero)                                                                                        |
+| 14. | *DATA_VOLUME_OUTGOING*         | Number(16)   | N    | The Data VolumeOutgoing identifies the number of outgoing                                                      |
+|     |                                |              |      | octets (bytes) within an occurrence of GPRS Service Used or Content Service Used.                              |
+|     |                                |              |      | Values: > or = 0 (zero)                                                                                        |
+| 15. | CALL_TYPE_LEVEL1               | Number(10)   | Y    | The highest category call type in respect of the destination or origination of the call.                       |
+|     |                                |              |      | Values:                                                                                                        |
+|     |                                |              |      | 0 Unknown/Not Applicable                                                                                       |
+|     |                                |              |      | 1 National                                                                                                     |
+|     |                                |              |      | 2 International                                                                                                |
+|     |                                |              |      | 10 HGGSN/HP-GW                                                                                                 |
+|     |                                |              |      | 11 VGGSN/VP-GW                                                                                                 |
+|     |                                |              |      | 12 Other GGSN/Other P-GW                                                                                       |
+|     |                                |              |      | 100 Wi-Fi                                                                                                      |
+| 16. | CALL_TYPE_LEVEL2               | Number(10)   | Y    | An item which identifies the sub category of Call Type Level 1.                                                |
+|     |                                |              |      | This defines, in more detail, the classification of the                                                        |
+|     |                                |              |      | call within the IOT, as used by the VPMN to price the call.                                                    |
+|     |                                |              |      | Values:                                                                                                        |
+|     |                                |              |      | 0 Unknown/Not Applicable                                                                                       |
+|     |                                |              |      | 1 Mobile                                                                                                       |
+|     |                                |              |      | 2 PSTN                                                                                                         |
+|     |                                |              |      | 3 Non Geographic                                                                                               |
+|     |                                |              |      | 4 Premium Rate                                                                                                 |
+|     |                                |              |      | 5 Satellite destination                                                                                        |
+|     |                                |              |      | 6 Forwarded call                                                                                               |
+|     |                                |              |      | 7 Non forwarded call                                                                                           |
+|     |                                |              |      | 10 QoS Broadband                                                                                               |
+|     |                                |              |      | 11 QoS Narrowband                                                                                              |
+|     |                                |              |      | 12 QoS Conversational                                                                                          |
+|     |                                |              |      | 13 QoS Streaming                                                                                               |
+|     |                                |              |      | 14 QoS Interactive                                                                                             |
+|     |                                |              |      | 15 QoS Background                                                                                              |
+|     |                                |              |      | 20 Unspecified/default LTE QCIs                                                                                |
+|     |                                |              |      | 21 LTE QCI 1 Conversational                                                                                    |
+|     |                                |              |      | 22 LTE QCI 2 Conversational                                                                                    |
+|     |                                |              |      | 23 LTE QCI 3 Conversational                                                                                    |
+|     |                                |              |      | 24 LTE QCI 4 Streaming                                                                                         |
+|     |                                |              |      | 25 LTE QCI 5 Interactive                                                                                       |
+|     |                                |              |      | (specialised for signalling)                                                                                   |
+|     |                                |              |      | 26 LTE QCI 6 Interactive                                                                                       |
+|     |                                |              |      | 27 LTE QCI 7 Interactive                                                                                       |
+|     |                                |              |      | 28 LTE QCI 8 Interactive                                                                                       |
+|     |                                |              |      | 29 LTE QCI 9 Background                                                                                        |
+|     |                                |              |      | 65 LTE QCI 65                                                                                                  |
+|     |                                |              |      | 66 LTE QCI 66                                                                                                  |
+|     |                                |              |      | 69 LTE QCI 69                                                                                                  |
+|     |                                |              |      | 70 LTE QCI 70                                                                                                  |
+| 17. | CALL_TYPE_LEVEL3               | Number(10)   | Y    | An item which identifies the sub category of Call Type Level 2.                                                |
+|     |                                |              |      | This defines, in more detail, the classification of the call                                                   |
+|     |                                |              |      | within the IOT, as used by the VPMN to price the call.                                                         |
+|     |                                |              |      | Values:                                                                                                        |
+|     |                                |              |      | 1. numeric (>=0) as defined within the VPMN’s IOT.                                                             |
+|     |                                |              |      | 2. where a VPMN has not defined a Call Type Level 3 in their IOT they can use any numeric values (>=0) in TAP. |
+| 18. | CHARGE_TYPE                    | Number(10)   | Y    | When present within Charge Detail the item identifies the type                                                 |
+|     |                                |              |      | of charge represented by the Charge Detail. When present                                                       |
+|     |                                |              |      | within Taxation the item identifies the type of charge associated                                              |
+|     |                                |              |      | with the applied tax referenced by the associated Tax Rate Code.                                               |
+|     |                                |              |      | Should only be present where a charge breakdown is present in                                                  |
+|     |                                |              |      | Charge Detail and where the tax is applicable to only a specific                                               |
+|     |                                |              |      | Charge Type rather than to the total charge.                                                                   |
+|     |                                |              |      | Values:                                                                                                        |
+|     |                                |              |      | 00 Total charge for Charge Information (the invoiceable value)                                                 |
+|     |                                |              |      | 01 Airtime charge                                                                                              |
+|     |                                |              |      | 02 reserved                                                                                                    |
+|     |                                |              |      | 03 Toll charge                                                                                                 |
+|     |                                |              |      | 04 Directory assistance                                                                                        |
+|     |                                |              |      | 05 – 20 reserved                                                                                               |
+|     |                                |              |      | 21 VPMN surcharge                                                                                              |
+|     |                                |              |      | 50 Total charge for Charge Information according to the published IOT                                          |
+|     |                                |              |      | 69 – 99 reserved                                                                                               |
+| 19. | CHARGE                         | Number(30,6) | N    | The charge for the Charge Detail after discounts have been deducted                                            |
+|     |                                |              |      | but before any tax is added. The decimal point value is dynamic in nature here.                                |
+|     |                                |              |      | This decimal point comes from the header record of the file and can be separate for each file.                 |
+| 20. | CHARGEABLE_UNITS               | Number(15)   | N    | The Chargeable Units item indicates the number of units which are chargeable within                            |
+|     |                                |              |      | the Charge Detail, this may not correspond to                                                                  |
+|     |                                |              |      | the number of rounded units charged. The item Charged Item                                                     |
+|     |                                |              |      | defines what the units represent.                                                                              |
+|     |                                |              |      | The item content reflects the chargeable not charged units.                                                    |
+|     |                                |              |      | The GPRS data volumes are defined in octets.The duration                                                       |
+|     |                                |              |      | related to Wi-Fi usage is defined in seconds.                                                                  |
+|     |                                |              |      | Where volume is related to messages (Service Centre Usage)                                                     |
+|     |                                |              |      | then the message length is represented in characters.                                                          |
+| 21. | CHARGED_UNITS                  | Number(15)   | N    | The Charged Units item indicates the rounded number of units which are                                         |
+|     |                                |              |      | actually charged for within the Charge Detail occurrence.                                                      |
+|     |                                |              |      | This value may not correspond to the number of Chargeable Units                                                |
+|     |                                |              |      | as it represents the charged units given the pricing unitisation/segmentation,                                 |
+|     |                                |              |      | for example first segment minimum 60 seconds charged followed                                                  |
+|     |                                |              |      | by 30 second unit charge. The item Charged Item defines what the units represent.                              |
+|     |                                |              |      | The item content reflects the rounded charged not chargeable units.                                            |
+|     |                                |              |      | Charged Units must be presented in the same unitisation as the corresponding Chargeable Units.                 |
+| 22. | *CALL_EVENT_START_TIMESTAMP*   | Datetime     | N    | The timestamp gives the start of the call event. The time is given in the                                      |
+|     |                                |              |      | local time of the Sender PMN (or Serving Network where this is not the Sender).                                |
+|     |                                |              |      | There must be a UTC Time Offset Code associated with the timestamp.                                            |
+|     |                                |              |      | Note that local time is the local time at the location of the chargeable subscriber.                           |
+|     |                                |              |      | Where the location is not available, as in some call forwarding scenarios,                                     |
+|     |                                |              |      | this will be a notional ‘network local time’. Note that this timestamp                                         |
+|     |                                |              |      | is the event start time as provided by the network.                                                            |
+|     |                                |              |      | This will be either the call answer time or the channel seizure time.                                          |
+|     |                                |              |      | Format:                                                                                                        |
+|     |                                |              |      | CCYYMMDDHHMMSS                                                                                                 |
+| 23. | UTC_TIME_OFFSET_CODE           | Number(8)    | N    | A code associated with a UTC Time Offset.                                                                      |
+|     |                                |              |      | The code is used with its associated timestamp to                                                              |
+|     |                                |              |      | enable conversion of the Sender PMN’s local time to UTC time.                                                  |
+|     |                                |              |      | Values:                                                                                                        |
+|     |                                |              |      | Range 0 .. 99                                                                                                  |
+| 24. | *TADIG*                        | Varchar2(5)  | N    | Identifies the MVNO associated with the usage .                                                                |
+| 25. | SENDER_ID                      | Varchar2(5)  | N    | Identifies the sender associated with the usage.                                                               |
+| 26. | ODS_INSERT_DATE                | DATE         | N    | INSERT timestamp                                                                                               |
+| 27. | PROCESS_RUN_ID                 | NUMBER(20)   | N    | Unique job instance identifier                                                                                 |
+|-----+--------------------------------+--------------+------+----------------------------------------------------------------------------------------------------------------|
+
+\normalsize
+
+*** IOT_AGGREGATOR_ON_NET_USAGE
+    Contains off network usage (roaming) for all IoT partners.
+****                                                               :noexport:
+|-----+--------------------------------+--------------+------+---------------------------------------------------------------------------------------------------------------------|
+|   # | Column Name                    | Data Type    | NULL | Description                                                                                                         |
+|-----+--------------------------------+--------------+------+---------------------------------------------------------------------------------------------------------------------|
+|  1. | TYPE                           | VARCHAR2(20) | N    | Type of Record. Always ‘gprsCall’                                                                                   |
+|  2. | *IMSI*                         | VARCHAR2(15) | N    | The identifier which uniquely identifies the subscriber who has used the                                            |
+|     |                                |              |      | network and is liable for any charges that may be incurred.                                                         |
+|  3. | MSISDN                         | VARCHAR2(15) | Y    | The Mobile Subscriber ISDN number.                                                                                  |
+|     |                                |              |      | Mobile Subscriber Integrated Services Digital Number - MSISDN                                                       |
+|     |                                |              |      | A field that identifies the MSISDN, which in the GSM environment                                                    |
+|     |                                |              |      | is used to refer to the subscriber’s “dialable/directory number.”                                                   |
+|     |                                |              |      | Example: 1608220516.                                                                                                |
+|  4. | ACCESS_POINT_NAME_NI           | VARCHAR2(70) | Y    | The Network Identifier part of the Access Point Name (APN) in dot notation.                                         |
+|  5. | ACCESS_POINT_NAME_OI           | VARCHAR2(40) | Y    | The Operator Identifier part of the Access Point Name (APN) in dot notation.                                        |
+|  6. | *TOTAL_CALL_EVENT_DURATION*    | Number(5)    | Y    | The item contains the actual total duration of a call event as a number                                             |
+|     |                                |              |      | of seconds.The Total Call Event Duration must always contain                                                        |
+|     |                                |              |      | the call duration calculated from the call end time (channel release)                                               |
+|     |                                |              |      | minus the Call Event Start Timestamp, or Service Start Timestamp, as applicable.                                    |
+|     |                                |              |      | The item is used, in conjunction with the Call Event Start Timestamp or                                             |
+|     |                                |              |      | Service Start Timestamp (and UTC Time Offset Code) to calculate the                                                 |
+|     |                                |              |      | call event end time. This is needed for ageing calculations and                                                     |
+|     |                                |              |      | validation against the File Available Timestamp.                                                                    |
+|     |                                |              |      | This value will always be NULL.                                                                                     |
+|  7. | CHARGING_ID                    | Number(25)   | Y    | A charging identifier which can be used together with GGSN address or P-GW address                                  |
+|     |                                |              |      | to identify all records produced in SSGN(s) and GGSN or in S-GW(s) and                                              |
+|     |                                |              |      | P-GW involved in a single PDP context. For Wi-Fi usage this item is unique                                          |
+|     |                                |              |      | as a Wi-Fi record always represents a complete Wi-Fi session.                                                       |
+|  8. | *CELL_ID*                      | VARCHAR2(10) | Y    | Identification of the Location Area Code of the mobile equipment handling the call.                                 |
+|     |                                |              |      | This is in Hexadecimal format.                                                                                      |
+|  9. | *SERVING_BID*                  | Number(5)    | Y    | The identity of the cell from which the call originated or in which it terminated.                                  |
+| 10. | *LOCATION_AREA*                | Number(10)   | Y    | The Serving BID (Billing Identifier) is a code associated with a                                                    |
+|     |                                |              |      | geographical area such as a cell site or group of cell sites. Where a Serving BID has                               |
+|     |                                |              |      | been supplied there must be a Serving Location Description present.                                                 |
+|     |                                |              |      | The Serving BID presence is not required where only the                                                             |
+|     |                                |              |      | Serving Location Description is used as a pricing parameter as per the Sender’s IOT definition.                     |
+| 11. | *SERVING_LOCATION_DESCRIPTION* | VARCHAR2(40) | Y    | A text description giving the geographical location of the terminal equipment.                                      |
+|     |                                |              |      | Operators may optionally use a description as a default where there has                                             |
+|     |                                |              |      | been no terminal equipment involved.                                                                                |
+|     |                                |              |      | The Serving Location Description must be present where there is an                                                  |
+|     |                                |              |      | associated Serving BID and its content will then be predefined.                                                     |
+|     |                                |              |      | Where the location of the subscriber is a pricing parameter the                                                     |
+|     |                                |              |      | Serving Location Description will contain a value as explicitly defined                                             |
+|     |                                |              |      | in the IOT of the Sender. Note that in case the IOT defines both a                                                  |
+|     |                                |              |      | ‘normal’ charge and one or more ‘exceptional’ charge(s) then only                                                   |
+|     |                                |              |      | call/events containing an ‘exceptional’ charge need to                                                              |
+|     |                                |              |      | contain the Serving Location Description.                                                                           |
+|     |                                |              |      | For Wi-Fi usage this item must be present and will contain a text description                                       |
+|     |                                |              |      | of the Wi-Fi Hot Spot or location, for example “London City Airport”.                                               |
+|     |                                |              |      | Other than the above described circumstances the content is at the                                                  |
+|     |                                |              |      | discretion of the Sender and is optionally supplied.                                                                |
+| 12. | IMEI                           | VARCHAR2(20) | Y    | The International Mobile Equipment Identity number. The identifier which uniquely                                   |
+|     |                                |              |      | identifies the equipment used by the subscriber during the call.                                                    |
+| 13. | *DATA_VOLUME_INCOMING*         | Number(16)   | N    | The Data Volume Incoming identifies the number of incoming octets                                                   |
+|     |                                |              |      | (bytes) within an occurrence of GPRS Service Used or Content Service Used.                                          |
+|     |                                |              |      | Values: > or = 0 (zero)                                                                                             |
+| 14. | *DATA_VOLUME_OUTGOING*         | Number(16)   | N    | The Data VolumeOutgoing identifies the number of outgoing                                                           |
+|     |                                |              |      | octets (bytes) within an occurrence of GPRS Service Used or Content Service Used.                                   |
+|     |                                |              |      | Values: > or = 0 (zero)                                                                                             |
+| 15. | CALL_TYPE_LEVEL1               | Number(10)   | Y    | The highest category call type in respect of the destination or origination of the call.                            |
+|     |                                |              |      | Values:                                                                                                             |
+|     |                                |              |      | 0 Unknown/Not Applicable                                                                                            |
+|     |                                |              |      | 1 National                                                                                                          |
+|     |                                |              |      | 2 International                                                                                                     |
+|     |                                |              |      | 10 HGGSN/HP-GW                                                                                                      |
+|     |                                |              |      | 11 VGGSN/VP-GW                                                                                                      |
+|     |                                |              |      | 12 Other GGSN/Other P-GW                                                                                            |
+|     |                                |              |      | 100 Wi-Fi                                                                                                           |
+| 16. | CALL_TYPE_LEVEL2               | Number(10)   | Y    | An item which identifies the sub category of Call Type Level 1.                                                     |
+|     |                                |              |      | This defines, in more detail, the classification of the call within the IOT, as used by the VPMN to price the call. |
+|     |                                |              |      | Values:                                                                                                             |
+|     |                                |              |      | 0 Unknown/Not Applicable                                                                                            |
+|     |                                |              |      | 1 Mobile                                                                                                            |
+|     |                                |              |      | 2 PSTN                                                                                                              |
+|     |                                |              |      | 3 Non Geographic                                                                                                    |
+|     |                                |              |      | 4 Premium Rate                                                                                                      |
+|     |                                |              |      | 5 Satellite destination                                                                                             |
+|     |                                |              |      | 6 Forwarded call                                                                                                    |
+|     |                                |              |      | 7 Non forwarded call                                                                                                |
+|     |                                |              |      | 10 QoS Broadband                                                                                                    |
+|     |                                |              |      | 11 QoS Narrowband                                                                                                   |
+|     |                                |              |      | 12 QoS Conversational                                                                                               |
+|     |                                |              |      | 13 QoS Streaming                                                                                                    |
+|     |                                |              |      | 14 QoS Interactive                                                                                                  |
+|     |                                |              |      | 15 QoS Background                                                                                                   |
+|     |                                |              |      | 20 Unspecified/default LTE QCIs                                                                                     |
+|     |                                |              |      | 21 LTE QCI 1 Conversational                                                                                         |
+|     |                                |              |      | 22 LTE QCI 2 Conversational                                                                                         |
+|     |                                |              |      | 23 LTE QCI 3 Conversational                                                                                         |
+|     |                                |              |      | 24 LTE QCI 4 Streaming                                                                                              |
+|     |                                |              |      | 25 LTE QCI 5 Interactive                                                                                            |
+|     |                                |              |      | (specialised for signalling)                                                                                        |
+|     |                                |              |      | 26 LTE QCI 6 Interactive                                                                                            |
+|     |                                |              |      | 27 LTE QCI 7 Interactive                                                                                            |
+|     |                                |              |      | 28 LTE QCI 8 Interactive                                                                                            |
+|     |                                |              |      | 29 LTE QCI 9 Background                                                                                             |
+|     |                                |              |      | 65 LTE QCI 65                                                                                                       |
+|     |                                |              |      | 66 LTE QCI 66                                                                                                       |
+|     |                                |              |      | 69 LTE QCI 69                                                                                                       |
+|     |                                |              |      | 70 LTE QCI 70                                                                                                       |
+| 17. | CALL_TYPE_LEVEL3               | Number(10)   | Y    | An item which identifies the sub category of Call Type Level 2.                                                     |
+|     |                                |              |      | This defines, in more detail, the classification of the call within the IOT, as used by the VPMN to price the call. |
+|     |                                |              |      | Values:                                                                                                             |
+|     |                                |              |      | 1. numeric (>=0) as defined within the VPMN’s IOT.                                                                  |
+|     |                                |              |      | 2. where a VPMN has not defined a Call Type Level 3 in their IOT they can use any numeric values (>=0) in TAP.      |
+|     |                                |              |      | This value will always be NULL.                                                                                     |
+| 18. | CHARGE_TYPE                    | Number(10)   | Y    | When present within Charge Detail the item identifies the type                                                      |
+|     |                                |              |      | of charge represented by the Charge Detail. When present                                                            |
+|     |                                |              |      | within Taxation the item identifies the type of charge associated with                                              |
+|     |                                |              |      | the applied tax referenced by the associated Tax Rate Code. Should only be present                                  |
+|     |                                |              |      | where a charge breakdown is present in Charge Detail and where the tax is                                           |
+|     |                                |              |      | applicable to only a specific Charge Type rather than to the total charge.                                          |
+|     |                                |              |      | This value will always be NULL.                                                                                     |
+| 19. | *CHARGE*                       | Number(30,6) | Y    | The charge for the Charge Detail after discounts have been deducted                                                 |
+|     |                                |              |      | but before any tax is added. This value will always be NULL.                                                        |
+| 20. | CHARGEABLE_UNITS               | Number(15)   | N    | The Chargeable Units item indicates the number of units which are chargeable                                        |
+|     |                                |              |      | within the Charge Detail, this may not correspond to the number of rounded units charged.                           |
+|     |                                |              |      | The item Charged Item defines what the units represent.                                                             |
+|     |                                |              |      | The item content reflects the chargeable not charged units.                                                         |
+|     |                                |              |      | The GPRS data volumes are defined in octets.The duration related to Wi-Fi usage is defined in seconds.              |
+|     |                                |              |      | Where volume is related to messages (Service Centre Usage) then the message length is represented in characters.    |
+| 21. | *CHARGED_UNITS*                | Number(15)   | Y    | The Charged Units item indicates the rounded number of units which are actually charged for                         |
+|     |                                |              |      | within the Charge Detail occurrence. This value may not correspond to                                               |
+|     |                                |              |      | the number of Chargeable Units as it represents the charged units given                                             |
+|     |                                |              |      | the pricing unitisation/segmentation, for example first segment minimum 60                                          |
+|     |                                |              |      | seconds charged followed by 30 second unit charge.                                                                  |
+|     |                                |              |      | The item Charged Item defines what the units represent. The item content                                            |
+|     |                                |              |      | reflects the rounded charged not chargeable units. Charged Units must be presented                                  |
+|     |                                |              |      | in the same unitisation as the corresponding Chargeable Units. This value will always be NULL.                      |
+| 22. | *CALL_EVENT_START_TIMESTAMP*   | Datetime     | N    | The timestamp gives the start of the call event. The time is given in the                                           |
+|     |                                |              |      | local time of the Sender PMN (or Serving Network where this is not the Sender).                                     |
+|     |                                |              |      | There must be a UTC Time Offset Code associated with the timestamp.                                                 |
+|     |                                |              |      | Note that local time is the local time at the location of the chargeable subscriber.                                |
+|     |                                |              |      | Where the location is not available, as in some call forwarding scenarios,                                          |
+|     |                                |              |      | this will be a notional ‘network local time’. Note that this                                                        |
+|     |                                |              |      | timestamp is the event start time as provided by the network.                                                       |
+|     |                                |              |      | This will be either the call answer time or the channel seizure time.                                               |
+|     |                                |              |      | Format: CCYYMMDDHHMMSS                                                                                              |
+| 23. | UTC_TIME_OFFSET_CODE           | Number(8)    | N    | A code associated with a UTC Time Offset. The code is used with its                                                 |
+|     |                                |              |      | associated timestamp to enable conversion of the Sender PMN’s local time to UTC time.                               |
+|     |                                |              |      | Values:                                                                                                             |
+|     |                                |              |      | Range 0 .. 99                                                                                                       |
+| 24. | *TADIG*                        | Varchar2(5)  | N    | Identifies the MVNO associated with the usage.                                                                      |
+| 25. | SENDER_ID                      | Varchar2(5)  | N    | Identifies the sender associated with the usage.                                                                    |
+| 26. | ODS_INSERT_DATE                | DATE         | N    | INSERT timestamp                                                                                                    |
+| 27. | PROCESS_RUN_ID                 | NUMBER(20)   | N    | Unique job instance identifier                                                                                      |
+|-----+--------------------------------+--------------+------+---------------------------------------------------------------------------------------------------------------------|
+#+BEGIN_LaTeX
+\normalsize
+#+END_LaTeX
+
+*** IOT_RATE_PLAN
+    This describes the rate information for all IoT partners.
+
+****                                                               :noexport:
+|-----+-----------------------+---------------+------+------------------------------------------------------------------------------------------------------|
+|   # | Column Name           | Data Type     | NULL | Description                                                                                          |
+|-----+-----------------------+---------------+------+------------------------------------------------------------------------------------------------------|
+|  1. | TADIG                 | Varchar2(5)   | N    | Identifies the MVNO for which the plan information applies.                                          |
+|  2. | IMSI_BILLING_TYPE     | Varchar2(25)  | N    | Identifies an IMSI class associated with a set of billing rules.                                     |
+|     |                       |               |      | Valid values:  PayPerUse, Reserved, Pooled                                                           |
+|  3. | PLAN_ID               | Varchar2(50)  | N    | Descriptive label which represents a given usage threshold and its associated attributes.            |
+|  4. | USAGE_THRESHOLD_LOW   | Number(10)    | N    | The lower bound of usage in kilobytes (KB) used to define a plan.                                    |
+|  5. | USAGE_THRESHOLD_HIGH  | Number(10)    | N    | The upper bound of usage in kilobytes (KB) used to define a plan.                                    |
+|  6. | OFF_NET_RATE          | Number(14,10) | N    | This is the per MB rate that will be charged to the MVNO for usage generated                         |
+|     |                       |               |      | on roaming networks (networks/carriers other than USCC).                                             |
+|     |                       |               |      | The rate in the table will be reflected in per MB, but contracts may be written using KB or GB.      |
+|  7. | ON_NET_RATE           | Number(14,10) | N    | This is the per MB rate that will be charged to the MVNO for usage generated on the                  |
+|     |                       |               |      | USC network (non-roaming traffic).  The rate in the table will be reflected                          |
+|     |                       |               |      | in per MB, but contracts may be written using KB or GB.                                              |
+|  8. | ACCESS_FEE            | Number(7,3)   | N    | A per-IMSI fee assessed when/if an IMSI uses ANY data within the billing period.                     |
+|     |                       |               |      | Access fee is a configurable fee, billed every month there is use, for every IMSI that uses data.    |
+|  9. | OVERAGE_RATE          | Number(14,10) | N    | The rate used for pooled IMSI Billing Type IMSIs, when total usage                                   |
+|     |                       |               |      | is greater than the calculated pool size for any pool.  The charge                                   |
+|     |                       |               |      | is applied based on total overage on each pool, for all IMSIs use within their respective pools.     |
+|     |                       |               |      | Will be 0 when not applicable.                                                                       |
+| 10. | CONTRIBUTION_QUANTITY | Number(15)    | N    | Used for calculating available usage pool size.                                                      |
+|     |                       |               |      | The contribution quantity is the tonnage, in MB, that an individual SIM                              |
+|     |                       |               |      | contributes to the available pool size, which is then summed across                                  |
+|     |                       |               |      | all SIMs in each pool to determine available tonnage for each pool.do Will be 0 when not applicable  |
+| 11. | START_DATE            | DATE          | N    | The start of the effective date range for the record.                                                |
+| 12. | END_DATE              | DATE          | Y    | The end of the effective date range for the record. This is NULL for the currently effective record. |
+| 13. | PROCESS_RUN_ID        | NUMBER(20)    | N    | Unique job instance identifier                                                                       |
+|-----+-----------------------+---------------+------+------------------------------------------------------------------------------------------------------|
+
+\normalsize
+
+*** IOT_IMSI_STATUS
+    Contains the IMSI blocks for 
+****                                                               :noexport:
+|----+-------------------+--------------+------+------------------------------------------------------------------|
+|  # | Column Name       | Data Type    | NULL | Description                                                      |
+|----+-------------------+--------------+------+------------------------------------------------------------------|
+| 1. | *TADIG*           | Varchar2(5)  | N    | Identifies the MVNO for which the plan information applies.      |
+| 2. | IMSI_BILLING_TYPE | Varchar2(25) | N    | Identifies an IMSI class associated with a set of billing rules. |
+|    |                   |              |      | Valid values:  PayPerUse, Reserved, Pooled                       |
+| 3. | IMSI_BLOCK_START  | Number(15)   | N    | Starting value for the IMSI block. Eg: 311588101000000           |
+| 4. | IMSI_BLOCK_END    | Number(15)   | N    | Ending value for the IMSI block. Eg: 311588101999999             |
+| 5. | START_DATE        | DATE         | N    | The start of the effective date range for the record.            |
+| 6. | END_DATE          | DATE         | Y    | The end of the effective date range for the record.              |
+|    |                   |              |      | This is NULL for the currently effective record.                 |
+| 7. | PROCESS_RUN_ID    | NUMBER(20)   | N    | Unique job instance identifier                                   |
+|----+-------------------+--------------+------+------------------------------------------------------------------|
+
+*** IOT_PARTNER
+    Contains partner information
+****                                                               :noexport:
+|----+----------------------+---------------+------+---------------------------------------------------------------|
+|  # | Column Name          | Data Type     | NULL | Description                                                   |
+|----+----------------------+---------------+------+---------------------------------------------------------------|
+| 1. | *TADIG*              | Varchar2(5)   | N    | Identifies the MVNO for which the plan information applies.   |
+| 2. | MVNO_NAME            | Varchar2(50)  | N    | Name of the MVNO..                                            |
+| 3. | CONTACT_GROUP_EMAIL  | Varchar2(100) | N    | Email address associated with the MVNO. This is a group email |
+|    |                      |               |      | and not a list of multiple or individual email addresses.     |
+| 4. | RECEIVES_USAGE_FILE  | Varchar2(1)   | N    | This flag indicates whether the partner receives the          |
+|    |                      |               |      | daily data usage file or not.  : Valid Values: Y or N         |
+| 5. | MVNO_STATUS          | Varchar2(10)  | N    | Indicates whether the MVNO is active or not.                  |
+|    |                      |               |      | Valid Values: ACTIVE or INACTIVE.                             |
+| 6. | ODS_INSERT_DATE      | Date          | N    | INSERT timestamp                                              |
+| 7. | ODS_LAST_UPDATE_DATE | Date          | N    | UPDATE timestamp                                              |
+| 8. | PROCESS_RUN_ID       | NUMBER(20)    | N    | Unique job instance identifier                                |
+|----+----------------------+---------------+------+---------------------------------------------------------------|
+
+** Infrastructure Considerations
+   The program will be run on the operational server *kpr01oprmn* and will produce a report on the 3rd and 5th of each month.
+** Testing Approach
+   Will use a test first philosephy 
+** Implementation Considerations
+   All tables that is used with program needs to be created and have data.
+
+* Check APRM for FloLive IMSI                                      :noexport:
+ : select count(*) from  prm_rom_incol_events_ap where orig_brok_filename in (
+ :                      select unique(imsi) from IOT_AGGREGATOR_USAGE where tadig = 'IOTFL');

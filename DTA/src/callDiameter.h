@@ -95,7 +95,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 	}
 
-	std::string SessionID = init_session_id(sess_count++);
+	std::string SessionID = init_session_id(sess_count-1);
 
 	cout << "DTA:CallDiameter: Initialize the GY Interface" << endl;
 
@@ -127,6 +127,10 @@ int callDiameter(int client, int server, int sess_count) {
 
 		}
 	}
+
+// From Amdocs
+
+	SessionID = init_session_id(sess_count);
 
 	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1], parmList[2]) > 0)) {
 

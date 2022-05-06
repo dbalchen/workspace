@@ -19,8 +19,8 @@ class PDCtok
 	public :
 		PDCtok(std::string s, char delim = '|');
 		virtual ~PDCtok();
-		int count() const { return _token_list.size(); }
-//		int count() const { return (int) _token_list.size(); }
+//		int count() const { return _token_list.size(); }
+		int count() const { return (int) _token_list.size(); }
 		std::string by_index(const int index) const;
 		std::string by_string(const std::string tok);
 	private :

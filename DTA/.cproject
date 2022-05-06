@@ -50,12 +50,6 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="cdt.managedbuild.config.gnu.exe.debug.2023029081.260305057" name="dta.cpp" rcbsApplicability="disable" resourcePath="src/dta.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1660464867.1597767924">
-						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1660464867.1597767924" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1660464867">
-							<option id="gnu.cpp.compiler.option.dialect.std.376986046" name="Language standard" superClass="gnu.cpp.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.cpp.compiler.dialect.c++11" valueType="enumerated"/>
-							<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1384767761" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
-						</tool>
-					</fileInfo>
 					<sourceEntries>
 						<entry excluding="src/dServer.cpp|src/dClient.cpp|src/testCon.cpp|src/dDiameter.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
@@ -105,7 +99,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="src/dServer.cpp|src/dClient.cpp|src/testCon.cpp|src/dDiameter.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="src/dClient.cpp|src/testCon.cpp|src/dDiameter.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -2204,9 +2204,13 @@ DIAMETER_avp::dd_i(const CBBString& val) const
 	{
 		return 0;
 	}
-	*/
 
-	printf("I'm in DIAMETER_avp::dd_i\n");
+*/
+
+// WATCH Here!!!!
+printf("Made Call to DIAMETER_avp::dd_i(const CBBString& val) const\n");
+
+return 0;
 }
 CBBByteArray
 DIAMETER_avp::colon_i(const CBBString& val) const
