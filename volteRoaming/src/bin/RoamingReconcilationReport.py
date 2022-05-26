@@ -462,6 +462,7 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))             
           
     if switch == 'DISP_RM':
+        
         sumRow[2] = sumColumn(2, results)
         sumRow[3] = sumColumn(3, results)
         sumRow[5] = sumColumn(8, results)

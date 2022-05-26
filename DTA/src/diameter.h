@@ -68,7 +68,7 @@ int read_diameter(int client_sock) {
 
 	long unsigned int retval = -1;
 
-//	int retval = -1;
+	//	int retval = -1;
 
 	memset(RecvBuf, 0, sizeof(RecvBuf));
 
@@ -115,17 +115,17 @@ int read_diameter(int client_sock) {
 
 int write_diameter(int client_sock, DIAMETER_msg &msg) {
 
-  long int retval = -1;
+	long int retval = -1;
 
-  CBBByteArray outbuf = msg.encode_binary();
+	CBBByteArray outbuf = msg.encode_binary();
 
-  char *wp = (char *) (outbuf.GetData());
+	char *wp = (char *) (outbuf.GetData());
 
-  retval = send(client_sock, wp, outbuf.GetSize(), 0);
+	retval = send(client_sock, wp, outbuf.GetSize(), 0);
 
-  return retval;
+	return retval;
 
-  }
+}
 
 
 int cer_send(int client_sock) {
@@ -297,7 +297,7 @@ int gy_ccr_send(int client_sock, unsigned int cc_type,unsigned int requested_act
 	DIAMETER_avp avp15;
 	avp15.setCode(AVP_NAME_SUBSCRIPTION_ID_DATA);
 	avp15.setValue(mdn.c_str());
-//	avp15.setValue("6085761900");
+	//	avp15.setValue("6085761900");
 	avp13.setAvp(avp15);
 
 	ccr.setAvp(avp13);
@@ -359,11 +359,14 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	unsigned long long iamount = std::stoull(amount);
+	unsigned int iamount = std::stoull(amount);
+//	value_digits_avp.setValue(iamount);
+//	value_digits_avp.setValue(htonl(666));
 
-	value_digits_avp.setLongValue(iamount);
-//	value_digits_avp.setLongValue(htonll(1666));
-//	value_digits_avp.setLongValue(1023ull);
+	//unsigned long long iamount = std::stoull(amount);
+	//value_digits_avp.setLongValue(iamount);
+    value_digits_avp.setLongValue(htonll(1666));
+	//	value_digits_avp.setLongValue(1023ull);
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -397,12 +400,15 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 	return (gy_ccr_send(client_sock, cc_request_type_initial_request, 0, SessionID, mdn,avp_list));
 }
 
-int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std::string amount) {
+int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std::string amount, int requested_action) {
 
 	vector<DIAMETER_avp> avp_list;
 
 	DIAMETER_avp requested_service_unit;
 	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
+
+	DIAMETER_avp used_service_unit;
+	used_service_unit.setCode(AVP_NAME_USED_SERVICE_UNIT);
 
 	DIAMETER_avp exponent_avp;
 	exponent_avp.setCode(AVP_NAME_EXPONENT);
@@ -411,15 +417,25 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	unsigned long long iamount = std::stoull(amount);
-	value_digits_avp.setLongValue(iamount);
+	long long  iamount = std::stoull(amount);
+//	value_digits_avp.setValue(iamount);
+//	value_digits_avp.setValue(htonl(666));
 
-//	value_digits_avp.setLongValue(1023ull);
-//	value_digits_avp.setLongValue(htonll(1666));
+//
+//	unsigned long long iamount = std::stoull(amount);
+//	value_digits_avp.setLongValue(iamount);
+//
+	//	value_digits_avp.setLongValue(1023ull);
+	value_digits_avp.setLongValue(htonll(1666));
+	//value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
 
+	DIAMETER_avp termination_cause_avp;
+	termination_cause_avp.setCode(AVP_NAME_TERMINATION_CAUSE);
+	avp_list.push_back(termination_cause_avp);
 
-
-//value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
+	DIAMETER_avp adjustment_reason_code;
+	adjustment_reason_code.setCode(1106);
+	avp_list.push_back(adjustment_reason_code);
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -435,9 +451,25 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	cc_money_avp.setAvp(unit_value_avp);
 	cc_money_avp.setAvp(currency_code_avp);
 
-	requested_service_unit.setAvp(cc_money_avp);
+//	requested_service_unit.setAvp(cc_money_avp);
 
-	avp_list.push_back(requested_service_unit);
+//	avp_list.push_back(requested_service_unit);
+
+
+	if(requested_action == cc_request_action_refund_account)
+	{
+		// Credit Account
+		requested_service_unit.setAvp(cc_money_avp);
+		avp_list.push_back(requested_service_unit);
+
+	}
+	else {
+// Debit account
+
+		used_service_unit.setAvp(cc_money_avp);
+
+		avp_list.push_back(used_service_unit);
+	}
 
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);
@@ -461,9 +493,6 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 
 	vector<DIAMETER_avp> avp_list;
 
-	DIAMETER_avp requested_service_unit;
-	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
-
 	DIAMETER_avp exponent_avp;
 	exponent_avp.setCode(AVP_NAME_EXPONENT);
 	exponent_avp.setValue(htonl(2));
@@ -471,10 +500,18 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	unsigned long long iamount = std::stoull(amount);
-    value_digits_avp.setLongValue(iamount);
- //   value_digits_avp.setLongValue(htonll(1666));
-//	value_digits_avp.setLongValue(1023ull);
+	DIAMETER_avp requested_service_unit;
+	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
+
+	DIAMETER_avp used_service_unit;
+	used_service_unit.setCode(AVP_NAME_USED_SERVICE_UNIT);
+
+	unsigned int iamount = std::stoull(amount);
+//	value_digits_avp.setValue(iamount);
+//	value_digits_avp.setValue(htonl(666));
+
+	value_digits_avp.setLongValue(htonll(1666));
+	//	value_digits_avp.setLongValue(1023ull);
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -490,8 +527,18 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	cc_money_avp.setAvp(unit_value_avp);
 	cc_money_avp.setAvp(currency_code_avp);
 
-	requested_service_unit.setAvp(cc_money_avp);
-	avp_list.push_back(requested_service_unit);
+	if(requested_action == cc_request_action_refund_account)
+	{
+		// Credit Account
+		requested_service_unit.setAvp(cc_money_avp);
+		avp_list.push_back(requested_service_unit);
+
+	}
+	else {
+// Debit account
+		used_service_unit.setAvp(cc_money_avp);
+		avp_list.push_back(used_service_unit);
+	}
 
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);

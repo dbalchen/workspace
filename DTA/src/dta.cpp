@@ -32,12 +32,12 @@ std::string LocalHost = "Localhost";
 
 std::string LocalIPAddress = "192.168.0.1";
 
-std::string RemoteHost = "mqr35batch.uscc.com";
+std::string RemoteHost = "Localhost" ; //"mqr35batch.uscc.com";
 
 // Default Ports
 short unsigned int dta_port = 8888;
 
-short unsigned int tcd_port = 11151;
+short unsigned int tcd_port = 3868;//11151;
 
 // Application includes
 #include "diameter.h"

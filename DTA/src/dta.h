@@ -214,7 +214,7 @@ void dta::acceptConection(int csock, int ssock) {
 
 			threadVector.clear();
 
-			totalThreads = 1;
+			totalThreads = 0;
 
 		}
 

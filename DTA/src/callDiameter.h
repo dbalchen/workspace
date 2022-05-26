@@ -130,7 +130,6 @@ int callDiameter(int client, int server, int sess_count) {
 
 // From Amdocs
 
-	SessionID = init_session_id(sess_count);
 
 	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1], parmList[2]) > 0)) {
 
@@ -157,7 +156,9 @@ int callDiameter(int client, int server, int sess_count) {
 		}
 	}
 
-	if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2]) > 0)) {
+	SessionID = init_session_id(sess_count);
+
+	if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2], dRequest) > 0)) {
 
 		int msg_length = read_diameter(server);
 
