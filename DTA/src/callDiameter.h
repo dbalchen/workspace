@@ -14,7 +14,9 @@ using namespace std;
 int callDiameter(int client, int server, int sess_count) {
 
 	char buffer[8192];
-	unsigned int dRequest;
+
+	unsigned int dRequest = 0;
+
 	int decode_retval;
 
 	char RecvBuf[8192];
@@ -48,8 +50,10 @@ int callDiameter(int client, int server, int sess_count) {
 	;
 
 	std::string request = (std::string(buffer));
-
 	request = request.substr(0, request.length());
+
+	request.erase( std::remove(request.begin(), request.end(), '\r'), request.end() );
+	request.erase( std::remove(request.begin(), request.end(), '\n'), request.end() );
 
 	// Try/catch
 
@@ -79,10 +83,11 @@ int callDiameter(int client, int server, int sess_count) {
 	if (parmList[0].compare("DEBIT") == 0) {
 		dRequest = cc_request_action_direct_debit;
 	}
-
+	else if (parmList[0].compare("AUTH") == 0) {
+		dRequest = -1;
+	}
 	else if (parmList[0].compare("CREDIT") == 0) {
 		dRequest = cc_request_action_refund_account;
-
 	} else {
 
 		write(client, "Failure: Transaction Type not Supported\n", 23);
@@ -95,7 +100,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 	}
 
-	std::string SessionID = init_session_id(sess_count-1);
+	std::string SessionID = init_session_id(sess_count);
 
 	cout << "DTA:CallDiameter: Initialize the GY Interface" << endl;
 
@@ -130,7 +135,8 @@ int callDiameter(int client, int server, int sess_count) {
 
 // From Amdocs
 
-
+if(dRequest != -1)
+{
 	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1], parmList[2]) > 0)) {
 
 		int msg_length = read_diameter(server);
@@ -156,9 +162,9 @@ int callDiameter(int client, int server, int sess_count) {
 		}
 	}
 
-	SessionID = init_session_id(sess_count);
-
-	if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2], dRequest) > 0)) {
+}
+else {
+	if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2]) > 0)) {
 
 		int msg_length = read_diameter(server);
 
@@ -183,6 +189,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 		}
 	}
+}
 
 	door.unlock();
 

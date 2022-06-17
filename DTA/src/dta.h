@@ -14,7 +14,7 @@ private:
 
 	int num_threads = 11;
 
-	int sess_count = 0;
+	long long unsigned int sess_count = 0;
 
 	short unsigned int port;
 
@@ -194,7 +194,7 @@ void dta::acceptConection(int csock, int ssock) {
 
 		int client = client_connection(csock);
 
-		sess_count = sess_count + 2;
+		sess_count = sess_count + 1;
 
 		totalThreads = totalThreads + 1;
 

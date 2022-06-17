@@ -319,7 +319,7 @@ int gy_ccr_send(int client_sock, unsigned int cc_type,unsigned int requested_act
 	return (write_diameter(client_sock, ccr));
 }
 
-
+/*
 long long htonll(long long val) {
 	union {
 		long l[2];
@@ -344,6 +344,7 @@ unsigned long long ntohll(unsigned long long val) {
 	return u.ll;
 }
 
+*/
 
 int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::string amount) {
 
@@ -359,14 +360,17 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	unsigned int iamount = std::stoull(amount);
-//	value_digits_avp.setValue(iamount);
-//	value_digits_avp.setValue(htonl(666));
+	int64_t longAmount = strtoll(amount.c_str(),NULL, 10);
 
-	//unsigned long long iamount = std::stoull(amount);
-	//value_digits_avp.setLongValue(iamount);
-    value_digits_avp.setLongValue(htonll(1666));
-	//	value_digits_avp.setLongValue(1023ull);
+	printf("This is long value : %I64d\n", longAmount);
+
+//	value_digits_avp.setValue(htonl(100));
+
+	value_digits_avp.setLongValue(longAmount);
+
+//	value_digits_avp.setLongValue(htonll(longAmount));
+//  value_digits_avp.setLongValue(htonll(666LL));
+//	value_digits_avp.setLongValue(1023ull);
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -384,6 +388,13 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 	requested_service_unit.setAvp(cc_money_avp);
 	avp_list.push_back(requested_service_unit);
 
+	DIAMETER_avp content_description_code_avp;
+	content_description_code_avp.setCode(1102);
+	content_description_code_avp.setVendorID(11580);
+	content_description_code_avp.setValue("REFUND_CREDIT");
+
+	avp_list.push_back(content_description_code_avp);
+
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);
 	purchase_category_code_avp.setVendorID(11580);
@@ -400,7 +411,7 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 	return (gy_ccr_send(client_sock, cc_request_type_initial_request, 0, SessionID, mdn,avp_list));
 }
 
-int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std::string amount, int requested_action) {
+int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std::string amount) {
 
 	vector<DIAMETER_avp> avp_list;
 
@@ -417,20 +428,19 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	long long  iamount = std::stoull(amount);
-//	value_digits_avp.setValue(iamount);
-//	value_digits_avp.setValue(htonl(666));
+	int64_t longAmount = strtoll(amount.c_str(),NULL, 10);
+	printf("This is long value : %I64d\n", longAmount);
+//	value_digits_avp.setValue(htonl(100));
+//	value_digits_avp.setLongValue(htonll(longAmount));
+	value_digits_avp.setLongValue(longAmount);
 
-//
-//	unsigned long long iamount = std::stoull(amount);
-//	value_digits_avp.setLongValue(iamount);
-//
-	//	value_digits_avp.setLongValue(1023ull);
-	value_digits_avp.setLongValue(htonll(1666));
-	//value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
+//	value_digits_avp.setLongValue(htonll(666LL));
+//value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
+
 
 	DIAMETER_avp termination_cause_avp;
 	termination_cause_avp.setCode(AVP_NAME_TERMINATION_CAUSE);
+	termination_cause_avp.setValue(htonl(1));
 	avp_list.push_back(termination_cause_avp);
 
 	DIAMETER_avp adjustment_reason_code;
@@ -451,25 +461,14 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	cc_money_avp.setAvp(unit_value_avp);
 	cc_money_avp.setAvp(currency_code_avp);
 
-//	requested_service_unit.setAvp(cc_money_avp);
+	used_service_unit.setAvp(cc_money_avp);
+	avp_list.push_back(used_service_unit);
 
-//	avp_list.push_back(requested_service_unit);
-
-
-	if(requested_action == cc_request_action_refund_account)
-	{
-		// Credit Account
-		requested_service_unit.setAvp(cc_money_avp);
-		avp_list.push_back(requested_service_unit);
-
-	}
-	else {
-// Debit account
-
-		used_service_unit.setAvp(cc_money_avp);
-
-		avp_list.push_back(used_service_unit);
-	}
+	DIAMETER_avp partner_id_avp;
+	partner_id_avp.setCode(1103);
+	partner_id_avp.setVendorID(11580);
+	partner_id_avp.setValue("USCC-DTA");
+	avp_list.push_back(partner_id_avp);
 
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);
@@ -484,6 +483,8 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	application_type_avp.setValue("Charge_Code_Description");
 
 	avp_list.push_back(application_type_avp);
+
+
 
 	return (gy_ccr_send(client_sock, cc_request_type_terminal_request, 0,SessionID, mdn, avp_list));
 }
@@ -506,11 +507,12 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	DIAMETER_avp used_service_unit;
 	used_service_unit.setCode(AVP_NAME_USED_SERVICE_UNIT);
 
-	unsigned int iamount = std::stoull(amount);
-//	value_digits_avp.setValue(iamount);
-//	value_digits_avp.setValue(htonl(666));
+	int64_t longAmount = strtoll(amount.c_str(),NULL, 10);
+	printf("This is long value : %I64d\n", longAmount);
 
-	value_digits_avp.setLongValue(htonll(1666));
+//	value_digits_avp.setValue(htonl(100));
+//	value_digits_avp.setLongValue(htonll(longAmount));
+	value_digits_avp.setLongValue(longAmount);
 	//	value_digits_avp.setLongValue(1023ull);
 
 	DIAMETER_avp unit_value_avp;
@@ -527,11 +529,18 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	cc_money_avp.setAvp(unit_value_avp);
 	cc_money_avp.setAvp(currency_code_avp);
 
+	DIAMETER_avp adjustment_reason_code;
+	adjustment_reason_code.setCode(1106);
+	adjustment_reason_code.setVendorID(11580);
+	adjustment_reason_code.setValue("Credit Account");
+
 	if(requested_action == cc_request_action_refund_account)
 	{
 		// Credit Account
 		requested_service_unit.setAvp(cc_money_avp);
 		avp_list.push_back(requested_service_unit);
+
+		avp_list.push_back(adjustment_reason_code);
 
 	}
 	else {
@@ -540,12 +549,30 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 		avp_list.push_back(used_service_unit);
 	}
 
+
+	DIAMETER_avp partner_id_avp;
+	partner_id_avp.setCode(1103);
+	partner_id_avp.setVendorID(11580);
+	partner_id_avp.setValue("USCC");
+	avp_list.push_back(partner_id_avp);
+
+
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);
 	purchase_category_code_avp.setVendorID(11580);
 	purchase_category_code_avp.setValue("Charge_Code_Description");
 
 	avp_list.push_back(purchase_category_code_avp);
+
+
+	DIAMETER_avp content_description_code_avp;
+	content_description_code_avp.setCode(1102);
+	content_description_code_avp.setVendorID(11580);
+	content_description_code_avp.setValue("REFUND_CREDIT");
+
+	avp_list.push_back(content_description_code_avp);
+
+
 
 	DIAMETER_avp application_type_avp;
 	application_type_avp.setCode(1105);
