@@ -25,7 +25,7 @@ from openpyxl.styles import Font
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
-#sendTo = ["david.balchen@uscellular.com", "Marvin.Guss@uscellular.com", "michael.joseph@uscellular.com", "xavier.lbataille@uscellular.com", "mark.foster@uscellular.com", "gabe.hedstrom@uscellular.com", "dean.schempp@uscellular.com", "Sandra.Fitts@uscellular.com", "olivia.solis@uscellular.com"]
+#sendTo = ["david.balchen@uscellular.com", "USCDLISBilling-UsageDevandOps@uscellular.com", "Michael.Joseph@uscellular.com", "USCDLRA-Monitoring&Metrics@uscellular.com", "Christine.Bekos@uscellular.com", "Marvin.Guss@uscellular.com", "RevenueAccounting@uscellular.com", "xavier.lbataille@uscellular.com", "mark.foster@uscellular.com", "gabe.hedstrom@uscellular.com", "dean.schempp@uscellular.com", "Sandra.Fitts@uscellular.com", "olivia.solis@uscellular.com"]
 sendTo = ["david.balchen@uscellular.com"]
 
 # Font setup   
@@ -34,7 +34,6 @@ bold_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=Tru
 red_font = Font(name='Arial', size=10, color='00FF0000', italic=True, bold=False)
 
 sqlDictionary = {}
-
 
 sqlDictionary["IOT_RATE_PLAN"] = """
   SELECT *
@@ -49,7 +48,7 @@ sqlDictionary["IOT_RATE_PLAN"] = """
  order by TADIG, IMSI_BILLING_TYPE, PLAN_ID, t1.start_date desc
 """
 
-sqlDictionary["IOT_PARTNER"] =  """
+sqlDictionary["IOT_PARTNER"] = """
 select unique(tadig),mvno_name from IOT_PARTNER
 """
 
@@ -65,33 +64,55 @@ select * from IOT_IMSI_RANGE t1,
 order by t1.TADIG, t1.IMSI_BILLING_TYPE, t1.start_DATE desc
 """
 
-sqlDictionary["usage"] = """
-select IMSI,TADIG,count(*), sum(TOTAL_CALL_EVENT_DURATION)/60, (sum(DATA_VOLUME_INCOMING)/1024),
-       sum(DATA_VOLUME_OUTGOING/1024),sum((DATA_VOLUME_INCOMING/1024) + DATA_VOLUME_OUTGOING/1024),
-nvl(sum(CHARGE),0.00) 
- from  {IOT_AGGREGATOR}
- where CALL_EVENT_START_TIMESTAMP >= to_date('{last_month}','YYYYMMDD') and CALL_EVENT_START_TIMESTAMP < to_date('{this_month}','YYMMDD')
- group by IMSI,TADIG
- order by IMSI,TADIG
+sqlDictionary["OFF_NET"] = """
+ select b.IMSI,b.TADIG, count(*) "Total Off-Net Records",
+ sum(b.TOTAL_CALL_EVENT_DURATION)/60 "Total Minutes",
+ (sum(b.DATA_VOLUME_INCOMING)/1024) "Total Offnet Data Incoming",
+ sum(b.DATA_VOLUME_OUTGOING/1024) "Total Offnet Data Outgoing",
+ sum((b.DATA_VOLUME_INCOMING/1024) + b.DATA_VOLUME_OUTGOING/1024) "Total Offnet Data",
+ nvl(sum(b.CHARGE),0.00) "Total Offnet Record Charges"
+ from  IOT_AGGREGATOR_OFF_NET_USAGE b
+ where b.CALL_EVENT_START_TIMESTAMP >= to_date('{last_month}','YYYYMMDD') 
+ and b.CALL_EVENT_START_TIMESTAMP < to_date('{this_month}','YYMMDD')
+ group by b.IMSI,b.TADIG
+ order by b.IMSI,b.TADIG
+"""
+
+sqlDictionary["ON_NET"] = """
+select a.IMSI,a.TADIG, count(*) "Total Onnet Records",
+(sum(a.DATA_VOLUME_INCOMING)/1024) "Total Onnet Data Incoming",
+sum(a.DATA_VOLUME_OUTGOING/1024) "Total Onnet Data Outgoing",
+sum((a.DATA_VOLUME_INCOMING/1024) + a.DATA_VOLUME_OUTGOING/1024) "Total Onnet Data"
+from  IOT_AGGREGATOR_ON_NET_USAGE a
+where a.CALL_EVENT_START_TIMESTAMP >= to_date('{last_month}','YYYYMMDD') 
+and a.CALL_EVENT_START_TIMESTAMP < to_date('{this_month}','YYMMDD')
+group by a.IMSI,a.TADIG
+order by a.IMSI,a.TADIG
 """
 
 headings = {}
 
 headings["IoT_IMSI"] = [
 "IMSI",
-"Total Records",
+"Total Off Network Records",
 "Total Session Duration (Minutes)",
-"Incoming KB",
-"Outgoing KB",
-"Total Record Charges $",
-"Total Network Charges $",
+"Off Network Incoming KB",
+"Off Network Outgoing KB",
+"Total Off Network Data",
+"Total Off Network Record Charges $",
+"Total On Network Records",
+"On Network Incoming KB",
+"On Network Outgoing KB",
+"Total On Network Data",
 "Plan A Charged Units KB",
-"Plan B Charged Units KB"
+"Plan B Charged Units KB",
+"Total Off Network Charges $",
+"Total On Network Charges $",
+"Total Charges $"
 ];
 
 tab = {}
-tab["IoT_IMSI"] = "IoT {tadig} by IMSI {onOff}"; 
-
+tab["IoT_IMSI"] = "IoT {tadig} by IMSI"; 
 
 
 def sendMail (xfile, mesg, subject, who):
@@ -157,87 +178,118 @@ def printSheet (title, header, sheet, output, flag=0):
         max_row = max_row + 1 
     return
 
-
 ######################################################################################
 # 
 
-def  processUsage(wb,usage,onOff = 'OnNet',count = 0):
+
+def  processUsage(wb, OnNetusage, OffNetusage, count=0):
     
-    tadig = sorted(set(map(lambda x:x[1], usage)))
+    tadigOff = sorted(set(map(lambda x:x[1], OffNetusage)))
+    tadigOn = sorted(set(map(lambda x:x[1], OnNetusage)))
+
+    tadig = sorted(set(tadigOff + tadigOn))
     
     for tad in tadig: 
        
+        print("tadig = ")
+        print(tad)
+        print("\n")
+        
         mvno = [x for x in iotPartner if x[0] == tad][0][1]
     
-        results = [x for x in usage if x[1] == tad]
+        on = [x for x in OnNetusage if x[1] == tad]
+        off = [x for x in OffNetusage if x[1] == tad]
+        
+        onimsi = sorted(set(map(lambda x:x[0], on)))
+        offimsi = sorted(set(map(lambda x:x[0], off))) 
+        
+        imsis = sorted(set(onimsi + offimsi))
         
         output = []
         
-        for row in results:
-        
-            imsi = row[0]
+        for imsi in imsis:
             
-            if imsi == '311588100000002':
+            print("IMSI = ")
+            print(imsi)
+            print("\n")
+            
+            if imsi == '311588100000003': 
                 print("hello\n")
-
+            
             totNetCharges = 0.00
             rate_plan = []
-        
-            try :
-                planID = [x for x in iot_imsi_range if (x[0] == tad and (int(imsi) >= x[2] and int(imsi) <= x[3])) ][0][1]
-            except :
-                print("IMSI not in line range for tadig\n",file=sys.stderr)
-                print(row,file=sys.stderr)  
-                print("\n",file=sys.stderr)    
-                pass
-        
-            try :                    
-                rate_plan = [x for x in iot_rate_plan if (x[0] == tad and float(row[6]) >= float(x[3]) and float(row[6]) <= float(x[4]))][0]
-            except :
-                    print("No Rate Plan for tadig\n  :",file=sys.stderr)
-                    print(row,file=sys.stderr) 
-                    print("\n",file=sys.stderr)   
-                    pass     
-             
-            if onOff == 'OnNet' : 
-                try :
-                    totNetCharges = (float(rate_plan[6])*(float(row[6])/1024)) + float(rate_plan[7]);
-                except :
-                    totNetCharges = float(0.00)
-                    
-                y = list(row)
-                y[3] = '0'
-                row = tuple(y)
-            else :
-                try :
-                    totNetCharges = (float(rate_plan[5])*(float(row[6])/1024)) + float(rate_plan[7]);
-                except :
-                    totNetCharges = float(0.00)
-                                                     
-            if (len(rate_plan) == 0) or rate_plan[2] == "Plan1":             
-                rowTuple = (imsi,int(row[2]),float(row[3]),float(row[4]),float(row[5]),float(row[7]),float(totNetCharges),float(row[6]),0.00)          
-            else:  
-                rowTuple = (imsi,int(row[2]),float(row[3]),float(row[4]),float(row[5]),float(row[7]),float(totNetCharges),0.00,float(row[6]))             
             
-            output.append(rowTuple)
+            try:
+                onrow = list([x for x in on if x[0] == imsi][0])
+            except:
+                onrow = list([imsi, tad, 0.00, 0.00, 0.00, 0.00])
+                pass
+            
+            try:
+                offrow = list([x for x in off if x[0] == imsi][0])
+            except:
+                offrow = list([imsi, tad, 0.00, 0, 0, 0, 0, 0])
+                pass
+                          
+            rowTuple = list((int(offrow[0]), int(offrow[2]), float(offrow[3]), float(offrow[4]), float(offrow[5]), float(offrow[6]), float(offrow[7]), float(onrow[2]), float(onrow[3]), float(onrow[4]), float(onrow[5])))
+            
+            try:
+                planID = [x for x in iot_imsi_range if (x[0] == tad and (int(imsi) >= int(x[2]) and int(imsi) <= int(x[3]))) ][0][1]
+            except:
+                print("IMSI not in line range for tad\n", file=sys.stderr)
+                print(tad, file=sys.stderr) 
+                print("\n", file=sys.stderr)    
+                pass
+  
+            totalKB = float(offrow[6]) + float(onrow[5])
+            
+            try: 
+                rate_plan = [x for x in iot_rate_plan if (x[0] == tad and float(totalKB) >= float(x[3]) and float(totalKB) <= float(x[4]))][0]
+                
+            except:
+                print("No Rate Plan for tad\n  :", file=sys.stderr)
+                print(tad, file=sys.stderr) 
+                print("\n", file=sys.stderr)   
+                    
+                rate_plan = list([tad, "None", 'Plan1', 0.00, 0.00, 0.00, 0.00, 0.00, 0.00])
+                    
+                pass     
+                          
+            offNetCharges = (float(rate_plan[5]) * (float(offrow[6]) / 1024));  # + offrow[7]);    
+      
+            onNetCharges = (float(rate_plan[6]) * (float(onrow[5]) / 1024));
+                                                 
+            if rate_plan[2] == "Plan1": 
+                rowTuple.append(totalKB)
+                rowTuple.append(0.00)
+  
+            else: 
+                rowTuple.append(0.00)
+                rowTuple.append(totalKB)
+            
+            rowTuple.append(offNetCharges)
+            rowTuple.append(onNetCharges)
+            
+            rowTuple.append(onNetCharges + offNetCharges + float(rate_plan[7]))
+            
+            output.append(tuple(rowTuple))            
     
-        if count == 0 :
-            printSheet(tab["IoT_IMSI"].format(tadig=tad,onOff=onOff ), headings["IoT_IMSI"], wb.active, output, 1);
-        else:         
-            printSheet(tab["IoT_IMSI"].format(tadig=tad,onOff=onOff ), headings["IoT_IMSI"], wb.create_sheet(tab["IoT_IMSI"].format(tadig=tad,onOff=onOff )), output, 1);
+        if count == 0:
+            printSheet(tab["IoT_IMSI"].format(tadig=tad, onOff=onOff), headings["IoT_IMSI"], wb.active, output, 1);
+        else: 
+            printSheet(tab["IoT_IMSI"].format(tadig=tad, onOff=onOff), headings["IoT_IMSI"], wb.create_sheet(tab["IoT_IMSI"].format(tadig=tad, onOff=onOff)), output, 1);
         
         count = count + 1
 
-
     return count
+
 
 if __name__ == '__main__':
     pass
 
-
 # Date setup
 
-timeStamp =  "20220601" # sys.argv[1] #
+timeStamp = '20220801' #sys.argv[1] 
 this_month = timeStamp[0:6] + "01"
 year = this_month[0:4]
 monthName = (datetime.strptime(this_month, '%Y%m%d')).strftime("%B")
@@ -256,9 +308,8 @@ wb = Workbook()
 
 # Database
 
-conn = dbConnect()
-cursor = conn.cursor()
-  
+# conn = dbConnect()
+# cursor = conn.cursor()
 
 # Load Reference tables into a list.
 
@@ -266,88 +317,78 @@ iotPartner = []
 sql = sqlDictionary["IOT_PARTNER"].format(last_month=last_month, this_month=this_month)
 print(sql)
  
-cursor.execute(sql)
-iotPartner = cursor.fetchall()
+# cursor.execute(sql)
+# iotPartner = cursor.fetchall()
   
-# for line in fileinput.input("/home/dbalchen/Desktop/IOT_PARTNER.csv"):
-#     try:
-#         line = line.rstrip()
-#         iotPartner.append(tuple(line.split("\t")))
-#     except:pass
-
+for line in fileinput.input("/home/dbalchen/Desktop/IOT_PARTNER.csv"):
+    try:
+        line = line.rstrip()
+        iotPartner.append(tuple(line.split("\t")))
+    except:pass
 
 iot_imsi_range = []
 sql = sqlDictionary["IOT_IMSI_RANGE"].format(last_month=last_month, this_month=this_month)
 print(sql)
  
-cursor.execute(sql)
-iot_imsi_range = cursor.fetchall()
+# cursor.execute(sql)
+# iot_imsi_range = cursor.fetchall()
 
-# for line in fileinput.input("/home/dbalchen/Desktop/IOT_IMSI_RANGE.csv"):
-#     try:
-#         line = line.rstrip()
-#         iot_imsi_range.append(tuple(line.split("\t")))
-#     except:pass
-
+for line in fileinput.input("/home/dbalchen/Desktop/IOT_IMSI_RANGE.csv"):
+    try:
+        line = line.rstrip()
+        iot_imsi_range.append(tuple(line.split("\t")))
+    except:pass
 
 iot_rate_plan = []
 sql = sqlDictionary["IOT_RATE_PLAN"].format(last_month=last_month, this_month=this_month)
 print(sql)
  
-cursor.execute(sql)
-iot_rate_plan = cursor.fetchall()
-
-# for line in fileinput.input("/home/dbalchen/Desktop/IOT_RATE_PLAN.csv"):
-#     try:
-#         line = line.rstrip()
-#         iot_rate_plan.append(tuple(line.split("\t")))
-#     except:pass
-
-
-usage = []
-sql = sqlDictionary["usage"].format(last_month=last_month, this_month=this_month,IOT_AGGREGATOR = 'IOT_AGGREGATOR_ON_NET_USAGE')
-print(sql)
-
-onOff = 'OnNet' # example
+# cursor.execute(sql)
+# iot_rate_plan = cursor.fetchall()
  
-cursor.execute(sql)
-usage = cursor.fetchall()
+for line in fileinput.input("/home/dbalchen/Desktop/IOT_RATE_PLAN.csv"):
+    try:
+        line = line.rstrip()
+        iot_rate_plan.append(tuple(line.split("\t")))
+    except:pass
 
-# for line in fileinput.input("/home/dbalchen/Desktop/IOT_AGGREGATOR_ON_NET_USAGE.csv"):
-#     try:
-#         line = line.rstrip()
-#         usage.append(tuple(line.split("\t")))
-#     except:pass
-
-
-count = processUsage(wb,usage,onOff)
-
-
-usage = []
-sql = sqlDictionary["usage"].format(last_month=last_month, this_month=this_month,IOT_AGGREGATOR = 'IOT_AGGREGATOR_OFF_NET_USAGE')
+OnNetusage = []
+sql = sqlDictionary["ON_NET"].format(last_month=last_month, this_month=this_month)
 print(sql)
 
-onOff = 'OffNet' # example
-   
-cursor.execute(sql)
-usage = cursor.fetchall()
+onOff = 'OnNet'  # example
+ 
+# cursor.execute(sql)
+# OnNetusage = cursor.fetchall()
 
-# for line in fileinput.input("/home/dbalchen/Desktop/IOT_AGGREGATOR_OFF_NET_USAGE.csv"):
-#     try:
-#         line = line.rstrip()
-#         usage.append(tuple(line.split("\t")))
-#     except:pass
+for line in fileinput.input("/home/dbalchen/Desktop/IOT_AGGREGATOR_ON_NET_USAGE.csv"):
+    try:
+        line = line.rstrip()
+        OnNetusage.append(tuple(line.split("\t")))
+    except:pass
 
+OffNetusage = []
+sql = sqlDictionary["OFF_NET"].format(last_month=last_month, this_month=this_month)
+print(sql)
+onOff = 'OffNet'  # example
+ 
+# cursor.execute(sql)
+# OffNetusage = cursor.fetchall()
 
-count = processUsage(wb,usage,onOff,count)
+for line in fileinput.input("/home/dbalchen/Desktop/IOT_AGGREGATOR_OFF_NET_USAGE.csv"):
+    try:
+        line = line.rstrip()
+        OffNetusage.append(tuple(line.split("\t")))
+    except:pass
+
+count = processUsage(wb, OnNetusage, OffNetusage)
 
 wb.save(excel_file)
 
 # Close database connection
-
-cursor.close()
-   
-conn.close()
+# cursor.close()
+#    
+# conn.close()
 
 #    Send report to our business partners.
 for who in sendTo:

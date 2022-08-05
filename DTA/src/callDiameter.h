@@ -108,17 +108,41 @@ int callDiameter(int client, int server, int sess_count) {
 
 	if ((gy_ccr_initial(server, SessionID, parmList[1], parmList[2]) > 0)) {
 
-		int msg_length = read_diameter(server);
+		int msg_length = read_diameter(server,RecvBuf);
+
+		unsigned int session_value;
 
 		if (msg_length > 0) {
 
-			CBBByteArray diameter_raw(buffer, msg_length);
+			CBBByteArray diameter_raw(RecvBuf, msg_length);
 			DIAMETER_msg incoming_message;
 
 			decode_retval = incoming_message.decode_binary(diameter_raw);
-			cout << "DTA:CallDiameter: Initial Return Value  = " << decode_retval << endl;
 
-		} else {
+			for (int k = 0; k < incoming_message.getNumAvp(); k++) {
+
+				if (incoming_message.getAvp(k).getCode() == AVP_NAME_RESULT_CODE) {
+					session_value = incoming_message.getAvp(k).getValueAsInt();
+				}
+			}
+
+			cout << "DTA:CallDiameter: Initial Return Value  = " << session_value << endl;
+
+			if (session_value != diameter_success)
+			{
+				door.unlock();
+
+				write(client, "Could not create session ID\n", 28);
+
+				cerr << "DTA:CallDiameter: Failure to create session ID" << endl;
+
+				close(client);
+
+				return (-1);
+			}
+		}
+
+		else {
 
 			door.unlock();
 
@@ -133,63 +157,114 @@ int callDiameter(int client, int server, int sess_count) {
 		}
 	}
 
-// From Amdocs
+	// From Amdocs
 
-if(dRequest != -1)
-{
-	if ((gy_ccr_event(server, dRequest, SessionID, parmList[1], parmList[2]) > 0)) {
+	if(dRequest != -1)
+	{
+		if ((gy_ccr_event(server, dRequest, SessionID, parmList[1], parmList[2]) > 0)) {
 
-		int msg_length = read_diameter(server);
+			unsigned int session_value;
 
-		if (msg_length > 0) {
-			CBBByteArray diameter_raw(RecvBuf, msg_length);
-			DIAMETER_msg incoming_message;
+			int msg_length = read_diameter(server,RecvBuf);
 
-			decode_retval = incoming_message.decode_binary(diameter_raw);
-			cout << "DTA:CallDiameter: Rated event return value " << decode_retval << endl;
+			if (msg_length > 0) {
 
-		} else {
+				CBBByteArray diameter_raw(RecvBuf, msg_length);
 
-			door.unlock();
+				DIAMETER_msg incoming_message;
 
-			write(client, "Failure to complete Transaction\n", 32);
+				decode_retval = incoming_message.decode_binary(diameter_raw);
 
-			cerr << "DTA:CallDiameter: Failure to complete Transaction" << endl;
+				for (int k = 0; k < incoming_message.getNumAvp(); k++) {
 
-			close(client);
-			return (-1);
+					if (incoming_message.getAvp(k).getCode() == AVP_NAME_RESULT_CODE) {
 
+						session_value = incoming_message.getAvp(k).getValueAsInt();
+					}
+				}
+
+				cout << "DTA:CallDiameter: Rated event return value  = " << session_value << endl;
+
+				if (session_value != diameter_success)
+				{
+					door.unlock();
+
+					write(client, "Failure to complete Transaction\n", 32);
+
+					cerr << "DTA:CallDiameter: Failure to complete Transaction" << endl;
+
+					close(client);
+
+					return (-1);
+				}
+
+			} else {
+
+				door.unlock();
+
+				write(client, "Failure to complete Transaction\n", 32);
+
+				cerr << "DTA:CallDiameter: Failure to complete Transaction" << endl;
+
+				close(client);
+				return (-1);
+
+			}
+		}
+
+	}
+	else {
+		if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2]) > 0)) {
+
+
+			unsigned int session_value;
+
+			int msg_length = read_diameter(server,RecvBuf);
+
+			if (msg_length > 0) {
+
+				CBBByteArray diameter_raw(RecvBuf, msg_length);
+				DIAMETER_msg incoming_message;
+
+				decode_retval = incoming_message.decode_binary(diameter_raw);
+
+				for (int k = 0; k < incoming_message.getNumAvp(); k++) {
+
+					if (incoming_message.getAvp(k).getCode() == AVP_NAME_RESULT_CODE) {
+						session_value = incoming_message.getAvp(k).getValueAsInt();
+					}
+				}
+
+				cout << "DTA:CallDiameter: Terminate Return Value  = " << session_value << endl;
+
+				if (session_value != diameter_success)
+				{
+					door.unlock();
+
+					write(client, "Failure to complete Transaction\n", 32);
+
+					cerr << "DTA:CallDiameter: Failure to complete Transaction" << endl;
+
+					close(client);
+
+					return (-1);
+				}
+
+
+			} else {
+
+				door.unlock();
+
+				write(client, "Could not commit Transaction\n", 28);
+
+				cerr << "DTA:CallDiameter: Could not commit Transaction" << endl;
+
+				close(client);
+				return (-1);
+
+			}
 		}
 	}
-
-}
-else {
-	if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2]) > 0)) {
-
-		int msg_length = read_diameter(server);
-
-		if (msg_length > 0) {
-
-			CBBByteArray diameter_raw(buffer, msg_length);
-			DIAMETER_msg incoming_message;
-
-			decode_retval = incoming_message.decode_binary(diameter_raw);
-			cout << "DTA:CallDiameter: Terminate Return Value " << decode_retval << endl;
-
-		} else {
-
-			door.unlock();
-
-			write(client, "Could not commit Transaction\n", 28);
-
-			cerr << "DTA:CallDiameter: Could not commit Transaction" << endl;
-
-			close(client);
-			return (-1);
-
-		}
-	}
-}
 
 	door.unlock();
 

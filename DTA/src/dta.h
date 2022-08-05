@@ -12,7 +12,7 @@ class dta {
 
 private:
 
-	int num_threads = 11;
+	int num_threads = 100;
 
 	long long unsigned int sess_count = 0;
 
@@ -55,9 +55,9 @@ dta::dta(short unsigned int tport, std::string shost, short unsigned int tsport)
 
 	cout << "DTA: Started Watchdog server" << endl;
 
-//	std::thread threadObj(watchDog(), hrvc);
+	std::thread threadObj(watchDog(), hrvc);
 
-//	threadObj.detach();
+	threadObj.detach();
 
 	cout << "DTA: Accepting Connections" << endl;
 
@@ -145,7 +145,8 @@ int dta::connectDiameter(void) {
 	}
 
 	if (cer_send(sockfd) > 0) {
-		int msg_length = read_diameter(sockfd);
+//		int msg_length = read_diameter(sockfd);
+		int msg_length = read_diameter(sockfd,buffer);
 
 		if (msg_length > 0) {
 
@@ -206,9 +207,7 @@ void dta::acceptConection(int csock, int ssock) {
 
 				if (funcreturn != 0)
 				{
-
 					cerr << "DTA : Thread ended in Error!!\n" << endl;
-
 				}
 			}
 
@@ -218,11 +217,13 @@ void dta::acceptConection(int csock, int ssock) {
 
 		}
 
-//		threadVector.push_back(
-//				std::async(std::launch::async, callDiameter, client, ssock, sess_count)
-//		);
 
-		callDiameter(client, ssock, sess_count);
+		threadVector.push_back(
+				std::async(std::launch::async, callDiameter, client, ssock, sess_count)
+		);
+
+
+//		callDiameter(client, ssock, sess_count);
 	}
 
 }

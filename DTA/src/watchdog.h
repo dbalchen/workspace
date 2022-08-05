@@ -39,7 +39,8 @@ void watchDog::operator()(int sockfd) {
 
 		if ((dwd_send(sockfd) > 0)) {
 
-			int msg_length = read_diameter(sockfd);
+//			int msg_length = read_diameter(sockfd);
+			int msg_length = read_diameter(sockfd,buffer);
 
 			if (msg_length > 0) {
 

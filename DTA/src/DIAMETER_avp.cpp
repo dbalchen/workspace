@@ -2051,8 +2051,16 @@ DIAMETER_avp::setValue(unsigned int value)
 void
 DIAMETER_avp::setLongValue(unsigned long long value)
 {
+
 	unsigned long long tmp_value = value;
+
+	printf("tmp_value = %ull\n",tmp_value);
+
 	_value = CBBByteArray((char *)&tmp_value,sizeof(unsigned long long));
+
+
+	printf("Hello");
+
 }
 void
 DIAMETER_avp::setValue(const CBBString& value)

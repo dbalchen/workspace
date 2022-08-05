@@ -32,7 +32,7 @@ std::string LocalHost = "Localhost";
 
 std::string LocalIPAddress = "192.168.0.1";
 
-std::string RemoteHost = "Localhost" ; //"mqr35batch.uscc.com";
+std::string RemoteHost = "Localhost"; // "mqr27batch.uscc.com"; //
 
 // Default Ports
 short unsigned int dta_port = 8888;

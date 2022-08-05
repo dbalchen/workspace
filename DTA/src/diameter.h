@@ -55,10 +55,13 @@ unsigned int hop_to_hop = 1;
 
 SOCKET ClientSocket = INVALID_SOCKET;
 SOCKET ServerSocket = INVALID_SOCKET;
-
+/*
 int read_diameter(int client_sock) {
 
 	char RecvBuf[8192];
+*/
+
+int read_diameter(int client_sock, char *RecvBuf) {
 
 	long unsigned int msg_length = 0;
 
@@ -112,6 +115,8 @@ int read_diameter(int client_sock) {
 
 	return retval;
 }
+
+
 
 int write_diameter(int client_sock, DIAMETER_msg &msg) {
 
@@ -331,7 +336,7 @@ long long htonll(long long val) {
 	u.l[1] = htonl(tmp);
 	return u.ll;
 }
-
+*/
 unsigned long long ntohll(unsigned long long val) {
 	union {
 		long l[2];
@@ -344,7 +349,23 @@ unsigned long long ntohll(unsigned long long val) {
 	return u.ll;
 }
 
-*/
+uint64_t htonll(uint64_t value)
+{
+    // The answer is 42
+    static const int num = 42;
+
+    // Check the endianness
+    if (*reinterpret_cast<const char*>(&num) == num)
+    {
+        const uint32_t high_part = htonl(static_cast<uint32_t>(value >> 32));
+        const uint32_t low_part = htonl(static_cast<uint32_t>(value & 0xFFFFFFFFLL));
+
+        return (static_cast<uint64_t>(low_part) << 32) | high_part;
+    } else
+    {
+        return value;
+    }
+}
 
 int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::string amount) {
 
@@ -355,22 +376,19 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 
 	DIAMETER_avp exponent_avp;
 	exponent_avp.setCode(AVP_NAME_EXPONENT);
+
+//	exponent_avp.setValue(htonl(2));
+
 	exponent_avp.setValue(htonl(2));
 
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	int64_t longAmount = strtoll(amount.c_str(),NULL, 10);
+	unsigned long long longAmount = std::stoull(amount,nullptr,10);
 
-	printf("This is long value : %I64d\n", longAmount);
+//	printf("This is long value : %ULL\n", longAmount);
 
-//	value_digits_avp.setValue(htonl(100));
-
-	value_digits_avp.setLongValue(longAmount);
-
-//	value_digits_avp.setLongValue(htonll(longAmount));
-//  value_digits_avp.setLongValue(htonll(666LL));
-//	value_digits_avp.setLongValue(1023ull);
+	value_digits_avp.setLongValue(htonll(longAmount));
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -423,20 +441,17 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 
 	DIAMETER_avp exponent_avp;
 	exponent_avp.setCode(AVP_NAME_EXPONENT);
+//	exponent_avp.setValue(htonl(2));
 	exponent_avp.setValue(htonl(2));
 
 	DIAMETER_avp value_digits_avp;
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
-	int64_t longAmount = strtoll(amount.c_str(),NULL, 10);
-	printf("This is long value : %I64d\n", longAmount);
-//	value_digits_avp.setValue(htonl(100));
-//	value_digits_avp.setLongValue(htonll(longAmount));
-	value_digits_avp.setLongValue(longAmount);
+	unsigned long long longAmount = std::stoull(amount,nullptr,10);
 
-//	value_digits_avp.setLongValue(htonll(666LL));
-//value_digits_avp.setLongValue(htonll(0LL));	// CANCEL
+//	printf("This is long value : %ULL\n", longAmount);
 
+	value_digits_avp.setLongValue(htonll(longAmount));
 
 	DIAMETER_avp termination_cause_avp;
 	termination_cause_avp.setCode(AVP_NAME_TERMINATION_CAUSE);
@@ -484,8 +499,6 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 
 	avp_list.push_back(application_type_avp);
 
-
-
 	return (gy_ccr_send(client_sock, cc_request_type_terminal_request, 0,SessionID, mdn, avp_list));
 }
 
@@ -498,22 +511,36 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	exponent_avp.setCode(AVP_NAME_EXPONENT);
 	exponent_avp.setValue(htonl(2));
 
-	DIAMETER_avp value_digits_avp;
-	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
-
 	DIAMETER_avp requested_service_unit;
 	requested_service_unit.setCode(AVP_NAME_REQUESTED_SERVICE_UNIT);
 
 	DIAMETER_avp used_service_unit;
 	used_service_unit.setCode(AVP_NAME_USED_SERVICE_UNIT);
 
-	int64_t longAmount = strtoll(amount.c_str(),NULL, 10);
-	printf("This is long value : %I64d\n", longAmount);
+	DIAMETER_avp value_digits_avp;
+	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
+
+	unsigned long long longAmount = std::stoull(amount,nullptr,10);
+
+//	printf("This is long value : %ULL\n", longAmount);
+
+	value_digits_avp.setLongValue(htonll(longAmount));
+
+//	value_digits_avp.setLongValue(ntohll(10ull));
+
+//	value_digits_avp.setLongValue(htonll(1ULL));
+
+
+//	longAmount = value_digits_avp.getValueAsLongLong();
+
+//	printf("This is long value coming out  : %llu\n", longAmount);
 
 //	value_digits_avp.setValue(htonl(100));
+
+//	value_digits_avp.setLongValue(htonll(10LL));
 //	value_digits_avp.setLongValue(htonll(longAmount));
-	value_digits_avp.setLongValue(longAmount);
-	//	value_digits_avp.setLongValue(1023ull);
+//	value_digits_avp.setLongValue(longAmount);
+//	value_digits_avp.setValue(longAmount);
 
 	DIAMETER_avp unit_value_avp;
 	unit_value_avp.setCode(AVP_NAME_UNIT_VALUE);
@@ -556,7 +583,6 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	partner_id_avp.setValue("USCC");
 	avp_list.push_back(partner_id_avp);
 
-
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);
 	purchase_category_code_avp.setVendorID(11580);
@@ -564,15 +590,12 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 
 	avp_list.push_back(purchase_category_code_avp);
 
-
 	DIAMETER_avp content_description_code_avp;
 	content_description_code_avp.setCode(1102);
 	content_description_code_avp.setVendorID(11580);
 	content_description_code_avp.setValue("REFUND_CREDIT");
 
 	avp_list.push_back(content_description_code_avp);
-
-
 
 	DIAMETER_avp application_type_avp;
 	application_type_avp.setCode(1105);
