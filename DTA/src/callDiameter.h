@@ -15,7 +15,9 @@ int callDiameter(int client, int server, int sess_count) {
 
 	char buffer[8192];
 
-	unsigned int dRequest = 0;
+//	unsigned int dRequest = 0;
+
+	int32_t dRequest = 0;
 
 	int decode_retval;
 
@@ -81,13 +83,25 @@ int callDiameter(int client, int server, int sess_count) {
 	v1.operator =(parmList);
 
 	if (parmList[0].compare("DEBIT") == 0) {
+
 		dRequest = cc_request_action_direct_debit;
+
 	}
 	else if (parmList[0].compare("AUTH") == 0) {
-		dRequest = -1;
+
+		dRequest = cc_request_type_initial_request;//-1;
+
 	}
+	else if (parmList[0].compare("TERM") == 0) {
+
+		dRequest = cc_request_type_terminal_request;
+
+	}
+
 	else if (parmList[0].compare("CREDIT") == 0) {
+
 		dRequest = cc_request_action_refund_account;
+
 	} else {
 
 		write(client, "Failure: Transaction Type not Supported\n", 23);
@@ -106,30 +120,47 @@ int callDiameter(int client, int server, int sess_count) {
 
 	door.lock();
 
-	if ((gy_ccr_initial(server, SessionID, parmList[1], parmList[2]) > 0)) {
+	if(dRequest == cc_request_type_initial_request)
 
-		int msg_length = read_diameter(server,RecvBuf);
+	{
+		if ((gy_ccr_initial(server, SessionID, parmList[1], parmList[2]) > 0)) {
 
-		unsigned int session_value;
+			int msg_length = read_diameter(server,RecvBuf);
 
-		if (msg_length > 0) {
+			unsigned int session_value;
 
-			CBBByteArray diameter_raw(RecvBuf, msg_length);
-			DIAMETER_msg incoming_message;
+			if (msg_length > 0) {
 
-			decode_retval = incoming_message.decode_binary(diameter_raw);
+				CBBByteArray diameter_raw(RecvBuf, msg_length);
+				DIAMETER_msg incoming_message;
 
-			for (int k = 0; k < incoming_message.getNumAvp(); k++) {
+				decode_retval = incoming_message.decode_binary(diameter_raw);
 
-				if (incoming_message.getAvp(k).getCode() == AVP_NAME_RESULT_CODE) {
-					session_value = incoming_message.getAvp(k).getValueAsInt();
+				for (int k = 0; k < incoming_message.getNumAvp(); k++) {
+
+					if (incoming_message.getAvp(k).getCode() == AVP_NAME_RESULT_CODE) {
+						session_value = incoming_message.getAvp(k).getValueAsInt();
+					}
+				}
+
+				cout << "DTA:CallDiameter: Initial Return Value  = " << session_value << endl;
+
+				if (session_value != diameter_success)
+				{
+					door.unlock();
+
+					write(client, "Could not create session ID\n", 28);
+
+					cerr << "DTA:CallDiameter: Failure to create session ID" << endl;
+
+					close(client);
+
+					return (-1);
 				}
 			}
 
-			cout << "DTA:CallDiameter: Initial Return Value  = " << session_value << endl;
+			else {
 
-			if (session_value != diameter_success)
-			{
 				door.unlock();
 
 				write(client, "Could not create session ID\n", 28);
@@ -139,27 +170,14 @@ int callDiameter(int client, int server, int sess_count) {
 				close(client);
 
 				return (-1);
+
 			}
-		}
-
-		else {
-
-			door.unlock();
-
-			write(client, "Could not create session ID\n", 28);
-
-			cerr << "DTA:CallDiameter: Failure to create session ID" << endl;
-
-			close(client);
-
-			return (-1);
-
 		}
 	}
 
 	// From Amdocs
 
-	if(dRequest != -1)
+	if(dRequest == cc_request_action_direct_debit || dRequest == cc_request_action_refund_account)
 	{
 		if ((gy_ccr_event(server, dRequest, SessionID, parmList[1], parmList[2]) > 0)) {
 

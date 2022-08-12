@@ -216,7 +216,7 @@ std::string init_session_id(unsigned int val) {
 }
 
 
-int gy_ccr_send(int client_sock, unsigned int cc_type,unsigned int requested_action, std::string SessionID, std::string mdn, vector<DIAMETER_avp> avp_list, int32_t ccReq = 1) {
+int gy_ccr_send(int client_sock, unsigned int cc_type,unsigned int requested_action, std::string SessionID, std::string mdn, vector<DIAMETER_avp> avp_list) {
 
 	DIAMETER_msg ccr;
 	ccr.setCode(DIAMETER_CREDIT_CONTROL);
@@ -284,8 +284,7 @@ int gy_ccr_send(int client_sock, unsigned int cc_type,unsigned int requested_act
 
 	DIAMETER_avp avp10;
 	avp10.setCode(AVP_NAME_CC_REQUEST_NUMBER);
-//	avp10.setValue(htonl(1));
-	avp10.setValue(htonl(ccReq));
+	avp10.setValue(htonl(1));
 
 	ccr.setAvp(avp10);
 
@@ -411,13 +410,13 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);
 	purchase_category_code_avp.setVendorID(11580);
-	purchase_category_code_avp.setValue("google-dev-content");
+	purchase_category_code_avp.setValue("Charge_Code_Description");
 	avp_list.push_back(purchase_category_code_avp);
 
 	DIAMETER_avp application_type_avp;
 	application_type_avp.setCode(1105);
 	application_type_avp.setVendorID(11580);
-	application_type_avp.setValue("One-Off");
+	application_type_avp.setValue("Charge_Code_Description");
 
 	avp_list.push_back(application_type_avp);
 
@@ -477,20 +476,20 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	DIAMETER_avp partner_id_avp;
 	partner_id_avp.setCode(1103);
 	partner_id_avp.setVendorID(11580);
-	partner_id_avp.setValue("51143d511662200");
+	partner_id_avp.setValue("USCC-DTA");
 	avp_list.push_back(partner_id_avp);
 
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);
 	purchase_category_code_avp.setVendorID(11580);
-	purchase_category_code_avp.setValue("google-dev-content");
+	purchase_category_code_avp.setValue("Charge_Code_Description");
 
 	avp_list.push_back(purchase_category_code_avp);
 
 	DIAMETER_avp application_type_avp;
 	application_type_avp.setCode(1105);
 	application_type_avp.setVendorID(11580);
-	application_type_avp.setValue("One-Off");
+	application_type_avp.setValue("Charge_Code_Description");
 
 	avp_list.push_back(application_type_avp);
 
@@ -557,7 +556,7 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	else {
 
 // Debit account
-		content_description_code_avp.setValue("DEBIT");
+		content_description_code_avp.setValue("REFUND");
 		used_service_unit.setAvp(cc_money_avp);
 		avp_list.push_back(used_service_unit);
 	}
@@ -568,13 +567,13 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	DIAMETER_avp partner_id_avp;
 	partner_id_avp.setCode(1103);
 	partner_id_avp.setVendorID(11580);
-	partner_id_avp.setValue("51143d511662200");
+	partner_id_avp.setValue("USCC");
 	avp_list.push_back(partner_id_avp);
 
 	DIAMETER_avp purchase_category_code_avp;
 	purchase_category_code_avp.setCode(1104);
 	purchase_category_code_avp.setVendorID(11580);
-	purchase_category_code_avp.setValue("google-dev-content");
+	purchase_category_code_avp.setValue("Charge_Code_Description");
 
 	avp_list.push_back(purchase_category_code_avp);
 
@@ -583,7 +582,7 @@ int gy_ccr_event(int client_sock, int requested_action, std::string SessionID, s
 	DIAMETER_avp application_type_avp;
 	application_type_avp.setCode(1105);
 	application_type_avp.setVendorID(11580);
-	application_type_avp.setValue("One-Off");
+	application_type_avp.setValue("Charge_Code_Description");
 
 	avp_list.push_back(application_type_avp);
 
