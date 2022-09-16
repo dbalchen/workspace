@@ -89,12 +89,12 @@ int callDiameter(int client, int server, int sess_count) {
 	}
 	else if (parmList[0].compare("AUTH") == 0) {
 
-		dRequest = cc_request_type_initial_request;//-1;
+		dRequest = -1;
 
 	}
 	else if (parmList[0].compare("TERM") == 0) {
 
-		dRequest = cc_request_type_terminal_request;
+		dRequest = -2;
 
 	}
 
@@ -120,7 +120,7 @@ int callDiameter(int client, int server, int sess_count) {
 
 	door.lock();
 
-	if(dRequest == cc_request_type_initial_request)
+	if(dRequest == -1)
 
 	{
 		if ((gy_ccr_initial(server, SessionID, parmList[1], parmList[2]) > 0)) {
@@ -231,8 +231,15 @@ int callDiameter(int client, int server, int sess_count) {
 		}
 
 	}
-	else {
-		if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2]) > 0)) {
+
+	if(dRequest == -2)// || dRequest == -1)
+		{
+
+		int32_t ccReq = 1;
+
+		if (dRequest == -1) ccReq = 2;
+
+		if ((gy_ccr_terminal(server, SessionID, parmList[1], parmList[2],ccReq) > 0)) {
 
 
 			unsigned int session_value;

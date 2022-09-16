@@ -335,7 +335,7 @@ long long htonll(long long val) {
 	u.l[1] = htonl(tmp);
 	return u.ll;
 }
-*/
+
 unsigned long long ntohll(unsigned long long val) {
 	union {
 		long l[2];
@@ -347,6 +347,7 @@ unsigned long long ntohll(unsigned long long val) {
 	u.l[1] = ntohl(tmp);
 	return u.ll;
 }
+*/
 
 uint64_t htonll(uint64_t value)
 {
@@ -424,7 +425,7 @@ int gy_ccr_initial(int client_sock,std::string SessionID,std::string mdn, std::s
 	return (gy_ccr_send(client_sock, cc_request_type_initial_request, 0, SessionID, mdn,avp_list));
 }
 
-int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std::string amount) {
+int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std::string amount, int32_t ccReq = 1) {
 
 	vector<DIAMETER_avp> avp_list;
 
@@ -443,8 +444,6 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	value_digits_avp.setCode(AVP_NAME_VALUE_DIGITS);
 
 	unsigned long long longAmount = std::stoull(amount,nullptr,10);
-
-//	printf("This is long value : %ULL\n", longAmount);
 
 	value_digits_avp.setLongValue(htonll(longAmount));
 
@@ -474,6 +473,12 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 	used_service_unit.setAvp(cc_money_avp);
 	avp_list.push_back(used_service_unit);
 
+	DIAMETER_avp content_description_code_avp;
+	content_description_code_avp.setCode(1102);
+	content_description_code_avp.setVendorID(11580);
+	content_description_code_avp.setValue("USCC-Android");
+	avp_list.push_back(content_description_code_avp);
+
 	DIAMETER_avp partner_id_avp;
 	partner_id_avp.setCode(1103);
 	partner_id_avp.setVendorID(11580);
@@ -494,7 +499,7 @@ int gy_ccr_terminal(int client_sock,std::string SessionID, std::string mdn, std:
 
 	avp_list.push_back(application_type_avp);
 
-	return (gy_ccr_send(client_sock, cc_request_type_terminal_request, 0,SessionID, mdn, avp_list));
+	return (gy_ccr_send(client_sock, cc_request_type_terminal_request, 0,SessionID, mdn, avp_list,ccReq));
 }
 
 
