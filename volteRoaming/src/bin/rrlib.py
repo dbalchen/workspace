@@ -159,16 +159,18 @@ sqlDictionary["DISP_RM"] = """
 select t1.file_name, 
 t1.total_records + t2.total_records, 
 t1.total_volume + t2.total_volume,
-t1.total_charges + t2.total_charges,
+-- t1.total_charges + t2.total_charges
+case when t1.file_name like 'CDUSAUDUSA%' then  (t1.total_charges + t2.total_charges) else ((t1.total_charges + t2.total_charges)/1.334) end,
 t3.total_records, 
 t3.total_volume, 
-t3.total_charges,
+-- t3.total_charges,
+case when t1.file_name like 'CDUSAUDUSA%' then  (t3.total_charges) else ((t3.total_charges)/1.334) end,
 t1.total_records + t2.
 total_records + t3.total_records, 
 t1.total_volume + t2.
 total_volume + t3.total_volume,
- t1.total_charges + t2.
- total_charges + t3.total_charges,
+-- t1.total_charges + t2.total_charges + t3.total_charges,
+case when t1.file_name like 'CDUSAUDUSA%' then  (t1.total_charges + t2.total_charges + t3.total_charges) else ((t1.total_charges + t2.total_charges + t3.total_charges)/1.334) end,
 t4.total_records, 
 t4.total_volume, 
 t4.total_charges,
@@ -180,7 +182,9 @@ nvl(abs(((t4.total_records) - (t1.total_records + t2.total_records + t3.total_re
 nvl(abs(((t4.total_volume) - (t1.total_volume + t2.total_volume + t3.total_volume))/nullif((t1.total_volume + t2.total_volume + t3.total_volume),0))*100,0),
 nvl(abs(((t4.total_charges) - (t1.total_charges + t2.total_charges + t3.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100,0),
 nvl(abs(((t1.total_records + t2.total_records  + t3.total_records) - (t1.total_records + t2.total_records + + t3.total_records))/nullif((t1.total_records + t2.total_records  + t3.total_records),0))*100,0),
-nvl(abs(((t1.total_charges + t2.total_charges + t3.total_charges) - (t4.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100,0)
+-- nvl(abs(((t1.total_charges + t2.total_charges + t3.total_charges) - (t4.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100,0)
+case when t1.file_name like 'CDUSAUDUSA%' then  (nvl(abs(((t1.total_charges + t2.total_charges + t3.total_charges) - (t4.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100,0)
+) else (nvl(abs(((t1.total_charges + t2.total_charges + t3.total_charges)/1.334 - (t4.total_charges))/nullif((t1.total_charges + t2.total_charges + t3.total_charges),0))*100,0)) end
 from
 (select file_name,nvl((select max(total_records) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_records,
 nvl((select max(total_volume) from file_summary where file_name = t1.file_name and usage_type = 'DISP_RM-S'),0) total_volume,

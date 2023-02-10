@@ -477,7 +477,7 @@ message = mess
 subject = title
 #sendTo = ["david.balchen@uscellular.com"]
 
-sendTo = ["david.balchen@uscellular.com",'Eric.Frisch@uscellular.com', 'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','david.smith@uscellular.com','Miguel.Jones@uscellular.com']
+sendTo = ["david.balchen@uscellular.com",'Eric.Frisch@uscellular.com', 'ISBillingOperations@uscellular.com','Ilham.Elgarni@uscellular.com','david.smith@uscellular.com','Bhumika.Chudasama@uscellular.com','Natalie.Chau@uscellular.com']
 
 for who in sendTo:
      sendMail(excel_file, message, subject, who)

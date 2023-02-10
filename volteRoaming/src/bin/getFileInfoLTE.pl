@@ -141,10 +141,10 @@ while ( my @rows = $sth->fetchrow_array() ) {
 			$total_volume_dch = $rows[2];
 		}
 		elsif ( index( $usage_type, "-V" ) >= 0 ) {
-			$total_volume_dch = $dchValues[1] * 1024;
+			$total_volume_dch = $dchValues[2] * 1024;
 		}
 		else {
-			$total_volume_dch = $dchValues[0] * 60;
+			$total_volume_dch = $dchValues[1] * 60;
 		}
 
 	}

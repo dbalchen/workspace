@@ -23,7 +23,7 @@ my $dbconn = getBRMPRD();
 my $sql = "select t1.file_name,
     decode(t2.sender,'IWB51','US Cellula (IWB51)r','NLDLT','Vodafone Netherland (NLDLT)','USA6G','Nex-Tech Wireless (USA6G)','USAAT','ATT Mobility (USAAT)','USABS','ATT Mobility (USABS)','USACC',
     'ATT Mobility (USACC)','USACG','ATT Mobility (USACG)','USAMF','ATT Mobility (USAMF)','USAPB','ATT Mobility (USAPB)','USASG','Sprint (USASG)','USASP','Sprint (USASP)','USATM','T-Mobile (USATM)','USAUD',
-    'US Cellular (USAUD)','USAVZ','Verizon (USAVZ)','USAW6','T-Mobile (USAW6)') as sender
+    'US Cellular (USAUD)','USAVZ','Verizon (USAVZ)','USAW6','T-Mobile (USAW6)', t2.sender) as sender
     ,t2.sequence_num, t2.events_count, t2.total_value
      from smm1_collect_files_hist t1, SMM1_ARCM_FILE_REPOSITORY t2, em1_record t3 where t1.file_name = t2.file_name $gsm 
      and t1.physical_date >= to_date('$ARGV[0]','YYYYMMDD')  and  t1.physical_date < (to_date('$ARGV[0]','YYYYMMDD') + 1) and t1.file_format = 'TAPIN' 

@@ -515,7 +515,7 @@ foreach my $switch (@switches) {
 		else {
 			$hh = "$ENV{'REC_HOME'}/getFileInfoAprm.pl $switch $tmpStamp  &";
 		}
-
+                sleep 5;
 		system($hh);
 	}
 
@@ -658,7 +658,7 @@ foreach my $switch (@switches) {
 $workbook->close;
 
 
- my @email = ( 'david.balchen@uscellular.com','Kevin.Hergenrother@uscellular.com');
+ my @email = ('david.balchen@uscellular.com');
 
 #exit(0);
 

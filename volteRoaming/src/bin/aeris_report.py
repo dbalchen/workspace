@@ -25,7 +25,7 @@ from openpyxl.styles import Font
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
-sendTo = ["david.balchen@uscellular.com", "Marvin.Guss@uscellular.com", "RevenueAccounting@uscellular.com", "xavier.lbataille@uscellular.com", "mark.foster@uscellular.com", "gabe.hedstrom@uscellular.com", "dean.schempp@uscellular.com", "Sandra.Fitts@uscellular.com", "olivia.solis@uscellular.com"]
+sendTo = ["david.balchen@uscellular.com", "USCDLRA-Monitoring&Metrics@uscellular.com","Christine.Bekos@uscellular.com","Marvin.Guss@uscellular.com", "RevenueAccounting@uscellular.com", "xavier.lbataille@uscellular.com", "mark.foster@uscellular.com", "gabe.hedstrom@uscellular.com", "dean.schempp@uscellular.com", "Sandra.Fitts@uscellular.com", "olivia.solis@uscellular.com"]
 #sendTo = ["david.balchen@uscellular.com"]
 
 sqlDictionary = {}
@@ -348,7 +348,7 @@ def printSheet (title, header, sheet, output, flag=0):
 if __name__ == '__main__':
     pass
 
-timeStamp = '20220401' # sys.argv[1]
+timeStamp = sys.argv[1]
 
 endTimeStamp = timeStamp[0:6] + "01"
 timeStamp = endTimeStamp
@@ -381,18 +381,17 @@ wb = Workbook()
 
 # Database
 
-# conn = dbConnect()
-# cursor = conn.cursor()
+conn = dbConnect()
+cursor = conn.cursor()
  
 # Do CIBER22
 results = []
 sql = sqlDictionary["ciber22"].format(timeStamp=timeStamp, endTimeStamp=endTimeStamp, sitename=sitename, sitename2=sitename2)
 print(sql)
  
-# cursor.execute(sql)
-# results = cursor.fetchall()
-#  
-
+cursor.execute(sql)
+results = cursor.fetchall()
+ 
 printSheet(tab["ciber22"], headings["ciber22"], wb.active, results, 1);
 
 # Do Ciber32
@@ -401,8 +400,8 @@ results = []
 sql = sqlDictionary["ciber32"].format(timeStamp=timeStamp, endTimeStamp=endTimeStamp, sitename=sitename, sitename2=sitename2)
 print(sql)
 
-# cursor.execute(sql)
-# results = cursor.fetchall()
+cursor.execute(sql)
+results = cursor.fetchall()
 
 # for line in fileinput.input("/home/dbalchen/Desktop/test.csv"):
 #     try:
@@ -414,8 +413,8 @@ results2 = []
 sql = sqlDictionary["usagebycarrier"].format(timeStamp=timeStamp, endTimeStamp=endTimeStamp, sitename=sitename, sitename2=sitename2)
 print(sql)
 
-# cursor.execute(sql)
-# results2 = cursor.fetchall()
+cursor.execute(sql)
+results2 = cursor.fetchall()
 
 # for line in fileinput.input("/home/dbalchen/Desktop/test2.csv"):
 #     try:
@@ -423,37 +422,37 @@ print(sql)
 #         results2.append(tuple(line.split("\t")))
 #     except:pass
 
-# for idx,crec in enumerate(results):
-#     
-#     crec = list(crec)
-#     
-#     date = (crec[0])[2:8] 
-#     rec_dates = [x for x in results2 if x[0] == date] 
-#     
-#     cc = crec[2]
-#     rec_carrier = [x for x in rec_dates if x[1] == cc] 
-#     
-#     ccty = crec[3]
-#     carrier_city = [x for x in rec_carrier if x[2] == ccty] 
-#     
-#     cst = crec[4]
-#     carrier_state = [x for x in carrier_city if x[3] == cst] 
-#     
-#     cco = crec[5]
-#     carrier_country = [x for x in carrier_state if x[4] == cco]
-#     
-#     try :
-#         crec[6] = (carrier_country[0])[5]
-#         crec[7] = (carrier_country[0])[6]
-#         crec[8] = (carrier_country[0])[7]
-#         
-#         results[idx] = tuple(crec)
-#     except:
-#         pass
-# 
-# 
-# 
-# printSheet(tab["ciber32"], headings["ciber32"], wb.create_sheet(tab["ciber32"]), results, 1);
+for idx,crec in enumerate(results):
+    
+    crec = list(crec)
+    
+    date = (crec[0])[2:8] 
+    rec_dates = [x for x in results2 if x[0] == date] 
+    
+    cc = crec[2]
+    rec_carrier = [x for x in rec_dates if x[1] == cc] 
+    
+    ccty = crec[3]
+    carrier_city = [x for x in rec_carrier if x[2] == ccty] 
+    
+    cst = crec[4]
+    carrier_state = [x for x in carrier_city if x[3] == cst] 
+    
+    cco = crec[5]
+    carrier_country = [x for x in carrier_state if x[4] == cco]
+    
+    try :
+        crec[6] = (carrier_country[0])[5]
+        crec[7] = (carrier_country[0])[6]
+        crec[8] = (carrier_country[0])[7]
+        
+        results[idx] = tuple(crec)
+    except:
+        pass
+
+
+
+printSheet(tab["ciber32"], headings["ciber32"], wb.create_sheet(tab["ciber32"]), results, 1);
 
 
 # Do AAA Processing378004
@@ -462,8 +461,8 @@ sql = sqlDictionary["OnNet"].format(timeStamp=timeStamp, endTimeStamp=endTimeSta
 # 
 print(sql)
 #     
-# cursor.execute(sql)
-# results = cursor.fetchall()
+cursor.execute(sql)
+results = cursor.fetchall()
 # 
 printSheet(tab["OnNet"], headings["OnNet"], wb.create_sheet(tab["OnNet"]), results, 1);
 

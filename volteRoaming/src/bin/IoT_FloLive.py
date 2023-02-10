@@ -26,7 +26,8 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime
 
 #sendTo = ["david.balchen@uscellular.com", "Marvin.Guss@uscellular.com", "michael.joseph@uscellular.com", "xavier.lbataille@uscellular.com", "mark.foster@uscellular.com", "gabe.hedstrom@uscellular.com", "dean.schempp@uscellular.com", "Sandra.Fitts@uscellular.com", "olivia.solis@uscellular.com"]
-sendTo = ["david.balchen@uscellular.com"]
+#sendTo = ["david.balchen@uscellular.com"]
+sendTo = ["david.balchen@uscellular.com", "Michael.Joseph@uscellular.com","USCDLRA-Monitoring&Metrics@uscellular.com","Christine.Bekos@uscellular.com","Marvin.Guss@uscellular.com", "RevenueAccounting@uscellular.com", "xavier.lbataille@uscellular.com", "mark.foster@uscellular.com", "gabe.hedstrom@uscellular.com", "dean.schempp@uscellular.com", "Sandra.Fitts@uscellular.com", "olivia.solis@uscellular.com"]
 
 # Font setup   
 def_font = Font(name='Arial', size=10, color='FF000000', italic=False, bold=False)
@@ -68,34 +69,34 @@ Decode (sender_id, 'USAAT', 'ATT Mobility (USAAT)',
 sender_ID)             "Roaming Partner",
 to_char(
 sum(Total_call_event_duration)/60,
-'fm9999990.90'
+'fm9999999990.90'
 )
 "Total Session Duration (Minutes)",
 to_char(
   sum(data_volume_incoming)/1024 ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
 "Incoming KB",
 to_char(
    sum(data_volume_outgoing)/1024 ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
 "Outgoing KB", 
 to_char(
    (sum(data_volume_incoming)+ sum(data_volume_outgoing))/1024 ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
 "Total Volume KB",
 to_char(
    sum(charge) ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
 "Total Record Charges $",
 to_char(  
-        sum(Charged_Units)/1024,'fm9999990.90000'
+        sum(Charged_Units)/1024,'fm9999999990.90000'
   ) 
  "Charged Units KB"
-from IOT_AGGREGATOR_USAGE where tadig = 'IOTFL'
+from IOT_AGGREGATOR_ON_NET_USAGE where tadig = 'IOTFL'
 and (ods_insert_date >= to_date('{timeStamp}','YYYYMMDD') 
 and ods_insert_date < to_date('{endTimeStamp}','YYYYMMDD') )
 group by
@@ -110,27 +111,27 @@ select imsi "IMSI",
 count(*) "Total Records",
 to_char(
 sum(Total_call_event_duration)/60,
-'fm9999990.90'
+'fm9999999990.90'
 )
 "Total Session Duration (Minutes)",
 to_char(
    sum(data_volume_incoming)/1024 ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
 "Incoming KB",
 to_char(
    sum(data_volume_outgoing)/1024 ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
 "Outgoing KB", 
 to_char(
    (sum(data_volume_incoming)+ sum(data_volume_outgoing))/1024 ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
 "Total Volume KB",
 to_char(
    sum(charge) ,
-    'fm9999990.900000'
+    'fm9999999990.900000'
   ) 
 "Total Record Charges $",
 to_char(  
@@ -139,7 +140,7 @@ to_char(
          Else sum(Charged_Units)/1024
          End  
    ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
  "Plan A Charged Units KB",
 to_char(  
@@ -148,10 +149,10 @@ to_char(
          Else 0.00
          End 
    ,
-    'fm9999990.9000'
+    'fm9999999990.9000'
   ) 
  "Plan B Charged Units KB"
-from IOT_AGGREGATOR_USAGE where tadig = '{tadig_code}'
+from IOT_AGGREGATOR_ON_NET_USAGE where tadig = '{tadig_code}'
 and (ods_insert_date >= to_date('{timeStamp}','YYYYMMDD') 
 and ods_insert_date < to_date('{endTimeStamp}','YYYYMMDD')  )
 group by

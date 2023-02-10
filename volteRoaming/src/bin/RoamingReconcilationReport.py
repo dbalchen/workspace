@@ -462,7 +462,6 @@ for idx, switch in enumerate(switches):
         results.append(tuple(brow))             
           
     if switch == 'DISP_RM':
-        
         sumRow[2] = sumColumn(2, results)
         sumRow[3] = sumColumn(3, results)
         sumRow[5] = sumColumn(8, results)
@@ -535,7 +534,7 @@ cursor.close()
 conn.close()
 
 #sendTo = ["david.balchen@uscellular.com"]
-sendTo = ["david.balchen@uscellular.com", 'Kevin.Hergenrother@uscellular.com','ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com']
+sendTo = ["david.balchen@uscellular.com", 'ISBillingOperations@uscellular.com', 'Ilham.Elgarni@uscellular.com', 'david.smith@uscellular.com']
 
 for who in sendTo:
     sendMail(excel_file, message, title, who)
