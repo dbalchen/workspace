@@ -1,127 +1,92 @@
+
 // =====================================================================
-// eStrings
+// SuperCollider Workspace
 // =====================================================================
 
-SynthDef("eStrings",
-	{
-		arg out = 0, freq = 110, gate = 0, amp = 0.5, da = 2,hpf = 120,
-		attack = 0.5, decay = 2.0, sustain = 0.6, release = 0.6, fattack = 0.5, fsustain = 0.8,
-		frelease = 0.6, aoc = 0.6, cutoff = 5200.00, bend = 0, spread = 1, balance = 0;
+SynthDef("eStrings", {
+	arg ss, freq = 55, out = 0, amp = 0.50, lagtime = 0, da = 2, gate = 0,
+	idx = 0.2,hpf = 200,bend = 0,sinamp = 0.35, sawamp = 0.65,
+	attack = 1.5, decay = 2.5, sustain = 0.4, release = 0.75,
+	fattack = 1.5, fdecay = 2.5,fsustain = 0.4, frelease = 0.75,
+	aoc = 0.6, gain = 0.15,cutoff = 12000.00, spread = 1, balance = 0;
 
-		var sig, env, fenv, env2;
+	var sig, env, fenv;
 
-		env  = Env.adsr(attack,decay,sustain,release,curve: 'welch');
+	env = Env.adsr(attack,decay,sustain,release);
+	env = EnvGen.kr(env, gate: gate, doneAction:da);
 
-		freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
+	fenv = Env.adsr(fattack,fdecay,fsustain,frelease);
+	fenv = EnvGen.kr(fenv, gate,doneAction:da);
+	fenv = aoc*(fenv - 1) + 1;
 
-		fenv = Env.asr(fattack,fsustain,frelease,1,'sine');
-		fenv = EnvGen.kr(fenv, gate);
-		fenv = aoc*(fenv - 1) + 1;
-		sig = (SawDPW.ar(freq));
+	freq = Lag.kr(freq,lagtime);
+	freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
 
-		sig = sig*EnvGen.kr(env, gate: gate,doneAction:da);
+	sig = (sinamp * SinOsc.ar(freq,mul:env*amp)) + (sawamp * (SawDPW.ar(freq,mul:env*amp)));
 
-		sig = LPF.ar
-		(
-			sig,
-			cutoff*fenv,
-		);
 
-		sig = HPF.ar(sig,hpf);
+	sig = MoogFF.ar
+	(
+		sig,
+		cutoff*fenv,
+		gain
+	);
 
-		sig = LeakDC.ar(sig);
+	sig = HPF.ar(sig,hpf);
 
-		sig = Splay.ar(sig,spread,center:balance);
+	sig = LeakDC.ar(sig);
 
-		Out.ar(out,amp*sig);
+	sig = Splay.ar(sig,spread,center:balance);
+
+	Out.ar(out,sig * amp);
 
 }).send(s);
 
 
 
+~channel0 = {arg num, vel = 1,src,out=0;
+	var ret;
+	num.postln;
+	ret = Synth("eStrings");
+	ret.set(\freq,num.midicps);
+	ret.set(\gate,1);
+	ret.set(\out,out);
+	ret;
+};
 
-SynthDef(\mono_eStrings, {arg freq = 110, out = 0, amp = 0.5, aoc = 1.0,fenvIn = 999, vcaIn = 999,cutoff = 7200, gain = 0.7,release = 0.8, attack = 0.1,bend =0,hpf = 120, mul = 1,lagtime =0, spread = 1, balance = 0, gate = 0;
+SynthDef("eStringsOsc", { arg ss, freq = 55, out = 0, bend = 0,
+	sinamp = 0.35, sawamp = 0.65, lagtime = 0.15, idx = 0;
 
-	var sig,fenv, env;
+	var sig;
 
-	release = release - 0.019;
-
-	env = Env.new([0,0,1,0],[0.000001,0,release],0,2);
-
-	env = EnvGen.kr(env, gate);
+	freq = Lag.kr(freq,lagtime);
 
 	freq = {freq * bend.midiratio * LFNoise2.kr(2.5,0.01,1)}!16;
-	sig = (SawDPW.ar(Lag.kr(freq,lagtime)));
 
-	fenv = In.kr(fenvIn);
-	fenv = aoc*((fenv - 1) + 1);
+	sig = (sinamp * SinOsc.ar(freq)) + (sawamp * (SawDPW.ar(freq)));
 
-	sig = LPF.ar
-	(
-		sig,
-		cutoff*fenv,
-	);
+	sig = Splay.ar(sig);
 
-	sig = HPF.ar(sig,hpf);
+	Out.ar(out,sig);
 
-	sig = sig*((In.kr(vcaIn) - 1) + 1);
-	sig = LeakDC.ar(sig);
-	sig = Splay.ar(sig,spread,center:balance);
-	Out.ar(out,amp*sig*env);
+}).send(s);
 
-}
-).add;
+~estrings = Synth("eStringsOsc",addAction: \addToTail);
+~estringsOut = Bus.audio(s, 2);
+~estrings.set(\out,~estringsOut);
 
-/*
+~channel1 = {arg num, vel = 1,src,out=0;
+	var ret;
+	num.postln;
 
-// Run eStrings;
+	~estrings.set(\freq,num.midicps);
+	~estrings.set(\lagtime,0.05);
+	ret = Synth("monoPolySynth",addAction: \addToTail);
 
-~sy = Synth("eStrings",addAction: \addToTail);
-~sy.set(\gate,1);
-~sy.set(\gate,0);
+	ret.set(\gate,1);
+	ret.set(\hpf,120);
+	ret.set(\sigIn,~estringsOut);
+	ret.set(\out,0);
+	ret;
+};
 
-// Run mono_eStrings
-
-~string_low_synth = Synth("mono_eStrings",addAction: \addToTail);
-
-~string_low_vca_control_in = Bus.control(s, 1);
-~string_low_vcf_control_in = Bus.control(s, 1);
-
-
-~string_low_synth.set(\fenvIn,~string_low_vcf_control_in);
-~string_low_synth.set(\vcaIn,~string_low_vca_control_in);
-
-
-~string_low_vca_envelope = MyADSR.new;
-~string_low_vca_envelope.init;
-~string_low_vca_envelope.attack = 2.0;
-~string_low_vca_envelope.decay = 4.0;
-~string_low_vca_envelope.sustain = 0.4;
-~string_low_vca_envelope.release = 0.9;
-
-~string_low_vcf_envelope = MyADSR.new;
-~string_low_vcf_envelope.init;
-~string_low_vcf_envelope.attack = 2.0;
-~string_low_vcf_envelope.decay = 4;
-~string_low_vcf_envelope.sustain = 0.8;
-~string_low_vcf_envelope.release = 0.9;
-
-
-	~stringLow_fenv = Synth("myADSR",addAction: \addToHead);
-	~stringLow_fenv.set(\out,~string_low_vcf_control_in);
-	~string_low_vcf_envelope.setADSR(~stringLow_fenv);
-
-	~stringLow_env  = Synth("myADSR",addAction: \addToHead);
-	~string_low_vca_envelope.setADSR(~stringLow_env);
-	~stringLow_env.set(\out,~string_low_vca_control_in);
-
-	~stringLow_env.set(\gate,1);
-	~stringLow_fenv.set(\gate,1);
-	~string_low_synth.set(\gate,1);
-
-
-	~stringLow_env.set(\gate,0);
-	~stringLow_fenv.set(\gate,0);
-	~string_low_synth.set(\gate,0);
-
-*/
