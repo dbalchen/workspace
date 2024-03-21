@@ -19,7 +19,10 @@
 file:Pictures/Andrejevi1.jpg
 #+Author: David Balchen
 #+Email: dave@balchen.org
-\newpage 
+#+BEGIN_EXPORT latex
+\newpage
+#+END_EXPORT
+
 #+ATTR_LaTeX: :width 13cm
 [[file:Pictures/postal5.png]]
 
@@ -60,11 +63,18 @@ file:Pictures/Andrejevi1.jpg
    - /A successful man made system closely resembles a natural system./
    - /Probability from a point./
      -  $a(i) = 1-$ \Large $\frac{i}{n}$ \normalsize where $0 <= i < n$ and $n > 0$
+
+** The Three Truths
+   1. Every action has an opposite and equal reaction.
+   2. As above, so below.
+   3. Good pitching beats good hitting.
+      
 * Quick Reference
 ** Bank Information
    
 * Projects
-** Computer
+** [[file:~/Music/SuperCollider/SuperCollider.org][SuperCollider]]
+#+INCLUDE: "~/Music/SuperCollider/SuperCollider.org"
 ** Art
 * Interesting Things
 
