@@ -57,6 +57,7 @@ for i in range(2, numberOfTracks + 1):
     title = title.strip()
     title = title.replace(" ", "_")
     title = title.replace('"','')
+    title = title.replace('-','')
     title = title[0].lower() + title[1:]
 
     print('//      ' + title)

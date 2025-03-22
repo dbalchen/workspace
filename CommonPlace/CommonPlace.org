@@ -18,7 +18,7 @@
 
 file:Pictures/Andrejevi1.jpg
 #+Author: David Balchen
-#+Email: dave@balchen.org
+#+Email: david.balchen@gmail.com
 #+BEGIN_EXPORT latex
 \newpage
 #+END_EXPORT
@@ -70,11 +70,26 @@ file:Pictures/Andrejevi1.jpg
    3. Good pitching beats good hitting.
       
 * Quick Reference
+  *SS# 332-50-6097*
+** Address
+   2604 Dublin Way
+   Waunakee Wisconsin 53597
 ** Bank Information
-   
+   - My Account Number :: 0312626701
+   - Shared Account Number :: 0312625602
+   - Routing Number :: 275979076
+** Vanessa
+   - Phone :: 608-444-7106
+** Alex
+   - Phone :: 608-219-7641
+** Dexter
+   - Phone :: 608-219-5832
 * Projects
 ** [[file:~/Music/SuperCollider/SuperCollider.org][SuperCollider]]
 #+INCLUDE: "~/Music/SuperCollider/SuperCollider.org"
-** Art
 * Interesting Things
-
+* Mom and Dan
+** Mom
+   B of A : $70,771.33
+** Dan
+   
