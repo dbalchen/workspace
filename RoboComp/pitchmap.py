@@ -6,6 +6,9 @@ import argparse
 
 import string
 
+t0 = [0,2,4,5,7,9,11]
+t1 = [0,11,9,7,5,4,2]
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--input", "-i", help="Input CSV Files")
@@ -25,8 +28,6 @@ else:
 
 # inp = '/home/dbalchen/workspace/RoboComp/test.csv'
 
-t0 = [0,2,4,5,7,9,11]
-t1 = [0,2,4,5,7,9,11]
 
 if args.t0:
     t0 = list(args.t0[0].split(","))
