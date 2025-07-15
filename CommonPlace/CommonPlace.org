@@ -163,14 +163,26 @@ file:Pictures/Andrejevi1.jpg
 * Projects
 ** [[file:~/Music/SuperCollider/SuperCollider.org][SuperCollider]]
 #+INCLUDE: "~/Music/SuperCollider/SuperCollider.org"
-* Ma's Estate and Stock
+* Ma's Estate
   - Social Security Number :: 351-24-8616
-
-** TODO Login to the Estate Account                            
-** TODO Stock Inventory
+  - EIN :: 33-7042811
+** Death Certificate
+    file:/home/dbalchen/workspace/CommonPlace/MomEstate/re_20250714_142504.jpg
+** Bank Information
+*** Bank of America
+    - Account Title :: Estate of Loretta Balchen - David Balchen EXE
+    - Account number :: 291042051732
+    - Routing number ::
+      - Paper & Electronic :: Use this routing number to order checks, set up direct deposits and outgoing payments to other financial institutions.
+      - Wires :: Use this routing number for all incoming wire transfers.
+	
+        - Electronic :: 081904808
+        - Paper :: 071103619
+        - Wires :: 026009593
+** Stock Inventory
 *** Verified from Documents
 |---------------------+---------------+-------------------+---------|
-| * *Company*         | *# of Shares* | *Price per share* | *total* |
+| *Company*           | *# of Shares* | *Price per share* | *total* |
 |---------------------+---------------+-------------------+---------|
 | Carrier             |           112 |                76 |    8512 |
 | RTX                 |           112 |               146 |   16352 |
@@ -179,21 +191,21 @@ file:Pictures/Andrejevi1.jpg
 | HSBC Holdings       |           245 |                62 |   15150 |
 | Skyworks Solutions  |           105 |                78 |    8910 |
 | Rockwell Automation |           300 |               340 |  102000 |
+| Boeing              |            12 |            230.50 |    2760 |
 |---------------------+---------------+-------------------+---------|
-|                     |               |     *Grand Total* |  159824 |
+|                     |               |     *Grand Total* |  162584 | 
 |---------------------+---------------+-------------------+---------|
 
-*** Needs More Investigation
+*** TODO Needs More Investigation
 |-------------------------+---------------|
-| * *Company*             | *# of Shares* |
+| *Company*               | *# of Shares* |
 |-------------------------+---------------|
 | Arvin Maritor           |            75 |
-| Boeing                  |            12 |
 | Tucson Electric Power   |           300 |
 | Texas Utilities Company |           250 |
 |-------------------------+---------------|
 |                         |               |
-| *Outstanding Shares*    |           637 |
+| *Outstanding Shares*    |           625 |
 |-------------------------+---------------|
 
 *** Paper Stocks
@@ -201,10 +213,10 @@ file:Pictures/Andrejevi1.jpg
    - HSBC Holdings 245 shares - 8/11/2023
    - Skyworks Solutions 105 shares - 6/17/2025
    - Rockwell Automation 300 shares - 6/10/2025
-   -  Arvin Maritor 75 Shares Dated 9/5/2000
-   -  Boeing 12 shares - 1/7/1997
-   -  Tucson Electric Power 300 shares -
-   -  Texas Utilities Company 250 shares - 10/24/1994
+   - Arvin Maritor 75 Shares Dated 9/5/2000
+   - Boeing 12 shares - 1/7/1997
+   - Tucson Electric Power 300 shares -
+   - Texas Utilities Company 250 shares - 10/24/1994
       - TXU 250 shares  12/27/2005
 
 ** TODO Cash Checks at the Bank                   

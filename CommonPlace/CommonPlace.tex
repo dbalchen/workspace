@@ -1,0 +1,282 @@
+﻿% Created 2025-07-15 Tue 12:02
+% Intended LaTeX compiler: pdflatex
+\documentclass[12pt,twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{lscape}
+\usepackage{fancyhdr}
+\usepackage{multirow}
+\usepackage{multicol}
+\author{David Balchen}
+\date{\today}
+\title{Notes}
+\hypersetup{
+ pdfauthor={David Balchen},
+ pdftitle={Notes},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 30.1 (Org mode 9.7.25)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\pagenumbering{gobble}
+\begin{center}
+\includegraphics[width=.9\linewidth]{Pictures/Andrejevi1.jpg}
+\end{center}
+\newpage
+
+\begin{center}
+\includegraphics[width=13cm]{Pictures/postal5.png}
+\end{center}
+
+%\addtolength{\oddsidemargin}{-.25in}
+\addtolength{\oddsidemargin}{0in}
+\addtolength{\evensidemargin}{-01.25in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\topmargin}{-1.25in}
+\addtolength{\textheight}{2.45in}
+\setcounter{tocdepth}{3}
+\vspace*{1cm} 
+\newpage
+\pagenumbering{roman}
+\setcounter{tocdepth}{2}
+\pagestyle{fancy}
+\fancyhf[ROF,LEF]{\bf\thepage}
+\fancyhf[C]{}
+\setlength{\headheight}{14.49998pt}
+\addtolength{\topmargin}{0.29998pt}.
+\setcounter{tocdepth}{2}
+\tableofcontents
+ \newpage
+\pagenumbering{arabic}
+\section{Statement of Principals}
+\label{sec:orga078326}
+\begin{itemize}
+\item \emph{Mathematics is a language with no ambiguity.}
+\item \emph{A successful man made system closely resembles a natural system.}
+\item \emph{Probability from a point.}
+\begin{itemize}
+\item \(a(i) = 1-\) \Large \(\frac{i}{n}\) \normalsize where \(0 <= i < n\) and \(n > 0\)
+\end{itemize}
+\end{itemize}
+\subsection{The Three Truths}
+\label{sec:org32f21d6}
+\begin{enumerate}
+\item Every action has an opposite and equal reaction.
+\item As above, so below.
+\item Good pitching beats good hitting.
+\end{enumerate}
+\section{Quick Reference}
+\label{sec:org331d3f5}
+\begin{description}
+\item[{Address}] 2604 Dublin Way Waunakee Wisconsin 53597
+\item[{Telephone}] 608-576-1900
+\end{description}
+\subsection{Vanessa}
+\label{sec:orgfcb67c0}
+\begin{description}
+\item[{Telephone}] 608-444-7106
+\end{description}
+\subsection{Alex}
+\label{sec:org2bcf184}
+\begin{description}
+\item[{Telephone}] 608-219-7641
+\end{description}
+\subsection{Dexter}
+\label{sec:org7cbae20}
+\begin{description}
+\item[{Telephone}] 608-219-5832
+\end{description}
+\newpage
+\section{Projects}
+\label{sec:orgcf2b4fa}
+\subsection{\href{file:///home/dbalchen/Music/SuperCollider/SuperCollider.org}{SuperCollider}}
+\label{sec:org2891607}
+\subsubsection{Songs}
+\label{sec:orgf603432}
+\begin{enumerate}
+\item \href{file:///home/dbalchen/Music/song7/song7.sc}{song7}
+\label{sec:org37aa87e}
+\item \href{file:///home/dbalchen/Music/song8/song8.sc}{song8}
+\label{sec:org842dfad}
+\item \href{file:///home/dbalchen/Music/song9/song9.sc}{song9}
+\label{sec:org79c3468}
+\begin{enumerate}
+\item \href{file:///home/dbalchen/Music/song9/song9.notes.sc}{Song9notes}
+\label{sec:orgdb8c2d8}
+\end{enumerate}
+\item \href{../../Music/SuperCollider/include/song\_template.sc}{Song Template}
+\label{sec:org0870d9b}
+\end{enumerate}
+\subsubsection{SuperCollider}
+\label{sec:orgb3bb32b}
+\begin{enumerate}
+\item \href{../../Music/SuperCollider/include/setup.sc}{Setup}
+\label{sec:org65e5642}
+\item SynthDev
+\label{sec:org7428751}
+\begin{enumerate}
+\item \href{../../Music/SuperCollider/include/Synths/protopiano.sc}{ProtoPiano}
+\label{sec:orga66cea3}
+\item \href{../../Music/SuperCollider/include/Synths/daveTable.sc}{daveTable}
+\label{sec:org1eb760c}
+\item \href{../../Music/SuperCollider/include/Synths/dynOsc.sc}{DynOsc}
+\label{sec:orgd3309fe}
+\item \href{file:///home/dbalchen/Music/SuperCollider/include/Synths/fmWorkspace.sc}{FM Workspace}
+\label{sec:orgf30d11a}
+\item \href{../../Music/SuperCollider/include/Synths/basic.sc}{Basic Synth}
+\label{sec:org4a4e4e7}
+\item \href{../../Music/SuperCollider/include/Synths/kick.sc}{Kick}
+\label{sec:org5380953}
+\end{enumerate}
+\item Classes
+\label{sec:org55c739c}
+\begin{enumerate}
+\item \href{../../Music/SuperCollider/include/Classes/MidiFactory.sc}{MidiFactory}
+\label{sec:org8040360}
+\item \href{../../Music/SuperCollider/include/Classes/Track.sc}{Track}
+\label{sec:orgbfae389}
+\begin{itemize}
+\item[{$\square$}] Add midi triggered audio.
+\end{itemize}
+\item \href{../../Music/SuperCollider/include/Classes/Notes.sc}{Notes}
+\label{sec:org47622e4}
+\item \href{../../Music/SuperCollider/include/Classes/MyADSR.sc}{MyADSR}
+\label{sec:org8ba7206}
+\begin{enumerate}
+\item \href{../../Music/SuperCollider/include/functions/PitchClass.sc}{PitchClass}
+\label{sec:org8542594}
+\end{enumerate}
+\end{enumerate}
+\item Program Utilities
+\label{sec:org3578c29}
+\begin{enumerate}
+\item \href{file:///home/dbalchen/workspace/RoboComp/midi2notes.py}{midi2notes}
+\label{sec:orgb6f177a}
+Convert a midi file into myNotes.
+\item \href{file:///home/dbalchen/workspace/RoboComp/pitchmap.py}{pitchmap}
+\label{sec:org3282ee5}
+Batch pitchmapper
+\item \href{../../Music/SuperCollider/include/functions/makeWaveTable.sc}{MakeWaveTable}
+\label{sec:orgbc274f2}
+\end{enumerate}
+\item {\bfseries\sffamily TODO} Music Projects
+\label{sec:org35bec79}
+\textit{<2025-07-08 Tue>--<2025-08-31 Sun>}
+\begin{itemize}
+\item[{$\square$}] Test Audio Interface
+\item[{$\square$}] Get upright sound.
+\item[{$\square$}] Remix M and Bone
+\item[{$\square$}] route fluid synth through sc
+\item[{$\square$}] redo basic file work on filters
+\end{itemize}
+\end{enumerate}
+\section{Ma's Estate}
+\label{sec:orgc029907}
+\begin{description}
+\item[{Social Security Number}] 351-24-8616
+\item[{EIN}] 33-7042811
+\end{description}
+\subsection{Death Certificate}
+\label{sec:org4ce7bd5}
+\begin{center}
+\includegraphics[width=.9\linewidth]{/home/dbalchen/workspace/CommonPlace/MomEstate/re_20250714_142504.jpg}
+\end{center}
+\subsection{Bank Information}
+\label{sec:org145a3a8}
+\subsubsection{Bank of America}
+\label{sec:orgab2b79f}
+\begin{description}
+\item[{Account Title}] Estate of Loretta Balchen - David Balchen EXE
+\item[{Account number}] 291042051732
+\item[{Routing number}] \begin{description}
+\item[{Paper \& Electronic}] Use this routing number to order checks, set up direct deposits and outgoing payments to other financial institutions.
+\item[{Wires}] Use this routing number for all incoming wire transfers.
+
+\begin{description}
+\item[{Electronic}] 081904808
+\item[{Paper}] 071103619
+\item[{Wires}] 026009593
+\end{description}
+\end{description}
+\end{description}
+\subsection{Stock Inventory}
+\label{sec:orge87c554}
+\subsubsection{Verified from Documents}
+\label{sec:orgdf8d494}
+\begin{center}
+\begin{tabular}{lrrr}
+\hline
+\textbf{Company} & \textbf{\# of Shares} & \textbf{Price per share} & \textbf{total}\\
+\hline
+Carrier & 112 & 76 & 8512\\
+RTX & 112 & 146 & 16352\\
+OTIS & 56 & 100 & 5600\\
+Pitney Bowes & 300 & 11 & 3300\\
+HSBC Holdings & 245 & 62 & 15150\\
+Skyworks Solutions & 105 & 78 & 8910\\
+Rockwell Automation & 300 & 340 & 102000\\
+Boeing & 12 & 230.50 & 2760\\
+\hline
+ &  & \textbf{Grand Total} & 162584\\
+\hline
+\end{tabular}
+\end{center}
+\subsubsection{{\bfseries\sffamily TODO} Needs More Investigation}
+\label{sec:org5050f71}
+\begin{center}
+\begin{tabular}{lr}
+\hline
+\textbf{Company} & \textbf{\# of Shares}\\
+\hline
+Arvin Maritor & 75\\
+Boeing & 12\\
+Tucson Electric Power & 300\\
+Texas Utilities Company & 250\\
+\hline
+ & \\
+\textbf{Outstanding Shares} & 637\\
+\hline
+\end{tabular}
+\end{center}
+\subsubsection{Paper Stocks}
+\label{sec:orgf4ae259}
+\begin{itemize}
+\item Pitney Bowes  300 Shares - 1/16/1998
+\item HSBC Holdings 245 shares - 8/11/2023
+\item Skyworks Solutions 105 shares - 6/17/2025
+\item Rockwell Automation 300 shares - 6/10/2025
+\item Arvin Maritor 75 Shares Dated 9/5/2000
+\item Boeing 12 shares - 1/7/1997
+\item Tucson Electric Power 300 shares -
+\item Texas Utilities Company 250 shares - 10/24/1994
+\begin{itemize}
+\item TXU 250 shares  12/27/2005
+\end{itemize}
+\end{itemize}
+\subsection{{\bfseries\sffamily TODO} Cash Checks at the Bank}
+\label{sec:org66d65be}
+\section{Task List}
+\label{sec:orga1e2abe}
+\subsection{{\bfseries\sffamily HOLD} {[}-] Complete paint work [0/6]}
+\label{sec:orgbf5f3e6}
+\textit{<2025-03-31 Mon>--<2025-11-23 Sun>}
+\begin{itemize}
+\item[{$\square$}] Laundry room door trim
+\item[{$\square$}] Mudroom door trim
+\item[{$\square$}] Mudroom baseboard trim on the right
+\item[{$\square$}] Kitchen trim
+\item[{$\square$}] House-wide touch ups
+\item[{$\square$}] Outlet covers everywhere
+\end{itemize}
+\end{document}
